@@ -1,4 +1,95 @@
-# immunarch
-## An R package for immune repertoire analysis
+# `immunarch` - Fast and Effortless Analysis of Large-Scale Immune Repertoire Data
+`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible - and help you focus on research instead of coding.
 
-Code will be available soon! If you have any questions or issues, please create an issue in https://github.com/immunomind/immunarch/issues
+## Features
+1. Fast and easy manipulation of immune repertoire data:
+
+    + The package automatically detects the format of your files—no more guessing what format is *that* file, just pass them to the package;
+  
+    + Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR. More coming in the future;
+
+    + Works on any data source you are comfortable with: R data frames, data tables from [data.table](http://r-datatable.com), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/).
+
+2. Immune repertoire analysis made simple:
+
+    + Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names;
+
+    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*
+  
+    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*
+
+    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*
+
+    + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks, tracking clonotypes across time points
+
+- Publication-ready plots with a built-in tool for tweaking visualisations: 
+
+    + Rich visualisation procedures with [ggplot2](https://ggplot2.tidyverse.org/);
+  
+    + Built-in tool `fixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
+
+## Installation
+You can find the latest release of `immunarch` here: https://github.com/immunomind/immunarch/releases
+
+In order to install `immunarch`, you need to download it first. Download the latest verions of the package from here: https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
+
+Note that You *should not* un-archive it!
+
+After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed `devtools` package to install `immunarch` locally. Upon completion the dependencies will have been already downloaded and installed.
+```{r eval=FALSE}
+install.packages("devtools", dependencies = T)
+install.packages("treemap", dependencies = T)
+devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)
+```
+
+That's it, you can start using `immunarch` now! If you run in any trouble, try the following steps:
+
+1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.3.3 (for example, `R version 3.1.0`), try updating your R version to the latest one.
+
+2. Check if your packages are outdated and update them. In RStudio you can run the "Update" button on top of the package list. In R console you can run the `old.packages()` command to view a list of outdated packages.
+
+3. If you are on Mac and have some weird issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
+
+4. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
+
+## Quick start
+Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:
+```{r eval=FALSE}
+# Load the data to the package
+immdata = repLoad("path/to/your/folder/with/repertoires")
+# If you folder contains metadata.txt file, immdata will have two elements:
+# - immdata$data with a list of parsed repertoires
+# - immdata$meta with the metadata file
+
+# Compute and visualise overlap statistics
+ov = repOverlap(immdata$data)
+vis(ov)
+
+# Cluster samples using K-means algorithm applied to the number of overlapped clonotypes
+# and visualise the results
+ov.kmeans = repOverlapAnalysis(ov, .method = "kmeans")
+vis(ov.kmeans)
+
+# Compute and visualise gene usage with samples, grouped by their disease status
+gu = geneUsage(immdata$data)
+vis(gu, .by="Status", .meta=immdata$meta)
+
+# Compute Jensen-Shannon divergence among gene distributions of samples, 
+# cluster samples using the hierarchical clustering and visualise the results
+gu.clust = geneUsageAnalysis(gu, .method = "js+hclust")
+vis(gu.clust)
+
+# Compare diversity of repertoires and visualise samples, grouped by two parameters
+div = repDiversity(immdata$data, .method = "chao1")
+vis(div, .by=c("Status", "Treatment"), .meta=immdata$meta)
+
+# Tweak and fix the visalisation of diversity estimates to make the plot publication-ready
+div.plot = vis(div, .by=c("Status", "Treatment"), .meta=immdata$meta)
+fixVis(div.plot)
+```
+
+If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:
+
+```{r eval=FALSE}
+data(immdata)
+```
