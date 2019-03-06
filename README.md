@@ -38,7 +38,6 @@ Note that You *should not* un-archive it!
 After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed `devtools` package to install `immunarch` locally. Upon completion the dependencies will have been already downloaded and installed.
 ```{r eval=FALSE}
 install.packages("devtools", dependencies = T)
-install.packages("treemap", dependencies = T)
 devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)
 ```
 
