@@ -1,10 +1,12 @@
 # `immunarch` - Fast and Effortless Analysis of Large-Scale Immune Repertoire Data
-`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible - and help you focus on research instead of coding.
+
+## Introduction
+`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding.
 
 ## Features
 1. Fast and easy manipulation of immune repertoire data:
 
-    + The package automatically detects the format of your files—no more guessing what format is *that* file, just pass them to the package;
+    + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
     + Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR. More coming in the future;
 
@@ -12,7 +14,7 @@
 
 2. Immune repertoire analysis made simple:
 
-    + Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names;
+    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names;
 
     + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*
   
@@ -29,9 +31,9 @@
     + Built-in tool `fixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
 
 ## Installation
-You can find the latest release of `immunarch` here: https://github.com/immunomind/immunarch/releases
+You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
 
-In order to install `immunarch`, you need to download it first. Download the latest verions of the package from here: https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
+In order to install `immunarch`, you need to download it first. If you want to download the latest version, you need to download the package file, available here https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
 
 Note that You *should not* un-archive it!
 
@@ -41,15 +43,21 @@ install.packages("devtools", dependencies = T)
 devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)
 ```
 
-That's it, you can start using `immunarch` now! If you run in any trouble, try the following steps:
+That's it, you can start using `immunarch` now!
 
-1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.3.3 (for example, `R version 3.1.0`), try updating your R version to the latest one.
+## Installation troubleshooting
+If you run in any trouble, try the following steps:
+
+1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.4.0 (for example, `R version 3.1.0`), try updating your R version to the latest one.
 
 2. Check if your packages are outdated and update them. In RStudio you can run the "Update" button on top of the package list. In R console you can run the `old.packages()` command to view a list of outdated packages.
 
-3. If you are on Mac and have some weird issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
+3. If you are on Mac and have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
 
-4. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
+4. If you are working under Linux and have issues with \code{igraph} library or have 
+Fortran errors, see [this link](https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/)
+
+5. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
 
 ## Quick start
 Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:
