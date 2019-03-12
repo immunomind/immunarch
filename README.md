@@ -100,3 +100,17 @@ If you want to test the package without parsing any data, you can load a small t
 ```{r eval=FALSE}
 data(immdata)
 ```
+
+## License
+
+The package is freely distributed under the GPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
+
+Additionally, we provide an annual subscription that includes next services:
+
+- 100 hours of consultations on the TCR & BCR repertoire analysis (contact us to purchase more);
+- Priority email and call support;
+- Package modifications and feature implementations are issued promptly; 
+- Setup a cloud or cluster installation of *immunarch*, including the development of cloud *immunarch*-based software;
+- Use *immunarch* team expertise in your projects.
+
+Contact us at support@immunomind.io for more information.
