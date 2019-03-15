@@ -101,9 +101,9 @@ If you want to test the package without parsing any data, you can load a small t
 data(immdata)
 ```
 
-## License
+# License
 
-The package is freely distributed under the GPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
+The package is freely distributed under the AGPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
 
 Additionally, we provide an annual subscription that includes next services:
 
@@ -111,6 +111,7 @@ Additionally, we provide an annual subscription that includes next services:
 - Priority email and call support;
 - Package modifications and feature implementations are issued promptly; 
 - Setup a cloud or cluster installation of *immunarch*, including the development of cloud *immunarch*-based software;
-- Use *immunarch* team expertise in your projects.
+- Use *immunarch* team expertise in your projects;
+- If you need a GPL-compatible license other than AGPL v3, contact us.
 
 Contact us at support@immunomind.io for more information.
