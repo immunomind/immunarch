@@ -1,0 +1,15 @@
+pandoc: 1.19.2.1
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  1_introduction: 1_introduction.html
+  2_data: 2_data.html
+  3_basic_analysis: 3_basic_analysis.html
+  4_overlap: 4_overlap.html
+  5_gene_usage: 5_gene_usage.html
+  6_diversity: 6_diversity.html
+  _immunr_vignette: _immunr_vignette.html
+urls:
+  reference: https://immunarch.com/reference
+  article: https://immunarch.com/articles
+

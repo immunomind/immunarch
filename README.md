@@ -38,7 +38,7 @@ In order to install `immunarch`, you need to download it first. If you want to d
 Note that You *should not* un-archive it!
 
 After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed `devtools` package to install `immunarch` locally. Upon completion the dependencies will have been already downloaded and installed.
-```{r eval=FALSE}
+```r
 install.packages("devtools", dependencies = T)
 devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)
 ```
@@ -54,14 +54,14 @@ If you run in any trouble, try the following steps:
 
 3. If you are on Mac and have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
 
-4. If you are working under Linux and have issues with \code{igraph} library or have 
+4. If you are working under Linux and have issues with igraph library or have 
 Fortran errors, see [this link](https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/)
 
 5. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
 
 ## Quick start
 Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:
-```{r eval=FALSE}
+```r
 # Load the data to the package
 immdata = repLoad("path/to/your/folder/with/repertoires")
 # If you folder contains metadata.txt file, immdata will have two elements:
@@ -97,7 +97,7 @@ fixVis(div.plot)
 
 If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:
 
-```{r eval=FALSE}
+```r
 data(immdata)
 ```
 
