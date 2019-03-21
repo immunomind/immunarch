@@ -15,7 +15,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-128418614-2"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-128418614-2');
+</script>
 </head>
 <body>
     <div class="container template-article">
@@ -169,19 +175,19 @@ warning("TODO")
 ## MS6     -10.3729039  -6.428076</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</code></pre></div>
-<pre><code>##               DimI      DimII
-## A2-i129  38.112499   5.341153
-## A2-i131 -12.350955  -5.658494
-## A2-i133  42.050613  19.375081
-## A2-i132  29.230867  26.289999
-## A4-i191 -38.709998  -9.449999
-## A4-i192   5.905710   4.648470
-## MS1     -38.739951 -18.797968
-## MS2      -7.509073  -2.886384
-## MS3      32.578088  15.338297
-## MS4     -45.830033 -21.971689
-## MS5      27.181794  13.031266
-## MS6     -31.919560 -25.259732
+<pre><code>##                 DimI     DimII
+## A2-i129  44.52741936 107.89380
+## A2-i131  -0.01203784 -43.56757
+## A2-i133  16.11936882 -15.31748
+## A2-i132  20.56026375 -69.81114
+## A4-i191 -70.40314643 -36.32286
+## A4-i192  21.85831350  56.46504
+## MS1     -58.83288112 -53.90767
+## MS2      14.29439695 -41.33225
+## MS3      23.78253956 101.73544
+## MS4     -60.82217424 -71.23519
+## MS5      10.53004891 106.01326
+## MS6      38.39788876 -40.61336
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the results</span>
@@ -209,19 +215,19 @@ warning("TODO")
 ## MS6     -10.3729039  -6.428076</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</code></pre></div>
-<pre><code>##              DimI      DimII
-## A2-i129 -79.11572 -90.747580
-## A2-i131  20.01271  34.447650
-## A2-i133  18.48154 -30.854588
-## A2-i132 -20.00479   7.611786
-## A4-i191 -11.43780 102.918921
-## A4-i192 -46.31095 -39.192518
-## MS1      16.29611  84.873081
-## MS2      17.76571  -3.818748
-## MS3     -94.65961 -63.618962
-## MS4      41.90378  95.265573
-## MS5      76.31127 -95.372815
-## MS6      60.75775  -1.511799
+<pre><code>##               DimI     DimII
+## A2-i129 -220.91065 -90.53168
+## A2-i131   80.06455 -80.74273
+## A2-i133   42.87002  30.27545
+## A2-i132   35.42945 -33.78564
+## A4-i191  115.05325 133.46523
+## A4-i192 -112.36657 -39.91310
+## MS1      135.68849  93.47148
+## MS2       65.99152 -16.41437
+## MS3     -207.97902 -48.18723
+## MS4      169.53829  87.66579
+## MS5     -216.78872 -20.46095
+## MS6      113.40939 -14.84226
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the results</span>
