@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -50,9 +50,6 @@
 </li>
 <li>
   <a href="../articles/1_introduction.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -79,7 +76,16 @@
     <li>
       <a href="../articles/6_diversity.html">Diversity estimation</a>
     </li>
+    <li>
+      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -129,9 +135,9 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can find the list of releases of <code>immunarch</code> here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
-<p>In order to install <code>immunarch</code>, you need to download it first. If you want to download the latest version, you need to download the package file, available here <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz" class="uri">https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz</a></p>
-<p>Note that You <em>should not</em> un-archive it!</p>
+<p>You can find the list of releases of immunarch here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
+<p>In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz" class="uri">https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz</a></p>
+<p>Note that You should not un-archive it!</p>
 <p>After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed <code>devtools</code> package to install <code>immunarch</code> locally. Upon completion the dependencies will have been already downloaded and installed.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>, <span class="dt">dependencies =</span> T)
 devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_local</a></span>(<span class="st">"path/to/your/folder/with/immunarch.tar.gz"</span>, <span class="dt">dependencies=</span>T)</code></pre></div>
@@ -181,7 +187,7 @@ gu.clust =<span class="st"> </span><span class="kw"><a href="../reference/geneUs
 div =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)
 <span class="kw"><a href="../reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
 
-<span class="co"># Tweak and fix the visalisation of diversity estimates to make the plot publication-ready</span>
+<span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span>
 div.plot =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
 <span class="kw"><a href="../reference/fixVis.html">fixVis</a></span>(div.plot)</code></pre></div>
 <p>If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:</p>

@@ -10,32 +10,39 @@
   
     + Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR. More coming in the future;
 
-    + Works on any data source you are comfortable with: R data frames, data tables from [data.table](http://r-datatable.com), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/).
+    + Works on any data source you are comfortable with: R data frames, data tables from [data.table](http://r-datatable.com), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
+    
+    + Tutorial is available [here](https://immunarch.com/articles/2_data.html).
 
 2. Immune repertoire analysis made simple:
 
-    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names;
+    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/3_basic_analysis.html);
 
-    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*
+    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/4_overlap.html);
   
-    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*
+    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*. Tutorial is available [here](https://immunarch.com/articles/5_gene_usage.html);
 
-    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*
+    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/6_diversity.html);
 
-    + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks, tracking clonotypes across time points
+    + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks, tracking clonotypes across time points.
 
-- Publication-ready plots with a built-in tool for tweaking visualisations: 
+- Publication-ready plots with a built-in tool for visualisation manipulation: 
 
     + Rich visualisation procedures with [ggplot2](https://ggplot2.tidyverse.org/);
   
-    + Built-in tool `fixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
+    + Built-in tool `FixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
+    
+    + Tutorial is available [here](https://immunarch.com/articles/7_fixvis.html).
+
+# Introduction
+`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding.
 
 ## Installation
-You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
+You can find the list of releases of immunarch here: https://github.com/immunomind/immunarch/releases
 
-In order to install `immunarch`, you need to download it first. If you want to download the latest version, you need to download the package file, available here https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
+In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
 
-Note that You *should not* un-archive it!
+Note that You should not un-archive it!
 
 After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed `devtools` package to install `immunarch` locally. Upon completion the dependencies will have been already downloaded and installed.
 ```r
@@ -90,7 +97,7 @@ vis(gu.clust)
 div = repDiversity(immdata$data, .method = "chao1")
 vis(div, .by=c("Status", "Treatment"), .meta=immdata$meta)
 
-# Tweak and fix the visalisation of diversity estimates to make the plot publication-ready
+# Manipulate the visualisation of diversity estimates to make the plot publication-ready
 div.plot = vis(div, .by=c("Status", "Treatment"), .meta=immdata$meta)
 fixVis(div.plot)
 ```

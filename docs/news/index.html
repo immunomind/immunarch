@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Work in progress — vis.immunr_mutation_network • immunarch</title>
+<title>Changelog • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,7 @@
 
 
 
-<meta property="og:title" content="Work in progress — vis.immunr_mutation_network" />
-
-<meta property="og:description" content="Work in progress" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -60,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -148,26 +145,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Work in progress</h1>
-    
-    <div class="hidden name"><code>vis.immunr_mutation_network.Rd</code></div>
+      <h1>Changelog <small></small></h1>
+      
     </div>
 
-    <div class="ref-description">
-    
-    <p>Work in progress</p>
-    
-    </div>
-
-        
-
+    <div id="immunarch-0-3-0" class="section level1">
+<h1 class="page-header">
+<a href="#immunarch-0-3-0" class="anchor"></a>immunarch 0.3.0</h1>
+<div id="features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#features" class="anchor"></a>Features</h2>
+<ul>
+<li><p><code>fixVis</code> now supports the following legends: size, shape, color, fill, linetype.</p></li>
+<li><p><code>fixVis</code> can plot figures to R console / RStudio “Plots” tab.</p></li>
+<li><p><code>fixVis</code> now supports the number of columns in legends.</p></li>
+<li><p>Support for the AIRR file format.</p></li>
+<li><p>Experimental support for the 10xGenomics format.</p></li>
+<li><p>Save and load <code>immunarch</code> format via <code>repSave</code> and <code>repLoad</code>.</p></li>
+<li><p>Save and load VDJtools format via <code>repSave</code> and <code>repLoad</code>.</p></li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li><p><code>.a</code> and <code>.b</code> didn’t passed to Tversky index.</p></li>
+<li><p><code>fixVis</code> - fix a bug when users apply X/Y settings to the other axis.</p></li>
+</ul>
+</div>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-                </ul>
-
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#immunarch-0-3-0">0.3.0</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
       <footer>

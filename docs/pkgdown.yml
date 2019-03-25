@@ -8,7 +8,7 @@ articles:
   4_overlap: 4_overlap.html
   5_gene_usage: 5_gene_usage.html
   6_diversity: 6_diversity.html
-  _immunr_vignette: _immunr_vignette.html
+  7_fixvis: 7_fixvis.html
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

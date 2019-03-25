@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -50,9 +50,6 @@
 </li>
 <li>
   <a href="../articles/1_introduction.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -79,7 +76,16 @@
     <li>
       <a href="../articles/6_diversity.html">Diversity estimation</a>
     </li>
+    <li>
+      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -175,19 +181,19 @@ warning("TODO")
 ## MS6     -10.3729039  -6.428076</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</code></pre></div>
-<pre><code>##                 DimI     DimII
-## A2-i129  44.52741936 107.89380
-## A2-i131  -0.01203784 -43.56757
-## A2-i133  16.11936882 -15.31748
-## A2-i132  20.56026375 -69.81114
-## A4-i191 -70.40314643 -36.32286
-## A4-i192  21.85831350  56.46504
-## MS1     -58.83288112 -53.90767
-## MS2      14.29439695 -41.33225
-## MS3      23.78253956 101.73544
-## MS4     -60.82217424 -71.23519
-## MS5      10.53004891 106.01326
-## MS6      38.39788876 -40.61336
+<pre><code>##                 DimI       DimII
+## A2-i129  33.23791711 -15.5709683
+## A2-i131  -3.87720962  -6.5183755
+## A2-i133  -6.74002099  11.1630169
+## A2-i132   0.08775588   3.4133887
+## A4-i191 -30.96365593  13.2161175
+## A4-i192  18.37884329  -3.7641788
+## MS1     -28.87189758   6.3566871
+## MS2      -5.49370410   2.5053452
+## MS3      32.87950648  -8.4385477
+## MS4     -31.33872629   1.5805881
+## MS5      35.17893374  -4.5475589
+## MS6     -12.47774199   0.6044855
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the results</span>
@@ -215,19 +221,19 @@ warning("TODO")
 ## MS6     -10.3729039  -6.428076</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</code></pre></div>
-<pre><code>##               DimI     DimII
-## A2-i129 -220.91065 -90.53168
-## A2-i131   80.06455 -80.74273
-## A2-i133   42.87002  30.27545
-## A2-i132   35.42945 -33.78564
-## A4-i191  115.05325 133.46523
-## A4-i192 -112.36657 -39.91310
-## MS1      135.68849  93.47148
-## MS2       65.99152 -16.41437
-## MS3     -207.97902 -48.18723
-## MS4      169.53829  87.66579
-## MS5     -216.78872 -20.46095
-## MS6      113.40939 -14.84226
+<pre><code>##                DimI       DimII
+## A2-i129 -243.452291 -165.228037
+## A2-i131   64.875251   43.295685
+## A2-i133  -17.097153   -4.270393
+## A2-i132   -4.210577  119.085786
+## A4-i191  288.963816   11.258882
+## A4-i192 -192.123564  -23.625298
+## MS1      261.067879   65.507190
+## MS2      -15.895123   45.448540
+## MS3     -184.647197 -137.526959
+## MS4      267.846767  115.587852
+## MS5     -143.500816 -136.081728
+## MS6      -81.826994   66.548479
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the results</span>
