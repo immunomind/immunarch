@@ -8,7 +8,7 @@
 
     + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
-    + Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR. More coming in the future;
+    + Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR, AIRR, 10XGenomics. More coming in the future;
 
     + Works on any data source you are comfortable with: R data frames, data tables from [data.table](http://r-datatable.com), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
     

@@ -176,6 +176,7 @@ imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsag
 <span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")</span>
 
 imm_gu</code></pre></div>
+<pre><code>## Warning: Connection is garbage-collected, use dbDisconnect() to avoid this.</code></pre>
 <pre><code>## # A tibble: 48 x 13
 ##    Names `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1
 ##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
@@ -205,7 +206,6 @@ imm_gu</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)
 
 <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"hist"</span>, <span class="dt">.grid =</span> T)</code></pre></div>
-<pre><code>## Warning: Connection is garbage-collected, use dbDisconnect() to avoid this.</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (position_stack).
 
 ## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>

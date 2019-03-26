@@ -32,7 +32,8 @@
 
 <meta property="og:title" content="Save repertoire files to the disk. — repSave" />
 
-<meta property="og:description" content="Save repertoire files to the disk." />
+<meta property="og:description" content="The repSave function is deigned to save your data to the disk
+in desirable format. Currently supports &quot;immunarch&quot; and &quot;vdjtools&quot; file formats." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -155,18 +156,53 @@
 
     <div class="ref-description">
     
-    <p>Save repertoire files to the disk.</p>
+    <p>The <code>repSave</code> function is deigned to save your data to the disk
+in desirable format. Currently supports "immunarch" and "vdjtools" file formats.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>repSave</span>(<span class='no'>.data</span>, <span class='no'>.path</span>, <span class='kw'>.format</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"immunr"</span>, <span class='st'>"vdjtools"</span>), <span class='kw'>.compress</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>repSave</span>(<span class='no'>.data</span>, <span class='no'>.path</span>, <span class='kw'>.format</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"immunarch"</span>, <span class='st'>"vdjtools"</span>),
+  <span class='kw'>.compress</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>An R dataframe, a list of R dataframes or a list with <code>data</code> and
+<code>meta</code> where first element is a list of dataframes and the latter is a dataframe
+with metadata.</p></td>
+    </tr>
+    <tr>
+      <th>.path</th>
+      <td><p>A string with the path to the output directory. It should include file
+name if a single dataframe is provided to .data argument.</p></td>
+    </tr>
+    <tr>
+      <th>.format</th>
+      <td><p>A string with desirable format specification. Current options are
+"immunarch" and "vdjtools".</p></td>
+    </tr>
+    <tr>
+      <th>.compress</th>
+      <td><p>A boolean value. Defines whether the output will be compressed or not.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It is not necessary to create directories beforehand. If the provided directory
+does not exist it will be created automatically.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>
