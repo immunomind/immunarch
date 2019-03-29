@@ -93,6 +93,12 @@
   <a href="https://immunomind.io">ImmunoMind</a>
 </li>
 <li>
+  <a href="http://twitter.com/immunomind">
+    <span class="fa fa-lg fa-twitter"></span>
+     
+  </a>
+</li>
+<li>
   <a href="https://github.com/immunomind/immunarch">
     <span class="fa fa-github"></span>
      
@@ -115,7 +121,7 @@
             
             <h4 class="date"><a href="mailto:support@immunomind.io">support@immunomind.io</a></h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/4_overlap.Rmd"><code>vignettes/4_overlap.Rmd</code></a></small>
       <div class="hidden name"><code>4_overlap.Rmd</code></div>
 
     </div>
@@ -181,19 +187,19 @@ warning("TODO")
 ## MS6     -10.3729039  -6.428076</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</code></pre></div>
-<pre><code>##                 DimI       DimII
-## A2-i129  -64.0295768   89.310969
-## A2-i131   33.9392028   -8.520675
-## A2-i133  -37.6948115   28.351019
-## A2-i132   11.2014073   29.284769
-## A4-i191  103.4652501  -33.995401
-## A4-i192    1.8241252  -58.558093
-## MS1       82.8534110   -8.349956
-## MS2        1.2838841    8.922489
-## MS3     -208.6659175  127.379157
-## MS4       95.8651824   17.507179
-## MS5       -0.4041487 -174.799193
-## MS6      -19.6380084  -16.532263
+<pre><code>##                DimI       DimII
+## A2-i129  181.093174  136.572680
+## A2-i131  -46.793997  -50.439996
+## A2-i133  -29.200654  -98.288329
+## A2-i132   -8.989356  -21.076496
+## A4-i191 -104.463606   49.227201
+## A4-i192  -94.849689 -104.067689
+## MS1     -114.534918   19.433119
+## MS2      -27.268747  -59.080296
+## MS3      184.141673  105.200975
+## MS4     -136.398307    5.400575
+## MS5      188.933606   85.138579
+## MS6        8.330820  -68.020323
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the results</span>
@@ -221,19 +227,19 @@ warning("TODO")
 ## MS6     -10.3729039  -6.428076</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</code></pre></div>
-<pre><code>##               DimI      DimII
-## A2-i129  271.09739 -111.22747
-## A2-i131  -74.27130   45.61076
-## A2-i133 -153.00324   85.88956
-## A2-i132  -70.78312  112.98855
-## A4-i191 -220.29982  -17.65593
-## A4-i192  157.54273  -31.18714
-## MS1     -172.56229  -21.48754
-## MS2     -103.25171   92.04833
-## MS3      307.90729 -123.57630
-## MS4     -151.38288  -51.33117
-## MS5      335.51245 -136.24069
-## MS6     -126.50550  156.16905
+<pre><code>##               DimI       DimII
+## A2-i129 -98.536472  114.955736
+## A2-i131  50.829954  -14.393604
+## A2-i133  29.909279   27.553730
+## A2-i132   3.081145  -27.630178
+## A4-i191  97.806218 -116.409107
+## A4-i192 -26.412518   89.217994
+## MS1      67.632507 -119.154752
+## MS2      16.268082    6.375884
+## MS3     -86.067999   89.419097
+## MS4      47.946569 -134.866682
+## MS5     -85.799691   69.578963
+## MS6     -16.657075   15.352921
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualise the results</span>

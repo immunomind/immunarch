@@ -1,7 +1,7 @@
 # `immunarch` - Fast and Effortless Analysis of Large-Scale Immune Repertoire Data
 
 ## Introduction
-`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding.
+`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) or [Telegram](https://t.me/immunomind) for news and updates.
 
 ## Features
 1. Fast and easy manipulation of immune repertoire data:
