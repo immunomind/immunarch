@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -182,10 +182,9 @@ imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsag
 <span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")</span>
 
 imm_gu</code></pre></div>
-<pre><code>## Warning: Connection is garbage-collected, use dbDisconnect() to avoid this.</code></pre>
 <pre><code>## # A tibble: 48 x 13
 ##    Names `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1
-##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##    &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt;
 ##  1 TRBV…        54        69         8        34        35        20    29
 ##  2 TRBV…       264       320       154       128       429       256   217
 ##  3 TRBV…        29        22        33        20        22        18    16
@@ -196,8 +195,8 @@ imm_gu</code></pre></div>
 ##  8 TRBV…        50        59        52        87        33        47    45
 ##  9 TRBV…        79       109        55        80        44        37    25
 ## 10 TRBV…       105       166       115        98        88        81   125
-## # … with 38 more rows, and 5 more variables: MS2 &lt;dbl&gt;, MS3 &lt;dbl&gt;,
-## #   MS4 &lt;dbl&gt;, MS5 &lt;dbl&gt;, MS6 &lt;dbl&gt;</code></pre>
+## # … with 38 more rows, and 5 more variables: MS2 &lt;int&gt;, MS3 &lt;int&gt;,
+## #   MS4 &lt;int&gt;, MS5 &lt;int&gt;, MS6 &lt;int&gt;</code></pre>
 <p>Gene distributions could be computed either using counts of individual clonotypes (<code>.quant = "count"</code>) or not using them (<code>.quant = NA</code>).</p>
 <p>In order to compute allele-level or family-level distributions, change the <code>.type</code> parameter.</p>
 <p>Due to the ambiguity of gene alignments for some clonotypes, <code>geneUsage</code> has the following options to deal with ambiguous data:</p>
@@ -244,8 +243,6 @@ imm_gu</code></pre></div>
 <li><p>“hclust” - clusters the data using hierarchical clustering.</p></li>
 <li><p>“kmeans” - clusters the data using K-means.</p></li>
 <li><p>“dbscan” - clusters the data using DBSCAN.</p></li>
-<li><p>“permut” - permutation testing of differences between groups.</p></li>
-<li><p>“anova” - computes ANOVA for each gene separately on data splitted to groups (without preprocessing). Results could be used with Tukey post-hoc test in order to detect significant differences among groups per gene.</p></li>
 <li><p>“kruskall” - compute Kruskall for each gene separately on data splitted to groups (without preprocessing). Results could be used with Dunn test in order to detect significant differences between groups.</p></li>
 </ul>
 <p>You can call several methods in a single line of code, which is probably the most powerful feature of the package. For instance, <code>"js+hclust"</code> first computes Jensen-Shannon divergence and then applies hierarchical clustering on the resulting distance matrix, whereas <code>"anova"</code> computes ANOVA on each gene separately after repertoires have been grouped:</p>
@@ -269,6 +266,10 @@ imm_cl_tsne =<span class="st"> </span><span class="kw"><a href="../reference/gen
 <pre><code>## Perplexity should be lower than K!</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_pca, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_mds, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_tsne, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="dt">ncol =</span> <span class="dv">3</span>)</code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;"></p>
+<p>You can regulate the number of clusters as well:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_cl_pca2 =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+pca+kmeans"</span>, <span class="dt">.k =</span> <span class="dv">3</span>, <span class="dt">.verbose =</span> F)
+<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_pca2)</code></pre></div>
+<p><img src="5_gene_usage_files/figure-html/unnamed-chunk-9-1.png" width="768" style="display: block; margin: auto;"></p>
 </div>
 <div id="spectratyping" class="section level1">
 <h1 class="hasAnchor">

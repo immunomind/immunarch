@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -257,7 +257,7 @@ META
 dbdir =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>()
 
 <span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span>
-con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MonetDBLite/topics/MonetDBLite">MonetDBLite</a></span>(), <span class="dt">embedded =</span> dbdir)
+con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)
 
 <span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span>
 <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {
@@ -265,7 +265,7 @@ con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a h
 }
 
 <span class="co"># Create a source in the temporary directory with MonetDB</span>
-ms =<span class="st"> </span>MonetDBLite<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MonetDBLite/topics/src_monetdb">src_monetdblite</a></span>(<span class="dt">dbdir =</span> dbdir)
+ms =<span class="st"> </span>MonetDBLite<span class="op">::</span><span class="kw">src_monetdblite</span>(<span class="dt">dbdir =</span> dbdir)
 res_db =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>()
 
 <span class="co"># Load the data from MonetDB to dplyr tables</span>
@@ -333,8 +333,7 @@ immdata<span class="op">$</span>meta</code></pre></div>
 <a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor"></a>Get subset of clonotypes with a specific V gene</h2>
 <p>It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], V.name <span class="op">==</span><span class="st"> 'TRBV10-1'</span>)</code></pre></div>
-<pre><code>## # Source:   lazy query [?? x 15]
-## # Database: MonetDBEmbeddedConnection
+<pre><code>## # A tibble: 26 x 15
 ##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;
 ##  1      2     0.0002 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20
@@ -347,7 +346,7 @@ immdata<span class="op">$</span>meta</code></pre></div>
 ##  8      1     0.0001 TGCGCC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13
 ##  9      1     0.0001 TGCGCC… CASRGS… TRBV1… TRBD1  TRBJ2…    10      11
 ## 10      1     0.0001 TGCGCC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13
-## # … with more rows, and 6 more variables: D.end &lt;int&gt;, J.start &lt;int&gt;,
+## # … with 16 more rows, and 6 more variables: D.end &lt;int&gt;, J.start &lt;int&gt;,
 ## #   VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
 <!---
 ## Additional functions to help with dplyr

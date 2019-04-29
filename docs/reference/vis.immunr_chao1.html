@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -204,13 +204,24 @@ Disabled if no group passed to the ".by" argument.</p></td>
     </tr>
     <tr>
       <th>.test</th>
-      <td><p>A logical vector whether statistical tests should be applied.</p></td>
+      <td><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></td>
     </tr>
     <tr>
       <th>.signif.label.size</th>
       <td><p>An integer value defining the size of text for p-value.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If data is grouped, than statistical tests for comparing means of groups will be performed, unless <code>.test = F</code> is supplied.
+In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
+(R function <code><a href='https://www.rdocumentation.org/packages/stats/topics/wilcox.test'>wilcox.test</a></code> with an argument <code>exact = F</code>) for testing if there is a difference in mean rank values between two groups.
+In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal<!-- %E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution. -->
+A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
+Adjusted for multiple comparisons P-values are plotted on the top of groups.
+P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm<!-- %E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction). -->
+You can execute the command <code><a href='https://www.rdocumentation.org/packages/stats/topics/p.adjust'>?p.adjust</a></code> in the R console to see more.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -223,6 +234,8 @@ Disabled if no group passed to the ".by" argument.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

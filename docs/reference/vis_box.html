@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -209,9 +209,28 @@ for names of genes and other numeric columns reserved to counts or frequencies o
 Each numeric column should be associated with a specific repertoire sample.</p></td>
     </tr>
     <tr>
+      <th>.points</th>
+      <td><p>A logical value defining whether points will be visualised or not.</p></td>
+    </tr>
+    <tr>
+      <th>.test</th>
+      <td><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></td>
+    </tr>
+    <tr>
+      <th>.signif.label.size</th>
+      <td><p>An integer value defining the size of text for p-value.</p></td>
+    </tr>
+    <tr>
+      <th>.title</th>
+      <td><p>The The text for the plot's title.</p></td>
+    </tr>
+    <tr>
+      <th>.leg.title</th>
+      <td><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></td>
+    </tr>
+    <tr>
       <th>.legend</th>
-      <td><p>If TRUE then plots the legend. If FALSE removes the legend from the plot.
-If NA automatically detects the best way to display legends.</p></td>
+      <td><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></td>
     </tr>
     </table>
     

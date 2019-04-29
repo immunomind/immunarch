@@ -82,7 +82,7 @@ respectively)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -185,7 +185,7 @@ respectively).</p>
 
     <pre class="usage"><span class='fu'>repOverlapAnalysis</span>(<span class='no'>.data</span>, <span class='kw'>.analysis</span> <span class='kw'>=</span> (<span class='st'>"hclust"</span>),
   <span class='kw'>.scale</span> <span class='kw'>=</span> <span class='no'>default_scale_fun</span>, <span class='kw'>.raw</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.perp</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.theta</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>.eps</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</pre>
+  <span class='kw'>.eps</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -222,9 +222,8 @@ processed output that can be subjected to visualisation with <code><a href='vis.
       <td><p>A numerical value, DBscan epsylon parameter, see <code>immunr_dbscan</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Other parameters to be passed to the <code><a href='immunr_pca.html'>immunr_tsne</a></code>,
-<code>immunr_dbscan</code>, etc</p></td>
+      <th>.k</th>
+      <td><p>The number of clusters to create, passed as <code>k</code> to <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> or as <code>centers</code> to <a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a>.</p></td>
     </tr>
     </table>
     

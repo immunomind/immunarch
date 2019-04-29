@@ -75,7 +75,7 @@ and statistics. For gene details run gene_stats()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -196,7 +196,9 @@ are "hs.trbv", "HomoSapiens.TRBJ" or "macmul.IGHV". For details run <code><a hre
     </tr>
     <tr>
       <th>.quant</th>
-      <td><p>Select the column with data to evaluate, for example, "count".</p></td>
+      <td><p>Select the column with data to evaluate.
+Pass NA if you want to compute gene statistics at the clonotype level without re-weighting.
+Pass "count" to use the "Clones" column to weight genes by abundance of their corresponding clonotypes.</p></td>
     </tr>
     <tr>
       <th>.ambig</th>
@@ -210,10 +212,7 @@ or pick only first from the set. Set it to "exc", "inc", "wei", or "maj", corres
     </tr>
     <tr>
       <th>.norm</th>
-      <td><p>One of the three values---NA, TRUE or FALSE. If NA then the function
-will check for distrubution (if sum(.data) == 1) and normalise it with the
-given Laplace correction value. If TRUE then force normalisation and laplace
-correction. If FALSE then does neither normalisaton nor laplace correction.</p></td>
+      <td><p>If TRUE than return proportions of genes. If FALSE then return counts of genes.</p></td>
     </tr>
     </table>
     

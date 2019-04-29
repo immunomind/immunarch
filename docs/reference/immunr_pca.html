@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Preprocessing the distance matrix data — immunr_pca • immunarch</title>
+<title>Dimensionality reduction — immunr_pca • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,15 @@
 
 
 
-<meta property="og:title" content="Preprocessing the distance matrix data — immunr_pca" />
+<meta property="og:title" content="Dimensionality reduction — immunr_pca" />
 
-<meta property="og:description" content="Preprocessing the distance matrix data" />
+<meta property="og:description" content="Collect a set of principal variables, reducing the number of not important variables
+to analyse. Dimensionality reduction makes data analysis algorithms work faster and
+sometimes more accurate, since it also reduces noise in the data. Currently available
+methods are:
+- immunr_pca performs PCA (Principal Component Analysis) using prcomp;
+- immunr_mds performs MDS (Multi-Dimensional Scaling) using isoMDS;
+- immunr_tsne performs tSNE (t-Distributed Stochastic Neighbour Embedding) using Rtsne." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -154,26 +160,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Preprocessing the distance matrix data</h1>
+    <h1>Dimensionality reduction</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/dimensions.R'><code>R/dimensions.R</code></a></small>
     <div class="hidden name"><code>immunr_pca.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Preprocessing the distance matrix data</p>
+    <p>Collect a set of principal variables, reducing the number of not important variables
+to analyse. Dimensionality reduction makes data analysis algorithms work faster and
+sometimes more accurate, since it also reduces noise in the data. Currently available
+methods are:</p>
+<p>- <code>immunr_pca</code> performs PCA (Principal Component Analysis) using <a href='https://www.rdocumentation.org/packages/stats/topics/prcomp'>prcomp</a>;</p>
+<p>- <code>immunr_mds</code> performs MDS (Multi-Dimensional Scaling) using <a href='https://www.rdocumentation.org/packages/MASS/topics/isoMDS'>isoMDS</a>;</p>
+<p>- <code>immunr_tsne</code> performs tSNE (t-Distributed Stochastic Neighbour Embedding) using <a href='https://www.rdocumentation.org/packages/Rtsne/topics/Rtsne'>Rtsne</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>immunr_pca</span>(<span class='no'>.data</span>, <span class='kw'>.scale</span> <span class='kw'>=</span> <span class='no'>default_scale_fun</span>, <span class='kw'>.raw</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.orig</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>immunr_pca</span>(<span class='no'>.data</span>, <span class='kw'>.scale</span> <span class='kw'>=</span> <span class='no'>default_scale_fun</span>, <span class='kw'>.raw</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.orig</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>F</span>)
+
+<span class='fu'>immunr_mds</span>(<span class='no'>.data</span>, <span class='kw'>.scale</span> <span class='kw'>=</span> <span class='no'>default_scale_fun</span>, <span class='kw'>.raw</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.orig</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)
+
+<span class='fu'>immunr_tsne</span>(<span class='no'>.data</span>, <span class='kw'>.perp</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>A matrix or a data frame with features, distance matrix or output from <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>, <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a> or repDiversityAnalysis functions.</p></td>
+    </tr>
+    <tr>
+      <th>.scale</th>
+      <td><p>A function to apply to your data before passing it to any of
+dimensionality reduction algorithms. There is no scaling by default.</p></td>
+    </tr>
+    <tr>
+      <th>.raw</th>
+      <td><p>If TRUE then return non-processed output from dimensionality reduction
+algorithms. Pass FALSE if you want to visualise results.</p></td>
+    </tr>
+    <tr>
+      <th>.orig</th>
+      <td><p>If TRUE then return the original result from algorithms. Pass FALSE
+if you want to visualise results.</p></td>
+    </tr>
+    <tr>
+      <th>.dist</th>
+      <td><p>If TRUE then assume ".data" is a distance matrix.</p></td>
+    </tr>
+    <tr>
+      <th>.perp</th>
+      <td><p>The perplexity parameter for <a href='https://www.rdocumentation.org/packages/Rtsne/topics/Rtsne'>Rtsne</a>. Sepcifies the number
+of neighbours each data point must have in the resulting plot.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other parameters passed to <a href='https://www.rdocumentation.org/packages/Rtsne/topics/Rtsne'>Rtsne</a>.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='vis.immunr_mds.html'>vis.immunr_pca</a> for visualisations.</p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

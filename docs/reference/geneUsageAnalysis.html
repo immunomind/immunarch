@@ -76,7 +76,7 @@ correlation coefficients." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -174,7 +174,7 @@ correlation coefficients.</p>
     <pre class="usage"><span class='fu'>geneUsageAnalysis</span>(<span class='no'>.data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"js+hclust"</span>, <span class='st'>"pca+kmeans"</span>, <span class='st'>"anova"</span>,
   <span class='st'>"js+pca+kmeans"</span>), <span class='kw'>.base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.norm.entropy</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.cor</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pearson"</span>,
   <span class='st'>"kendall"</span>, <span class='st'>"spearman"</span>), <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>,
-  <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.eps</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>.perp</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.theta</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
+  <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.eps</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>.perp</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.theta</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,6 +218,10 @@ smoothing.</p></td>
     <tr>
       <th>.verbose</th>
       <td><p>A logical value.</p></td>
+    </tr>
+    <tr>
+      <th>.k</th>
+      <td><p>The number of clusters to create, passed as <code>k</code> to <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> or as <code>centers</code> to <a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a>.</p></td>
     </tr>
     <tr>
       <th>.eps</th>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Clustering the distance matrix data — immunr_hclust • immunarch</title>
+<title>Clustering of objects or distance matrices — immunr_hclust • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,12 @@
 
 
 
-<meta property="og:title" content="Clustering the distance matrix data — immunr_hclust" />
+<meta property="og:title" content="Clustering of objects or distance matrices — immunr_hclust" />
 
-<meta property="og:description" content="Clustering the distance matrix data" />
+<meta property="og:description" content="Cluster the data with one of the following methods:
+- immunr_hclust clusters the data using the hierarchical clustering from hcut;
+- immunr_kmeans clusters the data using the K-means algorithm from kmeans;
+- immunr_dbscan clusters the data using the DBSCAN algorithm from dbscan." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -154,26 +157,70 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Clustering the distance matrix data</h1>
+    <h1>Clustering of objects or distance matrices</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/clustering.R'><code>R/clustering.R</code></a></small>
     <div class="hidden name"><code>immunr_hclust.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Clustering the distance matrix data</p>
+    <p>Cluster the data with one of the following methods:</p>
+<p>- <code>immunr_hclust</code> clusters the data using the hierarchical clustering from <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a>;</p>
+<p>- <code>immunr_kmeans</code> clusters the data using the K-means algorithm from <a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a>;</p>
+<p>- <code>immunr_dbscan</code> clusters the data using the DBSCAN algorithm from <a href='https://www.rdocumentation.org/packages/fpc/topics/dbscan'>dbscan</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>immunr_hclust</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>) - <span class='fl'>1</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>immunr_hclust</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>) - <span class='fl'>1</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)
+
+<span class='fu'>immunr_kmeans</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/integer'>as.integer</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>))) + <span class='fl'>1</span>, <span class='kw'>.nbclust_method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"silhouette"</span>, <span class='st'>"gap_stat"</span>))
+
+<span class='fu'>immunr_dbscan</span>(<span class='no'>.data</span>, <span class='no'>.eps</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>Matrix or data frame with features, distance matrix or output from <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>, <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a> or repDiversityAnalysis functions.</p></td>
+    </tr>
+    <tr>
+      <th>.k</th>
+      <td><p>The number of clusters to create, passed as <code>k</code> to <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> or as <code>centers</code> to <a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a>.</p></td>
+    </tr>
+    <tr>
+      <th>.k.max</th>
+      <td><p>Limits the maximum number of clusters. It is passed as <code>k.max</code> to fviz_nbclust for <code>immunr_hclust</code> and <code>immunr_kmeans</code>.</p></td>
+    </tr>
+    <tr>
+      <th>.method</th>
+      <td><p>Passed to <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> or as fviz_nbclust.</p>
+<p>In case of <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> the agglomeration method is going to be used (argument <code>hc_method</code>).</p>
+<p>In case of fviz_nbclust it is the method to be used for estimating the optimal number of clusters (argument <code>method</code>).</p></td>
+    </tr>
+    <tr>
+      <th>.dist</th>
+      <td><p>If TRUE then ".data" is expected to be a distance matrix. If FALSE then the euclidean distance is computed for the input objects.</p></td>
+    </tr>
+    <tr>
+      <th>.eps</th>
+      <td><p>Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as <code>eps</code> to <a href='https://www.rdocumentation.org/packages/fpc/topics/dbscan'>dbscan</a>.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='vis.immunr_hclust.html'>vis.immunr_hclust</a></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>
