@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Work in progress — coding • immunarch</title>
+<title>Working with coding and non-coding clonotype sequences — coding • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,14 @@
 
 
 
-<meta property="og:title" content="Work in progress — coding" />
+<meta property="og:title" content="Working with coding and non-coding clonotype sequences — coding" />
 
-<meta property="og:description" content="Work in progress" />
+<meta property="og:description" content="Filter out clonotypes with non-coding, coding, in-frame or out-of-frame CDR3 sequences:
+`coding()` - remove all non-coding sequences (i.e., remove all sequences with stop codons and frame shifts);
+`noncoding()` - remove all coding sequences (i.e., leave sequences with stop codons and frame shifts only);
+`inframes()` - remove all out-of-frame sequences (i.e., remove all sequences with frame shifts);
+`outofframes()` - remove all in-frame sequences (i.e., leave sequences with frame shifts only).
+Note: the function will remove all clonotypes sequences with NAs in the CDR3 amino acid column." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -154,24 +159,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Work in progress</h1>
+    <h1>Working with coding and non-coding clonotype sequences</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/tools.R'><code>R/tools.R</code></a></small>
     <div class="hidden name"><code>coding.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Work in progress</p>
+    <p>Filter out clonotypes with non-coding, coding, in-frame or out-of-frame CDR3 sequences:</p>
+<p>`coding()` - remove all non-coding sequences (i.e., remove all sequences with stop codons and frame shifts);</p>
+<p>`noncoding()` - remove all coding sequences (i.e., leave sequences with stop codons and frame shifts only);</p>
+<p>`inframes()` - remove all out-of-frame sequences (i.e., remove all sequences with frame shifts);</p>
+<p>`outofframes()` - remove all in-frame sequences (i.e., leave sequences with frame shifts only).</p>
+<p>Note: the function will remove all clonotypes sequences with NAs in the CDR3 amino acid column.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>coding</span>(<span class='no'>.data</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>coding</span>(<span class='no'>.data</span>)
+
+<span class='fu'>noncoding</span>(<span class='no'>.data</span>)
+
+<span class='fu'>inframes</span>(<span class='no'>.data</span>)
+
+<span class='fu'>outofframes</span>(<span class='no'>.data</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>The data to be processed. Can be <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>,
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

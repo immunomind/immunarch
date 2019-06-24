@@ -74,7 +74,7 @@ from the circlize package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -190,6 +190,12 @@ from the circlize package.</p>
     <div class='dont-index'><p><a href='vis.html'>vis</a>, <a href='repOverlap.html'>repOverlap</a>.</p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>immdata</span>)
+<span class='no'>gu</span> <span class='kw'>=</span> <span class='fu'><a href='geneUsage.html'>geneUsage</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>)
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>gu</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"circos"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -197,7 +203,9 @@ from the circlize package.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

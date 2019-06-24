@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
       <h1>Gene usage analysis</h1>
                         <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io">support@immunomind.io</a></h4>
+            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/5_gene_usage.Rmd"><code>vignettes/5_gene_usage.Rmd</code></a></small>
       <div class="hidden name"><code>5_gene_usage.Rmd</code></div>
@@ -130,14 +130,14 @@
     
 <!--
 %\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Introduction to immunarch}
+%\VignetteIndexEntry{Gene usage analysis}
 %\VignettePackage{immunarch}
 -->
 <div id="gene-usage-computation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#gene-usage-computation" class="anchor"></a>Gene usage computation</h1>
 <p><code>immunarch</code> comes with a gene segments data table containing known gene segments for several species. In order to get the current statistics of genes, call the <code><a href="../reference/gene_stats.html">gene_stats()</a></code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/gene_stats.html">gene_stats</a></span>()</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="../reference/gene_stats.html">gene_stats</a></span>()</a></code></pre></div>
 <pre><code>##     alias                 species ighd ighj ighv igij igkj igkv iglj iglv
 ## 1      bt               BosTaurus    0    0    0    0    0    0    0    0
 ## 2      cd      CamelusDromedarius    0    0    0    0    0    0    0    0
@@ -175,13 +175,13 @@
 ## 16    0    0    0    0    0    0    0    0    0    0    0
 ## 17    0    0    0    0    0    0    0    0    0    0    0</code></pre>
 <p>To compute the distributions of genes, <code>immunarch</code> includes the <code>geneUsage</code> function. It receives a repertoire or a list of repertoires as input and genes and species for which you want to get the statistics. E.g., if you plan to use <code>TRBV</code> genes of <code>Homo Sapiens</code>, you need to use the <code>hs.trbv</code> string in the function, where <code>hs</code> comes from the <code>alias</code> column and <code>trbv</code> is the gene name. Of if you plan to use <code>IGHV</code> genes of <code>Mus Musculus</code>, you need to use <code>musmus.ighv</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Next four function calls are equal. "hs" is from the "alias" column.</span>
-imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>)
-<span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.trbv")</span>
-<span class="co"># imm_gu = geneUsage(immdata$data, "hs.TRBV")</span>
-<span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")</span>
-
-imm_gu</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Next four function calls are equal. "hs" is from the "alias" column.</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.trbv")</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># imm_gu = geneUsage(immdata$data, "hs.TRBV")</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">imm_gu</a></code></pre></div>
 <pre><code>## # A tibble: 48 x 13
 ##    Names `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1
 ##    &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt;
@@ -208,22 +208,22 @@ imm_gu</code></pre></div>
 </ul>
 <p>Parameter <code>.norm</code> controls whether <code>immunarch</code> will normalise the data to ensure the sum of all frequencies to be equal 1 or not.</p>
 <p>You can visualise the histogram of gene usage in two different ways:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)
-
-<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"hist"</span>, <span class="dt">.grid =</span> T)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"hist"</span>, <span class="dt">.grid =</span> T)</a></code></pre></div>
 <pre><code>## Warning: Removed 1 rows containing missing values (position_stack).
 
 ## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-2-1.png" width="1440" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"hist"</span>, <span class="dt">.grid =</span> F, <span class="dt">.by =</span> <span class="st">"Status"</span>, <span class="dt">.meta =</span> immdata<span class="op">$</span>meta)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"hist"</span>, <span class="dt">.grid =</span> F, <span class="dt">.by =</span> <span class="st">"Status"</span>, <span class="dt">.meta =</span> immdata<span class="op">$</span>meta)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-3-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Another practical approach to the visualisation of group distributions are box plots:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.by =</span> <span class="st">"Status"</span>, <span class="dt">.meta =</span> immdata<span class="op">$</span>meta, <span class="dt">.plot =</span> <span class="st">"box"</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.by =</span> <span class="st">"Status"</span>, <span class="dt">.meta =</span> immdata<span class="op">$</span>meta, <span class="dt">.plot =</span> <span class="st">"box"</span>)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Sometimes tree maps could be used to reveal the differences in repertoires. They display the overall picture and the comparisons of related items, both at the same time, enabling intelligible exploration of the details:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)
-
-<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"tree"</span>)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu, <span class="dt">.plot =</span> <span class="st">"tree"</span>)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-5-1.png" width="1440" style="display: block; margin: auto;"></p>
 </div>
 <div id="gene-usage-analysis" class="section level1">
@@ -246,39 +246,39 @@ imm_gu</code></pre></div>
 <li><p>“kruskall” - compute Kruskall for each gene separately on data splitted to groups (without preprocessing). Results could be used with Dunn test in order to detect significant differences between groups.</p></li>
 </ul>
 <p>You can call several methods in a single line of code, which is probably the most powerful feature of the package. For instance, <code>"js+hclust"</code> first computes Jensen-Shannon divergence and then applies hierarchical clustering on the resulting distance matrix, whereas <code>"anova"</code> computes ANOVA on each gene separately after repertoires have been grouped:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)
-
-imm_gu_js =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="dt">.method =</span> <span class="st">"js"</span>, <span class="dt">.verbose =</span> F)
-imm_gu_cor =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="dt">.method =</span> <span class="st">"cor"</span>, <span class="dt">.verbose =</span> F)
-
-gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu_js, <span class="dt">.title =</span> <span class="st">"Gene usage JS-divergence"</span>, <span class="dt">.leg.title =</span> <span class="st">"JS"</span>, <span class="dt">.text.size=</span><span class="fl">1.5</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu_cor, <span class="dt">.title =</span> <span class="st">"Gene usage correlation"</span>, <span class="dt">.leg.title =</span> <span class="st">"Cor"</span>, <span class="dt">.text.size=</span><span class="fl">1.5</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">imm_gu =<span class="st"> </span><span class="kw"><a href="../reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data, <span class="st">"hs.trbv"</span>, <span class="dt">.norm =</span> T, <span class="dt">.ambig =</span> <span class="st">"exc"</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">imm_gu_js =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="dt">.method =</span> <span class="st">"js"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">imm_gu_cor =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="dt">.method =</span> <span class="st">"cor"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu_js, <span class="dt">.title =</span> <span class="st">"Gene usage JS-divergence"</span>, <span class="dt">.leg.title =</span> <span class="st">"JS"</span>, <span class="dt">.text.size=</span><span class="fl">1.5</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_gu_cor, <span class="dt">.title =</span> <span class="st">"Gene usage correlation"</span>, <span class="dt">.leg.title =</span> <span class="st">"Cor"</span>, <span class="dt">.text.size=</span><span class="fl">1.5</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Now let us visualise the output after both preprocessing and analysis:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_gu_js[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(imm_gu_js)] =<span class="st"> </span><span class="dv">0</span>
-
-<span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"cosine+hclust"</span>, <span class="dt">.verbose =</span> F))</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">imm_gu_js[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(imm_gu_js)] =<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"cosine+hclust"</span>, <span class="dt">.verbose =</span> F))</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#vis(geneUsageAnalysis(imm_gu, "js+dbscan", .verbose = F))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#vis(geneUsageAnalysis(imm_gu, "js+dbscan", .verbose = F))</span></a></code></pre></div>
 <p>On top of that you can add clustering:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_cl_pca =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+pca+kmeans"</span>, <span class="dt">.verbose =</span> F)
-imm_cl_mds =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+mds+kmeans"</span>, <span class="dt">.verbose =</span> F)
-imm_cl_tsne =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+tsne+kmeans"</span>, <span class="dt">.perp =</span> .<span class="dv">01</span>, <span class="dt">.verbose =</span> F)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">imm_cl_pca =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+pca+kmeans"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">imm_cl_mds =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+mds+kmeans"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">imm_cl_tsne =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+tsne+kmeans"</span>, <span class="dt">.perp =</span> <span class="fl">.01</span>, <span class="dt">.verbose =</span> F)</a></code></pre></div>
 <pre><code>## Perplexity should be lower than K!</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_pca, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_mds, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_tsne, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="dt">ncol =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_pca, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_mds, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_tsne, <span class="dt">.plot =</span> <span class="st">"clust"</span>), <span class="dt">ncol =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>You can regulate the number of clusters as well:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_cl_pca2 =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+pca+kmeans"</span>, <span class="dt">.k =</span> <span class="dv">3</span>, <span class="dt">.verbose =</span> F)
-<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_pca2)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">imm_cl_pca2 =<span class="st"> </span><span class="kw"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(imm_gu, <span class="st">"js+pca+kmeans"</span>, <span class="dt">.k =</span> <span class="dv">3</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_cl_pca2)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/unnamed-chunk-9-1.png" width="768" style="display: block; margin: auto;"></p>
 </div>
 <div id="spectratyping" class="section level1">
 <h1 class="hasAnchor">
 <a href="#spectratyping" class="anchor"></a>Spectratyping</h1>
 <p>Spectratype is a useful way to represent distributions of genes per length. Parameter <code>.quant</code> controls the quantity that used to compute proportions of genes - either by clonotype (<code>id</code>) or by number of clones per clonotype (<code>count</code>)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/spectratype.html">spectratype</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], <span class="dt">.quant =</span> <span class="st">"id"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>, <span class="dt">.gene =</span> <span class="st">"v"</span>))
-p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/spectratype.html">spectratype</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], <span class="dt">.quant =</span> <span class="st">"count"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>, <span class="dt">.gene =</span> <span class="st">"v"</span>))
-
-<span class="kw">grid.arrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/spectratype.html">spectratype</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], <span class="dt">.quant =</span> <span class="st">"id"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>, <span class="dt">.gene =</span> <span class="st">"v"</span>))</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/spectratype.html">spectratype</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], <span class="dt">.quant =</span> <span class="st">"count"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>, <span class="dt">.gene =</span> <span class="st">"v"</span>))</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="5_gene_usage_files/figure-html/spectr-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
   </div>

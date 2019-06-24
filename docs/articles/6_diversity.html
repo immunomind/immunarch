@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
       <h1>Diversity estimation</h1>
                         <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io">support@immunomind.io</a></h4>
+            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/6_diversity.Rmd"><code>vignettes/6_diversity.Rmd</code></a></small>
       <div class="hidden name"><code>6_diversity.Rmd</code></div>
@@ -130,7 +130,7 @@
     
 <!--
 %\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Introduction to immunarch}
+%\VignetteIndexEntry{Diversity estimation}
 %\VignettePackage{immunarch}
 -->
 <p>Sevral approaches to the estimation of repertoire diversity are implemented in the <code>repDiversity</code> function. The <code>.method</code> parameter similarly to abovementionned functions sets the means for diversity estimation. You can choose one of the following methods:</p>
@@ -143,36 +143,36 @@
 <li><p><code>gini</code> - The Gini coefficient measures the inequality among values of a frequency distribution (for example levels of income). A Gini coefficient of zero expresses perfect equality, where all values are the same (for example, where everyone has the same income). A Gini coefficient of one (or 100 percents ) expresses maximal inequality among values (for example where only one person has all the income).</p></li>
 <li><p><code>raref</code> - Rarefaction is a technique to assess species richness from the results of sampling through extrapolation.</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute statistics and visualise them</span>
-<span class="co"># Chao1 diversity measure</span>
-div_chao =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"chao1"</span>)
-
-<span class="co"># Hill numbers</span>
-div_hill =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"hill"</span>)
-
-<span class="co"># D50</span>
-div_d50 =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"d50"</span>)
-
-<span class="co"># Ecological diversity measure</span>
-div_div =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"div"</span>)
-
-p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_chao)
-p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_chao, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
-p3 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_hill, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
-
-p4 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_d50)
-p5 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_d50, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
-p6 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_div)
-
-gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Compute statistics and visualise them</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># Chao1 diversity measure</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">div_chao =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"chao1"</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># Hill numbers</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">div_hill =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"hill"</span>)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># D50</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">div_d50 =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"d50"</span>)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># Ecological diversity measure</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">div_div =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"div"</span>)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_chao)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_chao, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">p3 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_hill, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">p4 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_d50)</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">p5 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_d50, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">p6 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(div_div)</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="6_diversity_files/figure-html/diversity-1.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p3, p6, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p3, p6, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="6_diversity_files/figure-html/diversity-2.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p4, p4, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p4, p4, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="6_diversity_files/figure-html/diversity-3.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_raref =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"raref"</span>, <span class="dt">.verbose =</span> F)
-
-<span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol=</span><span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">imm_raref =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"raref"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
 <p><img src="6_diversity_files/figure-html/unnamed-chunk-1-1.png" width="1152" style="display: block; margin: auto;"></p>
   </div>
 

@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -215,7 +215,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>immtr</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='st'>"norm"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>100</span>));
-<span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span>(<span class='fu'>dcast</span>(<span class='no'>immtr</span>, <span class='no'>Sequence</span> ~ <span class='no'>Sample</span>, <span class='kw'>value.var</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Data"</span>)))
+<span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/tidyr/topics/drop_na'>drop_na</a></span>(<span class='fu'>dcast</span>(<span class='no'>immtr</span>, <span class='no'>Sequence</span> ~ <span class='no'>Sample</span>, <span class='kw'>value.var</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Data"</span>)))
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

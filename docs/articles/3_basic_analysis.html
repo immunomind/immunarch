@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
       <h1>Basic analysis and clonality</h1>
                         <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io">support@immunomind.io</a></h4>
+            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/3_basic_analysis.Rmd"><code>vignettes/3_basic_analysis.Rmd</code></a></small>
       <div class="hidden name"><code>3_basic_analysis.Rmd</code></div>
@@ -130,7 +130,7 @@
     
 <!--
 %\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Introduction to immunarch}
+%\VignetteIndexEntry{Basic analysis and clonality}
 %\VignettePackage{immunarch}
 -->
 <div id="basic-analysis" class="section level1">
@@ -138,14 +138,14 @@
 <a href="#basic-analysis" class="anchor"></a>Basic analysis</h1>
 <p>For each task in this section <code>immunarch</code> includes separate functions that are generally self-explanatory and are written in camel-case. Shorter names for the functions are also available, although the authors do not recommend their usage for the sake of clarity and readability of the code. The latter are mentioned in parantheses.</p>
 <p>Note: all functions in immunarch require that the input immune repertoire data list have names. If you use the <code>repLoad</code> function, you will have no issues. If you compose your list by-hand, you must name elements in the list, e.g.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">your_data  <span class="co"># Your list with repertoires without names</span>
-
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(your_data)
-<span class="co"># Output: NULL</span>
-
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(your_data) =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(your_data), <span class="cf">function</span> (i) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Sample"</span>, i))
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(your_data)
-<span class="co"># Output: Sample1 Sample2 ... Sample10</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">your_data  <span class="co"># Your list with repertoires without names</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(your_data)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># Output: NULL</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(your_data) =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(your_data), <span class="cf">function</span> (i) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Sample"</span>, i))</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(your_data)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># Output: Sample1 Sample2 ... Sample10</span></a></code></pre></div>
 <p>Basic analysis functions are:</p>
 <ul>
 <li><p><code>repExplore</code> (<code>rep.ex</code>) - to compute basic statistics, such as number of clones or distributions of lengths and counts. To explore them you need to pass the statistics, e.g. <code>count</code>, to the <code>.method</code>.</p></li>
@@ -165,63 +165,63 @@
 <ol style="list-style-type: decimal">
 <li>You can pass <code>.by</code> as a character vector with one or several column names from the metadata table to group your data before plotting. In this case you should provide also the <code>.meta</code> argument with the metadata table.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exp_vol =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"volume"</span>)
-p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>), <span class="dt">.meta =</span> immdata<span class="op">$</span>meta)
-p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta =</span> immdata<span class="op">$</span>meta)
-<span class="kw">grid.arrange</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">exp_vol =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"volume"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>), <span class="dt">.meta =</span> immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta =</span> immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/eda-by-meta-1.png" width="960" style="display: block; margin: auto;"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>You can pass <code>.by</code> as a character vector that exactly matches the number of samples in your data, each value should correspond to a sample’s property. It will be used to group data based on the values provided. Note that in this case you should pass NA to <code>.meta</code>.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exp_vol =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"volume"</span>)
-by_vec =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>)
-p =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by =</span> by_vec)
-p</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">exp_vol =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"volume"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">by_vec =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'C'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>, <span class="st">'MS'</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">p =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by =</span> by_vec)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">p</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/eda-by-only-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>If data is grouped, than statistical tests for comparing means of groups will be performed, unless <code>.test = F</code> is supplied. In case there are only two groups, the <a href="https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test">Wilcoxon rank sum test</a> is performed (R function <code>wilcox.test</code> with an argument <code>exact = F</code>) for testing if there is a difference in mean rank values between two groups. In case there more than two groups, the <a href="https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance">Kruskal-Wallis test</a> is performed (R function <code>kruskal.test</code>), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution. A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample. Adjusted for multiple comparisons P-values are plotted on the top of groups. P-value adjusting is done using the <a href="https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method">Holm method</a> (also known as Holm-Bonferroni correction). You can execute the command <code><a href="https://www.rdocumentation.org/packages/stats/topics/p.adjust">?p.adjust</a></code> in the R console to see more.</p>
 <p>Plots generated by the <code>vis</code> function as well as any ggplot2-based plots can be passed to <code>fixVis</code>—built-in software tool for making publication-ready plots:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1. Analyse</span>
-exp_len =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"len"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>)
-
-<span class="co"># 2. Visualise</span>
-p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_len)
-
-<span class="co"># 3. Fix and make publication-ready results</span>
-<span class="kw"><a href="../reference/fixVis.html">fixVis</a></span>(p1)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># 1. Analyse</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">exp_len =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"len"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># 2. Visualise</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_len)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># 3. Fix and make publication-ready results</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw"><a href="../reference/fixVis.html">fixVis</a></span>(p1)</a></code></pre></div>
 <p>See the <code>fixVis</code> tutorial <a href="https://immunarch.com/articles/7_fixvis.html">here</a>.</p>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#exploratory-analysis" class="anchor"></a>Exploratory analysis</h2>
 <p>For the basic exploratory analysis such as comparing of number of reads / UMIs per repertoire or distribution use the function <code>repExplore</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exp_len =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"len"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>)
-exp_cnt =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"count"</span>)
-exp_vol =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"volume"</span>)
-
-p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_len)
-p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_cnt)
-p3 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol)
-
-p1</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">exp_len =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"len"</span>, <span class="dt">.col =</span> <span class="st">"aa"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">exp_cnt =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"count"</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">exp_vol =<span class="st"> </span><span class="kw"><a href="../reference/repExplore.html">repExplore</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"volume"</span>)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">p1 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_len)</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">p2 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_cnt)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">p3 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">p1</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/eda-1-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(p2, p3, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">grid.arrange</span>(p2, p3, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/eda-2-1.png" width="1344" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># You can group samples by their metainformation</span>
-p4 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_len, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
-p5 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_cnt, <span class="dt">.by=</span><span class="st">"Sex"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
-p6 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)
-
-p4</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># You can group samples by their metainformation</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">p4 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_len, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">p5 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_cnt, <span class="dt">.by=</span><span class="st">"Sex"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">p6 =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(exp_vol, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">p4</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/eda-3-1.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(p5, p6, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">grid.arrange</span>(p5, p6, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/eda-4-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="clonality" class="section level2">
 <h2 class="hasAnchor">
 <a href="#clonality" class="anchor"></a>Clonality</h2>
 <p>One of the ways to estimate the diversity of samples is to evaluate clonality. <code>repClonality</code> measures the amount of the most or the least frequent clonotypes. There are several methods to assess clonality, let us take a view of them. The <code>clonal.prop</code> method computes the proportion of repertoire occupied by the pools of cell clones:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_pr =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"clonal.prop"</span>)
-imm_pr</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">imm_pr =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"clonal.prop"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">imm_pr</a></code></pre></div>
 <pre><code>##         Clones Percentage Clonal.count.prop
 ## A2-i129     18       10.1      0.0023834746
 ## A2-i131     28       10.1      0.0036905233
@@ -238,8 +238,8 @@ imm_pr</code></pre></div>
 ## attr(,"class")
 ## [1] "matrix"             "immunr_clonal_prop"</code></pre>
 <p>The <code>top</code> method considers the most abundant cell clonotypes:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_top =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"top"</span>, <span class="dt">.head =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">3000</span>, <span class="dv">10000</span>))
-imm_top</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">imm_top =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"top"</span>, <span class="dt">.head =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">3000</span>, <span class="dv">10000</span>))</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">imm_top</a></code></pre></div>
 <pre><code>##             10    100   1000   3000 10000
 ## A2-i129 0.0812 0.1735 0.3448 0.5448     1
 ## A2-i131 0.0671 0.1550 0.3413 0.5413     1
@@ -256,8 +256,8 @@ imm_top</code></pre></div>
 ## attr(,"class")
 ## [1] "matrix"          "immunr_top_prop"</code></pre>
 <p>While the <code>tail</code> method deals with the least prolific clonotypes:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_tail =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"tail"</span>)
-imm_tail</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">imm_tail =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"tail"</span>)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">imm_tail</a></code></pre></div>
 <pre><code>##              1      3     10     30    100
 ## A2-i129 0.6831 0.8112 0.8629 0.9217 0.9601
 ## A2-i131 0.6820 0.8152 0.8911 0.9298 0.9754
@@ -274,9 +274,9 @@ imm_tail</code></pre></div>
 ## attr(,"class")
 ## [1] "matrix"           "immunr_tail_prop"</code></pre>
 <p>Finally, the <code>homeo</code> method assesses the clonal space homeostasis, i.e., the proportion of the repertoire occupied by the clones of a given size:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imm_hom =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"homeo"</span>, 
-                       <span class="dt">.clone.types =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Small =</span> .<span class="dv">0001</span>, <span class="dt">Medium =</span> .<span class="dv">001</span>, <span class="dt">Large =</span> .<span class="dv">01</span>, <span class="dt">Hyperexpanded =</span> <span class="dv">1</span>))
-imm_hom</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">imm_hom =<span class="st"> </span><span class="kw"><a href="../reference/repClonality.html">repClonality</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"homeo"</span>, </a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">                       <span class="dt">.clone.types =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Small =</span> <span class="fl">.0001</span>, <span class="dt">Medium =</span> <span class="fl">.001</span>, <span class="dt">Large =</span> <span class="fl">.01</span>, <span class="dt">Hyperexpanded =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">imm_hom</a></code></pre></div>
 <pre><code>##         Small (0 &lt; X &lt;= 1e-04) Medium (1e-04 &lt; X &lt;= 0.001)
 ## A2-i129                 0.6831                      0.1798
 ## A2-i131                 0.6820                      0.2091
@@ -305,11 +305,11 @@ imm_hom</code></pre></div>
 ## MS6                        0.0360                        0.0000
 ## attr(,"class")
 ## [1] "matrix"       "immunr_homeo"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_top), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_top, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_top), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_top, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/clonality-hom-vis-1-1.png" width="1056" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_tail), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_tail, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_tail), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_tail, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/clonality-hom-vis-1-2.png" width="1056" style="display: block; margin: auto;"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_hom), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_hom, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_hom), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_hom, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Sex"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="3_basic_analysis_files/figure-html/clonality-hom-vis-1-3.png" width="1056" style="display: block; margin: auto;"></p>
 </div>
 </div>
