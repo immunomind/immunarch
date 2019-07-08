@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualisation of distance matrices with polar area plots — vis_radar • immunarch</title>
+<title>Incremental counting of repertoire similarity — inc_overlap • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,9 @@
 
 
 
-<meta property="og:title" content="Visualisation of distance matrices with polar area plots — vis_radar" />
+<meta property="og:title" content="Incremental counting of repertoire similarity — inc_overlap" />
 
-<meta property="og:description" content="Visualise distance matrices using polar area plots from ggplot2.
-Due to the nature of polar area plots, it is impossible to visualise all distances on the
-same plot. So the output of the function will be a number of polar area plots, one for each
-sample in the input matrix. Each plot visualises a distance from the specific samples
-to other samples in the dataset." />
+<meta property="og:description" content="Like in paper https://www.pnas.org/content/111/16/5980 (Fig. 4)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -158,87 +154,38 @@ to other samples in the dataset." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualisation of distance matrices with polar area plots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
-    <div class="hidden name"><code>vis_radar.Rd</code></div>
+    <h1>Incremental counting of repertoire similarity</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/overlap.R'><code>R/overlap.R</code></a></small>
+    <div class="hidden name"><code>inc_overlap.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Visualise distance matrices using polar area plots from ggplot2.
-Due to the nature of polar area plots, it is impossible to visualise all distances on the
-same plot. So the output of the function will be a number of polar area plots, one for each
-sample in the input matrix. Each plot visualises a distance from the specific samples
-to other samples in the dataset.</p>
+    <p>Like in paper https://www.pnas.org/content/111/16/5980 (Fig. 4).</p>
     
     </div>
 
+    <pre class="usage"><span class='fu'>inc_overlap</span>(<span class='no'>.data</span>, <span class='no'>.fun</span>, <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>.n.steps</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>.downsample</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.verbose.inc</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>Input matrix.</p></td>
+      <td><p>The data to be processed. Can be <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>,
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
     <tr>
-      <th>.by</th>
-      <td><p>Pass NA if you want to plot samples without grouping.</p>
-<p>You can pass a character vector with one or several column names from ".meta"
-to group your data before plotting. In this case you should provide ".meta".</p>
-<p>You can pass a character vector that exactly matches the number of samples in
-your data, each value should correspond to a sample's property. It will be used
-to group data based on the values provided. Note that in this case you should
-pass NA to ".meta".</p></td>
-    </tr>
-    <tr>
-      <th>.meta</th>
-      <td><p>A metadata object. An R dataframe with sample names and their properties,
-such as, age, serostatus or hla.</p></td>
-    </tr>
-    <tr>
-      <th>.ncol</th>
-      <td><p>An integer number of columns to display. Provide NA (by default)
-if you want the function to automatically detect the optimal number of columns.</p></td>
-    </tr>
-    <tr>
-      <th>.which</th>
-      <td><p>A character vector with sample names. Samples not presented in
-the vector will be filtered out and will not be displayed in the resulting plot.</p></td>
-    </tr>
-    <tr>
-      <th>.errorbars</th>
-      <td><p>A numeric vector of length two with quantiles for error bars
-on sectors. Disabled if ".errorbars.off" is TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>.errorbars.off</th>
-      <td><p>If TRUE then plot CI bars for distances between each group.
-Disabled if no group passed to the ".by" argument.</p></td>
-    </tr>
-    <tr>
-      <th>.expand</th>
-      <td><p>Passed to ggplot2's scale_y_continuous argument "expand".</p></td>
-    </tr>
-    <tr>
-      <th>.title</th>
-      <td><p>The text for the title of the plot.</p></td>
-    </tr>
-    <tr>
-      <th>.subtitle</th>
-      <td><p>The text for the subtitle of the plot. Provide NULL if you want to remove it.</p></td>
-    </tr>
-    <tr>
-      <th>.legend</th>
-      <td><p>If TRUE then plots the legend, otherwise removes the legend from the plot.</p></td>
-    </tr>
-    <tr>
-      <th>.leg.title</th>
-      <td><p>The text for the legend of the plot. Pass NULL if you want to remove it.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Do not provide anything here.</p></td>
+      <th>.downsample</th>
+      <td><p>If T than perform downsampling to N clonotypes at each step instead of choosing the
+top N clonotypes.</p></td>
     </tr>
     </table>
     

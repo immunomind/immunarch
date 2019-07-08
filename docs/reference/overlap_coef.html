@@ -80,7 +80,7 @@ Use the repOverlap function for computing similarities of clonesets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
       </span>
     </div>
 
@@ -187,9 +187,9 @@ Use the repOverlap function for computing similarities of clonesets." />
 
 <span class='fu'>cosine_sim</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='no'>T</span>, <span class='no'>F</span>), <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
-<span class='fu'>morisita_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.dup</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"merge"</span>, <span class='st'>"remove"</span>))
+<span class='fu'>morisita_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)
 
-<span class='fu'>horn_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.dup</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"merge"</span>, <span class='st'>"remove"</span>))</pre>
+<span class='fu'>horn_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,11 +202,6 @@ for more information.</p></td>
     <tr>
       <th>.a, .b</th>
       <td><p>Alpha and beta parameters for Tversky Index. Default values gives the Jaccard index measure.</p></td>
-    </tr>
-    <tr>
-      <th>.dup</th>
-      <td><p>Character value, either "remove" to completely remove duplicated values from the first columns
-of .x and .y, or "merge" (by default) to sum up values of duplicated elements.</p></td>
     </tr>
     </table>
     

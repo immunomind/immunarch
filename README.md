@@ -26,7 +26,7 @@
 
     + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks, tracking clonotypes across time points.
 
-- Publication-ready plots with a built-in tool for visualisation manipulation: 
+3. Publication-ready plots with a built-in tool for visualisation manipulation: 
 
     + Rich visualisation procedures with [ggplot2](https://ggplot2.tidyverse.org/);
   

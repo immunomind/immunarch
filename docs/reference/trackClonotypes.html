@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Clonotype tracking across different samples. — trackClonotypes • immunarch</title>
+<title>Clonotype tracking — trackClonotypes • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="Clonotype tracking across different samples. — trackClonotypes" />
+<meta property="og:title" content="Clonotype tracking — trackClonotypes" />
 
-<meta property="og:description" content="Track the dynamics of clonotypes across different repertoires." />
+<meta property="og:description" content="Track the temporal dynamics of clonotypes in repertoires. For example, tracking across multiple
+time points after vaccination.
+Note: duplicated clonotypes are merged and their counts are summed up." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
       </span>
     </div>
 
@@ -154,69 +156,91 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Clonotype tracking across different samples.</h1>
+    <h1>Clonotype tracking</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/dynamics.R'><code>R/dynamics.R</code></a></small>
     <div class="hidden name"><code>trackClonotypes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Track the dynamics of clonotypes across different repertoires.</p>
+    <p>Track the temporal dynamics of clonotypes in repertoires. For example, tracking across multiple
+time points after vaccination.</p>
+<p>Note: duplicated clonotypes are merged and their counts are summed up.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>trackClonotypes</span>(<span class='no'>.data</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>15</span>), <span class='kw'>.model</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"poisson"</span>, <span class='st'>"norm"</span>),
-<span class='kw'>.col</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"nuc"</span>, <span class='st'>"aa"</span>), <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.975</span>), <span class='kw'>.sd</span> <span class='kw'>=</span> <span class='fl'>1.05</span>, <span class='kw'>.dup</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"merge"</span>, <span class='st'>"remove"</span>))
-
-<span class='fu'>tr.clo</span>(<span class='no'>...</span>)
-
-<span class='fu'>poisson_model</span>(<span class='no'>.data</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.975</span>))
-
-<span class='fu'>norm_model</span>(<span class='no'>.data</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.975</span>), <span class='kw'>.sd</span> <span class='kw'>=</span> <span class='fl'>1.05</span>)</pre>
+    <pre class="usage"><span class='fu'>trackClonotypes</span>(<span class='no'>.data</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>1</span>, <span class='fl'>15</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>, <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>List of repertoires or a single repertoire.</p></td>
+      <td><p>The data to process. It can be a <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>, a
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
     <tr>
       <th>.which</th>
-      <td><p>Either 1) a vector of length two `c(X, Y)`, where `Y` is the number of the most abundant clonotypes to take from `X`'th data frame in the input list; 2) or a character vector of sequences to take from all data frames; 3) or a data frame with two / three columns - first for sequences, and second/third for gene segments.</p></td>
-    </tr>
-    <tr>
-      <th>.model</th>
-      <td><p>Which model to use for estimation of confidence intervals for clonotypes: "none" for no model, "poisson" for poisson model, "norm" for normal model.</p></td>
+      <td><p>An argument that regulates which clonotypes to choose for tracking. There are three options for this argument:</p>
+<p>1) pass a list with two elements <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(X, Y)</a></code>, where <code>X</code> is the name or the index of a target repertoire from ".data", and
+<code>Y</code> is the number of the most abundant clonotypes to take from <code>X</code>.</p>
+<p>2) pass a character vector of sequences to take from all data frames;</p>
+<p>3) pass a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).</p>
+<p>See the "Examples" below with examples for each option.</p></td>
     </tr>
     <tr>
       <th>.col</th>
-      <td><p>Column with sequences, either "nuc" for nucleotide sequences or "aa" for amino acid sequences.</p></td>
+      <td><p>A character vector of length 1. Specifies an identifier for a column, from which the function
+chooses clonotype sequences. Specify "nt" for nucleotide sequences, "aa" for amino acid sequences,
+"aa+v" for amino acid sequences and Variable genes, "nt+j" for nucleotide
+sequences with Joining genes, or any combination of the above.
+Used only if ".which" has option 1) or option 2).</p></td>
     </tr>
     <tr>
-      <th>.q</th>
-      <td><p>Quantiles for models.</p></td>
-    </tr>
-    <tr>
-      <th>.sd</th>
-      <td><p>Standart deviation for normal model.</p></td>
-    </tr>
-    <tr>
-      <th>.dup</th>
-      <td><p>What to do with duplicated sequences - either merge and sum up their counts ("merge") or remove sequences with lower counts ("remove").</p></td>
+      <th>.norm</th>
+      <td><p>Logical. If TRUE than use Proportion instead of the number of Clones per clonotype to store
+in the function output.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame with input sequences and counts / estimations for each of the input repertoires.</p>
+    <p>Data frame with input sequences and counts or estimations for each input repertoire.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>immtr</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='st'>"norm"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>100</span>));
-<span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/tidyr/topics/drop_na'>drop_na</a></span>(<span class='fu'>dcast</span>(<span class='no'>immtr</span>, <span class='no'>Sequence</span> ~ <span class='no'>Sample</span>, <span class='kw'>value.var</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Data"</span>)))
-<span class='co'># }</span></pre>
+<span class='co'># Load an example data that comes with immunarch</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>immdata</span>)
+
+<span class='co'># Option 1</span>
+<span class='co'># Choose the first 10 amino acid clonotype sequences from the first repertoire to track</span>
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
+<span class='co'># Choose the first 20 nucleotide clonotype sequences and their V genes from the "MS1" repertoire to track</span>
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"MS1"</span>, <span class='fl'>20</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"nt+v"</span>)
+
+<span class='co'># Option 2</span>
+<span class='co'># Choose clonotypes with amino acid sequences "CASRGLITDTQYF" or "CSASRGSPNEQYF"</span>
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
+
+<span class='co'># Option 3</span>
+<span class='co'># Choose the first 10 clonotypes from the first repertoire with amino acid sequences and V segments</span>
+<span class='no'>target</span> <span class='kw'>=</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>CDR3.aa</span>, <span class='no'>V.name</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fl'>10</span>)
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>target</span>)
+
+<span class='co'># Visualise the output regardless of the chosen option</span>
+<span class='co'># Therea are three way to visualise it, regulated by the .plot argument</span>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"smooth"</span>)
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"area"</span>)
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"line"</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

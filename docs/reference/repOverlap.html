@@ -75,7 +75,7 @@ sequences that are shared between individuals." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
       </span>
     </div>
 
@@ -170,9 +170,9 @@ sequences that are shared between individuals.</p>
     </div>
 
     <pre class="usage"><span class='fu'>repOverlap</span>(<span class='no'>.data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"public"</span>, <span class='st'>"overlap"</span>, <span class='st'>"jaccard"</span>, <span class='st'>"tversky"</span>,
-  <span class='st'>"cosine"</span>, <span class='st'>"morisita"</span>, <span class='st'>"top+shared"</span>, <span class='st'>"top+morisita"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"nuc"</span>,
-  <span class='kw'>.quant</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"count"</span>, <span class='st'>"prop"</span>), <span class='kw'>.a</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>.b</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>.dup</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"merge"</span>, <span class='st'>"remove"</span>))</pre>
+  <span class='st'>"cosine"</span>, <span class='st'>"morisita"</span>, <span class='st'>"inc+public"</span>, <span class='st'>"inc+morisita"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>,
+  <span class='kw'>.a</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>.b</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>.n.steps</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>.downsample</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.verbose.inc</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,10 +200,6 @@ methods. The <code>repOverlap</code> function supports following basic methods:
 nucleotide sequence or "aa" for amino acid sequence.</p></td>
     </tr>
     <tr>
-      <th>.quant</th>
-      <td><p>Select the column with data to evaluate</p></td>
-    </tr>
-    <tr>
       <th>.a, .b</th>
       <td><p>Alpha and beta parameters for Tversky Index. Default values give
 the Jaccard index measure.</p></td>
@@ -213,13 +209,21 @@ the Jaccard index measure.</p></td>
       <td><p>if T then output the progress.</p></td>
     </tr>
     <tr>
-      <th>.dup</th>
-      <td><p>Defines the duplicates' behaviour. Pass "merge" or "remove".</p></td>
+      <th>.step</th>
+      <td><p>An integer that defines the step of incremental overlap.</p></td>
     </tr>
     <tr>
-      <th>.step</th>
-      <td><p>An integer that defines the step of incremetal overlap (Note! Currently,
-top+overlap, or "top+shared" and "top+morisita".</p></td>
+      <th>.n.steps</th>
+      <td><p>Something</p></td>
+    </tr>
+    <tr>
+      <th>.downsample</th>
+      <td><p>If T than perform downsampling to N clonotypes at each step instead of choosing the
+top N clonotypes.</p></td>
+    </tr>
+    <tr>
+      <th>.verbose.inc</th>
+      <td><p>Something</p></td>
     </tr>
     </table>
     
@@ -237,7 +241,8 @@ of an inner product space that measures the cosine of the angle between them.</p
 <p>The "morisita" index measures how many times it is more likely to randomly
 select two sampled points from the same quadrat (the dataset is covered by a
 regular grid of changing size) than it would be in the case of a random
-distribution generated from a Poisson process.</p>
+distribution generated from a Poisson process. Duplicate objects are merged
+with their counts are summed up.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

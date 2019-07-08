@@ -75,7 +75,7 @@ and statistics. For gene details run gene_stats()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
       </span>
     </div>
 
@@ -170,7 +170,7 @@ and statistics. For gene details run <code><a href='gene_stats.html'>gene_stats(
     </div>
 
     <pre class="usage"><span class='fu'>geneUsage</span>(<span class='no'>.data</span>, <span class='kw'>.gene</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"hs.trbv"</span>, <span class='st'>"HomoSapiens.TRBJ"</span>, <span class='st'>"macmul.IGHV"</span>),
-<span class='kw'>.quant</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='st'>"count"</span>), <span class='kw'>.ambig</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"exc"</span>, <span class='st'>"inc"</span>, <span class='st'>"wei"</span>, <span class='st'>"maj"</span>),
+<span class='kw'>.quant</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='st'>"count"</span>), <span class='kw'>.ambig</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"exc"</span>, <span class='st'>"inc"</span>, <span class='st'>"maj"</span>),
 <span class='kw'>.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"segment"</span>, <span class='st'>"allele"</span>, <span class='st'>"family"</span>), <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -203,8 +203,8 @@ Pass "count" to use the "Clones" column to weight genes by abundance of their co
     <tr>
       <th>.ambig</th>
       <td><p>An option to handle ambiguous data. You can exclude data for the cases where
-there is no clear match for gene, include it for every supplied gene, include it with weights,
-or pick only first from the set. Set it to "exc", "inc", "wei", or "maj", correspondingly.</p></td>
+there is no clear match for gene, include it for every supplied gene,
+or pick only first from the set. Set it to "exc", "inc" or "maj", correspondingly.</p></td>
     </tr>
     <tr>
       <th>.type</th>

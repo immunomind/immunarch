@@ -79,6 +79,9 @@
     <loc>https://immunarch.com/reference/immunr_permut.html</loc>
   </url>
   <url>
+    <loc>https://immunarch.com/reference/inc_overlap.html</loc>
+  </url>
+  <url>
     <loc>https://immunarch.com/reference/kmerAnalysis.html</loc>
   </url>
   <url>
@@ -92,6 +95,9 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/overlap_coef.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/pubRepStatistics.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/repClonality.html</loc>
@@ -112,10 +118,10 @@
     <loc>https://immunarch.com/reference/repOverlapAnalysis.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/reference/repSave.html</loc>
+    <loc>https://immunarch.com/reference/repSample.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/reference/resample_col.html</loc>
+    <loc>https://immunarch.com/reference/repSave.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/set_pb.html</loc>
@@ -134,9 +140,6 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/top.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/top_overlap.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/trackClonotypes.html</loc>
@@ -166,6 +169,9 @@
     <loc>https://immunarch.com/reference/vis.immunr_hclust.html</loc>
   </url>
   <url>
+    <loc>https://immunarch.com/reference/vis.immunr_inc_overlap.html</loc>
+  </url>
+  <url>
     <loc>https://immunarch.com/reference/vis.immunr_kmer_table.html</loc>
   </url>
   <url>
@@ -181,7 +187,7 @@
     <loc>https://immunarch.com/reference/vis.immunr_public_repertoire.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/reference/vis.immunr_top_overlap.html</loc>
+    <loc>https://immunarch.com/reference/vis.immunr_public_statistics.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis_box.html</loc>
@@ -199,10 +205,16 @@
     <loc>https://immunarch.com/reference/vis_hist.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/reference/vis_logo.html</loc>
+    <loc>https://immunarch.com/reference/vis_public_clonotypes.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/vis_public_frequencies.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis_radar.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/vis_seqlogo-vis_textlogo.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis_treemap.html</loc>

@@ -77,7 +77,7 @@ or FALSE (don't do normalisation), respectively." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
       </span>
     </div>
 
@@ -175,8 +175,8 @@ or FALSE (don't do normalisation), respectively.</p>
 
     <pre class="usage"><span class='fu'>repDiversity</span>(<span class='no'>.data</span>, <span class='no'>.method</span>, <span class='kw'>.max.q</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>.min.q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.bound</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.quantile</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
-  <span class='kw'>.extrapolation</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>.perc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+  <span class='kw'>.extrapolation</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>.perc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,6 +224,10 @@ hill, div, gini.simp, inv.simp, gini, raref.</p></td>
     <tr>
       <th>.perc</th>
       <td><p>Set the percent to dXX index measurement.</p></td>
+    </tr>
+    <tr>
+      <th>.norm</th>
+      <td><p>Normalise rarefaction curves.</p></td>
     </tr>
     <tr>
       <th>.verbose</th>

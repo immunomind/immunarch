@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualisation of distance matrices with polar area plots — vis_radar • immunarch</title>
+<title>Visualise incremental overlaps — vis.immunr_inc_overlap • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,9 @@
 
 
 
-<meta property="og:title" content="Visualisation of distance matrices with polar area plots — vis_radar" />
+<meta property="og:title" content="Visualise incremental overlaps — vis.immunr_inc_overlap" />
 
-<meta property="og:description" content="Visualise distance matrices using polar area plots from ggplot2.
-Due to the nature of polar area plots, it is impossible to visualise all distances on the
-same plot. So the output of the function will be a number of polar area plots, one for each
-sample in the input matrix. Each plot visualises a distance from the specific samples
-to other samples in the dataset." />
+<meta property="og:description" content="Visualise incremental overlaps" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -158,97 +154,30 @@ to other samples in the dataset." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualisation of distance matrices with polar area plots</h1>
+    <h1>Visualise incremental overlaps</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
-    <div class="hidden name"><code>vis_radar.Rd</code></div>
+    <div class="hidden name"><code>vis.immunr_inc_overlap.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Visualise distance matrices using polar area plots from ggplot2.
-Due to the nature of polar area plots, it is impossible to visualise all distances on the
-same plot. So the output of the function will be a number of polar area plots, one for each
-sample in the input matrix. Each plot visualises a distance from the specific samples
-to other samples in the dataset.</p>
+    <p>Visualise incremental overlaps</p>
     
     </div>
 
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.data</th>
-      <td><p>Input matrix.</p></td>
-    </tr>
-    <tr>
-      <th>.by</th>
-      <td><p>Pass NA if you want to plot samples without grouping.</p>
-<p>You can pass a character vector with one or several column names from ".meta"
-to group your data before plotting. In this case you should provide ".meta".</p>
-<p>You can pass a character vector that exactly matches the number of samples in
-your data, each value should correspond to a sample's property. It will be used
-to group data based on the values provided. Note that in this case you should
-pass NA to ".meta".</p></td>
-    </tr>
-    <tr>
-      <th>.meta</th>
-      <td><p>A metadata object. An R dataframe with sample names and their properties,
-such as, age, serostatus or hla.</p></td>
-    </tr>
-    <tr>
-      <th>.ncol</th>
-      <td><p>An integer number of columns to display. Provide NA (by default)
-if you want the function to automatically detect the optimal number of columns.</p></td>
-    </tr>
-    <tr>
-      <th>.which</th>
-      <td><p>A character vector with sample names. Samples not presented in
-the vector will be filtered out and will not be displayed in the resulting plot.</p></td>
-    </tr>
-    <tr>
-      <th>.errorbars</th>
-      <td><p>A numeric vector of length two with quantiles for error bars
-on sectors. Disabled if ".errorbars.off" is TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>.errorbars.off</th>
-      <td><p>If TRUE then plot CI bars for distances between each group.
-Disabled if no group passed to the ".by" argument.</p></td>
-    </tr>
-    <tr>
-      <th>.expand</th>
-      <td><p>Passed to ggplot2's scale_y_continuous argument "expand".</p></td>
-    </tr>
-    <tr>
-      <th>.title</th>
-      <td><p>The text for the title of the plot.</p></td>
-    </tr>
-    <tr>
-      <th>.subtitle</th>
-      <td><p>The text for the subtitle of the plot. Provide NULL if you want to remove it.</p></td>
-    </tr>
-    <tr>
-      <th>.legend</th>
-      <td><p>If TRUE then plots the legend, otherwise removes the legend from the plot.</p></td>
-    </tr>
-    <tr>
-      <th>.leg.title</th>
-      <td><p>The text for the legend of the plot. Pass NULL if you want to remove it.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Do not provide anything here.</p></td>
-    </tr>
-    </table>
+        
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='repOverlap.html'>repOverlap</a></p></div>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>
