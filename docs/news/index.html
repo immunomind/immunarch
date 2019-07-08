@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9003</span>
       </span>
     </div>
 
@@ -155,9 +155,9 @@
       <small>Source: <a href='https://github.com/immunomind/immunarch/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="immunarch-0-3-3-9000-pre-release-of-0-3-4" class="section level1">
+    <div id="immunarch-0-3-3-9002-pre-release-of-0-4-0" class="section level1">
 <h1 class="page-header">
-<a href="#immunarch-0-3-3-9000-pre-release-of-0-3-4" class="anchor"></a>immunarch 0.3.3.9000 (pre-release of 0.3.4)</h1>
+<a href="#immunarch-0-3-3-9002-pre-release-of-0-4-0" class="anchor"></a>immunarch 0.3.3.9002 (pre-release of 0.4.0)</h1>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
@@ -172,6 +172,9 @@
 <p>Add normalisation to rarafection.</p>
 <p>Remove the .dup argument from <code>repOverlap</code>, all equal clonotypes are now always merged and their counts summed up.</p>
 <p>Remove .quant from <code>repOverlap</code>, the column is now automatically detected.</p>
+<p>Add an argument .add.layer to <code>vis_hist</code> to add any additional ggplot2 layers to the plots in the output grid.</p>
+<p>Add grouping in <code>vis_hist</code> if data is grouped and <code>.grid</code> is T.</p>
+<p>Update MiXCR parser (yet again) to read MiXCR files from the May 2019 release.</p>
 </div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
@@ -180,6 +183,7 @@
 <p>Fix <code>repExplore</code> doesn’t work with a sigle repertoire.</p>
 <p>Fix <code>vis_heatmap</code> doesn’t work with <code>geneUsage</code> output.</p>
 <p>Fix a bug in computation of Morisita-Horn index.</p>
+<p>Fix <code>vis_bar</code> and <code>vis_box</code> doesn’t work with numeric grouping variables.</p>
 </div>
 <div id="minor-updates" class="section level2">
 <h2 class="hasAnchor">
@@ -299,7 +303,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#immunarch-0-3-3-9000-pre-release-of-0-3-4">0.3.3.9000</a></li>
+        <li><a href="#immunarch-0-3-3-9002-pre-release-of-0-4-0">0.3.3.9002</a></li>
         <li><a href="#immunarch-0-3-3">0.3.3</a></li>
         <li><a href="#immunarch-0-3-2">0.3.2</a></li>
         <li><a href="#immunarch-0-3-1">0.3.1</a></li>

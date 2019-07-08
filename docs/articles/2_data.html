@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9003</span>
       </span>
     </div>
 
@@ -271,7 +271,7 @@
 <a class="sourceLine" id="cb4-20" data-line-number="20"></a>
 <a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co"># Load the data from MonetDB to dplyr tables</span></a>
 <a class="sourceLine" id="cb4-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
-<a class="sourceLine" id="cb4-23" data-line-number="23">  res_db[[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i]]] =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/tbl">tbl</a></span>(ms, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i])</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">  res_db[[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i]]] =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(ms, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i])</a>
 <a class="sourceLine" id="cb4-24" data-line-number="24">}</a>
 <a class="sourceLine" id="cb4-25" data-line-number="25"></a>
 <a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co"># Your data is ready to use</span></a>

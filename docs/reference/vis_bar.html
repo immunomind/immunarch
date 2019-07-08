@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Various measures for overlapping sets of objects. — overlap_coef • immunarch</title>
+<title>Bar plots — vis_bar • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,16 +30,9 @@
 
 
 
-<meta property="og:title" content="Various measures for overlapping sets of objects. — overlap_coef" />
+<meta property="og:title" content="Bar plots — vis_bar" />
 
-<meta property="og:description" content="Functions for computing similarity between two vectors or sets.
-- Overlap cofficient is a similarity measure related to the Jaccard index that measures the overlap between two sets, and is defined as the size of the intersection divided by the smaller of the size of the two sets.
-- Jaccard index is a statistic used for comparing the similarity and diversity of sample sets.
-- Tversky index is an asymmetric similarity measure on sets that compares a variant to a prototype and is related to Jaccard index.
-- Cosine similarity is a measure of similarity between two vectors of an inner product space that measures the cosine of the angle between them.
-- Morisita's overlap index is a statistical measure of dispersion of individuals in a population. It is used to compare overlap among samples (Morisita 1959). This formula is based on the assumption that increasing the size of the samples will increase the diversity because it will include different habitats (i.e. different faunas).
-- Horn's overlap index is based on Shannon's entropy.
-Use the repOverlap function for computing similarities of clonesets." />
+<meta property="og:description" content="Bar plots" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -161,60 +154,26 @@ Use the repOverlap function for computing similarities of clonesets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Various measures for overlapping sets of objects.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/overlap.R'><code>R/overlap.R</code></a></small>
-    <div class="hidden name"><code>overlap_coef.Rd</code></div>
+    <h1>Bar plots</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
+    <div class="hidden name"><code>vis_bar.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Functions for computing similarity between two vectors or sets.</p>
-<p>- Overlap cofficient is a similarity measure related to the Jaccard index that measures the overlap between two sets, and is defined as the size of the intersection divided by the smaller of the size of the two sets.</p>
-<p>- Jaccard index is a statistic used for comparing the similarity and diversity of sample sets.</p>
-<p>- Tversky index is an asymmetric similarity measure on sets that compares a variant to a prototype and is related to Jaccard index.</p>
-<p>- Cosine similarity is a measure of similarity between two vectors of an inner product space that measures the cosine of the angle between them.</p>
-<p>- Morisita's overlap index is a statistical measure of dispersion of individuals in a population. It is used to compare overlap among samples (Morisita 1959). This formula is based on the assumption that increasing the size of the samples will increase the diversity because it will include different habitats (i.e. different faunas).</p>
-<p>- Horn's overlap index is based on Shannon's entropy.</p>
-<p>Use the <a href='repOverlap.html'>repOverlap</a> function for computing similarities of clonesets.</p>
+    <p>Bar plots</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>overlap_coef</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)
-
-<span class='fu'>jaccard_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)
-
-<span class='fu'>tversky_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.a</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>.b</span> <span class='kw'>=</span> <span class='fl'>.5</span>)
-
-<span class='fu'>cosine_sim</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='no'>T</span>, <span class='no'>F</span>), <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
-
-<span class='fu'>morisita_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)
-
-<span class='fu'>horn_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.x, .y</th>
-      <td><p>Character vectors or data frames, sets of objects to intersect, see "Details"
-for more information.</p></td>
-    </tr>
-    <tr>
-      <th>.a, .b</th>
-      <td><p>Alpha and beta parameters for Tversky Index. Default values gives the Jaccard index measure.</p></td>
+      <th>.stack</th>
+      <td><p>If TRUE and .errorbars.off is TRUE then plot stacked bar plots for each Group or Sample</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For <code>cosine_sim</code> .x and .y are two numeric vectors.
-For <code>overlap_coef</code>, <code>jaccard_index</code> and <code>tversky_index</code> .x and .y are character vectors.
-For <code>morisita_index</code> and <code>horn_index</code> .x and .y are two data frames or data tables with character
-vectors as first columns and numeric (i.e., number of such elements) as second.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><a href='repOverlap.html'>repOverlap</a></p></div>
     
 
   </div>
@@ -222,11 +181,7 @@ vectors as first columns and numeric (i.e., number of such elements) as second.<
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>
