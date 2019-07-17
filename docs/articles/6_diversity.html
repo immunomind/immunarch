@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9005</span>
       </span>
     </div>
 
@@ -170,9 +170,10 @@
 <p><img src="6_diversity_files/figure-html/diversity-2.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gridExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob">grid.arrange</a></span>(p4, p4, <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="6_diversity_files/figure-html/diversity-3.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">imm_raref =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"raref"</span>, <span class="dt">.verbose =</span> F)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Extrapolate to additional 200,000 clones</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">imm_raref =<span class="st"> </span><span class="kw"><a href="../reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="st">"raref"</span>, <span class="dt">.extrapolation =</span> <span class="dv">200000</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_raref, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta), <span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
 <p><img src="6_diversity_files/figure-html/unnamed-chunk-1-1.png" width="1152" style="display: block; margin: auto;"></p>
   </div>
 

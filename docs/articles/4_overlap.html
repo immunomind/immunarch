@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9005</span>
       </span>
     </div>
 
@@ -143,16 +143,19 @@
 <li><p>Tversky index (<code>.method = "tversky"</code>) - an asymmetric similarity measure on sets that compares a variant to a prototype. If using default arguments, it’s similar to Dice’s coefficient.</p></li>
 <li><p>cosine similarity (<code>.method = "cosine"</code>) - a measure of similarity between two non-zero vectors</p></li>
 <li><p>Morisita’s overlap index (<code>.method = "morisita"</code>) - a statistical measure of dispersion of individuals in a population. It is used to compare overlap among samples.</p></li>
-<li><p>top-overlap - overlaps of the N most abundant clonotypes with sequentially growing N (<code>.method = "top+METHOD"</code>)</p></li>
+<li><p>incremental overlap - overlaps of the N most abundant clonotypes with incrementally growing N (<code>.method = "inc+METHOD"</code>, e.g., <code>"inc+public"</code> or <code>"inc+morisita"</code>).</p></li>
 </ul>
 <p>The function that includes described methods is <code>repOverlap</code>. Again the output is easily visualised when passed to <code><a href="../reference/vis.html">vis()</a></code> function that does all the work:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">imm_ov1 =<span class="st"> </span><span class="kw"><a href="../reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"public"</span>, <span class="dt">.verbose =</span> F)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">imm_ov2 =<span class="st"> </span><span class="kw"><a href="../reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"morisita"</span>, <span class="dt">.verbose =</span> F)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov1), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov2, <span class="dt">.text.size=</span><span class="fl">1.5</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov1), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov2, <span class="dt">.text.size=</span><span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="4_overlap_files/figure-html/overlap-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov1, <span class="st">"heatmap2"</span>)</a></code></pre></div>
 <p><img src="4_overlap_files/figure-html/overlap-2.png" width="1152" style="display: block; margin: auto;"></p>
+<p>You can easily change the number of significant digits:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">grid.arrange</span>(<span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov2, <span class="dt">.text.size=</span><span class="fl">2.5</span>, <span class="dt">.signif.digits=</span><span class="dv">1</span>), <span class="kw"><a href="../reference/vis.html">vis</a></span>(imm_ov2, <span class="dt">.text.size=</span><span class="dv">2</span>, <span class="dt">.signif.digits=</span><span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p><img src="4_overlap_files/figure-html/overlap-signif-digits-1.png" width="1152" style="display: block; margin: auto;"></p>
 <!---
 Top-overlap [Work in Progress]
 
@@ -165,9 +168,9 @@ warning("TODO")
 ```
 -->
 <p>To analyse the computed overlap measures function apply <code>repOverlapAnalysis</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># "mds" - Multi-dimensional Scaling</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># "mds" - Multi-dimensional Scaling</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>)</a></code></pre></div>
 <pre><code>## Standard deviations (1, .., p=4):
 ## [1] 0 0 0 0
 ## 
@@ -185,29 +188,29 @@ warning("TODO")
 ## MS4       0.9127103  -1.154627
 ## MS5       5.6552254  27.415676
 ## MS6      26.4594518 -26.857981</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
 <pre><code>##               DimI      DimII
-## A2-i129  425.29149  -353.5192
-## A2-i131  777.24224  3216.5725
-## A2-i133  220.69339   487.2915
-## A2-i132  201.95671   973.8861
-## A4-i191 -302.55767  1049.7133
-## A4-i192  187.05070  -790.8819
-## MS1      -80.49506  -322.7070
-## MS2     -267.63203   575.1235
-## MS3      234.75701  -455.8028
-## MS4      -89.24844   723.4820
-## MS5     -761.75182 -5487.6315
-## MS6     -545.30652   384.4734
+## A2-i129  246.82677  -77.95873
+## A2-i131 -281.00077 -124.47427
+## A2-i133  -79.68369   84.45220
+## A2-i132  -68.48233   84.65282
+## A4-i191  -66.20553   95.62172
+## A4-i192  253.77877  -69.78233
+## MS1      256.93635  -81.68774
+## MS2      -76.87292   94.78171
+## MS3      251.21474  -76.80870
+## MS4      -73.77255   91.03262
+## MS5     -281.19865 -120.22734
+## MS6      -81.54020  100.39804
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>))</a></code></pre></div>
 <p><img src="4_overlap_files/figure-html/overlap-1-1.png" width="768" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># "mds" - Multi-dimensional Scaling</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># "mds" - Multi-dimensional Scaling</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>)</a></code></pre></div>
 <pre><code>## Standard deviations (1, .., p=4):
 ## [1] 0 0 0 0
 ## 
@@ -225,37 +228,37 @@ warning("TODO")
 ## MS4       0.9127103  -1.154627
 ## MS5       5.6552254  27.415676
 ## MS6      26.4594518 -26.857981</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
 <pre><code>##                DimI     DimII
-## A2-i129  310.760413 -117.0410
-## A2-i131    4.760006 -182.9883
-## A2-i133 -190.101587  171.0473
-## A2-i132 -237.764703  144.1869
-## A4-i191 -224.537656  176.4012
-## A4-i192  335.798618 -136.5457
-## MS1      297.917546 -148.5066
-## MS2     -204.611918  140.4181
-## MS3      316.263291 -130.1857
-## MS4     -212.201959  152.9808
-## MS5       -5.146849 -191.4107
-## MS6     -191.135201  121.6436
+## A2-i129  333.260647  499.7359
+## A2-i131   18.102294  114.4304
+## A2-i133 -168.388848 -356.9703
+## A2-i132 -187.002001 -404.5624
+## A4-i191 -238.496729 -399.5590
+## A4-i192  302.302484  461.8170
+## MS1      286.214150  514.9530
+## MS2     -218.603272 -353.7028
+## MS3      312.762279  493.6425
+## MS4     -206.505117 -373.0965
+## MS5        4.126234  128.9064
+## MS6     -237.772120 -325.5941
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds"</span>))</a></code></pre></div>
 <p><img src="4_overlap_files/figure-html/overlap-2-1.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Clusterise the MDS resulting components using K-means</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds+kmeans"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Clusterise the MDS resulting components using K-means</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="../reference/vis.html">vis</a></span>(<span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"mds+kmeans"</span>))</a></code></pre></div>
 <p><img src="4_overlap_files/figure-html/overlap-2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="public-repertoire" class="section level1">
 <h1 class="hasAnchor">
 <a href="#public-repertoire" class="anchor"></a>Public repertoire</h1>
 <p>In order to build a massive table with all clonotypes from the list of repertoires use the <code>pubRep</code> function.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Pass "nt" as the second parameter to build the public repertoire table using CDR3 nucleotide sequences</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">pr.nt =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"nt"</span>, <span class="dt">.verbose =</span> F)</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">pr.nt</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Pass "nt" as the second parameter to build the public repertoire table using CDR3 nucleotide sequences</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">pr.nt =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"nt"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">pr.nt</a></code></pre></div>
 <pre><code>## Source: local data table [88,528 x 14]
 ## 
 ## # A tibble: 88,528 x 14
@@ -273,10 +276,10 @@ warning("TODO")
 ## 10 TGCGCC…       5         1        NA        NA        NA        NA
 ## # … with 88,518 more rows, and 7 more variables: `A4-i192` &lt;dbl&gt;,
 ## #   MS1 &lt;dbl&gt;, MS2 &lt;dbl&gt;, MS3 &lt;dbl&gt;, MS4 &lt;dbl&gt;, MS5 &lt;dbl&gt;, MS6 &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># Pass "aa+v" as the second parameter to build the public repertoire table using CDR3 aminoacid sequences and V alleles</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co"># In order to use only CDR3 aminoacid sequences, just pass "aa"</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">pr.aav =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"aa+v"</span>, <span class="dt">.verbose =</span> F)</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">pr.aav</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># Pass "aa+v" as the second parameter to build the public repertoire table using CDR3 aminoacid sequences and V alleles</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co"># In order to use only CDR3 aminoacid sequences, just pass "aa"</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">pr.aav =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"aa+v"</span>, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">pr.aav</a></code></pre></div>
 <pre><code>## Source: local data table [87,730 x 15]
 ## 
 ## # A tibble: 87,730 x 15
@@ -294,23 +297,23 @@ warning("TODO")
 ## 10 CASSFG… TRBV1…       5        NA         1        NA         5        NA
 ## # … with 87,720 more rows, and 7 more variables: `A4-i192` &lt;dbl&gt;,
 ## #   MS1 &lt;dbl&gt;, MS2 &lt;dbl&gt;, MS3 &lt;dbl&gt;, MS4 &lt;dbl&gt;, MS5 &lt;dbl&gt;, MS6 &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># You can also pass the ".coding" parameter to filter out all noncoding sequences first:</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">pr.aav.cod =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"aa+v"</span>, <span class="dt">.coding=</span>T)</a></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># Create a public repertoire with coding-only sequences using both CDR3 amino acid sequences and V genes</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">pr =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"aa+v"</span>, <span class="dt">.coding =</span> T, <span class="dt">.verbose =</span> F)</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co"># Apply the filter subroutine to leave clonotypes presented only in healthy individuals</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">pr1 =<span class="st"> </span><span class="kw">pubRepFilter</span>(pr, immdata<span class="op">$</span>meta, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Status =</span> <span class="st">"C"</span>))</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co"># Apply the filter subroutine to leave clonotypes presented only in diseased individuals</span></a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">pr2 =<span class="st"> </span><span class="kw">pubRepFilter</span>(pr, immdata<span class="op">$</span>meta, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Status =</span> <span class="st">"MS"</span>))</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co"># Divide one by another</span></a>
-<a class="sourceLine" id="cb19-11" data-line-number="11">pr3 =<span class="st"> </span><span class="kw">pubRepApply</span>(pr1, pr2)</a>
-<a class="sourceLine" id="cb19-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co"># Plot it</span></a>
-<a class="sourceLine" id="cb19-14" data-line-number="14">p =<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">"Treatment"</span>, <span class="dt">y =</span> Result), <span class="dt">data=</span>pr3)</a>
-<a class="sourceLine" id="cb19-15" data-line-number="15">p</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># You can also pass the ".coding" parameter to filter out all noncoding sequences first:</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">pr.aav.cod =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"aa+v"</span>, <span class="dt">.coding=</span>T)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Create a public repertoire with coding-only sequences using both CDR3 amino acid sequences and V genes</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">pr =<span class="st"> </span><span class="kw">pubRep</span>(immdata<span class="op">$</span>data, <span class="st">"aa+v"</span>, <span class="dt">.coding =</span> T, <span class="dt">.verbose =</span> F)</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co"># Apply the filter subroutine to leave clonotypes presented only in healthy individuals</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">pr1 =<span class="st"> </span><span class="kw">pubRepFilter</span>(pr, immdata<span class="op">$</span>meta, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Status =</span> <span class="st">"C"</span>))</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co"># Apply the filter subroutine to leave clonotypes presented only in diseased individuals</span></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">pr2 =<span class="st"> </span><span class="kw">pubRepFilter</span>(pr, immdata<span class="op">$</span>meta, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Status =</span> <span class="st">"MS"</span>))</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co"># Divide one by another</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">pr3 =<span class="st"> </span><span class="kw">pubRepApply</span>(pr1, pr2)</a>
+<a class="sourceLine" id="cb20-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="co"># Plot it</span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14">p =<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">"Treatment"</span>, <span class="dt">y =</span> Result), <span class="dt">data=</span>pr3)</a>
+<a class="sourceLine" id="cb20-15" data-line-number="15">p</a></code></pre></div>
 </div>
   </div>
 

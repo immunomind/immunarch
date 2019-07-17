@@ -8,7 +8,7 @@
 
     + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
-    + Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR, AIRR, 10XGenomics. More coming in the future;
+    + Supports all popular TCR and BCR analysis and post-analysis formats: [ImmunoSEQ](https://www.adaptivebiotech.com/products-services/immunoseq/), [IMGT](http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr/), [MiXCR](https://milaboratory.com/software/mixcr/), [MiGEC](https://milaboratory.com/software/migec/), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://milaboratory.com/software/vdjtools/), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://support.10xgenomics.com/single-cell-vdj/datasets/), [ArcherDX](https://archerdx.com/immunoverse). More coming in the future;
 
     + Works on any data source you are comfortable with: R data frames, data tables from [data.table](http://r-datatable.com), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
     
@@ -24,7 +24,9 @@
 
     + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/6_diversity.html);
 
-    + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks, tracking clonotypes across time points.
+    + Tracking of clonotypes;
+    
+    + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks.
 
 3. Publication-ready plots with a built-in tool for visualisation manipulation: 
 
@@ -42,7 +44,7 @@ You can find the list of releases of immunarch here: https://github.com/immunomi
 
 In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
 
-Note that You should not un-archive it!
+Note that you should not un-archive it!
 
 After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed `devtools` package to install `immunarch` locally. Upon completion the dependencies will have been already downloaded and installed.
 ```r
@@ -53,7 +55,13 @@ devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencie
 That's it, you can start using `immunarch` now!
 
 ## Installation troubleshooting
-If you run in any trouble, try the following steps:
+If you can not install dependencies, please try manual installation of all dependencies by executing the following command in R console.
+```r
+install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress", "zip", "backports", "ellipsis", "zeallot", "SparseM", "MatrixModels", "sp", "haven", "curl", "readxl", "openxlsx", "minqa", "nloptr", "RcppEigen", "utf8", "vctrs", "carData", "pbkrtest", "quantreg", "maptools", "rio", "lme4", "labeling", "munsell", "cli", "fansi", "pillar", "viridis", "car", "ellipse", "flashClust", "leaps", "scatterplot3d", "modeltools", "DEoptimR", "digest", "gtable", "lazyeval", "rlang", "scales", "tibble", "viridisLite", "withr", "assertthat", "glue", "magrittr", "pkgconfig", "R6", "tidyselect", "BH", "plogr", "purrr", "ggsci", "cowplot", "ggsignif", "polynom", "fastcluster", "plyr", "abind", "dendextend", "FactoMineR", "mclust", "flexmix", "prabclus", "diptest", "robustbase", "kernlab", "GlobalOptions", "shape", "colorspace", "stringi", "hms", "clipr", "crayon", "httpuv", "mime", "jsonlite", "xtable", "htmltools", "sourcetools", "later", "promises", "gridBase", "RColorBrewer", "yaml", "ggplot2", "dplyr", "dtplyr", "dbplyr", "data.table", "gridExtra", "ggpubr", "heatmap3", "ggrepel", "reshape2", "DBI", "factoextra", "fpc", "circlize", "tidyr", "Rtsne", "readr", "shiny", "shinythemes", "treemap", "igraph", "airr", "ggseqlogo", "UpSetR", "stringr", "ggalluvial", "Rcpp"))
+```
+
+
+If you run in any other trouble, try the following steps:
 
 1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.4.0 (for example, `R version 3.1.0`), try updating your R version to the latest one.
 

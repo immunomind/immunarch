@@ -75,7 +75,7 @@ sequences that are shared between individuals." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9005</span>
       </span>
     </div>
 
@@ -172,7 +172,7 @@ sequences that are shared between individuals.</p>
     <pre class="usage"><span class='fu'>repOverlap</span>(<span class='no'>.data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"public"</span>, <span class='st'>"overlap"</span>, <span class='st'>"jaccard"</span>, <span class='st'>"tversky"</span>,
   <span class='st'>"cosine"</span>, <span class='st'>"morisita"</span>, <span class='st'>"inc+public"</span>, <span class='st'>"inc+morisita"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>,
   <span class='kw'>.a</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>.b</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>.n.steps</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>.downsample</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.verbose.inc</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+  <span class='kw'>.downsample</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.bootstrap</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.verbose.inc</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,16 +210,22 @@ the Jaccard index measure.</p></td>
     </tr>
     <tr>
       <th>.step</th>
-      <td><p>An integer that defines the step of incremental overlap.</p></td>
+      <td><p>Either an integer or a numeric vector.</p>
+<p>In the first case, the integer defines the step of incremental overlap.</p>
+<p>In the second case, the vector encodes all repertoire sampling depths.</p></td>
     </tr>
     <tr>
       <th>.n.steps</th>
-      <td><p>Something</p></td>
+      <td><p>Something. Skipped if ".step" is a numeric vector.</p></td>
     </tr>
     <tr>
       <th>.downsample</th>
       <td><p>If T than perform downsampling to N clonotypes at each step instead of choosing the
 top N clonotypes.</p></td>
+    </tr>
+    <tr>
+      <th>.bootstrap</th>
+      <td><p>Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.</p></td>
     </tr>
     <tr>
       <th>.verbose.inc</th>

@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9005</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
 <p>Fast and easy manipulation of immune repertoire data:</p>
 <ul>
 <li><p>The package automatically detects the format of your files—no more guessing what format is <em>that</em> file, just pass them to the package;</p></li>
-<li><p>Supports all popular TCR and BCR analysis and post-analysis formats: ImmunoSEQ, IMGT, MiTCR, MiXCR, MiGEC, MigMap, VDJtools, tcR, AIRR, 10XGenomics. More coming in the future;</p></li>
+<li><p>Supports all popular TCR and BCR analysis and post-analysis formats: <a href="https://www.adaptivebiotech.com/products-services/immunoseq/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, <a href="https://archerdx.com/immunoverse">ArcherDX</a>. More coming in the future;</p></li>
 <li><p>Works on any data source you are comfortable with: R data frames, data tables from <a href="http://r-datatable.com">data.table</a>, databases like <a href="https://github.com/MonetDB">MonetDB</a>, Apache Spark data frames via <a href="https://spark.rstudio.com/">sparklyr</a>;</p></li>
 <li><p>Tutorial is available <a href="https://immunarch.com/articles/2_data.html">here</a>.</p></li>
 </ul>
@@ -144,7 +144,8 @@
 <li><p>Repertoire overlap analysis <em>(common indices including overlap coefficient, Jaccard index and Morisita’s overlap index)</em>. Tutorial is available <a href="https://immunarch.com/articles/4_overlap.html">here</a>;</p></li>
 <li><p>Gene usage estimation <em>(correlation, Jensen-Shannon Divergence, clustering)</em>. Tutorial is available <a href="https://immunarch.com/articles/5_gene_usage.html">here</a>;</p></li>
 <li><p>Diversity evaluation <em>(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)</em>. Tutorial is available <a href="https://immunarch.com/articles/6_diversity.html">here</a>;</p></li>
-<li><p>Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks, tracking clonotypes across time points.</p></li>
+<li><p>Tracking of clonotypes;</p></li>
+<li><p>Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks.</p></li>
 </ul>
 </li>
 <li>
@@ -167,7 +168,7 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can find the list of releases of immunarch here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
 <p>In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz" class="uri">https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz</a></p>
-<p>Note that You should not un-archive it!</p>
+<p>Note that you should not un-archive it!</p>
 <p>After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed <code>devtools</code> package to install <code>immunarch</code> locally. Upon completion the dependencies will have been already downloaded and installed.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>, <span class="dt">dependencies =</span> T)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_local</a></span>(<span class="st">"path/to/your/folder/with/immunarch.tar.gz"</span>, <span class="dt">dependencies=</span>T)</a></code></pre></div>
@@ -176,7 +177,9 @@
 <div id="installation-troubleshooting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-troubleshooting" class="anchor"></a>Installation troubleshooting</h2>
-<p>If you run in any trouble, try the following steps:</p>
+<p>If you can not install dependencies, please try manual installation of all dependencies by executing the following command in R console.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"rematch"</span>, <span class="st">"prettyunits"</span>, <span class="st">"forcats"</span>, <span class="st">"cellranger"</span>, <span class="st">"progress"</span>, <span class="st">"zip"</span>, <span class="st">"backports"</span>, <span class="st">"ellipsis"</span>, <span class="st">"zeallot"</span>, <span class="st">"SparseM"</span>, <span class="st">"MatrixModels"</span>, <span class="st">"sp"</span>, <span class="st">"haven"</span>, <span class="st">"curl"</span>, <span class="st">"readxl"</span>, <span class="st">"openxlsx"</span>, <span class="st">"minqa"</span>, <span class="st">"nloptr"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"utf8"</span>, <span class="st">"vctrs"</span>, <span class="st">"carData"</span>, <span class="st">"pbkrtest"</span>, <span class="st">"quantreg"</span>, <span class="st">"maptools"</span>, <span class="st">"rio"</span>, <span class="st">"lme4"</span>, <span class="st">"labeling"</span>, <span class="st">"munsell"</span>, <span class="st">"cli"</span>, <span class="st">"fansi"</span>, <span class="st">"pillar"</span>, <span class="st">"viridis"</span>, <span class="st">"car"</span>, <span class="st">"ellipse"</span>, <span class="st">"flashClust"</span>, <span class="st">"leaps"</span>, <span class="st">"scatterplot3d"</span>, <span class="st">"modeltools"</span>, <span class="st">"DEoptimR"</span>, <span class="st">"digest"</span>, <span class="st">"gtable"</span>, <span class="st">"lazyeval"</span>, <span class="st">"rlang"</span>, <span class="st">"scales"</span>, <span class="st">"tibble"</span>, <span class="st">"viridisLite"</span>, <span class="st">"withr"</span>, <span class="st">"assertthat"</span>, <span class="st">"glue"</span>, <span class="st">"magrittr"</span>, <span class="st">"pkgconfig"</span>, <span class="st">"R6"</span>, <span class="st">"tidyselect"</span>, <span class="st">"BH"</span>, <span class="st">"plogr"</span>, <span class="st">"purrr"</span>, <span class="st">"ggsci"</span>, <span class="st">"cowplot"</span>, <span class="st">"ggsignif"</span>, <span class="st">"polynom"</span>, <span class="st">"fastcluster"</span>, <span class="st">"plyr"</span>, <span class="st">"abind"</span>, <span class="st">"dendextend"</span>, <span class="st">"FactoMineR"</span>, <span class="st">"mclust"</span>, <span class="st">"flexmix"</span>, <span class="st">"prabclus"</span>, <span class="st">"diptest"</span>, <span class="st">"robustbase"</span>, <span class="st">"kernlab"</span>, <span class="st">"GlobalOptions"</span>, <span class="st">"shape"</span>, <span class="st">"colorspace"</span>, <span class="st">"stringi"</span>, <span class="st">"hms"</span>, <span class="st">"clipr"</span>, <span class="st">"crayon"</span>, <span class="st">"httpuv"</span>, <span class="st">"mime"</span>, <span class="st">"jsonlite"</span>, <span class="st">"xtable"</span>, <span class="st">"htmltools"</span>, <span class="st">"sourcetools"</span>, <span class="st">"later"</span>, <span class="st">"promises"</span>, <span class="st">"gridBase"</span>, <span class="st">"RColorBrewer"</span>, <span class="st">"yaml"</span>, <span class="st">"ggplot2"</span>, <span class="st">"dplyr"</span>, <span class="st">"dtplyr"</span>, <span class="st">"dbplyr"</span>, <span class="st">"data.table"</span>, <span class="st">"gridExtra"</span>, <span class="st">"ggpubr"</span>, <span class="st">"heatmap3"</span>, <span class="st">"ggrepel"</span>, <span class="st">"reshape2"</span>, <span class="st">"DBI"</span>, <span class="st">"factoextra"</span>, <span class="st">"fpc"</span>, <span class="st">"circlize"</span>, <span class="st">"tidyr"</span>, <span class="st">"Rtsne"</span>, <span class="st">"readr"</span>, <span class="st">"shiny"</span>, <span class="st">"shinythemes"</span>, <span class="st">"treemap"</span>, <span class="st">"igraph"</span>, <span class="st">"airr"</span>, <span class="st">"ggseqlogo"</span>, <span class="st">"UpSetR"</span>, <span class="st">"stringr"</span>, <span class="st">"ggalluvial"</span>, <span class="st">"Rcpp"</span>))</a></code></pre></div>
+<p>If you run in any other trouble, try the following steps:</p>
 <ol>
 <li><p>Check your R version. Run <code>version</code> command in the console to get your R versions. If the R version is below 3.4.0 (for example, <code>R version 3.1.0</code>), try updating your R version to the latest one.</p></li>
 <li><p>Check if your packages are outdated and update them. In RStudio you can run the “Update” button on top of the package list. In R console you can run the <code><a href="https://www.rdocumentation.org/packages/utils/topics/update.packages">old.packages()</a></code> command to view a list of outdated packages.</p></li>
@@ -199,39 +202,39 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick start</h2>
 <p>Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Load the data to the package</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">immdata =<span class="st"> </span><span class="kw"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># If you folder contains metadata.txt file, immdata will have two elements:</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># - immdata$data with a list of parsed repertoires</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># - immdata$meta with the metadata file</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># Compute and visualise overlap statistics</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">ov =<span class="st"> </span><span class="kw"><a href="reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># Cluster samples using K-means algorithm applied to the number of overlapped clonotypes</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co"># and visualise the results</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"kmeans"</span>)</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># Compute and visualise gene usage with samples, grouped by their disease status</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">gu =<span class="st"> </span><span class="kw"><a href="reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co"># Compute Jensen-Shannon divergence among gene distributions of samples, </span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># cluster samples using the hierarchical clustering and visualise the results</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">gu.clust =<span class="st"> </span><span class="kw"><a href="reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(gu, <span class="dt">.method =</span> <span class="st">"js+hclust"</span>)</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu.clust)</a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co"># Compare diversity of repertoires and visualise samples, grouped by two parameters</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span></a>
-<a class="sourceLine" id="cb3-30" data-line-number="30">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Load the data to the package</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">immdata =<span class="st"> </span><span class="kw"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># If you folder contains metadata.txt file, immdata will have two elements:</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># - immdata$data with a list of parsed repertoires</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># - immdata$meta with the metadata file</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># Compute and visualise overlap statistics</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">ov =<span class="st"> </span><span class="kw"><a href="reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># Cluster samples using K-means algorithm applied to the number of overlapped clonotypes</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># and visualise the results</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"kmeans"</span>)</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># Compute and visualise gene usage with samples, grouped by their disease status</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">gu =<span class="st"> </span><span class="kw"><a href="reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data)</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># Compute Jensen-Shannon divergence among gene distributions of samples, </span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co"># cluster samples using the hierarchical clustering and visualise the results</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">gu.clust =<span class="st"> </span><span class="kw"><a href="reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(gu, <span class="dt">.method =</span> <span class="st">"js+hclust"</span>)</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu.clust)</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co"># Compare diversity of repertoires and visualise samples, grouped by two parameters</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
 <p>If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(immdata)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(immdata)</a></code></pre></div>
 </div>
 </div>
 <div id="license" class="section level1">
