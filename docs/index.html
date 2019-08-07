@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
       </span>
     </div>
 
@@ -115,6 +115,7 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
+
 
 <div id="immunarch---fast-and-effortless-analysis-of-large-scale-immune-repertoire-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -202,37 +203,45 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick start</h2>
 <p>Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Load the data to the package</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">immdata =<span class="st"> </span><span class="kw"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># If you folder contains metadata.txt file, immdata will have two elements:</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># - immdata$data with a list of parsed repertoires</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># - immdata$meta with the metadata file</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># Compute and visualise overlap statistics</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">ov =<span class="st"> </span><span class="kw"><a href="reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov)</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># Cluster samples using K-means algorithm applied to the number of overlapped clonotypes</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># and visualise the results</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"kmeans"</span>)</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># Compute and visualise gene usage with samples, grouped by their disease status</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17">gu =<span class="st"> </span><span class="kw"><a href="reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># Compute Jensen-Shannon divergence among gene distributions of samples, </span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co"># cluster samples using the hierarchical clustering and visualise the results</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22">gu.clust =<span class="st"> </span><span class="kw"><a href="reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(gu, <span class="dt">.method =</span> <span class="st">"js+hclust"</span>)</a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu.clust)</a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co"># Compare diversity of repertoires and visualise samples, grouped by two parameters</span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Load the package</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(immunarch)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># Load the data to the package</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">immdata =<span class="st"> </span><span class="kw"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co"># If you folder contains metadata.txt file, immdata will have two elements:</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># - immdata$data with a list of parsed repertoires</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># - immdata$meta with the metadata file</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co"># If you don't have your data, you can load repertoire data</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># that comes with immunarch. Uncomment (i.e., remove the "#" symbol)</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># in the next line to load the data</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># data(immdata)</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co"># Compute and visualise overlap statistics</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">ov =<span class="st"> </span><span class="kw"><a href="reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data)</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov)</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co"># Cluster samples using K-means algorithm applied to the number of overlapped clonotypes</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># and visualise the results</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"kmeans"</span>)</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co"># Compute and visualise gene usage with samples, grouped by their disease status</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">gu =<span class="st"> </span><span class="kw"><a href="reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data)</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co"># Compute Jensen-Shannon divergence among gene distributions of samples, </span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co"># cluster samples using the hierarchical clustering and visualise the results</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30">gu.clust =<span class="st"> </span><span class="kw"><a href="reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(gu, <span class="dt">.method =</span> <span class="st">"js+hclust"</span>)</a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu.clust)</a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co"># Compare diversity of repertoires and visualise samples, grouped by two parameters</span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
 <p>If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(immdata)</a></code></pre></div>
 </div>
@@ -240,7 +249,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <div id="license" class="section level1">
 <h1 class="hasAnchor">
 <a href="#license" class="anchor"></a>License</h1>
-<p>The package is freely distributed under the AGPL v3 license. You can read more about it <a href="https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)">here</a>.</p>
+<p>The package is freely distributed under the Apache v2 license. You can read more about it <a href="https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)">here</a>.</p>
 <p>Additionally, we provide an annual subscription that includes next services:</p>
 <ul>
 <li>100 hours of consultations on the TCR &amp; BCR repertoire analysis (contact us to purchase more);</li>
@@ -248,7 +257,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <li>Package modifications and feature implementations are issued promptly;</li>
 <li>Setup a cloud or cluster installation of <em>immunarch</em>, including the development of cloud <em>immunarch</em>-based software;</li>
 <li>Use <em>immunarch</em> team expertise in your projects;</li>
-<li>If you need a GPL-compatible license other than AGPL v3, contact us.</li>
+<li>If you need license other than the current, contact us.</li>
 </ul>
 <p>Contact us at <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a> for more information.</p>
 </div>
@@ -268,7 +277,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/AGPL-3">AGPL-3</a></li>
+<li>Apache License 2.0</li>
 </ul>
 </div>
 <div class="developers">
@@ -278,7 +287,15 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://twitter.com/intent/follow?screen_name=immunomind"><img src="https://img.shields.io/twitter/follow/immunomind.svg?style=social" alt="Follow"></a></li>
+<li><a href="https://gitlab.com/immunomind/immunarch/-/jobs"><img src="https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square" alt="CI"></a></li>
+<li><a href="http://github.com/immunomind/immunarch/issues"><img src="https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square" alt="Issues"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
       <footer><div class="copyright">

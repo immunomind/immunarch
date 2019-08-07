@@ -75,7 +75,7 @@ and sequence length distribution across the input dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
       </span>
     </div>
 
@@ -169,8 +169,8 @@ and sequence length distribution across the input dataset.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>repExplore</span>(<span class='no'>.data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"volume"</span>, <span class='st'>"count"</span>, <span class='st'>"len"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"nt"</span>,
-  <span class='st'>"aa"</span>), <span class='kw'>.coding</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    <pre class="usage"><span class='fu'>repExplore</span>(<span class='no'>.data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"volume"</span>, <span class='st'>"count"</span>, <span class='st'>"len"</span>, <span class='st'>"clones"</span>),
+  <span class='kw'>.col</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"nt"</span>, <span class='st'>"aa"</span>), <span class='kw'>.coding</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,14 +189,15 @@ of these objects. They are supported with the same limitations as basic objects.
     <tr>
       <th>.method</th>
       <td><p>A string that specifies the method of analysis. It can be
-either "volume", "count" or "len".</p>
+either "volume", "count", "len" or "clones".</p>
 <p>When .method is set to "volume" the repExplore calculates the number of unique
 clonotypes in the input data.</p>
 <p>When .method is set to "count" the repExplore calculates relative abundance of
 different receptors in the input data.</p>
 <p>When .method is set to "len" the repExplore calculates the distribution of
 CDR3 sequence lengths.</p>
-<p>When .method is set to "clones" the repExplore returns the number of clones per repertoires.</p></td>
+<p>When .method is set to "clones" the repExplore returns the number of clones (i.e., cells)
+per input repertoire.</p></td>
     </tr>
     <tr>
       <th>.col</th>

@@ -1,3 +1,8 @@
+[![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
+[![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
+[![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
+
+
 # `immunarch` - Fast and Effortless Analysis of Large-Scale Immune Repertoire Data
 
 ## Introduction
@@ -91,11 +96,19 @@ Check your path to the downloaded package archive file. It should not be "path/t
 ## Quick start
 Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:
 ```r
+# Load the package
+library(immunarch)
+
 # Load the data to the package
 immdata = repLoad("path/to/your/folder/with/repertoires")
 # If you folder contains metadata.txt file, immdata will have two elements:
 # - immdata$data with a list of parsed repertoires
 # - immdata$meta with the metadata file
+
+# If you don't have your data, you can load repertoire data
+# that comes with immunarch. Uncomment (i.e., remove the "#" symbol)
+# in the next line to load the data
+# data(immdata)
 
 # Compute and visualise overlap statistics
 ov = repOverlap(immdata$data)
@@ -132,7 +145,7 @@ data(immdata)
 
 # License
 
-The package is freely distributed under the AGPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
+The package is freely distributed under the Apache v2 license. You can read more about it [here](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)).
 
 Additionally, we provide an annual subscription that includes next services:
 
@@ -141,6 +154,6 @@ Additionally, we provide an annual subscription that includes next services:
 - Package modifications and feature implementations are issued promptly; 
 - Setup a cloud or cluster installation of *immunarch*, including the development of cloud *immunarch*-based software;
 - Use *immunarch* team expertise in your projects;
-- If you need a GPL-compatible license other than AGPL v3, contact us.
+- If you need license other than the current, contact us.
 
 Contact us at support@immunomind.io for more information.
