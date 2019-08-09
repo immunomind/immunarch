@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -93,25 +93,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -155,9 +155,9 @@
       <small>Source: <a href='https://github.com/immunomind/immunarch/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="immunarch-0-3-3-9006-pre-release-of-0-4-0" class="section level1">
+    <div id="immunarch-0-3-3-9007-pre-release-of-0-4-0" class="section level1">
 <h1 class="page-header">
-<a href="#immunarch-0-3-3-9006-pre-release-of-0-4-0" class="anchor"></a>immunarch 0.3.3.9006 (pre-release of 0.4.0)</h1>
+<a href="#immunarch-0-3-3-9007-pre-release-of-0-4-0" class="anchor"></a>immunarch 0.3.3.9007 (pre-release of 0.4.0)</h1>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
@@ -183,7 +183,7 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <p>Fix <code>geneUsage</code> when the first two columns with gene usages were swapped.</p>
-<p>Fix <code>repExplore</code> doesn’t work with a sigle repertoire.</p>
+<p>Fix <code>repExplore</code> doesn’t work with a single repertoire.</p>
 <p>Fix <code>vis_heatmap</code> doesn’t work with <code>geneUsage</code> output.</p>
 <p>Fix a bug in computation of Morisita-Horn index.</p>
 <p>Fix <code>vis_bar</code> and <code>vis_box</code> doesn’t work with numeric grouping variables.</p>
@@ -191,6 +191,7 @@
 <p>Fix <code>repOverlap</code> failing to work with data tables on <code>public</code>, <code>overlap</code>, <code>jaccard</code> and <code>tversky</code>.</p>
 <p>Fix <code>repLoad</code> failing when parsing MiXCR files with zero clonotypes.</p>
 <p>Fix a bug in incorrect grouping in visualisations.</p>
+<p>Fix a bug when clonal homeostasis and clonotype tracking don’t work properly with filtered coding.</p>
 </div>
 <div id="minor-updates" class="section level2">
 <h2 class="hasAnchor">
@@ -201,6 +202,8 @@
 <p><code>repOverlap</code> default .col value is “aa” for comfortable usage.</p>
 <p>Remove “fill” aesthetics warnings from <code>vis_heatmap</code>.</p>
 <p>Remove warnings “In parse_fun(.path[i]) : NAs introduced by coercion” when parsing MiXCR files.</p>
+<p>A lot or minor fixing and documentation improving to prepare for the CRAN release.</p>
+<p>Remove short function names.</p>
 </div>
 <div id="work-in-progress" class="section level2">
 <h2 class="hasAnchor">
@@ -311,7 +314,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#immunarch-0-3-3-9006-pre-release-of-0-4-0">0.3.3.9006</a></li>
+        <li><a href="#immunarch-0-3-3-9007-pre-release-of-0-4-0">0.3.3.9007</a></li>
         <li><a href="#immunarch-0-3-3">0.3.3</a></li>
         <li><a href="#immunarch-0-3-2">0.3.2</a></li>
         <li><a href="#immunarch-0-3-1">0.3.1</a></li>

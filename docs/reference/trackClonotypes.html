@@ -75,7 +75,7 @@ Note: duplicated clonotypes are merged and their counts are summed up." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -98,25 +98,25 @@ Note: duplicated clonotypes are merged and their counts are summed up." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -220,9 +220,11 @@ in the function output.</p></td>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>immdata</span>)
 
 <span class='co'># Option 1</span>
-<span class='co'># Choose the first 10 amino acid clonotype sequences from the first repertoire to track</span>
+<span class='co'># Choose the first 10 amino acid clonotype sequences</span>
+<span class='co'># from the first repertoire to track</span>
 <span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
-<span class='co'># Choose the first 20 nucleotide clonotype sequences and their V genes from the "MS1" repertoire to track</span>
+<span class='co'># Choose the first 20 nucleotide clonotype sequences</span>
+<span class='co'># and their V genes from the "MS1" repertoire to track</span>
 <span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"MS1"</span>, <span class='fl'>20</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"nt+v"</span>)
 
 <span class='co'># Option 2</span>
@@ -230,7 +232,8 @@ in the function output.</p></td>
 <span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
 
 <span class='co'># Option 3</span>
-<span class='co'># Choose the first 10 clonotypes from the first repertoire with amino acid sequences and V segments</span>
+<span class='co'># Choose the first 10 clonotypes from the first repertoire</span>
+<span class='co'># with amino acid sequences and V segments</span>
 <span class='no'>target</span> <span class='kw'>=</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>CDR3.aa</span>, <span class='no'>V.name</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fl'>10</span>)
 <span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>target</span>)
 

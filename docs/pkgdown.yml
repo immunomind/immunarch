@@ -2,13 +2,13 @@ pandoc: 2.3.1
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
-  1_introduction: 1_introduction.html
-  2_data: 2_data.html
-  3_basic_analysis: 3_basic_analysis.html
-  4_overlap: 4_overlap.html
-  5_gene_usage: 5_gene_usage.html
-  6_diversity: 6_diversity.html
-  7_fixvis: 7_fixvis.html
+  v1_introduction: v1_introduction.html
+  v2_data: v2_data.html
+  v3_basic_analysis: v3_basic_analysis.html
+  v4_overlap: v4_overlap.html
+  v5_gene_usage: v5_gene_usage.html
+  v6_diversity: v6_diversity.html
+  v7_fixvis: v7_fixvis.html
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

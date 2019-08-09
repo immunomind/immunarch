@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -96,25 +96,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -165,13 +165,16 @@
     
     </div>
 
+    <pre class="usage"><span class='fu'>vis_public_clonotypes</span>(<span class='no'>.data</span>, <span class='kw'>.x.rep</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.y.rep</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.title</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>.ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>.point.size.modif</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.cut.axes</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.density</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>.lm</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.radj.size</span> <span class='kw'>=</span> <span class='fl'>3.5</span>, <span class='kw'>.return.grob</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>Public repertoire data — an output from the pubRep function.</p></td>
+      <td><p>Public repertoire data - an output from the <a href='pubRep.html'>pubRep</a> function.</p></td>
     </tr>
     <tr>
       <th>.x.rep</th>
@@ -223,7 +226,7 @@ for the R adjusted coefficient.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>pubRep, <a href='vis.immunr_public_repertoire.html'>vis.immunr_public_repertoire</a></p></div>
+    <div class='dont-index'><p><a href='pubRep.html'>pubRep</a>, <a href='vis.immunr_public_repertoire.html'>vis.immunr_public_repertoire</a></p></div>
     
 
   </div>

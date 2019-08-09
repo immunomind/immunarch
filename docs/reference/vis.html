@@ -33,7 +33,7 @@
 <meta property="og:title" content="One function to visualise them all — vis" />
 
 <meta property="og:description" content="Output from every function in immunarch can be visualised with a
-single function — vis. The vis automatically detects
+single function - vis. The vis automatically detects
 the type of the data and draws a proper visualisation. For example, output
 from the repOverlap function will be identified as repertoire overlap values
 and respective visualisation will be chosen without any additional arguments.
@@ -78,7 +78,7 @@ See &quot;Details&quot; for the list of available visualisations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -101,25 +101,25 @@ See &quot;Details&quot; for the list of available visualisations." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -167,7 +167,7 @@ See &quot;Details&quot; for the list of available visualisations." />
     <div class="ref-description">
     
     <p>Output from every function in immunarch can be visualised with a
-single function — <code>vis</code>. The <code>vis</code> automatically detects
+single function - <code>vis</code>. The <code>vis</code> automatically detects
 the type of the data and draws a proper visualisation. For example, output
 from the <code>repOverlap</code> function will be identified as repertoire overlap values
 and respective visualisation will be chosen without any additional arguments.
@@ -175,6 +175,7 @@ See "Details" for the list of available visualisations.</p>
     
     </div>
 
+    <pre class="usage"><span class='fu'>vis</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,35 +184,39 @@ See "Details" for the list of available visualisations.</p>
       <th>.data</th>
       <td><p>Pass the output from any immunarch analysis tool to <code>vis()</code>.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Any other arguments, see the "Details" section for specific visualisation functions.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>List of available visualisations for different kinds of data.</p>
 <p>Basic analysis:</p>
-<p>- Exploratory analysis results (from <a href='repExplore.html'>repExplore</a>) — see <a href='vis.immunr_exp_vol.html'>vis.immunr_exp_vol</a>;</p>
-<p>- Clonality statistics (from <a href='repClonality.html'>repClonality</a>) — see <a href='vis.immunr_clonal_prop.html'>vis.immunr_homeo</a>.</p>
+<p>- Exploratory analysis results (from <a href='repExplore.html'>repExplore</a>) - see <a href='vis.immunr_exp_vol.html'>vis.immunr_exp_vol</a>;</p>
+<p>- Clonality statistics (from <a href='repClonality.html'>repClonality</a>) - see <a href='vis.immunr_clonal_prop.html'>vis.immunr_homeo</a>.</p>
 <p>Overlaps and public clonotypes:</p>
-<p>- Overlaps (from <a href='repOverlap.html'>repOverlap</a>) using heatmaps, circos plots, polar area plots — see <a href='vis.immunr_ov_matrix.html'>vis.immunr_ov_matrix</a>;</p>
-<p>-  Overlap clustering (from <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>) — see <a href='vis.immunr_hclust.html'>vis.immunr_hclust</a>;</p>
-<p>- Repertoire incremental overlaps (from <a href='repOverlap.html'>repOverlap</a>) — see vis.immunr_top_overlap;</p>
-<p>- Public repertoire abundance (from pubRep) — vis <a href='vis.immunr_public_repertoire.html'>vis.immunr_public_repertoire</a>.</p>
+<p>- Overlaps (from <a href='repOverlap.html'>repOverlap</a>) using heatmaps, circos plots, polar area plots - see <a href='vis.immunr_ov_matrix.html'>vis.immunr_ov_matrix</a>;</p>
+<p>-  Overlap clustering (from <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>) - see <a href='vis.immunr_hclust.html'>vis.immunr_hclust</a>;</p>
+<p>- Repertoire incremental overlaps (from <a href='repOverlap.html'>repOverlap</a>) - see <a href='vis.immunr_inc_overlap.html'>vis.immunr_inc_overlap</a>;</p>
+<p>- Public repertoire abundance (from <a href='pubRep.html'>pubRep</a>) - vis <a href='vis.immunr_public_repertoire.html'>vis.immunr_public_repertoire</a>.</p>
 <p>Gene usage:</p>
-<p>- Gene usage statistics (from <a href='geneUsage.html'>geneUsage</a>) using bar plots, box plots, treemaps — see <a href='vis.immunr_gene_usage.html'>vis.immunr_gene_usage</a>;</p>
-<p>- Gene usage distances (from <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a>) using heatmaps, circos plots, polar area plots — see <a href='vis.immunr_ov_matrix.html'>vis.immunr_ov_matrix</a>;</p>
-<p>- Gene usage clustering (from <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a>) — see <a href='vis.immunr_hclust.html'>vis.immunr_hclust</a>.</p>
+<p>- Gene usage statistics (from <a href='geneUsage.html'>geneUsage</a>) using bar plots, box plots, treemaps - see <a href='vis.immunr_gene_usage.html'>vis.immunr_gene_usage</a>;</p>
+<p>- Gene usage distances (from <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a>) using heatmaps, circos plots, polar area plots - see <a href='vis.immunr_ov_matrix.html'>vis.immunr_ov_matrix</a>;</p>
+<p>- Gene usage clustering (from <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a>) - see <a href='vis.immunr_hclust.html'>vis.immunr_hclust</a>.</p>
 <p>Diversity estimation:</p>
-<p>- Diversity estimations (from <a href='repDiversity.html'>repDiversity</a>) — see <a href='vis.immunr_chao1.html'>vis.immunr_chao1</a>.</p>
+<p>- Diversity estimations (from <a href='repDiversity.html'>repDiversity</a>) - see <a href='vis.immunr_chao1.html'>vis.immunr_chao1</a>.</p>
 <p>Advanced analysis:</p>
-<p>- Repertoire dynamics (from <a href='trackClonotypes.html'>trackClonotypes</a>) — see <a href='vis.immunr_dynamics.html'>vis.immunr_dynamics</a>;</p>
-<p>- Sequence logo plots of amino acid distributions (from <a href='split_to_kmers.html'>kmer_profile</a>) — see vis_logo;</p>
-<p>- Kmers distributions (from <a href='getKmers.html'>getKmers</a>) — see vis.immunr_kmers;</p>
-<p>- Mutation networks (from mutationNetwork) — see <a href='vis.immunr_mutation_network.html'>vis.immunr_mutation_network</a>;</p>
-<p>- CDR3 amino acid properties, e.g., biophysical (from <a href='cdrProp.html'>cdrProp</a>) — see <a href='vis.immunr_cdr_prop.html'>vis.immunr_cdr_prop</a>.</p>
+<p>- Repertoire dynamics (from <a href='trackClonotypes.html'>trackClonotypes</a>) - see <a href='vis.immunr_dynamics.html'>vis.immunr_dynamics</a>;</p>
+<p>- Sequence logo plots of amino acid distributions (from <a href='split_to_kmers.html'>kmer_profile</a>) - see <a href='vis_textlogo.html'>vis_seqlogo</a>;</p>
+<p>- Kmers distributions (from <a href='getKmers.html'>getKmers</a>) - see <a href='vis.immunr_kmer_table.html'>vis.immunr_kmer_table</a>;</p>
+<p>- Mutation networks (from mutationNetwork) - Work In Progress on vis.immunr_mutation_network;</p>
+<p>- CDR3 amino acid properties, e.g., biophysical (from cdrProp) - Work In Progress on vis.immunr_cdr_prop.</p>
 <p>Additionaly, we provide a wrapper functions for visualisations of common data types:</p>
-<p>- Any data frames or matrices using heatmaps — see <a href='vis_heatmap.html'>vis_heatmap</a> and <a href='vis_heatmap2.html'>vis_heatmap2</a>;</p>
-<p>- Any data frames or matrices using circos plots — see <a href='vis_circos.html'>vis_circos</a>;</p>
-<p>- Any data frames or matrices using polar area plots — see <a href='vis_radar.html'>vis_radar</a>.</p>
+<p>- Any data frames or matrices using heatmaps - see <a href='vis_heatmap.html'>vis_heatmap</a> and <a href='vis_heatmap2.html'>vis_heatmap2</a>;</p>
+<p>- Any data frames or matrices using circos plots - see <a href='vis_circos.html'>vis_circos</a>;</p>
+<p>- Any data frames or matrices using polar area plots - see <a href='vis_radar.html'>vis_radar</a>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

@@ -80,7 +80,7 @@ Use the repOverlap function for computing similarities of clonesets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -103,25 +103,25 @@ Use the repOverlap function for computing similarities of clonesets." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -185,9 +185,9 @@ Use the repOverlap function for computing similarities of clonesets." />
 
 <span class='fu'>tversky_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.a</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>.b</span> <span class='kw'>=</span> <span class='fl'>.5</span>)
 
-<span class='fu'>cosine_sim</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='no'>T</span>, <span class='no'>F</span>), <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+<span class='fu'>cosine_sim</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='no'>.quant</span>)
 
-<span class='fu'>morisita_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)
+<span class='fu'>morisita_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='no'>.quant</span>)
 
 <span class='fu'>horn_index</span>(<span class='no'>.x</span>, <span class='no'>.y</span>)</pre>
     
@@ -202,6 +202,10 @@ for more information.</p></td>
     <tr>
       <th>.a, .b</th>
       <td><p>Alpha and beta parameters for Tversky Index. Default values gives the Jaccard index measure.</p></td>
+    </tr>
+    <tr>
+      <th>.quant</th>
+      <td><p>Character. Name of the column with frequencies.</p></td>
     </tr>
     </table>
     

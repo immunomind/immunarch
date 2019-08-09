@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -99,25 +99,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -173,7 +173,8 @@
 
     <pre class="usage"><span class='fu'>immunr_hclust</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>) - <span class='fl'>1</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
-<span class='fu'>immunr_kmeans</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/integer'>as.integer</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>))) + <span class='fl'>1</span>, <span class='kw'>.nbclust_method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"silhouette"</span>, <span class='st'>"gap_stat"</span>))
+<span class='fu'>immunr_kmeans</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/integer'>as.integer</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>))) + <span class='fl'>1</span>,
+<span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"silhouette"</span>, <span class='st'>"gap_stat"</span>))
 
 <span class='fu'>immunr_dbscan</span>(<span class='no'>.data</span>, <span class='no'>.eps</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
     
@@ -182,7 +183,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>Matrix or data frame with features, distance matrix or output from <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>, <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a> or repDiversityAnalysis functions.</p></td>
+      <td><p>Matrix or data frame with features, distance matrix or output from <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a> or <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a> functions.</p></td>
     </tr>
     <tr>
       <th>.k</th>
@@ -208,19 +209,13 @@
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><a href='vis.immunr_hclust.html'>vis.immunr_hclust</a></p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

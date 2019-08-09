@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -96,25 +96,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -165,13 +165,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>vis.immunr_hclust</span>(<span class='no'>.data</span>, <span class='kw'>.rect</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"clust"</span>, <span class='st'>"best"</span>), <span class='kw'>.return.grob</span> <span class='kw'>=</span> <span class='no'>F</span>)
-
-<span class='fu'>vis.immunr_kmeans</span>(<span class='no'>.data</span>, <span class='kw'>.point</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.text</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.ellipse</span> <span class='kw'>=</span> <span class='no'>T</span>,
-<span class='kw'>.point.size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.text.size</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"clust"</span>, <span class='st'>"best"</span>), <span class='kw'>.return.grob</span> <span class='kw'>=</span> <span class='no'>F</span>)
-
-<span class='fu'>vis.immunr_dbscan</span>(<span class='no'>.data</span>, <span class='kw'>.point</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.text</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.ellipse</span> <span class='kw'>=</span> <span class='no'>T</span>,
-<span class='kw'>.point.size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.text.size</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"clust"</span>, <span class='st'>"best"</span>))</pre>
+    <pre class="usage"><span class='co'># S3 method for immunr_hclust</span>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.rect</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"clust"</span>,
+  <span class='st'>"best"</span>), <span class='kw'>.return.grob</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,6 +179,20 @@
     <tr>
       <th>.rect</th>
       <td><p>Passed to fviz_dend - whether to add a rectangle around groups.</p></td>
+    </tr>
+    <tr>
+      <th>.plot</th>
+      <td><p>A character vector of length one or two specifying which plots to visualise.
+If "clust" than plot only the clustering. If "best" than plot the number of optimal clusters.
+If both than plot both.</p></td>
+    </tr>
+    <tr>
+      <th>.return.grob</th>
+      <td><p>If TRUE then return grob instead of plot.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not used here.</p></td>
     </tr>
     <tr>
       <th>.point</th>
@@ -203,16 +213,6 @@
     <tr>
       <th>.text.size</th>
       <td><p>Size of text labels, passed to labelsize from fviz_cluster.</p></td>
-    </tr>
-    <tr>
-      <th>.plot</th>
-      <td><p>A character vector of length one or two specifying which plots to visualise.
-If "clust" than plot only the clustering. If "best" than plot the number of optimal clusters.
-If both than plot both.</p></td>
-    </tr>
-    <tr>
-      <th>.return.grob</th>
-      <td><p>If TRUE then return grob instead of plot.</p></td>
     </tr>
     </table>
     

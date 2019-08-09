@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
       </span>
     </div>
 
@@ -93,25 +93,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
     </li>
     <li>
-      <a href="../articles/3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
-      <a href="../articles/4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/6_diversity.html">Diversity estimation</a>
+      <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
   </ul>
 </li>
@@ -190,7 +190,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="apply_symm.html">apply.symm()</a></code> <code><a href="apply_symm.html">apply.asymm()</a></code> </p>
+          <p><code><a href="apply_symm.html">apply_symm()</a></code> <code><a href="apply_symm.html">apply_asymm()</a></code> </p>
         </td>
         <td><p>Apply function to each pair of data frames from a list.</p></td>
       </tr><tr>
@@ -198,13 +198,7 @@
         <td>
           <p><code><a href="bunch_translate.html">bunch_translate()</a></code> </p>
         </td>
-        <td><p>Translate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cdrProp.html">cdrProp()</a></code> </p>
-        </td>
-        <td><p>AA properties calculation</p></td>
+        <td><p>Nucleotide to amino acid sequence translation</p></td>
       </tr><tr>
         
         <td>
@@ -214,21 +208,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="check_group_names.html">check_group_names()</a></code> </p>
-        </td>
-        <td><p>Check if everything is ok with group names</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="coding.html">coding()</a></code> <code><a href="coding.html">noncoding()</a></code> <code><a href="coding.html">inframes()</a></code> <code><a href="coding.html">outofframes()</a></code> </p>
         </td>
         <td><p>Working with coding and non-coding clonotype sequences</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="dot-make_names.html">.make_names()</a></code> </p>
+          <p><code><a href="dot-quant_column_choice.html">.quant_column_choice()</a></code> </p>
         </td>
-        <td><p>Additional functions for help in parsing</p></td>
+        <td><p>Get a column's name using the input alias</p></td>
       </tr><tr>
         
         <td>
@@ -274,18 +262,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_rank.html">get_rank()</a></code> </p>
-        </td>
-        <td><p>Get ranks / indices for counts of clonotypes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gibbs_sampling.html">gibbs_sampling()</a></code> </p>
-        </td>
-        <td><p>Simple Gibbs sampling on kmers.</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="group_from_metadata.html">group_from_metadata()</a></code> </p>
         </td>
         <td><p>Get a character vector of samples' groups from the input metadata file</p></td>
@@ -295,6 +271,12 @@
           <p><code><a href="has_class.html">has_class()</a></code> </p>
         </td>
         <td><p>Check class</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="immdata.html">immdata</a></code> </p>
+        </td>
+        <td><p>Immune repertoire dataset</p></td>
       </tr><tr>
         
         <td>
@@ -328,12 +310,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="kmerAnalysis.html">kmerAnalysis()</a></code> </p>
-        </td>
-        <td><p>WIP</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="load_test_data.html">load_test_data()</a></code> </p>
         </td>
         <td><p>Various functions for testing purposes</p></td>
@@ -343,6 +319,12 @@
           <p><code><a href="lookup_clonotypes.html">lookup_clonotypes()</a></code> </p>
         </td>
         <td><p>Search for clonotypes in external databases</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="matrixdiagcopy.html">matrixdiagcopy()</a></code> </p>
+        </td>
+        <td><p>Copy the upper matrix triangle to the lower one</p></td>
       </tr><tr>
         
         <td>
@@ -358,9 +340,33 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="pubRep.html">pubRep()</a></code> </p>
+        </td>
+        <td><p>Public repertoire</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pubRepApply.html">pubRepApply()</a></code> </p>
+        </td>
+        <td><p>Apply transformations to public repertoires</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pubRepFilter.html">pubRepFilter()</a></code> </p>
+        </td>
+        <td><p>Filter out clonotypes from public repertoires</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="pubRepStatistics.html">pubRepStatistics()</a></code> </p>
         </td>
         <td><p>Statistics of number of public clonotypes for each possible combinations of repertoires</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="public_matrix.html">public_matrix()</a></code> </p>
+        </td>
+        <td><p>Get a matrix with public clonotype frequencies</p></td>
       </tr><tr>
         
         <td>
@@ -430,7 +436,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="split_to_kmers.html">split_to_kmers()</a></code> </p>
+          <p><code><a href="split_to_kmers.html">split_to_kmers()</a></code> <code><a href="split_to_kmers.html">kmer_profile()</a></code> </p>
         </td>
         <td><p>Kmers processing.</p></td>
       </tr><tr>
@@ -438,13 +444,13 @@
         <td>
           <p><code><a href="switch_type.html">switch_type()</a></code> </p>
         </td>
-        <td><p>WIP</p></td>
+        <td><p>Return a column's name</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="top.html">top()</a></code> </p>
         </td>
-        <td><p>Work in progress</p></td>
+        <td><p>Get the N most abundant clonotypes</p></td>
       </tr><tr>
         
         <td>
@@ -454,157 +460,151 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.html">vis</a></code> </p>
+          <p><code><a href="vis.html">vis()</a></code> </p>
         </td>
         <td><p>One function to visualise them all</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_cdr_prop.html">vis.immunr_cdr_prop</a></code> </p>
-        </td>
-        <td><p>Work in progress</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vis.immunr_chao1.html">vis.immunr_chao1</a></code> </p>
+          <p><code><a href="vis.immunr_chao1.html">vis(<i>&lt;immunr_chao1&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise diversity.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_clonal_prop.html">vis.immunr_clonal_prop</a></code> </p>
+          <p><code><a href="vis.immunr_clonal_prop.html">vis(<i>&lt;immunr_clonal_prop&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise clonality</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_dynamics.html">vis.immunr_dynamics</a></code> </p>
+          <p><code><a href="vis.immunr_dynamics.html">vis(<i>&lt;immunr_dynamics&gt;</i>)</a></code> </p>
         </td>
         <td><p>Repertoire dynamics</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_exp_vol.html">vis.immunr_exp_vol</a></code> </p>
+          <p><code><a href="vis.immunr_exp_vol.html">vis(<i>&lt;immunr_exp_vol&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise exploratory analysis.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_gene_usage.html">vis.immunr_gene_usage</a></code> </p>
+          <p><code><a href="vis.immunr_gene_usage.html">vis(<i>&lt;immunr_gene_usage&gt;</i>)</a></code> </p>
         </td>
         <td><p>Histograms and boxplots (general case / gene usage)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_hclust.html">vis.immunr_hclust()</a></code> <code><a href="vis.immunr_hclust.html">vis.immunr_kmeans()</a></code> <code><a href="vis.immunr_hclust.html">vis.immunr_dbscan()</a></code> </p>
+          <p><code><a href="vis.immunr_hclust.html">vis(<i>&lt;immunr_hclust&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualisation of clustering results</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_inc_overlap.html">vis.immunr_inc_overlap</a></code> </p>
+          <p><code><a href="vis.immunr_inc_overlap.html">vis(<i>&lt;immunr_inc_overlap&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise incremental overlaps</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_kmer_table.html">vis.immunr_kmer_table</a></code> </p>
+          <p><code><a href="vis.immunr_kmer_table.html">vis(<i>&lt;immunr_kmer_table&gt;</i>)</a></code> </p>
         </td>
         <td><p>Most frequent kmers visualisation.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_mds.html">vis.immunr_mds</a></code> </p>
+          <p><code><a href="vis.immunr_mds.html">vis(<i>&lt;immunr_mds&gt;</i>)</a></code> </p>
         </td>
         <td><p>PCA / MDS / tSNE visualisation (mainly overlap / gene usage)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_mutation_network.html">vis.immunr_mutation_network</a></code> </p>
-        </td>
-        <td><p>Work in progress</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vis.immunr_ov_matrix.html">vis.immunr_ov_matrix</a></code> </p>
+          <p><code><a href="vis.immunr_ov_matrix.html">vis(<i>&lt;immunr_ov_matrix&gt;</i>)</a></code> </p>
         </td>
         <td><p>Overlap / gene usage distance visualisation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_public_repertoire.html">vis.immunr_public_repertoire</a></code> </p>
+          <p><code><a href="vis.immunr_public_repertoire.html">vis(<i>&lt;immunr_public_repertoire&gt;</i>)</a></code> </p>
         </td>
         <td><p>Public repertoire visualisation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis.immunr_public_statistics.html">vis.immunr_public_statistics</a></code> </p>
+          <p><code><a href="vis.immunr_public_statistics.html">vis(<i>&lt;immunr_public_statistics&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise sharing of clonotypes among samples</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_bar.html">vis_bar</a></code> </p>
+          <p><code><a href="vis_bar.html">vis_bar()</a></code> </p>
         </td>
         <td><p>Bar plots</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_box.html">vis_box</a></code> </p>
+          <p><code><a href="vis_box.html">vis_box()</a></code> </p>
         </td>
         <td><p>Visualisation of distributions using boxplots</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_circos.html">vis_circos</a></code> </p>
+          <p><code><a href="vis_circos.html">vis_circos()</a></code> </p>
         </td>
         <td><p>Visualisation of matrices using circos plots</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_heatmap.html">vis_heatmap</a></code> </p>
+          <p><code><a href="vis_heatmap.html">vis_heatmap()</a></code> </p>
         </td>
         <td><p>Visualisation of matrices and data frames using ggplot2-based heatmaps</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_heatmap2.html">vis_heatmap2</a></code> </p>
+          <p><code><a href="vis_heatmap2.html">vis_heatmap2()</a></code> </p>
         </td>
         <td><p>Visualisation of matrices using heatmap3-based heatmaps</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_hist.html">vis_hist</a></code> </p>
+          <p><code><a href="vis_hist.html">vis_hist()</a></code> </p>
         </td>
         <td><p>Visualisation of distributions using histograms</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_public_clonotypes.html">vis_public_clonotypes</a></code> </p>
+          <p><code><a href="vis_immunr_kmer_profile_main.html">vis_immunr_kmer_profile_main()</a></code> </p>
+        </td>
+        <td><p>Visualise kmer profiles</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="vis_public_clonotypes.html">vis_public_clonotypes()</a></code> </p>
         </td>
         <td><p>Visualisation of public clonotypes</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_public_frequencies.html">vis_public_frequencies</a></code> </p>
+          <p><code><a href="vis_public_frequencies.html">vis_public_frequencies()</a></code> </p>
         </td>
         <td><p>Public repertoire visualisation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_radar.html">vis_radar</a></code> </p>
+          <p><code><a href="vis_radar.html">vis_radar()</a></code> </p>
         </td>
         <td><p>Visualisation of distance matrices with polar area plots</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_seqlogo-vis_textlogo.html">vis_textlogo()</a></code> <code><a href="vis_seqlogo-vis_textlogo.html">vis_seqlogo()</a></code> </p>
+          <p><code><a href="vis_textlogo.html">vis_textlogo()</a></code> <code><a href="vis_textlogo.html">vis_seqlogo()</a></code> </p>
         </td>
         <td><p>Sequence logo plots for amino acid profiles.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="vis_treemap.html">vis_treemap</a></code> </p>
+          <p><code><a href="vis_treemap.html">vis_treemap()</a></code> </p>
         </td>
         <td><p>Visualisation of data frames and matrices using treemaps</p></td>
       </tr>
