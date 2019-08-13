@@ -68,7 +68,7 @@ install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress"
 
 If you run in any other trouble, try the following steps:
 
-1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.4.0 (for example, `R version 3.1.0`), try updating your R version to the latest one.
+1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.5.0 (for example, `R version 3.1.0`), try updating your R version to the latest one.
 
 2. Check if your packages are outdated and update them. In RStudio you can run the "Update" button on top of the package list. In R console you can run the `old.packages()` command to view a list of outdated packages.
 
@@ -116,7 +116,7 @@ vis(ov)
 
 # Cluster samples using K-means algorithm applied to the number of overlapped clonotypes
 # and visualise the results
-ov.kmeans = repOverlapAnalysis(ov, .method = "kmeans")
+ov.kmeans = repOverlapAnalysis(ov, .method = "mds")
 vis(ov.kmeans)
 
 # Compute and visualise gene usage with samples, grouped by their disease status
@@ -130,10 +130,10 @@ vis(gu.clust)
 
 # Compare diversity of repertoires and visualise samples, grouped by two parameters
 div = repDiversity(immdata$data, .method = "chao1")
-vis(div, .by=c("Status", "Treatment"), .meta=immdata$meta)
+vis(div, .by=c("Status", "Lane"), .meta=immdata$meta)
 
 # Manipulate the visualisation of diversity estimates to make the plot publication-ready
-div.plot = vis(div, .by=c("Status", "Treatment"), .meta=immdata$meta)
+div.plot = vis(div, .by=c("Status", "Lane"), .meta=immdata$meta)
 fixVis(div.plot)
 ```
 
