@@ -1,9 +1,10 @@
 [![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
 [![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
 [![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
 
 
-# `immunarch` - Fast and Effortless Analysis of Large-Scale Immune Repertoire Data
+# `immunarch` - An R Package for Painless Analysis of Large-Scale Immune Repertoire Data
 
 ## Introduction
 `immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) or [Telegram](https://t.me/immunomind) for news and updates.
@@ -142,6 +143,11 @@ If you want to test the package without parsing any data, you can load a small t
 ```r
 data(immdata)
 ```
+
+# Citation
+
+ImmunoMind Team. immunarch: An R Package for Painless Analysis of Large-Scale Immune Repertoire Data. Zenodo. http://doi.org/10.5281/zenodo.3367200
+
 
 # License
 
