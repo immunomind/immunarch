@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/1_introduction.html">Get started</a>
+  <a href="../articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -357,9 +357,9 @@
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"downsample"</span>, <span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 
-##      98      96      93     100      92      96      87      99      88 
+##      99      96      92      99      87      92      85      98      87 
 ##     MS4     MS5     MS6 
-##     100      91      99</code></pre>
+##      99      84      97</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"sample"</span>, <span class="dt">.n =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 

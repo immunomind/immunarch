@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@
   </a>
 </li>
 <li>
-  <a href="articles/1_introduction.html">Get started</a>
+  <a href="articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -223,7 +223,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <a class="sourceLine" id="cb4-18" data-line-number="18"></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co"># Cluster samples using K-means algorithm applied to the number of overlapped clonotypes</span></a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># and visualise the results</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"kmeans"</span>)</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"mds"</span>)</a>
 <a class="sourceLine" id="cb4-22" data-line-number="22"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a>
 <a class="sourceLine" id="cb4-23" data-line-number="23"></a>
 <a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co"># Compute and visualise gene usage with samples, grouped by their disease status</span></a>
@@ -237,10 +237,10 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <a class="sourceLine" id="cb4-32" data-line-number="32"></a>
 <a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co"># Compare diversity of repertoires and visualise samples, grouped by two parameters</span></a>
 <a class="sourceLine" id="cb4-34" data-line-number="34">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
 <a class="sourceLine" id="cb4-36" data-line-number="36"></a>
 <a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Treatment"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb4-38" data-line-number="38">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
 <a class="sourceLine" id="cb4-39" data-line-number="39"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
 <p>If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(immdata)</a></code></pre></div>

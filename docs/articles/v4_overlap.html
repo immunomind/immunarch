@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/1_introduction.html">Get started</a>
+  <a href="../articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -176,33 +176,33 @@ warning("TODO")
 ## 
 ## Rotation (n x k) = (12 x 2):
 ##                [,1]       [,2]
-## A2-i129 -20.2308709 -22.431389
-## A2-i131   8.3055445  26.779321
-## A2-i133  45.9341813   6.893304
-## A2-i132 -55.0903957  18.572513
-## A4-i191  23.7461189   1.118162
-## A4-i192  -4.4041243 -38.028858
-## MS1     -19.5494165  12.836320
-## MS2      -1.9063188   6.075283
-## MS3      -9.8321059 -11.217724
-## MS4       0.9127103  -1.154627
-## MS5       5.6552254  27.415676
-## MS6      26.4594518 -26.857981</code></pre>
+## A2-i129 -20.2308709  22.431389
+## A2-i131   8.3055445 -26.779321
+## A2-i133  45.9341813  -6.893304
+## A2-i132 -55.0903957 -18.572513
+## A4-i191  23.7461189  -1.118162
+## A4-i192  -4.4041243  38.028858
+## MS1     -19.5494165 -12.836320
+## MS2      -1.9063188  -6.075283
+## MS3      -9.8321059  11.217724
+## MS4       0.9127103   1.154627
+## MS5       5.6552254 -27.415676
+## MS6      26.4594518  26.857981</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
-<pre><code>##               DimI      DimII
-## A2-i129 -389.03047 -433.20581
-## A2-i131  461.92834 -278.87489
-## A2-i133  300.76319  358.16157
-## A2-i132   33.94447  357.41317
-## A4-i191  386.25403  125.26006
-## A4-i192 -516.42980 -216.27486
-## MS1     -639.69750 -424.93856
-## MS2      130.96580  118.23972
-## MS3     -479.99976 -377.38580
-## MS4      195.78041  213.75370
-## MS5      491.27567  582.42102
-## MS6       24.24564  -24.56933
+<pre><code>##                 DimI     DimII
+## A2-i129  127.2359786 106.22078
+## A2-i131 -265.7689388  61.03462
+## A2-i133    1.4137922 -98.30694
+## A2-i132   -8.1454525 -92.81615
+## A4-i191   -5.1731584 -82.26312
+## A4-i192  133.9058833  97.94673
+## MS1      137.3949337 109.40179
+## MS2        3.7245288 -87.94869
+## MS3      131.5192403 104.91697
+## MS4       -0.6988114 -89.77124
+## MS5     -265.7150045  56.84178
+## MS6       10.3070088 -85.25653
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
@@ -216,33 +216,33 @@ warning("TODO")
 ## 
 ## Rotation (n x k) = (12 x 2):
 ##                [,1]       [,2]
-## A2-i129 -20.2308709 -22.431389
-## A2-i131   8.3055445  26.779321
-## A2-i133  45.9341813   6.893304
-## A2-i132 -55.0903957  18.572513
-## A4-i191  23.7461189   1.118162
-## A4-i192  -4.4041243 -38.028858
-## MS1     -19.5494165  12.836320
-## MS2      -1.9063188   6.075283
-## MS3      -9.8321059 -11.217724
-## MS4       0.9127103  -1.154627
-## MS5       5.6552254  27.415676
-## MS6      26.4594518 -26.857981</code></pre>
+## A2-i129 -20.2308709  22.431389
+## A2-i131   8.3055445 -26.779321
+## A2-i133  45.9341813  -6.893304
+## A2-i132 -55.0903957 -18.572513
+## A4-i191  23.7461189  -1.118162
+## A4-i192  -4.4041243  38.028858
+## MS1     -19.5494165 -12.836320
+## MS2      -1.9063188  -6.075283
+## MS3      -9.8321059  11.217724
+## MS4       0.9127103   1.154627
+## MS5       5.6552254 -27.415676
+## MS6      26.4594518  26.857981</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
 <pre><code>##               DimI      DimII
-## A2-i129  127.29586 -155.14254
-## A2-i131   84.31755   30.15443
-## A2-i133 -117.97761   90.32303
-## A2-i132 -114.49162  100.83210
-## A4-i191 -103.54314   99.10518
-## A4-i192  118.07954 -161.33858
-## MS1      118.44636 -148.51890
-## MS2     -107.40502   89.20975
-## MS3      122.66941 -154.99580
-## MS4     -110.01865   93.51567
-## MS5       86.20978   34.09023
-## MS6     -103.58246   82.76543
+## A2-i129 -215.40919 -175.61610
+## A2-i131  -30.05543  294.52325
+## A2-i133  150.58711 -158.13221
+## A2-i132  300.01425  173.99241
+## A4-i191 -245.10395 -371.39107
+## A4-i192 -268.18425  -55.41930
+## MS1     -134.82079  -76.38210
+## MS2      242.25545   53.67458
+## MS3     -211.36510 -120.96601
+## MS4      262.72484  102.89134
+## MS5      -38.30017  344.94749
+## MS6      187.65724  -12.12229
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
