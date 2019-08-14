@@ -146,8 +146,22 @@ data(immdata)
 
 # Citation
 
-ImmunoMind Team. immunarch: An R Package for Painless Analysis of Large-Scale Immune Repertoire Data. Zenodo. http://doi.org/10.5281/zenodo.3367200
+ImmunoMind Team. (2019). immunarch: An R Package for Painless Analysis of Large-Scale Immune Repertoire Data. Zenodo. http://doi.org/10.5281/zenodo.3367200
 
+BibTex:
+```
+@misc{immunomind_team_2019_3367200,
+  author       = {{ImmunoMind Team}},
+  title        = {{immunarch: An R Package for Painless Analysis of 
+                   Large-Scale Immune Repertoire Data}},
+  month        = aug,
+  year         = 2019,
+  doi          = {10.5281/zenodo.3367200},
+  url          = {https://doi.org/10.5281/zenodo.3367200}
+}
+```
+
+For EndNote citation import the [`immunarch-citation.xml`](immunarch-citation.xml) file.
 
 # License
 
