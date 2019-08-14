@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:Sources xmlns:b="http://schemas.openxmlformats.org/officeDocument/2006/bibliography" xmlns="http://schemas.openxmlformats.org/officeDocument/2006/bibliography">
+  <b:Source>
+    <b:Tag>immunomind-team-2019-immunarch:-an-r-package-for-painless-analysis-of-large-scale-immune-repertoire-data</b:Tag>
+    <b:SourceType>JournalArticle</b:SourceType>
+    <b:Title>immunarch: An R Package for Painless Analysis of Large-Scale Immune Repertoire Data</b:Title>
+    <b:Year>2019</b:Year>
+    <b:RefOrder>1</b:RefOrder>
+    <b:Author>
+      <b:Author>
+        <b:NameList>
+          <b:Person>
+            <b:Last>ImmunoMind Team</b:Last>
+          </b:Person>
+        </b:NameList>
+      </b:Author>
+    </b:Author>
+    <b:StandardNumber>10.5281/ZENODO.3367200</b:StandardNumber>
+    <b:Month>8</b:Month>
+    <b:Day>13</b:Day>
+  </b:Source>
+</b:Sources>
