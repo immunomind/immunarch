@@ -161,7 +161,7 @@ BibTex:
 }
 ```
 
-For EndNote citation import the [`immunarch-citation.xml`](https://raw.githubusercontent.com/immunomind/immunarch/master/immunarch-citation.xml) file. Press the right mouse button on it and click "Download File".
+For EndNote citation import the [`immunarch-citation.xml`](https://github.com/immunomind/immunarch/releases/download/latest/immunarch-citation.xml) file.
 
 # License
 
