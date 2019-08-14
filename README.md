@@ -75,10 +75,22 @@ If you run in any other trouble, try the following steps:
 
 3. If you are on Mac and have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
 
-4. If you are working under Linux and have issues with igraph library or have 
+4. If you are on Mac Mojave (1.14) and run into the following error:
+```
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/math.h:301:15: fatal error: 'math.h' file not found
+#include_next <math.h>
+              ^~~~~~~~
+```
+
+Open Terminal, execute the following command and try again to install `immunarch`:
+```
+sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+```
+
+5. If you are working under Linux and have issues with igraph library or have 
 Fortran errors, see [this link](https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/)
 
-5. If you encounter the following error while running the `devtools::install_local` function:
+6. If you encounter the following error while running the `devtools::install_local` function:
 
 ```
 1: In normalizePath(path.expand(path), winslash, mustWork) :
@@ -90,9 +102,9 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 
 Check your path to the downloaded package archive file. It should not be "path/to/your/folder/with/immunarch.tar.gz", but a path on your PC to the downloaded file, e.g., "C:/Users/UserName/Downloads/immunarch.tar.gz" or ""/Users/UserName/Downloads/immunarch.tar.gz"".
 
-6. If you are working under Windows and have issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
+7. If you are working under Windows and have issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
 
-7. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
+8. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
 
 ## Quick start
 Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:
