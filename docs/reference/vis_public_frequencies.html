@@ -175,6 +175,26 @@
       <th>.data</th>
       <td><p>Public repertoire - an output from the <a href='pubRep.html'>pubRep</a> function.</p></td>
     </tr>
+    <tr>
+      <th>.by</th>
+      <td><p>Pass NA if you want to plot samples without grouping.</p>
+<p>You can pass a character vector with one or several column names from ".meta"
+to group your data before plotting. In this case you should provide ".meta".</p>
+<p>You can pass a character vector that exactly matches the number of samples in
+your data, each value should correspond to a sample's property. It will be used
+to group data based on the values provided. Note that in this case you should
+pass NA to ".meta".</p></td>
+    </tr>
+    <tr>
+      <th>.meta</th>
+      <td><p>A metadata object. An R dataframe with sample names and their properties,
+such as age, serostatus or hla.</p></td>
+    </tr>
+    <tr>
+      <th>.type</th>
+      <td><p>Character. Either "boxplot" for plotting distributions of frequencies,
+"none" for plotting everything, or "mean" for plotting average values only.</p></td>
+    </tr>
     </table>
     
 

@@ -195,7 +195,7 @@ repertoires to the size of the smallest repertoire in the ".data".</p></td>
     </tr>
     <tr>
       <th>.prob</th>
-      <td><p>Logical. If T than sample clonotypes with probability weights equal to their number of clones. Used only if
+      <td><p>Logical. If T then sample clonotypes with probability weights equal to their number of clones. Used only if
 ".method" is "sample".</p></td>
     </tr>
     </table>
@@ -210,7 +210,7 @@ repertoires to the size of the smallest repertoire in the ".data".</p></td>
 but exactly computing each choosed clones. Such approach is is more consistent and biologically pleasant than
 an output from the function if <code>.method</code> is "resample".</p>
 <p>If <code>.method</code> is "resample" then <code>repSample</code> uses multinomial distribution to compute the number of occurences for each cloneset.
-Than it removes zero-number clonotypes and return the resulting data frame. Probabilities for <code>rmultinom</code> for each cloneset
+then it removes zero-number clonotypes and return the resulting data frame. Probabilities for <code>rmultinom</code> for each cloneset
 is a percentage of this cloneset in the "Proportion" column. It's a some sort of simulation of how clonotypes are chosen from the organisms.</p>
 <p>if <code>.method</code> is "sample" then <code>repSample</code> chooses <code>.n</code> clonotypes (not clones!) randomly. Depending on the
 <code>.prob</code> argument, the function chooses clonotypes either according to their size (if <code>.prob</code> is T, by default),

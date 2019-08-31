@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Analyse spectratype of immune repertoire — spectratype • immunarch</title>
+<title>Analyse spectratype of immune repertoires — spectratype • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Analyse spectratype of immune repertoire — spectratype" />
+<meta property="og:title" content="Analyse spectratype of immune repertoires — spectratype" />
 
-<meta property="og:description" content="Analyse spectratype of immune repertoire" />
+<meta property="og:description" content="Analyse spectratype of immune repertoires" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -154,19 +154,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Analyse spectratype of immune repertoire</h1>
+    <h1>Analyse spectratype of immune repertoires</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/spectratyping.R'><code>R/spectratyping.R</code></a></small>
     <div class="hidden name"><code>spectratype.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Analyse spectratype of immune repertoire</p>
+    <p>Analyse spectratype of immune repertoires</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>spectratype</span>(<span class='no'>.data</span>, <span class='kw'>.quant</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"count"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"nuc"</span>, <span class='st'>"aa"</span>),
-  <span class='kw'>.gene</span> <span class='kw'>=</span> <span class='st'>"v"</span>)</pre>
+    <pre class="usage"><span class='fu'>spectratype</span>(<span class='no'>.data</span>, <span class='kw'>.quant</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"count"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"nt"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,16 +183,17 @@ of these objects. They are supported with the same limitations as basic objects.
     </tr>
     <tr>
       <th>.quant</th>
-      <td><p>Select the column with data to evaluate</p></td>
+      <td><p>Select the column with clonal counts to evaluate. Pass "id" to count every clonotype once.
+Pass "count" to take into the account number of clones per clonotype.</p></td>
     </tr>
     <tr>
       <th>.col</th>
-      <td><p>A string that specifies the column to be processed. Pass "nuc" for
-nucleotide sequence or "aa" for amino acid sequence.</p></td>
-    </tr>
-    <tr>
-      <th>.gene</th>
-      <td><p>A string with either "v", "j" or NA.</p></td>
+      <td><p>A string that specifies the column(s) to be processed. Pass one of the
+following strings, separated by the plus sign: "nt" for nucleotide sequences,
+"aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
+pass "aa+v" for spectratyping on CDR3 amino acid sequences paired with V gene segments, i.e.,
+in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.
+Clonal counts of equal clonotypes will be summed up.</p></td>
     </tr>
     </table>
     

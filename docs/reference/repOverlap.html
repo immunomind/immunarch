@@ -196,8 +196,12 @@ methods. The <code>repOverlap</code> function supports following basic methods:
     </tr>
     <tr>
       <th>.col</th>
-      <td><p>A string that specifies the column to be processed. Pass "nuc" for
-nucleotide sequence or "aa" for amino acid sequence.</p></td>
+      <td><p>A string that specifies the column(s) to be processed. Pass one of the
+following strings, separated by the plus sign: "nt" for nucleotide sequences,
+"aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
+pass "aa+v" to compute overlaps on CDR3 amino acid sequences paired with V gene segments, i.e.,
+in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.
+Clonal counts of equal clonotypes will be summed up.</p></td>
     </tr>
     <tr>
       <th>.a, .b</th>
@@ -220,7 +224,7 @@ the Jaccard index measure.</p></td>
     </tr>
     <tr>
       <th>.downsample</th>
-      <td><p>If T than perform downsampling to N clonotypes at each step instead of choosing the
+      <td><p>If T then perform downsampling to N clonotypes at each step instead of choosing the
 top N clonotypes.</p></td>
     </tr>
     <tr>
@@ -229,7 +233,7 @@ top N clonotypes.</p></td>
     </tr>
     <tr>
       <th>.verbose.inc</th>
-      <td><p>Logical. If TRUE than show output from the computation process.</p></td>
+      <td><p>Logical. If TRUE then show output from the computation process.</p></td>
     </tr>
     </table>
     
@@ -246,7 +250,7 @@ compares a variant to a prototype.</p>
 of an inner product space that measures the cosine of the angle between them.</p>
 <p>The "morisita" index measures how many times it is more likely to randomly
 select two sampled points from the same quadrat (the dataset is covered by a
-regular grid of changing size) than it would be in the case of a random
+regular grid of changing size) then it would be in the case of a random
 distribution generated from a Poisson process. Duplicate objects are merged
 with their counts are summed up.</p>
     

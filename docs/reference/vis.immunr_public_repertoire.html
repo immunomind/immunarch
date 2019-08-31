@@ -168,12 +168,35 @@
     <pre class="usage"><span class='co'># S3 method for immunr_public_repertoire</span>
 <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"freq"</span>,
   <span class='st'>"clonotypes"</span>), <span class='no'>...</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>Public repertoire, an output from <a href='pubRep.html'>pubRep</a>.</p></td>
+    </tr>
+    <tr>
+      <th>.plot</th>
+      <td><p>A string specifying the plot type:</p>
+<p>- "freq" for visualisation of the distribution of occurrences of clonotypes
+and their frequencies using <a href='vis_public_frequencies.html'>vis_public_frequencies</a>.</p>
+<p>- "clonotypes" for visualisation of public clonotype frequenciy correlations between pairs of
+samples using <a href='vis_public_clonotypes.html'>vis_public_clonotypes</a></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments passed <a href='vis_public_frequencies.html'>vis_public_frequencies</a> or <a href='vis_public_clonotypes.html'>vis_public_clonotypes</a>,
+depending on the ".plot" argument.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

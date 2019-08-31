@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualisation of clustering results — vis.immunr_hclust • immunarch</title>
+<title>Visualisation of hierarchical clustering — vis.immunr_hclust • immunarch</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Visualisation of clustering results — vis.immunr_hclust" />
+<meta property="og:title" content="Visualisation of hierarchical clustering — vis.immunr_hclust" />
 
-<meta property="og:description" content="Visualisation of clustering results" />
+<meta property="og:description" content="Visualisation of the results of hierarchical clustering.
+For other clustering visualisations see vis.immunr_kmeans." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -154,14 +155,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualisation of clustering results</h1>
+    <h1>Visualisation of hierarchical clustering</h1>
     <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
     <div class="hidden name"><code>vis.immunr_hclust.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Visualisation of clustering results</p>
+    <p>Visualisation of the results of hierarchical clustering.
+For other clustering visualisations see <a href='vis.immunr_kmeans.html'>vis.immunr_kmeans</a>.</p>
     
     </div>
 
@@ -183,8 +185,8 @@
     <tr>
       <th>.plot</th>
       <td><p>A character vector of length one or two specifying which plots to visualise.
-If "clust" than plot only the clustering. If "best" than plot the number of optimal clusters.
-If both than plot both.</p></td>
+If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
+If both then plot both.</p></td>
     </tr>
     <tr>
       <th>.return.grob</th>
@@ -193,26 +195,6 @@ If both than plot both.</p></td>
     <tr>
       <th>...</th>
       <td><p>Not used here.</p></td>
-    </tr>
-    <tr>
-      <th>.point</th>
-      <td><p>If TRUE then plot sample points. Passed to fviz_cluster.</p></td>
-    </tr>
-    <tr>
-      <th>.text</th>
-      <td><p>If TRUE then plot text labels. Passed to fviz_cluster.</p></td>
-    </tr>
-    <tr>
-      <th>.ellipse</th>
-      <td><p>If TRUE then plot ellipses around all samples. Passed to "ellipse" from fviz_cluster.</p></td>
-    </tr>
-    <tr>
-      <th>.point.size</th>
-      <td><p>Size of points, passed to "pointsize" from fviz_cluster.</p></td>
-    </tr>
-    <tr>
-      <th>.text.size</th>
-      <td><p>Size of text labels, passed to labelsize from fviz_cluster.</p></td>
     </tr>
     </table>
     

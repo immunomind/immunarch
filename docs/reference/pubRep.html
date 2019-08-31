@@ -166,14 +166,61 @@
     </div>
 
     <pre class="usage"><span class='fu'>pubRep</span>(<span class='no'>.data</span>, <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa+v"</span>, <span class='kw'>.quant</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"count"</span>, <span class='st'>"prop"</span>),
-  <span class='kw'>.coding</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.min.samples</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.max.samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.db</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.monet.dir</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.use.dt</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
-        
+  <span class='kw'>.coding</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.min.samples</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.max.samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>The data to be processed. Can be <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>,
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
+    </tr>
+    <tr>
+      <th>.col</th>
+      <td><p>A string that specifies the column(s) to be processed. Pass one of the
+following strings, separated by the plus sign: "nt" for nucleotide sequences,
+"aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
+pass "aa+v" to compute overlaps on CDR3 amino acid sequences paired with V gene segments, i.e.,
+in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.</p></td>
+    </tr>
+    <tr>
+      <th>.quant</th>
+      <td><p>A string that specifies the column to be processed. Pass "count" to see
+public clonotype sharing with the number of clones, pass "prop" to see proportions.</p></td>
+    </tr>
+    <tr>
+      <th>.coding</th>
+      <td><p>Logical. If TRUE then preprocess the data to filter out non-coding sequences.</p></td>
+    </tr>
+    <tr>
+      <th>.min.samples</th>
+      <td><p>Integer. A minimal number of samples a clonotype must have to be included
+in the public repertoire table.</p></td>
+    </tr>
+    <tr>
+      <th>.max.samples</th>
+      <td><p>Integer. A maxminal number of samples a clonotype must have to be included
+in the public repertoire table. Pass NA (by default) to have the maximal amoount of samples.</p></td>
+    </tr>
+    <tr>
+      <th>.verbose</th>
+      <td><p>Logical. If TRUE then output the progress.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

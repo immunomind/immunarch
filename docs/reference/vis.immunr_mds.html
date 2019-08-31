@@ -174,7 +174,43 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>Output from <code>immunr_pca</code> or <code>immunr_mds</code>.</p></td>
+      <td><p>Output from analysis functions such as <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a> or
+<a href='immunr_pca.html'>immunr_pca</a>, <a href='immunr_pca.html'>immunr_mds</a> or <a href='immunr_pca.html'>immunr_tsne</a>.</p></td>
+    </tr>
+    <tr>
+      <th>.by</th>
+      <td><p>Pass NA if you want to plot samples without grouping.</p>
+<p>You can pass a character vector with one or several column names from ".meta"
+to group your data before plotting. In this case you should provide ".meta".</p>
+<p>You can pass a character vector that exactly matches the number of samples in
+your data, each value should correspond to a sample's property. It will be used
+to group data based on the values provided. Note that in this case you should
+pass NA to ".meta".</p></td>
+    </tr>
+    <tr>
+      <th>.meta</th>
+      <td><p>A metadata object. An R dataframe with sample names and their properties,
+such as age, serostatus or hla.</p></td>
+    </tr>
+    <tr>
+      <th>.point</th>
+      <td><p>Logical. If TRUE then plot points corresponding to objects.</p></td>
+    </tr>
+    <tr>
+      <th>.text</th>
+      <td><p>Logical. If TRUE then plot sample names.</p></td>
+    </tr>
+    <tr>
+      <th>.ellipse</th>
+      <td><p>Logical. If TRUE then plot ellipses around clusters of grouped samples.</p></td>
+    </tr>
+    <tr>
+      <th>.point.size</th>
+      <td><p>Numeric. A size of points to plot.</p></td>
+    </tr>
+    <tr>
+      <th>.text.size</th>
+      <td><p>Numeric. A size of sample names' labels.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -182,13 +218,22 @@
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Other visualisation methods:</p>
+<p>- PCA - vis.immunr_pca</p>
+<p>- MDS - vis.immunr_mds</p>
+<p>- tSNE - vis.immunr_tsne</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

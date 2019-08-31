@@ -165,8 +165,14 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>entropy</span>(<span class='no'>.data</span>, <span class='kw'>.base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>)</pre>
+    <pre class="usage"><span class='fu'>entropy</span>(<span class='no'>.data</span>, <span class='kw'>.base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>)
+
+<span class='fu'>kl_div</span>(<span class='no'>.alpha</span>, <span class='no'>.beta</span>, <span class='kw'>.base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>)
+
+<span class='fu'>js_div</span>(<span class='no'>.alpha</span>, <span class='no'>.beta</span>, <span class='kw'>.base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>, <span class='kw'>.norm.entropy</span> <span class='kw'>=</span> <span class='no'>F</span>)
+
+<span class='fu'>cross_entropy</span>(<span class='no'>.alpha</span>, <span class='no'>.beta</span>, <span class='kw'>.base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+              <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>, <span class='kw'>.norm.entropy</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,8 +186,12 @@
       <td><p>Numeric. A base of logarithm.</p></td>
     </tr>
     <tr>
+      <th>.norm</th>
+      <td><p>Logical. If TRUE then normalise the entropy by the maximal value of the entropy.</p></td>
+    </tr>
+    <tr>
       <th>.do.norm</th>
-      <td><p>If TRUE than normalise input distributions to make them sum up to 1.</p></td>
+      <td><p>If TRUE then normalise input distributions to make them sum up to 1.</p></td>
     </tr>
     <tr>
       <th>.laplace</th>
@@ -197,7 +207,7 @@
     </tr>
     <tr>
       <th>.norm.entropy</th>
-      <td><p>Logical. If TRUE than normalise the resultant value by the average entropy of input distributions.</p></td>
+      <td><p>Logical. If TRUE then normalise the resultant value by the average entropy of input distributions.</p></td>
     </tr>
     </table>
     
