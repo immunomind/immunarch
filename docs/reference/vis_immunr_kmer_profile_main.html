@@ -171,18 +171,37 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>.data</th>
+      <td><p>Kmer data, an output from <a href='split_to_kmers.html'>kmer_profile</a>.</p></td>
+    </tr>
+    <tr>
+      <th>.plot</th>
+      <td><p>String specifying the plot type:</p>
+<p>- "seqlogo" for traditional sequence logo plots using <a href='vis_textlogo.html'>vis_seqlogo</a>;</p>
+<p>- "textlogo" for modified approach to sequence logo plots via text labels using <a href='vis_textlogo.html'>vis_textlogo</a>;</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Not used here.</p></td>
+      <td><p>Other arguments passed to <a href='vis_textlogo.html'>vis_textlogo</a> or <a href='vis_textlogo.html'>vis_seqlogo</a>, depending
+on the ".plot" argument.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>immdata</span>)
+<span class='fu'><a href='getKmers.html'>getKmers</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='split_to_kmers.html'>kmer_profile</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='st'>"seqlogo"</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

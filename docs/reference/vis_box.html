@@ -192,7 +192,7 @@ pass NA to ".meta".</p></td>
     <tr>
       <th>.meta</th>
       <td><p>A metadata object. An R dataframe with sample names and their properties,
-such as, age, serostatus or hla.</p></td>
+such as age, serostatus or hla.</p></td>
     </tr>
     <tr>
       <th>.melt</th>
@@ -214,6 +214,14 @@ Each numeric column should be associated with a specific repertoire sample.</p><
       <td><p>An integer value defining the size of text for p-value.</p></td>
     </tr>
     <tr>
+      <th>.defgroupby</th>
+      <td><p>A name for the column with sample names.</p></td>
+    </tr>
+    <tr>
+      <th>.grouping.var</th>
+      <td><p>A name for the column to group by.</p></td>
+    </tr>
+    <tr>
       <th>.labs</th>
       <td><p>Character vector of length two with names for x-axis and y-axis, respectively.</p></td>
     </tr>
@@ -222,21 +230,16 @@ Each numeric column should be associated with a specific repertoire sample.</p><
       <td><p>The text for the title of the plot.</p></td>
     </tr>
     <tr>
+      <th>.subtitle</th>
+      <td><p>The The text for the plot's subtitle.</p></td>
+    </tr>
+    <tr>
       <th>.legend</th>
       <td><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></td>
     </tr>
     <tr>
       <th>.leg.title</th>
       <td><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></td>
-    </tr>
-    <tr>
-      <th>.ncol</th>
-      <td><p>Number of columns to display. Provide NA (by default) if you want the function
-to automatically detect the optimal number of columns.</p></td>
-    </tr>
-    <tr>
-      <th>.title</th>
-      <td><p>The The text for the plot's title.</p></td>
     </tr>
     </table>
     

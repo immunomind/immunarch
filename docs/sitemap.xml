@@ -73,9 +73,6 @@
     <loc>https://immunarch.com/reference/inc_overlap.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/reference/load_test_data.html</loc>
-  </url>
-  <url>
     <loc>https://immunarch.com/reference/lookup_clonotypes.html</loc>
   </url>
   <url>
@@ -170,6 +167,9 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis.immunr_inc_overlap.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/vis.immunr_kmeans.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis.immunr_kmer_table.html</loc>

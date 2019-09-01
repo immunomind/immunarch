@@ -177,8 +177,81 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>.data</th>
+      <td><p>Data for visulisation.</p></td>
+    </tr>
+    <tr>
+      <th>.by</th>
+      <td><p>Pass NA if you want to plot samples without grouping.</p>
+<p>You can pass a character vector with one or several column names from ".meta"
+to group your data before plotting. In this case you should provide ".meta".</p>
+<p>You can pass a character vector that exactly matches the number of samples in
+your data, each value should correspond to a sample's property. It will be used
+to group data based on the values provided. Note that in this case you should
+pass NA to ".meta".</p></td>
+    </tr>
+    <tr>
+      <th>.meta</th>
+      <td><p>A metadata object. An R dataframe with sample names and their properties,
+such as age, serostatus or hla.</p></td>
+    </tr>
+    <tr>
+      <th>.errorbars</th>
+      <td><p>A numeric vector of length two with quantiles for error bars
+on sectors. Disabled if ".errorbars.off" is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>.errorbars.off</th>
+      <td><p>If TRUE then plot CI bars for distances between each group.
+Disabled if no group passed to the ".by" argument.</p></td>
+    </tr>
+    <tr>
       <th>.stack</th>
       <td><p>If TRUE and .errorbars.off is TRUE then plot stacked bar plots for each Group or Sample</p></td>
+    </tr>
+    <tr>
+      <th>.points</th>
+      <td><p>A logical value defining whether points will be visualised or not.</p></td>
+    </tr>
+    <tr>
+      <th>.test</th>
+      <td><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></td>
+    </tr>
+    <tr>
+      <th>.signif.label.size</th>
+      <td><p>An integer value defining the size of text for p-value.</p></td>
+    </tr>
+    <tr>
+      <th>.errorbar.width</th>
+      <td><p>Numeric. Width for error bars.</p></td>
+    </tr>
+    <tr>
+      <th>.defgroupby</th>
+      <td><p>A name for the column with sample names.</p></td>
+    </tr>
+    <tr>
+      <th>.grouping.var</th>
+      <td><p>A name for the column to group by.</p></td>
+    </tr>
+    <tr>
+      <th>.labs</th>
+      <td><p>A character vector of length two specifying names for x-axis and y-axis.</p></td>
+    </tr>
+    <tr>
+      <th>.title</th>
+      <td><p>The The text for the plot's title.</p></td>
+    </tr>
+    <tr>
+      <th>.subtitle</th>
+      <td><p>The The text for the plot's subtitle.</p></td>
+    </tr>
+    <tr>
+      <th>.legend</th>
+      <td><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></td>
+    </tr>
+    <tr>
+      <th>.leg.title</th>
+      <td><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></td>
     </tr>
     </table>
     

@@ -190,7 +190,7 @@ pass NA to ".meta".</p></td>
     <tr>
       <th>.meta</th>
       <td><p>A metadata object. An R dataframe with sample names and their properties,
-such as, age, serostatus or hla.</p></td>
+such as age, serostatus or hla.</p></td>
     </tr>
     <tr>
       <th>.errorbars</th>
@@ -222,7 +222,7 @@ Disabled if no group passed to the ".by" argument.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If data is grouped, than statistical tests for comparing means of groups will be performed, unless <code>.test = F</code> is supplied.
+    <p>If data is grouped, then statistical tests for comparing means of groups will be performed, unless <code>.test = F</code> is supplied.
 In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
 (R function <code><a href='https://www.rdocumentation.org/packages/stats/topics/wilcox.test'>wilcox.test</a></code> with an argument <code>exact = F</code>) for testing if there is a difference in mean rank values between two groups.
 In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal<!-- %E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution. -->

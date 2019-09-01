@@ -173,8 +173,8 @@ or FALSE (don't do normalisation), respectively.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>repDiversity</span>(<span class='no'>.data</span>, <span class='no'>.method</span>, <span class='kw'>.max.q</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>.min.q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.bound</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.quantile</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
+    <pre class="usage"><span class='fu'>repDiversity</span>(<span class='no'>.data</span>, <span class='no'>.method</span>, <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>, <span class='kw'>.max.q</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>.min.q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.quantile</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
   <span class='kw'>.extrapolation</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.perc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>,
   <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
     
@@ -196,6 +196,15 @@ of these objects. They are supported with the same limitations as basic objects.
       <th>.method</th>
       <td><p>Pick a method used for estimation out of a following list: chao1,
 hill, div, gini.simp, inv.simp, gini, raref, d50, dxx.</p></td>
+    </tr>
+    <tr>
+      <th>.col</th>
+      <td><p>A string that specifies the column(s) to be processed. Pass one of the
+following strings, separated by the plus sign: "nt" for nucleotide sequences,
+"aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
+pass "aa+v" to compute diversity estimations on CDR3 amino acid sequences paired with V gene segments, i.e.,
+in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.
+Clonal counts of equal clonotypes will be summed up.</p></td>
     </tr>
     <tr>
       <th>.max.q</th>
@@ -236,18 +245,14 @@ Pass 0 (zero) to turn extrapolation subroutines off.</p></td>
     </tr>
     <tr>
       <th>.do.norm</th>
-      <td><p>One of the three values - NA, T or F. If NA than check for distrubution (sum(.data) == 1)
+      <td><p>One of the three values - NA, T or F. If NA then check for distrubution (sum(.data) == 1)
 and normalise if needed with the given laplace correction value. if T then do normalisation and laplace
-correction. If F than don't do normalisaton and laplace correction.</p></td>
+correction. If F then don't do normalisaton and laplace correction.</p></td>
     </tr>
     <tr>
       <th>.laplace</th>
       <td><p>A numeric value, which is used as a pseudocount for Laplace
 smoothing.</p></td>
-    </tr>
-    <tr>
-      <th>.quant</th>
-      <td><p>Select the column with data to evaluate</p></td>
     </tr>
     </table>
     
@@ -286,7 +291,7 @@ following amplification and sequencing</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='repOverlap.html'>repOverlap</a>, <a href='entropy.html'>entropy</a>, similarity
+    <div class='dont-index'><p><a href='repOverlap.html'>repOverlap</a>, <a href='entropy.html'>entropy</a>, <a href='repClonality.html'>repClonality</a>
 Rarefaction wiki
 <a href='https://en.wikipedia.org/wiki/Rarefaction_(ecology)'>https://en.wikipedia.org/wiki/Rarefaction_(ecology)</a>
 Hill numbers paper
@@ -297,41 +302,36 @@ Diversity wiki
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'test'</span>)
-<span class='no'>dbdir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>()
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='kw pkg'>MonetDBLite</span><span class='kw ns'>::</span><span class='fu'>MonetDBLite</span>(), <span class='kw'>embedded</span> <span class='kw'>=</span> <span class='no'>dbdir</span>)
-<span class='fu'>dbWriteTable</span>(<span class='no'>con</span>, <span class='st'>"twbtest"</span>, <span class='no'>twb</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>twins</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>MonetDBLite</span><span class='kw ns'>::</span><span class='fu'>src_monetdblite</span>(<span class='kw'>dbdir</span> <span class='kw'>=</span> <span class='no'>dbdir</span>)
-<span class='no'>twbtest</span> <span class='kw'>&lt;-</span> <span class='fu'>tbl</span>(<span class='no'>twins</span>, <span class='st'>"twbtest"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>immdata</span>)
 
 <span class='co'># chao1</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'chao1'</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'chao1'</span>)
 
 <span class='co'># Hill numbers</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'hill'</span>, <span class='kw'>.max.q</span> <span class='kw'>=</span> <span class='fl'>6</span>,
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'hill'</span>, <span class='kw'>.max.q</span> <span class='kw'>=</span> <span class='fl'>6</span>,
              <span class='kw'>.min.q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
 <span class='co'># diversity</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'dev'</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'dev'</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
 <span class='co'># Gini-Simpson</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'gini.simp'</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'gini.simp'</span>, <span class='kw'>.q</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
 <span class='co'># inverse Simpson</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'inv.simp'</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'inv.simp'</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
 <span class='co'># Gini coefficient</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'gini.coef'</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'gini.coef'</span>, <span class='kw'>.do.norm</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
 <span class='co'># rarefaction</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'raref'</span>, <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.quantile</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.975</span>),
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'raref'</span>, <span class='kw'>.step</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.quantile</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.975</span>),
 <span class='kw'>.extrapolation</span> <span class='kw'>=</span> <span class='fl'>200000</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
 <span class='co'># d50</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'d50'</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'d50'</span>)
 
 <span class='co'># dXX</span>
-<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>twbtest</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'dXX'</span>, <span class='kw'>.perc</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='fu'>repDiversity</span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>immdata</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>'dXX'</span>, <span class='kw'>.perc</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

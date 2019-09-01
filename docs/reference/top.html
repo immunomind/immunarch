@@ -166,12 +166,33 @@
     </div>
 
     <pre class="usage"><span class='fu'>top</span>(<span class='no'>.data</span>, <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>The data to be processed. Can be <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>,
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
+    </tr>
+    <tr>
+      <th>.n</th>
+      <td><p>Numeric. Number of the most abundant clonotypes to return.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>
