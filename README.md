@@ -6,8 +6,16 @@
 
 # `immunarch` - An R Package for Painless Analysis of Large-Scale Immune Repertoire Data
 
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Installation Troubleshooting](#installation-troubleshooting)
+- [Quick Start](#quick-start)
+- [Citation](#citation)
+
+
 ## Introduction
-`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) or [Telegram](https://t.me/immunomind) for news and updates.
+`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) or [Telegram](https://t.me/immunomind) for news and updates.
 
 ## Features
 1. Fast and easy manipulation of immune repertoire data:
@@ -42,13 +50,10 @@
     
     + Tutorial is available [here](https://immunarch.com/articles/7_fixvis.html).
 
-# Introduction
-`immunarch` is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible---and help you focus on research instead of coding.
-
 ## Installation
 You can find the list of releases of immunarch here: https://github.com/immunomind/immunarch/releases
 
-In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz
+In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz
 
 Note that you should not un-archive it!
 
@@ -106,7 +111,7 @@ Check your path to the downloaded package archive file. It should not be "path/t
 
 8. If troubles still persist, message us on support@immunomind.io or create an issue in https://github.com/immunomind/immunarch/issues with the code that represents the issue and the output you get in the console.
 
-## Quick start
+## Quick Start
 Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:
 ```r
 # Load the package
