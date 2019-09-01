@@ -26,17 +26,17 @@
 
     + Works on any data source you are comfortable with: R data frames, data tables from [data.table](http://r-datatable.com), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
     
-    + Tutorial is available [here](https://immunarch.com/articles/2_data.html).
+    + Tutorial is available [here](https://immunarch.com/articles/v2_data.html).
 
 2. Immune repertoire analysis made simple:
 
-    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/3_basic_analysis.html);
+    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/v3_basic_analysis.html);
 
-    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/4_overlap.html);
+    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/v4_overlap.html);
   
-    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*. Tutorial is available [here](https://immunarch.com/articles/5_gene_usage.html);
+    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*. Tutorial is available [here](https://immunarch.com/articles/v5_gene_usage.html);
 
-    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/6_diversity.html);
+    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/v6_diversity.html);
 
     + Tracking of clonotypes;
     
@@ -48,7 +48,7 @@
   
     + Built-in tool `FixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
     
-    + Tutorial is available [here](https://immunarch.com/articles/7_fixvis.html).
+    + Tutorial is available [here](https://immunarch.com/articles/v7_fixvis.html).
 
 ## Installation
 You can find the list of releases of immunarch here: https://github.com/immunomind/immunarch/releases
