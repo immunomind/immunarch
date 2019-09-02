@@ -120,10 +120,18 @@
 <div id="immunarch---an-r-package-for-painless-analysis-of-large-scale-immune-repertoire-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#immunarch---an-r-package-for-painless-analysis-of-large-scale-immune-repertoire-data" class="anchor"></a><code>immunarch</code> - An R Package for Painless Analysis of Large-Scale Immune Repertoire Data</h1></div>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#installation-troubleshooting">Installation Troubleshooting</a></li>
+<li><a href="#quick-start">Quick Start</a></li>
+<li><a href="#citation">Citation</a></li>
+</ul>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p><code>immunarch</code> is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible—and help you focus on research instead of coding. Follow us on <a href="https://twitter.com/immunomind">Twitter</a> or <a href="https://t.me/immunomind">Telegram</a> for news and updates.</p>
+<p><code>immunarch</code> is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on <a href="https://twitter.com/immunomind">Twitter</a> or <a href="https://t.me/immunomind">Telegram</a> for news and updates.</p>
 </div>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
@@ -135,16 +143,16 @@
 <li><p>The package automatically detects the format of your files—no more guessing what format is <em>that</em> file, just pass them to the package;</p></li>
 <li><p>Supports all popular TCR and BCR analysis and post-analysis formats: <a href="https://www.adaptivebiotech.com/products-services/immunoseq/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, <a href="https://archerdx.com/immunoverse">ArcherDX</a>. More coming in the future;</p></li>
 <li><p>Works on any data source you are comfortable with: R data frames, data tables from <a href="http://r-datatable.com">data.table</a>, databases like <a href="https://github.com/MonetDB">MonetDB</a>, Apache Spark data frames via <a href="https://spark.rstudio.com/">sparklyr</a>;</p></li>
-<li><p>Tutorial is available <a href="https://immunarch.com/articles/2_data.html">here</a>.</p></li>
+<li><p>Tutorial is available <a href="https://immunarch.com/articles/v2_data.html">here</a>.</p></li>
 </ul>
 </li>
 <li>
 <p>Immune repertoire analysis made simple:</p>
 <ul>
-<li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names. For details see <a href="https://immunarch.com/articles/3_basic_analysis.html">link</a>;</p></li>
-<li><p>Repertoire overlap analysis <em>(common indices including overlap coefficient, Jaccard index and Morisita’s overlap index)</em>. Tutorial is available <a href="https://immunarch.com/articles/4_overlap.html">here</a>;</p></li>
-<li><p>Gene usage estimation <em>(correlation, Jensen-Shannon Divergence, clustering)</em>. Tutorial is available <a href="https://immunarch.com/articles/5_gene_usage.html">here</a>;</p></li>
-<li><p>Diversity evaluation <em>(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)</em>. Tutorial is available <a href="https://immunarch.com/articles/6_diversity.html">here</a>;</p></li>
+<li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names. For details see <a href="https://immunarch.com/articles/v3_basic_analysis.html">link</a>;</p></li>
+<li><p>Repertoire overlap analysis <em>(common indices including overlap coefficient, Jaccard index and Morisita’s overlap index)</em>. Tutorial is available <a href="https://immunarch.com/articles/v4_overlap.html">here</a>;</p></li>
+<li><p>Gene usage estimation <em>(correlation, Jensen-Shannon Divergence, clustering)</em>. Tutorial is available <a href="https://immunarch.com/articles/v5_gene_usage.html">here</a>;</p></li>
+<li><p>Diversity evaluation <em>(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)</em>. Tutorial is available <a href="https://immunarch.com/articles/v6_diversity.html">here</a>;</p></li>
 <li><p>Tracking of clonotypes;</p></li>
 <li><p>Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, Kmer distribution measures and statistics, mutation networks.</p></li>
 </ul>
@@ -154,21 +162,16 @@
 <ul>
 <li><p>Rich visualisation procedures with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>;</p></li>
 <li><p>Built-in tool <code>FixVis</code> makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;</p></li>
-<li><p>Tutorial is available <a href="https://immunarch.com/articles/7_fixvis.html">here</a>.</p></li>
+<li><p>Tutorial is available <a href="https://immunarch.com/articles/v7_fixvis.html">here</a>.</p></li>
 </ul>
 </li>
 </ol>
 </div>
-</div>
-<div id="introduction-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction-1" class="anchor"></a>Introduction</h1>
-<p><code>immunarch</code> is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible—and help you focus on research instead of coding.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can find the list of releases of immunarch here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
-<p>In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz" class="uri">https://github.com/immunomind/immunarch/releases/download/latest/immunarch.tar.gz</a></p>
+<p>In order to install immunarch, you need to download it first. If you want to download the latest version, you need to download the package file, available here <a href="https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz" class="uri">https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz</a></p>
 <p>Note that you should not un-archive it!</p>
 <p>After downloading the file, you need to install a number of packages with R commands listed below, and run the newly installed <code>devtools</code> package to install <code>immunarch</code> locally. Upon completion the dependencies will have been already downloaded and installed.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>, <span class="dt">dependencies =</span> T)</a>
@@ -209,7 +212,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quick-start" class="anchor"></a>Quick start</h2>
+<a href="#quick-start" class="anchor"></a>Quick Start</h2>
 <p>Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Load the package</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(immunarch)</a>
@@ -268,7 +271,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
   doi          = {10.5281/zenodo.3367200},
   url          = {https://doi.org/10.5281/zenodo.3367200}
 }</code></pre>
-<p>Alternatively, you can import the XML file: <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch-citation.xml"><code>immunarch-citation.xml</code></a></p>
+<p>For EndNote citation import the <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch-citation.xml"><code>immunarch-citation.xml</code></a> file.</p>
 </div>
 <div id="license" class="section level1">
 <h1 class="hasAnchor">
