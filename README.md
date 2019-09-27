@@ -11,6 +11,7 @@
 - [Installation](#installation)
 - [Installation Troubleshooting](#installation-troubleshooting)
 - [Quick Start](#quick-start)
+- [Bugs and Issues](#bugs-and-issues)
 - [Citation](#citation)
 
 
@@ -160,6 +161,20 @@ If you want to test the package without parsing any data, you can load a small t
 ```r
 data(immdata)
 ```
+# Bugs and Issues
+
+The mission of Immunarch is to make immune repertoires painless to analyse. All bug reports, documentation improvements, enhancements and ideas are welcome.
+
+If through using immunarch you have an idea of your own or are looking for something in the documentation and thinking ‘this can be improved’...you can do something about it! Just let us know.
+
+Bug reports are an important part of making immunarch more stable. Having a complete bug report will allow us to reproduce the bug and provide insight into fixing.
+
+Bug reports must: 
+
+1. Include a short, self-contained R snippet reproducing the problem. 
+2. Add minimal data sample for us to reproduce the problem. If for some reasons you don't want to share it publicly on Gihub we are always available through [support@immunomind.io](mailto:support@immunomind.io).
+3. Explain why the current behavior is wrong/not desired and what you expect instead.
+4. If the issue is somehow connected with plotting or visualization, please attach a picture. It'll be much simple for us to see what you see.
 
 # Citation
 
