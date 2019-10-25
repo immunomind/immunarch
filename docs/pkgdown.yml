@@ -9,6 +9,8 @@ articles:
   v5_gene_usage: v5_gene_usage.html
   v6_diversity: v6_diversity.html
   v7_fixvis: v7_fixvis.html
+  v8_tracking: v8_tracking.html
+  v9_kmers: v9_kmers.html
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

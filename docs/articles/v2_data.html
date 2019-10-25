@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -79,13 +79,19 @@
     <li>
       <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
+    <li>
+      <a href="../articles/v8_tracking.html">Tracking clonotypes across time points in `immunarch`</a>
+    </li>
+    <li>
+      <a href="../articles/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -187,13 +193,13 @@
 </ul>
 <p>Please contact us if there are more file formats you want to be supported.</p>
 <p>For parsing IgBLAST results process the data with MigMap first.</p>
-<p>You can load the data either from a single file or from a folder with repertoire files. A single file can be loaded as follows:</p>
+<p>You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. A single file can be loaded as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># To load the data from a single file without forcing the data format:</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">immdata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/immunoseq_1.txt"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># To load the data from a single ImmunoSEQ file go with:</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5">immdata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/immunoseq_1.txt"</span>, <span class="dt">.format =</span> <span class="st">"immunoseq"</span>)</a></code></pre></div>
-<p>In the second case you may want to provide a metadata file and locate it in the folder. It is necessary to name it exactly “metadata.txt”.</p>
+<p>In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it exactly “metadata.txt”.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># For instance you have a following structure in your folder:</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># &gt;_ ls</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># immunoseq1.txt</span></a>
@@ -201,7 +207,7 @@
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># immunoseq3.txt</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># metadata.txt</span></a></code></pre></div>
 <p>With the metadata <code>repLoad</code> will create a list in the environment with 2 elements, namely <code>data</code> and <code>meta</code>. All the data will be accessible simply from <code>immdata$data</code>.</p>
-<p>Otherwise <code>repLoad</code> will create a list with the number of elements matching the number of your files. They will be accessible directly from <code>immdata</code>.</p>
+<p>Otherwise <code>repLoad</code> will create a dummy metadata file with only sample names.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># To load the whole folder with every file in it type:</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">immdata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/"</span>)</a>
@@ -217,8 +223,16 @@
 <a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># Suppose you do not have "metadata.txt":</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co"># &gt; immdata &lt;- repLoad("path/to/your/folder/")</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co"># &gt; names(immdata)</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># [1] "immunoseq_1" "immunoseq_2" "immunoseq_3"</span></a></code></pre></div>
-<p>The metadata has to be tab delimited file with first column named “Sample” and any number of additional columns with arbitrary names. The first column should contain base names of files without extensions in your folder.</p>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># [1] "data" "meta"</span></a></code></pre></div>
+<p>Dummy metadata data frame look like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">as_tibble</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Sample =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span>), <span class="dt">stringsAsFactors =</span> F))</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   Sample    
+##   &lt;chr&gt;     
+## 1 immunoseq1
+## 2 immunoseq2
+## 3 immunoseq3</code></pre>
+<p>The metadata file “metadata.txt” has to be tab delimited file with first column named “Sample” and any number of additional columns with arbitrary names. The first column should contain base names of files without extensions in your folder.</p>
 <table class="table">
 <thead><tr class="header">
 <th align="center"><strong>Sample</strong></th>
@@ -249,40 +263,40 @@
 </table>
 <p>In order to import data from the external databases you have to create a connection to this database and then load the data. Make sure that the table format in your database matches the <code>immunarch</code>’s format.</p>
 <p>To illustrate the use of external database, here is an example demonstrating data loading to the local MonetDB database:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Your list of repertoires in immunarch's format</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">DATA</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># Metadata data frame</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">META</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co"># Create a temporary directory</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">dbdir =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>()</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">  DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbWriteTable">dbWriteTable</a></span>(con, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i], DATA[[i]], <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-15" data-line-number="15">}</a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co"># Create a source in the temporary directory with MonetDB</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18">ms =<span class="st"> </span>MonetDBLite<span class="op">::</span><span class="kw">src_monetdblite</span>(<span class="dt">dbdir =</span> dbdir)</a>
-<a class="sourceLine" id="cb4-19" data-line-number="19">res_db =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>()</a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co"># Load the data from MonetDB to dplyr tables</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
-<a class="sourceLine" id="cb4-23" data-line-number="23">  res_db[[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i]]] =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(ms, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i])</a>
-<a class="sourceLine" id="cb4-24" data-line-number="24">}</a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co"># Your data is ready to use</span></a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">data =</span> res_db, <span class="dt">meta =</span> META)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Your list of repertoires in immunarch's format</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">DATA</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co"># Metadata data frame</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">META</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co"># Create a temporary directory</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">dbdir =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>()</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbWriteTable">dbWriteTable</a></span>(con, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i], DATA[[i]], <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">}</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co"># Create a source in the temporary directory with MonetDB</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">ms =<span class="st"> </span>MonetDBLite<span class="op">::</span><span class="kw">src_monetdblite</span>(<span class="dt">dbdir =</span> dbdir)</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">res_db =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>()</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co"># Load the data from MonetDB to dplyr tables</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">  res_db[[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i]]] =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(ms, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i])</a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">}</a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co"># Your data is ready to use</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">data =</span> res_db, <span class="dt">meta =</span> META)</a></code></pre></div>
 <p>You might want to make a list with <code>data</code>, which is a list of tables of repertoires, and the <code>meta</code>, containing metadata:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Load the data to the immdata variables. Metadata file "metadata.txt" will be found automatically.</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">immdata =<span class="st"> </span><span class="kw"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"your_folder"</span>, <span class="st">"optionally_your_format"</span>)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co"># Repertoires</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">immdata<span class="op">$</span>data</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co"># Metadata</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">immdata<span class="op">$</span>meta</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Load the data to the immdata variables. Metadata file "metadata.txt" will be found automatically.</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">immdata =<span class="st"> </span><span class="kw"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"your_folder"</span>, <span class="st">"optionally_your_format"</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># Repertoires</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">immdata<span class="op">$</span>data</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Metadata</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">immdata<span class="op">$</span>meta</a></code></pre></div>
 <p><code>immunarch</code> is compatible with following sources:</p>
 <ul>
 <li><p>R data frames (for common applications)</p></li>
@@ -299,7 +313,7 @@
 <h2 class="hasAnchor">
 <a href="#get-the-most-abundant-clonotypes" class="anchor"></a>Get the most abundant clonotypes</h2>
 <p>The function returns the most abundant clonotypes for the given repertoire:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/top.html">top</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/top.html">top</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
 <pre><code>## # A tibble: 11 x 15
 ##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;
@@ -321,19 +335,19 @@
 <h2 class="hasAnchor">
 <a href="#filter-functional-non-functional-in-frame-out-of-frame-clonotypes" class="anchor"></a>Filter functional / non-functional / in-frame / out-of-frame clonotypes</h2>
 <p>Conveniently, functions are vectorised over the list of data frames; and <code><a href="../reference/coding.html">coding(immdata$data)</a></code> in the example below returns a list of data frames with coding sequences:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/coding.html">coding</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/coding.html">coding</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
 <p>The next one operates in a similar fashion:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/coding.html">noncoding</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/coding.html">noncoding</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
 <p>Now, the computation of the number of filtered sequences is straightforward:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">inframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">inframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
 <p>And for the out-of-frame clonotypes:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">outofframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">outofframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
 </div>
 <div id="get-subset-of-clonotypes-with-a-specific-v-gene" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor"></a>Get subset of clonotypes with a specific V gene</h2>
 <p>It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], V.name <span class="op">==</span><span class="st"> 'TRBV10-1'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], V.name <span class="op">==</span><span class="st"> 'TRBV10-1'</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 26 x 15
 ##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;
@@ -354,14 +368,14 @@
 <div id="downsampling" class="section level1">
 <h1 class="hasAnchor">
 <a href="#downsampling" class="anchor"></a>Downsampling</h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"downsample"</span>, <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
-<pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 
-##      96      98      97     100      89      96      87      98      88 
-##     MS4     MS5     MS6 
-##     100      93     100</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"sample"</span>, <span class="dt">.n =</span> <span class="dv">10</span>)</a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"downsample"</span>, <span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
+<pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 
+##      96      97      95     100      85      96      90      96      85 
+##     MS4     MS5     MS6 
+##     100      81      99</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"sample"</span>, <span class="dt">.n =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 
 ##      10      10      10      10      10      10      10      10      10 
 ##     MS4     MS5     MS6 

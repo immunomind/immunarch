@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -79,13 +79,19 @@
     <li>
       <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
+    <li>
+      <a href="../articles/v8_tracking.html">Tracking clonotypes across time points in `immunarch`</a>
+    </li>
+    <li>
+      <a href="../articles/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -190,19 +196,19 @@ warning("TODO")
 ## MS6      26.4594518  26.857981</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
-<pre><code>##                DimI      DimII
-## A2-i129   11.932671 -227.15629
-## A2-i131  405.769064  -46.59760
-## A2-i133 -150.943846  177.90536
-## A2-i132 -135.204243  183.24219
-## A4-i191 -126.497296  169.07260
-## A4-i192   11.418191 -243.10201
-## MS1       -3.316856 -231.85057
-## MS2     -141.842495  164.86712
-## MS3        7.799020 -232.56671
-## MS4     -139.365166  171.71338
-## MS5      405.769747  -40.22455
-## MS6     -145.518792  154.69709
+<pre><code>##               DimI      DimII
+## A2-i129 -101.26166  287.70644
+## A2-i131  506.72266  -84.91429
+## A2-i133  -85.28165 -137.99823
+## A2-i132 -115.82841 -120.98413
+## A4-i191  -83.59947 -169.04839
+## A4-i192 -106.91267  253.37204
+## MS1      -70.18321  273.65923
+## MS2     -116.52986 -157.70810
+## MS3      -94.13629  275.68766
+## MS4     -103.33296 -150.99452
+## MS5      506.67276  -98.22348
+## MS6     -136.32923 -170.55423
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
@@ -230,19 +236,19 @@ warning("TODO")
 ## MS6      26.4594518  26.857981</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(imm_ov1, <span class="st">"tsne"</span>)</a></code></pre></div>
-<pre><code>##                DimI      DimII
-## A2-i129  211.161697 -169.25526
-## A2-i131 -407.503269   24.34883
-## A2-i133   -1.244571   27.23585
-## A2-i132  -91.135043   92.66167
-## A4-i191   99.741797  100.14858
-## A4-i192  107.923795 -117.17801
-## MS1      283.837532  -76.83616
-## MS2       34.792728  187.20567
-## MS3      202.817564 -114.09685
-## MS4        7.361522  136.75961
-## MS5     -328.424722   27.28128
-## MS6     -119.329030 -118.27520
+<pre><code>##               DimI      DimII
+## A2-i129   73.72954 -94.541055
+## A2-i131  141.92982 231.465387
+## A2-i133  -90.67161 -10.474585
+## A2-i132 -103.92236  -7.268597
+## A4-i191  -90.85747 -24.107532
+## A4-i192   78.02502 -82.198928
+## MS1       86.79656 -94.625645
+## MS2     -103.34255 -20.304351
+## MS3       78.25774 -91.337967
+## MS4      -98.63710 -16.653510
+## MS5      139.05738 235.797321
+## MS6     -110.36498 -25.750538
 ## attr(,"class")
 ## [1] "matrix"      "immunr_tsne"</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Visualise the results</span></a>
