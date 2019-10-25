@@ -78,7 +78,7 @@ diving right into it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -121,13 +121,19 @@ diving right into it." />
     <li>
       <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
+    <li>
+      <a href="../articles/v8_tracking.html">Tracking clonotypes across time points in `immunarch`</a>
+    </li>
+    <li>
+      <a href="../articles/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
 </li>
       </ul>
       
@@ -187,11 +193,16 @@ Input data can be one of the following:</p>
 <p>- a single repertoire file.
 In this case <code>repLoad</code> returns an R <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>;</p>
 <p>- a vector of paths to repertoire files.
-In this case <code>repLoad</code> returns a list of R <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>s;</p>
-<p>- a path to the folder with repertoire files and, if available, metadata file.
-If the metadata file is not presented, then the <code>repLoad</code> returns a list of R <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>s.
+Same as in the case with no metadata file presented in the next section below;</p>
+<p>- a path to the folder with repertoire files and, if available, metadata file "metadata.txt".
 If the metadata file if presented, then the <code>repLoad</code> returns a list with two elements "data" and "meta".
-"data" is an another list with repertoire R <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>s. "meta" is a data frame with the metadata.</p></td>
+"data" is an another list with repertoire R <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>s. "meta" is a data frame with the metadata.
+If the metadata file "metadata.txt" is not presented, then the <code>repLoad</code> creates a dummy metadata file with
+sample names and returns a list with two elements "data" and "meta".
+If input data has multiple chains or cell types stored in the same file
+(for example, like in 10xGenomics repertoire files), such repertoire files will be splitted to different
+R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
+cell and chain types for different samples.</p></td>
     </tr>
     <tr>
       <th>.format</th>
@@ -202,12 +213,7 @@ If the metadata file if presented, then the <code>repLoad</code> returns a list 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You can load the data either from a single file or from a folder with repertoire files.
-In the second case you may want to provide a metadata file. In this case you should locate it in the folder.
-It is necessary to name it exactly "metadata.txt".
-If metadata is provided, <code>repLoad</code> will create a list in with 2 elements your environment, namely "data" and "meta".
-Otherwise <code>repLoad</code> will create a list with the number of elements matching the number of your files.</p>
-<p>The metadata has to be a tab delimited file with first column named "Sample".
+    <p>The metadata has to be a tab delimited file with first column named "Sample".
 It can have any number of additional columns with arbitrary names.
 The first column should contain base names of files without extensions in
 your folder. Example:</p><table class='table'>
@@ -263,10 +269,11 @@ you can choose one of the several options for the argument:</p>
 <span class='co'># &gt; names(immdata)</span>
 <span class='co'># [1] "data" "meta"</span>
 
-<span class='co'># If you do not have "metadata.txt", you will see:</span>
+<span class='co'># If you do not have "metadata.txt", you will see the same output,</span>
+<span class='co'># but your metadata will be almost empty:</span>
 <span class='co'># &gt; immdata &lt;- repLoad("path/to/your/folder/")</span>
 <span class='co'># &gt; names(immdata)</span>
-<span class='co'># [1] "immunoseq_1" "immunoseq_2" "immunoseq_3"</span>
+<span class='co'># [1] "data" "meta"</span>
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
