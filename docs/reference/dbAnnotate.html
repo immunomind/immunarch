@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply transformations to public repertoires — pubRepApply • immunarch</title>
+<title>Annotate clonotypes using databases — dbAnnotate • immunarch</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Apply transformations to public repertoires — pubRepApply" />
-<meta property="og:description" content="Work In Progress" />
+<meta property="og:title" content="Annotate clonotypes using databases — dbAnnotate" />
+<meta property="og:description" content="Annotate clonotypes using immune receptor databases with known condition-associated receptors.
+Before using this function, you need to download database files first.
+For more details see the tutorial https://immunarch.com/articles/v11_db.html." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -176,33 +178,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply transformations to public repertoires</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/shared.R'><code>R/shared.R</code></a></small>
-    <div class="hidden name"><code>pubRepApply.Rd</code></div>
+    <h1>Annotate clonotypes using databases</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/search.R'><code>R/search.R</code></a></small>
+    <div class="hidden name"><code>dbAnnotate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Work In Progress</p>
+    <p>Annotate clonotypes using immune receptor databases with known condition-associated receptors.
+Before using this function, you need to download database files first.
+For more details see the tutorial <a href='https://immunarch.com/articles/v11_db.html'>https://immunarch.com/articles/v11_db.html</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pubRepApply</span>(<span class='no'>.pr1</span>, <span class='no'>.pr2</span>, <span class='kw'>.fun</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='no'>x</span>[<span class='fl'>1</span>])/<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='no'>x</span>[<span class='fl'>2</span>]))</pre>
+    <pre class="usage"><span class='fu'>dbAnnotate</span>(<span class='no'>.data</span>, <span class='no'>.db</span>, <span class='no'>.data.col</span>, <span class='no'>.db.col</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.pr1</th>
-      <td><p>First public repertoire.</p></td>
+      <th>.data</th>
+      <td><p>The data to process. It can be a <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>, a
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
     <tr>
-      <th>.pr2</th>
-      <td><p>Second public repertoire.</p></td>
+      <th>.db</th>
+      <td><p>A data frame or a data table with an immune receptor database. See <a href='dbLoad.html'>dbLoad</a> on how to load databases into R.</p></td>
     </tr>
     <tr>
-      <th>.fun</th>
-      <td><p>A function to apply to pairs of frequencies of same clonotypes from "pr1" and "pr2".
-By default - <code>log(X) / log(Y)</code> where <code>X,Y</code> - frequencies of the same clonotype,
-found in both public repertoires.</p></td>
+      <th>.data.col</th>
+      <td><p>Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., `"CDR3.aa"` or `c("CDR3.aa", "V.name")`.</p></td>
+    </tr>
+    <tr>
+      <th>.db.col</th>
+      <td><p>Character vector. Vector of columns in the database to use for clonotype search. The order must match the order of ".data.col".
+E.g., if ".data.col" is `c("CDR3.aa", "V.name")`, then ".db.col" must have the exact order of columns. i.e., the first column must correspond
+to CDR3 amino acid sequences, and the second column must correspond to V gene segment names.</p></td>
     </tr>
     </table>
 

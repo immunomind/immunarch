@@ -5,11 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Working with data in <code>immunarch</code> • immunarch</title>
+<title>Working with data in `immunarch` • immunarch</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Working with data in &lt;code&gt;immunarch&lt;/code&gt;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Working with data in `immunarch`">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -36,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -58,15 +59,18 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
+<li class="dropdown-header">First steps</li>
+    <li>
+      <a href="../articles/v1_introduction.html">Introduction to immunarch</a>
     </li>
     <li>
-      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
       <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
       <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
@@ -77,10 +81,17 @@
       <a href="../articles/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
+      <a href="../articles/v11_db.html">Annotate clonotypes using immune receptor databases</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Preparing to publication</li>
+    <li>
       <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Advanced methods</li>
     <li>
-      <a href="../articles/v8_tracking.html">Tracking clonotypes across time points in `immunarch`</a>
+      <a href="../articles/v8_tracking.html">Tracking clonotypes across time points</a>
     </li>
     <li>
       <a href="../articles/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
@@ -119,6 +130,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -179,11 +191,11 @@
 <li><p><code>"migec"</code> - <a href="http://migec.readthedocs.io/en/latest/" class="uri">http://migec.readthedocs.io/en/latest/</a></p></li>
 <li><p><code>"migmap"</code> - <a href="https://github.com/mikessh/migmap" class="uri">https://github.com/mikessh/migmap</a></p></li>
 <li><p><code>"tcr"</code> - <a href="https://imminfo.github.io/tcr/" class="uri">https://imminfo.github.io/tcr/</a></p></li>
-<li><p><code>"vdjtools"</code> - <a href="http://vdjtools-doc.readthedocs.io/en/latest/" class="uri">http://vdjtools-doc.readthedocs.io/en/latest/</a></p></li>
+<li><p><code>"vdjtools"</code> - <a href="https://vdjtools-doc.readthedocs.io/en/master/" class="uri">https://vdjtools-doc.readthedocs.io/en/master/</a></p></li>
 <li><p><code>"imgt"</code> - <a href="http://www.imgt.org/HighV-QUEST/" class="uri">http://www.imgt.org/HighV-QUEST/</a></p></li>
 <li><p><code>"airr"</code> - <a href="http://docs.airr-community.org/en/latest/datarep/overview.html" class="uri">http://docs.airr-community.org/en/latest/datarep/overview.html</a></p></li>
 <li><p><code>"10x"</code> - <a href="https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation" class="uri">https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation</a></p></li>
-<li><p><code>"archer"</code> - ArcherDX clonotype tables. <a href="https://archerdx.com/" class="uri">https://archerdx.com/</a></p></li>
+<li><p><code>"archer"</code> - ArcherDX clonotype tables. <a href="https://archerdx.com/immunology/" class="uri">https://archerdx.com/immunology/</a></p></li>
 </ul>
 <p>These parsers will be available soon.</p>
 <ul>
@@ -225,7 +237,7 @@
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co"># &gt; names(immdata)</span></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># [1] "data" "meta"</span></a></code></pre></div>
 <p>Dummy metadata data frame look like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">as_tibble</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Sample =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span>), <span class="dt">stringsAsFactors =</span> F))</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">as_tibble</span>(<span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">Sample =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span>), <span class="dt">stringsAsFactors =</span> F))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 1
 ##   Sample    
 ##   &lt;chr&gt;     
@@ -269,27 +281,27 @@
 <a class="sourceLine" id="cb6-4" data-line-number="4">META</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co"># Create a temporary directory</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">dbdir =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>()</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">dbdir =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10">con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbConnect.html">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)</a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">  DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbWriteTable">dbWriteTable</a></span>(con, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i], DATA[[i]], <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(DATA)) {</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  DBI<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(DATA)[i], DATA[[i]], <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb6-15" data-line-number="15">}</a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co"># Create a source in the temporary directory with MonetDB</span></a>
 <a class="sourceLine" id="cb6-18" data-line-number="18">ms =<span class="st"> </span>MonetDBLite<span class="op">::</span><span class="kw">src_monetdblite</span>(<span class="dt">dbdir =</span> dbdir)</a>
-<a class="sourceLine" id="cb6-19" data-line-number="19">res_db =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>()</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">res_db =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>()</a>
 <a class="sourceLine" id="cb6-20" data-line-number="20"></a>
 <a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co"># Load the data from MonetDB to dplyr tables</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(DATA)) {</a>
-<a class="sourceLine" id="cb6-23" data-line-number="23">  res_db[[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i]]] =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(ms, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(DATA)[i])</a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(DATA)) {</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">  res_db[[<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(DATA)[i]]] =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(ms, <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(DATA)[i])</a>
 <a class="sourceLine" id="cb6-24" data-line-number="24">}</a>
 <a class="sourceLine" id="cb6-25" data-line-number="25"></a>
 <a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co"># Your data is ready to use</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">data =</span> res_db, <span class="dt">meta =</span> META)</a></code></pre></div>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">data =</span> res_db, <span class="dt">meta =</span> META)</a></code></pre></div>
 <p>You might want to make a list with <code>data</code>, which is a list of tables of repertoires, and the <code>meta</code>, containing metadata:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Load the data to the immdata variables. Metadata file "metadata.txt" will be found automatically.</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">immdata =<span class="st"> </span><span class="kw"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"your_folder"</span>, <span class="st">"optionally_your_format"</span>)</a>
@@ -308,28 +320,28 @@
 <div id="basic-data-manipulations-with-dplyr-and-immunarch" class="section level1">
 <h1 class="hasAnchor">
 <a href="#basic-data-manipulations-with-dplyr-and-immunarch" class="anchor"></a>Basic data manipulations with dplyr and immunarch</h1>
-<p>You can find the introduction to <code>dplyr</code> here: <a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html" class="uri">https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html</a></p>
+<p>You can find the introduction to <code>dplyr</code> here: <a href="https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html" class="uri">https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html</a></p>
 <div id="get-the-most-abundant-clonotypes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-the-most-abundant-clonotypes" class="anchor"></a>Get the most abundant clonotypes</h2>
 <p>The function returns the most abundant clonotypes for the given repertoire:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/top.html">top</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
 <pre><code>## # A tibble: 11 x 15
-##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start
-##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;
-##  1    206    0.0206  TGCGCC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18
-##  2    193    0.0193  TGCGCC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13
-##  3     79    0.0079  TGTGCC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16
-##  4     64    0.0064  TGTGCC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19
-##  5     62    0.0062  TGCGCC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13
-##  6     56    0.0056  TGTGCC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16
-##  7     54    0.0054  TGCGCC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21
-##  8     35    0.0035  TGTGCC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17
-##  9     34    0.0034  TGCGCC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23
-## 10     29    0.00290 TGTGCC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20
-## 11     29    0.00290 TGTGCC… CASSFR… TRBV27 TRBD1  TRBJ2…    13      16
-## # … with 6 more variables: D.end &lt;int&gt;, J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,
-## #   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
+##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start D.end
+##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##  1    206    0.0206  TGCGCC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
+##  2    193    0.0193  TGCGCC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
+##  3     79    0.0079  TGTGCC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
+##  4     64    0.0064  TGTGCC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
+##  5     62    0.0062  TGCGCC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
+##  6     56    0.0056  TGTGCC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
+##  7     54    0.0054  TGCGCC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
+##  8     35    0.0035  TGTGCC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
+##  9     34    0.0034  TGCGCC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
+## 10     29    0.00290 TGTGCC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
+## 11     29    0.00290 TGTGCC… CASSFR… TRBV27 TRBD1  TRBJ2…    13      16    23
+## # … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,
+## #   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
 </div>
 <div id="filter-functional-non-functional-in-frame-out-of-frame-clonotypes" class="section level2">
 <h2 class="hasAnchor">
@@ -339,47 +351,47 @@
 <p>The next one operates in a similar fashion:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/coding.html">noncoding</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]])</a></code></pre></div>
 <p>Now, the computation of the number of filtered sequences is straightforward:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">inframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">inframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
 <p>And for the out-of-frame clonotypes:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">outofframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw"><a href="../reference/coding.html">outofframes</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]]))</a></code></pre></div>
 </div>
 <div id="get-subset-of-clonotypes-with-a-specific-v-gene" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor"></a>Get subset of clonotypes with a specific V gene</h2>
 <p>It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], V.name <span class="op">==</span><span class="st"> 'TRBV10-1'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(immdata<span class="op">$</span>data[[<span class="dv">1</span>]], V.name <span class="op">==</span><span class="st"> 'TRBV10-1'</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 26 x 15
-##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start
-##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;
-##  1      2     0.0002 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20
-##  2      2     0.0002 TGCGCC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15
-##  3      2     0.0002 TGCGCC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10
-##  4      1     0.0001 TGCGCC… CASSEA… TRBV1… TRBD2  TRBJ2…    14      21
-##  5      1     0.0001 TGCGCC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7
-##  6      1     0.0001 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20
-##  7      1     0.0001 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17
-##  8      1     0.0001 TGCGCC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13
-##  9      1     0.0001 TGCGCC… CASRGS… TRBV1… TRBD1  TRBJ2…    10      11
-## 10      1     0.0001 TGCGCC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13
-## # … with 16 more rows, and 6 more variables: D.end &lt;int&gt;, J.start &lt;int&gt;,
-## #   VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
+##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start D.end
+##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##  1      2     0.0002 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25
+##  2      2     0.0002 TGCGCC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22
+##  3      2     0.0002 TGCGCC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15
+##  4      1     0.0001 TGCGCC… CASSEA… TRBV1… TRBD2  TRBJ2…    14      21    25
+##  5      1     0.0001 TGCGCC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9
+##  6      1     0.0001 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22
+##  7      1     0.0001 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21
+##  8      1     0.0001 TGCGCC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21
+##  9      1     0.0001 TGCGCC… CASRGS… TRBV1… TRBD1  TRBJ2…    10      11    13
+## 10      1     0.0001 TGCGCC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19
+## # … with 16 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,
+## #   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
 </div>
 </div>
 <div id="downsampling" class="section level1">
 <h1 class="hasAnchor">
 <a href="#downsampling" class="anchor"></a>Downsampling</h1>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"downsample"</span>, <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
-<pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 
-##      96      97      95     100      85      96      90      96      85 
-##     MS4     MS5     MS6 
-##     100      81      99</code></pre>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(ds, nrow)</a></code></pre></div>
+<pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
+##      98      97      94     100      91      93      91     100      95      99 
+##     MS5     MS6 
+##      85     100</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"sample"</span>, <span class="dt">.n =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(ds, nrow)</a></code></pre></div>
-<pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3 
-##      10      10      10      10      10      10      10      10      10 
-##     MS4     MS5     MS6 
-##      10      10      10</code></pre>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(ds, nrow)</a></code></pre></div>
+<pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
+##      10      10      10      10      10      10      10      10      10      10 
+##     MS5     MS6 
+##      10      10</code></pre>
 <!---
 ## Additional functions to help with dplyr
 
@@ -400,6 +412,7 @@ With these functions you can write the subset of your repertoires to new tables 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -421,17 +434,20 @@ With these functions you can write the subset of your repertoires to new tables 
 </div>
 
 
+
       <footer><div class="copyright">
-  <p>Developed by  ImmunoMind.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -25,6 +25,12 @@
     <loc>https://immunarch.com/reference/coding.html</loc>
   </url>
   <url>
+    <loc>https://immunarch.com/reference/dbAnnotate.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/dbLoad.html</loc>
+  </url>
+  <url>
     <loc>https://immunarch.com/reference/dot-quant_column_choice.html</loc>
   </url>
   <url>
@@ -71,9 +77,6 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/inc_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/lookup_clonotypes.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/matrixdiagcopy.html</loc>
@@ -230,23 +233,5 @@
   </url>
   <url>
     <loc>https://immunarch.com/articles/v3_basic_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v4_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v5_gene_usage.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v6_diversity.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v7_fixvis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v8_tracking.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v9_kmers.html</loc>
   </url>
 </urlset>
