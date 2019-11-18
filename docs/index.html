@@ -5,12 +5,19 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fast and Effortless Analysis of Large-Scale Immune Repertoire Data • immunarch</title>
+<title>Painless Bioinformatics Analysis of T-cell and B-cell Receptor Repertoires • immunarch</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Fast and Effortless Analysis of Large-Scale Immune Repertoire Data">
-<meta property="og:description" content="Painless Analysis of Large-Scale Immune Repertoire Data.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Painless Bioinformatics Analysis of T-cell and B-cell Receptor Repertoires">
+<meta property="og:description" content="A comprehensive framework for analysis of 
+    Adaptive Immune Receptor Repertoire (AIRR) data. It provides 
+    seamless data loading, analysis and visualisation.It implements 
+    most of the widely used AIRR analysis methods, such as: clonality analysis,
+    estimation of repertoire similarities in distribution of clonotypes and gene segments, 
+    repertoire diversity analysis, annotation of clonotypes using external immune receptor 
+    databases and clonotype tracking in vaccination and cancer studies.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -36,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -58,32 +65,42 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/v1_introduction.html">Introduction to `immunarch`</a>
+<li class="dropdown-header">First steps</li>
+    <li>
+      <a href="articles/v1_introduction.html">Introduction to immunarch</a>
     </li>
     <li>
-      <a href="articles/v2_data.html">Working with data in `immunarch`</a>
+      <a href="articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
       <a href="articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
-      <a href="articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="articles/v5_gene_usage.html">Gene usage analysis</a>
+      <a href="articles/web_only/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="articles/v6_diversity.html">Diversity estimation</a>
+      <a href="articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="articles/web_only/v11_db.html">Annotate clonotypes using immune receptor databases</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Preparing to publication</li>
+    <li>
+      <a href="articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Advanced methods</li>
+    <li>
+      <a href="articles/web_only/v8_tracking.html">Tracking clonotypes across time points</a>
     </li>
     <li>
-      <a href="articles/v8_tracking.html">Tracking clonotypes across time points in `immunarch`</a>
-    </li>
-    <li>
-      <a href="articles/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
+      <a href="articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
   </ul>
 </li>
@@ -119,6 +136,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 
@@ -131,24 +149,29 @@
 <li><a href="#installation">Installation</a></li>
 <li><a href="#features">Features</a></li>
 <li><a href="#quick-start">Quick Start</a></li>
-<li><a href="#installation-troubleshooting">Installation Troubleshooting</a></li>
 <li><a href="#bugs-and-issues">Bugs and Issues</a></li>
 <li><a href="#citation">Citation</a></li>
 </ul>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p><code>immunarch</code> is an R package designed to analyse TCR and BCR (immunoglobulin) repertoires, which constitute a large amount of data. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on <a href="https://twitter.com/immunomind">Twitter</a> for news and updates.</p>
+<p><code>immunarch</code> is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on <a href="https://twitter.com/immunomind">Twitter</a> for news and updates.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>In order to install <code>immunarch</code> you need to execute only two R commands:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_url</a></span>(<span class="st">"https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz"</span>)</a></code></pre></div>
-<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis with the package. If you run in any trouble with installation, take a look at the <a href="#installation-troubleshooting">Installation Troubleshooting</a> section below.</p>
-<p>Note that there are quite a lot of dependencies to install with this two packages because they install all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and Data Science package eco-system with only two commands!</p>
+<p>In order to install <code>immunarch</code> execute the following R command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>)</a></code></pre></div>
+<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="#installation-troubleshooting">Installation Troubleshooting</a> section below.</p>
+<p>Note that there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and Data Science package eco-system with only one command!</p>
 <p>You can find the list of releases of <code>immunarch</code> here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
+<div id="pre-release-version-installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pre-release-version-installation" class="anchor"></a>Pre-release version installation</h3>
+<p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from a code repository. In order to install the latest pre-release version, you need to execute only two commands:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_url</a></span>(<span class="st">"https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz"</span>)</a></code></pre></div>
+</div>
 </div>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
@@ -158,7 +181,7 @@
 <p>Fast and easy manipulation of immune repertoire data:</p>
 <ul>
 <li><p>The package automatically detects the format of your files—no more guessing what format is <em>that</em> file, just pass them to the package;</p></li>
-<li><p>Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: <a href="https://www.adaptivebiotech.com/products-services/immunoseq/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, <a href="https://archerdx.com/immunoverse">ArcherDX</a>. More coming in the future;</p></li>
+<li><p>Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: <a href="https://www.adaptivebiotech.com/products-services/immunoseq/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, <a href="https://archerdx.com/immunology/">ArcherDX</a>. More coming in the future;</p></li>
 <li><p>Works on any data source you are comfortable with: R data frames, data tables from <a href="http://r-datatable.com">data.table</a>, databases like <a href="https://github.com/MonetDB">MonetDB</a>, Apache Spark data frames via <a href="https://spark.rstudio.com/">sparklyr</a>;</p></li>
 <li><p>Tutorial is available <a href="https://immunarch.com/articles/v2_data.html">here</a>.</p></li>
 </ul>
@@ -187,110 +210,52 @@
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quick-start" class="anchor"></a>Quick Start</h2>
-<p>Importing data into R is fairly simple. The gist of the typical TCR or BCR explorational data analysis workflow can be reduced to the next few lines of code:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Load the package</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(immunarch)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Load the data to the package</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">immdata =<span class="st"> </span><span class="kw"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># If you folder contains metadata.txt file, immdata will have two elements:</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># - immdata$data with a list of parsed repertoires</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># - immdata$meta with the metadata file</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># If you don't have your data, you can load repertoire data</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co"># that comes with immunarch. Uncomment (i.e., remove the "#" symbol)</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># in the next line to load the data</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># data(immdata)</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co"># Compute and visualise overlap statistics</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">ov =<span class="st"> </span><span class="kw"><a href="reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov)</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co"># Cluster samples using K-means algorithm applied to the number of overlapped clonotypes</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># and visualise the results</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"mds"</span>)</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co"># Compute and visualise gene usage with samples, grouped by their disease status</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">gu =<span class="st"> </span><span class="kw"><a href="reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data)</a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co"># Compute Jensen-Shannon divergence among gene distributions of samples, </span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co"># cluster samples using the hierarchical clustering and visualise the results</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">gu.clust =<span class="st"> </span><span class="kw"><a href="reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(gu, <span class="dt">.method =</span> <span class="st">"js+hclust"</span>)</a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu.clust)</a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co"># Compare diversity of repertoires and visualise samples, grouped by two parameters</span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co"># Manipulate the visualisation of diversity estimates to make the plot publication-ready</span></a>
-<a class="sourceLine" id="cb2-38" data-line-number="38">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
-<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
-<p>If you want to test the package without parsing any data, you can load a small test dataset provided along with the package. Load the data with the following command:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(immdata)</a></code></pre></div>
-</div>
-<div id="installation-troubleshooting" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation-troubleshooting" class="anchor"></a>Installation troubleshooting</h2>
-<p>If you can not install <code>devtools</code>, check sections 1, 2 and 7 below.</p>
-<p>If you can not install dependencies for <code>immunarch</code>, please try manual installation of all dependencies by executing the following command in R console.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"rematch"</span>, <span class="st">"prettyunits"</span>, <span class="st">"forcats"</span>, <span class="st">"cellranger"</span>, <span class="st">"progress"</span>, <span class="st">"zip"</span>, <span class="st">"backports"</span>, <span class="st">"ellipsis"</span>, <span class="st">"zeallot"</span>, <span class="st">"SparseM"</span>, <span class="st">"MatrixModels"</span>, <span class="st">"sp"</span>, <span class="st">"haven"</span>, <span class="st">"curl"</span>, <span class="st">"readxl"</span>, <span class="st">"openxlsx"</span>, <span class="st">"minqa"</span>, <span class="st">"nloptr"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"utf8"</span>, <span class="st">"vctrs"</span>, <span class="st">"carData"</span>, <span class="st">"pbkrtest"</span>, <span class="st">"quantreg"</span>, <span class="st">"maptools"</span>, <span class="st">"rio"</span>, <span class="st">"lme4"</span>, <span class="st">"labeling"</span>, <span class="st">"munsell"</span>, <span class="st">"cli"</span>, <span class="st">"fansi"</span>, <span class="st">"pillar"</span>, <span class="st">"viridis"</span>, <span class="st">"car"</span>, <span class="st">"ellipse"</span>, <span class="st">"flashClust"</span>, <span class="st">"leaps"</span>, <span class="st">"scatterplot3d"</span>, <span class="st">"modeltools"</span>, <span class="st">"DEoptimR"</span>, <span class="st">"digest"</span>, <span class="st">"gtable"</span>, <span class="st">"lazyeval"</span>, <span class="st">"rlang"</span>, <span class="st">"scales"</span>, <span class="st">"tibble"</span>, <span class="st">"viridisLite"</span>, <span class="st">"withr"</span>, <span class="st">"assertthat"</span>, <span class="st">"glue"</span>, <span class="st">"magrittr"</span>, <span class="st">"pkgconfig"</span>, <span class="st">"R6"</span>, <span class="st">"tidyselect"</span>, <span class="st">"BH"</span>, <span class="st">"plogr"</span>, <span class="st">"purrr"</span>, <span class="st">"ggsci"</span>, <span class="st">"cowplot"</span>, <span class="st">"ggsignif"</span>, <span class="st">"polynom"</span>, <span class="st">"fastcluster"</span>, <span class="st">"plyr"</span>, <span class="st">"abind"</span>, <span class="st">"dendextend"</span>, <span class="st">"FactoMineR"</span>, <span class="st">"mclust"</span>, <span class="st">"flexmix"</span>, <span class="st">"prabclus"</span>, <span class="st">"diptest"</span>, <span class="st">"robustbase"</span>, <span class="st">"kernlab"</span>, <span class="st">"GlobalOptions"</span>, <span class="st">"shape"</span>, <span class="st">"colorspace"</span>, <span class="st">"stringi"</span>, <span class="st">"hms"</span>, <span class="st">"clipr"</span>, <span class="st">"crayon"</span>, <span class="st">"httpuv"</span>, <span class="st">"mime"</span>, <span class="st">"jsonlite"</span>, <span class="st">"xtable"</span>, <span class="st">"htmltools"</span>, <span class="st">"sourcetools"</span>, <span class="st">"later"</span>, <span class="st">"promises"</span>, <span class="st">"gridBase"</span>, <span class="st">"RColorBrewer"</span>, <span class="st">"yaml"</span>, <span class="st">"ggplot2"</span>, <span class="st">"dplyr"</span>, <span class="st">"dtplyr"</span>, <span class="st">"dbplyr"</span>, <span class="st">"data.table"</span>, <span class="st">"gridExtra"</span>, <span class="st">"ggpubr"</span>, <span class="st">"heatmap3"</span>, <span class="st">"ggrepel"</span>, <span class="st">"reshape2"</span>, <span class="st">"DBI"</span>, <span class="st">"factoextra"</span>, <span class="st">"fpc"</span>, <span class="st">"circlize"</span>, <span class="st">"tidyr"</span>, <span class="st">"Rtsne"</span>, <span class="st">"readr"</span>, <span class="st">"shiny"</span>, <span class="st">"shinythemes"</span>, <span class="st">"treemap"</span>, <span class="st">"igraph"</span>, <span class="st">"airr"</span>, <span class="st">"ggseqlogo"</span>, <span class="st">"UpSetR"</span>, <span class="st">"stringr"</span>, <span class="st">"ggalluvial"</span>, <span class="st">"Rcpp"</span>))</a></code></pre></div>
-<p>If you can not install <code>immunarch</code> using <code>install_url()</code>, try the manual installation. First, you need to download the package file from <a href="https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz" class="uri">https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz</a></p>
-<p>Note that you <strong>should not un-archive it</strong>!</p>
-<p>After downloading the file, you need to run R command from the <code>devtools</code> package to install <code>immunarch</code>. Upon completion the dependencies will have been already downloaded and installed.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_local</a></span>(<span class="st">"path/to/your/folder/with/immunarch.tar.gz"</span>, <span class="dt">dependencies=</span>T)</a></code></pre></div>
-<p>After that, <code>immunarch</code> is ready to use.</p>
-<p>If you run in any other trouble, try the following steps:</p>
-<ol>
-<li>
-<p>Check your R version. Run <code>version</code> command in the console to get your R versions. If the R version is below 3.5.0 (for example, <code>R version 3.1.0</code>), try updating your R version to the latest one. Check this <a href="https://cran.r-project.org/bin/linux/ubuntu/README.html">this link</a> if you are on Ubuntu. Note: if you try to install a package after the update and it still fails with the following message:</p>
-<pre><code>ERROR: dependencies ‘httr’, ‘usethis’ are not available for package ‘devtools’
-* removing ‘/home/ga/R/x86_64-pc-linux-gnu-library/3.5/devtools’
-Warning in install.packages :
-  installation of package ‘devtools’ had non-zero exit status</code></pre>
-<p>it means that you need to re-install packages that were built under the previous R version. In the above example it would be packages <code>httr</code> and <code>usethis</code>. In order to re-install a package you need to execute the command <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("package_name")</a></code>, where <code>package_name</code> is the name of the package to update. To find packages that need to be re-installed after updating R, you need to look for installation messages like this in the installation process:</p>
-<pre><code>ERROR: package ‘usethis’ was installed by an R version with different internals; it needs to be reinstalled for use with this R version</code></pre>
-</li>
-<li><p>Check if your packages are outdated and update them. In RStudio you can run the “Update” button on top of the package list. In R console you can run the <code><a href="https://www.rdocumentation.org/packages/utils/topics/update.packages">old.packages()</a></code> command to view a list of outdated packages.</p></li>
-<li><p>If you are on Mac and have issues like old packages can’t be updated, or error messages such as <code>ld: warning: directory not found for option</code> or <code>ld: library not found for -lgfortran</code>, <a href="https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/">this link</a> will help you to fix the issue.</p></li>
-<li>
-<p>If you are on Mac Mojave (1.14) and run into the following error:</p>
-<pre><code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/math.h:301:15: fatal error: 'math.h' file not found
-#include_next &lt;math.h&gt;
-           ^~~~~~~~</code></pre>
-<p>Open Terminal, execute the following command and try again to install <code>immunarch</code>:</p>
-<pre><code>sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /</code></pre>
-</li>
-<li>
-<p>If you are working under Linux and have issues with the <code>igraph</code> library or have Fortran errors such as:</p>
-<pre><code>** testing if installed package can be loaded from temporary location
-Error: package or namespace load failed for 'igraph' in dyn.load(file, DLLpath = DLLpath, ...):
- unable to load shared object '/usr/local/lib/R/site-library/00LOCK-igraph/00new/igraph/libs/igraph.so':
-  libgfortran.so.4: cannot open shared object file: No such file or directory</code></pre>
-<p>See <a href="https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/">this link</a> for help.</p>
-</li>
-<li>
-<p>If you encounter the following error while running the <code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_local</a></code> function:</p>
-<pre><code>In normalizePath(path.expand(path), winslash, mustWork) :
-  path[1]="path/to/your/folder/with/immunarch.tar.gz":
-
-In file.copy(x$path, bundle, recursive = TRUE) :
-  problem copying No such file or directory</code></pre>
-<p>Check your path to the downloaded package archive file. It should not be “path/to/your/folder/with/immunarch.tar.gz”, but a path on your PC to the downloaded file, e.g., “C:/Users/UserName/Downloads/immunarch.tar.gz” or “/Users/UserName/Downloads/immunarch.tar.gz”.</p>
-</li>
-<li><p>If you are working under Windows and have issues with the package installation, or if you want to change the folder for R packages, feel free to check <a href="https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8">this forum post</a>.</p></li>
-<li><p>If troubles still persist, message us on <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a> or create an issue in <a href="https://github.com/immunomind/immunarch/issues" class="uri">https://github.com/immunomind/immunarch/issues</a> with the code that represents the issue and the output you get in the console.</p></li>
-</ol>
+<a href="#quick-start" class="anchor"></a>Quick start</h2>
+<p>The gist of the typical TCR or BCR data analysis workflow can be reduced to the next few lines of code.</p>
+<p><strong>1) Load the package and the data</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># 1.1) Load the package into R:</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(immunarch)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># 1.2a) To quickly test immunarch, load the test dataset:</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(immdata)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># 1.2b) To try immunarch on your own data, use the `repLoad` function on your data folder:</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">immdata =<span class="st"> </span><span class="kw"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</a></code></pre></div>
+<p><strong>2) Analyse repertoire similarity at the clonotype level</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># 2.1) Find the number of shared clonotypes and visualise it:</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">ov =<span class="st"> </span><span class="kw"><a href="reference/repOverlap.html">repOverlap</a></span>(immdata<span class="op">$</span>data)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># 2.2) Cluster samples by their similarity:</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">ov.kmeans =<span class="st"> </span><span class="kw"><a href="reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(ov, <span class="dt">.method =</span> <span class="st">"mds+kmeans"</span>)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="reference/vis.html">vis</a></span>(ov.kmeans)</a></code></pre></div>
+<p><strong>3) Find repertoire differences in the Variable gene usage</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># 3.1) Compute V gene usage and and highlight gene differences in groups with different clinical status:</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">gu =<span class="st"> </span><span class="kw"><a href="reference/geneUsage.html">geneUsage</a></span>(immdata<span class="op">$</span>data)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu, <span class="dt">.by=</span><span class="st">"Status"</span>, <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co"># 3.2) Cluster samples by their V gene usage similarity:</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">gu.clust =<span class="st"> </span><span class="kw"><a href="reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(gu, <span class="dt">.method =</span> <span class="st">"js+hclust"</span>)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw"><a href="reference/vis.html">vis</a></span>(gu.clust)</a></code></pre></div>
+<p><strong>4) Find differences in the diversity of repertoires</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># 4.1) Compare diversity of repertoires and visualise samples, grouped by both clinical status and sequencing Lane:</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a></code></pre></div>
+<p><strong>5) Manipulate plots to make them publication-ready</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># 5.1) Manipulate the visualisation of diversity estimates to make the plot publication-ready:</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">div =<span class="st"> </span><span class="kw"><a href="reference/repDiversity.html">repDiversity</a></span>(immdata<span class="op">$</span>data, <span class="dt">.method =</span> <span class="st">"chao1"</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">div.plot =<span class="st"> </span><span class="kw"><a href="reference/vis.html">vis</a></span>(div, <span class="dt">.by=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="dt">.meta=</span>immdata<span class="op">$</span>meta)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="reference/fixVis.html">fixVis</a></span>(div.plot)</a></code></pre></div>
+<p><strong>6) Advanced methods</strong></p>
+<p>For advanced methods such as clonotype tracking, kmer analysis and public repertoire analysis see “Tutorials”.</p>
 </div>
 </div>
 <div id="bugs-and-issues" class="section level1">
 <h1 class="hasAnchor">
 <a href="#bugs-and-issues" class="anchor"></a>Bugs and Issues</h1>
 <p>The mission of <code>immunarch</code> is to make immune repertoires painless to analyse. All bug reports, documentation improvements, enhancements and ideas are welcome.</p>
-<p>If through using <code>immunarch</code> you have an idea of your own or are looking for something in the documentation and thinking ‘this can be improved’…you can do something about it! Just let us know.</p>
-<p>Bug reports are an important part of making immunarch more stable. Having a complete bug report will allow us to reproduce the bug and provide insight into fixing.</p>
+<p>If through using <code>immunarch</code> you have an idea of your own or are looking for something in the documentation and thinking ‘this can be improved’… you can do something about it! Just let us know via <a href="https://github.com/immunomind/immunarch/issues">GitHub</a> or <a href="mailto:support@immunomind.io">support@immunomind.io</a>.</p>
+<p>Bug reports are an important part of making <code>immunarch</code> more stable. Having a complete bug report will allow us to reproduce the bug and provide insight into fixing.</p>
 <p>Bug reports must:</p>
 <ol>
 <li>Include a short, self-contained R snippet reproducing the problem.</li>
@@ -313,7 +278,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
   doi          = {10.5281/zenodo.3367200},
   url          = {https://doi.org/10.5281/zenodo.3367200}
 }</code></pre>
-<p>For EndNote citation import the <a href="https://github.com/immunomind/immunarch/releases/download/latest/immunarch-citation.xml"><code>immunarch-citation.xml</code></a> file.</p>
+<p>For EndNote citation import the <a href="https://gitlab.com/immunomind/immunarch/raw/master/immunarch-citation.xml?inline=false"><code>immunarch-citation.xml</code></a> file.</p>
 <p>Preprint on BioArxiv is coming soon.</p>
 </div>
 <div id="license" class="section level1">
@@ -322,11 +287,11 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <p>The package is freely distributed under the Apache v2 license. You can read more about it <a href="https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)">here</a>.</p>
 <p>Additionally, we provide an annual subscription that includes next services:</p>
 <ul>
-<li>100+ hours of consultations on the TCR &amp; BCR repertoire analysis;</li>
-<li>Priority email and call support;</li>
 <li>Package modifications and feature implementations are issued promptly;</li>
-<li>Setup a cloud or cluster installation of <em>immunarch</em>, including the development of cloud <em>immunarch</em>-based software;</li>
 <li>Use <em>immunarch</em> team expertise in your projects;</li>
+<li>Priority email and call support;</li>
+<li>100+ hours of consultations on the TCR &amp; BCR repertoire analysis;</li>
+<li>Setup a cloud or cluster installation of <em>immunarch</em>, including the development of cloud <em>immunarch</em>-based software;</li>
 <li>If you need license other than the current, contact us.</li>
 </ul>
 <p>Contact us at <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a> for more information.</p>
@@ -353,7 +318,11 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li> ImmunoMind <br><small class="roles"> Maintainer </small>  </li>
+<li>Vadim I. Nazarov <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Vasily O. Tsvetkov <br><small class="roles"> Author </small>  </li>
+<li>Eugene Rumynskiy <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://immunomind.io">ImmunoMind</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 
@@ -369,17 +338,20 @@ In file.copy(x$path, bundle, recursive = TRUE) :
 </div>
 </div>
 
+
       <footer><div class="copyright">
-  <p>Developed by  ImmunoMind.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -8,21 +8,25 @@
 
 <title>Clustering of objects or distance matrices — immunr_hclust • immunarch</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +34,14 @@
 
 
 
-<meta property="og:title" content="Clustering of objects or distance matrices — immunr_hclust" />
 
+<meta property="og:title" content="Clustering of objects or distance matrices — immunr_hclust" />
 <meta property="og:description" content="Cluster the data with one of the following methods:
 - immunr_hclust clusters the data using the hierarchical clustering from hcut;
 - immunr_kmeans clusters the data using the K-means algorithm from kmeans;
 - immunr_dbscan clusters the data using the DBSCAN algorithm from dbscan." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -60,6 +65,7 @@
   gtag('config', 'UA-128418614-2');
 </script>
 
+
   </head>
 
   <body>
@@ -76,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -98,32 +104,42 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">First steps</li>
     <li>
-      <a href="../articles/v1_introduction.html">Introduction to `immunarch`</a>
+      <a href="../articles/v1_introduction.html">Introduction to immunarch</a>
     </li>
     <li>
-      <a href="../articles/v2_data.html">Working with data in `immunarch`</a>
+      <a href="../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
       <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
-      <a href="../articles/v4_overlap.html">Repertoire overlap and public clonotypes</a>
+      <a href="../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/v5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/web_only/v5_gene_usage.html">Gene usage analysis</a>
     </li>
     <li>
-      <a href="../articles/v6_diversity.html">Diversity estimation</a>
+      <a href="../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
     <li>
-      <a href="../articles/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+      <a href="../articles/web_only/v11_db.html">Annotate clonotypes using immune receptor databases</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Preparing to publication</li>
+    <li>
+      <a href="../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Advanced methods</li>
+    <li>
+      <a href="../articles/web_only/v8_tracking.html">Tracking clonotypes across time points</a>
     </li>
     <li>
-      <a href="../articles/v8_tracking.html">Tracking clonotypes across time points in `immunarch`</a>
-    </li>
-    <li>
-      <a href="../articles/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
+      <a href="../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
   </ul>
 </li>
@@ -134,7 +150,6 @@
   <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://immunomind.io">ImmunoMind</a>
@@ -158,6 +173,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -169,21 +185,19 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Cluster the data with one of the following methods:</p>
-<p>- <code>immunr_hclust</code> clusters the data using the hierarchical clustering from <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a>;</p>
-<p>- <code>immunr_kmeans</code> clusters the data using the K-means algorithm from <a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a>;</p>
-<p>- <code>immunr_dbscan</code> clusters the data using the DBSCAN algorithm from <a href='https://www.rdocumentation.org/packages/fpc/topics/dbscan'>dbscan</a>.</p>
-    
+<p>- <code>immunr_hclust</code> clusters the data using the hierarchical clustering from <a href='https://rdrr.io/pkg/factoextra/man/hcut.html'>hcut</a>;</p>
+<p>- <code>immunr_kmeans</code> clusters the data using the K-means algorithm from <a href='https://rdrr.io/r/stats/kmeans.html'>kmeans</a>;</p>
+<p>- <code>immunr_dbscan</code> clusters the data using the DBSCAN algorithm from <a href='https://rdrr.io/pkg/fpc/man/dbscan.html'>dbscan</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>immunr_hclust</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>) - <span class='fl'>1</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)
+    <pre class="usage"><span class='fu'>immunr_hclust</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>.data</span>) - <span class='fl'>1</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
-<span class='fu'>immunr_kmeans</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/integer'>as.integer</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>.data</span>))) + <span class='fl'>1</span>,
-<span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"silhouette"</span>, <span class='st'>"gap_stat"</span>))
+<span class='fu'>immunr_kmeans</span>(<span class='no'>.data</span>, <span class='kw'>.k</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.k.max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>.data</span>))) + <span class='fl'>1</span>,
+<span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"silhouette"</span>, <span class='st'>"gap_stat"</span>))
 
 <span class='fu'>immunr_dbscan</span>(<span class='no'>.data</span>, <span class='no'>.eps</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -193,7 +207,7 @@
     </tr>
     <tr>
       <th>.k</th>
-      <td><p>The number of clusters to create, passed as <code>k</code> to <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> or as <code>centers</code> to <a href='https://www.rdocumentation.org/packages/stats/topics/kmeans'>kmeans</a>.</p></td>
+      <td><p>The number of clusters to create, passed as <code>k</code> to <a href='https://rdrr.io/pkg/factoextra/man/hcut.html'>hcut</a> or as <code>centers</code> to <a href='https://rdrr.io/r/stats/kmeans.html'>kmeans</a>.</p></td>
     </tr>
     <tr>
       <th>.k.max</th>
@@ -201,8 +215,8 @@
     </tr>
     <tr>
       <th>.method</th>
-      <td><p>Passed to <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> or as fviz_nbclust.</p>
-<p>In case of <a href='https://www.rdocumentation.org/packages/factoextra/topics/hcut'>hcut</a> the agglomeration method is going to be used (argument <code>hc_method</code>).</p>
+      <td><p>Passed to <a href='https://rdrr.io/pkg/factoextra/man/hcut.html'>hcut</a> or as fviz_nbclust.</p>
+<p>In case of <a href='https://rdrr.io/pkg/factoextra/man/hcut.html'>hcut</a> the agglomeration method is going to be used (argument <code>hc_method</code>).</p>
 <p>In case of fviz_nbclust it is the method to be used for estimating the optimal number of clusters (argument <code>method</code>).</p></td>
     </tr>
     <tr>
@@ -211,34 +225,38 @@
     </tr>
     <tr>
       <th>.eps</th>
-      <td><p>Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as <code>eps</code> to <a href='https://www.rdocumentation.org/packages/fpc/topics/dbscan'>dbscan</a>.</p></td>
+      <td><p>Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as <code>eps</code> to <a href='https://rdrr.io/pkg/fpc/man/dbscan.html'>dbscan</a>.</p></td>
     </tr>
     </table>
-    
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+    </ul>
 
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
-  <p>Developed by  ImmunoMind.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
