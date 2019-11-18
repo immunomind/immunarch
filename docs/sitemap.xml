@@ -234,4 +234,28 @@
   <url>
     <loc>https://immunarch.com/articles/v3_basic_analysis.html</loc>
   </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v10_prop.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v11_db.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v4_overlap.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v5_gene_usage.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v6_diversity.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v7_fixvis.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v8_tracking.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v9_kmers.html</loc>
+  </url>
 </urlset>
