@@ -4,7 +4,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
 
 
-# `immunarch` - An R Package for Painless Analysis of Large-Scale Immune Repertoire Data
+# `immunarch` - An R Package for Painless Bioinformatics Analysis of T-cell and B-cell Immune Repertoire Data
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -20,18 +20,18 @@
 
 
 ## Installation
-In order to install `immunarch` execute the following R command:
+In order to install `immunarch` execute the following R commands:
 
 ```r
-install.packages("immunarch")
+install.packages("devtools") # skip this if you already installed devtools
+devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
 ```
 
-That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](#installation-troubleshooting) section below.
+That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
 
 Note that there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and Data Science package eco-system with only one command!
 
-You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
-
+<!--
 ### Pre-release version installation
 
 Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from a code repository. In order to install the latest pre-release version, you need to execute only two commands:
@@ -40,6 +40,9 @@ Since releasing on CRAN is limited to one release per one-two months, you can in
 install.packages("devtools") # skip this if you already installed devtools
 devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
 ```
+-->
+
+You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
 
 
 ## Features
@@ -58,15 +61,15 @@ devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immuna
 
     + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/v3_basic_analysis.html);
 
-    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/v4_overlap.html);
+    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v4_overlap.html);
   
-    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*. Tutorial is available [here](https://immunarch.com/articles/v5_gene_usage.html);
+    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v5_gene_usage.html);
 
-    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/v6_diversity.html);
+    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v6_diversity.html);
 
-    + Tracking of clonotypes across time points, widely used in vaccination and cancer immunology domains. Tutorial is available [here](https://immunarch.com/articles/v8_tracking.html);
+    + Tracking of clonotypes across time points, widely used in vaccination and cancer immunology domains. Tutorial is available [here](https://immunarch.com/articles/web_only/v8_tracking.html);
     
-    + Kmer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/v9_kmers.html);
+    + Kmer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/web_only/v9_kmers.html);
     
     + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.
 
@@ -76,7 +79,7 @@ devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immuna
   
     + Built-in tool `FixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
     
-    + Tutorial is available [here](https://immunarch.com/articles/v7_fixvis.html).
+    + Tutorial is available [here](https://immunarch.com/articles/web_only/v7_fixvis.html).
     
     
 ## Quick start
@@ -183,8 +186,9 @@ Preprint on BioArxiv is coming soon.
 
 The package is freely distributed under the Apache v2 license. You can read more about it [here](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)).
 
-Additionally, we provide an annual subscription that includes next services:
+If you are interested in our commercial-grade platform for biomarker discovery and AIRR analysis, contact us via support@immunomind.io
 
+<!--
 - Package modifications and feature implementations are issued promptly;
 - Use *immunarch* team expertise in your projects;
 - Priority email and call support;
@@ -193,3 +197,4 @@ Additionally, we provide an annual subscription that includes next services:
 - If you need license other than the current, contact us.
 
 Contact us at support@immunomind.io for more information.
+-->

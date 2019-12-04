@@ -37,6 +37,9 @@
     <loc>https://immunarch.com/reference/entropy.html</loc>
   </url>
   <url>
+    <loc>https://immunarch.com/reference/filter_barcodes.html</loc>
+  </url>
+  <url>
     <loc>https://immunarch.com/reference/fixVis.html</loc>
   </url>
   <url>
@@ -71,9 +74,6 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/immunr_pca.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/immunr_permut.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/inc_overlap.html</loc>

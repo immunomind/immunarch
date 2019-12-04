@@ -33,6 +33,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Repertoire dynamics — vis.immunr_dynamics" />
@@ -79,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
       </span>
     </div>
 
@@ -165,6 +171,12 @@
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -186,7 +198,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for immunr_dynamics</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"smooth"</span>, <span class='st'>"area"</span>, <span class='st'>"line"</span>), <span class='kw'>.log</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"smooth"</span>, <span class='st'>"area"</span>, <span class='st'>"line"</span>), <span class='kw'>.order</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.log</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,6 +212,11 @@
       <td><p>Character. Either "smooth", "area" or "line". Each specifies a type of plot for visualisation of clonotype dynamics.</p></td>
     </tr>
     <tr>
+      <th>.order</th>
+      <td><p>Numeric or character vector. Specifies the order to samples, e.g., it used for ordering samples
+by timepoints. Either See "Examples" below for more details.</p></td>
+    </tr>
+    <tr>
       <th>.log</th>
       <td><p>Logical. If TRUE then use log-scale for the frequency axis.</p></td>
     </tr>
@@ -210,11 +227,54 @@
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Load an example data that comes with immunarch</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
+
+<span class='co'># Option 1</span>
+<span class='co'># Choose the first 10 amino acid clonotype sequences</span>
+<span class='co'># from the first repertoire to track</span>
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
+<span class='co'># Choose the first 20 nucleotide clonotype sequences</span>
+<span class='co'># and their V genes from the "MS1" repertoire to track</span>
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"MS1"</span>, <span class='fl'>20</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"nt+v"</span>)
+
+<span class='co'># Option 2</span>
+<span class='co'># Choose clonotypes with amino acid sequences "CASRGLITDTQYF" or "CSASRGSPNEQYF"</span>
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
+
+<span class='co'># Option 3</span>
+<span class='co'># Choose the first 10 clonotypes from the first repertoire</span>
+<span class='co'># with amino acid sequences and V segments</span>
+<span class='no'>target</span> <span class='kw'>=</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>target</span>)
+
+<span class='co'># Visualise the output regardless of the chosen option</span>
+<span class='co'># Therea are three way to visualise it, regulated by the .plot argument</span>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"smooth"</span>)
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"area"</span>)
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"line"</span>)
+
+<span class='co'># Visualising timepoints</span>
+<span class='co'># First, we create an additional column in the metadata with randomly choosen timepoints:</span>
+<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>))
+<span class='no'>immdata</span>$<span class='no'>meta</span>
+<span class='co'># Next, we create a vector with samples in the right order, according to the "Timepoint" column (from smallest to greatest):</span>
+<span class='no'>sample_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span>)
+<span class='co'># Sanity check: timepoints are following the right order:</span>
+<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span>[<span class='no'>sample_order</span>]
+<span class='co'># Samples, sorted by the timepoints:</span>
+<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Sample</span>[<span class='no'>sample_order</span>]
+<span class='co'># And finally, we visualise the data:</span>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.order</span> <span class='kw'>=</span> <span class='no'>sample_order</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
@@ -223,7 +283,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, Anna Lorenc, Daniel J. Moore, Victor Greiff, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -234,6 +294,23 @@
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '94207562f34b455c0796790d104e3549',
+    indexName: 'immunarch',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>
