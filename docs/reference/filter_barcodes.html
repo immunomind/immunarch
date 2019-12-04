@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Statistical analysis of groups — immunr_permut • immunarch</title>
+<title>Filter data by barcodes — filter_barcodes • immunarch</title>
 
 
 <!-- jquery -->
@@ -33,10 +33,19 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Statistical analysis of groups — immunr_permut" />
-<meta property="og:description" content="Statistical analysis of groups" />
+
+<meta property="og:title" content="Filter data by barcodes — filter_barcodes" />
+<meta property="og:description" content="Given the input data and a vector of barcodes,
+the function returns the input with cells which has
+at least one of the given barcode. Columns with clonotype counts
+and proportions are changed accordingly to the filtered barcodes." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -79,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
       </span>
     </div>
 
@@ -165,6 +174,12 @@
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -176,23 +191,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Statistical analysis of groups</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/stat_tests.R'><code>R/stat_tests.R</code></a></small>
-    <div class="hidden name"><code>immunr_permut.Rd</code></div>
+    <h1>Filter data by barcodes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/processing.R'><code>R/processing.R</code></a></small>
+    <div class="hidden name"><code>filter_barcodes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Statistical analysis of groups</p>
+    <p>Given the input data and a vector of barcodes,
+the function returns the input with cells which has
+at least one of the given barcode. Columns with clonotype counts
+and proportions are changed accordingly to the filtered barcodes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>immunr_permut</span>()</pre>
+    <pre class="usage"><span class='fu'>filter_barcodes</span>(<span class='no'>.data</span>, <span class='no'>.barcodes</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>The data to be processed. Can be <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>,
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
+    </tr>
+    <tr>
+      <th>.barcodes</th>
+      <td><p>Character vector. Vector of barcodes to use for
+filtering.</p></td>
+    </tr>
+    </table>
 
 
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Create a vector with barcodes</span>
+<span class='no'>barcodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"AAAGCAACATCACAAC-1"</span>, <span class='st'>"GGCGACTTCATATCGG-1"</span>)
+<span class='co'># Filter data and create a new list with datasets</span>
+<span class='no'>your_data_filt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+<span class='no'>your_data_filt</span>$<span class='no'>data</span> <span class='kw'>=</span> <span class='fu'>filter_barcodes</span>(<span class='no'>your_data</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"AAAGCAACATCACAAC-1"</span>, <span class='st'>"GGCGACTTCATATCGG-1"</span>))
+<span class='no'>your_data_filt</span>$<span class='no'>meta</span> <span class='kw'>=</span> <span class='no'>your_data</span>$<span class='no'>meta</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
@@ -201,7 +250,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, Anna Lorenc, Daniel J. Moore, Victor Greiff, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -212,6 +261,23 @@
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '94207562f34b455c0796790d104e3549',
+    indexName: 'immunarch',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>
