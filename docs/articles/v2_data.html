@@ -39,18 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/v1_introduction.html">Get started</a>
 </li>
@@ -105,6 +99,12 @@
 </li>
 <li>
   <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
+</li>
+<li>
+  <a href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -292,11 +292,11 @@
 <a class="sourceLine" id="cb6-7" data-line-number="7">dbdir =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10">con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbConnect.html">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">con =<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(MonetDBLite<span class="op">::</span><span class="kw">MonetDBLite</span>(), <span class="dt">embedded =</span> dbdir)</a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span></a>
 <a class="sourceLine" id="cb6-13" data-line-number="13"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(DATA)) {</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">  DBI<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(DATA)[i], DATA[[i]], <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  DBI<span class="op">::</span><span class="kw"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(con, <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(DATA)[i], DATA[[i]], <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb6-15" data-line-number="15">}</a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co"># Create a source in the temporary directory with MonetDB</span></a>
@@ -391,9 +391,9 @@
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"downsample"</span>, <span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(ds, nrow)</a></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
-##      95      97      98     100      88      95      88      99      80     100 
+##      93      96      94     100      88      93      91     100      90      99 
 ##     MS5     MS6 
-##      89      99</code></pre>
+##      84     100</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">ds =<span class="st"> </span><span class="kw"><a href="../reference/repSample.html">repSample</a></span>(immdata<span class="op">$</span>data, <span class="st">"sample"</span>, <span class="dt">.n =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(ds, nrow)</a></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
