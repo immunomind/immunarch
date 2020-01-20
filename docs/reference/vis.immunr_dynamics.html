@@ -85,19 +85,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
@@ -151,6 +145,12 @@
 </li>
 <li>
   <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
+</li>
+<li>
+  <a href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -247,7 +247,7 @@ by timepoints. Either See "Examples" below for more details.</p></td>
 <span class='co'># Option 3</span>
 <span class='co'># Choose the first 10 clonotypes from the first repertoire</span>
 <span class='co'># with amino acid sequences and V segments</span>
-<span class='no'>target</span> <span class='kw'>=</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>target</span> <span class='kw'>=</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(<span class='no'>CDR3.aa</span>, <span class='no'>V.name</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>10</span>)
 <span class='no'>tc</span> <span class='kw'>=</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>target</span>)
 
 <span class='co'># Visualise the output regardless of the chosen option</span>

@@ -85,19 +85,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
@@ -151,6 +145,12 @@
 </li>
 <li>
   <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
+</li>
+<li>
+  <a href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -223,7 +223,7 @@ on the ".plot" argument.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='fu'><a href='getKmers.html'>getKmers</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>)
+<span class='fu'><a href='getKmers.html'>getKmers</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='split_to_kmers.html'>kmer_profile</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='st'>"seqlogo"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
