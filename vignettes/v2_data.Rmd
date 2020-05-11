@@ -1,0 +1,283 @@
+---
+title: 'Working with data in `immunarch`'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Working with data in immunarch}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+# source("../R/testing.R")
+# immdata = load_test_data()
+data(immdata)
+```
+
+# Immunarch data format
+`immunarch` comes with its own data format, including tab-delimited columns that can be specified as follows:
+
+ - "Clones" - count or number of barcodes (events, UMIs) or reads;
+
+ - "Proportion" - proportion of barcodes (events, UMIs) or reads;
+
+ - "CDR3.nt" - CDR3 nucleotide sequence;
+
+ - "CDR3.aa" - CDR3 amino acid sequence;
+
+ - "V.name" - names of aligned Variable gene segments;
+
+ - "D.name" - names of aligned Diversity gene segments or NA;
+
+ - "J.name" - names of aligned Joining gene segments;
+
+ - "V.end" - last positions of aligned V gene segments (1-based);
+
+ - "D.start" - positions of D'5 end of aligned D gene segments (1-based);
+
+ - "D.end" - positions of D'3 end of aligned D gene segments (1-based);
+
+ - "J.start" - first positions of aligned J gene segments (1-based);
+
+ - "VJ.ins" - number of inserted nucleotides (N-nucleotides) at V-J junction (-1 for receptors with VDJ recombination);
+
+ - "VD.ins" - number of inserted nucleotides (N-nucleotides) at V-D junction (-1 for receptors with VJ recombination);
+
+ - "DJ.ins" - number of inserted nucleotides (N-nucleotides) at D-J junction (-1 for receptors with VJ recombination);
+
+ - "Sequence" - full nucleotide sequence.
+
+
+# Input / output
+The package provides several IO functions:
+
+- `repLoad` - to load the repertoires, having compatible format.
+
+- `repSave` - to save changes and to write the repertoire data to a file in a specific format (`immunarch`, VDJtools or MonetDB).
+
+`repLoad` has the `.format` argument that sets the format for input repertoire files.
+Do not provide it if you want `immunarch` to detect the formats and parse files automatically! In case you want to force the package to parse the data in a specific format, you can choose one of the several options for the argument:
+
+- `"immunarch"` - current software tool, in case you forgot it :)
+
+- `"immunoseq"` - http://www.adaptivebiotech.com/immunoseq
+
+- `"mitcr"` - https://github.com/milaboratory/mitcr
+
+- `"mixcr"` - https://github.com/milaboratory/mixcr
+
+- `"migec"` - http://migec.readthedocs.io/en/latest/
+
+- `"migmap"` - https://github.com/mikessh/migmap
+
+- `"tcr"` - https://imminfo.github.io/tcr/
+
+- `"vdjtools"` - https://vdjtools-doc.readthedocs.io/en/master/
+
+- `"imgt"` - http://www.imgt.org/HighV-QUEST/
+
+- `"airr"` - http://docs.airr-community.org/en/latest/datarep/overview.html
+
+- `"10x"` - https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation
+
+- `"archer"` - ArcherDX clonotype tables. https://archerdx.com/immunology/
+
+These parsers will be available soon.
+
+- `"imseq"` - http://www.imtools.org/
+
+- `"rtcr"` - https://github.com/uubram/RTCR
+
+- `"vidjil"` - http://www.vidjil.org/
+
+Please contact us if there are more file formats you want to be supported.
+
+For parsing IgBLAST results process the data with MigMap first.
+
+You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. A single file can be loaded as follows:
+
+```{r, eval=F}
+# To load the data from a single file (note that you don't need to specify the data format):
+file_path = paste0(system.file(package="immunarch"), "/extdata/io/Sample1.tsv.gz")
+immdata <- repLoad(file_path)
+```
+
+In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it exactly "metadata.txt".
+
+```{r, eval=F}
+# For instance you have a following structure in your folder:
+# >_ ls
+# immunoseq1.txt
+# immunoseq2.txt
+# immunoseq3.txt
+# metadata.txt
+```
+
+With the metadata `repLoad` will create a list in the environment with 2 elements, namely `data` and `meta`. All the data will be accessible simply from `immdata$data`.
+
+Otherwise `repLoad` will create a dummy metadata file with only sample names.
+
+```{r, eval=F}
+# To load the whole folder with every file in it type:
+file_path = paste0(system.file(package="immunarch"), "/extdata/io/")
+immdata <- repLoad(file_path)
+print(names(immdata))
+
+# In order to do that your folder must contain metadata file named
+# exactly "metadata.txt".
+
+# In R, when you load your data:
+# > immdata <- repLoad("path/to/your/folder/")
+# > names(immdata)
+# [1] "data" "meta"
+
+# Suppose you do not have "metadata.txt":
+# > immdata <- repLoad("path/to/your/folder/")
+# > names(immdata)
+# [1] "data" "meta"
+
+```
+
+Dummy metadata data frame look like this:
+
+```{r}
+as_tibble(data.frame(Sample = c("immunoseq1", "immunoseq2", "immunoseq3"), stringsAsFactors = F))
+```
+
+The metadata file "metadata.txt" has to be tab delimited file with first column named "Sample" and any number of additional columns with arbitrary names. The first column should contain base names of files without extensions in your folder.
+
+| **Sample** |**Sex**|**Age**|**Status**|
+|:----------:|:-----:|:-----:|:--------:|
+|immunoseq\_1|M      |1      |C         |
+|immunoseq\_2|M      |2      |C         |
+|immunoseq\_3|F      |3      |A         |
+
+In order to import data from the external databases you have to create a connection to this database and then load the data. Make sure that the table format in your database matches the `immunarch`'s format.
+
+To illustrate the use of external database, here is an example demonstrating data loading to the local MonetDB database:
+```{r, eval=F}
+# Your list of repertoires in immunarch's format
+DATA
+# Metadata data frame
+META
+
+# Create a temporary directory
+dbdir = tempdir()
+
+# Create a DBI connection to MonetDB in the temporary directory.
+con = DBI::dbConnect(MonetDBLite::MonetDBLite(), embedded = dbdir)
+
+# Write each repertoire to MonetDB. Each table has corresponding name from the DATA
+for (i in 1:length(DATA)) {
+  DBI::dbWriteTable(con, names(DATA)[i], DATA[[i]], overwrite=TRUE)
+}
+
+# Create a source in the temporary directory with MonetDB
+ms = MonetDBLite::src_monetdblite(dbdir = dbdir)
+res_db = list()
+
+# Load the data from MonetDB to dplyr tables
+for (i in 1:length(DATA)) {
+  res_db[[names(DATA)[i]]] = dplyr::tbl(ms, names(DATA)[i])
+}
+
+# Your data is ready to use
+list(data = res_db, meta = META)
+```
+
+
+`immunarch` is compatible with following sources:
+
+- R data frames (for common applications)
+
+- R data tables (for speed, although requires lots of RAM)
+
+- MonetDB-like databases that support both DBI and dplyr (best choice, although you have to be a bit familiar with dplyr)
+
+- Apache Spark (if you are expierienced and comfortable with it)
+
+# Basic data manipulations with dplyr and immunarch
+You can find the introduction to `dplyr` here: https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html
+
+## Get the most abundant clonotypes
+The function returns the most abundant clonotypes for the given repertoire:
+```{r basic-data}
+top(immdata$data[[1]])
+```
+
+## Filter functional / non-functional / in-frame / out-of-frame clonotypes
+Conveniently, functions are vectorised over the list of data frames; and `coding(immdata$data)` in the example below returns a list of data frames with coding sequences:
+```{r, eval=FALSE}
+coding(immdata$data[[1]])
+```
+The next one operates in a similar fashion:
+```{r, eval=FALSE}
+noncoding(immdata$data[[1]])
+```
+Now, the computation of the number of filtered sequences is straightforward:
+```{r, eval=FALSE}
+nrow(inframes(immdata$data[[1]]))
+```
+And for the out-of-frame clonotypes:
+```{r, eval=FALSE}
+nrow(outofframes(immdata$data[[1]]))
+```
+
+## Get subset of clonotypes with a specific V gene
+It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with 'TRBV10-1' V gene:
+```{r}
+filter(immdata$data[[1]], V.name == 'TRBV10-1')
+```
+
+# Downsampling
+
+```{r}
+ds = repSample(immdata$data, "downsample", 100)
+sapply(ds, nrow)
+```
+
+```{r}
+ds = repSample(immdata$data, "sample", .n = 10)
+sapply(ds, nrow)
+```
+
+<!---
+## Additional functions to help with dplyr
+
+- `todf` - convert the input to R data frame.
+
+- `todt` - convert the input to R data table.
+
+- `db_add` - add a new column to the existing database.
+
+- `db_rem` - remove a specific column from the existing database.
+
+- `db_write` - write / rewrite a database table.
+
+With these functions you can write the subset of your repertoires to new tables with `db_write`, after you have filtered out the noncoding sequences, for instance. 
+
+-->

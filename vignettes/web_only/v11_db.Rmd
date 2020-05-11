@@ -1,0 +1,222 @@
+---
+title: 'Annotate clonotypes using immune receptor databases'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document: 
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Annotate clonotypes using immune receptor databases}
+%\VignettePackage{immunarch}
+-->
+
+
+
+  ```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 5)
+
+library(immunarch)
+data(immdata)
+```
+
+# Introduction to immune receptor databases
+
+Databases with aggregated information about immune receptor specificity provide a straightforward way to annotate your data and find condition-associated receptors. `immunarch` supports tools to annotate your data using the most popular AIRR databases - VDJDB, McPAS-TCR and PIRD TBAdb.
+
+Database annotation is a two-step process. First, you need to download database files - either full database files or filtered data obtained from the web interface of databases. After that, you can use `immunarch` functions to annotate your data and visualise the results. Below you can find a guide to annotation covering both steps.
+
+
+# Downloading databases
+
+## VDJDB
+
+VDJDB is a curated database of T-cell receptor sequences of known antigen specificity. The database is GitHub-based and available here: https://github.com/antigenomics/vdjdb-db
+
+Citation: *Shugay M et al. VDJdb: a curated database of T-cell receptor sequences with known antigen specificity. Nucleic Acids Research 2017*
+
+### How to filter and download data
+
+It can be useful to filter out immune receptors that are not relevant from the database before working with it. For instance, if you analyse human T-cell beta repertoires, it is not necessary to keep immune receptors from other species, as well as non-TRB data.  Use the web interface to VDJDB located at https://vdjdb.cdr3.net/search to filter out data. Having filtered the data and pressed the "Refresh table" button, locate the "Export" button and select the "TSV" label inside. You will download the filtered database file with a name like "SearchTable-2019-10-17 12_36_11.989.tsv", which can be used for annotation with `immunarch`.
+
+### How to download full VDJDB
+
+You can use the previous method to download the full database if you set all checkmarks in the "General" section of the "CDR3" tab. However, if you want to download the raw database files, here is the step-by-step guide to the sophisticated process of VDJDB downloading and unpacking.
+
+1. First, you need to install JDK 8 - Java Development Kit. If you already have it, skip this step. If you don't, just search for the proper installation instructions for your system.
+
+2. Second, you need to install Groovy - a language that is used for processing VDJDB. Go to [this link](https://groovy.apache.org/download.html#distro) and download the distribution or windows installer depending on your system. For Windows users the best way is to download Windows installer. For Linux users the easiest way is to use OS package manager such as apt, dpkg, pacman, etc. For Mac users the most seamless way is to use [Homebrew](https://brew.sh).
+
+3. Download the VDJDB repository from GitHub via this link: https://github.com/antigenomics/vdjdb-db/archive/master.zip
+
+4. Unzip the archive and go to the unpacked "vdjdb-db-master" folder.
+
+5. Go to the "src" folder.
+
+6. Open your Terminal or Console and execute the following command: `groovy -cp . BuildDatabase.groovy --no2fix`.
+
+7. After some processing, the database files will be available at the "database" folder inside the "vdjdb-db-master" folder. You will need to provide paths to this files for the `immunarch` annotation functions.
+
+
+## McPAS-TCR
+
+McPAS-TCR is a manually curated catalogue of pathology associated T-cell receptor sequences. The database is available at http://friedmanlab.weizmann.ac.il/McPAS-TCR/
+
+Citation: *Tickotsky N, Sagiv T, Prilusky J, Shifrut E, Friedman N (2017). McPAS-TCR: A manually-curated catalogue of pathology-associated T cell receptor sequences. Bioinformatics 33:2924-2929*
+
+### How to filter and download data
+
+The filtering feature of the database's web interface is located in the "Search Database" tab. After processing the data, press the "Download csv" button. The downloaded file named "McPAS-TCR_search.csv" can be used for annotation with `immunarch`.
+
+### How to download full McPAS-TCR
+
+To download McPAS-TCR you just need to go to http://friedmanlab.weizmann.ac.il/McPAS-TCR/ and press the "Download the complete database" button there. Note that sometimes you need to press it twice or press it in a new browser tab to start the downloading process.
+
+
+## TBAdb from PIRD
+
+TBAdb is a manually curated database of T-cell receptor (TCR) and B-cell receptor (BCR) targeting specific antigen or diseases. The database contains three parts, namely TCR-AB, TCR-GD and BCR. These three parts are aimed at collecting sequences and specificity information of TCRA and TCRB, TCR- gamma and TCR-delta and BCR separately. The database is available at https://db.cngb.org/pird/tbadb/
+
+Citation: *ZHANG W, Wang L, Liu K, Wei X, Yang K, Du W, Wang S, Guo N, Ma C, Luo L, et al. PIRD: Pan immune repertoire database. Bioinformatics(2019)*
+
+### How to filter and download data
+
+Currently there is no way to download the filtered data from TBAdb. The query functionality is available at https://db.cngb.org/pird/query/ in the "TBAdb" tab.
+
+### How to download full TBAdb
+
+To download TBAdb you need to go to https://db.cngb.org/pird/tbadb/ and press the "Download TBAdb" button. Note that you should agree with the licensing agreement in order to download the database file.
+
+
+# Annotation of clonotypes
+
+After downloading the database, we can proceed to the annotation part with R. To demonstrate the applicability of R and `immunarch`, we will use a common task of annotation of repertoires with Cytomegalovirus (CMV) infection.
+
+## Preprocessing databases with R
+
+For the start, we need to load databases into R and filter out non-human, non-TRB and non-CMV data from the input database. With databases, we follow the same philosophy as with `repLoad` and `vis` functions: the function `dbLoad` provides a singular interface to loading and basic quering for all supported databases. 
+
+For demonstration purposes, we will process each of the supported databases below.
+
+### VDJDB
+
+Download the VDJDB database following the instructions above. In the examples below, we use URLs to snippets of databases as file paths. In your own code you need to provide paths to your local database files, e.g., "/Users/yourname/Downloads/vdjdb-db-master/vdjdb.slim.txt". Do not use the links below since they are only for testing purposes and not the actual databases!
+
+Note that VDJDB data obtained from the web interface differs from VDJDB obtained from raw files. Check the next section for working with VDJDB search tables.
+
+The most basic way to load VDJDB to R:
+```{r eval=T, message=F}
+vdjdb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb")
+vdjdb
+```
+
+To load VDJDB and filter out information you need to provide `.species`, `.chain` and `.pathology` arguments:
+```{r eval=T, message=F}
+vdjdb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
+vdjdb
+```
+
+### VDJDB search tables
+
+```{r eval=T, message=F}
+vdjdb_st = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz", "vdjdb-search", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
+vdjdb_st
+```
+
+### McPAS-TCR
+
+```{r eval=T, message=F, warning=F}
+mcpas = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz", "mcpas", .species = "Human", .chain = "TRB", .pathology = "Cytomegalovirus (CMV)")
+mcpas
+```
+
+
+### TBAdb
+
+```{r eval=F, message=F, warning=F}
+tbadb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/TBAdb.xlsx", "tbadb", .species = "Homo Sapiens", .chain = c("TRB", "TRA-TRB"), .pathology = "CMV")
+tbadb
+```
+
+
+## Repertoire annotation
+
+The key `immunarch` function for annotation is `dbAnnotate`. As an input it requires repertoires to search in, a database to lookup from, and columns of interest such as CDR3 amino acid sequence or V gene segment names columns. If you want to try it on the test data packaged with `immunarch`,  execute the following line of code before proceeding further:
+
+```{r eval=F}
+data(immdata)
+```
+
+Just in a single line of code you are able to find all clonotypes with matching CDR3 amino acid sequences in the input data and VDJDB database:
+
+```{r eval=T}
+dbAnnotate(immdata$data, vdjdb, "CDR3.aa", "cdr3")
+```
+
+The "Samples" column specifies the number of samples in which the clonotype found. Other numbers in columns correspond to the clonal count of the clonotype in a specific input sample.
+
+In the next example we will search the McPAS-TCR database for condition-associated sequences using both CDR3 amino acid sequences and V gene segments:
+
+```{r eval=T, message=F, warning=F}
+dbAnnotate(immdata$data, mcpas, c("CDR3.aa", "V.name"), c("CDR3.beta.aa", "TRBV"))
+```
+
+If you seek to search a database for a specific set of sequences, create a data frame with them and use it as a database file:
+
+```{r eval=T}
+local_db = data.frame(Seq = c("CASSDSSGGANEQFF", "CSARLAGGQETQYF"), V = c("TRBV6-4", "TRBV20-1"), stringsAsFactors = F)
+
+dbAnnotate(immdata$data, local_db, c("CDR3.aa", "V.name"), c("Seq", "V"))
+```
+
+
+### Visualisation
+
+Visualisation with the `vis()` function will be supported in the next major release of `immunarch`. You can use `ggplot2` to visualise distributions of found clonotypes. 
+
+
+## Advanced filtering
+
+`immunarch` provides a very basic query interface that permits filtering by species types, chain types and pathology types only. To perform advanced filtering such as filtering by antigen epitope, you need to use R. In the most cases, filtering with the `dplyr` package is the most seamless way. Here is an example on how to use `dplyr` to filter out specific antigen epitopes from VDJDB:
+
+```{r eval=T, message=F}
+# Load the dplyr library
+library(dplyr)
+
+# Load the database with immunarch
+vdjdb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
+
+# Check which antigen epitopes are presented in the database
+table(vdjdb$antigen.epitope)
+```
+
+```{r eval=T, message=F}
+# Filter out all non NLVPMVATV epitopes
+vdjdb = vdjdb %>% filter(antigen.epitope == "NLVPMVATV")
+vdjdb
+```
+
+```{r eval=T, message=F}
+# Check if everything is OK and there is no other epitopes
+table(vdjdb$antigen.epitope)
+```
+
+# Get in contact with us
+
+Can not find an important feature? Have a question or found a bug? Contact us at support@immunomind.io

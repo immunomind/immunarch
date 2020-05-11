@@ -1,0 +1,19 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^docs$
+^data/nonbuild/.*$
+^data/nonbuild/*$
+^tests$
+^twb$
+^temp$
+^fixVis$
+^experiment data$
+^docker$
+^private$
+^.gitlab-ci.yml$
+^CONTRIBUTION.md$
+^_pkgdown.yml$
+^code-of-conduct.md$
+^LICENSE$
+^immunarch-citation.xml$
+^.github$
