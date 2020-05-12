@@ -1,0 +1,94 @@
+---
+title: 'Diversity estimation'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Diversity estimation}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+# source("../R/testing.R")
+# immdata = load_test_data()
+data(immdata)
+```
+
+Sevral approaches to the estimation of repertoire diversity are implemented in the `repDiversity` function. The `.method` parameter similarly to abovementionned functions sets the means for diversity estimation. You can choose one of the following methods:
+
+- `chao1` - Chao1 estimator is a nonparameteric asymptotic estimator of species richness (number of species in a population).
+
+- `hill` - Hill numbers are a mathematically unified family of diversity indices (differing only by an exponent q).
+
+- `div` - True diversity, or the effective number of types, refers to the number of equally-abundant types needed for the average proportional abundance of the types to equal that observed in the dataset of interest where all types may not be equally abundant.
+
+- `gini.simp` - The Gini-Simpson index is the probability of interspecific encounter, i.e., probability that two entities represent different types.
+
+- `inv.simp` - Inverse Simpson index is the effective number of types that is obtained when the weighted arithmetic mean is used to quantify average proportional abundance of types in the dataset of interest.
+
+- `gini` - The Gini coefficient measures the inequality among values of a frequency distribution (for example levels of income). A Gini coefficient of zero expresses perfect equality, where all values are the same (for example, where everyone has the same income). A Gini coefficient of one (or 100 percents ) expresses maximal inequality among values (for example where only one person has all the income).
+
+- `raref` - Rarefaction is a technique to assess species richness from the results of sampling through extrapolation.
+
+The `.col` parameter regulates what sequences and gene segments to choose. For example, if you want to estimate diversity on the nucleotide level, you need to supply `.col = "nt"`, on the amino acid level - `.col = "aa"`. If you want to estimate diversity of amino acid CDR3 sequences coupled with V gene segments, you need to provide `.col = "aa+v"`. By default `.col = "aa"`.
+
+```{r diversity, fig.width=10, fig.height=4, warning=FALSE, message=FALSE}
+# Compute statistics and visualise them
+# Chao1 diversity measure
+div_chao = repDiversity(immdata$data, "chao1")
+
+# Hill numbers
+div_hill = repDiversity(immdata$data, "hill")
+
+# D50
+div_d50 = repDiversity(immdata$data, "d50")
+
+# Ecological diversity measure
+div_div = repDiversity(immdata$data, "div")
+
+p1 = vis(div_chao)
+p2 = vis(div_chao, .by=c("Status", "Sex"), .meta=immdata$meta)
+p3 = vis(div_hill, .by=c("Status", "Sex"), .meta=immdata$meta)
+
+p4 = vis(div_d50)
+p5 = vis(div_d50, .by="Status", .meta=immdata$meta)
+p6 = vis(div_div)
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+gridExtra::grid.arrange(p3, p6, ncol = 2)
+gridExtra::grid.arrange(p4, p4, ncol = 2)
+```
+
+```{r, warning=F, fig.width=12, fig.height=4.5}
+imm_raref = repDiversity(immdata$data, "raref", .verbose = F)
+
+grid.arrange(vis(imm_raref), vis(imm_raref, .by="Status", .meta=immdata$meta), ncol=2)
+```
+
+```{r, warning=F, fig.width=8, fig.height=4.5}
+repDiversity(immdata$data, "raref", .verbose = F) %>% vis(.log = TRUE)
+```

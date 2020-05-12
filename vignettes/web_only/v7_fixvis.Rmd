@@ -1,0 +1,54 @@
+---
+title: 'Make your plots publication-ready with fixVis'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Make your plots publication-ready with fixVis}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+```
+
+In order to make visualisation process easier, we developed a Shiny-based tool called FixVis. The FixVis is distributed with `immunarch` package. To run FixVis just apply it to any ggplot2-based plot, including those from the `immunarch`'s `vis` function. It works perfectly for every plot, except those arranged in grid by `grid.arrange` due to the complexities surrounding `grid.arrange`.
+
+```{r fixvis1, eval=F}
+data(immdata)
+gu = geneUsage(immdata$data)
+p = vis(gu)
+fixVis(p)
+```
+
+If you want to test it, run `fixVis` with no arguments; it will use the diamonds data for visualisation:
+
+```{r fixvis2, eval=F}
+fixVis()
+```
+
+For convenience we published a FixVis instances that are available online [here](https://immunomind.shinyapps.io/fixvis/). Also a FixVis instance for quick overview is embedded in the cell below:
+
+```{r fixvis3, eval=T}
+knitr::include_app("https://immunomind.shinyapps.io/fixvis/", height = "800px")
+```

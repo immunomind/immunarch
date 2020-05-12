@@ -1,0 +1,4 @@
+Sample	ID	Sex	Age	Status
+immunoseq_1	C1	M	1	C
+immunoseq_2	C2	M	2	C
+immunoseq_3	A1	F	3	A
