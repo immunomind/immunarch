@@ -1,0 +1,147 @@
+---
+title: 'Kmer and sequence motif analysis and visualisation'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Kmer and sequence motif analysis and visualisation}
+%\VignettePackage{immunarch}
+-->
+
+
+
+  ```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 5)
+
+library(immunarch)
+data(immdata)
+```
+
+# Kmer statistics computation
+
+Counting kmer occurrences in `immunarch` is very easy. All you need to do is to run the `getKmers()` function on your data:
+
+```{r}
+kmers = getKmers(immdata$data[[1]], 3)
+kmers
+```
+
+If is possible to compute occurrences of kmers in a batch of immune repertoires. In order to do that, you just need to provide a list of immune repertoires to the function. NA means that there is no such kmer found in a sample, specifyed by the column name.
+
+```{r}
+kmers = getKmers(immdata$data, 5)
+kmers
+```
+
+Note that by default `getKmers()` filter out all non-coding sequences before counting the kmer statistics. You can use both coding and non-coding sequences by setting the `.coding` argument to FALSE:
+
+```{r}
+kmers = getKmers(immdata$data[[1]], 3, .coding=F)
+kmers
+```
+
+## Kmer statistics visualisation
+
+To visualise your kmer statistics, the `vis()` function comes to help:
+
+```{r}
+kmers = getKmers(immdata$data, 5)
+vis(kmers)
+```
+
+The `vis()` function for kmers has a number of arguments to manipulate the plot. First, the `.head` argument specifies the number of the most abundant kmers to visualise.
+```{r}
+p1 = vis(kmers, .head = 5)
+p2 = vis(kmers, .head = 10)
+p3 = vis(kmers, .head = 30)
+grid.arrange(p1, p2, ncol=2)
+p3
+```
+
+Second, there are three options to choose from for positions of bars: "stack", "dodge" and "fill", adjusted by providing the correposnding option to the `.position` argument:
+
+```{r}
+p1 = vis(kmers, .head = 10, .position = "stack")
+p2 = vis(kmers, .head = 10, .position = "fill")
+p3 = vis(kmers, .head = 10, .position = "dodge")
+grid.arrange(p1, p2, ncol=2)
+p3
+```
+
+Option "stack" stacks all bars on top of each other so you can see the full distribution of kmers. Option "fill" stack all bars on top of each other as well, but normalises it in a such way so you see distribution of counts per-kmer, i.e., you can clearly see which repertoire has more kmer counts than others for a specific kmer. Option "dodge" groups kmer bars of different samples so you can clearly see, which samples has more kmer occurrences overall.
+
+Additional argument is `.log` needed if your distribution of kmer counts is vastly imbalanced for some of repertoires. It permits to use the log-transformation of y-axis so you can see differences in orders of magnitude in kmer counts rather.
+
+```{r}
+p1 = vis(kmers, .head = 10, .position = "stack")
+p2 = vis(kmers, .head = 10, .position = "stack", .log = T)
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+# Sequence motifs analysis
+
+`immunarch` utilises common approaches to sequence motif analysis and uses different types of matrices to represent sequence motifs:
+
+ - position frequency matrix (PFM) - a matrix with occurences of each amino acid in each position;
+ - position probability matrix (PPM) - a matrix with probabilities of occurences of each amino acid in each position;
+ - position weight matrix (PWM) - a matrix with log likelihoods of PPM elements;
+ - a matrix with self-information of elements in PWM.
+
+To compute and visualise sequence motifs, first you need to compute kmer statistics for one of the input immune repertoires, and then apply the `kmer_profile()` function to compute sequence motif matrices:
+
+```{r}
+kmers = getKmers(immdata$data[[1]], 5)
+kmer_profile(kmers)
+```
+
+Currently we are not supporting sequence motifs analysis for more than one sample, but we are working on it. In order to compute and visualise sequence motif matrices for all of your samples you need to process them one-by-one, which can be easily done in for-loops or via the `lapply()` function.
+
+Argument `.method` specifies which matrix to compute:
+
+ - `.method = "freq"` - position frequency matrix (PFM);
+ - `.method = "prob"` - position probability matrix (PPM);
+ - `.method = "wei"` - position weight matrix (PWM);
+ - `.method = "self"` - self-information matrix.
+ 
+```{r}
+kmer_profile(kmers, "freq")
+kmer_profile(kmers, "prob")
+kmer_profile(kmers, "wei")
+kmer_profile(kmers, "self")
+```
+
+## Sequence motif visualisation
+
+Visualisation of sequence motif matrices is done by `vis()`. There are two types of plots to choose from - sequence logo and "text logo". The argument `.plot` regulates the type of plot: `.plot = "seq"` for sequence logo plots and `.plot = "text"` (by default) for "text logo" plots.
+
+```{r}
+kp = kmer_profile(kmers, "self")
+p1 = vis(kp)
+p2 = vis(kp, .plot = "seq")
+grid.arrange(p1, p2, ncol=2)
+```
+
+
+# Get in contact with us
+
+Can not find an important feature? Have a question or found a bug? Contact us at support@immunomind.io

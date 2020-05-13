@@ -1,0 +1,5 @@
+Sample	ID	Sex	Age	Status	Lane	Timepoint
+Sample1	C1	M	11	C	A	8
+Sample2	C2	M	9	C	A	6
+Sample3	MS1	M	12	MS	C	10
+Sample4	MS2	M	30	MS	C	3

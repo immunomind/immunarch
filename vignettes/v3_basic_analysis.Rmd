@@ -1,0 +1,182 @@
+---
+title: 'Basic analysis and clonality'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Basic analysis and clonality}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+# source("../R/testing.R")
+# immdata = load_test_data()
+data(immdata)
+```
+
+# Basic analysis
+For each task in this section `immunarch` includes separate functions that are generally self-explanatory and are written in camel-case.
+
+Note: all functions in immunarch require that the input immune repertoire data list have names. If you use the `repLoad` function, you will have no issues. If you compose your list by-hand, you must name elements in the list, e.g.:
+
+```{r rename-list, eval=F}
+your_data  # Your list with repertoires without names
+
+names(your_data)
+# Output: NULL
+
+names(your_data) = sapply(1:length(your_data), function (i) paste0("Sample", i))
+names(your_data)
+# Output: Sample1 Sample2 ... Sample10
+```
+
+Basic analysis functions are:
+
+- `repExplore` - to compute basic statistics, such as number of clones or distributions of lengths and counts. To explore them you need to pass the statistics, e.g. `count`, to the `.method`.
+
+- `repClonality` - to compute the clonality of repertoires.
+
+- `repOverlap` - to compute the repertoire overlap. 
+
+- `repOverlapAnalysis` - to analyse the repertoire overlap, including different clustering procedures and PCA.
+
+- `geneUsage` - to compute the distributions of V or J genes.
+
+- `geneUsageAnalysis` - to analyse the distributions of V or J genes, including clustering and PCA.
+
+- `repDiversity` - to estimate the diversity of repertoires.
+
+- `trackClonotypes` - to analyse the dynamics of repertoires across time points.
+
+- `spectratype` - to compute spectratype of clonotypes.
+
+- `getKmers` and `kmer_profile` - to compute distributions of kmers and sequence profiles.
+
+## How to visualise analysis results
+Output of each analysis function could be passed directly to the `vis` function - the general function for visualisation. Examples of usage are written below.
+Almost all visualisations of analysis results are support grouping data by their respective properties from the metadata table or using user-supplied properties. Grouping is possible by passing either `.by` argument or by passing both `.by` and `.meta` arguments to the `vis` function.
+
+1) You can pass `.by` as a character vector with one or several column names from the metadata table to group your data before plotting. In this case you should provide also the `.meta` argument with the metadata table.
+
+```{r eda-by-meta, warning=F, fig.width=10, fig.height=4.5}
+exp_vol = repExplore(immdata$data, .method = "volume")
+p1 = vis(exp_vol, .by = c("Status"), .meta = immdata$meta)
+p2 = vis(exp_vol, .by = c("Status", "Sex"), .meta = immdata$meta)
+grid.arrange(p1, p2, ncol=2)
+```
+
+2) You can pass `.by` as a character vector that exactly matches the number of samples in your data, each value should correspond to a sample's property. It will be used to group data based on the values provided. Note that in this case you should pass NA to `.meta`.
+
+```{r eda-by-only, warning=F, fig.width=6, fig.height=4.5}
+exp_vol = repExplore(immdata$data, .method = "volume")
+by_vec = c('C', 'C', 'C', 'C', 'C', 'C', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS')
+p = vis(exp_vol, .by = by_vec)
+p
+```
+
+If data is grouped, than statistical tests for comparing means of groups will be performed, unless `.test = F` is supplied.
+In case there are only two groups, the [Wilcoxon rank sum test](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed (R function `wilcox.test` with an argument `exact = F`) for testing if there is a difference in mean rank values between two groups.
+In case there more than two groups, the [Kruskal-Wallis test](https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function `kruskal.test`), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution. A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
+Adjusted for multiple comparisons P-values are plotted on the top of groups. P-value adjusting is done using the [Holm method](https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction). You can execute the command `?p.adjust` in the R console to see more.
+
+Plots generated by the `vis` function as well as any ggplot2-based plots can be passed to `fixVis`---built-in software tool for making publication-ready plots:
+```{r eda-fixvis, eval=F}
+# 1. Analyse
+exp_len = repExplore(immdata$data, .method = "len", .col = "aa")
+
+# 2. Visualise
+p1 = vis(exp_len)
+
+# 3. Fix and make publication-ready results
+fixVis(p1)
+```
+
+See the `fixVis` tutorial [here](https://immunarch.com/articles/web_only/v7_fixvis.html).
+
+## Exploratory analysis
+For the basic exploratory analysis such as comparing of number of reads / UMIs per repertoire or distribution use the function `repExplore`.
+```{r eda-1, warning=F, fig.width=12, fig.height=4}
+exp_len = repExplore(immdata$data, .method = "len", .col = "aa")
+exp_cnt = repExplore(immdata$data, .method = "count")
+exp_vol = repExplore(immdata$data, .method = "volume")
+
+p1 = vis(exp_len)
+p2 = vis(exp_cnt)
+p3 = vis(exp_vol)
+
+p1
+```
+
+```{r eda-2, warning=F, fig.width=14, fig.height=4}
+grid.arrange(p2, p3, ncol = 2)
+```
+
+```{r eda-3, warning=F, fig.width=10, fig.height=4}
+# You can group samples by their metainformation
+p4 = vis(exp_len, .by="Status", .meta=immdata$meta)
+p5 = vis(exp_cnt, .by="Sex", .meta=immdata$meta)
+p6 = vis(exp_vol, .by=c("Status", "Sex"), .meta=immdata$meta)
+
+p4
+```
+
+```{r eda-4, warning=F, fig.width=10, fig.height=5}
+grid.arrange(p5, p6, ncol = 2)
+```
+
+## Clonality
+One of the ways to estimate the diversity of samples is to evaluate clonality. `repClonality` measures the amount of the most or the least frequent clonotypes. There are several methods to assess clonality, let us take a view of them. The `clonal.prop` method computes the proportion of repertoire occupied by the pools of cell clones:
+
+```{r clonality-pr}
+imm_pr = repClonality(immdata$data, .method = "clonal.prop")
+imm_pr
+```
+
+The `top` method considers the most abundant cell clonotypes:
+```{r clonality-top}
+imm_top = repClonality(immdata$data, .method = "top", .head = c(10, 100, 1000, 3000, 10000))
+imm_top
+```
+
+While the `rare` method deals with the least prolific clonotypes:
+```{r clonality-rare}
+imm_rare = repClonality(immdata$data, .method = "rare")
+imm_rare
+```
+
+Finally, the `homeo` method assesses the clonal space homeostasis, i.e., the proportion of the repertoire occupied by the clones of a given size:
+```{r clonality-hom-vis-1, message=F, warning=F, fig.width=11, fig.height=4.5}
+imm_hom = repClonality(immdata$data, .method = "homeo", 
+                       .clone.types = c(Small = .0001, Medium = .001, Large = .01, Hyperexpanded = 1))
+imm_hom
+
+grid.arrange(vis(imm_top), vis(imm_top, .by="Status", .meta=immdata$meta), ncol = 2)
+
+grid.arrange(vis(imm_rare), vis(imm_rare, .by="Status", .meta=immdata$meta), ncol = 2)
+
+grid.arrange(vis(imm_hom), vis(imm_hom, .by=c("Status", "Sex"), .meta=immdata$meta), ncol = 2)
+```

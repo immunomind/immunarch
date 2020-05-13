@@ -1,0 +1,43 @@
+---
+title: 'Analysis of biophysicochemical properties of CDR3 sequences'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Analysis of biophysicochemical properties of CDR3 sequences}
+%\VignettePackage{immunarch}
+-->
+
+
+
+  ```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 5)
+
+library(immunarch)
+data(immdata)
+```
+
+
+
+# Get in contact with us
+
+Can not find an important feature? Have a question or found a bug? Contact us at support@immunomind.io
