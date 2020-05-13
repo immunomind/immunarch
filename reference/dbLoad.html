@@ -8,23 +8,29 @@
 
 <title>Load clonotype databases such as VDJDB and McPAS into the R workspace — dbLoad • immunarch</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -33,15 +39,15 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Load clonotype databases such as VDJDB and McPAS into the R workspace — dbLoad" />
 
+<meta property="og:title" content="Load clonotype databases such as VDJDB and McPAS into the R workspace — dbLoad" />
 <meta property="og:description" content="The function automatically detects the database format and loads it into R.
 Additionally, the function provides a general query interface to databases that allows
 filtering by species, chain types (i.e., locus) and pathology (i.e., antigen species).
@@ -49,7 +55,7 @@ Currently we support three popular databases:
 VDJDB - https://github.com/antigenomics/vdjdb-db
 McPAS-TCR - http://friedmanlab.weizmann.ac.il/McPAS-TCR/
 TBAdb from PIRD - https://db.cngb.org/pird/tbadb/" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -76,7 +82,7 @@ TBAdb from PIRD - https://db.cngb.org/pird/tbadb/" />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -158,7 +164,6 @@ TBAdb from PIRD - https://db.cngb.org/pird/tbadb/" />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://immunomind.io">ImmunoMind</a>
@@ -200,7 +205,6 @@ TBAdb from PIRD - https://db.cngb.org/pird/tbadb/" />
     </div>
 
     <div class="ref-description">
-    
     <p>The function automatically detects the database format and loads it into R.
 Additionally, the function provides a general query interface to databases that allows
 filtering by species, chain types (i.e., locus) and pathology (i.e., antigen species).</p>
@@ -208,11 +212,10 @@ filtering by species, chain types (i.e., locus) and pathology (i.e., antigen spe
 <p>VDJDB - <a href='https://github.com/antigenomics/vdjdb-db'>https://github.com/antigenomics/vdjdb-db</a></p>
 <p>McPAS-TCR - <a href='http://friedmanlab.weizmann.ac.il/McPAS-TCR/'>http://friedmanlab.weizmann.ac.il/McPAS-TCR/</a></p>
 <p>TBAdb from PIRD - <a href='https://db.cngb.org/pird/tbadb/'>https://db.cngb.org/pird/tbadb/</a></p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>dbLoad</span>(<span class='no'>.path</span>, <span class='no'>.db</span>, <span class='kw'>.species</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.chain</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>.pathology</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -243,11 +246,10 @@ needs to be in the database, e.g., "CMV".
 Pass NA (by default) to load all available conditions.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Data frame with the input database records.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example file path</span>
@@ -255,34 +257,28 @@ Pass NA (by default) to load all available conditions.</p></td>
 
 <span class='co'># Load the database with human-only TRB-only receptors for all known antigens</span>
 <span class='no'>db</span> <span class='kw'>&lt;-</span> <span class='fu'>dbLoad</span>(<span class='no'>file_path</span>, <span class='st'>"vdjdb"</span>, <span class='st'>"HomoSapiens"</span>, <span class='st'>"TRB"</span>)
-<span class='no'>db</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 19</span><span>
+<span class='no'>db</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 19</span><span>
 #&gt;    gene  cdr3  species antigen.epitope antigen.gene antigen.species complex.id
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> TRB   CASS… HomoSa… RLRAEAQVK       EBNA3A       EBV                  </span><span style='text-decoration: underline;'>19</span><span>268
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> TRB   CSAS… HomoSa… KLGGALQAK       IE1          CMV                   </span><span style='text-decoration: underline;'>8</span><span>584
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                   </span><span style='text-decoration: underline;'>3</span><span>445
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>19</span><span>396
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> TRB   CAST… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>10</span><span>972
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                   </span><span style='text-decoration: underline;'>6</span><span>231
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>12</span><span>587
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> TRB   CATS… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>13</span><span>267
-#&gt; </span><span style='color: #949494;'># … with 12 more variables: v.segm </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, j.segm </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, v.end </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   j.start </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, mhc.a </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, mhc.b </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, mhc.class </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   reference.id </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, vdjdb.score </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, Species </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Chain </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Pathology </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> TRB   CASS… HomoSa… RLRAEAQVK       EBNA3A       EBV                  </span><span style='text-decoration: underline;'>19</span><span>268
+#&gt; </span><span style='color: #555555;'> 2</span><span> TRB   CSAS… HomoSa… KLGGALQAK       IE1          CMV                   </span><span style='text-decoration: underline;'>8</span><span>584
+#&gt; </span><span style='color: #555555;'> 3</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                   </span><span style='text-decoration: underline;'>3</span><span>445
+#&gt; </span><span style='color: #555555;'> 4</span><span> TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
+#&gt; </span><span style='color: #555555;'> 5</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>19</span><span>396
+#&gt; </span><span style='color: #555555;'> 6</span><span> TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
+#&gt; </span><span style='color: #555555;'> 7</span><span> TRB   CAST… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>10</span><span>972
+#&gt; </span><span style='color: #555555;'> 8</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                   </span><span style='text-decoration: underline;'>6</span><span>231
+#&gt; </span><span style='color: #555555;'> 9</span><span> TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>12</span><span>587
+#&gt; </span><span style='color: #555555;'>10</span><span> TRB   CATS… HomoSa… KLGGALQAK       IE1          CMV                  </span><span style='text-decoration: underline;'>13</span><span>267
+#&gt; </span><span style='color: #555555;'># … with 12 more variables: v.segm </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, j.segm </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, v.end </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   j.start </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, mhc.a </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, mhc.b </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, mhc.class </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   reference.id </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, vdjdb.score </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Species </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, Chain </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   Pathology </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -293,7 +289,7 @@ Pass NA (by default) to load all available conditions.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

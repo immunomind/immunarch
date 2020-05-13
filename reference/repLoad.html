@@ -8,23 +8,29 @@
 
 <title>Load immune repertoire files into the R workspace — repLoad • immunarch</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -33,22 +39,22 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Load immune repertoire files into the R workspace — repLoad" />
 
+<meta property="og:title" content="Load immune repertoire files into the R workspace — repLoad" />
 <meta property="og:description" content="The repLoad function loads repertoire files
 into R workspace in the immunarch format where you can immediately use them for
 the analysis. repLoad automatically detects the right format for
 your files, so all you need is simply provide the path to your files.
 See &quot;Details&quot; for more information on supported formats. See &quot;Examples&quot; for
 diving right into it." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -75,7 +81,7 @@ diving right into it." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -157,7 +163,6 @@ diving right into it." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://immunomind.io">ImmunoMind</a>
@@ -199,18 +204,16 @@ diving right into it." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>repLoad</code> function loads repertoire files
 into R workspace in the immunarch format where you can immediately use them for
 the analysis. <code>repLoad</code> automatically detects the right format for
 your files, so all you need is simply provide the path to your files.</p>
 <p>See "Details" for more information on supported formats. See "Examples" for
 diving right into it.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>repLoad</span>(<span class='no'>.path</span>, <span class='kw'>.format</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -238,13 +241,12 @@ cell and chain types for different samples.</p></td>
 <p>Leave NA (which is default) if you want `immunarch` to detect formats automatically.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with two named elements:</p>
 <p>- "data" is a list of input samples;</p>
 <p>- "meta" is a data frame with sample metadata.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The metadata has to be a tab delimited file with first column named "Sample".
@@ -273,18 +275,16 @@ you can choose one of the several options for the argument:</p>
 <p>- "airr" - adaptive immune receptor repertoire (AIRR) data format. http://docs.airr-community.org/en/latest/datarep/overview.html</p>
 <p>- "10x" - 10XGenomics clonotype annotations tables. https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation</p>
 <p>- "archer" - ArcherDX clonotype tables. https://archerdx.com/</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='immunr_data_format.html'>immunr_data_format</a> for immunarch data format; <a href='repSave.html'>repSave</a> for file saving;
 <a href='repOverlap.html'>repOverlap</a>, <a href='geneUsage.html'>geneUsage</a> and <a href='repDiversity.html'>repDiversity</a> for starting with immune repertoires basic statistics.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To load the data from a single file (note that you don't need to specify the data format):</span>
 <span class='no'>file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"immunarch"</span>), <span class='st'>"/extdata/io/Sample1.tsv.gz"</span>)
 <span class='no'>immdata</span> <span class='kw'>&lt;-</span> <span class='fu'>repLoad</span>(<span class='no'>file_path</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>== Step 1/3: loading repertoire files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "&lt;initial&gt;" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io/Sample1.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>== Step 1/3: loading repertoire files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "&lt;initial&gt;" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io/Sample1.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>== Step 2/3: checking metadata files and merging... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "&lt;initial&gt;" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Metadata file not found; creating a dummy metadata...</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>== Step 3/3: splitting data by barcodes and chains... ==</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'>
 <span class='co'># Suppose you have a following structure in your folder:</span>
@@ -297,37 +297,27 @@ you can choose one of the several options for the argument:</p>
 <span class='co'># To load the whole folder with every file in it type:</span>
 <span class='no'>file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"immunarch"</span>), <span class='st'>"/extdata/io/"</span>)
 <span class='no'>immdata</span> <span class='kw'>&lt;-</span> <span class='fu'>repLoad</span>(<span class='no'>file_path</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>== Step 1/3: loading repertoire files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io/" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io//metadata.txt" -- </span></div><div class='output co'>#&gt; <span class='message'>metadata</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io//Sample1.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io//Sample2.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io//Sample3.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io//Sample4.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>== Step 2/3: checking metadata files and merging... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/tmp/RtmpHwtIaC/temp_libpath29151dbaa6c7/immunarch/extdata/io/" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Everything is OK!</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>== Step 1/3: loading repertoire files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io/" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io//metadata.txt" -- </span></div><div class='output co'>#&gt; <span class='message'>metadata</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io//Sample1.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io//Sample2.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io//Sample3.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io//Sample4.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>== Step 2/3: checking metadata files and merging... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpVEJ97d/temp_libpath501d61a4448d/immunarch/extdata/io/" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Everything is OK!</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>== Step 3/3: splitting data by barcodes and chains... ==</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>immdata</span>))</div><div class='output co'>#&gt; [1] "data" "meta"</div><div class='input'>
 # We recommend creating a metadata file named exactly "metadata.txt" in the folder.
 
 # In that case, when you load your data you will see:
-# > immdata <- repLoad("path/to/your/folder/")
-# > names(immdata)
+# &gt; immdata &lt;- repLoad("path/to/your/folder/")
+# &gt; names(immdata)
 # [1] "data" "meta"
 
 # If you do not have "metadata.txt", you will see the same output,
 # but your metadata will be almost empty:
-# > immdata <- repLoad("path/to/your/folder/")
-# > names(immdata)
+# &gt; immdata &lt;- repLoad("path/to/your/folder/")
+# &gt; names(immdata)
 # [1] "data" "meta"
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -338,7 +328,7 @@ you can choose one of the several options for the argument:</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
