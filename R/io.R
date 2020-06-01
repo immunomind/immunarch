@@ -1320,14 +1320,14 @@ parse_mixcr <- function(.filename) {
     warn_msg <- c("  [!] Warning: can't find a column with clonal counts. Setting all clonal counts to 1.")
     warn_msg <- c(warn_msg, "\n      Did you apply repLoad to MiXCR file *_alignments.txt?")
     warn_msg <- c(warn_msg, " If so please consider moving all *.clonotypes.*.txt MiXCR files to")
-    warn_msg <- c(warn_msg, " a separate folder and applying repLoad to it.")
+    warn_msg <- c(warn_msg, " a separate folder and apply repLoad to the folder.")
     warn_msg <- c(warn_msg, "\n      Note: The *_alignments.txt file IS NOT a repertoire file suitable for any analysis.")
     message(warn_msg)
 
     df[[.count]] <- 1
   }
   .freq <- "Proportion"
-  df$Proportion <- df[[.count]] / sum(df[[.count]])
+  df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
   .aa.seq <- IMMCOL$cdr3aa
   df[[.aa.seq]] <- bunch_translate(df[[.nuc.seq]])
