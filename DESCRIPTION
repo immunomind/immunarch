@@ -1,7 +1,7 @@
 Package: immunarch
 Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.6.4
+Version: 0.6.5
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "vdm.nazarov@gmail.com", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
