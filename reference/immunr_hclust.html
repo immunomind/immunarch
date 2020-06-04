@@ -93,13 +93,16 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
   <a href="../articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
@@ -150,15 +153,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
-</li>
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -271,7 +265,7 @@ Second element is the input dataset <code>.data</code>.</p>
 #&gt; 
 #&gt; $nbclust</div><div class='img'><img src='immunr_hclust-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "list"          "immunr_hclust"</div><div class='input'>
+#&gt; [1] "immunr_hclust" "list"         </div><div class='input'>
 <span class='no'>gu</span>[<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>gu</span>)] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
 <span class='fu'>immunr_kmeans</span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>gu</span>[, -<span class='fl'>1</span>])))</div><div class='output co'>#&gt; $kmeans
 #&gt; K-means clustering with 2 clusters of sizes 8, 4
@@ -438,7 +432,7 @@ Second element is the input dataset <code>.data</code>.</p>
 #&gt; MS6     0.02244331
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "list"          "immunr_kmeans"</div></pre>
+#&gt; [1] "immunr_kmeans" "list"         </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

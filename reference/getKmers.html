@@ -90,13 +90,16 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
   <a href="../articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
@@ -147,15 +150,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
-</li>
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -239,8 +233,10 @@ pass "nt" for CDR3 nucleotide sequences.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='no'>kmers</span> <span class='kw'>&lt;-</span> <span class='fu'>getKmers</span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>)
-<span class='no'>kmers</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='getKmers-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>kmers</span> <span class='kw'>&lt;-</span> <span class='fu'>getKmers</span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.</span>
+#&gt; <span class='warning'>Please use `tibble::as_tibble()` instead.</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'><span class='no'>kmers</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='getKmers-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

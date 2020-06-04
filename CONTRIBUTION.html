@@ -89,13 +89,16 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
   <a href="articles/v1_introduction.html">Get started</a>
 </li>
 <li class="dropdown">
@@ -147,15 +150,6 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="https://github.com/immunomind/immunarch/releases">Changelog</a>
-</li>
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -197,11 +191,11 @@
 
 <div id="contributing-to-immunarch" class="section level1">
 
-<p>This outlines how to propose a change to immunarch.</p>
+<p>This document outlines how to propose a change to immunarch.</p>
 <div id="fixing-typos" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fixing-typos" class="anchor"></a>Fixing typos</h3>
-<p>Small typos or grammatical errors in documentation may be edited directly using the GitLab web IDE functionality / GitHub web interface, so long as the changes are made in the <em>source</em> file.</p>
+<p>Small typos or grammatical errors in documentation may be edited directly using the GitLab web IDE functionality / GitHub web interface, so long as the changes are made in the <em>source</em> file. Please make sure to create a Pull Request instead of commiting directly to the <code>master</code> branch.</p>
 <ul>
 <li>YES: you edit a roxygen comment in a <code>.R</code> file below <code>R/</code>.</li>
 <li>NO: you edit an <code>.Rd</code> file below <code>man/</code>.</li>
@@ -212,6 +206,40 @@
 <a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
 <p>Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>. If you need to send a data and can’t do that via GitHub, please note it in the issue.</p>
 </div>
+<div id="version-naming" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-naming" class="anchor"></a>Version naming</h3>
+<p>We employ Major.Minor.Patch. E.g., 0.4.0.</p>
+<p>Hotfixes: Major.Minor.Patch → Major.Minor.(Patch + 1)</p>
+<p>Guidelines: <a href="http://r-pkgs.had.co.nz/release.html">http://r-pkgs.had.co.nz/release.html</a></p>
+</div>
+<div id="commit-naming" class="section level3">
+<h3 class="hasAnchor">
+<a href="#commit-naming" class="anchor"></a>Commit naming</h3>
+<p>We follow the <a href="https://medium.com/@kevinkreuzer/the-way-to-fully-automated-releases-in-open-source-projects-44c015f38fd6">following guidelines for commit naming</a>.</p>
+<div id="commit-types" class="section level4">
+<h4 class="hasAnchor">
+<a href="#commit-types" class="anchor"></a>Commit types</h4>
+<p>There are eight types of commits: chore, docs, feat, fix, refactor, test, perf, style.</p>
+</div>
+<div id="commit-scopes" class="section level4">
+<h4 class="hasAnchor">
+<a href="#commit-scopes" class="anchor"></a>Commit scopes</h4>
+<p>Chanes in analysis and visualisation functions: diversity, overlap, public-repertoire, clonality, gene-usage, explore, kmers, spectratype, dynamics, tools</p>
+<p>Changes in parsing: io</p>
+<p>Changes in databases support: db</p>
+<p>Changes in additional functions such as general statistics functions: utility</p>
+<p>Changes in NAMESPACE, DESCRIPTION, citations, ISSUE_TEMPLATE.md, etc., without README: upkeep</p>
+<p>Changes in README and vignettes: vignette</p>
+<p>Changes in Continuous Integration: ci</p>
+<p>Changes in Shiny applications: shiny</p>
+</div>
+</div>
+<div id="how-to-create-an-issue" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-create-an-issue" class="anchor"></a>How to create an Issue</h3>
+<p>We have a rich list of templates for Issues <a href="https://github.com/immunomind/immunarch/tree/master/.github/ISSUE_TEMPLATE">here</a>.</p>
+</div>
 <div id="pull-request-process" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
@@ -220,7 +248,7 @@
 </li>
 <li>Look at the CI (Continuous Integration) build status before and after making changes. The <code>README</code> should contain badges for any continuous integration services used by the package.<br>
 </li>
-<li>New code should follow our style guide that is the tidyverse <a href="http://style.tidyverse.org">style guide</a> with a very minor addition of using <code>=</code> instead of <code>&lt;-</code> in variable assignment. You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.<br>
+<li>New code should follow our style guide that is the tidyverse <a href="http://style.tidyverse.org">style guide</a> You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.<br>
 </li>
 <li>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a> for documentation.<br>
 </li>
