@@ -103,7 +103,7 @@ Since releasing on CRAN is limited to one release per one-two months, you can in
 
 ```r
 install.packages("devtools") # skip this if you already installed devtools
-devtools::install_github("immunomind/immunarch", ref="develop")
+devtools::install_github("immunomind/immunarch", ref="dev")
 ```
 
 You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases

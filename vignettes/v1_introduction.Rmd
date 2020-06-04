@@ -27,90 +27,75 @@ output:
 
 
 ## Installation
-In order to install `immunarch` execute the following R command:
+
+### Latest release on CRAN
+In order to install `immunarch` execute the following command:
+
+```r
+install.packages("immunarch")
+```
+
+That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
+
+Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making `immunarch` the entry-point for single-cell & immune repertoire Data Science.
+
+
+### Latest release on GitHub
+If the above command doesn't work for any reason, try installing `immunarch` directly from its repository:
 
 ```r
 install.packages("devtools") # skip this if you already installed devtools
-devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
+devtools::install_github("immunomind/immunarch")
 ```
 
-That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](#installation-troubleshooting) section below.
 
-Note that there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and Data Science package eco-system with only one command!
-
-<!--
-### Pre-release version installation
-
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from a code repository. In order to install the latest pre-release version, you need to execute only two commands:
+### Latest pre-release on GitHub
+Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:
 
 ```r
 install.packages("devtools") # skip this if you already installed devtools
-devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
+devtools::install_github("immunomind/immunarch", ref="dev")
 ```
--->
 
 You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
+
 
 ## Quick start
 The gist of the typical TCR or BCR data analysis workflow can be reduced to the next few lines of code.
 
+### Use `immunarch` data
+
 **1) Load the package and the data**
 
-```{r eval=FALSE}
-# 1.1) Load the package into R:
-library(immunarch)
-
-# 1.2a) To quickly test immunarch, load the test dataset:
-data(immdata)
-
-# 1.2b) To try immunarch on your own data, use the `repLoad` function on your data folder:
-immdata = repLoad("path/to/your/folder/with/repertoires")
+```r
+library(immunarch)  # Load the package into R
+data(immdata)  # Load the test dataset
 ```
 
-**2) Analyse repertoire similarity at the clonotype level**
+**2) Calculate and visualise basic statistics**
 
-```{r eval=FALSE}
-# 2.1) Find the number of shared clonotypes and visualise it:
-ov = repOverlap(immdata$data)
-vis(ov)
-
-# 2.2) Cluster samples by their similarity:
-ov.kmeans = repOverlapAnalysis(ov, .method = "mds+kmeans")
-vis(ov.kmeans)
+```r
+repExplore(immdata$data, "lens") %>% vis()  # Visualise the length distribution of CDR3
+repClonality(immdata$data, "homeo") %>% vis()  # Visualise the relative abundance of clonotypes
 ```
 
-**3) Find repertoire differences in the Variable gene usage**
-
-```{r eval=FALSE}
-# 3.1) Compute V gene usage and and highlight gene differences in groups with different clinical status:
-gu = geneUsage(immdata$data)
-vis(gu, .by="Status", .meta=immdata$meta)
-
-# 3.2) Cluster samples by their V gene usage similarity:
-gu.clust = geneUsageAnalysis(gu, .method = "js+hclust")
-vis(gu.clust)
+**3) Explore and compare T-cell and B-cell repertoires**
+```r
+repOverlap(immdata$data) %>% vis()  # Build the heatmap of public clonotypes shared between repertoires
+geneUsage(immdata$data[[1]]) %>% vis()  # Visualise the V-gene distribution for the first repertoire
+repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)  # Visualise the Chao1 diversity of repertoires, grouped by the patient status
 ```
 
-**4) Find differences in the diversity of repertoires**
+### Use your own data
 
-```{r eval=F}
-# 4.1) Compare diversity of repertoires and visualise samples, grouped by both clinical status and sequencing Lane:
-div = repDiversity(immdata$data, .method = "chao1")
-vis(div, .by=c("Status", "Lane"), .meta=immdata$meta)
+```r
+library(immunarch)  # Load the package into R
+immdata <- repLoad("path/to/your/data")  # Replace it with the path to your data. Immunarch automatically detects the file format.
 ```
 
-**5) Manipulate plots to make them publication-ready**
+### Advanced methods
 
-```{r eval=FALSE}
-# 5.1) Manipulate the visualisation of diversity estimates to make the plot publication-ready:
-div = repDiversity(immdata$data, .method = "chao1")
-div.plot = vis(div, .by=c("Status", "Lane"), .meta=immdata$meta)
-fixVis(div.plot)
-```
-
-**6) Advanced methods**
-
-For advanced methods such as clonotype tracking, kmer analysis and public repertoire analysis see tutorials on the [immunarch website](https://immunarch.com/).
+For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see "Tutorials".
 
 
 ## Installation troubleshooting
@@ -254,4 +239,4 @@ devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencie
    Check your path to the downloaded package archive file. It should not be "path/to/your/folder/with/immunarch.tar.gz", but a path on your PC to the downloaded file, e.g., "C:/Users/UserName/Downloads/immunarch.tar.gz" or "/Users/UserName/Downloads/immunarch.tar.gz".
 
 
-9. If troubles still persist, message us on support@immunomind.io or create an issue in [our GitHub]( https://github.com/immunomind/immunarch/issues) with the code that represents the issue and the output you get in the console.
+9. If troubles still persist, let us know via [GitHub](https://github.com/immunomind/immunarch/issues) (preferably) or [support@immunomind.io](mailto:support@immunomind.io) (in case of private data).
