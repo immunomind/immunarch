@@ -5,26 +5,35 @@
 [![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
 [![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
+![Visitors](https://visitor-badge.glitch.me/badge?page_id=immunomind.immunarch)
 
 
-# `immunarch` --- An R Package for Painless Bioinformatics Analysis of T-cell and B-cell Immune Repertoire Data
-
+# `immunarch` --- Bioinformatics R package for Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires
 
 ## Why `immunarch`?
 - **Work with any type of data:** single-cell, bulk, data tables, databases --- you name it.
-- **Community at the heart:** thrive in the community of almost 30,000 researchers and medical scientists worldwide, including researchers from **Pfizer, Novartis, Regeneron, Stanford, UCSF** and **MIT**.
+- **Community at the heart:** ask questions, share knowledge and thrive in the community of almost 30,000 researchers and medical scientists worldwide. **Pfizer, Novartis, Regeneron, Stanford, UCSF** and **MIT** trust us.
 - **One plot --- one line:** write a [whole PhD thesis in 8 lines of code](https://twitter.com/Nusob88/status/1127601201112129536) or reproduce almost any publication in 5-10 lines of `immunarch` code.
 - **Be on the bleeding edge of science:** we regularly update `immunarch` with the latest methods. [Let us know what you need!](#help-the-community)
 - **Automatic format detection and parsing** for all popular immunosequencing formats: from **MiXCR** and **ImmunoSEQ** to **10XGenomics** and **ArcherDX**.
 
-And the **most important**: `immunarch` is not just a tool --- it is an **ecosystem**.
+
+## Lightning-fast Start
+```r
+install.packages("immunarch") # Install the package
+library(immunarch)  # Load the package into R
+data(immdata)  # Load the test dataset
+repOverlap(immdata$data) %>% vis()  # Compute and visualise the most important statistics
+geneUsage(immdata$data[[1]]) %>% vis()
+repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)  # Group samples
+```
 
 
 ## From Berkeley with devotion
 
-`immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. 
+`immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. ImmunoMind Data Science tools for single-cell and immunomics [exploration](https://immunarch.com) and [biomarker discovery](https://immunomind.io) are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.
 
-We have been helping researchers to extract insights from sequencing data of T-cell and antibody repertoires since the inception of the RepSeq domain. Our bioinformatics tools are trusted by top universities including Stanford, UCSF, MIT, King's College London and big pharma companies including Pfizer and Novartis.
+[![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
 
 
 ## Stay connected!
@@ -44,8 +53,6 @@ We have been helping researchers to extract insights from sequencing data of T-c
   <input type="hidden" name="_next" value="https://immunarch.com"/>
 </form>
 
-Feel free to follow us on [Twitter](https://twitter.com/immunomind) as well.
-
 ---
 
 ## Table of Contents
@@ -61,7 +68,7 @@ Feel free to follow us on [Twitter](https://twitter.com/immunomind) as well.
 
 ## Introduction
 
-`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) for news and updates.
+`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding.
 
 
 ## Contact

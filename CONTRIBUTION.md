@@ -52,8 +52,6 @@ Changes in Continuous Integration: ci
 
 Changes in Shiny applications: shiny
 
-Changes in the website: web
-
 ### How to create an Issue
 
 We have a rich list of templates for Issues [here](https://github.com/immunomind/immunarch/tree/master/.github/ISSUE_TEMPLATE).
