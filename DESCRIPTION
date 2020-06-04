@@ -12,7 +12,7 @@ Authors@R: c(
     person("ImmunoMind", role = c("cph", "fnd"))
     )
 Contact: support@immunomind.io
-Description: A comprehensive framework for bioinformatics analysis of bulk and single-cell 
+Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell 
     T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and 
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
     and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods, 
@@ -24,11 +24,13 @@ License: AGPL-3
 URL: https://immunarch.com/, https://github.com/immunomind/immunarch
 BugReports: https://github.com/immunomind/immunarch/issues
 Imports:
+    factoextra (>= 1.0.4),
+    fpc,
+    treemap,
+    UpSetR (>= 1.4.0),
     pheatmap (>= 1.0.12),
     ggrepel (>= 0.8.0),
     reshape2 (>= 1.4.2),
-    factoextra (>= 1.0.4),
-    fpc,
     circlize,
     MASS (>= 7.3),
     Rtsne (>= 0.15),
@@ -36,10 +38,8 @@ Imports:
     readxl (>= 1.3.1),
     shiny (>= 1.4.0),
     shinythemes,
-    treemap,
     airr,
     ggseqlogo,
-    UpSetR (>= 1.4.0),
     stringr (>= 1.4.0),
     ggalluvial (>= 0.10.0),
     Rcpp (>= 1.0),
