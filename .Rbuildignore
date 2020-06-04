@@ -13,6 +13,7 @@
 ^.gitlab-ci.yml$
 ^CONTRIBUTION.md$
 ^_pkgdown.yml$
+^pkgdown$
 ^code-of-conduct.md$
 ^LICENSE$
 ^immunarch-citation.xml$
