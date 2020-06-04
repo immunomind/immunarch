@@ -81,7 +81,7 @@ check_distribution <- function(.data, .do.norm = NA, .laplace = 1, .na.val = 0, 
 #' tmp <- immunarch:::add_class(tmp, "new_class")
 #' class(tmp)
 add_class <- function(.obj, .class) {
-  class(.obj) <- c(class(.obj), .class)
+  class(.obj) <- c(.class, class(.obj))
   .obj
 }
 
