@@ -8,7 +8,7 @@
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=immunomind.immunarch)
 
 
-# `immunarch` --- Bioinformatics R package for Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires
+# `immunarch` --- Fast and Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires in R
 
 ## Why `immunarch`?
 - **Work with any type of data:** single-cell, bulk, data tables, databases --- you name it.
@@ -18,18 +18,18 @@
 - **Automatic format detection and parsing** for all popular immunosequencing formats: from **MiXCR** and **ImmunoSEQ** to **10XGenomics** and **ArcherDX**.
 
 
-## Lightning-fast Start
+### Lightning-fast Start
 ```r
 install.packages("immunarch") # Install the package
-library(immunarch)  # Load the package into R
-data(immdata)  # Load the test dataset
-repOverlap(immdata$data) %>% vis()  # Compute and visualise the most important statistics
-geneUsage(immdata$data[[1]]) %>% vis()
-repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)  # Group samples
+library(immunarch)            # Load the package into R
+data(immdata)                 # Load the test dataset
+repOverlap(immdata$data) %>% vis()      # Compute and visualise the most important statistics:
+geneUsage(immdata$data[[1]]) %>% vis()  #     public clonotypes, gene usage, sample diversity
+repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # Group samples
 ```
 
 
-## From Berkeley with devotion
+### From Berkeley with devotion
 
 `immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. ImmunoMind Data Science tools for single-cell and immunomics [exploration](https://immunarch.com) and [biomarker discovery](https://immunomind.io) are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.
 
