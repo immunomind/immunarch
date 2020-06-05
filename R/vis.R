@@ -2164,13 +2164,13 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
   if (group_res$is_grouped) {
     if (.stack) {
       p <- ggplot() +
-        geom_bar(aes(x = Group, y = Value.mean, fill = Grouping.var),
-          stat = "identity", position = "stack", data = .data_proc, col = "black"
+        geom_col(aes(x = Group, y = Value.mean, fill = Grouping.var),
+        	position = "stack", data = .data_proc, col = "black"
         )
     } else {
-      p <- ggplot(aes(x = Grouping.var, y = Value, fill = Group, color = Group, group = Group), data = .data) +
-        geom_bar(aes(x = Grouping.var, y = Value.mean),
-          stat = "identity", position = position_name, data = .data_proc, col = "black"
+      p <- ggplot(aes(x = Grouping.var, y = Value.mean, fill = Group, group = Group), data = .data_proc) +
+        geom_col(
+        	position = position_name, data = .data_proc, col = "black"
         )
     }
 
@@ -2186,7 +2186,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 
     if (!.errorbars.off) {
       p <- p +
-        geom_errorbar(aes(x = Grouping.var, y = Value.mean, ymin = Value.min, ymax = Value.max, color = Group),
+        geom_errorbar(aes(ymin = Value.min, ymax = Value.max),
           color = "black", data = .data_proc, width = .errorbar.width, position = position_dodge(.9)
         )
     }
