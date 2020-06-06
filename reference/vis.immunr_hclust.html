@@ -199,13 +199,7 @@ For other clustering visualisations see <a href='vis.immunr_kmeans.html'>vis.imm
     </div>
 
     <pre class="usage"><span class='co'># S3 method for immunr_hclust</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.rect</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"clust"</span>, <span class='st'>"best"</span>),
-  <span class='kw'>.return.grob</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.rect</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"clust"</span>, <span class='st'>"best"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -225,10 +219,6 @@ If "clust" then plot only the clustering. If "best" then plot the number of opti
 If both then plot both.</p></td>
     </tr>
     <tr>
-      <th>.return.grob</th>
-      <td><p>If TRUE then return grob instead of plot.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Not used here.</p></td>
     </tr>
@@ -236,7 +226,7 @@ If both then plot both.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Ggplot2 objects inside the gridExtra container.</p>
+    <p>Ggplot2 objects inside the patchwork container.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='vis.html'>vis</a>, <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>, <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a></p></div>
@@ -244,8 +234,7 @@ If both then plot both.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
 <span class='no'>ov</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='repOverlap.html'>repOverlap</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>)
-<span class='fu'><a href='repOverlapAnalysis.html'>repOverlapAnalysis</a></span>(<span class='no'>ov</span>, <span class='st'>"mds+hclust"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='vis.immunr_hclust-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='repOverlapAnalysis.html'>repOverlapAnalysis</a></span>(<span class='no'>ov</span>, <span class='st'>"mds+hclust"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='vis.immunr_hclust-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

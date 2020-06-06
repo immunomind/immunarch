@@ -162,63 +162,59 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>In order to install <code>immunarch</code> execute the following R command:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_url</a></span>(<span class="st">"https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz"</span>)</pre></body></html></div>
-<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="#installation-troubleshooting">Installation Troubleshooting</a> section below.</p>
-<p>Note that there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and Data Science package eco-system with only one command!</p>
-<!--
-### Pre-release version installation
-
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from a code repository. In order to install the latest pre-release version, you need to execute only two commands:
-
-```r
-install.packages("devtools") # skip this if you already installed devtools
-devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
-```
--->
+<div id="latest-release-on-cran" class="section level3">
+<h3 class="hasAnchor">
+<a href="#latest-release-on-cran" class="anchor"></a>Latest release on CRAN</h3>
+<p>In order to install <code>immunarch</code> execute the following command:</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>)</pre></body></html></div>
+<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting">Installation Troubleshooting</a> section.</p>
+<p>Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making <code>immunarch</code> the entry-point for single-cell &amp; immune repertoire Data Science.</p>
+</div>
+<div id="latest-release-on-github" class="section level3">
+<h3 class="hasAnchor">
+<a href="#latest-release-on-github" class="anchor"></a>Latest release on GitHub</h3>
+<p>If the above command doesn’t work for any reason, try installing <code>immunarch</code> directly from its repository:</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"immunomind/immunarch"</span>)</pre></body></html></div>
+</div>
+<div id="latest-pre-release-on-github" class="section level3">
+<h3 class="hasAnchor">
+<a href="#latest-pre-release-on-github" class="anchor"></a>Latest pre-release on GitHub</h3>
+<p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"immunomind/immunarch"</span>, <span class="kw">ref</span><span class="kw">=</span><span class="st">"dev"</span>)</pre></body></html></div>
 <p>You can find the list of releases of <code>immunarch</code> here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
+</div>
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick start</h2>
 <p>The gist of the typical TCR or BCR data analysis workflow can be reduced to the next few lines of code.</p>
+<div id="use-immunarch-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#use-immunarch-data" class="anchor"></a>Use <code>immunarch</code> data</h3>
 <p><strong>1) Load the package and the data</strong></p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># 1.1) Load the package into R:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>)
-
-<span class="co"># 1.2a) To quickly test immunarch, load the test dataset:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)
-
-<span class="co"># 1.2b) To try immunarch on your own data, use the `repLoad` function on your data folder:</span>
-<span class="no">immdata</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/folder/with/repertoires"</span>)</pre></body></html></div>
-<p><strong>2) Analyse repertoire similarity at the clonotype level</strong></p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># 2.1) Find the number of shared clonotypes and visualise it:</span>
-<span class="no">ov</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>)
-<span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="no">ov</span>)
-
-<span class="co"># 2.2) Cluster samples by their similarity:</span>
-<span class="no">ov.kmeans</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">ov</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"mds+kmeans"</span>)
-<span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="no">ov.kmeans</span>)</pre></body></html></div>
-<p><strong>3) Find repertoire differences in the Variable gene usage</strong></p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># 3.1) Compute V gene usage and and highlight gene differences in groups with different clinical status:</span>
-<span class="no">gu</span> <span class="kw">=</span> <span class="fu"><a href="../reference/geneUsage.html">geneUsage</a></span>(<span class="no">immdata</span>$<span class="no">data</span>)
-<span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="no">gu</span>, <span class="kw">.by</span><span class="kw">=</span><span class="st">"Status"</span>, <span class="kw">.meta</span><span class="kw">=</span><span class="no">immdata</span>$<span class="no">meta</span>)
-
-<span class="co"># 3.2) Cluster samples by their V gene usage similarity:</span>
-<span class="no">gu.clust</span> <span class="kw">=</span> <span class="fu"><a href="../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span>(<span class="no">gu</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"js+hclust"</span>)
-<span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="no">gu.clust</span>)</pre></body></html></div>
-<p><strong>4) Find differences in the diversity of repertoires</strong></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># 4.1) Compare diversity of repertoires and visualise samples, grouped by both clinical status and sequencing Lane:</span>
-<span class="no">div</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repDiversity.html">repDiversity</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"chao1"</span>)
-<span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="no">div</span>, <span class="kw">.by</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="kw">.meta</span><span class="kw">=</span><span class="no">immdata</span>$<span class="no">meta</span>)</pre></body></html></div>
-<p><strong>5) Manipulate plots to make them publication-ready</strong></p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># 5.1) Manipulate the visualisation of diversity estimates to make the plot publication-ready:</span>
-<span class="no">div</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repDiversity.html">repDiversity</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"chao1"</span>)
-<span class="no">div.plot</span> <span class="kw">=</span> <span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="no">div</span>, <span class="kw">.by</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Status"</span>, <span class="st">"Lane"</span>), <span class="kw">.meta</span><span class="kw">=</span><span class="no">immdata</span>$<span class="no">meta</span>)
-<span class="fu"><a href="../reference/fixVis.html">fixVis</a></span>(<span class="no">div.plot</span>)</pre></body></html></div>
-<p><strong>6) Advanced methods</strong></p>
-<p>For advanced methods such as clonotype tracking, kmer analysis and public repertoire analysis see tutorials on the <a href="https://immunarch.com/">immunarch website</a>.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>)  <span class="co"># Load the package into R</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)  <span class="co"># Load the test dataset</span></pre></body></html></div>
+<p><strong>2) Calculate and visualise basic statistics</strong></p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/repExplore.html">repExplore</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"lens"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/vis.html">vis</a></span>()  <span class="co"># Visualise the length distribution of CDR3</span>
+<span class="fu"><a href="../reference/repClonality.html">repClonality</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"homeo"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/vis.html">vis</a></span>()  <span class="co"># Visualise the relative abundance of clonotypes</span></pre></body></html></div>
+<p><strong>3) Explore and compare T-cell and B-cell repertoires</strong></p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/vis.html">vis</a></span>()  <span class="co"># Build the heatmap of public clonotypes shared between repertoires</span>
+<span class="fu"><a href="../reference/geneUsage.html">geneUsage</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/vis.html">vis</a></span>()  <span class="co"># Visualise the V-gene distribution for the first repertoire</span>
+<span class="fu"><a href="../reference/repDiversity.html">repDiversity</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/vis.html">vis</a></span>(<span class="kw">.by</span> <span class="kw">=</span> <span class="st">"Status"</span>, <span class="kw">.meta</span> <span class="kw">=</span> <span class="no">immdata</span>$<span class="no">meta</span>)  <span class="co"># Visualise the Chao1 diversity of repertoires, grouped by the patient status</span></pre></body></html></div>
+</div>
+<div id="use-your-own-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#use-your-own-data" class="anchor"></a>Use your own data</h3>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>)  <span class="co"># Load the package into R</span>
+<span class="no">immdata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/data"</span>)  <span class="co"># Replace it with the path to your data. Immunarch automatically detects the file format.</span></pre></body></html></div>
+</div>
+<div id="advanced-methods" class="section level3">
+<h3 class="hasAnchor">
+<a href="#advanced-methods" class="anchor"></a>Advanced methods</h3>
+<p>For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see “Tutorials”.</p>
+</div>
 </div>
 <div id="installation-troubleshooting" class="section level2">
 <h2 class="hasAnchor">
@@ -309,7 +305,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
   problem copying No such file or directory</code></pre>
 <p>Check your path to the downloaded package archive file. It should not be “path/to/your/folder/with/immunarch.tar.gz”, but a path on your PC to the downloaded file, e.g., “C:/Users/UserName/Downloads/immunarch.tar.gz” or “/Users/UserName/Downloads/immunarch.tar.gz”.</p>
 </li>
-<li><p>If troubles still persist, message us on <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a> or create an issue in <a href="https://github.com/immunomind/immunarch/issues">our GitHub</a> with the code that represents the issue and the output you get in the console.</p></li>
+<li><p>If troubles still persist, let us know via <a href="https://github.com/immunomind/immunarch/issues">GitHub</a> (preferably) or <a href="mailto:support@immunomind.io">support@immunomind.io</a> (in case of private data).</p></li>
 </ol>
 </div>
 </div>

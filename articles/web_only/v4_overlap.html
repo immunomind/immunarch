@@ -167,15 +167,21 @@
 <li><p>incremental overlap - overlaps of the N most abundant clonotypes with incrementally growing N (<code>.method = "inc+METHOD"</code>, e.g., <code>"inc+public"</code> or <code>"inc+morisita"</code>).</p></li>
 </ul>
 <p>The function that includes described methods is <code>repOverlap</code>. Again the output is easily visualised when passed to <code><a href="../../reference/vis.html">vis()</a></code> function that does all the work:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">imm_ov1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"public"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
-<span class="no">imm_ov2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"morisita"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">imm_ov1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"public"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
+<span class="no">imm_ov2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"morisita"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
 
-<span class="fu">grid.arrange</span>(<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov1</span>), <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov2</span>, <span class="kw">.text.size</span><span class="kw">=</span><span class="fl">2</span>), <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></body></html></div>
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov1</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov2</span>, <span class="kw">.text.size</span> <span class="kw">=</span> <span class="fl">2</span>)
+
+<span class="no">p1</span> + <span class="no">p2</span></pre></body></html></div>
 <p><img src="v4_overlap_files/figure-html/overlap-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"heatmap2"</span>)</pre></body></html></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2.png" width="1152" style="display: block; margin: auto;"></p>
 <p>You can easily change the number of significant digits:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">grid.arrange</span>(<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov2</span>, <span class="kw">.text.size</span><span class="kw">=</span><span class="fl">2.5</span>, <span class="kw">.signif.digits</span><span class="kw">=</span><span class="fl">1</span>), <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov2</span>, <span class="kw">.text.size</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">.signif.digits</span><span class="kw">=</span><span class="fl">2</span>), <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov2</span>, <span class="kw">.text.size</span> <span class="kw">=</span> <span class="fl">2.5</span>, <span class="kw">.signif.digits</span> <span class="kw">=</span> <span class="fl">1</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">imm_ov2</span>, <span class="kw">.text.size</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">.signif.digits</span> <span class="kw">=</span> <span class="fl">2</span>)
+
+<span class="no">p1</span> + <span class="no">p2</span></pre></body></html></div>
 <p><img src="v4_overlap_files/figure-html/overlap-signif-digits-1.png" width="1152" style="display: block; margin: auto;"></p>
 <!---
 Top-overlap [Work in Progress]
@@ -211,23 +217,23 @@ warning("TODO")
 ## MS6      26.4594518 -26.857981</code></pre>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"tsne"</span>)</pre></body></html></div>
-<pre><code>##               DimI      DimII
-## A2-i129   66.10758 -214.50402
-## A2-i131 -229.50229  241.31775
-## A2-i133   28.21680   64.08138
-## A2-i132   43.29025   64.18296
-## A4-i191   35.74179   70.07059
-## A4-i192   59.85528 -206.48708
-## MS1       56.93201 -217.51893
-## MS2       35.78487   58.73350
-## MS3       62.43217 -213.21099
-## MS4       35.75961   63.10794
-## MS5     -230.45162  237.60619
-## MS6       35.83355   52.62071
+<pre><code>##               DimI     DimII
+## A2-i129  215.19594  33.21211
+## A2-i131 -212.76042 167.20569
+## A2-i133  -87.41441 -96.63822
+## A2-i132  -92.85326 -77.01183
+## A4-i191  -74.76879 -67.34413
+## A4-i192  210.80706  52.58809
+## MS1      232.03236  43.89281
+## MS2      -69.37021 -87.08921
+## MS3      218.50379  41.20085
+## MS4      -76.45215 -85.44181
+## MS5     -204.57518 167.30611
+## MS6      -58.34472 -91.88046
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"</code></pre>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co"># Visualise the results</span>
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"mds"</span>))</pre></body></html></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"mds"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>()</pre></body></html></div>
 <p><img src="v4_overlap_files/figure-html/overlap-1-1.png" width="768" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span>
 <span class="co"># "mds" - Multi-dimensional Scaling</span>
@@ -251,26 +257,26 @@ warning("TODO")
 ## MS6      26.4594518 -26.857981</code></pre>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"tsne"</span>)</pre></body></html></div>
-<pre><code>##              DimI      DimII
-## A2-i129 -39.53247 -105.46419
-## A2-i131 196.30309   54.94112
-## A2-i133 -39.44131   59.46314
-## A2-i132 -49.92371   56.40126
-## A4-i191 -49.27409   45.49963
-## A4-i192 -30.81396 -111.20832
-## MS1     -31.30546  -99.03184
-## MS2     -39.44029   49.01830
-## MS3     -35.12637 -105.28574
-## MS4     -43.32311   51.75081
-## MS5     195.49647   58.99084
-## MS6     -33.61877   44.92501
+<pre><code>##               DimI       DimII
+## A2-i129 -222.50459 -181.803836
+## A2-i131  -50.42148  -18.407388
+## A2-i133   92.17336   75.609863
+## A2-i132  130.05730  131.399011
+## A4-i191  185.08549   88.174427
+## A4-i192 -190.22140 -136.330175
+## MS1     -166.39918 -186.155333
+## MS2      142.64243   64.038449
+## MS3     -200.43254 -170.675973
+## MS4      137.37533   87.600008
+## MS5      -59.61034    2.971342
+## MS6      202.25561  243.579605
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"</code></pre>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># Visualise the results</span>
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"mds"</span>))</pre></body></html></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"mds"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>()</pre></body></html></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-1.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co"># Clusterise the MDS resulting components using K-means</span>
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"mds+kmeans"</span>))</pre></body></html></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"mds+kmeans"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>()</pre></body></html></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="public-repertoire" class="section level1">
@@ -278,7 +284,7 @@ warning("TODO")
 <a href="#public-repertoire" class="anchor"></a>Public repertoire</h1>
 <p>In order to build a massive table with all clonotypes from the list of repertoires use the <code>pubRep</code> function.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># Pass "nt" as the second parameter to build the public repertoire table using CDR3 nucleotide sequences</span>
-<span class="no">pr.nt</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"nt"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
+<span class="no">pr.nt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"nt"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
 <span class="no">pr.nt</span></pre></body></html></div>
 <pre><code>##                                                    CDR3.nt Samples A2-i129
 ##     1:                   TGCGCCAGCAGCTTGGAAGAGACCCAGTACTTC       8       2
@@ -306,7 +312,7 @@ warning("TODO")
 ## 86983:      NA      NA      NA      NA       1  NA  NA  NA  NA  NA  NA</code></pre>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="co"># Pass "aa+v" as the second parameter to build the public repertoire table using CDR3 aminoacid sequences and V alleles</span>
 <span class="co"># In order to use only CDR3 aminoacid sequences, just pass "aa"</span>
-<span class="no">pr.aav</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"aa+v"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
+<span class="no">pr.aav</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"aa+v"</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
 <span class="no">pr.aav</span></pre></body></html></div>
 <pre><code>##                    CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132
 ##     1:         CASSLEETQYF  TRBV5-1       8       2      NA       3       1
@@ -333,21 +339,22 @@ warning("TODO")
 ## 86184:      NA      NA  NA  NA   1  NA  NA  NA
 ## 86185:      NA      NA  NA  NA  NA   1  NA  NA</code></pre>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="co"># You can also pass the ".coding" parameter to filter out all noncoding sequences first:</span>
-<span class="no">pr.aav.cod</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"aa+v"</span>, <span class="kw">.coding</span><span class="kw">=</span><span class="no">T</span>)</pre></body></html></div>
+<span class="no">pr.aav.cod</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"aa+v"</span>, <span class="kw">.coding</span> <span class="kw">=</span> <span class="no">T</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="co"># Create a public repertoire with coding-only sequences using both CDR3 amino acid sequences and V genes</span>
-<span class="no">pr</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"aa+v"</span>, <span class="kw">.coding</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
+<span class="no">pr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"aa+v"</span>, <span class="kw">.coding</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">.verbose</span> <span class="kw">=</span> <span class="no">F</span>)
 
 <span class="co"># Apply the filter subroutine to leave clonotypes presented only in healthy individuals</span>
-<span class="no">pr1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span>(<span class="no">pr</span>, <span class="no">immdata</span>$<span class="no">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Status</span> <span class="kw">=</span> <span class="st">"C"</span>))
+<span class="no">pr1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span>(<span class="no">pr</span>, <span class="no">immdata</span>$<span class="no">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Status</span> <span class="kw">=</span> <span class="st">"C"</span>))
 
 <span class="co"># Apply the filter subroutine to leave clonotypes presented only in diseased individuals</span>
-<span class="no">pr2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span>(<span class="no">pr</span>, <span class="no">immdata</span>$<span class="no">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Status</span> <span class="kw">=</span> <span class="st">"MS"</span>))
+<span class="no">pr2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span>(<span class="no">pr</span>, <span class="no">immdata</span>$<span class="no">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Status</span> <span class="kw">=</span> <span class="st">"MS"</span>))
 
 <span class="co"># Divide one by another</span>
-<span class="no">pr3</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/pubRepApply.html">pubRepApply</a></span>(<span class="no">pr1</span>, <span class="no">pr2</span>)
+<span class="no">pr3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/pubRepApply.html">pubRepApply</a></span>(<span class="no">pr1</span>, <span class="no">pr2</span>)
 
 <span class="co"># Plot it</span>
-<span class="no">p</span> <span class="kw">=</span> <span class="fu">ggplot</span>() + <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="st">"Treatment"</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">Result</span>), <span class="kw">data</span><span class="kw">=</span><span class="no">pr3</span>)
+<span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>() +
+  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="st">"Treatment"</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">Result</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">pr3</span>)
 <span class="no">p</span></pre></body></html></div>
 </div>
   </div>

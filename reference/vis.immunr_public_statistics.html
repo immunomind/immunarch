@@ -219,14 +219,13 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
 <span class='no'>immdata</span>$<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>head</span>, <span class='fl'>2000</span>)
-<span class='no'>pr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pubRep.html'>pubRep</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='kw'>.verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>pr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pubRep.html'>pubRep</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'><a href='pubRepStatistics.html'>pubRepStatistics</a></span>(<span class='no'>pr</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: You are using a dplyr method on a raw data.table, which will call the</span>
 #&gt; <span class='warning'>* data frame implementation, and is likely to be inefficient.</span>
 #&gt; <span class='warning'>* </span>
 #&gt; <span class='warning'>* To suppress this message, either generate a data.table translation with</span>
 #&gt; <span class='warning'>* `lazy_dt()` or convert to a data frame or tibble with</span>
-#&gt; <span class='warning'>* `as.data.frame()`/`as_tibble()`.</span></div><div class='img'><img src='vis.immunr_public_statistics-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+#&gt; <span class='warning'>* `as.data.frame()`/`as_tibble()`.</span></div><div class='img'><img src='vis.immunr_public_statistics-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

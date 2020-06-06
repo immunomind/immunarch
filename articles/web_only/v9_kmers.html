@@ -158,7 +158,7 @@
 <h1 class="hasAnchor">
 <a href="#kmer-statistics-computation" class="anchor"></a>Kmer statistics computation</h1>
 <p>Counting kmer occurrences in <code>immunarch</code> is very easy. All you need to do is to run the <code><a href="../../reference/getKmers.html">getKmers()</a></code> function on your data:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="fl">3</span>)</pre></body></html></div>
 <pre><code>## Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.
 ## Please use `tibble::as_tibble()` instead.
 ## This warning is displayed once every 8 hours.
@@ -179,7 +179,7 @@
 ## 10 AAN      15
 ## # … with 4,562 more rows</code></pre>
 <p>If is possible to compute occurrences of kmers in a batch of immune repertoires. In order to do that, you just need to provide a list of immune repertoires to the function. NA means that there is no such kmer found in a sample, specifyed by the column name.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="fl">5</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="fl">5</span>)
 <span class="no">kmers</span></pre></body></html></div>
 <pre><code>## # A tibble: 189,757 x 13
 ##    Kmer  `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2
@@ -197,7 +197,7 @@
 ## # … with 189,747 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;,
 ## #   MS5 &lt;int&gt;, MS6 &lt;int&gt;</code></pre>
 <p>Note that by default <code><a href="../../reference/getKmers.html">getKmers()</a></code> filter out all non-coding sequences before counting the kmer statistics. You can use both coding and non-coding sequences by setting the <code>.coding</code> argument to FALSE:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="fl">3</span>, <span class="kw">.coding</span><span class="kw">=</span><span class="no">F</span>)
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="fl">3</span>, <span class="kw">.coding</span> <span class="kw">=</span> <span class="no">F</span>)
 <span class="no">kmers</span></pre></body></html></div>
 <pre><code>## # A tibble: 4,848 x 2
 ##    Kmer  Count
@@ -217,31 +217,29 @@
 <h2 class="hasAnchor">
 <a href="#kmer-statistics-visualisation" class="anchor"></a>Kmer statistics visualisation</h2>
 <p>To visualise your kmer statistics, the <code><a href="../../reference/vis.html">vis()</a></code> function comes to help:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="fl">5</span>)
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="fl">5</span>)
 <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>)</pre></body></html></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>The <code><a href="../../reference/vis.html">vis()</a></code> function for kmers has a number of arguments to manipulate the plot. First, the <code>.head</code> argument specifies the number of the most abundant kmers to visualise.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">5</span>)
-<span class="no">p2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>)
-<span class="no">p3</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">30</span>)
-<span class="fu">grid.arrange</span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="kw">ncol</span><span class="kw">=</span><span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">5</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>)
+<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">30</span>)
+
+(<span class="no">p1</span> + <span class="no">p2</span>) / <span class="no">p3</span></pre></body></html></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">p3</span></pre></body></html></div>
-<p><img src="v9_kmers_files/figure-html/unnamed-chunk-5-2.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Second, there are three options to choose from for positions of bars: “stack”, “dodge” and “fill”, adjusted by providing the correposnding option to the <code>.position</code> argument:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"stack"</span>)
-<span class="no">p2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"fill"</span>)
-<span class="no">p3</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"dodge"</span>)
-<span class="fu">grid.arrange</span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="kw">ncol</span><span class="kw">=</span><span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"stack"</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"fill"</span>)
+<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"dodge"</span>)
+
+(<span class="no">p1</span> + <span class="no">p2</span>) / <span class="no">p3</span></pre></body></html></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">p3</span></pre></body></html></div>
-<p><img src="v9_kmers_files/figure-html/unnamed-chunk-6-2.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Option “stack” stacks all bars on top of each other so you can see the full distribution of kmers. Option “fill” stack all bars on top of each other as well, but normalises it in a such way so you see distribution of counts per-kmer, i.e., you can clearly see which repertoire has more kmer counts than others for a specific kmer. Option “dodge” groups kmer bars of different samples so you can clearly see, which samples has more kmer occurrences overall.</p>
 <p>Additional argument is <code>.log</code> needed if your distribution of kmer counts is vastly imbalanced for some of repertoires. It permits to use the log-transformation of y-axis so you can see differences in orders of magnitude in kmer counts rather.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"stack"</span>)
-<span class="no">p2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"stack"</span>, <span class="kw">.log</span> <span class="kw">=</span> <span class="no">T</span>)
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"stack"</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kmers</span>, <span class="kw">.head</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">.position</span> <span class="kw">=</span> <span class="st">"stack"</span>, <span class="kw">.log</span> <span class="kw">=</span> <span class="no">T</span>)
 
-<span class="fu">grid.arrange</span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="kw">ncol</span><span class="kw">=</span><span class="fl">2</span>)</pre></body></html></div>
+<span class="no">p1</span> + <span class="no">p2</span></pre></body></html></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -256,7 +254,7 @@
 <li>a matrix with self-information of elements in PWM.</li>
 </ul>
 <p>To compute and visualise sequence motifs, first you need to compute kmer statistics for one of the input immune repertoires, and then apply the <code><a href="../../reference/split_to_kmers.html">kmer_profile()</a></code> function to compute sequence motif matrices:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="fl">5</span>)
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">kmers</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="fl">5</span>)
 <span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>)</pre></body></html></div>
 <pre><code>##    [,1]  [,2]  [,3]  [,4]  [,5]
 ## A 10336 10366  4355  3743  3639
@@ -293,7 +291,7 @@
 <li>
 <code>.method = "self"</code> - self-information matrix.</li>
 </ul>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"freq"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"freq"</span>)</pre></body></html></div>
 <pre><code>##    [,1]  [,2]  [,3]  [,4]  [,5]
 ## A 10336 10366  4355  3743  3639
 ## C  7476    31    32    21    12
@@ -317,7 +315,7 @@
 ## Y  2405  2406  2855  7089  7078
 ## attr(,"class")
 ## [1] "immunr_kmer_profile_pfm" "matrix"</code></pre>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"prob"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"prob"</span>)</pre></body></html></div>
 <pre><code>##          [,1]         [,2]         [,3]         [,4]         [,5]
 ## A 0.130896749 0.1312766739 0.0551524132 0.0474019477 0.0460848752
 ## C 0.094677254 0.0003925889 0.0004052531 0.0002659473 0.0001519699
@@ -341,7 +339,7 @@
 ## Y 0.030457303 0.0304699669 0.0361561744 0.0897762243 0.0896369186
 ## attr(,"class")
 ## [1] "immunr_kmer_profile_ppm" "matrix"</code></pre>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"wei"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"wei"</span>)</pre></body></html></div>
 <pre><code>##       [,1]      [,2]      [,3]       [,4]       [,5]
 ## A 9.013462 9.0176436 7.7665289 7.54805124  7.5073982
 ## C 8.546123 0.6322682 0.6780719 0.07038933 -0.7369656
@@ -365,7 +363,7 @@
 ## Y 6.909893 6.9104928 7.1573469 8.46943832  8.4671980
 ## attr(,"class")
 ## [1] "immunr_kmer_profile_pwm" "matrix"</code></pre>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"self"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"self"</span>)</pre></body></html></div>
 <pre><code>##         [,1]        [,2]        [,3]        [,4]        [,5]
 ## A 0.38398546 0.384551059 0.230560923 0.208516895 0.204596700
 ## C 0.32198203 0.004442023 0.004566752 0.003158543 0.001927575
@@ -393,10 +391,11 @@
 <h2 class="hasAnchor">
 <a href="#sequence-motif-visualisation" class="anchor"></a>Sequence motif visualisation</h2>
 <p>Visualisation of sequence motif matrices is done by <code><a href="../../reference/vis.html">vis()</a></code>. There are two types of plots to choose from - sequence logo and “text logo”. The argument <code>.plot</code> regulates the type of plot: <code>.plot = "seq"</code> for sequence logo plots and <code>.plot = "text"</code> (by default) for “text logo” plots.</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">kp</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"self"</span>)
-<span class="no">p1</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kp</span>)
-<span class="no">p2</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kp</span>, <span class="kw">.plot</span> <span class="kw">=</span> <span class="st">"seq"</span>)
-<span class="fu">grid.arrange</span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="kw">ncol</span><span class="kw">=</span><span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">kp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span>(<span class="no">kmers</span>, <span class="st">"self"</span>)
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kp</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">kp</span>, <span class="kw">.plot</span> <span class="kw">=</span> <span class="st">"seq"</span>)
+
+<span class="no">p1</span> + <span class="no">p2</span></pre></body></html></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 </div>

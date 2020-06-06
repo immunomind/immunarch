@@ -48,7 +48,7 @@
   
 
 <meta property="og:title" content="Histograms and boxplots (general case / gene usage) — vis.immunr_gene_usage" />
-<meta property="og:description" content="Visualise distributions of genes using heatmaps, treemaps or other plots." />
+<meta property="og:description" content="Visualise distributions of genes using heatmaps or other plots." />
 
 
 
@@ -193,15 +193,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Visualise distributions of genes using heatmaps, treemaps or other plots.</p>
+    <p>Visualise distributions of genes using heatmaps or other plots.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for immunr_gene_usage</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hist"</span>, <span class='st'>"box"</span>, <span class='st'>"tree"</span>, <span class='st'>"heatmap"</span>, <span class='st'>"heatmap2"</span>, <span class='st'>"circos"</span>),
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hist"</span>, <span class='st'>"box"</span>, <span class='st'>"heatmap"</span>, <span class='st'>"heatmap2"</span>, <span class='st'>"circos"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,7 +210,6 @@
       <th>.plot</th>
       <td><p>String specifying the plot type:</p>
 <p>- "hist" for histograms using <a href='vis_hist.html'>vis_hist</a>;</p>
-<p>- "tree" for histograms using <a href='vis_treemap.html'>vis_treemap</a>;</p>
 <p>- "heatmap" for heatmaps using <a href='vis_heatmap.html'>vis_heatmap</a>;</p>
 <p>- "heatmap2" for heatmaps using <a href='vis_heatmap2.html'>vis_heatmap2</a>;</p>
 <p>- "circos" for circos plots using <a href='vis_circos.html'>vis_circos</a>.</p></td>
@@ -224,7 +219,6 @@
       <td><p>Other arguments passed to corresponding functions depending on the plot type:</p>
 <p>- "hist" - passes arguments to <a href='vis_hist.html'>vis_hist</a>;</p>
 <p>- "box" - passes arguments to <a href='vis_box.html'>vis_box</a>;</p>
-<p>- "tree" - passes arguments to <a href='vis_treemap.html'>vis_treemap</a> and treemap from the treemap package;</p>
 <p>- "heatmap" - passes arguments to <a href='vis_heatmap.html'>vis_heatmap</a>;</p>
 <p>- "heatmap2" - passes arguments to <a href='vis_heatmap2.html'>vis_heatmap2</a> and <a href='https://rdrr.io/r/stats/heatmap.html'>heatmap</a> from the "pheatmap" package;</p>
 <p>- "circos" - passes arguments to <a href='vis_circos.html'>vis_circos</a> and chordDiagram from the "circlize" package.</p></td>
@@ -233,7 +227,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2, pheatmap, circlize or treemap object.</p>
+    <p>A ggplot2 object, pheatmap or circlize object.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='geneUsage.html'>geneUsage</a></p></div>

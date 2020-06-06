@@ -192,6 +192,40 @@
 <div id="contributing-to-immunarch" class="section level1">
 
 <p>This document outlines how to propose a change to immunarch.</p>
+<div id="how-to-contribute" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-to-contribute" class="anchor"></a>How to contribute?</h2>
+<p>There are three general ways to contribute to the package.</p>
+<ol>
+<li><p>Code contribution via pull requests. Helps us improve the codebase of the package, add new features or fix bugs and typos in the documentation.</p></li>
+<li><p>Bug reports and feature requests via GitHub issues. Helps us notice important issues and improvements to address.</p></li>
+<li><p>Helping others by answering tickets in GitHub issues. Greatly helps build the community and accelerates the immune repertoire research progress.</p></li>
+</ol>
+</div>
+<div id="code-contribution-via-pull-requests" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-contribution-via-pull-requests" class="anchor"></a>Code contribution via pull requests</h2>
+<div id="prerequisites" class="section level3">
+<h3 class="hasAnchor">
+<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
+<p>Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>. If you need to send a data and can’t do that via GitHub, please note it in the issue.</p>
+</div>
+<div id="pull-request-process" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
+<ul>
+<li>Always start by forking the <code>dev</code> branch <a href="https://github.com/immunomind/immunarch/tree/dev">from here</a> to make sure you have the latest pre-release version of <code>immunarch</code>. Name it accordingly to your contributions. <code>repClonality refactor</code> or <code>fix-issue-12</code> would work.</li>
+<li>We recommend that you create a Git branch for each pull request (PR).<br>
+</li>
+<li>We follow the <a href="https://medium.com/@kevinkreuzer/the-way-to-fully-automated-releases-in-open-source-projects-44c015f38fd6">following guidelines for commit naming</a>.</li>
+<li>New code should follow our style guide that is the tidyverse <a href="http://style.tidyverse.org">style guide</a> You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.<br>
+</li>
+<li>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a> for documentation.<br>
+</li>
+<li>We use <a href="https://cran.r-project.org/package=testthat">testthat</a>. Contributions with test cases included are easier to accept.</li>
+<li>Look at the CI (Continuous Integration) build status before and after making changes. The <code>README</code> should contain badges for any continuous integration services used by the package.</li>
+</ul>
+</div>
 <div id="fixing-typos" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fixing-typos" class="anchor"></a>Fixing typos</h3>
@@ -200,11 +234,6 @@
 <li>YES: you edit a roxygen comment in a <code>.R</code> file below <code>R/</code>.</li>
 <li>NO: you edit an <code>.Rd</code> file below <code>man/</code>.</li>
 </ul>
-</div>
-<div id="prerequisites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
-<p>Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>. If you need to send a data and can’t do that via GitHub, please note it in the issue.</p>
 </div>
 <div id="version-naming" class="section level3">
 <h3 class="hasAnchor">
@@ -220,46 +249,43 @@
 <div id="commit-types" class="section level4">
 <h4 class="hasAnchor">
 <a href="#commit-types" class="anchor"></a>Commit types</h4>
-<p>There are eight types of commits: chore, docs, feat, fix, refactor, test, perf, style.</p>
+<p>There are eight types of commits: <code>chore</code>, <code>docs</code>, <code>feat</code>, <code>fix</code>, <code>refactor</code>, <code>test</code>, <code>perf</code>, <code>style</code>. Most used are <code>feat</code> for implementation of a new feauture, <code>docs</code> for updating the documentation, <code>fix</code> for fixing a bug.</p>
+<p>Commit name examples: <code>feat(diversity): added the Chao1 method for diversity estimations</code>, <code>fix(clonality): fixed a bug in clonality computations #12</code>, where <code>#12</code> is a link to the issue on the immunarch issue page.</p>
 </div>
 <div id="commit-scopes" class="section level4">
 <h4 class="hasAnchor">
 <a href="#commit-scopes" class="anchor"></a>Commit scopes</h4>
-<p>Chanes in analysis and visualisation functions: diversity, overlap, public-repertoire, clonality, gene-usage, explore, kmers, spectratype, dynamics, tools</p>
-<p>Changes in parsing: io</p>
-<p>Changes in databases support: db</p>
-<p>Changes in additional functions such as general statistics functions: utility</p>
-<p>Changes in NAMESPACE, DESCRIPTION, citations, ISSUE_TEMPLATE.md, etc., without README: upkeep</p>
-<p>Changes in README and vignettes: vignette</p>
-<p>Changes in Continuous Integration: ci</p>
-<p>Changes in Shiny applications: shiny</p>
+<ul>
+<li><p>Changes in analysis- and visualisation-specific functions: <code>diversity</code>, <code>overlap</code>, <code>pub-rep</code>, <code>clonality</code>, <code>gene-usage</code>, <code>explore</code>, <code>kmers</code>, <code>spectratype</code>, <code>dynamics</code>, <code>tools</code></p></li>
+<li><p>General changes in visualisation functions (e.g., replace one package with another, or change a non-specific visualisation function such as <code>vis_bar</code>): <code>vis</code></p></li>
+<li><p>Changes in parsing: <code>io</code></p></li>
+<li><p>Changes in databases support: <code>db</code></p></li>
+<li><p>Changes in additional functions such as general statistics functions: <code>utility</code></p></li>
+<li><p>Changes in NAMESPACE, DESCRIPTION, citations, ISSUE_TEMPLATE.md, etc., without README: <code>upkeep</code></p></li>
+<li><p>Changes in README and vignettes: <code>vignette</code></p></li>
+<li><p>Changes in Continuous Integration: <code>ci</code></p></li>
+<li><p>Changes in Shiny applications: <code>shiny</code></p></li>
+</ul>
 </div>
 </div>
+</div>
+<div id="bug-reports-and-feature-requests" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-reports-and-feature-requests" class="anchor"></a>Bug reports and feature requests</h2>
 <div id="how-to-create-an-issue" class="section level3">
 <h3 class="hasAnchor">
 <a href="#how-to-create-an-issue" class="anchor"></a>How to create an Issue</h3>
-<p>We have a rich list of templates for Issues <a href="https://github.com/immunomind/immunarch/tree/master/.github/ISSUE_TEMPLATE">here</a>.</p>
+<p>We have a rich list of templates for Issues <a href="https://github.com/immunomind/immunarch/tree/master/.github/ISSUE_TEMPLATE">here</a>. Go to the <a href="https://github.com/immunomind/immunarch/issues">GitHub Issues page</a> for <code>immunarch</code> and create a new Issue ticket from there.</p>
 </div>
-<div id="pull-request-process" class="section level3">
-<h3 class="hasAnchor">
-<a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
-<ul>
-<li>We recommend that you create a Git branch for each pull request (PR).<br>
-</li>
-<li>Look at the CI (Continuous Integration) build status before and after making changes. The <code>README</code> should contain badges for any continuous integration services used by the package.<br>
-</li>
-<li>New code should follow our style guide that is the tidyverse <a href="http://style.tidyverse.org">style guide</a> You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.<br>
-</li>
-<li>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a> for documentation.<br>
-</li>
-<li>We use <a href="https://cran.r-project.org/package=testthat">testthat</a>. Contributions with test cases included are easier to accept.<br>
-</li>
-<li>For user-facing changes, add a bullet to the top of <code>NEWS.md</code> below the current development version header describing the changes made followed by your GitHub username, and links to relevant issue(s)/PR(s).</li>
-</ul>
 </div>
-<div id="code-of-conduct" class="section level3">
-<h3 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h3>
+<div id="helping-others-by-answering-tickets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#helping-others-by-answering-tickets" class="anchor"></a>Helping others by answering tickets</h2>
+<p>Got to <a href="https://github.com/immunomind/immunarch/issues">GitHub Issues page</a> and find Issues that you are familiar with to answer.</p>
+</div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
 <p>Please note that this project is released with a <a href="code-of-conduct.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 <p>(adapted from <a href="https://github.com/tidyverse/dplyr/blob/master/.github/CONTRIBUTING.md">dplyr</a> contribution guide)</p>
 </div>
