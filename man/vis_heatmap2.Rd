@@ -36,7 +36,6 @@ package with minimum amount of arguments.
 data(immdata)
 ov <- repOverlap(immdata$data)
 vis_heatmap2(ov)
-
 }
 \seealso{
 \link{vis}, \link{repOverlap}

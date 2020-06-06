@@ -4,11 +4,7 @@
 \alias{vis.immunr_gene_usage}
 \title{Histograms and boxplots (general case / gene usage)}
 \usage{
-\method{vis}{immunr_gene_usage}(
-  .data,
-  .plot = c("hist", "box", "tree", "heatmap", "heatmap2", "circos"),
-  ...
-)
+\method{vis}{immunr_gene_usage}(.data, .plot = c("hist", "box", "heatmap", "heatmap2", "circos"), ...)
 }
 \arguments{
 \item{.data}{Output from the \link{geneUsage} function.}
@@ -16,8 +12,6 @@
 \item{.plot}{String specifying the plot type:
 
 - "hist" for histograms using \link{vis_hist};
-
-- "tree" for histograms using \link{vis_treemap};
 
 - "heatmap" for heatmaps using \link{vis_heatmap};
 
@@ -31,8 +25,6 @@
 
 - "box" - passes arguments to \link{vis_box};
 
-- "tree" - passes arguments to \link{vis_treemap} and \link{treemap} from the treemap package;
-
 - "heatmap" - passes arguments to \link{vis_heatmap};
 
 - "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
@@ -40,10 +32,10 @@
 - "circos" - passes arguments to \link{vis_circos} and \link{chordDiagram} from the "circlize" package.}
 }
 \value{
-A ggplot2, pheatmap, circlize or treemap object.
+A ggplot2 object, pheatmap or circlize object.
 }
 \description{
-Visualise distributions of genes using heatmaps, treemaps or other plots.
+Visualise distributions of genes using heatmaps or other plots.
 }
 \examples{
 data(immdata)

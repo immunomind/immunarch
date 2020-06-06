@@ -152,7 +152,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #'
 #' Gene usage:
 #'
-#' - Gene usage statistics (from \link{geneUsage}) using bar plots, box plots, treemaps - see \link{vis.immunr_gene_usage};
+#' - Gene usage statistics (from \link{geneUsage}) using bar plots, box plots - see \link{vis.immunr_gene_usage};
 #'
 #' - Gene usage distances (from \link{geneUsageAnalysis}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
 #'
@@ -246,7 +246,6 @@ vis <- function(.data, ...) {
 #' vis(ov, "heatmap")
 #' vis(ov, "heatmap2")
 #' vis(ov, "circos")
-#'
 #' @export
 vis.immunr_ov_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos"), ...) {
   args <- list(...)
@@ -334,7 +333,6 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #' vis_heatmap(ov)
 #' gu <- geneUsage(immdata$data, "hs.trbj")
 #' vis_heatmap(gu)
-#'
 #' @export
 vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits = 2, .text.size = 4,
                         .labs = c("Sample", "Sample"), .title = "Overlap",
@@ -433,7 +431,6 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' vis_heatmap2(ov)
-#'
 #' @export
 vis_heatmap2 <- function(.data, .title = NA, .labs = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
   args <- list()
@@ -610,7 +607,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
       p
     })
 
-    return(do.call(grid.arrange, c(p_list, list(ncol = .ncol))))
+    return(do.call(wrap_plots, c(p_list, list(ncol = .ncol))))
   } else {
     if (data_is_bootstrapped) {
       sample_names <- colnames(.data[[1]][[1]])
@@ -694,7 +691,6 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 #' vis(pr, "freq", .type = "none")
 #'
 #' vis(pr, "clonotypes", 1, 2)
-#'
 #' @export
 vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"), ...) {
   .plot <- .plot[1]
@@ -728,9 +724,8 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #' @examples
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
-#' pr <- pubRep(immdata$data, .verbose=FALSE)
+#' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pubRepStatistics(pr) %>% vis()
-#'
 #' @export
 vis.immunr_public_statistics <- function(.data, ...) {
   upsetr_data <- as.list(.data$Count)
@@ -838,6 +833,7 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #'
 #' @importFrom grid rectGrob gpar
 #' @importFrom stats lm
+#' @importFrom patchwork wrap_plots plot_annotation
 #'
 #' @description Visualise correlation of public clonotype frequencies in pairs of repertoires.
 #'
@@ -867,8 +863,6 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #' @param .radj.size An integer value, that defines the size of the The text
 #' for the R adjusted coefficient.
 #'
-#' @param .return.grob If TRUE then returh the gridArrange grob instead of the plot.
-#'
 #' @return
 #' A ggplot2 object.
 #'
@@ -881,7 +875,7 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
                                   .title = NA, .ncol = 3,
                                   .point.size.modif = 1, .cut.axes = TRUE,
-                                  .density = TRUE, .lm = TRUE, .radj.size = 3.5, .return.grob = FALSE) {
+                                  .density = TRUE, .lm = TRUE, .radj.size = 3.5) {
   .shared.rep <- .data
 
   mat <- public_matrix(.shared.rep)
@@ -892,12 +886,11 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
       for (j in 1:ncol(mat)) {
         ps <- c(ps, list(vis_public_clonotypes(.shared.rep, i, j, "",
           .point.size.modif = .point.size.modif,
-          .cut.axes = .cut.axes, .density = .density, .lm = .lm, .radj.size = .radj.size,
-          .return.grob = TRUE
+          .cut.axes = .cut.axes, .density = .density, .lm = .lm, .radj.size = .radj.size
         )))
       }
     }
-    grid.arrange(grobs = ps, ncol = .ncol, top = .title)
+    do.call(wrap_plots, c(ps, ncol = .ncol)) + plot_annotation(title = .title)
   } else if (is.na(.x.rep)) {
     ps <- lapply(1:ncol(mat), function(i) {
       vis_public_clonotypes(.shared.rep, i, .y.rep, "",
@@ -905,7 +898,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
         .cut.axes = .cut.axes, .density = .density, .lm = .lm
       )
     })
-    do.call(grid.arrange, c(ps, ncol = .ncol, top = .title))
+    do.call(wrap_plots, c(ps, ncol = .ncol)) + plot_annotation(title = .title)
   } else if (is.na(.y.rep)) {
     ps <- lapply(1:ncol(mat), function(j) {
       vis_public_clonotypes(.shared.rep, .x.rep, j, "",
@@ -913,7 +906,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
         .cut.axes = .cut.axes, .density = .density, .lm = .lm
       )
     })
-    do.call(grid.arrange, c(ps, ncol = .ncol, top = .title))
+    do.call(wrap_plots, c(ps, ncol = .ncol)) + plot_annotation(title = .title)
   } else {
     if (!is.character(.x.rep)) {
       .x.rep <- colnames(mat)[.x.rep]
@@ -1028,11 +1021,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
         ) +
         scale_fill_manual(values = colorRampPalette(c(.colourblind_vector()[1], grey_col))(2))
 
-      if (!.return.grob) {
-        grid.arrange(top_plot, empty, points, right_plot, ncol = 2, nrow = 2, widths = c(4, 1), heights = c(1, 4))
-      } else {
-        arrangeGrob(top_plot, empty, points, right_plot, ncol = 2, nrow = 2, widths = c(4, 1), heights = c(1, 4))
-      }
+      wrap_plots(top_plot, empty, points, right_plot, ncol = 2, nrow = 2, widths = c(4, 1), heights = c(1, 4))
     } else {
       points
     }
@@ -1040,7 +1029,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 }
 
 
-##### Gene usage & histogram plot, boxplot and treemap #####
+##### Gene usage & histogram plot, boxplot #####
 
 
 #' Histograms and boxplots (general case / gene usage)
@@ -1049,15 +1038,13 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #'
 #' @name vis.immunr_gene_usage
 #'
-#' @description Visualise distributions of genes using heatmaps, treemaps or other plots.
+#' @description Visualise distributions of genes using heatmaps or other plots.
 #'
 #' @param .data Output from the \link{geneUsage} function.
 #'
 #' @param .plot String specifying the plot type:
 #'
 #' - "hist" for histograms using \link{vis_hist};
-#'
-#' - "tree" for histograms using \link{vis_treemap};
 #'
 #' - "heatmap" for heatmaps using \link{vis_heatmap};
 #'
@@ -1071,8 +1058,6 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #'
 #' - "box" - passes arguments to \link{vis_box};
 #'
-#' - "tree" - passes arguments to \link{vis_treemap} and \link{treemap} from the treemap package;
-#'
 #' - "heatmap" - passes arguments to \link{vis_heatmap};
 #'
 #' - "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
@@ -1080,7 +1065,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #' - "circos" - passes arguments to \link{vis_circos} and \link{chordDiagram} from the "circlize" package.
 #'
 #' @return
-#' A ggplot2, pheatmap, circlize or treemap object.
+#' A ggplot2 object, pheatmap or circlize object.
 #'
 #' @examples
 #' data(immdata)
@@ -1094,7 +1079,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #' @seealso \link{geneUsage}
 #'
 #' @export
-vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "tree", "heatmap", "heatmap2", "circos"), ...) {
+vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "heatmap2", "circos"), ...) {
   .plot <- .plot[1]
   if (.plot == "hist") {
     vis_hist(.data, ...)
@@ -1104,8 +1089,6 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "tree", "heatm
       .labs = c("Gene", "Usage"), .title = "Gene usage",
       .subtitle = NULL, ...
     )
-  } else if (.plot == "tree") {
-    vis_treemap(.data, ...)
   } else if (.plot == "heatmap") {
     row.names(.data) <- .data[[1]]
     .data <- t(as.matrix(.data[2:ncol(.data)]))
@@ -1119,7 +1102,7 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "tree", "heatm
     .data <- t(as.matrix(.data[2:ncol(.data)]))
     vis_circos(.data, ...)
   } else {
-    stop("Error: Unknown value of the .plot parameter. Please provide one of the following: 'hist', 'box', 'tree'.")
+    stop("Error: Unknown value of the .plot parameter. Please provide one of the following: 'hist', 'box', 'heatmap', 'heatmap2', 'circos'.")
   }
 }
 
@@ -1127,8 +1110,6 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "tree", "heatm
 #' Visualisation of distributions using histograms
 #'
 #' @concept vis
-#'
-#' @importFrom gridExtra arrangeGrob grid.arrange
 #'
 #' @name vis_hist
 #'
@@ -1163,8 +1144,6 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "tree", "heatm
 #' @param .grid If TRUE then plot separate visualisations for each sample.
 #'
 #' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
-#'
-#' @param .return.grob If TRUE then returh the gridArrange grob instead of the plot.
 #'
 #' @param .melt If TRUE then apply \link{melt} to the ".data" before plotting.
 #' In this case ".data" is supposed to be a data frame with the first character column reserved
@@ -1208,7 +1187,7 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "tree", "heatm
 #' @export
 vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol = NA,
                      .points = TRUE, .test = TRUE, .coord.flip = FALSE,
-                     .grid = FALSE, .labs = c("Gene", NA), .return.grob = FALSE,
+                     .grid = FALSE, .labs = c("Gene", NA),
                      .melt = TRUE, .legend = NA, .add.layer = NULL, ...) {
   res <- .data
 
@@ -1286,27 +1265,24 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
             .add.layer
         }
 
-        if (.return.grob) {
-          return(do.call(gridExtra::arrangeGrob, c(ps, ncol = .ncol, top = .title)))
-        } else {
-          return(do.call(gridExtra::grid.arrange, c(ps, ncol = .ncol, top = .title)))
-        }
+        p <- do.call(wrap_plots, c(ps, ncol = .ncol))
+        p <- p + plot_annotation(title = .title)
+        return(p)
+
       } else {
         res <- split(res, res$Sample)
         ps <- list()
         for (i in 1:length(res)) {
           ps[[i]] <- vis_hist(res[[i]],
             .title = names(res)[i], .ncol = NA, .coord.flip = .coord.flip,
-            .grid = FALSE, .labs = c("Gene", NA), .return.grob = FALSE,
+            .grid = FALSE, .labs = c("Gene", NA),
             .melt = FALSE, .legend = .legend, .add.layer = .add.layer, ...
           )
         }
 
-        if (.return.grob) {
-          return(do.call(gridExtra::arrangeGrob, c(ps, ncol = .ncol, top = .title)))
-        } else {
-          return(do.call(gridExtra::grid.arrange, c(ps, ncol = .ncol, top = .title)))
-        }
+        p <- do.call(wrap_plots, c(ps, ncol = .ncol))
+        p <- p + plot_annotation(title = .title)
+        return(p)
       }
     } else {
       res$Value <- res$Freq
@@ -1373,7 +1349,6 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #'
 #' @examples
 #' vis_box(data.frame(Sample = sample(c("A", "B", "C"), 100, TRUE), Value = rnorm(100)), .melt = FALSE)
-#'
 #' @export
 vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
                     .points = TRUE, .test = TRUE, .signif.label.size = 3.5, .defgroupby = "Sample", .grouping.var = "Group",
@@ -1500,33 +1475,6 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
     rotate_x_text() + theme_cleveland2()
 }
 
-#' Visualisation of data frames and matrices using treemaps
-#'
-#' @concept vis
-#'
-#' @name vis_treemap
-#'
-#' @importFrom treemap treemap
-#'
-#' @param .data Input data frame or matrix.
-#'
-#' @param ... Other arguments passed to \link{treemap}.
-#'
-#' @return
-#' A treemap object.
-#'
-#' @examples
-#' data(immdata)
-#' gu <- geneUsage(immdata$data)
-#' vis_treemap(gu)
-#'
-#' @export
-vis_treemap <- function(.data, ...) {
-  melted <- reshape2::melt(.data)
-  colnames(melted) <- c("name", "group", "value")
-  treemap::treemap(melted, index = c("group", "name"), vSize = "value", ...)
-}
-
 
 ##### Clustering #####
 
@@ -1546,11 +1494,10 @@ vis_treemap <- function(.data, ...) {
 #' @param .plot A character vector of length one or two specifying which plots to visualise.
 #' If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
 #' If both then plot both.
-#' @param .return.grob If TRUE then return grob instead of plot.
 #' @param ... Not used here.
 #'
 #' @return
-#' Ggplot2 objects inside the gridExtra container.
+#' Ggplot2 objects inside the patchwork container.
 #'
 #' @seealso \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}
 #'
@@ -1558,9 +1505,8 @@ vis_treemap <- function(.data, ...) {
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds+hclust") %>% vis()
-#'
 #' @export
-vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), .return.grob = FALSE, ...) {
+vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), ...) {
   p1 <- NULL
   if ("clust" %in% .plot) {
     p1 <- fviz_dend(.data[[1]], main = "Hierarchical clustering", rect = .rect)
@@ -1578,11 +1524,8 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
       p1
     }
   } else {
-    if (.return.grob) {
-      gridExtra::arrangeGrob(p1, p2, ncol = 2)
-    } else {
-      gridExtra::grid.arrange(p1, p2, ncol = 2)
-    }
+    p <- p1 + p2
+    p
   }
 }
 
@@ -1606,11 +1549,10 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' @param .plot A character vector of length one or two specifying which plots to visualise.
 #' If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
 #' If both then plot both.
-#' @param .return.grob If TRUE then return grob instead of plot.
 #' @param ... Not used here.
 #'
 #' @return
-#' Ggplot2 objects inside the gridExtra container.
+#' Ggplot2 objects inside the pathwork container.
 #'
 #' @seealso \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}
 #'
@@ -1618,11 +1560,10 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds+kmeans") %>% vis()
-#'
 #' @export
 vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRUE,
                               .point.size = 2, .text.size = 10, .plot = c("clust", "best"),
-                              .return.grob = FALSE, ...) {
+                              ...) {
   p1 <- NULL
   if ("clust" %in% .plot) {
     p1 <- fviz_cluster(.data[[1]],
@@ -1647,11 +1588,7 @@ vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
     }
     # p = ifelse(is.null(p1), p2, p1) # doesnt work for some reason
   } else {
-    if (.return.grob) {
-      gridExtra::arrangeGrob(p1, p2, ncol = 2)
-    } else {
-      gridExtra::grid.arrange(p1, p2, ncol = 2)
-    }
+    p1 + p2
   }
 }
 
@@ -1716,7 +1653,6 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds") %>% vis()
-#'
 #' @export
 vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
@@ -1925,7 +1861,6 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' data(immdata)
 #' clp <- repClonality(immdata$data, "clonal.prop")
 #' vis(clp)
-#'
 #' @export
 vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
   # ToDo: this and other repClonality and repDiversity functions doesn't work on a single repertoire. Fix it
@@ -2101,7 +2036,6 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 #'
 #' @examples
 #' vis_bar(data.frame(Sample = c("A", "B", "C"), Value = c(1, 2, 3)))
-#'
 #' @export
 vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = FALSE,
                     .points = TRUE, .test = TRUE, .signif.label.size = 3.5, .errorbar.width = 0.2, .defgroupby = "Sample", .grouping.var = "Group",
@@ -2322,7 +2256,6 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #' data(immdata)
 #' dv <- repDiversity(immdata$data, "chao1")
 #' vis(dv)
-#'
 #' @export
 vis.immunr_chao1 <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
   .data <- data.frame(Sample = row.names(.data), Value = .data[, 1])
@@ -2698,14 +2631,13 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #'
 #' @examples
 #' # Load necessary data and package.
-#' library(gridExtra)
 #' data(immdata)
 #' # Get 5-mers.
 #' imm.km <- getKmers(immdata$data[[1]], 5)
 #' # Plots for kmer proportions in each data frame in immdata.
 #' p1 <- vis(imm.km, .position = "stack")
 #' p2 <- vis(imm.km, .position = "fill")
-#' grid.arrange(p1, p2)
+#' p1 + p2
 #' @export
 vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "dodge", "fill"), .log = FALSE, ...) {
   .position <- switch(substr(.position[1], 1, 1), s = "stack", d = "dodge", f = "fill")
@@ -2975,6 +2907,7 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
     melted$Sample <- factor(melted$Sample, levels = ordered_sample_names, ordered = TRUE)
   }
 
+  melted$Count <- melted$Count + min(melted$Count[melted$Count != 0]) / 1000
   p <- ggplot(melted, aes(
     x = Sample, fill = Clonotype, stratum = Clonotype,
     alluvium = Clonotype, y = Count, label = Clonotype

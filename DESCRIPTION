@@ -26,7 +26,6 @@ BugReports: https://github.com/immunomind/immunarch/issues
 Imports:
     factoextra (>= 1.0.4),
     fpc,
-    treemap,
     UpSetR (>= 1.4.0),
     pheatmap (>= 1.0.12),
     ggrepel (>= 0.8.0),
@@ -57,7 +56,7 @@ Depends:
     dplyr (>= 0.8.0),
     dtplyr (>= 1.0.0),
     data.table (>= 1.12.6),
-    gridExtra (>= 2.2.1)
+    patchwork
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),

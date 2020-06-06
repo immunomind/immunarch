@@ -63,7 +63,6 @@ ov <- repOverlap(immdata$data)
 vis_heatmap(ov)
 gu <- geneUsage(immdata$data, "hs.trbj")
 vis_heatmap(gu)
-
 }
 \seealso{
 \link{vis}, \link{repOverlap}.

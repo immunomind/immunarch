@@ -13,7 +13,6 @@
   .point.size = 2,
   .text.size = 10,
   .plot = c("clust", "best"),
-  .return.grob = FALSE,
   ...
 )
 }
@@ -34,12 +33,10 @@
 If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
 If both then plot both.}
 
-\item{.return.grob}{If TRUE then return grob instead of plot.}
-
 \item{...}{Not used here.}
 }
 \value{
-Ggplot2 objects inside the gridExtra container.
+Ggplot2 objects inside the pathwork container.
 }
 \description{
 Visualisation of the results of K-means and DBSCAN clustering.
@@ -49,7 +46,6 @@ For hierarhical clustering visualisations see \link{vis.immunr_hclust}.
 data(immdata)
 ov <- repOverlap(immdata$data)
 repOverlapAnalysis(ov, "mds+kmeans") \%>\% vis()
-
 }
 \seealso{
 \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}

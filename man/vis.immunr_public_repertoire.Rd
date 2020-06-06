@@ -34,6 +34,5 @@ vis(pr, "freq")
 vis(pr, "freq", .type = "none")
 
 vis(pr, "clonotypes", 1, 2)
-
 }
 \concept{pubrep}

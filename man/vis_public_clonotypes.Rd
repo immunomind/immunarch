@@ -14,8 +14,7 @@ vis_public_clonotypes(
   .cut.axes = TRUE,
   .density = TRUE,
   .lm = TRUE,
-  .radj.size = 3.5,
-  .return.grob = FALSE
+  .radj.size = 3.5
 )
 }
 \arguments{
@@ -44,8 +43,6 @@ that shows how similar samples are in terms of shared clonotypes.}
 
 \item{.radj.size}{An integer value, that defines the size of the The text
 for the R adjusted coefficient.}
-
-\item{.return.grob}{If TRUE then returh the gridArrange grob instead of the plot.}
 }
 \value{
 A ggplot2 object.
