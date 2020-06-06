@@ -752,6 +752,7 @@ parse_repertoire <- function(.filename, .nuc.seq, .aa.seq, .count,
     .skip = .skip, .sep = "\t", .add
   )
 
+  # IO_REFACTOR
   suppressMessages(df <- readr::read_delim(.filename,
     col_names = TRUE,
     col_types = col.classes, delim = .sep,
@@ -759,6 +760,7 @@ parse_repertoire <- function(.filename, .nuc.seq, .aa.seq, .count,
     comment = "", trim_ws = TRUE,
     skip = .skip, na = c("", "NA", ".")
   ))
+  # suppressMessages(df <- fread(.filename, skip = .skip, data.table = FALSE, na.strings = c("", "NA", ".")))
 
   names(df) <- tolower(names(df))
   recomb_type <- .which_recomb_type(df[[.vgenes]])
@@ -971,12 +973,14 @@ parse_immunoseq <- function(.filename, .wash.alleles = TRUE) {
   file_cols[[IMMCOL$js]] <- IMMCOL$js
   file_cols[[IMMCOL$seq]] <- IMMCOL$seq
 
+  # IO_REFACTOR
   suppressMessages(df <- readr::read_delim(.filename,
     col_names = TRUE, col_types = cols(),
     delim = "\t", quote = "",
     escape_double = FALSE, comment = "",
     trim_ws = TRUE, skip = 0
   ))
+  # suppressMessages(df <- fread(.filename, data.table = FALSE))
 
   names(df) <- tolower(names(df))
 
@@ -1214,11 +1218,14 @@ parse_mixcr <- function(.filename) {
     message("Error: can't find a column with D genes")
   }
 
+
+  # IO_REFACTOR
   df <- read_delim(
     file = .filename, col_types = cols(),
     delim = .sep, skip = 0, comment = "",
     quote = "", escape_double = FALSE, trim_ws = TRUE
   )
+  # df <- fread(.filename, data.table = FALSE)
 
   #
   # return NULL if there is no clonotypes in the data frame
