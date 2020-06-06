@@ -25,7 +25,7 @@ that via GitHub, please note it in the issue.
 
 ### Pull request process
 
-*  Always start by forking the `dev` branch [from here](https://github.com/immunomind/immunarch/tree/dev) to make sure you have the latest pre-release version of `immunarch`.
+*  Always start by forking the `dev` branch [from here](https://github.com/immunomind/immunarch/tree/dev) to make sure you have the latest pre-release version of `immunarch`. Name it accordingly to your contributions. `repClonality refactor` or `fix-issue-12` would work.
 *  We recommend that you create a Git branch for each pull request (PR).  
 *  We follow the [following guidelines for commit naming](https://medium.com/@kevinkreuzer/the-way-to-fully-automated-releases-in-open-source-projects-44c015f38fd6).
 *  New code should follow our style guide that is the tidyverse [style guide](http://style.tidyverse.org) You can use the [styler](https://CRAN.R-project.org/package=styler) package to
