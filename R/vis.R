@@ -2168,7 +2168,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
         	position = "stack", data = .data_proc, col = "black"
         )
     } else {
-      p <- ggplot(aes(x = Grouping.var, y = Value.mean, fill = Group, group = Group), data = .data_proc) +
+      p <- ggplot(aes(x = as.factor(Grouping.var), y = Value.mean, fill = Group, group = Group), data = .data_proc) +
         geom_col(
         	position = position_name, data = .data_proc, col = "black"
         )
