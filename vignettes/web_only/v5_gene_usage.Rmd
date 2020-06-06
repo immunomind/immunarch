@@ -50,7 +50,7 @@ To compute the distributions of genes, `immunarch` includes the `geneUsage` func
 
 ```{r}
 # Next four function calls are equal. "hs" is from the "alias" column.
-imm_gu = geneUsage(immdata$data, "hs.trbv")
+imm_gu <- geneUsage(immdata$data, "hs.trbv")
 # imm_gu = geneUsage(immdata$data, "HomoSapiens.trbv")
 # imm_gu = geneUsage(immdata$data, "hs.TRBV")
 # imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")
@@ -68,13 +68,13 @@ You can visualise the histogram of gene usage in different ways:
 
 ```{r, message=F, warning=FALSE, fig.width=12, fig.height=5}
 # Compute the distribution of the first two samples
-imm_gu = geneUsage(immdata$data[c(1,2)], "hs.trbv", .norm = T)
+imm_gu <- geneUsage(immdata$data[c(1, 2)], "hs.trbv", .norm = T)
 
 vis(imm_gu)
 ```
 
 ```{r, message=F, warning=FALSE, fig.width=12, fig.height=5}
-imm_gu = geneUsage(immdata$data, "hs.trbv", .norm = T)
+imm_gu <- geneUsage(immdata$data, "hs.trbv", .norm = T)
 
 vis(imm_gu, .by = "Status", .meta = immdata$meta)
 ```
@@ -87,14 +87,6 @@ Another practical approach to the visualisation of group distributions are box p
 
 ```{r, message=F, warning=FALSE, fig.width=12, fig.height=5}
 vis(imm_gu, .by = "Status", .meta = immdata$meta, .plot = "box")
-```
-
-Sometimes tree maps could be used to reveal the differences in repertoires. They display the overall picture and the comparisons of related items, both at the same time, enabling intelligible exploration of the details:
-
-```{r, message=F, fig.width=15, fig.height=8, warning=FALSE}
-imm_gu = geneUsage(immdata$data, "hs.trbv", .norm = T)
-
-vis(imm_gu, .plot = "tree")
 ```
 
 
@@ -138,37 +130,43 @@ And a few methods for the actual analysis:
 You can call several methods in a single line of code, which is probably the most powerful feature of the package. For instance, `"js+hclust"` first computes Jensen-Shannon divergence and then applies hierarchical clustering on the resulting distance matrix, whereas `"anova"` computes ANOVA on each gene separately after repertoires have been grouped:
 
 ```{r, warning=FALSE, fig.width=12, fig.height=5}
-imm_gu = geneUsage(immdata$data, "hs.trbv", .norm = T)
+imm_gu <- geneUsage(immdata$data, "hs.trbv", .norm = T)
 
-imm_gu_js = geneUsageAnalysis(imm_gu, .method = "js", .verbose = F)
-imm_gu_cor = geneUsageAnalysis(imm_gu, .method = "cor", .verbose = F)
+imm_gu_js <- geneUsageAnalysis(imm_gu, .method = "js", .verbose = F)
+imm_gu_cor <- geneUsageAnalysis(imm_gu, .method = "cor", .verbose = F)
 
-gridExtra::grid.arrange(vis(imm_gu_js, .title = "Gene usage JS-divergence", .leg.title = "JS", .text.size=1.5), vis(imm_gu_cor, .title = "Gene usage correlation", .leg.title = "Cor", .text.size=1.5), ncol = 2)
+p1 <- vis(imm_gu_js, .title = "Gene usage JS-divergence", .leg.title = "JS", .text.size = 1.5)
+p2 <- vis(imm_gu_cor, .title = "Gene usage correlation", .leg.title = "Cor", .text.size = 1.5)
+
+p1 + p2
 ```
 
 Now let us visualise the output after both preprocessing and analysis:
 
 ```{r, warning=FALSE, fig.width=10, fig.height=4}
-imm_gu_js[is.na(imm_gu_js)] = 0
+imm_gu_js[is.na(imm_gu_js)] <- 0
 
 vis(geneUsageAnalysis(imm_gu, "cosine+hclust", .verbose = F))
 
-#vis(geneUsageAnalysis(imm_gu, "js+dbscan", .verbose = F))
+# vis(geneUsageAnalysis(imm_gu, "js+dbscan", .verbose = F))
 ```
 
 On top of that you can add clustering:
 
 ```{r, message=F, warning=F, fig.width=12, fig.height=4}
-imm_cl_pca = geneUsageAnalysis(imm_gu, "js+pca+kmeans", .verbose = F)
-imm_cl_mds = geneUsageAnalysis(imm_gu, "js+mds+kmeans", .verbose = F)
-imm_cl_tsne = geneUsageAnalysis(imm_gu, "js+tsne+kmeans", .perp = .01, .verbose = F)
+imm_cl_pca <- geneUsageAnalysis(imm_gu, "js+pca+kmeans", .verbose = F)
+imm_cl_mds <- geneUsageAnalysis(imm_gu, "js+mds+kmeans", .verbose = F)
+imm_cl_tsne <- geneUsageAnalysis(imm_gu, "js+tsne+kmeans", .perp = .01, .verbose = F)
 
-grid.arrange(vis(imm_cl_pca, .plot = "clust"), vis(imm_cl_mds, .plot = "clust"), vis(imm_cl_tsne, .plot = "clust"), ncol = 3)
+p1 <- vis(imm_cl_pca, .plot = "clust")
+p2 <- vis(imm_cl_mds, .plot = "clust")
+p3 <- vis(imm_cl_tsne, .plot = "clust")
+p1 + p2 + p3
 ```
 
 You can regulate the number of clusters as well:
 ```{r, message=F, warning=F, fig.width=8, fig.height=4}
-imm_cl_pca2 = geneUsageAnalysis(imm_gu, "js+pca+kmeans", .k = 3, .verbose = F)
+imm_cl_pca2 <- geneUsageAnalysis(imm_gu, "js+pca+kmeans", .k = 3, .verbose = F)
 vis(imm_cl_pca2)
 ```
 
@@ -176,8 +174,8 @@ vis(imm_cl_pca2)
 Spectratype is a useful way to represent distributions of genes per sequence length. Parameter `.quant` controls the quantity that used to compute proportions of genes - either by clonotype (`id`) or by number of clones per clonotype (`count`). Parameter `.col` controls which column to choose, e.g., "nt" for lengths of CDR3 nucleotide sequences only (without grouping by gene segments), "aa+v" for lengths of CDR3 amino acid sequences (grouped by V gene segments).
 
 ```{r spectr, fig.width=12, fig.height=4}
-p1 = vis(spectratype(immdata$data[[1]], .quant = "id", .col = "nt"))
-p2 = vis(spectratype(immdata$data[[1]], .quant = "count", .col = "aa+v"))
+p1 <- vis(spectratype(immdata$data[[1]], .quant = "id", .col = "nt"))
+p2 <- vis(spectratype(immdata$data[[1]], .quant = "count", .col = "aa+v"))
 
-grid.arrange(p1, p2, ncol = 2)
+p1 + p2
 ```
