@@ -40,6 +40,5 @@ new_immdata <- repLoad(dirpath)
 sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
 sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
 sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
-
 }
 \concept{io}

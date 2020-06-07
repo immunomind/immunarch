@@ -59,7 +59,7 @@ your folder. Example:
 }
 
 \code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-Immunarch detects the file format automatically, and the argument left only for the compatability
+Immunarch detects the file format automatically, and the argument is left only for the compatability
 purposes. It will be soon removed. Do not pass it or your code will stop working!
 
 Currently, Immunarch support the following formats:
