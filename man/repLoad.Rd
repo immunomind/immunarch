@@ -26,7 +26,7 @@ If input data has multiple chains or cell types stored in the same file
 R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 cell and chain types for different samples.}
 
-\item{.format}{A character string specifying what format to use. See "Details" for more information on supported formats.
+\item{.format}{A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
 
 Leave NA (which is default) if you want `immunarch` to detect formats automatically.}
 }
@@ -59,9 +59,10 @@ your folder. Example:
 }
 
 \code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-Do not pass it if you want immunarch to detect the formats and parse files automatically!
-In case you want to force the package to parse the data in a specific format,
-you can choose one of the several options for the argument:
+Immunarch detects the file format automatically, and the argument left only for the compatability
+purposes. It will be soon removed. Do not pass it or your code will stop working!
+
+Currently, Immunarch support the following formats:
 
 - "immunoseq" - ImmunoSEQ of any version. http://www.adaptivebiotech.com/immunoseq
 

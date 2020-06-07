@@ -49,7 +49,7 @@ if (getRversion() >= "2.15.1") {
 #' R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 #' cell and chain types for different samples.
 #'
-#' @param .format A character string specifying what format to use. See "Details" for more information on supported formats.
+#' @param .format A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
 #'
 #' Leave NA (which is default) if you want `immunarch` to detect formats automatically.
 #'
@@ -66,9 +66,10 @@ if (getRversion() >= "2.15.1") {
 #' }
 #'
 #' \code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-#' Do not pass it if you want immunarch to detect the formats and parse files automatically!
-#' In case you want to force the package to parse the data in a specific format,
-#' you can choose one of the several options for the argument:
+#' Immunarch detects the file format automatically, and the argument is left only for the compatability
+#' purposes. It will be soon removed. Do not pass it or your code will stop working!
+#'
+#' Currently, Immunarch support the following formats:
 #'
 #' - "immunoseq" - ImmunoSEQ of any version. http://www.adaptivebiotech.com/immunoseq
 #'
@@ -133,6 +134,12 @@ if (getRversion() >= "2.15.1") {
 #' # [1] "data" "meta"
 #' @export repLoad
 repLoad <- function(.path, .format = NA) {
+
+  if (!is.na(.format)) {
+    warning("Please don't provide the .format argument,
+            immunarch detects the format automatically.
+            The .format argument will soon be removed.")
+  }
 
   exclude_extensions <- c("so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds")
 
