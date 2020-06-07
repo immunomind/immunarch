@@ -134,14 +134,13 @@ if (getRversion() >= "2.15.1") {
 #' # [1] "data" "meta"
 #' @export repLoad
 repLoad <- function(.path, .format = NA) {
-
   if (!is.na(.format)) {
     warning("Please don't provide the .format argument,
             immunarch detects the format automatically.
             The .format argument will soon be removed.")
   }
 
-  exclude_extensions <- c("so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds")
+  exclude_extensions <- c("so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca")
 
   # Process a repertoire file: detect format and load the data
   # Return: a named list with a repertoire data frame and it's name
@@ -438,7 +437,6 @@ repLoad <- function(.path, .format = NA) {
 #' sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
 #' sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
 #' sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
-#'
 #' @export repSave
 repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
                     .compress = TRUE) {
