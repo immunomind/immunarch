@@ -6,9 +6,9 @@ Authors@R: c(
     person("Vadim I.", "Nazarov", , "vdm.nazarov@gmail.com", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
-    person("Anna", "Lorenc", , role = "aut"),
-    person("Daniel J.", "Moore", , role = "aut"),
-    person("Victor", "Greiff", , role = "aut"),
+    person("Anna", "Lorenc", , role = "ctb"),
+    person("Daniel J.", "Moore", , role = "ctb"),
+    person("Victor", "Greiff", , role = "ctb"),
     person("ImmunoMind", role = c("cph", "fnd"))
     )
 Contact: support@immunomind.io
