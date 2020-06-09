@@ -1,11 +1,13 @@
 [![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
-[![CRAN](http://www.r-pkg.org/badges/version/immunarch?style=flat-square)](https://cran.r-project.org/package=immunarch)
+[![CRAN](http://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square)](https://cran.r-project.org/package=immunarch)
 [![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/immunarch)](http://www.r-pkg.org/pkg/immunarch)
 [![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/immunarch)](http://www.r-pkg.org/pkg/immunarch)
 [![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
 [![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=immunomind.immunarch)
+[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/tcR)](http://www.r-pkg.org/pkg/tcR)
+[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/tcR)](http://www.r-pkg.org/pkg/tcR)
 
 
 # `immunarch` --- Fast and Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires in R
