@@ -4,7 +4,7 @@
 \alias{repLoad}
 \title{Load immune repertoire files into the R workspace}
 \usage{
-repLoad(.path, .format = NA)
+repLoad(.path, .format = NA, .coding = TRUE)
 }
 \arguments{
 \item{.path}{A character string specifying the path to the input data.
@@ -29,6 +29,8 @@ cell and chain types for different samples.}
 \item{.format}{A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
 
 Leave NA (which is default) if you want `immunarch` to detect formats automatically.}
+
+\item{.coding}{A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.}
 }
 \value{
 A list with two named elements:
