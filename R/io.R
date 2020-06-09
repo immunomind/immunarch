@@ -53,6 +53,8 @@ if (getRversion() >= "2.15.1") {
 #'
 #' Leave NA (which is default) if you want `immunarch` to detect formats automatically.
 #'
+#' @param .coding A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.
+#'
 #' @details
 #' The metadata has to be a tab delimited file with first column named "Sample".
 #' It can have any number of additional columns with arbitrary names.
@@ -133,7 +135,7 @@ if (getRversion() >= "2.15.1") {
 #' # > names(immdata)
 #' # [1] "data" "meta"
 #' @export repLoad
-repLoad <- function(.path, .format = NA) {
+repLoad <- function(.path, .format = NA, .coding = TRUE) {
   if (!is.na(.format)) {
     warning("Please don't provide the .format argument,
             immunarch detects the format automatically.
@@ -144,7 +146,7 @@ repLoad <- function(.path, .format = NA) {
 
   # Process a repertoire file: detect format and load the data
   # Return: a named list with a repertoire data frame and it's name
-  .read_repertoire <- function(.path, .format) {
+  .read_repertoire <- function(.path, .format, .coding) {
     parse_res <- list()
 
     # Detect format
@@ -187,6 +189,10 @@ repLoad <- function(.path, .format = NA) {
           message("  [!] Warning: zero clonotypes found, skipping")
           parse_res <- list()
         } else {
+          if (.coding) {
+            parse_res <- coding(parse_res)
+          }
+
           if (!has_class(parse_res, "list")) {
             parse_res <- list(parse_res)
             names(parse_res) <- .remove.ext(.path)
@@ -203,7 +209,7 @@ repLoad <- function(.path, .format = NA) {
   # just load all repertoire files.
   # Do NOT (!) create a dummy metadata, return en empty data frame instead
   # Return: list with data, metadata and barcodes (if necessary)
-  .process_batch <- function(.files, .format) {
+  .process_batch <- function(.files, .format, .coding) {
     parsed_batch <- list()
     metadata <- tibble()
 
@@ -225,10 +231,10 @@ repLoad <- function(.path, .format = NA) {
           }
         }
         else if (stringr::str_detect(.filepath, "barcode")) {
-
+          # TODO: add the barcode processing subroutine to split by samples
         }
         else {
-          repertoire <- .read_repertoire(.filepath, .format)
+          repertoire <- .read_repertoire(.filepath, .format, .coding)
           if (length(repertoire) != 0) {
             parsed_batch <- c(parsed_batch, repertoire)
           }
@@ -331,7 +337,7 @@ repLoad <- function(.path, .format = NA) {
   for (batch_i in 1:length(batches)) {
     if (length(batches[[batch_i]])) {
       message('Processing "', names(batches)[batch_i], '" ...')
-      parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .format)
+      parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .format, .coding)
     }
   }
 
@@ -685,10 +691,10 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
           DJ.ins = head(DJ.ins, 1),
           VJ.ins = head(VJ.ins, 1),
           chain = head(chain, 1),
-          barcode = paste0(unique(barcode), collapse = ";"),
-          raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = ";")),
-          raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = ";")),
-          contig_id = paste0(contig_id, collapse = ";")
+          barcode = paste0(unique(barcode), collapse = IMMCOL_ADD$scsep),
+          raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
+          raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
+          contig_id = paste0(contig_id, collapse = IMMCOL_ADD$scsep)
         ) %>%
         ungroup()
       .data[[IMMCOL$prop]] <- .data[[IMMCOL$count]] / sum(.data[[IMMCOL$count]])
