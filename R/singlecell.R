@@ -2,9 +2,10 @@
 #'
 #' @concept single_cell
 #'
-#' @description Given the input data and a vector of barcodes,
-#' the function returns the input with cells which has
-#' at least one of the given barcode. Columns with clonotype counts
+#' @description Subset the input immune repertoire by barcodes. Pass a vector of
+#' barcodes to subset or a vector cluster IDs and corresponding barcodes to
+#' get a list of immune repertoires corresponding to cluster IDs.
+#' Columns with clonotype counts
 #' and proportions are changed accordingly to the filtered barcodes.
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
@@ -19,11 +20,15 @@
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .barcodes Character vector. Vector of barcodes to use for
-#' filtering.
+#' @param .barcodes Either a character vector with barcodes or a named character/factor vector with
+#' barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.
 #'
-#' @return An immune repertoire or a list of immune repertoires with clonotypes which have
-#' one or more barcodes in the input barcode vector and with clonotype abundances corrected.
+#' @return An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
+#' (if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
+#' with clonotype barcodes corresponding to the input barcodes. The output list's names are cluster names
+#' in the ".barcode" argument (Seurat::Idents() case only).
+#'
+#' @seealso \link{select_clusters}
 #'
 #' @examples
 #' data(immdata)
@@ -35,51 +40,89 @@
 #' df <- select_barcodes(df, barcodes)
 #' nrow(df)
 #' @export
-select_barcodes <- function(.data, .barcodes) {
-  if (!has_class(.data, "list")) {
-    if (!("Barcode" %in% colnames(.data))) {
-      stop('No "Barcode" column in the input data. Did you apply the function to a paired chain repertoire?')
+select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
+  if (has_class(.data, "list")) {
+    stop('Please apply the function to a repertoire instead of a list of repertoires.
+         In order to update both the data and metadata, consider using the select_clusters() function.')
+  }
+  if (!("Barcode" %in% colnames(.data))) {
+    stop('No "Barcode" column in the input data. Did you apply the function to a single-cell repertoire?')
+  }
+
+  if (is.null(names(.barcodes))) {
+    tmp <- rep("_", length(.barcodes))
+    names(tmp) <- .barcodes
+    .barcodes <- tmp
+  }
+
+  #
+  # TODO: make the efficient version without un-nesting the whole data table
+  #
+
+  # TODO: is there a way to optimise this without unnecessary conversion?
+  convert_to_df <- FALSE
+  if (!has_class(.data, "data.table")) {
+    df <- as.data.table(.data)
+    convert_to_df <- TRUE
+  }
+
+  # Un-nest the data table
+  df <- df[, c(strsplit(Barcode, IMMCOL_ADD$scsep, useBytes = TRUE, fixed=TRUE), .SD), by = .(Barcode)]
+  df[[IMMCOL$count]] <- 1
+  df[, Barcode := NULL]
+  setnames(df, "", "Barcode")
+
+  # Split by barcodes
+  df_list <- split(df, .barcodes[df$Barcode])
+
+  if (length(df_list)) {
+    # TODO: is there a way to optimise this without data copying?
+    # Group clonotypes
+    for (i in 1:length(df_list)) {
+      df <- df_list[[i]]
+      df <- df[, sum(Clones), by = setdiff(names(df), c("Clones", "Proportion", "Barcode"))][, Clones := V1]
+      df[, V1 := NULL]
+      df$Proportion <- df$Clones / sum(df$Clones)
+      df <- df[order(-Clones)]
+
+      if (convert_to_df) {
+        setDF(df)
+      }
+
+      df_list[[i]] <- df
     }
+  }
 
-    # barcode_count <- sapply(
-    #   strsplit(.data[["Barcode"]], ";"),
-    #   function(x) sum(.barcodes %in% x)
-    # )
-    barcode_count <- sapply(
-      strsplit(.data[["Barcode"]], ";"),
-      function(x) sum(.barcodes %in% x)
-    )
-
-    nonzero_bc <- barcode_count > 0
-    if (has_class(.data, "data.table")) {
-      .data <- .data %>%
-        lazy_dt() %>%
-        filter(nonzero_bc) %>%
-        collect()
-    } else {
-      .data <- .data %>%
-        filter(nonzero_bc)
-    }
-
-    barcode_count <- barcode_count[nonzero_bc]
-    .data[[IMMCOL$count]] <- barcode_count
-    .data[[IMMCOL$prop]] <- barcode_count / sum(barcode_count)
-    .data
+  if (.force.list) {
+    df_list
+  } else if (length(df_list) == 1) {
+    df_list[[1]]
   } else {
-    lapply(.data, select_barcodes, .barcodes = .barcodes)
+    df_list
   }
 }
 
 
-#' Split the immune repertoire data to clusters from single-cell preprocessing
+#' Split the immune repertoire data to clusters from single-cell barcodes
 #'
 #' @concept single_cell
 #'
 #' @description Given the vector of barcodes from Seurat, split the input repertoires
 #' to separate subsets following the barcodes' assigned cluster or sample labels.
 #'
+#' @param .data List of two elements "data" and "meta", with "data" being a list of
+#' immune repertoires, and "meta" being a metadata table.
+#'
 #' @param .clusters Factor vector with barcodes as vector names and cluster IDs as vector elements.
 #' The output of the Seurat \code{Idents} function works.
+#'
+#' @param .field A string specifying the name of the field in the input metadata. New immune
+#' repertoire subsets will have cluster IDs in this field.
+#'
+#' @return A list with two elements "data" and "meta" with updated immune repertoire tables and
+#' metadata.
+#'
+#' @seealso \link{select_barcodes}
 #'
 #' @examples
 #' \dontrun{
@@ -91,30 +134,41 @@ select_barcodes <- function(.data, .barcodes) {
 #' pbmc_small <- RenameIdents(pbmc_small, new_cluster_ids)
 #' }
 #' @export
-select_clusters <- function(.data, .clusters) {
+select_clusters <- function(.data, .clusters, .field = "Cluster") {
   if (!has_class(.data, "list")) {
     stop("Please provide a list with both 'data' and 'meta' elements.")
   } else if (!("data" %in% names(.data) && "meta" %in% names(.data))) {
     stop("Your list is missing one of the elements required.
          Please provide a list with both 'data' and 'meta' elements.")
-  } else {
-    if (!all(sapply(.data$data, function (x) "Barcode" %in% colnames(x)))) {
-      stop('No "Barcode" column in the input data. Did you apply the function to a paired chain repertoire?')
+  } else if (!all(sapply(.data$data, function (x) "Barcode" %in% colnames(x)))) {
+    stop('No "Barcode" column in the input data. Did you apply the function to a single-cell repertoire?')
+  }
+
+  new_data_list <- list()
+  new_metadata <- list()
+
+  for (df_i in 1:length(.data$data)) {
+    # Select barcodes
+    source_name <- names(.data$data)[df_i]
+    df_list <- select_barcodes(.data$data[[df_i]], .clusters, TRUE)
+
+    # Update the data and metadata if everything is OK
+    if (length(df_list)) {
+      for (new_df_i in 1:length(df_list)) {
+        cluster_id <- names(df_list)[new_df_i]
+        new_name <- paste0(names(.data$data)[df_i], "_", cluster_id)
+
+        new_data_list[[new_name]] <- df_list[[new_df_i]]
+
+        new_metarow <- .data$meta[.data$meta$Sample == source_name, ]
+        new_metarow$Sample <- new_name
+        new_metarow[[paste0(.field, ".source")]] <- source_name
+        new_metarow[[.field]] <- cluster_id
+
+        new_metadata <- c(new_metadata, list(new_metarow))
+      }
     }
   }
 
-  #
-  # TODO: make the efficient version without un-nesting the whole data table
-  #
-
-  # Un-nest the data table
-  df <- df[, c(strsplit(Barcode, ";", useBytes = TRUE, fixed=TRUE), .SD), by = .(Barcode)]
-  df[[IMMCOL$count]] <- 1
-  df[, Barcode:=NULL]
-  setnames(df, "", "Barcode")
-
-  # Split by barcodes
-
-  # Group clonotypes
-  df[, sum(Clones), by = setdiff(names(df), c("Clones", "Proportion", "Barcode"))][, Clones := V1]
+  list(data = new_data_list, meta = do.call(rbind, new_metadata))
 }

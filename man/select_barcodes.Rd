@@ -2,7 +2,7 @@
 % Please edit documentation in R/singlecell.R
 \name{select_barcodes}
 \alias{select_barcodes}
-\title{Filter clonotypes using barcodes from single-cell metadata}
+\title{Select specific clonotypes using barcodes from single-cell metadata}
 \usage{
 select_barcodes(.data, .barcodes)
 }
