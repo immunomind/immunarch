@@ -675,7 +675,7 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
 
   if (nrow(.data)) {
     # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
-    if (all(c("raw_clonotype_id", "barcode") %in% names(.data))) {
+    if (all(c("contig_id", "barcode") %in% names(.data))) {
       .data <- .data %>%
         group_by(CDR3.nt, V.name, J.name) %>%
         summarise(
@@ -692,8 +692,8 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
           VJ.ins = head(VJ.ins, 1),
           chain = head(chain, 1),
           barcode = paste0(unique(barcode), collapse = IMMCOL_ADD$scsep),
-          raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
-          raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
+          # raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
+          # raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
           contig_id = paste0(contig_id, collapse = IMMCOL_ADD$scsep)
         ) %>%
         ungroup()
@@ -1685,11 +1685,12 @@ parse_10x_filt_contigs <- function(.filename) {
     .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
     .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-    .skip = 0, .sep = ",", .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
+    .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
+    .add = c("chain", "barcode", "contig_id")
   )
   setnames(df, "contig_id", "ContigID")
-  setnames(df, "raw_clonotype_id", "RawClonotypeID")
-  setnames(df, "raw_consensus_id", "RawConsensusID")
+  # setnames(df, "raw_clonotype_id", "RawClonotypeID")
+  # setnames(df, "raw_consensus_id", "RawConsensusID")
   setnames(df, "barcode", "Barcode")
   df
 }
