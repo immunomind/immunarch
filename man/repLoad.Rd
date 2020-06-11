@@ -4,7 +4,7 @@
 \alias{repLoad}
 \title{Load immune repertoire files into the R workspace}
 \usage{
-repLoad(.path, .format = NA, .coding = TRUE)
+repLoad(.path, .format = NA, .mode = "paired", .coding = TRUE)
 }
 \arguments{
 \item{.path}{A character string specifying the path to the input data.
