@@ -108,7 +108,8 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
 #' @concept single_cell
 #'
 #' @description Given the vector of barcodes from Seurat, split the input repertoires
-#' to separate subsets following the barcodes' assigned cluster or sample labels.
+#' to separate subsets following the barcodes' assigned IDs. Useful when you want to
+#' split immune repertoires by patients or clusters.
 #'
 #' @param .data List of two elements "data" and "meta", with "data" being a list of
 #' immune repertoires, and "meta" being a metadata table.

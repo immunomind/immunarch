@@ -4,7 +4,7 @@
 \alias{select_clusters}
 \title{Split the immune repertoire data to clusters from single-cell barcodes}
 \usage{
-select_clusters(.data, .clusters)
+select_clusters(.data, .clusters, .field = "Cluster")
 }
 \arguments{
 \item{.data}{List of two elements "data" and "meta", with "data" being a list of
@@ -12,10 +12,18 @@ immune repertoires, and "meta" being a metadata table.}
 
 \item{.clusters}{Factor vector with barcodes as vector names and cluster IDs as vector elements.
 The output of the Seurat \code{Idents} function works.}
+
+\item{.field}{A string specifying the name of the field in the input metadata. New immune
+repertoire subsets will have cluster IDs in this field.}
+}
+\value{
+A list with two elements "data" and "meta" with updated immune repertoire tables and
+metadata.
 }
 \description{
 Given the vector of barcodes from Seurat, split the input repertoires
-to separate subsets following the barcodes' assigned cluster or sample labels.
+to separate subsets following the barcodes' assigned IDs. Useful when you want to
+split immune repertoires by patients or clusters.
 }
 \examples{
 \dontrun{
@@ -26,5 +34,8 @@ new_cluster_ids <- levels(pbmc_small)
 new_cluster_ids
 pbmc_small <- RenameIdents(pbmc_small, new_cluster_ids)
 }
+}
+\seealso{
+\link{select_barcodes}
 }
 \concept{single_cell}

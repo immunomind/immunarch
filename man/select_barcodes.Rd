@@ -4,7 +4,7 @@
 \alias{select_barcodes}
 \title{Select specific clonotypes using barcodes from single-cell metadata}
 \usage{
-select_barcodes(.data, .barcodes)
+select_barcodes(.data, .barcodes, .force.list = FALSE)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
@@ -19,17 +19,20 @@ of these objects. They are supported with the same limitations as basic objects.
 
 Note: each connection must represent a separate repertoire.}
 
-\item{.barcodes}{Character vector. Vector of barcodes to use for
-filtering.}
+\item{.barcodes}{Either a character vector with barcodes or a named character/factor vector with
+barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.}
 }
 \value{
-An immune repertoire or a list of immune repertoires with clonotypes which have
-one or more barcodes in the input barcode vector and with clonotype abundances corrected.
+An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
+(if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
+with clonotype barcodes corresponding to the input barcodes. The output list's names are cluster names
+in the ".barcode" argument (Seurat::Idents() case only).
 }
 \description{
-Given the input data and a vector of barcodes,
-the function returns the input with cells which has
-at least one of the given barcode. Columns with clonotype counts
+Subset the input immune repertoire by barcodes. Pass a vector of
+barcodes to subset or a vector cluster IDs and corresponding barcodes to
+get a list of immune repertoires corresponding to cluster IDs.
+Columns with clonotype counts
 and proportions are changed accordingly to the filtered barcodes.
 }
 \examples{
@@ -41,5 +44,8 @@ df$Barcode[51:nrow(df)] <- "GGGGGCCCCC"
 barcodes <- "AAAAACCCCC"
 df <- select_barcodes(df, barcodes)
 nrow(df)
+}
+\seealso{
+\link{select_clusters}
 }
 \concept{single_cell}
