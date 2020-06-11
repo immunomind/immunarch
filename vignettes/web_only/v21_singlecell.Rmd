@@ -57,13 +57,13 @@ install.packages("devtools"); devtools::install_github("immunomind/immunarch", r
 # Use the data packaged with `immunarch`
 
 Load the package into the R enviroment:
-```r
+```{r}
 library(immunarch)
 ```
 
 For testing purposes we attached a new paired chain dataset to `immunarch`. Load it by executing the following command:
 
-```r
+```{r}
 data(scdata)
 ```
 
@@ -84,19 +84,48 @@ head(igdata$data[[1]][c(1:7, 16, 17)])
 
 To subset the data by barcodes, use the `select_barcodes` function.
 
+```{r}
+barcodes <- c("AGTAGTCAGTGTACTC-1", "GGCGACTGTACCGAGA-1", "TTGAACGGTCACCTAA-1")
+
+new_df <- select_barcodes(scdata$data[[1]], barcodes)
+
+new_df
+```
+
 ## Patient-specific datasets
 
 To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function:
 
-```r
+```{r}
+scdata_pat <- select_clusters(scdata, scdata$bc_patient, "Patient")
+
+names(scdata_pat$data)
+
+scdata_pat$meta
 ```
 
 ## Cluster-specific datasets
 
-To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function. You can apply this function after you created patient-specific datasets.
+To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function. You can apply this function after you created patient-specific datasets to get patient-specific cell cluster-specific immune repertoires, e.g., a Memory B Cell repertoire for a specific patient:
 
-```r
+```{r}
+scdata_cl <- select_clusters(scdata_pat, scdata$bc_cluster, "Cluster")
+
+names(scdata_cl$data)
+
+scdata_cl$meta
 ```
 
 # Explore and compute statistics
+
+Most functions will work out-of-the-box with paired chain data.
+
+```{r}
+p1 <- repOverlap(scdata_cl$data) %>% vis()
+p2 <- repDiversity(scdata_cl$data) %>% vis()
+
+p1 + p2
+```
+
+Several functions may work incorrectly with paired chain data in this release of `immunarch`. Let us know via [GitHub Issues](http://github.com/immunomind/immunarch/issues)!
 
