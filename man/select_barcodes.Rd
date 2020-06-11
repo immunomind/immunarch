@@ -21,6 +21,8 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.barcodes}{Either a character vector with barcodes or a named character/factor vector with
 barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.}
+
+\item{.force.list}{Logical. If TRUE then always return a list, even if the result is one data frame.}
 }
 \value{
 An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
@@ -36,6 +38,7 @@ Columns with clonotype counts
 and proportions are changed accordingly to the filtered barcodes.
 }
 \examples{
+\dontrun{
 data(immdata)
 # Create a fake single-cell data
 df <- immdata$data[[1]]
@@ -44,6 +47,7 @@ df$Barcode[51:nrow(df)] <- "GGGGGCCCCC"
 barcodes <- "AAAAACCCCC"
 df <- select_barcodes(df, barcodes)
 nrow(df)
+}
 }
 \seealso{
 \link{select_clusters}
