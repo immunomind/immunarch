@@ -18,6 +18,7 @@ articles:
   contents:
   - '`v1_introduction`'
   - '`v2_data`'
+  - '`web_only/v21_singlecell`'
   - '`v3_basic_analysis`'
   - '`web_only/v4_overlap`'
   - '`web_only/v5_gene_usage`'
@@ -53,6 +54,8 @@ navbar:
         href: articles/v2_data.html
       - text: Basic analysis and clonality
         href: articles/v3_basic_analysis.html
+      - text: Single-cell and paired chain data
+        href: articles/web_only/v21_singlecell.html
 
       - text: '---'
 
