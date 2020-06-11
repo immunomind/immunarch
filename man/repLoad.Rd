@@ -30,6 +30,12 @@ cell and chain types for different samples.}
 
 Leave NA (which is default) if you want `immunarch` to detect formats automatically.}
 
+\item{.mode}{Either "single" for single chain data or "paired" for paired chain data.
+
+Currently "single" works for every format, and "paired" works only for 10X Genomics data.
+
+By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.}
+
 \item{.coding}{A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.}
 }
 \value{
