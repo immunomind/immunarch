@@ -1,0 +1,102 @@
+---
+title: "Single-cell and paired chain data: scTCRseq and scBCRseq exploration"
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Working with data in immunarch}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+data(scdata)
+```
+
+
+# Executive Summary
+
+> This is a vignette dedicated to provide an overview on how to work with single-cell paired chain data in `immunarch`
+
+> Single-cell support is currently in the development version. In order to access it, you need to install the latest development version of the package  by executing the following command: 
+
+```r
+install.packages("devtools"); devtools::install_github("immunomind/immunarch", ref="dev")
+```
+
+> To read paired chain data into `immunarch` use the `repLoad` function with `.mode = "paired"`. Currently we support 10X Genomics only.
+
+> To subset immune repertoires by specific barcodes use the `select_barcodes` function. Output of `Seurat::Idents()` as a barcode vector works.
+
+> To create cluster-specific and patient-specific datasets using barcodes from the output of `Seurat::Idents()` use the `select_clusters` function.
+
+
+# Use the data packaged with `immunarch`
+
+Load the package into the R enviroment:
+```r
+library(immunarch)
+```
+
+For testing purposes we attached a new paired chain dataset to `immunarch`. Load it by executing the following command:
+
+```r
+data(scdata)
+```
+
+# Load the paired chain data
+
+To load your own datasets, use the `repLoad` function. Currently we implemented paired chain data support for 10X Genomics data only. A working example of loading datasets into R:
+
+```{r}
+file_path <- paste0(system.file(package = "immunarch"), "/extdata/sc/flu.csv.gz")
+igdata <- repLoad(file_path, .mode = "paired")
+
+igdata$meta
+
+head(igdata$data[[1]][c(1:7, 16, 17)])
+```
+
+# Subset by barcodes
+
+To subset the data by barcodes, use the `select_barcodes` function.
+
+## Patient-specific datasets
+
+To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function:
+
+```r
+```
+
+## Cluster-specific datasets
+
+To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function. You can apply this function after you created patient-specific datasets.
+
+```r
+```
+
+# Explore and compute statistics
+
