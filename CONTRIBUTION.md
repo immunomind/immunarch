@@ -66,7 +66,7 @@ Commit name examples: `feat(diversity): added the Chao1 method for diversity est
 
 #### Commit scopes
 
-- Changes in analysis- and visualisation-specific functions: `diversity`, `overlap`, `pub-rep`, `clonality`, `gene-usage`, `explore`, `kmers`, `spectratype`, `dynamics`, `tools`
+- Changes in analysis- and visualisation-specific functions: `diversity`, `overlap`, `pub-rep`, `clonality`, `gene-usage`, `explore`, `kmers`, `spectratype`, `dynamics`, `tools`, `single-cell`.
 
 - General changes in visualisation functions (e.g., replace one package with another, or change a non-specific visualisation function such as `vis_bar`): `vis`
 
@@ -75,6 +75,8 @@ Commit name examples: `feat(diversity): added the Chao1 method for diversity est
 - Changes in databases support: `db`
 
 - Changes in additional functions such as general statistics functions: `utility`
+
+- Changes in data: `data`
 
 - Changes in NAMESPACE, DESCRIPTION, citations, ISSUE_TEMPLATE.md, etc., without README: `upkeep`
 
