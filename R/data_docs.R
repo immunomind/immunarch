@@ -62,11 +62,11 @@ AA_TABLE_REVERSED <- sapply(unique(AA_TABLE), function(aa) {
 AA_TABLE_REVERSED <- AA_TABLE_REVERSED[order(names(AA_TABLE_REVERSED))]
 
 
-#' Immune repertoire dataset
+#' Single chain immune repertoire dataset
 #'
 #' @concept data
 #'
-#' @description A dataset with single chain data for testing and examplatory purposes.
+#' @description A dataset with single chain TCR data for testing and examplatory purposes.
 #'
 #' @format A list of two elements. First element ("data") is a list with data frames with clonotype tables.
 #' Second element ("meta") is a metadata table.
@@ -76,3 +76,22 @@ AA_TABLE_REVERSED <- AA_TABLE_REVERSED[order(names(AA_TABLE_REVERSED))]
 #'   ...
 #' }
 "immdata"
+
+
+#' Paired chain immune repertoire dataset
+#'
+#' @concept data
+#'
+#' @description A dataset with paired chain IG data for testing and examplatory purposes.
+#'
+#' @format A list of four elements.
+#' "data" is a list with data frames with clonotype tables.
+#' "meta" is a metadata table.
+#' "bc_patients" is a list of barcodes corresponding to specific patients.
+#' "bc_clusters" is a list of barcodes corresponding to specific cell clusters.
+#' \describe{
+#'   \item{data}{List of immune repertoire data frames.}
+#'   \item{meta}{Metadata}
+#'   ...
+#' }
+"scdata"
