@@ -24,9 +24,9 @@ output:
 # Prepare MiXCR Data
 Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data.
 
-MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz
+MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz. In this tutorial I used the real IGH data from <a href="https://github.com/milaboratory/mixcr/blob/develop/doc/paper/paperAttachments.md">here</a>.
 
-You can choose to use the `analyze amplicon` method 
+You can choose to use the `analyze amplicon` method to process in one go:
 
 ```{r, eval=F}
 > mixcr analyze amplicon --species hs \
@@ -96,7 +96,7 @@ In your R environment, run the commands below. The output should be similar.
 == Step 1/3: loading repertoire files... ==
 
 Processing "<initial>" ...
-  -- Parsing "/Users/cchen/Desktop/data/mixcr/clonotypes/analysis.clonotypes.IGH.txt" -- mixcr
+  -- Parsing "path/to/folder/analysis.clonotypes.IGH.txt" -- mixcr
 
 == Step 2/3: checking metadata files and merging... ==
 
