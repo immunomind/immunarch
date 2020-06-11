@@ -19,8 +19,9 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom readr read_delim read_tsv read_csv col_integer col_character col_double col_logical col_guess cols write_lines
 #' @importFrom stringr str_split str_detect str_replace_all
 #' @importFrom methods as
-#' @importFrom dplyr contains
+#' @importFrom dplyr contains first
 #' @importFrom utils read.table
+#' @importFrom data.table setDF
 #'
 #' @description The \code{repLoad} function loads repertoire files
 #' into R workspace in the immunarch format where you can immediately use them for
@@ -52,6 +53,12 @@ if (getRversion() >= "2.15.1") {
 #' @param .format A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
 #'
 #' Leave NA (which is default) if you want `immunarch` to detect formats automatically.
+#'
+#' @param .mode Either "single" for single chain data or "paired" for paired chain data.
+#'
+#' Currently "single" works for every format, and "paired" works only for 10X Genomics data.
+#'
+#' By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.
 #'
 #' @param .coding A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.
 #'
@@ -451,9 +458,9 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
 #' repSave(immdata, dirpath)
 #' # Load it and check if it is the same
 #' new_immdata <- repLoad(dirpath)
-#' sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
-#' sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
-#' sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
+#' # sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
+#' # sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
+#' # sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
 #' @export repSave
 repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
                     .compress = TRUE) {
