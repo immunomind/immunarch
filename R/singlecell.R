@@ -1,3 +1,10 @@
+if (getRversion() >= "2.15.1") {
+  utils::globalVariables(c(
+    "Barcode", "V1"
+  ))
+}
+
+
 #' Select specific clonotypes using barcodes from single-cell metadata
 #'
 #' @concept single_cell
@@ -23,6 +30,8 @@
 #' @param .barcodes Either a character vector with barcodes or a named character/factor vector with
 #' barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.
 #'
+#' @param .force.list Logical. If TRUE then always return a list, even if the result is one data frame.
+#'
 #' @return An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
 #' (if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
 #' with clonotype barcodes corresponding to the input barcodes. The output list's names are cluster names
@@ -31,6 +40,7 @@
 #' @seealso \link{select_clusters}
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' # Create a fake single-cell data
 #' df <- immdata$data[[1]]
@@ -39,6 +49,7 @@
 #' barcodes <- "AAAAACCCCC"
 #' df <- select_barcodes(df, barcodes)
 #' nrow(df)
+#' }
 #' @export
 select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
   if (has_class(.data, "list")) {
@@ -80,8 +91,10 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
     # Group clonotypes
     for (i in 1:length(df_list)) {
       df <- df_list[[i]]
-      df <- df[, sum(Clones), by = setdiff(names(df), c("Clones", "Proportion", "Barcode"))][, Clones := V1]
-      df[, V1 := NULL]
+      df <- df[, .(sum(Clones), paste0(Barcode, collapse = IMMCOL_ADD$scsep)), by = setdiff(names(df), c("Clones", "Proportion", "Barcode"))]
+      setnames(df, "V1", "Clones")
+      setnames(df, "V2", "Barcode")
+
       df$Proportion <- df$Clones / sum(df$Clones)
       df <- df[order(-Clones)]
 
