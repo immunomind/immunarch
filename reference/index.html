@@ -118,6 +118,9 @@
     <li>
       <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li>
+      <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+    </li>
     <li class="divider"></li>
     <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
@@ -246,9 +249,15 @@
       <tr>
         
         <td>
-          <p><code><a href="filter_barcodes.html">filter_barcodes()</a></code> </p>
+          <p><code><a href="select_barcodes.html">select_barcodes()</a></code> </p>
         </td>
-        <td><p>Filter clonotypes using barcodes from single-cell metadata</p></td>
+        <td><p>Select specific clonotypes using barcodes from single-cell metadata</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="select_clusters.html">select_clusters()</a></code> </p>
+        </td>
+        <td><p>Split the immune repertoire data to clusters from single-cell barcodes</p></td>
       </tr>
     </tbody><tbody>
       
@@ -916,13 +925,19 @@
         <td>
           <p><code><a href="immdata.html">immdata</a></code> </p>
         </td>
-        <td><p>Immune repertoire dataset</p></td>
+        <td><p>Single chain immune repertoire dataset</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="immunr_data_format.html">immunr_data_format</a></code> </p>
         </td>
         <td><p>Specification of the data format used by immunarch dataframes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="scdata.html">scdata</a></code> </p>
+        </td>
+        <td><p>Paired chain immune repertoire dataset</p></td>
       </tr>
     </tbody><tbody>
       
@@ -1024,7 +1039,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, Anna Lorenc, Daniel J. Moore, Victor Greiff, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

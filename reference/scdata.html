@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Most frequent kmers visualisation. — vis.immunr_kmer_table • immunarch</title>
+<title>Paired chain immune repertoire dataset — scdata • immunarch</title>
 
 
 <!-- jquery -->
@@ -47,8 +47,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Most frequent kmers visualisation. — vis.immunr_kmer_table" />
-<meta property="og:description" content="Plot a distribution (bar plot) of the most frequent kmers in a data." />
+<meta property="og:title" content="Paired chain immune repertoire dataset — scdata" />
+<meta property="og:description" content="A dataset with paired chain IG data for testing and examplatory purposes." />
 
 
 
@@ -190,65 +190,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Most frequent kmers visualisation.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
-    <div class="hidden name"><code>vis.immunr_kmer_table.Rd</code></div>
+    <h1>Paired chain immune repertoire dataset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/data_docs.R'><code>R/data_docs.R</code></a></small>
+    <div class="hidden name"><code>scdata.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a distribution (bar plot) of the most frequent kmers in a data.</p>
+    <p>A dataset with paired chain IG data for testing and examplatory purposes.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for immunr_kmer_table</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.head</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>.position</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"stack"</span>, <span class='st'>"dodge"</span>, <span class='st'>"fill"</span>),
-  <span class='kw'>.log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='no'>scdata</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.data</th>
-      <td><p>Data frame with two columns "Kmers" and "Count" or a list with such data frames. See Examples.</p></td>
-    </tr>
-    <tr>
-      <th>.head</th>
-      <td><p>Number of the most frequent kmers to choose for plotting from each data frame.</p></td>
-    </tr>
-    <tr>
-      <th>.position</th>
-      <td><p>Character vector of length 1. Position of bars for each kmers. Value for the <code>ggplot2</code> argument <code>position</code>.</p></td>
-    </tr>
-    <tr>
-      <th>.log</th>
-      <td><p>Logical. If TRUE then plot log-scaled plots.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not used here.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A ggplot2 object.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A list of four elements.
+"data" is a list with data frames with clonotype tables.
+"meta" is a metadata table.
+"bc_patients" is a list of barcodes corresponding to specific patients.
+"bc_clusters" is a list of barcodes corresponding to specific cell clusters.</p><dl'>
+  <dt>data</dt><dd><p>List of immune repertoire data frames.</p></dd>
+  <dt>meta</dt><dd><p>Metadata</p></dd>
+  ...
 
-    <div class='dont-index'><p><code>get.kmers</code></p></div>
+</dl>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load necessary data and package.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='co'># Get 5-mers.</span>
-<span class='no'>imm.km</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getKmers.html'>getKmers</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>)
-<span class='co'># Plots for kmer proportions in each data frame in immdata.</span>
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>imm.km</span>, <span class='kw'>.position</span> <span class='kw'>=</span> <span class='st'>"stack"</span>)
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>imm.km</span>, <span class='kw'>.position</span> <span class='kw'>=</span> <span class='st'>"fill"</span>)
-<span class='no'>p1</span> + <span class='no'>p2</span></div><div class='img'><img src='vis.immunr_kmer_table-1.png' alt='' width='700' height='433' /></div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

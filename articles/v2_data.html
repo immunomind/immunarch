@@ -69,6 +69,9 @@
     <li>
       <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li>
+      <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+    </li>
     <li class="divider">
     <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
@@ -183,9 +186,9 @@
 <p>The package provides several IO functions:</p>
 <ul>
 <li><p><code>repLoad</code> - to load the repertoires, having compatible format.</p></li>
-<li><p><code>repSave</code> - to save changes and to write the repertoire data to a file in a specific format (<code>immunarch</code>, VDJtools or MonetDB).</p></li>
+<li><p><code>repSave</code> - to save changes and to write the repertoire data to a file in a specific format (<code>immunarch</code>, VDJtools).</p></li>
 </ul>
-<p><code>repLoad</code> has the <code>.format</code> argument that sets the format for input repertoire files. Do not provide it if you want <code>immunarch</code> to detect the formats and parse files automatically! In case you want to force the package to parse the data in a specific format, you can choose one of the several options for the argument:</p>
+<p><code>repLoad</code> detects the input file format automatically. <code>immunarch</code> currently support the following immune repertoire data formats:</p>
 <ul>
 <li><p><code>"immunarch"</code> - current software tool, in case you forgot it :)</p></li>
 <li><p><code>"immunoseq"</code> - <a href="http://www.adaptivebiotech.com/immunoseq" class="uri">http://www.adaptivebiotech.com/immunoseq</a></p></li>
@@ -378,9 +381,9 @@
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">ds</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">ds</span>, <span class="no">nrow</span>)</pre></body></html></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
-##      99      97      94     100      82      96      85      99      89     100 
+##     100      98      96     100      75      91      90      99      86     100 
 ##     MS5     MS6 
-##      81      99</code></pre>
+##      88      99</code></pre>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">ds</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"sample"</span>, <span class="kw">.n</span> <span class="kw">=</span> <span class="fl">10</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">ds</span>, <span class="no">nrow</span>)</pre></body></html></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
@@ -417,7 +420,7 @@ With these functions you can write the subset of your repertoires to new tables 
 
 
       <footer><div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, Anna Lorenc, Daniel J. Moore, Victor Greiff, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

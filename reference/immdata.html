@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Immune repertoire dataset — immdata • immunarch</title>
+<title>Single chain immune repertoire dataset — immdata • immunarch</title>
 
 
 <!-- jquery -->
@@ -47,8 +47,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Immune repertoire dataset — immdata" />
-<meta property="og:description" content="A testing dataset containing clonotypes." />
+<meta property="og:title" content="Single chain immune repertoire dataset — immdata" />
+<meta property="og:description" content="A dataset with single chain TCR data for testing and examplatory purposes." />
 
 
 
@@ -119,6 +119,9 @@
     <li>
       <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li>
+      <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+    </li>
     <li class="divider"></li>
     <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
@@ -187,13 +190,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Immune repertoire dataset</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <h1>Single chain immune repertoire dataset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/data_docs.R'><code>R/data_docs.R</code></a></small>
     <div class="hidden name"><code>immdata.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A testing dataset containing clonotypes.</p>
+    <p>A dataset with single chain TCR data for testing and examplatory purposes.</p>
     </div>
 
     <pre class="usage"><span class='no'>immdata</span></pre>
@@ -201,8 +204,8 @@
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A list of two elements. First element "data" is a list with data frames with clonotype tables.
-Second element "meta" is a metadata file.</p><dl'>
+    <p>A list of two elements. First element ("data") is a list with data frames with clonotype tables.
+Second element ("meta") is a metadata table.</p><dl'>
   <dt>data</dt><dd><p>List of immune repertoire data frames.</p></dd>
   <dt>meta</dt><dd><p>Metadata</p></dd>
   ...
@@ -221,7 +224,7 @@ Second element "meta" is a metadata file.</p><dl'>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, Anna Lorenc, Daniel J. Moore, Victor Greiff, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

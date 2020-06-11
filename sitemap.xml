@@ -37,9 +37,6 @@
     <loc>https://immunarch.com/reference/entropy.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/reference/filter_barcodes.html</loc>
-  </url>
-  <url>
     <loc>https://immunarch.com/reference/fixVis.html</loc>
   </url>
   <url>
@@ -119,6 +116,15 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/repSave.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/scdata.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/select_barcodes.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/select_clusters.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/set_pb.html</loc>
@@ -224,6 +230,9 @@
   </url>
   <url>
     <loc>https://immunarch.com/articles/web_only/v11_db.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v21_singlecell.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/articles/web_only/v4_overlap.html</loc>

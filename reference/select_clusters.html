@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Most frequent kmers visualisation. — vis.immunr_kmer_table • immunarch</title>
+<title>Split the immune repertoire data to clusters from single-cell barcodes — select_clusters • immunarch</title>
 
 
 <!-- jquery -->
@@ -47,8 +47,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Most frequent kmers visualisation. — vis.immunr_kmer_table" />
-<meta property="og:description" content="Plot a distribution (bar plot) of the most frequent kmers in a data." />
+<meta property="og:title" content="Split the immune repertoire data to clusters from single-cell barcodes — select_clusters" />
+<meta property="og:description" content="Given the vector of barcodes from Seurat, split the input repertoires
+to separate subsets following the barcodes' assigned IDs. Useful when you want to
+split immune repertoires by patients or clusters." />
 
 
 
@@ -190,65 +192,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Most frequent kmers visualisation.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
-    <div class="hidden name"><code>vis.immunr_kmer_table.Rd</code></div>
+    <h1>Split the immune repertoire data to clusters from single-cell barcodes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/singlecell.R'><code>R/singlecell.R</code></a></small>
+    <div class="hidden name"><code>select_clusters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a distribution (bar plot) of the most frequent kmers in a data.</p>
+    <p>Given the vector of barcodes from Seurat, split the input repertoires
+to separate subsets following the barcodes' assigned IDs. Useful when you want to
+split immune repertoires by patients or clusters.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for immunr_kmer_table</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.head</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>.position</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"stack"</span>, <span class='st'>"dodge"</span>, <span class='st'>"fill"</span>),
-  <span class='kw'>.log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>select_clusters</span>(<span class='no'>.data</span>, <span class='no'>.clusters</span>, <span class='kw'>.field</span> <span class='kw'>=</span> <span class='st'>"Cluster"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>Data frame with two columns "Kmers" and "Count" or a list with such data frames. See Examples.</p></td>
+      <td><p>List of two elements "data" and "meta", with "data" being a list of
+immune repertoires, and "meta" being a metadata table.</p></td>
     </tr>
     <tr>
-      <th>.head</th>
-      <td><p>Number of the most frequent kmers to choose for plotting from each data frame.</p></td>
+      <th>.clusters</th>
+      <td><p>Factor vector with barcodes as vector names and cluster IDs as vector elements.
+The output of the Seurat <code>Idents</code> function works.</p></td>
     </tr>
     <tr>
-      <th>.position</th>
-      <td><p>Character vector of length 1. Position of bars for each kmers. Value for the <code>ggplot2</code> argument <code>position</code>.</p></td>
-    </tr>
-    <tr>
-      <th>.log</th>
-      <td><p>Logical. If TRUE then plot log-scaled plots.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not used here.</p></td>
+      <th>.field</th>
+      <td><p>A string specifying the name of the field in the input metadata. New immune
+repertoire subsets will have cluster IDs in this field.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object.</p>
+    <p>A list with two elements "data" and "meta" with updated immune repertoire tables and
+metadata.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>get.kmers</code></p></div>
+    <div class='dont-index'><p><a href='select_barcodes.html'>select_barcodes</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load necessary data and package.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='co'># Get 5-mers.</span>
-<span class='no'>imm.km</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getKmers.html'>getKmers</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>)
-<span class='co'># Plots for kmer proportions in each data frame in immdata.</span>
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>imm.km</span>, <span class='kw'>.position</span> <span class='kw'>=</span> <span class='st'>"stack"</span>)
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>imm.km</span>, <span class='kw'>.position</span> <span class='kw'>=</span> <span class='st'>"fill"</span>)
-<span class='no'>p1</span> + <span class='no'>p2</span></div><div class='img'><img src='vis.immunr_kmer_table-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>Seurat</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/Seurat/man/Idents.html'>Idents</a></span>(<span class='no'>pbmc_small</span>)
+<span class='no'>new_cluster_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>)
+<span class='no'>new_cluster_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>pbmc_small</span>)
+<span class='no'>new_cluster_ids</span>
+<span class='no'>pbmc_small</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Seurat/man/Idents.html'>RenameIdents</a></span>(<span class='no'>pbmc_small</span>, <span class='no'>new_cluster_ids</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

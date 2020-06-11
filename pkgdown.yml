@@ -7,13 +7,14 @@ articles:
   v3_basic_analysis: v3_basic_analysis.html
   v10_prop: web_only/v10_prop.html
   v11_db: web_only/v11_db.html
+  v21_singlecell: web_only/v21_singlecell.html
   v4_overlap: web_only/v4_overlap.html
   v5_gene_usage: web_only/v5_gene_usage.html
   v6_diversity: web_only/v6_diversity.html
   v7_fixvis: web_only/v7_fixvis.html
   v8_tracking: web_only/v8_tracking.html
   v9_kmers: web_only/v9_kmers.html
-last_built: 2020-06-06T17:07Z
+last_built: 2020-06-11T13:17Z
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

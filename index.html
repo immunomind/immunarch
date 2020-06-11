@@ -76,6 +76,9 @@
     <li>
       <a href="articles/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
+    <li>
+      <a href="articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+    </li>
     <li class="divider">
     <li class="dropdown-header">Explore and compare repertoires</li>
     <li>
@@ -167,9 +170,8 @@
 <div id="lightning-fast-start" class="section level3">
 <h3 class="hasAnchor">
 <a href="#lightning-fast-start" class="anchor"></a>Lightning-fast Start</h3>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>) <span class="co"># Install the package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>)            <span class="co"># Load the package into R</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)                 <span class="co"># Load the test dataset</span>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>)           <span class="co"># Install the package</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>); <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)       <span class="co"># Load the package and the test dataset</span>
 <span class="fu"><a href="reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()      <span class="co"># Compute and visualise the most important statistics:</span>
 <span class="fu"><a href="reference/geneUsage.html">geneUsage</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()  <span class="co">#     public clonotypes, gene usage, sample diversity</span>
 <span class="fu"><a href="reference/repDiversity.html">repDiversity</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>(<span class="kw">.by</span> <span class="kw">=</span> <span class="st">"Status"</span>, <span class="kw">.meta</span> <span class="kw">=</span> <span class="no">immdata</span>$<span class="no">meta</span>)      <span class="co"># Group samples</span></pre></div>
@@ -391,11 +393,9 @@ Contact us at support@immunomind.io for more information.
 <li>Vadim I. Nazarov <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Vasily O. Tsvetkov <br><small class="roles"> Author </small>  </li>
 <li>Eugene Rumynskiy <br><small class="roles"> Author </small>  </li>
-<li>Anna Lorenc <br><small class="roles"> Author </small>  </li>
-<li>Daniel J. Moore <br><small class="roles"> Author </small>  </li>
-<li>Victor Greiff <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="https://immunomind.io">ImmunoMind</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
@@ -403,12 +403,14 @@ Contact us at support@immunomind.io for more information.
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://twitter.com/intent/follow?screen_name=immunomind"><img src="https://img.shields.io/twitter/follow/immunomind.svg?style=social" alt="Follow"></a></li>
-<li><a href="https://cran.r-project.org/package=immunarch"><img src="http://www.r-pkg.org/badges/version/immunarch?style=flat-square" alt="CRAN"></a></li>
+<li><a href="https://cran.r-project.org/package=immunarch"><img src="http://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square" alt="CRAN"></a></li>
 <li><a href="http://www.r-pkg.org/pkg/immunarch"><img src="http://cranlogs.r-pkg.org/badges/grand-total/immunarch" alt="Downloads_all"></a></li>
 <li><a href="http://www.r-pkg.org/pkg/immunarch"><img src="http://cranlogs.r-pkg.org/badges/last-week/immunarch" alt="Downloads_week"></a></li>
 <li><a href="http://github.com/immunomind/immunarch/issues"><img src="https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square" alt="Issues"></a></li>
 <li><a href="https://gitlab.com/immunomind/immunarch/-/jobs"><img src="https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square" alt="CI"></a></li>
 <li><a href="https://doi.org/10.5281/zenodo.3367200"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg" alt="DOI"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/tcR"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tcR" alt="Downloads_all"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/tcR"><img src="http://cranlogs.r-pkg.org/badges/last-week/tcR" alt="Downloads_week"></a></li>
 </ul>
 </div>
 </div>
@@ -416,7 +418,7 @@ Contact us at support@immunomind.io for more information.
 
 
       <footer><div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, Anna Lorenc, Daniel J. Moore, Victor Greiff, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Most frequent kmers visualisation. — vis.immunr_kmer_table • immunarch</title>
+<title>Select specific clonotypes using barcodes from single-cell metadata — select_barcodes • immunarch</title>
 
 
 <!-- jquery -->
@@ -47,8 +47,12 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Most frequent kmers visualisation. — vis.immunr_kmer_table" />
-<meta property="og:description" content="Plot a distribution (bar plot) of the most frequent kmers in a data." />
+<meta property="og:title" content="Select specific clonotypes using barcodes from single-cell metadata — select_barcodes" />
+<meta property="og:description" content="Subset the input immune repertoire by barcodes. Pass a vector of
+barcodes to subset or a vector cluster IDs and corresponding barcodes to
+get a list of immune repertoires corresponding to cluster IDs.
+Columns with clonotype counts
+and proportions are changed accordingly to the filtered barcodes." />
 
 
 
@@ -190,65 +194,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Most frequent kmers visualisation.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/vis.R'><code>R/vis.R</code></a></small>
-    <div class="hidden name"><code>vis.immunr_kmer_table.Rd</code></div>
+    <h1>Select specific clonotypes using barcodes from single-cell metadata</h1>
+    <small class="dont-index">Source: <a href='https://github.com/immunomind/immunarch/blob/master/R/singlecell.R'><code>R/singlecell.R</code></a></small>
+    <div class="hidden name"><code>select_barcodes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a distribution (bar plot) of the most frequent kmers in a data.</p>
+    <p>Subset the input immune repertoire by barcodes. Pass a vector of
+barcodes to subset or a vector cluster IDs and corresponding barcodes to
+get a list of immune repertoires corresponding to cluster IDs.
+Columns with clonotype counts
+and proportions are changed accordingly to the filtered barcodes.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for immunr_kmer_table</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.head</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>.position</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"stack"</span>, <span class='st'>"dodge"</span>, <span class='st'>"fill"</span>),
-  <span class='kw'>.log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>select_barcodes</span>(<span class='no'>.data</span>, <span class='no'>.barcodes</span>, <span class='kw'>.force.list</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>Data frame with two columns "Kmers" and "Count" or a list with such data frames. See Examples.</p></td>
+      <td><p>The data to be processed. Can be <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>,
+data.table, or a list of these objects.</p>
+<p>Every object must have columns in the immunarch compatible format.
+<a href='immunr_data_format.html'>immunarch_data_format</a></p>
+<p>Competent users may provide advanced data representations:
+DBI database connections, Apache Spark DataFrame from copy_to or a list
+of these objects. They are supported with the same limitations as basic objects.</p>
+<p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
     <tr>
-      <th>.head</th>
-      <td><p>Number of the most frequent kmers to choose for plotting from each data frame.</p></td>
+      <th>.barcodes</th>
+      <td><p>Either a character vector with barcodes or a named character/factor vector with
+barcodes as names and cluster IDs a vector elements. The output of Seurat's <code>Idents</code> function works.</p></td>
     </tr>
     <tr>
-      <th>.position</th>
-      <td><p>Character vector of length 1. Position of bars for each kmers. Value for the <code>ggplot2</code> argument <code>position</code>.</p></td>
-    </tr>
-    <tr>
-      <th>.log</th>
-      <td><p>Logical. If TRUE then plot log-scaled plots.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not used here.</p></td>
+      <th>.force.list</th>
+      <td><p>Logical. If TRUE then always return a list, even if the result is one data frame.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object.</p>
+    <p>An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
+(if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
+with clonotype barcodes corresponding to the input barcodes. The output list's names are cluster names
+in the ".barcode" argument (Seurat::Idents() case only).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>get.kmers</code></p></div>
+    <div class='dont-index'><p><a href='select_clusters.html'>select_clusters</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load necessary data and package.</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='co'># Get 5-mers.</span>
-<span class='no'>imm.km</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getKmers.html'>getKmers</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='fl'>5</span>)
-<span class='co'># Plots for kmer proportions in each data frame in immdata.</span>
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>imm.km</span>, <span class='kw'>.position</span> <span class='kw'>=</span> <span class='st'>"stack"</span>)
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>imm.km</span>, <span class='kw'>.position</span> <span class='kw'>=</span> <span class='st'>"fill"</span>)
-<span class='no'>p1</span> + <span class='no'>p2</span></div><div class='img'><img src='vis.immunr_kmer_table-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='co'># Create a fake single-cell data</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>df</span>$<span class='no'>Barcode</span> <span class='kw'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
+<span class='no'>df</span>$<span class='no'>Barcode</span>[<span class='fl'>51</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)] <span class='kw'>&lt;-</span> <span class='st'>"GGGGGCCCCC"</span>
+<span class='no'>barcodes</span> <span class='kw'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>select_barcodes</span>(<span class='no'>df</span>, <span class='no'>barcodes</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
