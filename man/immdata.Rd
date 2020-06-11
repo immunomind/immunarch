@@ -3,7 +3,7 @@
 \docType{data}
 \name{immdata}
 \alias{immdata}
-\title{Immune repertoire dataset}
+\title{Single chain immune repertoire dataset}
 \format{
 A list of two elements. First element ("data") is a list with data frames with clonotype tables.
 Second element ("meta") is a metadata table.
@@ -17,7 +17,7 @@ Second element ("meta") is a metadata table.
 immdata
 }
 \description{
-A dataset with single chain data for testing and examplatory purposes.
+A dataset with single chain TCR data for testing and examplatory purposes.
 }
 \concept{data}
 \keyword{datasets}
