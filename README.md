@@ -22,9 +22,8 @@
 
 ### Lightning-fast Start
 ```r
-install.packages("immunarch") # Install the package
-library(immunarch)            # Load the package into R
-data(immdata)                 # Load the test dataset
+install.packages("immunarch")           # Install the package
+library(immunarch); data(immdata)       # Load the package and the test dataset
 repOverlap(immdata$data) %>% vis()      # Compute and visualise the most important statistics:
 geneUsage(immdata$data[[1]]) %>% vis()  #     public clonotypes, gene usage, sample diversity
 repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # Group samples
