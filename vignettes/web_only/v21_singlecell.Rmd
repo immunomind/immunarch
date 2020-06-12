@@ -29,8 +29,8 @@ output:
 
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.align = "center")
-knitr::opts_chunk$set(fig.width = 12)
-knitr::opts_chunk$set(fig.height = 6)
+knitr::opts_chunk$set(fig.width = 18)
+knitr::opts_chunk$set(fig.height = 12)
 
 library(immunarch)
 data(scdata)
@@ -124,7 +124,10 @@ Most functions will work out-of-the-box with paired chain data.
 p1 <- repOverlap(scdata_cl$data) %>% vis()
 p2 <- repDiversity(scdata_cl$data) %>% vis()
 
-p1 + p2
+target <- c("CARAGYLRGFDYW;CQQYGSSPLTF", "CARATSFYYFHHW;CTSYTTRTTLIF", "CARDLSRGDYFPYFSYHMNVW;CQSDDTANHVIF", "CARGFDTNAFDIW;CTAWDDSLSGVVF", "CTREDYW;CMQTIQLRTF")
+p3 <- trackClonotypes(scdata_cl$data, target, .col = "aa") %>% vis()
+
+(p1 + p2) / p3
 ```
 
 Several functions may work incorrectly with paired chain data in this release of `immunarch`. Let us know via [GitHub Issues](http://github.com/immunomind/immunarch/issues)!
