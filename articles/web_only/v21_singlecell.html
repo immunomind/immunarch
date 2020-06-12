@@ -195,7 +195,7 @@
 <pre><code>## 
 ## == Step 1/3: loading repertoire files... ==</code></pre>
 <pre><code>## Processing "&lt;initial&gt;" ...</code></pre>
-<pre><code>##   -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/Rtmp7w7931/temp_libpath102d9ed9fc27/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</code></pre>
+<pre><code>##   -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpTW2ESW/temp_libpathbcd15676f57b/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</code></pre>
 <pre><code>## Warning: The following named parsers don't match the column names:
 ## sample,barcode,is_cell,contig_id,high_confidence,length,chain,v_gene,d_gene,j_gene,c_gene,full_length,productive,cdr3,cdr3_nt,reads,umis,raw_clonotype_id,raw_consensus_id</code></pre>
 <pre><code>## 
@@ -313,8 +313,14 @@
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span>(<span class="no">scdata_cl</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>()
 <span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span>(<span class="no">scdata_cl</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>()
 
-<span class="no">p1</span> + <span class="no">p2</span></pre></body></html></div>
-<p><img src="v21_singlecell_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;"></p>
+<span class="no">target</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CARAGYLRGFDYW;CQQYGSSPLTF"</span>, <span class="st">"CARATSFYYFHHW;CTSYTTRTTLIF"</span>, <span class="st">"CARDLSRGDYFPYFSYHMNVW;CQSDDTANHVIF"</span>, <span class="st">"CARGFDTNAFDIW;CTAWDDSLSGVVF"</span>, <span class="st">"CTREDYW;CMQTIQLRTF"</span>)
+<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span>(<span class="no">scdata_cl</span>$<span class="no">data</span>, <span class="no">target</span>, <span class="kw">.col</span> <span class="kw">=</span> <span class="st">"aa"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>()</pre></body></html></div>
+<pre><code>## Warning in melt.data.table(.data): id.vars and measure.vars are internally
+## guessed when both are 'NULL'. All non-numeric/integer/logical type columns are
+## considered id.vars, which in this case are columns [CDR3.aa]. Consider providing
+## at least one of 'id' or 'measure' vars in future.</code></pre>
+<div class="sourceCode" id="cb26"><html><body><pre class="r">(<span class="no">p1</span> + <span class="no">p2</span>) / <span class="no">p3</span></pre></body></html></div>
+<p><img src="v21_singlecell_files/figure-html/unnamed-chunk-7-1.png" width="1728" style="display: block; margin: auto;"></p>
 <p>Several functions may work incorrectly with paired chain data in this release of <code>immunarch</code>. Let us know via <a href="http://github.com/immunomind/immunarch/issues">GitHub Issues</a>!</p>
 </div>
   </div>

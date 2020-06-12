@@ -142,7 +142,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to <code>immunarch</code>
 </h1>
-                        <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
+                        <h4 class="author"><a href="http://immunomind.io">ImmunoMind</a></h4>
             
             <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
@@ -161,7 +161,7 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p><code>immunarch</code> is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on <a href="https://twitter.com/immunomind">Twitter</a> for news and updates.</p>
+<p><code>immunarch</code> is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on <a href="http://twitter.com/immunomind">Twitter</a> for news and updates.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -170,7 +170,7 @@
 <a href="#latest-release-on-cran" class="anchor"></a>Latest release on CRAN</h3>
 <p>In order to install <code>immunarch</code> execute the following command:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>)</pre></body></html></div>
-<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting">Installation Troubleshooting</a> section.</p>
+<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="http://immunarch.com/articles/v1_introduction.html#installation-troubleshooting">Installation Troubleshooting</a> section.</p>
 <p>Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making <code>immunarch</code> the entry-point for single-cell &amp; immune repertoire Data Science.</p>
 </div>
 <div id="latest-release-on-github" class="section level3">
@@ -186,7 +186,7 @@
 <p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"immunomind/immunarch"</span>, <span class="kw">ref</span><span class="kw">=</span><span class="st">"dev"</span>)</pre></body></html></div>
-<p>You can find the list of releases of <code>immunarch</code> here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
+<p>You can find the list of releases of <code>immunarch</code> here: <a href="http://github.com/immunomind/immunarch/releases" class="uri">http://github.com/immunomind/immunarch/releases</a></p>
 </div>
 </div>
 <div id="quick-start" class="section level2">
@@ -226,7 +226,7 @@
 <p>If you run in any other trouble, try the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>
-<p>Check your R version. Run <code>version</code> command in the console to get your R versions. If the R version is below 3.5.0 (for example, <code>R version 3.1.0</code>), try updating your R version to the latest one. Check this <a href="https://cran.r-project.org/bin/linux/ubuntu/README.html">this link</a> if you are on Ubuntu. Note: if you try to install a package after the update and it still fails with the following message:</p>
+<p>Check your R version. Run <code>version</code> command in the console to get your R versions. If the R version is below 3.5.0 (for example, <code>R version 3.1.0</code>), try updating your R version to the latest one. Check this <a href="http://cran.r-project.org/bin/linux/ubuntu/README.html">this link</a> if you are on Ubuntu. Note: if you try to install a package after the update and it still fails with the following message:</p>
 <pre><code>ERROR: dependencies ‘httr’, ‘usethis’ are not available for package ‘devtools’
 * removing ‘/home/ga/R/x86_64-pc-linux-gnu-library/3.5/devtools’
 Warning in install.packages :
@@ -246,7 +246,7 @@ Calls: &lt;Anonymous&gt; ... namespaceImportFrom -&gt; asNamespace -&gt; loadNam
 Execution halted</code></pre>
 </li>
 <li><p>For Mac users. Make sure to install XCode from App Store first and command line developers tools second by executing the following command in Terminal: <code>xcode-select –install</code></p></li>
-<li><p>For Mac users. If you have issues like old packages can’t be updated, or error messages such as <code>ld: warning: directory not found for option</code> or <code>ld: library not found for -lgfortran</code>, <a href="https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/">this link</a> will help you to fix the issue.</p></li>
+<li><p>For Mac users. If you have issues like old packages can’t be updated, or error messages such as <code>ld: warning: directory not found for option</code> or <code>ld: library not found for -lgfortran</code>, <a href="http://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/">this link</a> will help you to fix the issue.</p></li>
 <li>
 <p>For Mac Mojave (1.14) users. If you run into the following error:</p>
 <pre><code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/math.h:301:15: fatal error: 'math.h' file not found
@@ -261,7 +261,7 @@ Execution halted</code></pre>
 Error: package or namespace load failed for 'igraph' in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/local/lib/R/site-library/00LOCK-igraph/00new/igraph/libs/igraph.so':
   libgfortran.so.4: cannot open shared object file: No such file or directory</code></pre>
-<p>See <a href="https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/">this link</a> for help.</p>
+<p>See <a href="http://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/">this link</a> for help.</p>
 </li>
 <li>
 <p>For Linux users. If you have issues with the <code>rgl</code> package:</p>
@@ -269,7 +269,7 @@ Error: package or namespace load failed for 'igraph' in dyn.load(file, DLLpath =
 ERROR: configuration failed for package ‘rgl’</code></pre>
 <p>Install “mesa-common-dev” via OS terminal by executing the following command:</p>
 <pre><code>apt-get install mesa-common-dev</code></pre>
-<p>Check <a href="https://stackoverflow.com/questions/15292905/how-to-solve-the-error-missing-required-header-gl-gl-h-while-installing-the-p">this link</a> for more information and other possible workarounds.</p>
+<p>Check <a href="http://stackoverflow.com/questions/15292905/how-to-solve-the-error-missing-required-header-gl-gl-h-while-installing-the-p">this link</a> for more information and other possible workarounds.</p>
 </li>
 <li>
 <p>If you have error messages with <code>rlang</code> in them such as:</p>
@@ -287,14 +287,14 @@ ERROR: lazy loading failed for package 'immunarch'</code></pre>
 <p>Execute the following command in R and try again to install the package:</p>
 <pre><code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")</a></code></pre>
 </li>
-<li><p>For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check <a href="https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8">this forum post</a>.</p></li>
-<li><p>For Windows users. Make sure to install <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the <code><a href="https://devtools.r-lib.org//reference/reexports.html">devtools::find_rtools()</a></code> command (after installing the devtools package). If you have an error, check <a href="https://github.com/r-lib/devtools/issues/1941">this link</a> for help.</p></li>
+<li><p>For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check <a href="http://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8">this forum post</a>.</p></li>
+<li><p>For Windows users. Make sure to install <a href="http://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the <code><a href="https://devtools.r-lib.org//reference/reexports.html">devtools::find_rtools()</a></code> command (after installing the devtools package). If you have an error, check <a href="http://github.com/r-lib/devtools/issues/1941">this link</a> for help.</p></li>
 <li>
 <p>If you can not install dependencies for <code>immunarch</code>, please try manual installation of all dependencies by executing the following command in R console:</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress", "zip", "backports", "ellipsis", "zeallot", "SparseM", "MatrixModels", "sp", "haven", "curl", "readxl", "openxlsx", "minqa", "nloptr", "RcppEigen", "utf8", "vctrs", "carData", "pbkrtest", "quantreg", "maptools", "rio", "lme4", "labeling", "munsell", "cli", "fansi", "pillar", "viridis", "car", "ellipse", "flashClust", "leaps", "scatterplot3d", "modeltools", "DEoptimR", "digest", "gtable", "lazyeval", "rlang", "scales", "tibble", "viridisLite", "withr", "assertthat", "glue", "magrittr", "pkgconfig", "R6", "tidyselect", "BH", "plogr", "purrr", "ggsci", "cowplot", "ggsignif", "polynom", "fastcluster", "plyr", "abind", "dendextend", "FactoMineR", "mclust", "flexmix", "prabclus", "diptest", "robustbase", "kernlab", "GlobalOptions", "shape", "colorspace", "stringi", "hms", "clipr", "crayon", "httpuv", "mime", "jsonlite", "xtable", "htmltools", "sourcetools", "later", "promises", "gridBase", "RColorBrewer", "yaml", "ggplot2", "dplyr", "dtplyr", "dbplyr", "data.table", "gridExtra", "ggpubr", "pheatma3", "ggrepel", "reshape2", "DBI", "factoextra", "fpc", "circlize", "tidyr", "Rtsne", "readr", "readxl", "shiny", "shinythemes", "treemap", "igraph", "airr", "ggseqlogo", "UpSetR", "stringr", "ggalluvial", "Rcpp"))</a></code></pre>
 </li>
 <li>
-<p>If you can not install <code>immunarch</code> using <code>install_url()</code>, try the manual installation. First, you need to download the package file from <a href="https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz">our GitHub</a>.</p>
+<p>If you can not install <code>immunarch</code> using <code>install_url()</code>, try the manual installation. First, you need to download the package file from <a href="http://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz">our GitHub</a>.</p>
 <p>Note that you <strong>should not un-archive it</strong>!</p>
 <p>After downloading the file, you need to run R command from the <code>devtools</code> package to install <code>immunarch</code>. Upon completion the dependencies will have been already downloaded and installed. Run the following command:</p>
 <pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)</a></code></pre>
@@ -308,7 +308,7 @@ In file.copy(x$path, bundle, recursive = TRUE) :
   problem copying No such file or directory</code></pre>
 <p>Check your path to the downloaded package archive file. It should not be “path/to/your/folder/with/immunarch.tar.gz”, but a path on your PC to the downloaded file, e.g., “C:/Users/UserName/Downloads/immunarch.tar.gz” or “/Users/UserName/Downloads/immunarch.tar.gz”.</p>
 </li>
-<li><p>If troubles still persist, let us know via <a href="https://github.com/immunomind/immunarch/issues">GitHub</a> (preferably) or <a href="mailto:support@immunomind.io">support@immunomind.io</a> (in case of private data).</p></li>
+<li><p>If troubles still persist, let us know via <a href="http://github.com/immunomind/immunarch/issues">GitHub</a> (preferably) or <a href="mailto:support@immunomind.io">support@immunomind.io</a> (in case of private data).</p></li>
 </ol>
 </div>
 </div>

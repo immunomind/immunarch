@@ -252,18 +252,18 @@
 <pre><code>## # A tibble: 12 x 7
 ##    Sample  ID    Sex     Age Status Lane  Timepoint
 ##    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
-##  1 A2-i129 C1    M        11 C      A             7
-##  2 A2-i131 C2    M         9 C      A            10
-##  3 A2-i133 C4    M        16 C      A             8
-##  4 A2-i132 C3    F         6 C      A            12
-##  5 A4-i191 C8    F        22 C      B             6
-##  6 A4-i192 C9    F        24 C      B             4
-##  7 MS1     MS1   M        12 MS     C             1
-##  8 MS2     MS2   M        30 MS     C             5
-##  9 MS3     MS3   M         8 MS     C            11
-## 10 MS4     MS4   F        14 MS     C             3
-## 11 MS5     MS5   F        15 MS     C             2
-## 12 MS6     MS6   F        15 MS     C             9</code></pre>
+##  1 A2-i129 C1    M        11 C      A             5
+##  2 A2-i131 C2    M         9 C      A             7
+##  3 A2-i133 C4    M        16 C      A            10
+##  4 A2-i132 C3    F         6 C      A            11
+##  5 A4-i191 C8    F        22 C      B             8
+##  6 A4-i192 C9    F        24 C      B             3
+##  7 MS1     MS1   M        12 MS     C             4
+##  8 MS2     MS2   M        30 MS     C             9
+##  9 MS3     MS3   M         8 MS     C             2
+## 10 MS4     MS4   F        14 MS     C             6
+## 11 MS5     MS5   F        15 MS     C            12
+## 12 MS6     MS6   F        15 MS     C             1</code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">sample_order</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Timepoint</span>)</pre></body></html></div>
 <p>Sanity check: timepoints are following the right order:</p>
@@ -271,8 +271,8 @@
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12</code></pre>
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Sample</span>[<span class="no">sample_order</span>]</pre></body></html></div>
-<pre><code>##  [1] "MS1"     "MS5"     "MS4"     "A4-i192" "MS2"     "A4-i191" "A2-i129"
-##  [8] "A2-i133" "MS6"     "A2-i131" "MS3"     "A2-i132"</code></pre>
+<pre><code>##  [1] "MS6"     "MS3"     "A4-i192" "MS1"     "A2-i129" "MS4"     "A2-i131"
+##  [8] "A4-i191" "MS2"     "A2-i133" "A2-i132" "MS5"</code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="no">sample_order</span>)</pre></body></html></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;"></p>
