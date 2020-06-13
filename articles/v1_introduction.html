@@ -67,7 +67,7 @@
       <a href="../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
-      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
@@ -226,7 +226,7 @@
 <p>If you run in any other trouble, try the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>
-<p>Check your R version. Run <code>version</code> command in the console to get your R versions. If the R version is below 3.5.0 (for example, <code>R version 3.1.0</code>), try updating your R version to the latest one. Check this <a href="http://cran.r-project.org/bin/linux/ubuntu/README.html">this link</a> if you are on Ubuntu. Note: if you try to install a package after the update and it still fails with the following message:</p>
+<p>Check your R version. Run <code>version</code> command in the console to get your R versions. If the R version is below 3.5.0 (for example, <code>R version 3.1.0</code>), try updating your R version to the latest one. Check this <a href="https://cran.r-project.org/bin/linux/ubuntu/README.html">this link</a> if you are on Ubuntu. Note: if you try to install a package after the update and it still fails with the following message:</p>
 <pre><code>ERROR: dependencies ‘httr’, ‘usethis’ are not available for package ‘devtools’
 * removing ‘/home/ga/R/x86_64-pc-linux-gnu-library/3.5/devtools’
 Warning in install.packages :
@@ -288,16 +288,10 @@ ERROR: lazy loading failed for package 'immunarch'</code></pre>
 <pre><code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")</a></code></pre>
 </li>
 <li><p>For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check <a href="http://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8">this forum post</a>.</p></li>
-<li><p>For Windows users. Make sure to install <a href="http://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the <code><a href="https://devtools.r-lib.org//reference/reexports.html">devtools::find_rtools()</a></code> command (after installing the devtools package). If you have an error, check <a href="http://github.com/r-lib/devtools/issues/1941">this link</a> for help.</p></li>
+<li><p>For Windows users. Make sure to install <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the <code><a href="https://devtools.r-lib.org//reference/reexports.html">devtools::find_rtools()</a></code> command (after installing the devtools package). If you have an error, check <a href="http://github.com/r-lib/devtools/issues/1941">this link</a> for help.</p></li>
 <li>
 <p>If you can not install dependencies for <code>immunarch</code>, please try manual installation of all dependencies by executing the following command in R console:</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress", "zip", "backports", "ellipsis", "zeallot", "SparseM", "MatrixModels", "sp", "haven", "curl", "readxl", "openxlsx", "minqa", "nloptr", "RcppEigen", "utf8", "vctrs", "carData", "pbkrtest", "quantreg", "maptools", "rio", "lme4", "labeling", "munsell", "cli", "fansi", "pillar", "viridis", "car", "ellipse", "flashClust", "leaps", "scatterplot3d", "modeltools", "DEoptimR", "digest", "gtable", "lazyeval", "rlang", "scales", "tibble", "viridisLite", "withr", "assertthat", "glue", "magrittr", "pkgconfig", "R6", "tidyselect", "BH", "plogr", "purrr", "ggsci", "cowplot", "ggsignif", "polynom", "fastcluster", "plyr", "abind", "dendextend", "FactoMineR", "mclust", "flexmix", "prabclus", "diptest", "robustbase", "kernlab", "GlobalOptions", "shape", "colorspace", "stringi", "hms", "clipr", "crayon", "httpuv", "mime", "jsonlite", "xtable", "htmltools", "sourcetools", "later", "promises", "gridBase", "RColorBrewer", "yaml", "ggplot2", "dplyr", "dtplyr", "dbplyr", "data.table", "gridExtra", "ggpubr", "pheatma3", "ggrepel", "reshape2", "DBI", "factoextra", "fpc", "circlize", "tidyr", "Rtsne", "readr", "readxl", "shiny", "shinythemes", "treemap", "igraph", "airr", "ggseqlogo", "UpSetR", "stringr", "ggalluvial", "Rcpp"))</a></code></pre>
-</li>
-<li>
-<p>If you can not install <code>immunarch</code> using <code>install_url()</code>, try the manual installation. First, you need to download the package file from <a href="http://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz">our GitHub</a>.</p>
-<p>Note that you <strong>should not un-archive it</strong>!</p>
-<p>After downloading the file, you need to run R command from the <code>devtools</code> package to install <code>immunarch</code>. Upon completion the dependencies will have been already downloaded and installed. Run the following command:</p>
-<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)</a></code></pre>
 </li>
 <li>
 <p>If you encounter the following error while running the <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_local</a></code> function:</p>

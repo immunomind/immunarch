@@ -67,7 +67,7 @@
       <a href="../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
-      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
@@ -289,11 +289,11 @@
 <span class="no">dbdir</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()
 
 <span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span>
-<span class="no">con</span> <span class="kw">=</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span>(<span class="kw pkg">MonetDBLite</span><span class="kw ns">::</span><span class="fu">MonetDBLite</span>(), <span class="kw">embedded</span> <span class="kw">=</span> <span class="no">dbdir</span>)
+<span class="no">con</span> <span class="kw">=</span> <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DBI/man/dbConnect.html">dbConnect</a></span>(<span class="kw pkg">MonetDBLite</span><span class="kw ns">::</span><span class="fu">MonetDBLite</span>(), <span class="kw">embedded</span> <span class="kw">=</span> <span class="no">dbdir</span>)
 
 <span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span>
 <span class="kw">for</span> (<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">DATA</span>)) {
-  <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span>(<span class="no">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">DATA</span>)[<span class="no">i</span>], <span class="no">DATA</span><span class="kw">[[</span><span class="no">i</span>]], <span class="kw">overwrite</span><span class="kw">=</span><span class="fl">TRUE</span>)
+  <span class="kw pkg">DBI</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DBI/man/dbWriteTable.html">dbWriteTable</a></span>(<span class="no">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">DATA</span>)[<span class="no">i</span>], <span class="no">DATA</span><span class="kw">[[</span><span class="no">i</span>]], <span class="kw">overwrite</span><span class="kw">=</span><span class="fl">TRUE</span>)
 }
 
 <span class="co"># Create a source in the temporary directory with MonetDB</span>
@@ -324,20 +324,19 @@
 <a href="#get-the-most-abundant-clonotypes" class="anchor"></a>Get the most abundant clonotypes</h2>
 <p>The function returns the most abundant clonotypes for the given repertoire:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/top.html">top</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]])</pre></body></html></div>
-<pre><code>## # A tibble: 11 x 15
+<pre><code>## # A tibble: 10 x 15
 ##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start D.end
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
-##  1    206    0.0206  TGCGCC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
-##  2    193    0.0193  TGCGCC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
-##  3     79    0.0079  TGTGCC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
-##  4     64    0.0064  TGTGCC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
-##  5     62    0.0062  TGCGCC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
-##  6     56    0.0056  TGTGCC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
-##  7     54    0.0054  TGCGCC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
-##  8     35    0.0035  TGTGCC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
-##  9     34    0.0034  TGCGCC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
-## 10     29    0.00290 TGTGCC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
-## 11     29    0.00290 TGTGCC… CASSFR… TRBV27 TRBD1  TRBJ2…    13      16    23
+##  1    173    0.0204  TGCGCC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
+##  2    163    0.0192  TGCGCC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
+##  3     66    0.00776 TGTGCC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
+##  4     54    0.00635 TGTGCC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
+##  5     48    0.00565 TGTGCC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
+##  6     48    0.00565 TGCGCC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
+##  7     40    0.00471 TGCGCC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
+##  8     31    0.00365 TGTGCC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
+##  9     30    0.00353 TGCGCC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
+## 10     28    0.00329 TGTGCC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
 ## # … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,
 ## #   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
 </div>
@@ -358,20 +357,20 @@
 <a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor"></a>Get subset of clonotypes with a specific V gene</h2>
 <p>It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">V.name</span> <span class="kw">==</span> <span class="st">'TRBV10-1'</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 26 x 15
+<pre><code>## # A tibble: 24 x 15
 ##    Clones Proportion CDR3.nt CDR3.aa V.name D.name J.name V.end D.start D.end
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
-##  1      2     0.0002 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25
-##  2      2     0.0002 TGCGCC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22
-##  3      2     0.0002 TGCGCC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15
-##  4      1     0.0001 TGCGCC… CASSEA… TRBV1… TRBD2  TRBJ2…    14      21    25
-##  5      1     0.0001 TGCGCC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9
-##  6      1     0.0001 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22
-##  7      1     0.0001 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21
-##  8      1     0.0001 TGCGCC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21
-##  9      1     0.0001 TGCGCC… CASRGS… TRBV1… TRBD1  TRBJ2…    10      11    13
-## 10      1     0.0001 TGCGCC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19
-## # … with 16 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,
+##  1      2   0.000235 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25
+##  2      2   0.000235 TGCGCC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22
+##  3      1   0.000118 TGCGCC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15
+##  4      1   0.000118 TGCGCC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9
+##  5      1   0.000118 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22
+##  6      1   0.000118 TGCGCC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21
+##  7      1   0.000118 TGCGCC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21
+##  8      1   0.000118 TGCGCC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19
+##  9      1   0.000118 TGCGCC… CASSEV… TRBV1… TRBD1  TRBJ2…    14      19    24
+## 10      1   0.000118 TGCGCC… CASSEG… TRBV1… TRBD2  TRBJ2…    13      19    27
+## # … with 14 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,
 ## #   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
 </div>
 </div>
@@ -381,9 +380,9 @@
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">ds</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">ds</span>, <span class="no">nrow</span>)</pre></body></html></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
-##      95      99      96      98      93      97      83      98      81     100 
+##      98      96      97      99      87      96      84      99      93     100 
 ##     MS5     MS6 
-##      84     100</code></pre>
+##      89     100</code></pre>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">ds</span> <span class="kw">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"sample"</span>, <span class="kw">.n</span> <span class="kw">=</span> <span class="fl">10</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">ds</span>, <span class="no">nrow</span>)</pre></body></html></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 

@@ -67,7 +67,7 @@
       <a href="../../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
-      <a href="../../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
       <a href="../../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
@@ -343,36 +343,36 @@
 <p>Just in a single line of code you are able to find all clonotypes with matching CDR3 amino acid sequences in the input data and VDJDB database:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">vdjdb</span>, <span class="st">"CDR3.aa"</span>, <span class="st">"cdr3"</span>)</pre></body></html></div>
 <pre><code>##            CDR3.aa Samples A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192 MS1
-##   1:   CASSLGETQYF      11       6       4       2       9       6       0   1
-##   2:    CASSQETQYF      10       7       3       1       2       3       3   1
-##   3:   CASSFQETQYF       9       3       2       2       4       2       0   2
-##   4:  CASSLEGYEQYF       9       0       1       2       1       3       0   1
-##   5:   CASSSSYEQYF       9       1       0       0       1       2       2   1
+##   1:   CASSLGETQYF      11       6       4       2       8       4       0   1
+##   2:   CASSFQETQYF       9       3       2       2       4       2       0   1
+##   3:    CASSQETQYF       9       5       2       1       2       3       2   0
+##   4:   CASSSSYEQYF       9       1       0       0       1       2       2   1
+##   5:  CASSLEGYEQYF       8       0       0       1       1       3       0   1
 ##  ---                                                                          
-## 635:  CSVGTGTYEQYF       1       0       0       0       0       1       0   0
-## 636: CSVQGGAYNEQFF       1       0       1       0       0       0       0   0
-## 637: CSVQGGSYNEQFF       1       0       1       0       0       0       0   0
-## 638:  CSVVATNEKLFF       1       0       0       1       0       0       0   0
-## 639: CSVVGTGNTEAFF       1       0       0       0       0       0       0   0
+## 579:  CSVGTGTYEQYF       1       0       0       0       0       1       0   0
+## 580: CSVQGGAYNEQFF       1       0       1       0       0       0       0   0
+## 581: CSVQGGSYNEQFF       1       0       1       0       0       0       0   0
+## 582:  CSVVATNEKLFF       1       0       0       1       0       0       0   0
+## 583: CSVVGTGNTEAFF       1       0       0       0       0       0       0   0
 ##      MS2 MS3 MS4 MS5 MS6
-##   1:   3   1   2   5   3
-##   2:   1   0   0   5   1
-##   3:   1   0   4   0   2
-##   4:   0   1   1   1   1
-##   5:   1   0   1   2   3
+##   1:   3   1   2   5   1
+##   2:   1   0   4   0   2
+##   3:   1   0   0   4   1
+##   4:   1   0   1   1   3
+##   5:   0   1   1   1   1
 ##  ---                    
-## 635:   0   0   0   0   0
-## 636:   0   0   0   0   0
-## 637:   0   0   0   0   0
-## 638:   0   0   0   0   0
-## 639:   0   0   0   1   0</code></pre>
+## 579:   0   0   0   0   0
+## 580:   0   0   0   0   0
+## 581:   0   0   0   0   0
+## 582:   0   0   0   0   0
+## 583:   0   0   0   1   0</code></pre>
 <p>The “Samples” column specifies the number of samples in which the clonotype found. Other numbers in columns correspond to the clonal count of the clonotype in a specific input sample.</p>
 <p>In the next example we will search the McPAS-TCR database for condition-associated sequences using both CDR3 amino acid sequences and V gene segments:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">mcpas</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDR3.aa"</span>, <span class="st">"V.name"</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDR3.beta.aa"</span>, <span class="st">"TRBV"</span>))</pre></body></html></div>
 <pre><code>##                CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132 A4-i191
-##    1: CASSLAPGATNEKLFF  TRBV7-6       4       0       0       0       0       0
-##    2:     CASSLGENIQYF   TRBV13       4       0       0       0       0       1
-##    3:      CAISESYEQYF TRBV10-3       3       0       1       0       0       0
+##    1:      CAISESYEQYF TRBV10-3       3       0       1       0       0       0
+##    2: CASSLAPGATNEKLFF  TRBV7-6       3       0       0       0       0       0
+##    3:     CASSLGENIQYF   TRBV13       3       0       0       0       0       1
 ##    4:     CASSLGRETQYF   TRBV28       3       0       0       0       0       0
 ##    5:   CSVGTGGTNEKLFF TRBV29-1       3       0       0       0       0       0
 ##   ---                                                                          
@@ -382,10 +382,10 @@
 ## 2126:    WASSQALPYEQYF TRBV12-4       1       0       0       0       0       0
 ## 2127:  WASSQQTGTIGGYTF  TRBV6-5       1       0       0       0       0       0
 ##       A4-i192 MS1 MS2 MS3 MS4 MS5 MS6
-##    1:       1   0   1   0   0   1   0
-##    2:       1   0   0   0   0   1   0
+##    1:       1   0   0   0   0   0   0
+##    2:       0   0   1   0   0   1   0
 ##    3:       1   0   0   0   0   0   0
-##    4:       0   0   0   0   0  89   1
+##    4:       0   0   0   0   0  75   1
 ##    5:       0   0   1   0   0   0   1
 ##   ---                                
 ## 2123:       0   0   0   0   0   0   0
@@ -398,11 +398,11 @@
 
 <span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">local_db</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDR3.aa"</span>, <span class="st">"V.name"</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Seq"</span>, <span class="st">"V"</span>))</pre></body></html></div>
 <pre><code>##            CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132 A4-i191
-## 1: CASSDSSGGANEQFF  TRBV6-4       7       1       1       2       0       5
-## 2:  CSARLAGGQETQYF TRBV20-1       7       1       3       0       2       1
+## 1: CASSDSSGGANEQFF  TRBV6-4       7       1       1       2       0       3
+## 2:  CSARLAGGQETQYF TRBV20-1       6       1       3       0       1       0
 ##    A4-i192 MS1 MS2 MS3 MS4 MS5 MS6
-## 1:       0   0   0   2   0   0  15
-## 2:       0   0   0   2   0   0   1</code></pre>
+## 1:       0   0   0   2   0   0  12
+## 2:       0   0   0   1   0   0   1</code></pre>
 <div id="visualisation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#visualisation" class="anchor"></a>Visualisation</h3>

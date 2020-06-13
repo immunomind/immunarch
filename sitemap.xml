@@ -223,9 +223,6 @@
     <loc>https://immunarch.com/articles/v2_data.html</loc>
   </url>
   <url>
-    <loc>https://immunarch.com/articles/v3_basic_analysis.html</loc>
-  </url>
-  <url>
     <loc>https://immunarch.com/articles/web_only/v10_prop.html</loc>
   </url>
   <url>
@@ -233,6 +230,9 @@
   </url>
   <url>
     <loc>https://immunarch.com/articles/web_only/v21_singlecell.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/v3_basic_analysis.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/articles/web_only/v4_overlap.html</loc>

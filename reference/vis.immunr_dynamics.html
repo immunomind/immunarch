@@ -117,7 +117,7 @@
       <a href="../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
-      <a href="../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
@@ -269,17 +269,17 @@ by timepoints. Either See "Examples" below for more details.</p></td>
 <span class='no'>immdata</span>$<span class='no'>meta</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   Sample  ID    Sex     Age Status Lane  Timepoint
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> A2-i129 C1    M        11 C      A             1
-#&gt; </span><span style='color: #555555;'>2</span><span> A2-i131 C2    M         9 C      A             5
+#&gt; </span><span style='color: #555555;'>1</span><span> A2-i129 C1    M        11 C      A             4
+#&gt; </span><span style='color: #555555;'>2</span><span> A2-i131 C2    M         9 C      A             6
 #&gt; </span><span style='color: #555555;'>3</span><span> A2-i133 C4    M        16 C      A             2
 #&gt; </span><span style='color: #555555;'>4</span><span> MS1     MS1   M        12 MS     C             3
-#&gt; </span><span style='color: #555555;'>5</span><span> MS2     MS2   M        30 MS     C             4
-#&gt; </span><span style='color: #555555;'>6</span><span> MS3     MS3   M         8 MS     C             6</div><div class='input'><span class='co'># Next, we create a vector with samples in the right order,</span>
+#&gt; </span><span style='color: #555555;'>5</span><span> MS2     MS2   M        30 MS     C             1
+#&gt; </span><span style='color: #555555;'>6</span><span> MS3     MS3   M         8 MS     C             5</div><div class='input'><span class='co'># Next, we create a vector with samples in the right order,</span>
 <span class='co'># according to the "Timepoint" column (from smallest to greatest):</span>
 <span class='no'>sample_order</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span>)
 <span class='co'># Sanity check: timepoints are following the right order:</span>
 <span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span>[<span class='no'>sample_order</span>]</div><div class='output co'>#&gt; [1] 1 2 3 4 5 6</div><div class='input'><span class='co'># Samples, sorted by the timepoints:</span>
-<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Sample</span>[<span class='no'>sample_order</span>]</div><div class='output co'>#&gt; [1] "A2-i129" "A2-i133" "MS1"     "MS2"     "A2-i131" "MS3"    </div><div class='input'><span class='co'># And finally, we visualise the data:</span>
+<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Sample</span>[<span class='no'>sample_order</span>]</div><div class='output co'>#&gt; [1] "MS2"     "A2-i133" "MS1"     "A2-i129" "MS3"     "A2-i131"</div><div class='input'><span class='co'># And finally, we visualise the data:</span>
 <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.order</span> <span class='kw'>=</span> <span class='no'>sample_order</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='vis.immunr_dynamics-4.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

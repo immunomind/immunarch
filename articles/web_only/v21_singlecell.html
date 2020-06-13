@@ -67,7 +67,7 @@
       <a href="../../articles/v2_data.html">Working with data in immunarch</a>
     </li>
     <li>
-      <a href="../../articles/v3_basic_analysis.html">Basic analysis and clonality</a>
+      <a href="../../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
     </li>
     <li>
       <a href="../../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
@@ -195,7 +195,7 @@
 <pre><code>## 
 ## == Step 1/3: loading repertoire files... ==</code></pre>
 <pre><code>## Processing "&lt;initial&gt;" ...</code></pre>
-<pre><code>##   -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/RtmpTW2ESW/temp_libpathbcd15676f57b/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</code></pre>
+<pre><code>##   -- Parsing "/private/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T/Rtmp3kAdSa/temp_libpath7833729f42a/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</code></pre>
 <pre><code>## Warning: The following named parsers don't match the column names:
 ## sample,barcode,is_cell,contig_id,high_confidence,length,chain,v_gene,d_gene,j_gene,c_gene,full_length,productive,cdr3,cdr3_nt,reads,umis,raw_clonotype_id,raw_consensus_id</code></pre>
 <pre><code>## 
@@ -253,18 +253,14 @@
 <span class="no">new_df</span></pre></body></html></div>
 <pre><code>##                                                                                                CDR3.nt
 ## 1 TGTGCACACACCACCGAACTCTATTGTACTAATGGTGTATGCTATGGGGGCTACTTTGACTACTGG;TGCCAACAGTATAATAGTTATTCGTGGACGTTC
-##                              CDR3.aa          V.name       D.name      J.name
-## 1 CAHTTELYCTNGVCYGGYFDYW;CQQYNSYSWTF IGHV2-5;IGKV1-5 IGHD2-8;None IGHJ4;IGKJ1
-##   V.end D.start D.end J.start VJ.ins VD.ins DJ.ins
-## 1    NA      NA    NA      NA     NA     NA     NA
-##                                                                                               Sequence
-## 1 TGTGCACACACCACCGAACTCTATTGTACTAATGGTGTATGCTATGGGGGCTACTTTGACTACTGG;TGCCAACAGTATAATAGTTATTCGTGGACGTTC
-##     chain raw_clonotype_id
-## 1 IGH;IGK               14
-##                                                                                                                  ContigID
-## 1 AGTAGTCAGTGTACTC-11;AGTAGTCAGTGTACTC-12;GGCGACTGTACCGAGA-11;GGCGACTGTACCGAGA-12;TTGAACGGTCACCTAA-11;TTGAACGGTCACCTAA-12
-##   Clones                                                  Barcode Proportion
-## 1      3 AGTAGTCAGTGTACTC-1;GGCGACTGTACCGAGA-1;TTGAACGGTCACCTAA-1          1</code></pre>
+##                              CDR3.aa          V.name D.name      J.name V.end
+## 1 CAHTTELYCTNGVCYGGYFDYW;CQQYNSYSWTF IGHV2-5;IGKV1-5     NA IGHJ4;IGKJ1    NA
+##   D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence   chain raw_clonotype_id
+## 1      NA    NA      NA     NA     NA     NA       NA IGH;IGK               14
+##   ContigID Clones                                                  Barcode
+## 1       NA      3 AGTAGTCAGTGTACTC-1;GGCGACTGTACCGAGA-1;TTGAACGGTCACCTAA-1
+##   Proportion
+## 1          1</code></pre>
 <div id="patient-specific-datasets" class="section level2">
 <h2 class="hasAnchor">
 <a href="#patient-specific-datasets" class="anchor"></a>Patient-specific datasets</h2>
