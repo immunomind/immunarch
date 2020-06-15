@@ -1,0 +1,142 @@
+---
+title: 'Loading MiXCR Data'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Loading MiXCR Data}
+%\VignettePackage{immunarch}
+-->
+
+# Prepare MiXCR Data
+Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data.
+
+MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz. In this tutorial I used the real IGH data from <a href="https://github.com/milaboratory/mixcr/blob/develop/doc/paper/paperAttachments.md">here</a>.
+
+You can choose to use the `analyze amplicon` method to process in one go:
+
+```{r, eval=F}
+> mixcr analyze amplicon --species hs \
+        --starting-material dna \
+        --5-end v-primers \
+        --3-end j-primers \
+        --adapters adapters-present \
+        --receptor-type IGH \
+        input_R1.fastq input_R2.fastq analysis
+```
+
+or execute each step `align`, `assemble`, and `exportClones` individually.
+
+```{r, eval=F}
+> mixcr align -s hs -OvParameters.geneFeatureToAlign=VTranscript \
+  --report analysis.report input_R1.fastq input_R2.fastq analysis.vdjca
+
+Analysis Date: Mon Aug 25 15:22:39 MSK 2014
+Input file(s): input_r1.fastq,input_r2.fastq
+Output file: alignments.vdjca
+Command line arguments: align --report alignmentReport.log input_r1.fastq input_r2.fastq alignments.vdjca
+Total sequencing reads: 323248
+Successfully aligned reads: 210360
+Successfully aligned, percent: 65.08%
+Alignment failed because of absence of V hits: 4.26%
+Alignment failed because of absence of J hits: 30.19%
+Alignment failed because of low total score: 0.48%
+
+```
+
+# Prepare files to load
+
+After you run these commands, you will generate these files with detailed information about calculated clonotypes:
+```{r, eval=F}
+.
+├── analysis.clonotypes.<chains>.txt <-- This contains the count data we want!
+├── analysis.clna <- Build clonotypes correct PCR and sequencing errors
+├── analysis.vdjca <- Align raw sequences to reference sequences of segments (V, D, J) of IGH gene
+├── analysis.report <- Information on the run
+```
+
+Create a new folder that only contains the specified clonotype text files from your runs, and create a metadata.txt file in the following format.
+
+
+The metadata file "metadata.txt" has to be tab delimited file with first column named "Sample" and any number of additional columns with arbitrary names. The first column should contain base names of files without extensions in your folder.
+
+| **Sample** |**Sex**|**Age**|**Status**|
+|:----------:|:-----:|:-----:|:--------:|
+|immunoseq\_1|M      |1      |C         |
+|immunoseq\_2|M      |2      |C         |
+|immunoseq\_3|F      |3      |A         |
+
+# Load into Immunarch
+
+In your R environment, run the commands below. The output should be similar.
+
+```{r, eval=F}
+# 1.1) Load the package into R:
+> library(immunarch)
+
+# 1.2) Replace with the path to your processed MiXCR data or to the clonotypes file
+> file_path = "path/to/your/mixcr/data"
+
+# 1.3) Load MiXCR data with repLoad
+> immdata <- repLoad(file_path, .format = "mixcr")
+
+== Step 1/3: loading repertoire files... ==
+
+Processing "<initial>" ...
+  -- Parsing "path/to/folder/analysis.clonotypes.IGH.txt" -- mixcr
+
+== Step 2/3: checking metadata files and merging... ==
+
+Processing "<initial>" ...
+  -- Metadata file not found; creating a dummy metadata...
+
+== Step 3/3: splitting data by barcodes and chains... ==
+
+Done!
+```
+
+Congrats! Now your data is ready for exploration. Follow the steps here to learn more about how to explore your dataset.
+
+```{r, eval=F}
+r$> immdata_mixcr                                                                                                                                
+$data
+$data$analysis.clonotypes.IGH
+# A tibble: 33,812 x 15
+   Clones Proportion CDR3.nt            CDR3.aa    V.name    D.name    J.name V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence          
+    <dbl>      <dbl> <chr>              <chr>      <chr>     <chr>     <chr>  <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>             
+ 1    230    0.00284 TGTGTGAGACATAAACC… CVRHKPMVQ… IGHV4-39  IGHD3-10… IGHJ6     12      NA     5      36      9      3      6 TGTGTGAGACATAAACC…
+ 2    201    0.00248 TGTGCGATTTGGGATGT… CAIWDVGLR… IGHV4-34  IGHD2-21  IGHJ4…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGT…
+ 3    179    0.00221 TGTGCGAGAGATCATGC… CARDHAGFG… IGHV1-69… IGHD3-10  IGHJ6     13      NA     4      40     18      5     13 TGTGCGAGAGATCATGC…
+ 4     99    0.00122 TGTGCGAGATGGGGATA… CARWGYCIN… IGHV4-39  IGHD2-8   IGHJ6      9      NA     6      64     23      2     21 TGTGCGAGATGGGGATA…
+ 5     97    0.00120 TGTGCGAGAGGCCCCAC… CARGPTSSE… IGHV4-34  IGHD3-22… IGHJ6     13      NA     6      52     26     24      2 TGTGCGAGAGGCCCCAC…
+ 6     97    0.00120 TGTGCGCACCACTATAC… CAHHYTSDY… IGHV2-5   IGHD1-26  IGHJ5      9      NA     2      39     19     NA     20 TGTGCGCACCACTATAC…
+ 7     92    0.00114 TGTGCGAGAGGCCCTCC… CARGPPSMG… IGHV4-34  IGHD5-24… IGHJ4     13      NA     3      38     11      6      5 TGTGCGAGAGGCCCTCC…
+ 8     84    0.00104 TGTGCGAGGTGGCTTGG… CARWLGEDI… IGHV4-39  IGHD3-16… IGHJ4…     8      NA     6      32     13      4      9 TGTGCGAGGTGGCTTGG…
+ 9     83    0.00103 TGTGCGAGAGGCCGCAG… CARGRSGDP… IGHV4-34  IGHD2-2,… IGHJ5     13      NA     4      50     18     13      5 TGTGCGAGAGGCCGCAG…
+10     81    0.00100 TGTGTGAGTCACCTCCT… CVSHLLDTS… IGHV1-2   IGHD2-21… IGHJ4…     8      NA     3      40     20     14      6 TGTGTGAGTCACCTCCT…
+# … with 33,802 more rows
+
+
+$meta
+# A tibble: 1 x 1
+  Sample                 
+  <chr>                  
+1 analysis.clonotypes.IGH
+```
+
+```{r, eval=F}
+
+```
