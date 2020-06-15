@@ -43,7 +43,7 @@ Overlaps and public clonotypes:
 
 Gene usage:
 
-- Gene usage statistics (from \link{geneUsage}) using bar plots, box plots, treemaps - see \link{vis.immunr_gene_usage};
+- Gene usage statistics (from \link{geneUsage}) using bar plots, box plots - see \link{vis.immunr_gene_usage};
 
 - Gene usage distances (from \link{geneUsageAnalysis}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
 

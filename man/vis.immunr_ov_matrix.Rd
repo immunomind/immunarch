@@ -40,6 +40,5 @@ vis(ov)
 vis(ov, "heatmap")
 vis(ov, "heatmap2")
 vis(ov, "circos")
-
 }
 \concept{overlap}

@@ -19,8 +19,9 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom readr read_delim read_tsv read_csv col_integer col_character col_double col_logical col_guess cols write_lines
 #' @importFrom stringr str_split str_detect str_replace_all
 #' @importFrom methods as
-#' @importFrom dplyr contains
+#' @importFrom dplyr contains first
 #' @importFrom utils read.table
+#' @importFrom data.table setDF
 #'
 #' @description The \code{repLoad} function loads repertoire files
 #' into R workspace in the immunarch format where you can immediately use them for
@@ -49,9 +50,17 @@ if (getRversion() >= "2.15.1") {
 #' R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 #' cell and chain types for different samples.
 #'
-#' @param .format A character string specifying what format to use. See "Details" for more information on supported formats.
+#' @param .format A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
 #'
 #' Leave NA (which is default) if you want `immunarch` to detect formats automatically.
+#'
+#' @param .mode Either "single" for single chain data or "paired" for paired chain data.
+#'
+#' Currently "single" works for every format, and "paired" works only for 10X Genomics data.
+#'
+#' By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.
+#'
+#' @param .coding A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.
 #'
 #' @details
 #' The metadata has to be a tab delimited file with first column named "Sample".
@@ -66,9 +75,10 @@ if (getRversion() >= "2.15.1") {
 #' }
 #'
 #' \code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-#' Do not pass it if you want immunarch to detect the formats and parse files automatically!
-#' In case you want to force the package to parse the data in a specific format,
-#' you can choose one of the several options for the argument:
+#' Immunarch detects the file format automatically, and the argument is left only for the compatability
+#' purposes. It will be soon removed. Do not pass it or your code will stop working!
+#'
+#' Currently, Immunarch support the following formats:
 #'
 #' - "immunoseq" - ImmunoSEQ of any version. http://www.adaptivebiotech.com/immunoseq
 #'
@@ -132,13 +142,18 @@ if (getRversion() >= "2.15.1") {
 #' # > names(immdata)
 #' # [1] "data" "meta"
 #' @export repLoad
-repLoad <- function(.path, .format = NA) {
+repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
+  if (!is.na(.format)) {
+    warning("Please don't provide the .format argument,
+            immunarch detects the format automatically.
+            The .format argument will soon be removed.")
+  }
 
-  exclude_extensions <- c("so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds")
+  exclude_extensions <- c("so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca")
 
   # Process a repertoire file: detect format and load the data
   # Return: a named list with a repertoire data frame and it's name
-  .read_repertoire <- function(.path, .format) {
+  .read_repertoire <- function(.path, .format, .mode, .coding) {
     parse_res <- list()
 
     # Detect format
@@ -175,12 +190,16 @@ repLoad <- function(.path, .format = NA) {
         message("unknown format, skipping")
       }
       else {
-        parse_res <- parse_fun(.path)
+        parse_res <- parse_fun(.path, .mode)
 
         if (is.null(parse_res)) {
           message("  [!] Warning: zero clonotypes found, skipping")
           parse_res <- list()
         } else {
+          if (.coding) {
+            parse_res <- coding(parse_res)
+          }
+
           if (!has_class(parse_res, "list")) {
             parse_res <- list(parse_res)
             names(parse_res) <- .remove.ext(.path)
@@ -197,7 +216,7 @@ repLoad <- function(.path, .format = NA) {
   # just load all repertoire files.
   # Do NOT (!) create a dummy metadata, return en empty data frame instead
   # Return: list with data, metadata and barcodes (if necessary)
-  .process_batch <- function(.files, .format) {
+  .process_batch <- function(.files, .format, .mode, .coding) {
     parsed_batch <- list()
     metadata <- tibble()
 
@@ -219,10 +238,10 @@ repLoad <- function(.path, .format = NA) {
           }
         }
         else if (stringr::str_detect(.filepath, "barcode")) {
-
+          # TODO: add the barcode processing subroutine to split by samples
         }
         else {
-          repertoire <- .read_repertoire(.filepath, .format)
+          repertoire <- .read_repertoire(.filepath, .format, .mode, .coding)
           if (length(repertoire) != 0) {
             parsed_batch <- c(parsed_batch, repertoire)
           }
@@ -325,14 +344,14 @@ repLoad <- function(.path, .format = NA) {
   for (batch_i in 1:length(batches)) {
     if (length(batches[[batch_i]])) {
       message('Processing "', names(batches)[batch_i], '" ...')
-      parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .format)
+      parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .format, .mode, .coding)
     }
   }
 
   #
   # Step 2: check metadata files
   #
-  message("\n== Step 2/3: checking metadata files and merging... ==\n")
+  message("\n== Step 2/3: checking metadata files and merging files... ==\n")
 
   for (batch_i in 1:length(parsed_batches)) {
     message('Processing "', names(parsed_batches)[batch_i], '" ...')
@@ -350,7 +369,7 @@ repLoad <- function(.path, .format = NA) {
   #
   # Step 3: split by chains and barcodes
   #
-  message("\n== Step 3/3: splitting data by barcodes and chains... ==\n")
+  message("\n== Step 3/3: processing paired chain data... ==\n")
 
   # Check for mixed chains repertoire files and split them if necessary
   rep_names <- names(parsed_batches$data)
@@ -364,29 +383,40 @@ repLoad <- function(.path, .format = NA) {
     }
 
     if ("chain" %in% colnames(parsed_batches$data[[source_name]])) {
-      df_split <- split(parsed_batches$data[[source_name]], parsed_batches$data[[source_name]]$chain)
-      if (length(df_split) > 1) {
-        chain_col <- "Chain"
-        source_col <- "Source"
+      #
+      # If mode is "single" then split paired chain data to two chain-specific immune repertoires
+      #
+      if (.mode == "single") {
+        df_split <- split(parsed_batches$data[[source_name]], parsed_batches$data[[source_name]]$chain)
+        if (length(df_split) > 1) {
+          chain_col <- "Chain"
+          source_col <- "Source"
 
-        if (!(chain_col %in% colnames(metadata))) {
-          message("Splitting repertoires by their chain type. Columns ", chain_col, " and ", source_col, " added to the metadata.")
-          message("  -- Column ", chain_col, " specifies chain types: TRA, TRB, etc.")
-          message("  -- Column ", source_col, " specifies the initial sample name for a repertoire after splitting by chain types")
+          if (!(chain_col %in% colnames(metadata))) {
+            message("Splitting repertoires by their chain type. Columns ", chain_col, " and ", source_col, " added to the metadata.")
+            message("  -- Column ", chain_col, " specifies chain types: TRA, TRB, etc.")
+            message("  -- Column ", source_col, " specifies the initial sample name for a repertoire after splitting by chain types")
+          }
+
+          for (i in 1:length(df_split)) {
+            sample_name <- paste0(source_name, "_", names(df_split)[i])
+            parsed_batches$data[[sample_name]] <- df_split[[i]]
+            new_record <- metadata[which(metadata$Sample == source_name), ]
+            new_record$Sample <- sample_name
+            new_record[[chain_col]] <- names(df_split)[i]
+            new_record[[source_col]] <- source_name
+            metadata <- merge(metadata, new_record, all = TRUE)
+          }
+
+          parsed_batches$data[[source_name]] <- NULL
+          metadata <- metadata[-(which(metadata$Sample == source_name)), ]
         }
-
-        for (i in 1:length(df_split)) {
-          sample_name <- paste0(source_name, "_", names(df_split)[i])
-          parsed_batches$data[[sample_name]] <- df_split[[i]]
-          new_record <- metadata[which(metadata$Sample == source_name), ]
-          new_record$Sample <- sample_name
-          new_record[[chain_col]] <- names(df_split)[i]
-          new_record[[source_col]] <- source_name
-          metadata <- merge(metadata, new_record, all = TRUE)
-        }
-
-        parsed_batches$data[[source_name]] <- NULL
-        metadata <- metadata[-(which(metadata$Sample == source_name)), ]
+      }
+      #
+      # If mode is "paired" then nothing to do here
+      #
+      else {
+        # pass
       }
     }
   }
@@ -428,10 +458,9 @@ repLoad <- function(.path, .format = NA) {
 #' repSave(immdata, dirpath)
 #' # Load it and check if it is the same
 #' new_immdata <- repLoad(dirpath)
-#' sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
-#' sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
-#' sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
-#'
+#' # sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
+#' # sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
+#' # sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
 #' @export repSave
 repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
                     .compress = TRUE) {
@@ -646,7 +675,7 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
   }
 }
 
-.postprocess <- function(.data) {
+.postprocess <- function(.data, .mode) {
   .data[[IMMCOL$cdr3nt]][.data[[IMMCOL$cdr3nt]] == "NONE"] <- NA
   logic <- is.na(.data[[IMMCOL$cdr3aa]]) & !is.na(.data[[IMMCOL$cdr3nt]])
   if (any(logic)) {
@@ -657,39 +686,11 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
   if (any(logic)) {
     warn_msg <- c("  [!] Removed ", sum(logic))
     warn_msg <- c(warn_msg, " clonotypes with no nucleotide and amino acid CDR3 sequence.")
-    # warn_msg = c(warn_msg, "\n      Please check if your files are the final repertoire files, not the intermediate ones before filtering out bad clonotypes.\n")
     message(warn_msg)
   }
   .data <- .data[!logic, ]
 
   if (nrow(.data)) {
-    # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
-    if (all(c("raw_clonotype_id", "barcode") %in% names(.data))) {
-      .data <- .data %>%
-        group_by(CDR3.nt, V.name, J.name) %>%
-        summarise(
-          Clones = length(unique(barcode)),
-          CDR3.aa = head(CDR3.aa, 1),
-          D.name = head(D.name, 1),
-          Sequence = head(CDR3.nt, 1),
-          V.end = head(V.end, 1),
-          J.start = head(J.start, 1),
-          D.end = head(D.end, 1),
-          D.start = head(D.start, 1),
-          VD.ins = head(VD.ins, 1),
-          DJ.ins = head(DJ.ins, 1),
-          VJ.ins = head(VJ.ins, 1),
-          chain = head(chain, 1),
-          barcode = paste0(unique(barcode), collapse = ";"),
-          raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = ";")),
-          raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = ";")),
-          contig_id = paste0(contig_id, collapse = ";")
-        ) %>%
-        ungroup()
-      .data[[IMMCOL$prop]] <- .data[[IMMCOL$count]] / sum(.data[[IMMCOL$count]])
-      setcolorder(.data, IMMCOL$order)
-    }
-
     for (colname in c(IMMCOL$ve, IMMCOL$ds, IMMCOL$de, IMMCOL$js, IMMCOL$vnj, IMMCOL$vnd, IMMCOL$dnj)) {
       if (colname %in% colnames(.data)) {
         logic <- is.na(.data[[colname]])
@@ -725,7 +726,7 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
 
 ##### Parsers #####
 
-parse_repertoire <- function(.filename, .nuc.seq, .aa.seq, .count,
+parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
                              .vgenes, .jgenes, .dgenes,
                              .vend, .jstart, .dstart, .dend,
                              .vd.insertions, .dj.insertions, .total.insertions,
@@ -752,6 +753,7 @@ parse_repertoire <- function(.filename, .nuc.seq, .aa.seq, .count,
     .skip = .skip, .sep = "\t", .add
   )
 
+  # IO_REFACTOR
   suppressMessages(df <- readr::read_delim(.filename,
     col_names = TRUE,
     col_types = col.classes, delim = .sep,
@@ -759,6 +761,7 @@ parse_repertoire <- function(.filename, .nuc.seq, .aa.seq, .count,
     comment = "", trim_ws = TRUE,
     skip = .skip, na = c("", "NA", ".")
   ))
+  # suppressMessages(df <- fread(.filename, skip = .skip, data.table = FALSE, na.strings = c("", "NA", ".")))
 
   names(df) <- tolower(names(df))
   recomb_type <- .which_recomb_type(df[[.vgenes]])
@@ -887,10 +890,10 @@ parse_repertoire <- function(.filename, .nuc.seq, .aa.seq, .count,
   colnames(df)[13] <- IMMCOL$vnd
   colnames(df)[14] <- IMMCOL$dnj
 
-  .postprocess(df)
+  .postprocess(df, .mode)
 }
 
-parse_immunoseq <- function(.filename, .wash.alleles = TRUE) {
+parse_immunoseq <- function(.filename, .mode, .wash.alleles = TRUE) {
   .fix.immunoseq.genes <- function(.col) {
     # fix ","
     .col <- gsub(",", ", ", .col, fixed = TRUE, useBytes = TRUE)
@@ -971,12 +974,14 @@ parse_immunoseq <- function(.filename, .wash.alleles = TRUE) {
   file_cols[[IMMCOL$js]] <- IMMCOL$js
   file_cols[[IMMCOL$seq]] <- IMMCOL$seq
 
+  # IO_REFACTOR
   suppressMessages(df <- readr::read_delim(.filename,
     col_names = TRUE, col_types = cols(),
     delim = "\t", quote = "",
     escape_double = FALSE, comment = "",
     trim_ws = TRUE, skip = 0
   ))
+  # suppressMessages(df <- fread(.filename, data.table = FALSE))
 
   names(df) <- tolower(names(df))
 
@@ -1045,7 +1050,7 @@ parse_immunoseq <- function(.filename, .wash.alleles = TRUE) {
   }
 }
 
-parse_mitcr <- function(.filename) {
+parse_mitcr <- function(.filename, .mode) {
   .skip <- 0
   f <- file(.filename, "r")
   l <- readLines(f, 1)
@@ -1103,14 +1108,14 @@ parse_mitcr <- function(.filename) {
   }
 
   parse_repertoire(
-    .filename = filename, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
     .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
     .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
     .total.insertions = total.insertions, .skip = .skip, .sep = .sep
   )
 }
 
-parse_mixcr <- function(.filename) {
+parse_mixcr <- function(.filename, .mode) {
   fix.alleles <- function(.data) {
     .data[[IMMCOL$v]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$v]])
     .data[[IMMCOL$d]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$d]])
@@ -1214,11 +1219,14 @@ parse_mixcr <- function(.filename) {
     message("Error: can't find a column with D genes")
   }
 
+
+  # IO_REFACTOR
   df <- read_delim(
     file = .filename, col_types = cols(),
     delim = .sep, skip = 0, comment = "",
     quote = "", escape_double = FALSE, trim_ws = TRUE
   )
+  # df <- fread(.filename, data.table = FALSE)
 
   #
   # return NULL if there is no clonotypes in the data frame
@@ -1320,14 +1328,14 @@ parse_mixcr <- function(.filename) {
     warn_msg <- c("  [!] Warning: can't find a column with clonal counts. Setting all clonal counts to 1.")
     warn_msg <- c(warn_msg, "\n      Did you apply repLoad to MiXCR file *_alignments.txt?")
     warn_msg <- c(warn_msg, " If so please consider moving all *.clonotypes.*.txt MiXCR files to")
-    warn_msg <- c(warn_msg, " a separate folder and applying repLoad to it.")
+    warn_msg <- c(warn_msg, " a separate folder and apply repLoad to the folder.")
     warn_msg <- c(warn_msg, "\n      Note: The *_alignments.txt file IS NOT a repertoire file suitable for any analysis.")
     message(warn_msg)
 
     df[[.count]] <- 1
   }
   .freq <- "Proportion"
-  df$Proportion <- df[[.count]] / sum(df[[.count]])
+  df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
   .aa.seq <- IMMCOL$cdr3aa
   df[[.aa.seq]] <- bunch_translate(df[[.nuc.seq]])
@@ -1374,7 +1382,7 @@ parse_mixcr <- function(.filename) {
   .postprocess(fix.alleles(df))
 }
 
-parse_migec <- function(.filename) {
+parse_migec <- function(.filename, .mode) {
   filename <- .filename
   nuc.seq <- "CDR3 nucleotide sequence"
   aa.seq <- "CDR3 amino acid sequence"
@@ -1393,7 +1401,7 @@ parse_migec <- function(.filename) {
   .sep <- "\t"
 
   parse_repertoire(
-    .filename = filename, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
     .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
     .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
     .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
@@ -1401,7 +1409,7 @@ parse_migec <- function(.filename) {
   )
 }
 
-parse_migmap <- function(.filename) {
+parse_migmap <- function(.filename, .mode) {
   filename <- .filename
   nuc.seq <- "cdr3nt"
   aa.seq <- "cdr3aa"
@@ -1420,14 +1428,14 @@ parse_migmap <- function(.filename) {
   .sep <- "\t"
 
   parse_repertoire(
-    .filename = filename, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
     .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
     .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
     .total.insertions = total.insertions, .skip = .skip, .sep = .sep
   )
 }
 
-parse_tcr <- function(.filename) {
+parse_tcr <- function(.filename, .mode) {
   f <- file(.filename, "r")
   l <- readLines(f, 2)[2]
   close(f)
@@ -1453,14 +1461,14 @@ parse_tcr <- function(.filename) {
   }
 
   parse_repertoire(
-    .filename = .filename, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .filename = .filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
     .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
     .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
     .total.insertions = total.insertions, .skip = .skip, .sep = .sep
   )
 }
 
-parse_vdjtools <- function(.filename) {
+parse_vdjtools <- function(.filename, .mode) {
   skip <- 0
 
   # Check for different VDJtools outputs
@@ -1510,14 +1518,14 @@ parse_vdjtools <- function(.filename) {
   }
 
   parse_repertoire(
-    .filename = filename, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
     .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
     .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
     .total.insertions = total.insertions, .skip = .skip, .sep = .sep
   )
 }
 
-parse_imgt <- function(.filename) {
+parse_imgt <- function(.filename, .mode) {
   .fix.imgt.alleles <- function(.col) {
     sapply(strsplit(.col, " "), function(x) {
       if (length(x) > 1) {
@@ -1550,7 +1558,7 @@ parse_imgt <- function(.filename) {
   junc_start <- .make_names("JUNCTION start")
 
   df <- parse_repertoire(
-    .filename = .filename, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .filename = .filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count, .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
     .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
     .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
     .total.insertions = total.insertions, .skip = .skip, .sep = .sep, .add = junc_start
@@ -1587,7 +1595,7 @@ parse_imgt <- function(.filename) {
 #   stop(IMMUNR_ERROR_NOT_IMPL)
 # }
 
-parse_airr <- function(.filename) {
+parse_airr <- function(.filename, .mode) {
   df <- airr::read_rearrangement(.filename)
 
   df <- df %>%
@@ -1638,7 +1646,7 @@ parse_airr <- function(.filename) {
   df
 }
 
-parse_immunarch <- function(.filename) {
+parse_immunarch <- function(.filename, .mode) {
   df <- readr::read_tsv(.filename, col_types = cols(), comment = "#")
   if (ncol(df) == 1) {
     # "," in the files, parse differently then
@@ -1648,8 +1656,9 @@ parse_immunarch <- function(.filename) {
   df
 }
 
-parse_10x_consensus <- function(.filename) {
+parse_10x_consensus <- function(.filename, .mode) {
   df <- parse_repertoire(.filename,
+    .mode = .mode,
     .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
     .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
@@ -1661,23 +1670,79 @@ parse_10x_consensus <- function(.filename) {
   df
 }
 
-parse_10x_filt_contigs <- function(.filename) {
+parse_10x_filt_contigs <- function(.filename, .mode) {
   df <- parse_repertoire(.filename,
+    .mode = .mode,
     .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
     .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
     .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-    .skip = 0, .sep = ",", .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
+    .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
+    .add = c("chain", "barcode", "raw_clonotype_id", "contig_id")
   )
+  # setnames(df, "raw_clonotype_id", "RawClonotypeID")
+  # setnames(df, "raw_consensus_id", "RawConsensusID")
+
+  # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
+  df <- df[order(df$chain),]
+  setDT(df)
+
+  if (.mode == "paired") {
+    df <- df %>%
+      lazy_dt() %>%
+      group_by(barcode, raw_clonotype_id) %>%
+      summarise(
+        CDR3.nt = paste0(CDR3.nt, collapse = IMMCOL_ADD$scsep),
+        CDR3.aa = paste0(CDR3.aa, collapse = IMMCOL_ADD$scsep),
+        V.name = paste0(V.name, collapse = IMMCOL_ADD$scsep),
+        J.name = paste0(J.name, collapse = IMMCOL_ADD$scsep),
+        D.name = paste0(D.name, collapse = IMMCOL_ADD$scsep),
+        chain = paste0(chain, collapse = IMMCOL_ADD$scsep),
+        # raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
+        # raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
+        contig_id = gsub("_contig_", "", paste0(contig_id, collapse = IMMCOL_ADD$scsep))
+      ) %>%
+      as.data.table()
+  }
+  df <- df %>%
+    lazy_dt() %>%
+    group_by(CDR3.nt, V.name, J.name) %>%
+    summarise(
+      Clones = length(unique(barcode)),
+      CDR3.aa = first(CDR3.aa),
+      D.name = first(D.name),
+      chain = first(chain),
+      barcode = paste0(unique(barcode), collapse = IMMCOL_ADD$scsep),
+      raw_clonotype_id = gsub("clonotype|None", "", paste0(unique(raw_clonotype_id), collapse = IMMCOL_ADD$scsep)),
+      # raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
+      # raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
+      contig_id = paste0(contig_id, collapse = IMMCOL_ADD$scsep)
+    ) %>%
+    as.data.table()
+
+  df$V.end <- NA
+  df$J.start <- NA
+  df$D.end <- NA
+  df$D.start <- NA
+  df$VD.ins <- NA
+  df$DJ.ins <- NA
+  df$VJ.ins <- NA
+  df$Sequence <- df$CDR3.nt
+
   setnames(df, "contig_id", "ContigID")
-  setnames(df, "raw_clonotype_id", "RawClonotypeID")
-  setnames(df, "raw_consensus_id", "RawConsensusID")
   setnames(df, "barcode", "Barcode")
-  df
+
+  df[[IMMCOL$prop]] <- df[[IMMCOL$count]] / sum(df[[IMMCOL$count]])
+  setcolorder(df, IMMCOL$order)
+
+  setDF(df)
+
+  .postprocess(df)
 }
 
-parse_archer <- function(.filename) {
+parse_archer <- function(.filename, .mode) {
   parse_repertoire(.filename,
+    .mode = .mode,
     .nuc.seq = "Clonotype Sequence", .aa.seq = NA, .count = "Clone Abundance",
     .vgenes = "Predicted V Region", .jgenes = "Predicted J Region", .dgenes = "Predicted D Region",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,

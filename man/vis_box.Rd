@@ -73,7 +73,6 @@ Visualisation of distributions using ggplot2-based boxplots.
 }
 \examples{
 vis_box(data.frame(Sample = sample(c("A", "B", "C"), 100, TRUE), Value = rnorm(100)), .melt = FALSE)
-
 }
 \seealso{
 \link{vis.immunr_gene_usage}, \link{geneUsage}

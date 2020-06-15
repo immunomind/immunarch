@@ -72,7 +72,6 @@ You can execute the command \code{?p.adjust} in the R console to see more.
 data(immdata)
 dv <- repDiversity(immdata$data, "chao1")
 vis(dv)
-
 }
 \seealso{
 \link{repDiversity} \link{vis}

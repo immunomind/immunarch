@@ -4,13 +4,7 @@
 \alias{vis.immunr_hclust}
 \title{Visualisation of hierarchical clustering}
 \usage{
-\method{vis}{immunr_hclust}(
-  .data,
-  .rect = FALSE,
-  .plot = c("clust", "best"),
-  .return.grob = FALSE,
-  ...
-)
+\method{vis}{immunr_hclust}(.data, .rect = FALSE, .plot = c("clust", "best"), ...)
 }
 \arguments{
 \item{.data}{Clustering results from \link{repOverlapAnalysis} or \link{geneUsageAnalysis}.}
@@ -21,12 +15,10 @@
 If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
 If both then plot both.}
 
-\item{.return.grob}{If TRUE then return grob instead of plot.}
-
 \item{...}{Not used here.}
 }
 \value{
-Ggplot2 objects inside the gridExtra container.
+Ggplot2 objects inside the patchwork container.
 }
 \description{
 Visualisation of the results of hierarchical clustering.
@@ -36,7 +28,6 @@ For other clustering visualisations see \link{vis.immunr_kmeans}.
 data(immdata)
 ov <- repOverlap(immdata$data)
 repOverlapAnalysis(ov, "mds+hclust") \%>\% vis()
-
 }
 \seealso{
 \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}

@@ -73,4 +73,9 @@ IMMCOL$type <- c(
   "integer", "integer", "integer", "character"
 )
 
+# Additional information
+IMMCOL_ADD <- new.env()
+# separator for paired chain data
+IMMCOL_ADD$scsep <- ";"
+
 IMMUNR_ERROR_NOT_IMPL <- "ERROR: not implemented yet. Please contact us via support@immunomind.io if you need it in your research."

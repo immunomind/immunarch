@@ -169,7 +169,7 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
       .extrapolation = .extrapolation, .perc = .perc,
       .verbose = .verbose, .do.norm = .do.norm, .laplace = .laplace
     )
-    new_class <- tail(class(res[[1]]), 1)
+    new_class <- head(class(res[[1]]), 1)
     res <- do.call(rbind, res)
     if (.method == "hill") {
       res <- reshape2::melt(res)

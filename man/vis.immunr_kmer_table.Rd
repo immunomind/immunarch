@@ -31,14 +31,13 @@ Plot a distribution (bar plot) of the most frequent kmers in a data.
 }
 \examples{
 # Load necessary data and package.
-library(gridExtra)
 data(immdata)
 # Get 5-mers.
 imm.km <- getKmers(immdata$data[[1]], 5)
 # Plots for kmer proportions in each data frame in immdata.
 p1 <- vis(imm.km, .position = "stack")
 p2 <- vis(imm.km, .position = "fill")
-grid.arrange(p1, p2)
+p1 + p2
 }
 \seealso{
 \code{get.kmers}

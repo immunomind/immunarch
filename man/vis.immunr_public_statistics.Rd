@@ -20,8 +20,7 @@ Visualise public clonotype frequencies.
 \examples{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 2000)
-pr <- pubRep(immdata$data, .verbose=FALSE)
+pr <- pubRep(immdata$data, .verbose = FALSE)
 pubRepStatistics(pr) \%>\% vis()
-
 }
 \concept{pubrep}

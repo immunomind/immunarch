@@ -1,6 +1,6 @@
 ---
 title: "Introduction to `immunarch`"
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
+author: '<a href="http://immunomind.io">ImmunoMind</a>'
 date: "support@immunomind.io"
 output:
   html_document:
@@ -23,94 +23,79 @@ output:
 
 
 # Introduction
-`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) for news and updates.
+`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](http://twitter.com/immunomind) for news and updates.
 
 
 ## Installation
-In order to install `immunarch` execute the following R command:
+
+### Latest release on CRAN
+In order to install `immunarch` execute the following command:
+
+```r
+install.packages("immunarch")
+```
+
+That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](http://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
+
+Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making `immunarch` the entry-point for single-cell & immune repertoire Data Science.
+
+
+### Latest release on GitHub
+If the above command doesn't work for any reason, try installing `immunarch` directly from its repository:
 
 ```r
 install.packages("devtools") # skip this if you already installed devtools
-devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
+devtools::install_github("immunomind/immunarch")
 ```
 
-That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](#installation-troubleshooting) section below.
 
-Note that there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and Data Science package eco-system with only one command!
-
-<!--
-### Pre-release version installation
-
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from a code repository. In order to install the latest pre-release version, you need to execute only two commands:
+### Latest pre-release on GitHub
+Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:
 
 ```r
 install.packages("devtools") # skip this if you already installed devtools
-devtools::install_url("https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz")
+devtools::install_github("immunomind/immunarch", ref="dev")
 ```
--->
 
-You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
+You can find the list of releases of `immunarch` here: http://github.com/immunomind/immunarch/releases
+
 
 ## Quick start
 The gist of the typical TCR or BCR data analysis workflow can be reduced to the next few lines of code.
 
+### Use `immunarch` data
+
 **1) Load the package and the data**
 
-```{r eval=FALSE}
-# 1.1) Load the package into R:
-library(immunarch)
-
-# 1.2a) To quickly test immunarch, load the test dataset:
-data(immdata)
-
-# 1.2b) To try immunarch on your own data, use the `repLoad` function on your data folder:
-immdata = repLoad("path/to/your/folder/with/repertoires")
+```r
+library(immunarch)  # Load the package into R
+data(immdata)  # Load the test dataset
 ```
 
-**2) Analyse repertoire similarity at the clonotype level**
+**2) Calculate and visualise basic statistics**
 
-```{r eval=FALSE}
-# 2.1) Find the number of shared clonotypes and visualise it:
-ov = repOverlap(immdata$data)
-vis(ov)
-
-# 2.2) Cluster samples by their similarity:
-ov.kmeans = repOverlapAnalysis(ov, .method = "mds+kmeans")
-vis(ov.kmeans)
+```r
+repExplore(immdata$data, "lens") %>% vis()  # Visualise the length distribution of CDR3
+repClonality(immdata$data, "homeo") %>% vis()  # Visualise the relative abundance of clonotypes
 ```
 
-**3) Find repertoire differences in the Variable gene usage**
-
-```{r eval=FALSE}
-# 3.1) Compute V gene usage and and highlight gene differences in groups with different clinical status:
-gu = geneUsage(immdata$data)
-vis(gu, .by="Status", .meta=immdata$meta)
-
-# 3.2) Cluster samples by their V gene usage similarity:
-gu.clust = geneUsageAnalysis(gu, .method = "js+hclust")
-vis(gu.clust)
+**3) Explore and compare T-cell and B-cell repertoires**
+```r
+repOverlap(immdata$data) %>% vis()  # Build the heatmap of public clonotypes shared between repertoires
+geneUsage(immdata$data[[1]]) %>% vis()  # Visualise the V-gene distribution for the first repertoire
+repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)  # Visualise the Chao1 diversity of repertoires, grouped by the patient status
 ```
 
-**4) Find differences in the diversity of repertoires**
+### Use your own data
 
-```{r eval=F}
-# 4.1) Compare diversity of repertoires and visualise samples, grouped by both clinical status and sequencing Lane:
-div = repDiversity(immdata$data, .method = "chao1")
-vis(div, .by=c("Status", "Lane"), .meta=immdata$meta)
+```r
+library(immunarch)  # Load the package into R
+immdata <- repLoad("path/to/your/data")  # Replace it with the path to your data. Immunarch automatically detects the file format.
 ```
 
-**5) Manipulate plots to make them publication-ready**
+### Advanced methods
 
-```{r eval=FALSE}
-# 5.1) Manipulate the visualisation of diversity estimates to make the plot publication-ready:
-div = repDiversity(immdata$data, .method = "chao1")
-div.plot = vis(div, .by=c("Status", "Lane"), .meta=immdata$meta)
-fixVis(div.plot)
-```
-
-**6) Advanced methods**
-
-For advanced methods such as clonotype tracking, kmer analysis and public repertoire analysis see tutorials on the [immunarch website](https://immunarch.com/).
+For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see "Tutorials".
 
 
 ## Installation troubleshooting
@@ -154,7 +139,7 @@ Execution halted
 
 3. For Mac users. Make sure to install XCode from App Store first and command line developers tools second by executing the following command in Terminal: `xcode-select –install`
 
-4. For Mac users. If you have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
+4. For Mac users. If you have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](http://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
 
 5. For Mac Mojave (1.14) users. If you run into the following error:
 
@@ -179,7 +164,7 @@ Error: package or namespace load failed for 'igraph' in dyn.load(file, DLLpath =
   libgfortran.so.4: cannot open shared object file: No such file or directory
    ```
    
-   See [this link](https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/) for help.
+   See [this link](http://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/) for help.
 
 7. For Linux users. If you have issues with the `rgl` package:
    
@@ -194,7 +179,7 @@ ERROR: configuration failed for package ‘rgl’
 apt-get install mesa-common-dev
    ```
    
-   Check [this link](https://stackoverflow.com/questions/15292905/how-to-solve-the-error-missing-required-header-gl-gl-h-while-installing-the-p) for more information and other possible workarounds.
+   Check [this link](http://stackoverflow.com/questions/15292905/how-to-solve-the-error-missing-required-header-gl-gl-h-while-installing-the-p) for more information and other possible workarounds.
 
 7. If you have error messages with `rlang` in them such as:
 
@@ -221,24 +206,14 @@ ERROR: lazy loading failed for package 'immunarch'
 Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
    ```
    
-9. For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
+9. For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](http://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
 
-9. For Windows users. Make sure to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the `devtools::find_rtools()` command (after installing the devtools package). If you have an error, check [this link](https://github.com/r-lib/devtools/issues/1941) for help.
+9. For Windows users. Make sure to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the `devtools::find_rtools()` command (after installing the devtools package). If you have an error, check [this link](http://github.com/r-lib/devtools/issues/1941) for help.
 
 9. If you can not install dependencies for `immunarch`, please try manual installation of all dependencies by executing the following command in R console:
    
    ```
 install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress", "zip", "backports", "ellipsis", "zeallot", "SparseM", "MatrixModels", "sp", "haven", "curl", "readxl", "openxlsx", "minqa", "nloptr", "RcppEigen", "utf8", "vctrs", "carData", "pbkrtest", "quantreg", "maptools", "rio", "lme4", "labeling", "munsell", "cli", "fansi", "pillar", "viridis", "car", "ellipse", "flashClust", "leaps", "scatterplot3d", "modeltools", "DEoptimR", "digest", "gtable", "lazyeval", "rlang", "scales", "tibble", "viridisLite", "withr", "assertthat", "glue", "magrittr", "pkgconfig", "R6", "tidyselect", "BH", "plogr", "purrr", "ggsci", "cowplot", "ggsignif", "polynom", "fastcluster", "plyr", "abind", "dendextend", "FactoMineR", "mclust", "flexmix", "prabclus", "diptest", "robustbase", "kernlab", "GlobalOptions", "shape", "colorspace", "stringi", "hms", "clipr", "crayon", "httpuv", "mime", "jsonlite", "xtable", "htmltools", "sourcetools", "later", "promises", "gridBase", "RColorBrewer", "yaml", "ggplot2", "dplyr", "dtplyr", "dbplyr", "data.table", "gridExtra", "ggpubr", "pheatma3", "ggrepel", "reshape2", "DBI", "factoextra", "fpc", "circlize", "tidyr", "Rtsne", "readr", "readxl", "shiny", "shinythemes", "treemap", "igraph", "airr", "ggseqlogo", "UpSetR", "stringr", "ggalluvial", "Rcpp"))
-   ```
-
-9. If you can not install `immunarch` using `install_url()`, try the manual installation. First, you need to download the package file from [our GitHub](https://github.com/immunomind/immunarch/raw/master/immunarch.tar.gz).
-
-   Note that you **should not un-archive it**!
-   
-   After downloading the file, you need to run R command from the `devtools` package to install `immunarch`. Upon completion the dependencies will have been already downloaded and installed. Run the following command:
-   
-   ```
-devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencies=T)
    ```
    
 9. If you encounter the following error while running the `devtools::install_local` function:
@@ -254,4 +229,4 @@ devtools::install_local("path/to/your/folder/with/immunarch.tar.gz", dependencie
    Check your path to the downloaded package archive file. It should not be "path/to/your/folder/with/immunarch.tar.gz", but a path on your PC to the downloaded file, e.g., "C:/Users/UserName/Downloads/immunarch.tar.gz" or "/Users/UserName/Downloads/immunarch.tar.gz".
 
 
-9. If troubles still persist, message us on support@immunomind.io or create an issue in [our GitHub]( https://github.com/immunomind/immunarch/issues) with the code that represents the issue and the output you get in the console.
+9. If troubles still persist, let us know via [GitHub](http://github.com/immunomind/immunarch/issues) (preferably) or [support@immunomind.io](mailto:support@immunomind.io) (in case of private data).

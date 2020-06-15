@@ -4,7 +4,7 @@
 \alias{repLoad}
 \title{Load immune repertoire files into the R workspace}
 \usage{
-repLoad(.path, .format = NA)
+repLoad(.path, .format = NA, .mode = "paired", .coding = TRUE)
 }
 \arguments{
 \item{.path}{A character string specifying the path to the input data.
@@ -26,9 +26,17 @@ If input data has multiple chains or cell types stored in the same file
 R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 cell and chain types for different samples.}
 
-\item{.format}{A character string specifying what format to use. See "Details" for more information on supported formats.
+\item{.format}{A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
 
 Leave NA (which is default) if you want `immunarch` to detect formats automatically.}
+
+\item{.mode}{Either "single" for single chain data or "paired" for paired chain data.
+
+Currently "single" works for every format, and "paired" works only for 10X Genomics data.
+
+By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.}
+
+\item{.coding}{A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.}
 }
 \value{
 A list with two named elements:
@@ -59,9 +67,10 @@ your folder. Example:
 }
 
 \code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-Do not pass it if you want immunarch to detect the formats and parse files automatically!
-In case you want to force the package to parse the data in a specific format,
-you can choose one of the several options for the argument:
+Immunarch detects the file format automatically, and the argument is left only for the compatability
+purposes. It will be soon removed. Do not pass it or your code will stop working!
+
+Currently, Immunarch support the following formats:
 
 - "immunoseq" - ImmunoSEQ of any version. http://www.adaptivebiotech.com/immunoseq
 

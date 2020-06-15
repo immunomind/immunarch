@@ -84,6 +84,5 @@ Bar plots
 }
 \examples{
 vis_bar(data.frame(Sample = c("A", "B", "C"), Value = c(1, 2, 3)))
-
 }
 \concept{vis}

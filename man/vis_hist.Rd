@@ -15,7 +15,6 @@ vis_hist(
   .coord.flip = FALSE,
   .grid = FALSE,
   .labs = c("Gene", NA),
-  .return.grob = FALSE,
   .melt = TRUE,
   .legend = NA,
   .add.layer = NULL,
@@ -52,8 +51,6 @@ to automatically detect the optimal number of columns.}
 \item{.grid}{If TRUE then plot separate visualisations for each sample.}
 
 \item{.labs}{A character vector of length two with names for x-axis and y-axis, respectively.}
-
-\item{.return.grob}{If TRUE then returh the gridArrange grob instead of the plot.}
 
 \item{.melt}{If TRUE then apply \link{melt} to the ".data" before plotting.
 In this case ".data" is supposed to be a data frame with the first character column reserved
