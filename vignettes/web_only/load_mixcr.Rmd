@@ -88,10 +88,10 @@ In your R environment, run the commands below. The output should be similar.
 > library(immunarch)
 
 # 1.2) Replace with the path to your processed MiXCR data or to the clonotypes file
-> file_path = "path/to/your/mixcr/data"
+> file_path = "path/to/your/mixcr/data/"
 
 # 1.3) Load MiXCR data with repLoad
-> immdata <- repLoad(file_path, .format = "mixcr")
+> immdata_mixcr <- repLoad(file_path)
 
 == Step 1/3: loading repertoire files... ==
 
