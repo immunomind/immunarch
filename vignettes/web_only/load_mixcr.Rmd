@@ -79,16 +79,20 @@ The metadata file "metadata.txt" has to be tab delimited file with first column 
 |immunoseq\_2|M      |2      |C         |
 |immunoseq\_3|F      |3      |A         |
 
+The next section will explain how to load a single file or multiple samples in a folder.
+
 # Load into Immunarch
 
-In your R environment, run the commands below. The output should be similar.
+In your R environment, run the commands below. The output should be similar. You can run it on the [entire folder](#loading-a-folder) or a [single file](#loading-a-single-file). `repLoad` will ignore the file formats that are unsupported.
+
+## Loading a single file
 
 ```{r, eval=F}
 # 1.1) Load the package into R:
 > library(immunarch)
 
-# 1.2) Replace with the path to your processed MiXCR data or to the clonotypes file
-> file_path = "path/to/your/mixcr/data/"
+# 1.2) Replace with the path to your clonotypes file
+> file_path = "path/to/your/mixcr/data/analysis.clonotypes.IGH.txt"
 
 # 1.3) Load MiXCR data with repLoad
 > immdata_mixcr <- repLoad(file_path)
@@ -96,7 +100,7 @@ In your R environment, run the commands below. The output should be similar.
 == Step 1/3: loading repertoire files... ==
 
 Processing "<initial>" ...
-  -- Parsing "path/to/folder/analysis.clonotypes.IGH.txt" -- mixcr
+  -- Parsing "/path/to/your/mixcr/data/analysis.clonotypes.IGH.txt" -- mixcr
 
 == Step 2/3: checking metadata files and merging... ==
 
@@ -140,3 +144,100 @@ $meta
 ```{r, eval=F}
 
 ```
+
+## Loading a folder
+
+In this tutorial I used three identical samples just to show the output, but you should put all your output `.txt` clonotype files in this folder, along with your `metadata.txt` file.
+
+```{r, eval=F}
+# 1.1) Load the package into R:
+> library(immunarch)
+
+# 1.2) Replace with the path to the folder with your processed MiXCR data. 
+> file_path = "/path/to/your/mixcr/data/"
+
+# 1.3) Load MiXCR data with repLoad
+> immdata_mixcr <- repLoad(file_path)
+
+== Step 1/3: loading repertoire files... ==
+
+Processing "/path/to/your/mixcr/data/" ...
+  -- Parsing "/path/to/your/mixcr/data/analysis.clonotypes.IGH_1.txt" -- mixcr
+  -- Parsing "/path/to/your/mixcr/data/analysis.clonotypes.IGH_2.txt" -- mixcr
+  -- Parsing "/path/to/your/mixcr/data/analysis.clonotypes.IGH_3.txt" -- mixcr
+  -- Parsing "/path/to/your/mixcr/data/metadata.txt" -- metadata
+
+== Step 2/3: checking metadata files and merging files... ==
+
+Processing "/path/to/your/mixcr/data/" ...
+  -- Everything is OK!
+
+== Step 3/3: processing paired chain data... ==
+
+Done!
+```
+
+Now let's take a look at the data! Your output should look something like below.
+
+```{r, eval=F}
+r$> immdata_mixcr                                                                                                                                
+$data
+$data$analysis.clonotypes.IGH_1
+# A tibble: 32,744 x 15
+   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence              
+    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>                 
+ 1    230    0.00284 TGTGTGAGACATAAACCTATGG… CVRHKPMVQG… IGHV4-39  IGHD3-10, … IGHJ6      12      NA     5      36      9      3      6 TGTGTGAGACATAAACCTATG…
+ 2    201    0.00248 TGTGCGATTTGGGATGTGGGAC… CAIWDVGLRH… IGHV4-34  IGHD2-21    IGHJ4,…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGTGGGA…
+ 3    179    0.00221 TGTGCGAGAGATCATGCGGGGT… CARDHAGFGK… IGHV1-69… IGHD3-10    IGHJ6      13      NA     4      40     18      5     13 TGTGCGAGAGATCATGCGGGG…
+ 4     99    0.00122 TGTGCGAGATGGGGATATTGTA… CARWGYCING… IGHV4-39  IGHD2-8     IGHJ6       9      NA     6      64     23      2     21 TGTGCGAGATGGGGATATTGT…
+ 5     97    0.00120 TGTGCGAGAGGCCCCACGAGCA… CARGPTSSEW… IGHV4-34  IGHD3-22, … IGHJ6      13      NA     6      52     26     24      2 TGTGCGAGAGGCCCCACGAGC…
+ 6     97    0.00120 TGTGCGCACCACTATACCAGCG… CAHHYTSDYY… IGHV2-5   IGHD1-26    IGHJ5       9      NA     2      39     19     NA     20 TGTGCGCACCACTATACCAGC…
+ 7     92    0.00114 TGTGCGAGAGGCCCTCCGTCGA… CARGPPSMGT… IGHV4-34  IGHD5-24, … IGHJ4      13      NA     3      38     11      6      5 TGTGCGAGAGGCCCTCCGTCG…
+ 8     84    0.00104 TGTGCGAGGTGGCTTGGGGAAG… CARWLGEDIR… IGHV4-39  IGHD3-16, … IGHJ4,…     8      NA     6      32     13      4      9 TGTGCGAGGTGGCTTGGGGAA…
+ 9     83    0.00103 TGTGCGAGAGGCCGCAGCGGCG… CARGRSGDPY… IGHV4-34  IGHD2-2, I… IGHJ5      13      NA     4      50     18     13      5 TGTGCGAGAGGCCGCAGCGGC…
+10     81    0.00100 TGTGTGAGTCACCTCCTCGACA… CVSHLLDTSD… IGHV1-2   IGHD2-21, … IGHJ4,…     8      NA     3      40     20     14      6 TGTGTGAGTCACCTCCTCGAC…
+# … with 32,734 more rows
+
+$data$analysis.clonotypes.IGH_2
+# A tibble: 32,744 x 15
+   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence              
+    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>                 
+ 1    230    0.00284 TGTGTGAGACATAAACCTATGG… CVRHKPMVQG… IGHV4-39  IGHD3-10, … IGHJ6      12      NA     5      36      9      3      6 TGTGTGAGACATAAACCTATG…
+ 2    201    0.00248 TGTGCGATTTGGGATGTGGGAC… CAIWDVGLRH… IGHV4-34  IGHD2-21    IGHJ4,…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGTGGGA…
+ 3    179    0.00221 TGTGCGAGAGATCATGCGGGGT… CARDHAGFGK… IGHV1-69… IGHD3-10    IGHJ6      13      NA     4      40     18      5     13 TGTGCGAGAGATCATGCGGGG…
+ 4     99    0.00122 TGTGCGAGATGGGGATATTGTA… CARWGYCING… IGHV4-39  IGHD2-8     IGHJ6       9      NA     6      64     23      2     21 TGTGCGAGATGGGGATATTGT…
+ 5     97    0.00120 TGTGCGAGAGGCCCCACGAGCA… CARGPTSSEW… IGHV4-34  IGHD3-22, … IGHJ6      13      NA     6      52     26     24      2 TGTGCGAGAGGCCCCACGAGC…
+ 6     97    0.00120 TGTGCGCACCACTATACCAGCG… CAHHYTSDYY… IGHV2-5   IGHD1-26    IGHJ5       9      NA     2      39     19     NA     20 TGTGCGCACCACTATACCAGC…
+ 7     92    0.00114 TGTGCGAGAGGCCCTCCGTCGA… CARGPPSMGT… IGHV4-34  IGHD5-24, … IGHJ4      13      NA     3      38     11      6      5 TGTGCGAGAGGCCCTCCGTCG…
+ 8     84    0.00104 TGTGCGAGGTGGCTTGGGGAAG… CARWLGEDIR… IGHV4-39  IGHD3-16, … IGHJ4,…     8      NA     6      32     13      4      9 TGTGCGAGGTGGCTTGGGGAA…
+ 9     83    0.00103 TGTGCGAGAGGCCGCAGCGGCG… CARGRSGDPY… IGHV4-34  IGHD2-2, I… IGHJ5      13      NA     4      50     18     13      5 TGTGCGAGAGGCCGCAGCGGC…
+10     81    0.00100 TGTGTGAGTCACCTCCTCGACA… CVSHLLDTSD… IGHV1-2   IGHD2-21, … IGHJ4,…     8      NA     3      40     20     14      6 TGTGTGAGTCACCTCCTCGAC…
+# … with 32,734 more rows
+
+$data$analysis.clonotypes.IGH_3
+# A tibble: 32,744 x 15
+   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence              
+    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>                 
+ 1    230    0.00284 TGTGTGAGACATAAACCTATGG… CVRHKPMVQG… IGHV4-39  IGHD3-10, … IGHJ6      12      NA     5      36      9      3      6 TGTGTGAGACATAAACCTATG…
+ 2    201    0.00248 TGTGCGATTTGGGATGTGGGAC… CAIWDVGLRH… IGHV4-34  IGHD2-21    IGHJ4,…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGTGGGA…
+ 3    179    0.00221 TGTGCGAGAGATCATGCGGGGT… CARDHAGFGK… IGHV1-69… IGHD3-10    IGHJ6      13      NA     4      40     18      5     13 TGTGCGAGAGATCATGCGGGG…
+ 4     99    0.00122 TGTGCGAGATGGGGATATTGTA… CARWGYCING… IGHV4-39  IGHD2-8     IGHJ6       9      NA     6      64     23      2     21 TGTGCGAGATGGGGATATTGT…
+ 5     97    0.00120 TGTGCGAGAGGCCCCACGAGCA… CARGPTSSEW… IGHV4-34  IGHD3-22, … IGHJ6      13      NA     6      52     26     24      2 TGTGCGAGAGGCCCCACGAGC…
+ 6     97    0.00120 TGTGCGCACCACTATACCAGCG… CAHHYTSDYY… IGHV2-5   IGHD1-26    IGHJ5       9      NA     2      39     19     NA     20 TGTGCGCACCACTATACCAGC…
+ 7     92    0.00114 TGTGCGAGAGGCCCTCCGTCGA… CARGPPSMGT… IGHV4-34  IGHD5-24, … IGHJ4      13      NA     3      38     11      6      5 TGTGCGAGAGGCCCTCCGTCG…
+ 8     84    0.00104 TGTGCGAGGTGGCTTGGGGAAG… CARWLGEDIR… IGHV4-39  IGHD3-16, … IGHJ4,…     8      NA     6      32     13      4      9 TGTGCGAGGTGGCTTGGGGAA…
+ 9     83    0.00103 TGTGCGAGAGGCCGCAGCGGCG… CARGRSGDPY… IGHV4-34  IGHD2-2, I… IGHJ5      13      NA     4      50     18     13      5 TGTGCGAGAGGCCGCAGCGGC…
+10     81    0.00100 TGTGTGAGTCACCTCCTCGACA… CVSHLLDTSD… IGHV1-2   IGHD2-21, … IGHJ4,…     8      NA     3      40     20     14      6 TGTGTGAGTCACCTCCTCGAC…
+# … with 32,734 more rows
+
+
+$meta
+# A tibble: 3 x 4
+  Sample                    Sex     Age Status
+  <chr>                     <chr> <dbl> <chr> 
+1 analysis.clonotypes.IGH_1 M         1 C     
+2 analysis.clonotypes.IGH_2 M         2 C     
+3 analysis.clonotypes.IGH_3 F         3 A     
+```
+
+Congrats! Now your data is ready for exploration. Follow the steps [here](https://immunarch.com/articles/v3_basic_analysis.html) to learn more about how to explore your dataset.

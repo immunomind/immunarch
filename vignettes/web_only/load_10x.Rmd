@@ -1,5 +1,5 @@
 ---
-title: 'Loading 10x Data'
+title: 'Loading 10x Genomics Data'
 author: '<a href="https://immunomind.io">ImmunoMind</a>'
 date: "support@immunomind.io"
 output:
@@ -17,7 +17,7 @@ output:
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Loading 10x Data}
+%\VignetteIndexEntry{Loading 10x Genomics Data}
 %\VignettePackage{immunarch}
 -->
 
@@ -26,9 +26,24 @@ Follow the instructions <a href="https://support.10xgenomics.com/single-cell-gen
 
 You can find sample data of full runs to download <a href="https://support.10xgenomics.com/single-cell-vdj/datasets">here</a>. In this tutorial, I used <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/3.0.0/vdj_v1_mm_c57bl6_pbmc_t">this</a> single cell mouse data. If you are only using `immunarch` you can download only the .csv files.
 
-Upon processing the data, you will have a lot of output files. Filtered contigs and clonotype contigs, which are csv files, will be the most helpful.
+# Prepare 10x Data
+Upon processing the data, you will have a lot of output files. You should use the `filtered contigs` csv files because they contain barcode information. 
 
-## Load into Immunarch
+```{r, eval=F}
+.
+├── vdj_v1_mm_c57bl6_pbmc_t_filtered_contig_annotations.csv <-- This contains the count data we want!
+├── vdj_v1_mm_c57bl6_pbmc_t_consensus_annotations.csv 
+├── vdj_v1_mm_c57bl6_pbmc_t_clonotypes.csv
+├── vdj_v1_mm_c57bl6_pbmc_t_all_contig_annotations.csv 
+├── vdj_v1_mm_c57bl6_pbmc_t_matrix.h5
+├── vdj_v1_mm_c57bl6_pbmc_t_bam.bam.bai
+├── vdj_v1_mm_c57bl6_pbmc_t_molecule_info.h5
+├── vdj_v1_mm_c57bl6_pbmc_t_raw_feature_bc_matrix.tar.gz
+├── vdj_v1_mm_c57bl6_pbmc_t_analysis.tar.gz
+
+```
+
+# Load into Immunarch
 
 Run the code below in your R environment to load the data into Immunarch's format. You can run it on the entire folder with the Cellranger output files. `repLoad` will ignore the file formats that are unsupported.
 
@@ -62,7 +77,7 @@ Processing "<initial>" ...
 Done!
 ```
 
-Congrats! Now your data is ready for exploration. Follow the steps here to learn more about how to explore your dataset.
+Now let's take a look at the data! Your output should look something like below.
 
 ```{r, eval=F}
 > immdata_10x
@@ -91,8 +106,14 @@ $meta
 6    vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRB   TRB  vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations
 ```
 
+Congrats! Now your data is ready for exploration. Follow the steps [here](https://immunarch.com/articles/v3_basic_analysis.html) to learn more about how to explore your dataset.
+
 ## Note on barcodes
 
 Another important note is that some of the contigs files lack a column for barcodes - a unique identified of a cell. 
 
 These files can be useful for analysis of single chain data (only alpha, or beta TCRs), but in order to analyze paired-chain data and fully utilize the full power of single-cell technologies, you should upload the file with barcodes to the Immunarch.
+
+# Paired-chain data
+
+Do you have single-cell data? Immunarch can now parse both single-chain and paired-chain single-cell data. Try out these features <a href="https://immunarch.com/articles/web_only/v21_singlecell.html">here</a>.
