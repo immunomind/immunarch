@@ -21,6 +21,17 @@ output:
 %\VignettePackage{immunarch}
 -->
 
+# Intro to MiXCR
+MiXCR is a universal software for fast and accurate extraction of T- and B- cell receptor repertoires from any type of sequencing data. It handles paired- and single-end reads, considers sequence quality, corrects PCR errors and identifies germline hypermutations. The software supports both partial- and full-length profiling and employs all available RNA or DNA information, including sequences upstream of V and downstream of J gene segments. 
+
+Some features include:
+
+- Extracts both T- and B-cell receptor repertoires
+- Extracts repertoire data even from regular RNA-Seq
+- Successfully analyses full-length antibody data
+
+Find more info about MiXCR <a href="https://milaboratory.com/software/mixcr/">here</a> 
+
 # Prepare MiXCR Data
 Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data.
 
