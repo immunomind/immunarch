@@ -33,7 +33,7 @@ Some features include:
 Find more info about MiXCR <a href="https://milaboratory.com/software/mixcr/">here</a> 
 
 # Prepare MiXCR Data
-Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data.
+Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data. **Important Note:** Currently supports MiXCR version 3 and above.
 
 MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz. In this tutorial I used the real IGH data from <a href="https://github.com/milaboratory/mixcr/blob/develop/doc/paper/paperAttachments.md">here</a>.
 

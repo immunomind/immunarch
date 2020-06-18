@@ -52,7 +52,7 @@ navbar:
         href: articles/v2_data.html	
       - text: Loading MiXCR Data
         href: articles/web_only/load_mixcr.html
-      - text: Loading 10x Data
+      - text: Loading 10x Genomics Data
         href: articles/web_only/load_10x.html
       - text: Basic analysis and clonality	
         href: articles/v3_basic_analysis.html	
