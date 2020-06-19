@@ -40,69 +40,73 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
-</li>
-<li>
-  <a href="../../articles/v1_introduction.html">Get started</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Tutorials
+    Start Here
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">First steps</li>
-    <li>
-      <a href="../../articles/v1_introduction.html">Introduction to immunarch</a>
-    </li>
-    <li>
-      <a href="../../articles/v2_data.html">Working with data in immunarch</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+<li>
+      <a href="../../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Explore and compare repertoires</li>
+    <li class="dropdown-header">First steps</li>
+    <li>
+      <a href="../../articles/v2_data.html">Data loading</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../../articles/web_only/v5_gene_usage.html">Gene usage analysis</a>
+      <a href="../../articles/web_only/v5_gene_usage.html">Gene usage</a>
     </li>
     <li>
       <a href="../../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    <li>
+      <a href="../../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
+    </li>
     <li>
       <a href="../../articles/web_only/v11_db.html">Annotate clonotypes using immune receptor databases</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
-    <li class="divider">
-    <li class="dropdown-header">Advanced methods</li>
-    <li>
-      <a href="../../articles/web_only/v8_tracking.html">Tracking clonotypes across time points</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
-    </li>
   </ul>
 </li>
 <li>
   <a href="../../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -254,16 +258,16 @@
 ##    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
 ##  1 A2-i129 C1    M        11 C      A            12
 ##  2 A2-i131 C2    M         9 C      A            11
-##  3 A2-i133 C4    M        16 C      A             9
-##  4 A2-i132 C3    F         6 C      A            10
-##  5 A4-i191 C8    F        22 C      B             8
-##  6 A4-i192 C9    F        24 C      B             2
-##  7 MS1     MS1   M        12 MS     C             6
-##  8 MS2     MS2   M        30 MS     C             5
-##  9 MS3     MS3   M         8 MS     C             1
-## 10 MS4     MS4   F        14 MS     C             7
-## 11 MS5     MS5   F        15 MS     C             4
-## 12 MS6     MS6   F        15 MS     C             3</code></pre>
+##  3 A2-i133 C4    M        16 C      A             8
+##  4 A2-i132 C3    F         6 C      A             2
+##  5 A4-i191 C8    F        22 C      B             1
+##  6 A4-i192 C9    F        24 C      B            10
+##  7 MS1     MS1   M        12 MS     C             7
+##  8 MS2     MS2   M        30 MS     C             6
+##  9 MS3     MS3   M         8 MS     C             5
+## 10 MS4     MS4   F        14 MS     C             9
+## 11 MS5     MS5   F        15 MS     C             3
+## 12 MS6     MS6   F        15 MS     C             4</code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">sample_order</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Timepoint</span>)</pre></body></html></div>
 <p>Sanity check: timepoints are following the right order:</p>
@@ -271,8 +275,8 @@
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12</code></pre>
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Sample</span>[<span class="no">sample_order</span>]</pre></body></html></div>
-<pre><code>##  [1] "MS3"     "A4-i192" "MS6"     "MS5"     "MS2"     "MS1"     "MS4"    
-##  [8] "A4-i191" "A2-i133" "A2-i132" "A2-i131" "A2-i129"</code></pre>
+<pre><code>##  [1] "A4-i191" "A2-i132" "MS5"     "MS6"     "MS3"     "MS2"     "MS1"    
+##  [8] "A2-i133" "MS4"     "A4-i192" "A2-i131" "A2-i129"</code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="no">sample_order</span>)</pre></body></html></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;"></p>

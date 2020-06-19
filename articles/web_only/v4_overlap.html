@@ -40,69 +40,73 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
-</li>
-<li>
-  <a href="../../articles/v1_introduction.html">Get started</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Tutorials
+    Start Here
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">First steps</li>
-    <li>
-      <a href="../../articles/v1_introduction.html">Introduction to immunarch</a>
-    </li>
-    <li>
-      <a href="../../articles/v2_data.html">Working with data in immunarch</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+<li>
+      <a href="../../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Explore and compare repertoires</li>
+    <li class="dropdown-header">First steps</li>
+    <li>
+      <a href="../../articles/v2_data.html">Data loading</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../../articles/web_only/v5_gene_usage.html">Gene usage analysis</a>
+      <a href="../../articles/web_only/v5_gene_usage.html">Gene usage</a>
     </li>
     <li>
       <a href="../../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    <li>
+      <a href="../../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
+    </li>
     <li>
       <a href="../../articles/web_only/v11_db.html">Annotate clonotypes using immune receptor databases</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
-    <li class="divider">
-    <li class="dropdown-header">Advanced methods</li>
-    <li>
-      <a href="../../articles/web_only/v8_tracking.html">Tracking clonotypes across time points</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
-    </li>
   </ul>
 </li>
 <li>
   <a href="../../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -220,19 +224,19 @@ warning("TODO")
 ## MS6       6.4241122 -30.429669</code></pre>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"tsne"</span>)</pre></body></html></div>
-<pre><code>##               DimI      DimII
-## A2-i129 -166.02073  168.22835
-## A2-i131  450.76875  -51.27095
-## A2-i133  -98.38007  -53.49452
-## A2-i132   13.72280 -140.07566
-## A4-i191  -92.11374 -147.02551
-## A4-i192 -103.03899  137.51149
-## MS1     -106.52084  203.15667
-## MS2      -25.72619 -122.77992
-## MS3     -136.50745  165.49278
-## MS4      -55.66242 -123.96297
-## MS5      451.76635  -79.22624
-## MS6     -132.28747   43.44647
+<pre><code>##                DimI       DimII
+## A2-i129  141.757274   -1.875981
+## A2-i131 -336.372028  177.099380
+## A2-i133   82.395447  -42.878936
+## A2-i132  -11.731661  -41.878646
+## A4-i191   38.681498 -109.060994
+## A4-i192  169.797839   36.512757
+## MS1      116.225222   42.689482
+## MS2        3.659358  -70.354712
+## MS3      139.036548   18.337403
+## MS4       21.703642  -81.842537
+## MS5     -320.584081  165.745570
+## MS6      -44.569057  -92.492786
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"</code></pre>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co"># Visualise the results</span>
@@ -260,19 +264,19 @@ warning("TODO")
 ## MS6       6.4241122 -30.429669</code></pre>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span>(<span class="no">imm_ov1</span>, <span class="st">"tsne"</span>)</pre></body></html></div>
-<pre><code>##              DimI       DimII
-## A2-i129 -33.14994  207.243154
-## A2-i131 -91.92371 -438.613042
-## A2-i133 -27.83196   63.253370
-## A2-i132 105.89976    9.155711
-## A4-i191  16.94083  -31.224605
-## A4-i192 -61.99676  158.603213
-## MS1      15.90335  178.971475
-## MS2      65.30180   12.692926
-## MS3     -25.88696  181.862734
-## MS4      40.98606    1.464853
-## MS5     -67.69849 -442.153877
-## MS6      63.45602   98.744088
+<pre><code>##               DimI      DimII
+## A2-i129   71.37032  -86.66489
+## A2-i131 -301.91079  188.45123
+## A2-i133   94.66994  -28.19314
+## A2-i132   29.99039   33.63915
+## A4-i191   93.20496   36.21703
+## A4-i192   32.10793 -102.65842
+## MS1       69.17815 -125.59016
+## MS2       53.41223   21.70130
+## MS3       59.20680  -97.89366
+## MS4       70.78170   22.25810
+## MS5     -302.10601  172.56968
+## MS6       30.09437  -33.83622
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"</code></pre>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># Visualise the results</span>

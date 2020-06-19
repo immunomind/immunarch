@@ -4,6 +4,8 @@ pkgdown_sha: ~
 articles:
   v1_introduction: v1_introduction.html
   v2_data: v2_data.html
+  load_10x: web_only/load_10x.html
+  load_mixcr: web_only/load_mixcr.html
   v10_prop: web_only/v10_prop.html
   v11_db: web_only/v11_db.html
   v21_singlecell: web_only/v21_singlecell.html
@@ -14,7 +16,7 @@ articles:
   v7_fixvis: web_only/v7_fixvis.html
   v8_tracking: web_only/v8_tracking.html
   v9_kmers: web_only/v9_kmers.html
-last_built: 2020-06-13T23:38Z
+last_built: 2020-06-19T05:28Z
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

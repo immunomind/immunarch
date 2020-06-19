@@ -91,69 +91,73 @@ in desirable format. Currently supports &quot;immunarch&quot; and &quot;vdjtools
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
-</li>
-<li>
-  <a href="../articles/v1_introduction.html">Get started</a>
-</li>
-<li class="dropdown">
+        <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Tutorials
+    Start Here
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">First steps</li>
     <li>
-      <a href="../articles/v1_introduction.html">Introduction to immunarch</a>
-    </li>
-    <li>
-      <a href="../articles/v2_data.html">Working with data in immunarch</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/v3_basic_analysis.html">Basic analysis and clonality</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/v21_singlecell.html">Single-cell and paired chain data</a>
+      <a href="../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Explore and compare repertoires</li>
+    <li class="dropdown-header">First steps</li>
+    <li>
+      <a href="../articles/v2_data.html">Data loading</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
     <li>
-      <a href="../articles/web_only/v5_gene_usage.html">Gene usage analysis</a>
+      <a href="../articles/web_only/v5_gene_usage.html">Gene usage</a>
     </li>
     <li>
       <a href="../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    <li>
+      <a href="../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
+    </li>
     <li>
       <a href="../articles/web_only/v11_db.html">Annotate clonotypes using immune receptor databases</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Advanced methods</li>
-    <li>
-      <a href="../articles/web_only/v8_tracking.html">Tracking clonotypes across time points</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
-    </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -243,8 +247,8 @@ does not exist it will be created automatically.</p>
 <span class='fu'>repSave</span>(<span class='no'>immdata</span>, <span class='no'>dirpath</span>)
 <span class='co'># Load it and check if it is the same</span>
 <span class='no'>new_immdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='repLoad.html'>repLoad</a></span>(<span class='no'>dirpath</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>== Step 1/3: loading repertoire files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/A2-i129.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/A2-i131.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/A2-i132.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/A2-i133.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/A4-i191.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/A4-i192.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/metadata.txt" -- </span></div><div class='output co'>#&gt; <span class='message'>metadata</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/MS1.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/MS2.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/MS3.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/MS4.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/MS5.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338/MS6.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>== Step 2/3: checking metadata files and merging files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//RtmpAzN338" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Everything is OK!</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>== Step 1/3: loading repertoire files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/A2-i129.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/A2-i131.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/A2-i132.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/A2-i133.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/A4-i191.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/A4-i192.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/metadata.txt" -- </span></div><div class='output co'>#&gt; <span class='message'>metadata</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/MS1.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/MS2.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/MS3.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/MS4.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/MS5.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'>  -- Parsing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td/MS6.tsv.gz" -- </span></div><div class='output co'>#&gt; <span class='message'>immunarch</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>== Step 2/3: checking metadata files and merging files... ==</span></div><div class='output co'>#&gt; <span class='message'>Processing "/var/folders/5d/g0z_tj9n3qd9r2b4tr8pp5sm0000gp/T//Rtmptxg2Td" ...</span></div><div class='output co'>#&gt; <span class='message'>  -- Everything is OK!</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>== Step 3/3: processing paired chain data... ==</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'># sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
 # sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
 # sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
