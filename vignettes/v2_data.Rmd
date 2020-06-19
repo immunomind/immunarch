@@ -1,5 +1,5 @@
 ---
-title: 'Working with data in `immunarch`'
+title: 'Data loading'
 author: '<a href="https://immunomind.io">ImmunoMind</a>'
 date: "support@immunomind.io"
 output:
@@ -37,39 +37,6 @@ library(immunarch)
 # immdata = load_test_data()
 data(immdata)
 ```
-
-# Immunarch data format
-`immunarch` comes with its own data format, including tab-delimited columns that can be specified as follows:
-
- - "Clones" - count or number of barcodes (events, UMIs) or reads;
-
- - "Proportion" - proportion of barcodes (events, UMIs) or reads;
-
- - "CDR3.nt" - CDR3 nucleotide sequence;
-
- - "CDR3.aa" - CDR3 amino acid sequence;
-
- - "V.name" - names of aligned Variable gene segments;
-
- - "D.name" - names of aligned Diversity gene segments or NA;
-
- - "J.name" - names of aligned Joining gene segments;
-
- - "V.end" - last positions of aligned V gene segments (1-based);
-
- - "D.start" - positions of D'5 end of aligned D gene segments (1-based);
-
- - "D.end" - positions of D'3 end of aligned D gene segments (1-based);
-
- - "J.start" - first positions of aligned J gene segments (1-based);
-
- - "VJ.ins" - number of inserted nucleotides (N-nucleotides) at V-J junction (-1 for receptors with VDJ recombination);
-
- - "VD.ins" - number of inserted nucleotides (N-nucleotides) at V-D junction (-1 for receptors with VJ recombination);
-
- - "DJ.ins" - number of inserted nucleotides (N-nucleotides) at D-J junction (-1 for receptors with VJ recombination);
-
- - "Sequence" - full nucleotide sequence.
 
 
 # Input / output
@@ -263,6 +230,40 @@ sapply(ds, nrow)
 ds = repSample(immdata$data, "sample", .n = 10)
 sapply(ds, nrow)
 ```
+
+
+# Immunarch data format
+`immunarch` comes with its own data format, including tab-delimited columns that can be specified as follows:
+
+ - "Clones" - count or number of barcodes (events, UMIs) or reads;
+
+ - "Proportion" - proportion of barcodes (events, UMIs) or reads;
+
+ - "CDR3.nt" - CDR3 nucleotide sequence;
+
+ - "CDR3.aa" - CDR3 amino acid sequence;
+
+ - "V.name" - names of aligned Variable gene segments;
+
+ - "D.name" - names of aligned Diversity gene segments or NA;
+
+ - "J.name" - names of aligned Joining gene segments;
+
+ - "V.end" - last positions of aligned V gene segments (1-based);
+
+ - "D.start" - positions of D'5 end of aligned D gene segments (1-based);
+
+ - "D.end" - positions of D'3 end of aligned D gene segments (1-based);
+
+ - "J.start" - first positions of aligned J gene segments (1-based);
+
+ - "VJ.ins" - number of inserted nucleotides (N-nucleotides) at V-J junction (-1 for receptors with VDJ recombination);
+
+ - "VD.ins" - number of inserted nucleotides (N-nucleotides) at V-D junction (-1 for receptors with VJ recombination);
+
+ - "DJ.ins" - number of inserted nucleotides (N-nucleotides) at D-J junction (-1 for receptors with VJ recombination);
+
+ - "Sequence" - full nucleotide sequence.
 
 <!---
 ## Additional functions to help with dplyr
