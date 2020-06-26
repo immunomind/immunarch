@@ -221,7 +221,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     metadata <- tibble()
 
     for (.filepath in .files) {
-      message('  -- Parsing "', .filepath, '" -- ', appendLF = FALSE)
+      message('  -- [', match(.filepath, .files), '/', length(.files), '] Parsing "', .filepath, '" -- ', appendLF = FALSE)
       if (!file.exists(.filepath)) {
         message('Can\'t find\t"', .filepath, '", skipping')
       }
@@ -1191,6 +1191,8 @@ parse_mixcr <- function(.filename, .mode) {
     .vgenes <- "vhits"
   } else if ("allvhitswithscore" %in% table.colnames) {
     .vgenes <- "allvhitswithscore"
+  } else if ("bestvgene" %in% table.colnames) {
+    .vgenes <- "bestvgene"
   } else {
     message("Error: can't find a column with V genes")
   }
@@ -1203,6 +1205,8 @@ parse_mixcr <- function(.filename, .mode) {
     .jgenes <- "jhits"
   } else if ("alljhitswithscore" %in% table.colnames) {
     .jgenes <- "alljhitswithscore"
+  } else if ("bestjgene" %in% table.colnames) {
+    .jgenes <- "bestjgene"
   } else {
     message("Error: can't find a column with J genes")
   }
@@ -1215,6 +1219,8 @@ parse_mixcr <- function(.filename, .mode) {
     .dgenes <- "dhits"
   } else if ("alldhitswithscore" %in% table.colnames) {
     .dgenes <- "alldhitswithscore"
+  } else if ("bestdgene" %in% table.colnames) {
+    .dgenes <- "bestdgene"
   } else {
     message("Error: can't find a column with D genes")
   }
