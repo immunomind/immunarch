@@ -1,0 +1,114 @@
+---
+title: "Working with Data from SRA"
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+resource_files: 
+    - /man/images/sra-1.png
+    - /man/images/sra-2.png
+    - /man/images/sra-3.png
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Working with Data from SRA}
+%\VignettePackage{immunarch}
+-->
+
+
+  ```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 5)
+
+library(immunarch)
+```
+
+# Executive Summary
+
+> This is a tutorial on working with immune repertoire data from Short Read Archive
+
+> Data is from <a href= "https://doi.org/10.1101/2020.05.18.100545">this</a> longitudinal study of T-cell dynamics in COVID-19 data
+
+# Setting up tools for SRA
+
+First, follow the instructions <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc">here</a> to install the tools for SRA. 
+
+If you are on Linux, it'll look something like this:
+
+```
+curl -O https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.7/sratoolkit.2.10.7-ubuntu64.tar.gz
+tar -xzf sratoolkit.2.10.7-ubuntu64.tar.gz
+cd grace/sratoolkit.2.10.7-ubuntu64/bin
+./vdb-config -i
+```
+
+Configure the cache directory where your data will be downloaded. I created a folder called `rawdata` under my working directory.
+
+<img src="/man/images/sra-1.png" width="800"/>
+
+If you are using a cloud instance, select the corresponding one and check report `cloud instance identity`.
+
+<!-- ![image](/reference/sra-2.png) -->
+
+# Select Data for Batch Download from SRA
+
+You can find the full dataset in NCBI's Run Selector <a href="https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=2&WebEnv=NCID_1_41090550_130.14.22.76_5555_1592686230_2418810784_0MetA0_S_HStore&o=acc_s%3Aa">here</a>.
+
+Select the subset of the dataset that you want to analyze. I chose to start with four samples:
+
+<!-- ![image](/reference/sra-3.png) -->
+
+Click on `Selected` → `Accession List` to download the text file for your batch download.
+
+# Download from SRA
+
+Next, we'll be downloading the data from SRA using the toolkit that we installed earlier.
+
+The two commands that you will be using from the SRA toolkit are:
+
+- <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=prefetch">`prefetch`</a>: fetch the .sra files for individual runs
+
+- <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump">`fastq-dump`</a>: process the .sra files into fastq files
+
+First, let's download the .sra files. Use the cart.txt matching the accession list you just downloaded from Run Selector. 
+
+```
+ `./prefetch --option-file cart.txt`
+```
+Prefetch documentation can be found <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=prefetch">here</a>.
+
+Next, use fastq-dump to turn SRA files into fastq files. 
+
+```
+./fastq-dump ~/grace/rawdata/sra/SRR* --outdir ~/grace/rawdata/fastq
+```
+Fastq documentation can be found <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump">here</a>.
+
+If you want to process everything in batch, you can use a bash script similar to this:
+```
+CART='cart.txt'
+echo $CART
+ALL_LINES=$(cat $CART)
+for sra in $ALL_LINES;
+do
+    ./fastq-dump $sra --outdir /data/grace/rawdata/fastq
+done
+```
+
+# Next steps
+Congrats! Now your data is ready to be processed. Follow our MiXCR tutorial [here](https://immunarch.com/articles/web_only/load_mixcr.html) to prepare your data for analysis. 
