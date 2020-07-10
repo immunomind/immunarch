@@ -12,10 +12,6 @@ output:
     toc: yes
   word_document:
     toc: yes
-resource_files: 
-    - /man/images/sra-1.png
-    - /man/images/sra-2.png
-    - /man/images/sra-3.png
 ---
 
 
@@ -26,7 +22,7 @@ resource_files:
 -->
 
 
-  ```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -36,6 +32,18 @@ knitr::opts_chunk$set(fig.width = 12)
 knitr::opts_chunk$set(fig.height = 5)
 
 library(immunarch)
+
+embed_png <- function(path, dpi = NULL) {
+  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
+  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
+  knitr::asis_output(paste0(
+    "<img src='", path, "'",
+    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
+    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
+    " />"
+  ))
+}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
 
 # Executive Summary
@@ -59,7 +67,10 @@ cd grace/sratoolkit.2.10.7-ubuntu64/bin
 
 Configure the cache directory where your data will be downloaded. I created a folder called `rawdata` under my working directory.
 
-<img src="/man/images/sra-1.png" width="800"/>
+```{r, echo = FALSE}
+embed_png("../images/sra-1.png")
+```
+
 
 If you are using a cloud instance, select the corresponding one and check report `cloud instance identity`.
 
