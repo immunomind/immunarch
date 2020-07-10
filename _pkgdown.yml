@@ -16,9 +16,11 @@ articles:
   - '`v1_introduction`'
   - '`v2_data`'
   - '`web_only/v21_singlecell`'
+  - '`web_only/v22_covid`'
   - '`web_only/v3_basic_analysis`'
   - '`web_only/load_mixcr`'
   - '`web_only/load_10x`'
+  - '`web_only/load_sra`' 
   - '`web_only/v4_overlap`'
   - '`web_only/v5_gene_usage`'
   - '`web_only/v6_diversity`'
@@ -28,11 +30,17 @@ articles:
   - '`web_only/v11_db`'
 navbar:
   structure:
-    left: [articles, reference, covid19]
+    left: [articles, reference, covid19, reproduced]
     right: [im_link, twitter, github]
   components:
     home: ~
     news: ~
+    reproduced:
+      text: "Reproduced Articles"
+      href: https://github.com/immunomind/reproduced
+      menu:
+      - text: 'COVID-19 Immune Repertoire Analysis'
+        href: articles/web_only/v22_covid.html
     covid19:
       text: "COVID-19"
       href: https://github.com/immunomind/covid19
@@ -50,6 +58,8 @@ navbar:
         href: articles/v2_data.html
       - text: 'How-to: Loading MiXCR Data'
         href: articles/web_only/load_mixcr.html
+      - text: 'How-to: Working with Data from SRA'
+        href: articles/web_only/load_sra.html
       - text: 'How-to: Loading 10x Genomics Data'
         href: articles/web_only/load_10x.html
       - text: 'How-to: Single-cell and paired chain data'
