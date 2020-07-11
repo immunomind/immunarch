@@ -32,72 +32,59 @@ knitr::opts_chunk$set(fig.width = 12)
 knitr::opts_chunk$set(fig.height = 5)
 
 library(immunarch)
+
+embed_png <- function(path, dpi = NULL) {
+  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
+  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
+  knitr::asis_output(paste0(
+    "<img src='", path, "'",
+    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
+    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
+    " />"
+  ))
+}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
+# Introduction
+This is a tutorial on analyzing COVID-19 immune-repertoire data in `immunarch`. 
 
-
-# Executive Summary
-
-> This is a tutorial on analyzing COVID-19 immune-repertoire data in `immunarch`
-
-> Data is from <a href= "https://doi.org/10.1101/2020.05.18.100545">this</a> longitudinal study of T-cell dynamics in COVID-19 data
-
-# Context
+We will be analyzing data from <a href= "https://doi.org/10.1101/2020.05.18.100545">this</a> longitudinal study of T-cell dynamics in COVID-19 data from Minervina, et al. 
 
 ## Experiment
 
+This figure from the paper shows the experimental setup. The authors analyzed two patients (male and female) whom they had samples from 2018 and 2019 before infection, and they collected samples from a few intervals (15, 30, 37, and 45 days) after the onset of symptoms.
+
+```{r, echo = FALSE}
+embed_png("../images/experimentpipeline.png")
+```
 
 ## Prerequisites
-> Storage requirement: The full dataset includes 120 samples that are around ~1GB each
+**Storage requirement**: The full dataset includes 120 samples that are around ~1GB each. In this tutorial we used a subset of the data that is around 250MB. 
 
-> immunarch: Follow the instructions [here](https://immunarch.com/articles/v1_introduction.html) to install `immunarch`
-
-> If you want to start with raw data, follow [this](https://immunarch.com/articles/load_sra.html) tutorial to download the dataset from Short Read Archive and process using MiXCR.
+Follow the instructions to install the `immunarch` package [here](https://immunarch.com/articles/v1_introduction.html)
 
 
 # Understand the Data
 
-You can access the raw data from Short Read Archive. However, it is recommended that you use the pre-processed data from Zenodo as linked below. It will save you a lot of time and pain! Below is a description of the data format.
+```{r, echo = FALSE}
+embed_png("../images/pipeline-wide.png")
+```
 
-### **Data Format**
+## Load the Data
 
-W_30_Tscm_alpha_F1
+There are several versions of the data that we can start with. You can access the raw data from Sequence Read Archive. However, it is recommended that you use the pre-processed data from Zenodo as linked below. It will save you a lot of time and pain! Below are links to the different versions of the data:
 
-Female or Male sample
+1. The [raw read data](https://immunarch.com/articles/load_sra.html) from Sequence Read Archive (120 GB)
+2.  <a href="https://zenodo.org/record/3835956">Pre-processed</a> files with MiXCR 
+3. <a href="https://github.com/pogorely/Minervina_COVID">Clonotype tables</a> from final analysis
 
-W: female
-
-M: male
-
-time point of sample
-
-- 2018 or 2019 (pre-infection)
-- day 5/day 30/day 37/day 45 (post-infection)
-
-data type
-
-- CD4 (helper T-cells) /CD8 (Cytotoxic T-cells)
-- [Subpopulations of memory T-cells:](https://www.nature.com/articles/nri3098.pdf?origin=ppub) (only for day 30 and 45)
-    - CM
-    - SCM
-    - EM
-    - EMRA
-
-alpha or beta chain:
-
-- alpha: VJ info
-- beta: VDJ info
-
-Replicate:
-
-- Biological replicate 1 or 2
-
-# Load the Data
+We will be using the pre-processed MiXCR data from the second step. 
 
 Download the data from <a href="https://zenodo.org/record/3835956">Zenodo</a> and load the MiXCR data into immunarch. This step takes while, so use repSave to save the data into immunarch format so next time will be faster. While you're waiting, check out our new single cell tutorial <a href="https://immunarch.com/articles/web_only/v21_singlecell.html">here</a>!
 
-<!-- ```{r, message=F, warning=F}
-data(coviddata)
-``` -->
+```{r, echo = FALSE}
+embed_png("../images/dataformatgraphic.png")
+```
 
 First, load the immunarch library. Replace the path with your path to the downloaded data from Zenodo. The `repSave` method below will help save some time so next time you can load the data quicker.
 
@@ -123,14 +110,15 @@ repSave(pbmc_beta, "/path/to/covidtutorial/processeddata/beta/PBMC/")
 ```
 
 
-
 # Explore the Data
 
 Next, let's explore the data! Here are some methods that we will be using.
 
-> `repExplore`: calculates the basic statistics of repertoire: the number of unique immune receptor clonotypes, their relative abundances, and sequence length distribution across the input dataset.
+- [`repExplore`](https://immunarch.com/reference/repExplore.html): calculates the basic statistics of repertoire: the number of unique immune receptor clonotypes, their relative abundances, and sequence length distribution across the input dataset.
 
-> `vis`: Output from every function in immunarch can be visualised with a single function - vis. The vis automatically detects the type of the data and draws a proper visualisation. 
+- [`vis`](https://immunarch.com/reference/vis.html): Output from every function in immunarch can be visualised with a single function - vis. The vis automatically detects the type of the data and draws a proper visualisation. 
+
+For the next figure, we grouped by "I" -infected and "N" -pre-infection. On the right, it is further broken down by male and female. Notice how, overall, the number of unique clonotypes is much higher for the female patient than the male patient. In addition, the infected samples had much higher number of unique clonotypes than the non-infected samples.
 
 ```{r, eval=F}
 exp_vol <- repExplore(pbmc_beta$data, .method = "volume")
@@ -143,18 +131,35 @@ p2 <- vis(exp_vol, .by = c("Status", "Sex"), .meta = pbmc_beta$meta)
 p1 + p2
 
 ```
+```{r, echo = FALSE}
+embed_png("../images/num_unique_clonotypes.png")
+```
 
-```{r, message=F, eval=F, include=FALSE, warning=FALSE, fig.width=12, fig.height=5}
-exp_vol <- repExplore(coviddata$data, .method = "volume")
-p1 <- vis(exp_vol, .by = c("Status"), .meta=coviddata$meta)
-p2 <- vis(exp_vol, .by = c("Status", "Sex"), .meta = coviddata$meta)
+```
+p3
+```
+```{r, echo = FALSE}
+embed_png("../images/clonotype_abundances.png")
+```
 
-p1 + p2
+```
+p4
+```
+```{r, echo = FALSE}
+embed_png("../images/cdr3lengths.png")
 ```
 
 # Clonotypes
 
-One of the ways to estimate the diversity of samples is to evaluate clonality. repClonality measures the amount of the most or the least frequent clonotypes. 
+```{r, echo = FALSE}
+embed_png("../images/pipe-2.png")
+```
+
+## Diversity 
+
+One of the ways to estimate the diversity of samples is to evaluate clonality. repClonality measures the amount of the most or the least frequent clonotypes. In the graphs below, we used the rare method to find the least prolific clonotypes.
+
+- [`repClonality`](https://immunarch.com/reference/repClonality.html): measures the amount of the most or the least frequent clonotypes. 
 
 ```{r, eval=F}
 pbmcbeta_pr <- repClonality(pbmc_beta$data, .method = "clonal.prop")
@@ -193,11 +198,11 @@ attr(,"class")
 vis(pbmcbeta_top) + vis(pbmcbeta_top, .by = "Status", .meta = pbmc_beta$meta)
 
 ```
+```{r, echo = FALSE}
+embed_png("../images/topclonalprop.png")
 ```
-PLACEHOLDER FOR GRAPHIC
-```
-While the rare method deals with the least prolific clonotypes:
 
+While the rare method deals with the least prolific clonotypes:
 
 ```{r, eval=F}
 pbmcbeta_rare <- repClonality(pbmc_beta$data, .method = "rare")
@@ -205,10 +210,8 @@ pbmcbeta_rare <- repClonality(pbmc_beta$data, .method = "rare")
 vis(pbmcbeta_rare) + vis(pbmcbeta_rare, .by = "Status", .meta = pbmc_beta$meta)
 
 ```
-The post-infection samples (Status = "I") have significantly lower proportion of "rare" clonotypes which have a count of 1. On the other hand, they have a higher proportion of clonotypes with more than 101 counts. The samples with the highest proportion of clonotypes with higher frequencies are on days 15 and 37, while the samples with the highest proportion of rare clonotypes (counts of 3 or less) are in the pre-infection timepoints.
-
-```
-PLACEHOLDER FOR GRAPHIC
+```{r, echo = FALSE}
+embed_png("../images/rare_clonal_prop.png")
 ```
 
 The post-infection samples (Status = "I") have significantly lower proportion of "rare" clonotypes which have a count of 1. On the other hand, they have a higher proportion of clonotypes with more than 101 counts. The samples with the highest proportion of clonotypes with higher frequencies are on days 15 and 37, while the samples with the highest proportion of rare clonotypes (counts of 3 or less) are in the pre-infection timepoints.
@@ -222,14 +225,14 @@ pbmcbeta_hom <- repClonality(pbmc_beta$data,
 vis(pbmcbeta_hom) + vis(pbmcbeta_hom, .by = c("Status", "Sex"), .meta = pbmc_beta$meta)
 
 ```
-```
-PLACEHOLDER FOR GRAPHIC
+```{r, echo = FALSE}
+embed_png("../images/relative_abundance.png")
 ```
 
-# PCA
+## PCA
 We can use PCA to analyze the differences in gene usage. 
 
-
+- [`immunr_pca`](https://immunarch.com/reference/immunr_pca.html): perform Principal Component Analysis and analyze the differences in gene usage between the samples.
 
 ```{r, eval=F}
 # Separate the data by sex, let's use the female samples here
@@ -250,9 +253,124 @@ gu <- t(as.matrix(gu[, -1]))
 immunr_pca(gu) %>% vis()
 
 ```
-
-There is a clear difference between the post-infection samples and the pre-infection samples on the first principal component!
-
+```{r, echo = FALSE}
+embed_png("../images/public_clonotype_pca_female.png")
 ```
-PLACEHOLDER FOR GRAPHIC
+
+There is a clear difference between the post-infection samples and the pre-infection samples on the first principal component! The pink dots on the positive side of the x-axis are the 2018 and 2019 samples, pre-infection.
+
+## Tracking clonotypes over time
+
+Clonotype tracking is popular approach for detecting changes in frequency of clonotypes of interest in vaccination and cancer immunology. For example, a researcher can track a clonotype of across different time points in pre- and post-vaccination repertoires, or analyze growth of malignant clonotypes in a tumor sample.
+
+- [`trackClonotypes`](https://immunarch.com/reference/trackClonotypes.html): pick clonotypes of interest by amino acid sequences, nucleotide sequences, V gene segments, J gene segments, or a combination of the above.
+
+Let's look at the top 30 clonotypes using their nucleotide sequences, and plot the proportions in order by date. 
+
+```{r, eval=F}
+females <- pbmc_beta$meta %>% filter(Sex=="F") %>% select(Sample)
+pbmc_beta_f <- pbmc_beta$data[females$Sample]
+pbmc_beta_f$data <- pbmc_beta_f
+pbmc_beta_f$meta <- pbmc_beta$meta
+tc1 <- trackClonotypes(pbmc_beta$data, list("W_15_F1_beta", 30), .col = "nt")
+sample_order <- order(pbmc_beta_f$meta$Day)
+p1 <- vis(tc1, .order = sample_order)
+```
+
+```{r, echo = FALSE}
+embed_png("../images/clonotype_tracking.png")
+```
+It is interesting to see the dip in proportion from 2019 (still pre-infection) and another drop in proportion by the 45th day after onset of symptoms.
+
+# Public Repertoire Analysis
+
+```{r, echo = FALSE}
+embed_png("../images/pipe-3.png")
+```
+
+Repertoire overlap is the most common approach to measure repertoire similarity. It is achieved by computation of specific statistics on clonotypes shared between given repertoires, also called "public" clonotypes.
+
+- [`pubRep`](https://immunarch.com/reference/pubRep.html): plot the distribution of public clonotype frequencies
+- [`other overlap methods`](https://immunarch.com/articles/web_only/v9_kmers.html): Jaccard index, cosine similarity, and Morisita's overlap index.
+
+```{r, eval=F}
+pbmc_beta_top_500 <- pbmc_beta_f
+pbmc_beta_top_500$data <- lapply(pbmc_beta_f$data, head, 500)
+pr <- pubRep(pbmc_beta_top_500$data, .verbose = FALSE)
+vis(pr, "freq")
+```
+```{r, echo = FALSE}
+embed_png("../images/public_clonotype_frequencies.png")
+```
+
+```{r, eval=F}
+vis(pr, "freq", .type = "none")
+```
+```{r, echo = FALSE}
+embed_png("../images/distrib_public_clonotypes.png")
+```
+
+Graph the biological replicates for day 15 against each other. They are closely correlated, as seen below.
+
+```{r, eval=F}
+vis(pr, "clonotypes", 1, 2)
+```
+```{r, echo = FALSE}
+embed_png("../images/biologicalreplicates_pub.png")
+```
+
+Plot the clonotype frequencies of day 37 and day 15. Less similar than the biological replicates.
+
+```{r, eval=F}
+vis(pr, "clonotypes", 1, 5)
+```
+```{r, echo = FALSE}
+embed_png("../images/37x15_pub.png")
+```
+
+Plot the pre-infection data against day 15. Difference is much more noticeable here.
+
+```{r, eval=F}
+vis(pr, "clonotypes", 1, 9)
+```
+```{r, echo = FALSE}
+embed_png("../images/2018x15_pub.png")
+```
+
+# Amino Acid Sequence Motif Analysis
+
+```{r, echo = FALSE}
+embed_png("../images/pipe-4.png")
+```
+
+`immunarch` has several options for sequence motif analysis, we demonstrate some of the options including the position self-information matrices below.
+
+- [`getKmers`](https://immunarch.com/reference/getKmers.html): Calculate the kmer statistics of immune repertoires
+- [`kmer_profile`](https://immunarch.com/reference/split_to_kmers.html): Analysis of immune repertoire kmer statistics: sequence profiles, etc.
+
+```{r, eval=F}
+kmers <- getKmers(pbmc_beta_f$data, 5)
+vis(kmers)
+```
+```{r, echo = FALSE}
+embed_png("../images/kmersdistrib_full.png")
+```
+
+```{r, eval=F}
+kmers <- getKmers(pbmc_beta_f$data[[1]], 5)
+kmer_profile(kmers)
+```
+```{r, echo = FALSE}
+embed_png("../images/kmers_distrib_3.png")
+```
+
+```{r, eval=F}
+kp <- kmer_profile(kmers, "self")
+p1 <- vis(kp)
+p2 <- vis(kp, .plot = "seq")
+
+p1 + p2
+```
+```{r, echo = FALSE}
+embed_png("../images/kmers_vis.png")
 ```
