@@ -2,10 +2,12 @@
 #'
 #' @concept dynamics
 #'
-#' @importFrom dplyr arrange desc distinct
+#' @importFrom dplyr arrange desc distinct rowwise
 #' @importFrom tibble tibble
+#' @importFrom factoextra hcut
+#' @importFrom tibble rownames
 #'
-#' @aliases trackClonotypes
+#' @aliases trackClonotypes2
 #'
 #' @description track top abundant clonotypes across timepoints
 #'
@@ -23,14 +25,7 @@
 #'
 #' @param .timepoint An argument that regulates which clonotypes to choose for tracking. There are three options for this argument:
 #'
-#' 1) pass a list with two elements \code{list(X, Y)}, where \code{X} is the name or the index of a target repertoire from ".data", and
-#' \code{Y} is the number of the most abundant clonotypes to take from \code{X}.
-#'
-#' 2) pass a character vector of sequences to take from all data frames;
-#'
-#' 3) pass a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).
-#'
-#' See the "Examples" below with examples for each option.
+#' @param .num An integer that specifies how many of the top abundant clonotypes from each sample to include. Default is 1000. 
 #'
 #' @param .col A character vector of length 1. Specifies an identifier for a column, from which the function
 #' chooses clonotype sequences. Specify "nt" for nucleotide sequences, "aa" for amino acid sequences,
@@ -45,10 +40,10 @@
 #' Note: duplicated clonotypes are merged and their counts are summed up.
 #'
 #' @return Data frame with input sequences and counts or proportions for each of the input repertoire.
-#' @export trackClonotypes
+#' @export trackClonotypes2
 #' 
 
-trackClonotypes2 <- function(.data, .meta, .timepoints = list(), .num, .col = "aa", .norm = TRUE) {
+trackClonotypes2 <- function(.data, .timepoints = list(), .num = 1000, .col = "aa", .norm = TRUE) {
   # subsets data using timepoint field
   # top n most abundant clonotypes
   # run pca
@@ -59,57 +54,50 @@ trackClonotypes2 <- function(.data, .meta, .timepoints = list(), .num, .col = "a
   if (!has_class(.data, "list")) {
     stop("Error: please pass a list with immune repertoires to track clonotypes.")
   }
-  if (length(.data) < 2) {
-    stop("Error: please pass a list with 2 or more immune repertoires to track clonotypes.")
-  }
+
+  col_param <- .col
 
   .col <- unlist(strsplit(.col, split = "\\+"))
   .col <- sapply(.col, switch_type, USE.NAMES = FALSE)
 
-  if (length(.timepoints) != 2) {
-    stop("Error: please pass a list with two elements for the .timepoint argument. Run ?trackClonotypes for more details in the documentation.")
-  }
-
-  # n_clonotypes assigned by .num parameter
-  n_clonotypes <- .num
-
+  #### PRE-PROCESSING
+  # subset data by the timepoints
   subset_df <- .data[.timepoints]
 
   # for each sample in the list in .timepoint, get top .num clonotypes
-  topdf <- lapply(subset_df, function(w) { w$top <- trackClonotypes(w, list(1, .num), .col, .norm) })
+  subset_df <- top(subset_df, .n = .num)
 
-  temp <- data.frame()
+  subset_df <- lapply(subset_df, head, .num)
 
-  for (sample in topdf) {
-    temp <- temp %>% full_join(sample$top)
-  }
+  top_df <- pubRep(subset_df, col_param, .verbose=FALSE)
 
- # @TODO fix .var so it works for all columns
-  temp <- temp %>% column_to_rownames(., var = "CDR3.aa")
+  row.names(top_df) <- as.vector(unlist(top_df[,1]))
 
-  m_raw <- data.matrix(temp)
+  top_df <- top_df[, c(.col, "Samples"):=NULL] 
+
+  top_df <- top_df/colSums(top_df, na.rm=TRUE)
 
   #### NORMALISATION
   # adding column with max proportion for each clonotype across time points
-  m <- m_raw %>% rowwise() %>% mutate(max_prop = max(across(test)))
+  m <- top_df %>% rowwise() %>% mutate(max_prop = max(across(.timepoints), na.rm=TRUE))
 
   # dividing proportions by the max proportion across all time points
   m <- m %>%
   ungroup() %>%
-  mutate(across(test), ~ . / max_prop))
+  mutate(across(.timepoints, ~ . / max_prop))
 
   # removing max prop column
   m$max_prop <- NULL
 
-  m <- as.data.frame(m)
+  m[is.na(m)] <- 0
 
-  rownames(m) <- rownames(m.raw)
+  m.matrix <- data.matrix(m)
 
-  result_df$pca <- immunr_pca(m)
+  result_df <- NULL
+
+  result_df$pca <- immunr_pca(m.matrix)
 
   ### GENERATE TRAJECTORIES
-  
-  library(factoextra)
 
   res <- hcut(as.matrix(m), k = 3, stand = FALSE) 
   
@@ -119,9 +107,13 @@ trackClonotypes2 <- function(.data, .meta, .timepoints = list(), .num, .col = "a
 
   m <- m %>% reshape2::melt(id.vars="clust")
 
-  result_df$traj <- m %>% group_by(clust, day) %>% summarise(mean_traj = mean(value), n_traj = n(), SE = sd(value)/sqrt(n()), SE_scaled = 2.96*sd(value)/sqrt(n()))
+  result_df$melt <- m
+
+  result_df$traj <- m %>% group_by(clust, variable) %>% summarise(mean_traj = mean(value), n_traj = n(), SE = sd(value)/sqrt(n()), SE_scaled = 2.96*sd(value)/sqrt(n()))
 
   add_class(result_df, "immunr_trajectories")
+
+  print(result_df)
 
 
 }
