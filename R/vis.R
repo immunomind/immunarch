@@ -2945,3 +2945,46 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 # vis.immunr_cdr_prop <- function (.data, .by = NA, .meta = NA, .plot = c("box", "hist")) {
 #   stop(IMMUNR_ERROR_NOT_IMPL)
 # }
+
+
+#' PCA plot and trajectory plot from track clonotypes.
+#'
+#' @concept dynamics
+#'
+#' @importFrom factoextra fviz_cluster
+#'
+#' @aliases vis_trajectory
+#'
+#' @name vis_trajectory
+#'
+#' @usage
+#'
+#' @description
+#' Plot PCA graph of clonotype clusters or trajectory plot over time.
+#'
+#' @param .data Output from the \code{trackClonotypes} function.
+#' @param .option PCA or Trajectory
+#'
+#' @return
+#' A ggplot2 object or fviz object.
+#'
+#' @seealso \link{trackClonotypes2}
+#'
+#' @examples
+
+#' @export
+vis.immunr_trajectories <- function(.data, .option='pca') {
+  if (.option == 'pca') {
+    fviz_cluster(.data$clust, ellipse.type = "convex", geom="point")
+  } else {
+      ggplot(.data$traj, aes(x=variable, y=mean_traj, group=factor(clust)), labels=day15) + 
+      geom_line(aes(color=factor(clust))) +
+      geom_point(aes(color=factor(clust))) +
+      # scale_x_discrete(limits=.data$traj$variable) +
+      ylab("Average clonotype trajectory") +
+      ggtitle("Average clonotype trajectory over time") +
+      geom_errorbar(aes(ymin = mean_traj - SE_scaled, ymax = mean_traj + SE_scaled, color=factor(clust)), width=0.1)
+  }
+  
+
+}

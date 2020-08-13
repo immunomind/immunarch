@@ -103,6 +103,8 @@ trackClonotypes2 <- function(.data, .timepoints = list(), .num = 1000, .col = "a
   
   m$clust <- res$cluster
 
+  result_df$cluster <- res
+
   result_df$data <- m
 
   m <- m %>% reshape2::melt(id.vars="clust")
