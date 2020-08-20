@@ -42,17 +42,13 @@
 #' @return Data frame with input sequences and counts or proportions for each of the input repertoire.
 #' @export trackClonotypes2
 #' 
-
-trackClonotypes2 <- function(.data, .timepoints = list(), .num = 1000, .col = "aa", .norm = TRUE) {
-  # subsets data using timepoint field
-  # top n most abundant clonotypes
-  # run pca
-  if (!hasArg(.timepoints)) {
-    stop("Error: please pass a list of timepoints to the function.")
-  }
+trackClonotypes2 <- function(.data, .which = list(), .col = "aa", .norm = TRUE, .k = tibble) {
 
   if (!has_class(.data, "list")) {
     stop("Error: please pass a list with immune repertoires to track clonotypes.")
+  }
+  if (length(.data) < 2) {
+    stop("Error: please pass a list with 2 or more immune repertoires to track clonotypes.")
   }
 
   col_param <- .col
@@ -60,62 +56,172 @@ trackClonotypes2 <- function(.data, .timepoints = list(), .num = 1000, .col = "a
   .col <- unlist(strsplit(.col, split = "\\+"))
   .col <- sapply(.col, switch_type, USE.NAMES = FALSE)
 
-  #### PRE-PROCESSING
-  # subset data by the timepoints
-  subset_df <- .data[.timepoints]
+  track <- FALSE
 
-  # for each sample in the list in .timepoint, get top .num clonotypes
-  subset_df <- top(subset_df, .n = .num)
+  if (has_class(.which, "list")) {
 
-  subset_df <- lapply(subset_df, head, .num)
+    if (length(.which) != 2) {
+      stop("Error: please pass a list with two elements for the .which argument. Run ?trackClonotypes for more details in the documentation.")
+    }
 
-  top_df <- pubRep(subset_df, col_param, .verbose=FALSE)
+    ########## BEGINNING OF TRACK CLONOTYPES ###########
 
-  row.names(top_df) <- as.vector(unlist(top_df[,1]))
+    if (has_class(.which[[1]], "numeric") & has_class(.which[[2]], "tbl")) {
+      print("IN IF LOOP")
+      track <- TRUE
+      n_clonotypes <- .which[[1]]
+      meta <- .which[[2]]
 
-  top_df <- top_df[, c(.col, "Samples"):=NULL] 
+      if (!("Timepoints" %in% colnames(meta))) {
+        stop("Error: please pass a meta data with Timepoints column to .which argument. Run ?trackClonotypes for more details in the documentation.")
 
-  top_df <- top_df/colSums(top_df, na.rm=TRUE)
+      }
 
-  #### NORMALISATION
-  # adding column with max proportion for each clonotype across time points
-  m <- top_df %>% rowwise() %>% mutate(max_prop = max(across(.timepoints), na.rm=TRUE))
+      timepoints <- meta$Sample
 
-  # dividing proportions by the max proportion across all time points
-  m <- m %>%
-  ungroup() %>%
-  mutate(across(.timepoints, ~ . / max_prop))
+      if (n_clonotypes < 1) {
+        stop("Error: please enter a non-zero positive number of clonotypes to the .which argument.")
+      }
 
-  # removing max prop column
-  m$max_prop <- NULL
+      #### PRE-PROCESSING
+      # subset data by the timepoints
+      subset_df <- .data[timepoints]
 
-  m[is.na(m)] <- 0
+      # for each sample in the list in .timepoint, get top .num clonotypes
+      subset_df <- top(subset_df, .n = .num)
 
-  m.matrix <- data.matrix(m)
+      subset_df <- lapply(subset_df, head, .num)
 
-  result_df <- NULL
+      top_df <- pubRep(subset_df, col_param, .verbose = FALSE)
 
-  result_df$pca <- immunr_pca(m.matrix)
+      row.names(top_df) <- as.vector(unlist(top_df[, 1]))
 
-  ### GENERATE TRAJECTORIES
+      top_df <- top_df[, c(.col, "Samples") := NULL]
 
-  res <- hcut(as.matrix(m), k = 3, stand = FALSE) 
-  
-  m$clust <- res$cluster
+      top_df <- top_df / colSums(top_df, na.rm = TRUE)
 
-  result_df$cluster <- res
+      #### NORMALISATION
+      # adding column with max proportion for each clonotype across time points
+      m <- top_df %>% rowwise() %>% mutate(max_prop = max(across(timepoints), na.rm = TRUE))
 
-  result_df$data <- m
+      # dividing proportions by the max proportion across all time points
+      m <- m %>%
+      ungroup() %>%
+      mutate(across(timepoints, ~ . / max_prop))
 
-  m <- m %>% reshape2::melt(id.vars="clust")
+      # removing max prop column
+      m$max_prop <- NULL
 
-  result_df$melt <- m
+      m[is.na(m)] <- 0
 
-  result_df$traj <- m %>% group_by(clust, variable) %>% summarise(mean_traj = mean(value), n_traj = n(), SE = sd(value)/sqrt(n()), SE_scaled = 2.96*sd(value)/sqrt(n()))
+      m.matrix <- data.matrix(m)
 
+      result_df <- NULL
+
+      result_df$pca <- immunr_pca(m.matrix)
+
+      ### GENERATE TRAJECTORIES
+
+      res <- hcut(as.matrix(m), k = 3, stand = FALSE)
+
+      m$clust <- res$cluster
+
+      result_df$cluster <- res
+
+      result_df$data <- m
+
+      m <- m %>% reshape2::melt(id.vars = "clust")
+
+      names(m)[2] <- "Sample"
+
+    #   print("Before merge")
+
+      m <- merge(m, meta, by=c("Sample"))
+
+      print(head(m))
+
+      result_df$melt <- m
+
+      result_df$traj <- m %>% group_by(clust, Timepoints) %>% summarise(mean_traj = mean(value), n_traj = n(), SE = sd(value) / sqrt(n()), SE_scaled = 2.96 * sd(value) / sqrt(n()))
+
+      add_class(result_df, "immunr_trajectories")
+
+    } else {
+      # Option 1
+      print("HERE OPTION 1")
+    #   target_df <- .which[[1]]
+    #   n_clonotypes <- .which[[2]]
+
+    #   # ToDo: replace Clones with IMMCOL$count
+    #   target_seq <- .data[[target_df]] %>%
+    #   arrange(desc(Clones)) %>%
+    #   select(.col) %>%
+    #   head(n_clonotypes) %>%
+    #   distinct() %>%
+    #   collect(n = Inf)
+    }
+
+  } else if (has_class(.which, "character")) {
+            print("HERE OPTION 2")
+
+    # Option 2
+    # target_seq <- tibble(.which) %>% distinct()
+
+    # ToDo: extract sequence column names
+    # names(target_seq)[1] <- .col[1]
+  } else {
+    # Option 3
+          print("HERE OPTION 3")
+
+    # target_seq <- .which %>% distinct()
+    # .col <- colnames(target_seq)
+
+    # for (col_name in .col) {
+    #   if (!(col_name %in% names(.data[[1]]))) {
+    #     stop("Error: can't find a column with the name \"", col_name, "\" in the input data. Please check column names for the .which argument.")
+    #   }
+    }
+
+     if (track == FALSE) {
+      print("HERE")
+    setDT(target_seq)
+    count_col <- IMMCOL$count
+
+    result_df <- NULL
+    for (i_df in 1:length(.data)) {
+      temp_df <- .data[[i_df]] %>%
+      select(.col, Count = count_col)
+      setDT(temp_df)
+
+      if (.norm) {
+        temp_df$Count <- temp_df$Count / sum(temp_df$Count)
+      }
+
+      temp_df <- temp_df[, .(sum(Count)), .col]
+
+      if (is.null(result_df)) {
+        result_df <- merge(target_seq, temp_df, all.x = TRUE)
+      } else {
+        result_df <- merge(result_df, temp_df, all.x = TRUE)
+      }
+
+      setnames(result_df, ncol(result_df), names(.data)[i_df])
+    }
+
+    for (j in seq_len(ncol(result_df))) {
+      set(result_df, which(is.na(result_df[[j]])), j, 0)
+    }
+
+    add_class(result_df, "immunr_dynamics")
+     
+
+  } else {
   add_class(result_df, "immunr_trajectories")
 
-  print(result_df)
-
+  }
 
 }
+
+ 
+
+
