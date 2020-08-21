@@ -620,7 +620,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
       .data <- reshape2::melt(.data, na.rm = TRUE)
       names(.data) <- c("Sample_subj", "Sample", "Overlap", "N", "Seq.count")
 
-      filtered_data <- .data[.data$Sample_subj == sample_names[.target], ]
+      filtered_data <- .data[.data$Sample_subj == sample_names[.target],]
       filtered_data$Seq.count <- as.numeric(filtered_data$Seq.count)
 
       filtered_data <- filtered_data %>%
@@ -639,7 +639,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
       .data <- reshape2::melt(.data, na.rm = TRUE)
       names(.data) <- c("Sample_subj", "Sample", "Overlap", "Seq.count")
 
-      filtered_data <- .data[.data$Sample_subj == sample_names[.target], ]
+      filtered_data <- .data[.data$Sample_subj == sample_names[.target],]
       filtered_data$Seq.count <- as.numeric(filtered_data$Seq.count)
       filtered_data <- filtered_data %>%
         dplyr::rename(Value = Overlap)
@@ -923,7 +923,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
     df[, 1] <- df[, 1] / sum(df[, 1], na.rm = TRUE)
     df[, 2] <- df[, 2] / sum(df[, 2], na.rm = TRUE)
     df_full <- df
-    df <- df[!is.na(df[, 1]) & !is.na(df[, 2]), ]
+    df <- df[!is.na(df[, 1]) & !is.na(df[, 2]),]
     freq <- log10(sqrt(as.numeric(df[, 1]) * df[, 2])) / 2
     names(df) <- c("Xrep", "Yrep")
     names(df_full) <- c("Xrep", "Yrep")
@@ -955,7 +955,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 
     min_df <- min(floor(log10(min(df_full[, 1], na.rm = TRUE))), floor(log10(min(df_full[, 2], na.rm = TRUE))))
     max_df <- max(trunc(log10(max(df_full[, 1], na.rm = TRUE))), trunc(log10(max(df_full[, 2], na.rm = TRUE))))
-    breaks_values <- 10**seq(min_df, 1)
+    breaks_values <- 10 ** seq(min_df, 1)
     breaks_labels <- format(log10(breaks_values), scientific = FALSE)
 
     grey_col <- "#CCCCCC"
@@ -992,7 +992,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
       df2 <- rbind(df2, data.frame(Clonotype = df_full[!is.na(df_full[, 1]) & !is.na(df_full[, 2]), 1], Type = "public", stringsAsFactors = FALSE))
       top_plot <- ggplot() +
         geom_density(aes(x = Clonotype, fill = Type), colour = "grey25", data = df2, alpha = .3) +
-        scale_x_log10(breaks = 10**(seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
+        scale_x_log10(breaks = 10 ** (seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
         theme_bw() +
         theme(
           axis.title.x = element_blank(),
@@ -1008,7 +1008,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
       df2 <- rbind(df2, data.frame(Clonotype = df_full[!is.na(df_full[, 2]) & !is.na(df_full[, 1]), 2], Type = "public", stringsAsFactors = FALSE))
       right_plot <- ggplot() +
         geom_density(aes(x = Clonotype, fill = Type), colour = "grey25", data = df2, alpha = .3) +
-        scale_x_log10(breaks = 10**(seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
+        scale_x_log10(breaks = 10 ** (seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
         coord_flip() +
         theme_bw() +
         theme(
@@ -1193,7 +1193,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 
   if (.melt) {
     res <- reshape2::melt(res)
-    res <- res[1:nrow(res), ]
+    res <- res[1:nrow(res),]
     if (ncol(.data) == 2) {
       res[[2]] <- "Data"
     }
@@ -1240,7 +1240,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
       }
 
       if (is.na(.ncol)) {
-        .ncol <- round(length(unique(res$Sample))**.5)
+        .ncol <- round(length(unique(res$Sample)) ** .5)
       }
 
       if (!is.na(.by[1])) {
@@ -1357,7 +1357,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
                     .legend = NA, .leg.title = "Legend (.leg.title argument)", .legend.pos = "right") {
   if (.melt) {
     res <- reshape2::melt(.data)
-    res <- res[1:nrow(res), ]
+    res <- res[1:nrow(res),]
     if (ncol(.data) == 2) {
       res[[2]] <- "Data"
     }
@@ -2449,8 +2449,8 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
     }
 
     if (.labels) {
-      tmp <- .muc.res[tapply(1:nrow(.muc.res), .muc.res$Sample, tail, 1), ]
-      tmp <- tmp[order(tmp$Group), ]
+      tmp <- .muc.res[tapply(1:nrow(.muc.res), .muc.res$Sample, tail, 1),]
+      tmp <- tmp[order(tmp$Group),]
       p <- p + ggrepel::geom_label_repel(aes(x = Size, y = Mean, label = Sample, fill = Group), data = tmp)
     }
   }
@@ -2646,7 +2646,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
   max_counts <- apply(.data[, -1], 1, max, na.rm = TRUE)
   max_indices <- head(order(max_counts, decreasing = TRUE), .head)
   n_samples <- ncol(.data) - 1
-  .data <- .data[max_indices, ]
+  .data <- .data[max_indices,]
 
   melted <- reshape2::melt(.data, id.vars = "Kmer")
   colnames(melted) <- c("Kmer", "Sample", "Count")
@@ -2815,6 +2815,7 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #'
 #' @importFrom data.table setnames melt.data.table
 #' @importFrom ggalluvial geom_flow geom_stratum
+#' @importFrom factoextra fviz_cluster
 #'
 #' @name vis.immunr_dynamics
 #'
@@ -2876,63 +2877,92 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #' # And finally, we visualise the data:
 #' vis(tc, .order = sample_order)
 #' @export
-vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .order = NA, .log = FALSE, ...) {
+vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line", "pca", "traj", "all"), .order = NA, .log = FALSE, ...) {
   .plot <- .plot[1]
-  if (!(.plot %in% c("smooth", "area", "line"))) {
+  if (!(.plot %in% c("smooth", "area", "line", "pca", "traj", "all"))) {
     stop("Error: unknown plot identifier \"", .plot, "\". Please provide one of the following: \"smooth\", \"area\" or \"line\".")
   }
 
-  y_lab_title <- "Count"
-  melted <- melt(.data) %>%
+  if ("traj" %in% names(.data)) {
+    if (.plot == 'pca') {
+      fviz_cluster(.data$clust, ellipse.type = "convex", geom = "point")
+    } else if (.plot == 'traj') {
+      ggplot(.data$traj, aes(x = Timepoints, y = mean_traj, group = factor(clust)), labels = day15) +
+      geom_line(aes(color = factor(clust))) +
+      geom_point(aes(color = factor(clust))) +
+      # scale_x_discrete(limits=.data$traj$variable) +
+      ylab("Average clonotype trajectory") +
+      ggtitle("Average clonotype trajectory over time") +
+      geom_errorbar(aes(ymin = mean_traj - SE_scaled, ymax = mean_traj + SE_scaled, color = factor(clust)), width = 0.1)
+    } else {
+      p1 <- fviz_cluster(.data$clust, ellipse.type = "convex", geom = "point")
+      p2 <- ggplot(.data$traj, aes(x = Timepoints, y = mean_traj, group = factor(clust)), labels = day15) +
+      geom_line(aes(color = factor(clust))) +
+      geom_point(aes(color = factor(clust))) +
+      # scale_x_discrete(limits=.data$traj$variable) +
+      ylab("Average clonotype trajectory") +
+      ggtitle("Average clonotype trajectory over time") +
+      geom_errorbar(aes(ymin = mean_traj - SE_scaled, ymax = mean_traj + SE_scaled, color = factor(clust)), width = 0.1)
+      p1 + p2
+    }
+
+
+  } else {
+    y_lab_title <- "Count"
+    melted <- melt(.data) %>%
     lazy_dt() %>%
     rename(Count = value, Sample = variable) %>%
     collect()
-  setDT(melted)
-  if (max(melted[["Count"]]) <= 1) {
-    y_lab_title <- "Proportion"
-  }
-
-  last_obj_column_i <- match("Sample", names(melted)) - 1
-  column_names <- names(melted)[1:last_obj_column_i]
-  melted[, Clonotype := do.call(paste, .SD), .SDcols = column_names]
-
-  if (!is.na(.order[1])) {
-    if (is.character(.order)) {
-      ordered_sample_names <- .order
-    } else {
-      sample_names <- unique(melted$Sample)
-      ordered_sample_names <- sample_names[.order]
+    setDT(melted)
+    if (max(melted[["Count"]]) <= 1) {
+      y_lab_title <- "Proportion"
     }
-    melted <- melted[melted$Sample %in% ordered_sample_names, ]
-    melted$Sample <- factor(melted$Sample, levels = ordered_sample_names, ordered = TRUE)
-  }
 
-  melted$Count <- melted$Count + min(melted$Count[melted$Count != 0]) / 1000
-  p <- ggplot(melted, aes(
+    last_obj_column_i <- match("Sample", names(melted)) - 1
+    column_names <- names(melted)[1:last_obj_column_i]
+    melted[, Clonotype := do.call(paste, .SD), .SDcols = column_names]
+
+    if (!is.na(.order[1])) {
+      if (is.character(.order)) {
+        ordered_sample_names <- .order
+      } else {
+        sample_names <- unique(melted$Sample)
+        ordered_sample_names <- sample_names[.order]
+      }
+      melted <- melted[melted$Sample %in% ordered_sample_names,]
+      melted$Sample <- factor(melted$Sample, levels = ordered_sample_names, ordered = TRUE)
+    }
+
+    melted$Count <- melted$Count + min(melted$Count[melted$Count != 0]) / 1000
+    p <- ggplot(melted, aes(
     x = Sample, fill = Clonotype, stratum = Clonotype,
     alluvium = Clonotype, y = Count, label = Clonotype
   ))
 
-  if (.plot == "smooth") {
-    p <- p +
+    if (.plot == "smooth") {
+      p <- p +
       geom_flow() +
       geom_stratum()
-  } else if (.plot == "area") {
-    p <- p +
+    } else if (.plot == "area") {
+      p <- p +
       geom_area(aes(group = Clonotype), color = "black")
-  } else {
-    p <- p +
+    } else {
+      p <- p +
       geom_line(aes(color = Clonotype, group = Clonotype))
-  }
+    }
 
-  if (.log) {
-    p <- p + scale_y_log10()
-  }
+    if (.log) {
+      p <- p + scale_y_log10()
+    }
 
-  p +
+    p +
     ylab(y_lab_title) +
     ggtitle("Clonotype tracking") +
     theme_pubr(legend = "right") + rotate_x_text(90) + theme_cleveland2()
+
+  }
+
+
 }
 
 
@@ -2946,45 +2976,3 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #   stop(IMMUNR_ERROR_NOT_IMPL)
 # }
 
-
-#' PCA plot and trajectory plot from track clonotypes.
-#'
-#' @concept dynamics
-#'
-#' @importFrom factoextra fviz_cluster
-#'
-#' @aliases vis_trajectory
-#'
-#' @name vis_trajectory
-#'
-#' @usage
-#'
-#' @description
-#' Plot PCA graph of clonotype clusters or trajectory plot over time.
-#'
-#' @param .data Output from the \code{trackClonotypes} function.
-#' @param .option PCA or Trajectory
-#'
-#' @return
-#' A ggplot2 object or fviz object.
-#'
-#' @seealso \link{trackClonotypes2}
-#'
-#' @examples
-
-#' @export
-vis.immunr_trajectories <- function(.data, .option='pca') {
-  if (.option == 'pca') {
-    fviz_cluster(.data$clust, ellipse.type = "convex", geom="point")
-  } else {
-      ggplot(.data$traj, aes(x=variable, y=mean_traj, group=factor(clust)), labels=day15) + 
-      geom_line(aes(color=factor(clust))) +
-      geom_point(aes(color=factor(clust))) +
-      # scale_x_discrete(limits=.data$traj$variable) +
-      ylab("Average clonotype trajectory") +
-      ggtitle("Average clonotype trajectory over time") +
-      geom_errorbar(aes(ymin = mean_traj - SE_scaled, ymax = mean_traj + SE_scaled, color=factor(clust)), width=0.1)
-  }
-  
-
-}
