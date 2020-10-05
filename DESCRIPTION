@@ -63,6 +63,7 @@ Suggests:
     roxygen2 (>= 3.0.0),
     testthat (>= 2.1.0),
     pkgdown (>= 0.1.0),
+    png,
     assertthat
 VignetteBuilder: knitr
 Encoding: UTF-8
