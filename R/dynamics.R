@@ -147,8 +147,8 @@ trackClonotypes <- function(.data, .which = list(1, 15), .col = "aa", .norm = TR
   result_df <- NULL
   for (i_df in 1:length(.data)) {
     temp_df <- .data[[i_df]] %>%
-      select(.col, Count = count_col)
-    setDT(temp_df)
+      select(.col, Count = count_col) %>%
+      as.data.table()
 
     if (.norm) {
       temp_df$Count <- temp_df$Count / sum(temp_df$Count)
