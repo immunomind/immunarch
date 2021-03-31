@@ -37,7 +37,15 @@ are "hs.trbv", "HomoSapiens.TRBJ" or "macmul.IGHV". For details run \code{gene_s
 Pass NA if you want to compute gene statistics at the clonotype level without re-weighting.
 Pass "count" to use the "Clones" column to weight genes by abundance of their corresponding clonotypes.}
 
-\item{.ambig}{An option to handle ambiguous data. We recommend to turn in on by passing "inc" (turned on by default).
+\item{.ambig}{An option to handle ambiguous gene assigments, e.g., "TRAV1,TRAV2".
+
+
+- Pass "inc" to include all possible gene segments, so "TRAV1,TRAV2" is counted as a different gene segment.
+
+- Pass "exc" to exclude all ambiguous gene assignments, so "TRAV1,TRAV2" is excluded from the resultant gene table.
+
+
+We recommend to turn in on by passing "inc" (turned on by default).
 You can exclude data for the cases where
 there is no clear match for gene, include it for every supplied gene,
 or pick only first from the set. Set it to "exc", "inc" or "maj", correspondingly.}
