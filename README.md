@@ -110,9 +110,9 @@ devtools::install_github("immunomind/immunarch", ref="dev")
 You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
 
 
-## Features
+## Key Features
 
-1. Fast and easy manipulation of immune repertoire data:
+1. Data agnostic. Fast and easy manipulation of immune repertoire data:
 
     + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
@@ -122,7 +122,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
     
     + Tutorial is available [here](https://immunarch.com/articles/v2_data.html).
 
-2. Immune repertoire analysis made simple:
+2. Beginner-friendly. Immune repertoire analysis made simple:
 
     + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/v3_basic_analysis.html);
 
@@ -138,7 +138,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
     
     + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.
 
-3. Publication-ready plots with a built-in tool for visualisation manipulation: 
+3. Seamless publication-ready plots with a built-in tool for visualisation manipulation: 
 
     + Rich visualisation procedures with [ggplot2](https://ggplot2.tidyverse.org/);
   

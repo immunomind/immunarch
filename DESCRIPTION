@@ -66,5 +66,5 @@ Suggests:
     assertthat
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 LazyData: true
