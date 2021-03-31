@@ -4,7 +4,7 @@
 \alias{getKmers}
 \alias{get.kmers}
 \alias{makeKmerTable}
-\title{Calculate the kmer tatistics of immune repertoires}
+\title{Calculate the kmer statistics of immune repertoires}
 \usage{
 getKmers(.data, .k, .col = c("aa", "nt"), .coding = TRUE)
 }
@@ -32,7 +32,7 @@ pass "nt" for CDR3 nucleotide sequences.}
 Data frame with two columns (kmers and their counts).
 }
 \description{
-Calculate the kmer tatistics of immune repertoires
+Calculate the kmer statistics of immune repertoires
 }
 \examples{
 data(immdata)
