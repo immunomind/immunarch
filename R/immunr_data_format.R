@@ -42,7 +42,7 @@
 #'
 NULL
 
-# Immunarch column names
+# Immunarch basic column names
 IMMCOL <- new.env()
 
 IMMCOL$count <- "Clones"
@@ -73,9 +73,32 @@ IMMCOL$type <- c(
   "integer", "integer", "integer", "character"
 )
 
+# TODO: move V/D/J coordinates here
+# Immunarch extended column names
+IMMCOL_EXT <- new.env()
+
+IMMCOL_EXT$cdr1nt <- "CDR1.nt"
+IMMCOL_EXT$cdr1aa <- "CDR1.aa"
+IMMCOL_EXT$cdr2nt <- "CDR2.nt"
+IMMCOL_EXT$cdr2aa <- "CDR2.aa"
+IMMCOL_EXT$fr1nt <- "FR1.nt"
+IMMCOL_EXT$fr1aa <- "FR1.aa"
+IMMCOL_EXT$fr2nt <- "FR2.nt"
+IMMCOL_EXT$fr2aa <- "FR2.aa"
+IMMCOL_EXT$fr3nt <- "FR3.nt"
+IMMCOL_EXT$fr3aa <- "FR3.aa"
+IMMCOL_EXT$fr4nt <- "FR4.nt"
+IMMCOL_EXT$fr4aa <- "FR4.aa"
+IMMCOL_EXT$c <- "C.name"
+IMMCOL_EXT$order <- c(
+
+)
+
 # Additional information
 IMMCOL_ADD <- new.env()
-# separator for paired chain data
+# Separator for values inside columns, e.g., V assignments.
+IMMCOL_ADD$valsep <- ","
+# Separator for paired chain data
 IMMCOL_ADD$scsep <- ";"
 
 IMMUNR_ERROR_NOT_IMPL <- "ERROR: not implemented yet. Please contact us via support@immunomind.io if you need it in your research."
