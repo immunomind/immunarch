@@ -310,8 +310,12 @@ pubRepStatistics <- function(.data, .by = NA, .meta = NA) {
   melted_pr <- melted_pr %>%
     group_by(CDR3.aa) %>%
     mutate(Group = paste0(variable, collapse = "&")) %>%
-    filter(Samples > 1)
-  melted_pr <- as_tibble(table(melted_pr$Group), .name_repair = function(x) c("Group", "Count"))
+    filter(Samples > 1) %>%
+    as_tibble()
+
+  group_tab <- table(melted_pr$Group)
+
+  melted_pr <- as_tibble(group_tab, .name_repair = function(x) c("Group", "Count"))
   # melted_pr = bind_cols(melted_pr, Samples = sapply(melted_pr$Group, function (s) stringr::str_count(s, ";") + 1)) %>%
   # arrange(Count) %>%
   # mutate(Group = factor(Group, levels=rev(Group), ordered=TRUE))

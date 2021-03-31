@@ -792,7 +792,8 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
   } else if (.type == "mean") {
     melted_pr <- melted_pr %>%
       group_by(Sequence, Samples) %>%
-      summarise(Value = mean(value, na.rm = TRUE))
+      summarise(Value = mean(value, na.rm = TRUE)) %>%
+      as.data.table()
 
     p <- ggplot() +
       geom_jitter(aes(x = Value, y = Samples), data = melted_pr) +
