@@ -406,7 +406,7 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
         lo <- Sind
         hi <- Sind
       }
-      res <- c(sz, Sind, lo, hi)
+      res <- c(sz, lo, Sind, hi)
       names(res) <- c("Size", paste0("Q", .quantile[1]), "Mean", paste0("Q", .quantile[2]))
       if (.verbose) add_pb(pb)
       res
