@@ -1,13 +1,13 @@
 [![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
 [![CRAN](http://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square)](https://cran.r-project.org/package=immunarch)
-[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/immunarch)](http://www.r-pkg.org/pkg/immunarch)
-[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/immunarch)](http://www.r-pkg.org/pkg/immunarch)
-[![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
+[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/immunarch)](https://www.r-pkg.org/pkg/immunarch)
+[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/immunarch)](https://www.r-pkg.org/pkg/immunarch)
+[![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](https://github.com/immunomind/immunarch/issues)
 [![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=immunomind.immunarch)
-[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/tcR)](http://www.r-pkg.org/pkg/tcR)
-[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/tcR)](http://www.r-pkg.org/pkg/tcR)
+[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/tcR)](https://www.r-pkg.org/pkg/tcR)
+[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/tcR)](https://www.r-pkg.org/pkg/tcR)
 
 
 # `immunarch` --- Fast and Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires in R
@@ -116,7 +116,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
 
     + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
-    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.adaptivebiotech.com/products-services/immunoseq/), [IMGT](http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr/), [MiXCR](https://milaboratory.com/software/mixcr/), [MiGEC](https://milaboratory.com/software/migec/), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://milaboratory.com/software/vdjtools/), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://support.10xgenomics.com/single-cell-vdj/datasets/), [ArcherDX](https://archerdx.com/immunology/). More coming in the future;
+    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.immunoseq.com/), [IMGT](http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr/), [MiXCR](https://milaboratory.com/software/mixcr/), [MiGEC](https://milaboratory.com/software/migec/), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://milaboratory.com/software/vdjtools/), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://support.10xgenomics.com/single-cell-vdj/datasets/), ArcherDX. More coming in the future;
 
     + Works on any data source you are comfortable with: R data frames, data tables from [data.table](https://rdatatable.gitlab.io/data.table/), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
     

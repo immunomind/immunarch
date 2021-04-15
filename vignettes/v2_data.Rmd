@@ -50,7 +50,7 @@ The package provides several IO functions:
 
 - `"immunarch"` - current software tool, in case you forgot it :)
 
-- `"immunoseq"` - http://www.adaptivebiotech.com/immunoseq
+- `"immunoseq"` - https://www.immunoseq.com 
 
 - `"mitcr"` - https://github.com/milaboratory/mitcr
 
@@ -70,7 +70,7 @@ The package provides several IO functions:
 
 - `"10x"` - https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation
 
-- `"archer"` - ArcherDX clonotype tables. https://archerdx.com/immunology/
+- `"archer"` - ArcherDX clonotype tables.
 
 These parsers will be available soon.
 
