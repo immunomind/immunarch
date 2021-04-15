@@ -69,6 +69,10 @@ You can execute the command \code{?p.adjust} in the R console to see more.
 data(immdata)
 clp <- repClonality(immdata$data, "clonal.prop")
 vis(clp)
+
+hom <- repClonality(immdata$data, "homeo");
+# Remove p values and points from the plot
+vis(hom, .by = "Status", .meta = immdata$meta, .test = F, .points = F)
 }
 \seealso{
 \link{repClonality} \link{vis}
