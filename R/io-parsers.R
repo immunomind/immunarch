@@ -636,9 +636,12 @@ parse_mixcr <- function(.filename, .mode) {
   df[[IMMCOL$v]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$v]])
   df[[IMMCOL$v]] <- gsub(",", ", ", df[[IMMCOL$v]])
   df[[IMMCOL$v]] <- str_replace_all(df[[IMMCOL$v]], '"', "")
+
+  # Remove sorting because MiXCR outputs segments in a specific order
   df[[IMMCOL$v]] <- sapply(
     strsplit(df[[IMMCOL$v]], ", ", useBytes = TRUE),
-    function(x) paste0(sort(unique(x)), collapse = ", ")
+    # function(x) paste0(sort(unique(x)), collapse = ", ")
+    function(x) paste0(unique(x), collapse = ", ")
   )
 
   df[[IMMCOL$d]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$d]])
@@ -646,7 +649,8 @@ parse_mixcr <- function(.filename, .mode) {
   df[[IMMCOL$d]] <- str_replace_all(df[[IMMCOL$d]], '"', "")
   df[[IMMCOL$d]] <- sapply(
     strsplit(df[[IMMCOL$d]], ", ", useBytes = TRUE),
-    function(x) paste0(sort(unique(x)), collapse = ", ")
+    # function(x) paste0(sort(unique(x)), collapse = ", ")
+    function(x) paste0(unique(x), collapse = ", ")
   )
 
   df[[IMMCOL$j]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$j]])
@@ -654,7 +658,8 @@ parse_mixcr <- function(.filename, .mode) {
   df[[IMMCOL$j]] <- str_replace_all(df[[IMMCOL$j]], '"', "")
   df[[IMMCOL$j]] <- sapply(
     strsplit(df[[IMMCOL$j]], ", ", useBytes = TRUE),
-    function(x) paste0(sort(unique(x)), collapse = ", ")
+    # function(x) paste0(sort(unique(x)), collapse = ", ")
+    function(x) paste0(unique(x), collapse = ", ")
   )
 
   .postprocess(fix.alleles(df))
