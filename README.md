@@ -203,9 +203,9 @@ Have an aspiration to help the community build the ecosystem of scRNAseq & AIRR 
 
 We are always open to contributions. There are two ways to contribute:
 
-1. Create an issue [here](http://github.com/immunomind/immunarch/issues) and describe what would you like to improve or discuss.
+1. Create an issue [here](https://github.com/immunomind/immunarch/issues) and describe what would you like to improve or discuss.
 
-2. Create an issue or find one [here](http://github.com/immunomind/immunarch/issues), fork the repository and make a pull request with the bugfix or improvement.
+2. Create an issue or find one [here](https://github.com/immunomind/immunarch/issues), fork the repository and make a pull request with the bugfix or improvement.
 
 
 ## Citation

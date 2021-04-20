@@ -72,7 +72,7 @@ vis(clp)
 
 hom <- repClonality(immdata$data, "homeo");
 # Remove p values and points from the plot
-vis(hom, .by = "Status", .meta = immdata$meta, .test = F, .points = F)
+vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
 }
 \seealso{
 \link{repClonality} \link{vis}
