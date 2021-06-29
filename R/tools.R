@@ -18,7 +18,7 @@
 #'
 #' @return Numeric vector.
 #'
-#' @examples
+#' @section Developer Examples:
 #' immunarch:::check_distribution(c(1, 2, 3))
 #' immunarch:::check_distribution(c(1, 2, 3), TRUE)
 #' immunarch:::check_distribution(c(1, 2, 3), FALSE)
@@ -75,7 +75,7 @@ check_distribution <- function(.data, .do.norm = NA, .laplace = 1, .na.val = 0, 
 #' @return
 #' Input object with additional class \code{.class}.
 #'
-#' @examples
+#' @section Developer Examples:
 #' tmp <- "abc"
 #' class(tmp)
 #' tmp <- immunarch:::add_class(tmp, "new_class")
@@ -99,7 +99,7 @@ add_class <- function(.obj, .class) {
 #' @return
 #' Logical value.
 #'
-#' @examples
+#' @section Developer Examples:
 #' tmp <- "abc"
 #' immunarch:::has_class(tmp, "new_class")
 #' tmp <- immunarch:::add_class(tmp, "new_class")
@@ -129,7 +129,7 @@ has_class <- function(.data, .class) {
 #' @return
 #' An updated progress bar.
 #'
-#' @examples
+#' @section Developer Examples:
 #' pb <- immunarch:::set_pb(100)
 #' immunarch:::add_pb(pb, 25)
 #' immunarch:::add_pb(pb, 25)
@@ -155,7 +155,7 @@ add_pb <- function(.pb, .value = 1) {
 #' @return
 #' A string with the column name.
 #'
-#' @examples
+#' @section Developer Examples:
 #' immunarch:::.quant_column_choice("count")
 #' immunarch:::.quant_column_choice("freq")
 .quant_column_choice <- function(x, .verbose = TRUE) {
@@ -185,7 +185,7 @@ add_pb <- function(.pb, .value = 1) {
 #' @return
 #' Matrix with its upper tri part copied to the lower tri part.
 #'
-#' @examples
+#' @section Developer Examples:
 #' mat <- matrix(0, 3, 3)
 #' mat
 #' mat[1, 3] <- 1
@@ -276,7 +276,7 @@ check_group_names <- function(.meta, .by) {
 #' @return
 #' Character vector with group names.
 #'
-#' @examples
+#' @section Developer Examples:
 #' immunarch:::group_from_metadata("Status", data.frame(Status = c("A", "A", "B", "B", "C")))
 group_from_metadata <- function(.by, .metadata, .sep = "; ") {
   if (length(.by) == 1) {
@@ -431,7 +431,7 @@ apply_asymm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
 #' @return
 #' A column's name.
 #'
-#' @examples
+#' @section Developer Examples:
 #' immunarch:::switch_type("nuc")
 #' immunarch:::switch_type("v")
 switch_type <- function(type) {

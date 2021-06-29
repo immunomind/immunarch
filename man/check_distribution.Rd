@@ -36,9 +36,11 @@ Numeric vector.
 \description{
 Check if the given .data is a distribution and normalise it if necessary with an optional laplace correction.
 }
-\examples{
+\section{Developer Examples}{
+
 immunarch:::check_distribution(c(1, 2, 3))
 immunarch:::check_distribution(c(1, 2, 3), TRUE)
 immunarch:::check_distribution(c(1, 2, 3), FALSE)
 }
+
 \concept{utility_private}
