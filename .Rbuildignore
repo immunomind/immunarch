@@ -18,3 +18,5 @@
 ^LICENSE$
 ^immunarch-citation.xml$
 ^.github$
+^.RDataFiles$
+^.idea$

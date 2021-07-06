@@ -56,15 +56,15 @@ Depends:
     dplyr (>= 0.8.0),
     dtplyr (>= 1.0.0),
     data.table (>= 1.12.6),
-    patchwork,
-    rmarkdown
+    patchwork
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),
     roxygen2 (>= 3.0.0),
     testthat (>= 2.1.0),
     pkgdown (>= 0.1.0),
-    assertthat
+    assertthat,
+    rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
