@@ -56,7 +56,8 @@ Depends:
     dplyr (>= 0.8.0),
     dtplyr (>= 1.0.0),
     data.table (>= 1.12.6),
-    patchwork
+    patchwork,
+    rmarkdown
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),
