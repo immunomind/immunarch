@@ -55,6 +55,8 @@
     res_format <- "immunarch"
   } else if (str_detect(tolower(l), "clones") && str_detect(tolower(l), "v.name") && str_detect(tolower(l), "proportion")) {
     res_format <- "immunarch"
+  } else if (str_detect(l, "AAseq") && str_detect(l, "Vregion") && str_detect(l, "Frequency")) {
+    res_format <- "catt"
   }
 
   res_format

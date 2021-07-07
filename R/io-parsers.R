@@ -1033,3 +1033,30 @@ parse_archer <- function(.filename, .mode) {
                    .skip = 0, .sep = "\t"
   )
 }
+
+parse_catt <- function(.filename, .mode) {
+  filename <- .filename
+  nuc.seq <- "NNseq"
+  aa.seq <- "AAseq"
+  .count <- "Frequency"
+  vgenes <- "Vregion"
+  jgenes <- "Jregion"
+  dgenes <- "Dregion"
+  vend <- NA
+  jstart <- NA
+  dstart <- NA
+  dend <- NA
+  vd.insertions <- NA
+  dj.insertions <- NA
+  total.insertions <- NA
+  .skip <- 0
+  .sep <- ","
+
+  parse_repertoire(
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
+    .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
+    .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
+    .total.insertions = total.insertions, .skip = .skip, .sep = .sep
+  )
+}
