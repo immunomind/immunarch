@@ -57,6 +57,12 @@
     res_format <- "immunarch"
   } else if (str_detect(l, "AAseq") && str_detect(l, "Vregion") && str_detect(l, "Frequency")) {
     res_format <- "catt"
+  } else if (str_detect(l, "Number of reads") && str_detect(l, "Amino acid sequence") && str_detect(l, "V gene")) {
+    res_format <- "rtcr"
+  } else if (str_detect(l, "V\\d.*\\:[A-Z]*\\:J\\d")) {
+    res_format <- "imseq"
+  } else if (str_trim(l) == "{") {
+    res_format <- "vidjil"
   }
 
   res_format

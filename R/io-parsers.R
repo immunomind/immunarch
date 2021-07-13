@@ -1060,3 +1060,36 @@ parse_catt <- function(.filename, .mode) {
     .total.insertions = total.insertions, .skip = .skip, .sep = .sep
   )
 }
+
+parse_rtcr <- function(.filename, .mode) {
+  filename <- .filename
+  nuc.seq <- "Junction nucleotide sequence"
+  aa.seq <- "Amino acid sequence"
+  .count <- "Number of reads"
+  vgenes <- "V gene"
+  jgenes <- "J gene"
+  dgenes <- "D gene"
+  vend <- "V gene end position"
+  jstart <- "J gene start position"
+  dstart <- "D gene start position"
+  dend <- "D gene end position"
+  vd.insertions <- NA
+  dj.insertions <- NA
+  total.insertions <- NA
+  .skip <- 0
+  .sep <- "\t"
+
+  parse_repertoire(
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
+    .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
+    .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
+    .total.insertions = total.insertions, .skip = .skip, .sep = .sep
+  )
+}
+
+parse_imseq <- function(.filename, .mode) {
+}
+
+parse_vidjil <- function(.filename, .mode) {
+}

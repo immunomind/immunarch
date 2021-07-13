@@ -184,6 +184,9 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
         archer = parse_archer,
         immunarch = parse_immunarch,
         catt = parse_catt,
+        rtcr = parse_rtcr,
+        imseq = parse_imseq,
+        vidjil = parse_vidjil,
         NA
       )
 
