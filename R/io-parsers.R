@@ -135,6 +135,15 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
     }
   }
 
+  # if V, D or J columns are missing in the data, add empty columns
+  for (genes_var in c(".vgenes", ".dgenes", ".jgenes")) {
+    if (is.na(get(genes_var))) {
+      # if there is no such column, use variable name as column name
+      assign(genes_var, genes_var)
+      df[, genes_var] <- NA
+    }
+  }
+
   vec_names <- c(
     .count, .prop, .nuc.seq, .aa.seq,
     .vgenes, .dgenes, .jgenes,
@@ -866,18 +875,6 @@ parse_imgt <- function(.filename, .mode) {
   df
 }
 
-# parse_vidjil <- function (.filename) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-#
-# parse_rtcr <- function (.filename) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-#
-# parse_imseq <- function (.filename) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-
 parse_airr <- function(.filename, .mode) {
   df <- airr::read_rearrangement(.filename)
 
@@ -1068,11 +1065,11 @@ parse_rtcr <- function(.filename, .mode) {
   .count <- "Number of reads"
   vgenes <- "V gene"
   jgenes <- "J gene"
-  dgenes <- "D gene"
+  dgenes <- NA
   vend <- "V gene end position"
   jstart <- "J gene start position"
-  dstart <- "D gene start position"
-  dend <- "D gene end position"
+  dstart <- NA
+  dend <- NA
   vd.insertions <- NA
   dj.insertions <- NA
   total.insertions <- NA
