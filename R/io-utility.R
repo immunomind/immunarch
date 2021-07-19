@@ -59,7 +59,7 @@
     res_format <- "catt"
   } else if (str_detect(l, "Number of reads") && str_detect(l, "Amino acid sequence") && str_detect(l, "V gene")) {
     res_format <- "rtcr"
-  } else if (str_detect(l, "V\\d.*\\:[A-Z]*\\:J\\d")) {
+  } else if (str_detect(l, "seqId") && str_detect(l, "cdrNucSeq") && str_detect(l, "cdrAASeq")) {
     res_format <- "imseq"
   } else if (str_trim(l) == "{") {
     res_format <- "vidjil"
