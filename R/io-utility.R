@@ -9,6 +9,8 @@
 
   f <- file(.filename, "r")
   l <- readLines(f, 1)
+  # use 2nd line of file for JSON formats
+  l2 <- ifelse(str_trim(l) == "{", readLines(f, 1), NA)
   close(f)
 
   if (any(str_detect(l, c("MiTCRFullExport", "mitcr")))) {
@@ -61,7 +63,7 @@
     res_format <- "rtcr"
   } else if (str_detect(l, "seqId") && str_detect(l, "cdrNucSeq") && str_detect(l, "cdrAASeq")) {
     res_format <- "imseq"
-  } else if (str_trim(l) == "{") {
+  } else if (str_trim(l2) == "\"clones\": [") {
     res_format <- "vidjil"
   }
 

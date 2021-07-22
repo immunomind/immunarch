@@ -1113,4 +1113,42 @@ parse_imseq <- function(.filename, .mode) {
 }
 
 parse_vidjil <- function(.filename, .mode) {
+  json_data <- read_json(.filename, simplifyVector=TRUE)
+  clones <- json_data[["clones"]]
+
+  count <- as.vector(clones[["reads"]], mode="numeric")
+  proportion <- count / sum(count)
+  cdr3nt <- NA
+  cdr3aa <- as.vector(clones[["seg"]][["cdr3"]][["aa"]])
+  vgenes <- as.vector(clones[["seg"]][["5"]])
+  dgenes <- NA
+  jgenes <- as.vector(clones[["seg"]][["3"]])
+  vend <- as.vector(clones[["seg"]][["5end"]], mode="numeric")
+  dstart <- NA
+  dend <- NA
+  jstart <- as.vector(clones[["seg"]][["3start"]], mode="numeric")
+  vj.insertions <- NA
+  vd.insertions <- NA
+  dj.insertions <- NA
+
+  df <- data.frame(count, proportion, cdr3nt, cdr3aa, vgenes, dgenes, jgenes,
+                   vend, dstart, dend, jstart, vj.insertions, vd.insertions, dj.insertions)
+
+  colnames(df)[1] <- IMMCOL$count
+  colnames(df)[2] <- IMMCOL$prop
+  colnames(df)[3] <- IMMCOL$cdr3nt
+  colnames(df)[4] <- IMMCOL$cdr3aa
+  colnames(df)[5] <- IMMCOL$v
+  colnames(df)[6] <- IMMCOL$d
+  colnames(df)[7] <- IMMCOL$j
+  colnames(df)[8] <- IMMCOL$ve
+  colnames(df)[9] <- IMMCOL$ds
+  colnames(df)[10] <- IMMCOL$de
+  colnames(df)[11] <- IMMCOL$js
+  colnames(df)[12] <- IMMCOL$vnj
+  colnames(df)[13] <- IMMCOL$vnd
+  colnames(df)[14] <- IMMCOL$dnj
+
+  df <- .postprocess(df)
+  df
 }
