@@ -422,17 +422,24 @@ parse_mixcr <- function(.filename, .mode) {
   # cloneCount - clonalSequence - nSeqCDR3
   # cloneCount - targetSequences - nSeqImputedCDR3
   # cloneCount - targetSequences - nSeqCDR3
-  if ("targetsequences" %in% table.colnames) {
-    if ("nseqimputedcdr3" %in% table.colnames) {
-      .nuc.seq <- "nseqimputedcdr3"
-    } else {
-      .nuc.seq <- "nseqcdr3"
-    }
 
+  for (cdr in c("cdr1", "cdr2", "cdr3")) {
+    # assign variables .nuc.seq.cdr1, .nuc.seq.cdr2, .nuc.seq.cdr3
+    cdr_var <- paste0(".nuc.seq.", cdr)
+    if ("targetsequences" %in% table.colnames) {
+      if (paste0("nseqimputed", cdr) %in% table.colnames) {
+        assign(cdr_var, paste0("nseqimputed", cdr))
+      } else {
+        assign(cdr_var, paste0("nseq", cdr))
+      }
+    } else {
+      assign(cdr_var, paste0("nseq", cdr))
+    }
+  }
+
+  if ("targetsequences" %in% table.colnames) {
     .big.seq <- "targetsequences"
   } else {
-    .nuc.seq <- "nseqcdr3"
-
     if ("clonalsequences" %in% table.colnames) {
       .big.seq <- "clonalsequences"
     } else if ("clonalsequence" %in% table.colnames) {
@@ -624,23 +631,29 @@ parse_mixcr <- function(.filename, .mode) {
   .freq <- "Proportion"
   df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
-  .aa.seq <- IMMCOL$cdr3aa
-  df[[.aa.seq]] <- bunch_translate(df[[.nuc.seq]])
+  .aa.seq.cdr1 <- IMMCOL_EXT$cdr1aa
+  .aa.seq.cdr2 <- IMMCOL_EXT$cdr2aa
+  .aa.seq.cdr3 <- IMMCOL$cdr3aa
+  df[[.aa.seq.cdr1]] <- bunch_translate(df[[.nuc.seq.cdr1]])
+  df[[.aa.seq.cdr2]] <- bunch_translate(df[[.nuc.seq.cdr2]])
+  df[[.aa.seq.cdr3]] <- bunch_translate(df[[.nuc.seq.cdr3]])
 
   if (is.na(.big.seq)) {
     .big.seq <- "BigSeq"
-    df$BigSeq <- df[[.nuc.seq]]
+    df$BigSeq <- df[[.nuc.seq.cdr3]]
   }
 
   df <- df[, make.names(c(
     .count, .freq,
-    .nuc.seq, .aa.seq,
+    .nuc.seq.cdr3, .aa.seq.cdr3,
     .vgenes, .dgenes, .jgenes,
     .vend, .dalignments, .jstart,
-    .total.insertions, .vd.insertions, .dj.insertions, .big.seq
+    .total.insertions, .vd.insertions, .dj.insertions, .big.seq,
+    .nuc.seq.cdr1, .aa.seq.cdr1, .nuc.seq.cdr2, .aa.seq.cdr2
   ))]
 
-  colnames(df) <- IMMCOL$order
+  colnames(df) <- c(IMMCOL$order,
+                    IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa)
 
   df[[IMMCOL$v]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$v]])
   df[[IMMCOL$v]] <- gsub(",", ", ", df[[IMMCOL$v]])
