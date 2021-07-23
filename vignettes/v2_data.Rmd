@@ -50,7 +50,7 @@ The package provides several IO functions:
 
 - `"immunarch"` - current software tool, in case you forgot it :)
 
-- `"immunoseq"` - https://www.immunoseq.com 
+- `"immunoseq"` - https://www.immunoseq.com
 
 - `"mitcr"` - https://github.com/milaboratory/mitcr
 
@@ -71,8 +71,6 @@ The package provides several IO functions:
 - `"10x"` - https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation
 
 - `"archer"` - ArcherDX clonotype tables.
-
-These parsers will be available soon.
 
 - `"imseq"` - http://www.imtools.org/
 
@@ -278,6 +276,6 @@ sapply(ds, nrow)
 
 - `db_write` - write / rewrite a database table.
 
-With these functions you can write the subset of your repertoires to new tables with `db_write`, after you have filtered out the noncoding sequences, for instance. 
+With these functions you can write the subset of your repertoires to new tables with `db_write`, after you have filtered out the noncoding sequences, for instance.
 
 -->
