@@ -19,19 +19,19 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
   .add <- .make_names(.add)
 
   col.classes <- .get_coltypes(.filename, .nuc.seq, .aa.seq, .count,
-                               .vgenes, .jgenes, .dgenes,
-                               .vend, .jstart, .dstart, .dend,
-                               .vd.insertions, .dj.insertions, .total.insertions,
-                               .skip = .skip, .sep = "\t", .add
+    .vgenes, .jgenes, .dgenes,
+    .vend, .jstart, .dstart, .dend,
+    .vd.insertions, .dj.insertions, .total.insertions,
+    .skip = .skip, .sep = "\t", .add
   )
 
   # IO_REFACTOR
   suppressMessages(df <- readr::read_delim(.filename,
-                                           col_names = TRUE,
-                                           col_types = col.classes, delim = .sep,
-                                           quote = "", escape_double = FALSE,
-                                           comment = "", trim_ws = TRUE,
-                                           skip = .skip, na = c("", "NA", ".")
+    col_names = TRUE,
+    col_types = col.classes, delim = .sep,
+    quote = "", escape_double = FALSE,
+    comment = "", trim_ws = TRUE,
+    skip = .skip, na = c("", "NA", ".")
   ))
   # suppressMessages(df <- fread(.filename, skip = .skip, data.table = FALSE, na.strings = c("", "NA", ".")))
 
@@ -261,10 +261,10 @@ parse_immunoseq <- function(.filename, .mode, .wash.alleles = TRUE) {
 
   # IO_REFACTOR
   suppressMessages(df <- readr::read_delim(.filename,
-                                           col_names = TRUE, col_types = cols(),
-                                           delim = "\t", quote = "",
-                                           escape_double = FALSE, comment = "",
-                                           trim_ws = TRUE, skip = 0
+    col_names = TRUE, col_types = cols(),
+    delim = "\t", quote = "",
+    escape_double = FALSE, comment = "",
+    trim_ws = TRUE, skip = 0
   ))
   # suppressMessages(df <- fread(.filename, data.table = FALSE))
 
@@ -665,8 +665,10 @@ parse_mixcr <- function(.filename, .mode) {
     nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]]
   ))]
 
-  colnames(df) <- c(IMMCOL$order,
-                    IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa)
+  colnames(df) <- c(
+    IMMCOL$order,
+    IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa
+  )
 
   df[[IMMCOL$v]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$v]])
   df[[IMMCOL$v]] <- gsub(",", ", ", df[[IMMCOL$v]])
@@ -964,12 +966,12 @@ parse_immunarch <- function(.filename, .mode) {
 
 parse_10x_consensus <- function(.filename, .mode) {
   df <- parse_repertoire(.filename,
-                         .mode = .mode,
-                         .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
-                         .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
-                         .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
-                         .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-                         .skip = 0, .sep = ",", .add = c("chain", "clonotype_id", "consensus_id")
+    .mode = .mode,
+    .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
+    .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
+    .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
+    .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
+    .skip = 0, .sep = ",", .add = c("chain", "clonotype_id", "consensus_id")
   )
   setnames(df, "clonotype_id", "ClonotypeID")
   setnames(df, "consensus_id", "ConsensusID")
@@ -978,19 +980,19 @@ parse_10x_consensus <- function(.filename, .mode) {
 
 parse_10x_filt_contigs <- function(.filename, .mode) {
   df <- parse_repertoire(.filename,
-                         .mode = .mode,
-                         .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
-                         .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
-                         .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
-                         .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-                         .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
-                         .add = c("chain", "barcode", "raw_clonotype_id", "contig_id")
+    .mode = .mode,
+    .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
+    .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
+    .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
+    .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
+    .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
+    .add = c("chain", "barcode", "raw_clonotype_id", "contig_id")
   )
   # setnames(df, "raw_clonotype_id", "RawClonotypeID")
   # setnames(df, "raw_consensus_id", "RawConsensusID")
 
   # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
-  df <- df[order(df$chain),]
+  df <- df[order(df$chain), ]
   setDT(df)
 
   if (.mode == "paired") {
@@ -1048,12 +1050,12 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
 
 parse_archer <- function(.filename, .mode) {
   parse_repertoire(.filename,
-                   .mode = .mode,
-                   .nuc.seq = "Clonotype Sequence", .aa.seq = NA, .count = "Clone Abundance",
-                   .vgenes = "Predicted V Region", .jgenes = "Predicted J Region", .dgenes = "Predicted D Region",
-                   .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
-                   .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-                   .skip = 0, .sep = "\t"
+    .mode = .mode,
+    .nuc.seq = "Clonotype Sequence", .aa.seq = NA, .count = "Clone Abundance",
+    .vgenes = "Predicted V Region", .jgenes = "Predicted J Region", .dgenes = "Predicted D Region",
+    .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
+    .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
+    .skip = 0, .sep = "\t"
   )
 }
 
@@ -1139,26 +1141,28 @@ parse_imseq <- function(.filename, .mode) {
 }
 
 parse_vidjil <- function(.filename, .mode) {
-  json_data <- read_json(.filename, simplifyVector=TRUE)
+  json_data <- read_json(.filename, simplifyVector = TRUE)
   clones <- json_data[["clones"]]
 
-  count <- as.vector(clones[["reads"]], mode="numeric")
+  count <- as.vector(clones[["reads"]], mode = "numeric")
   proportion <- count / sum(count)
   cdr3nt <- NA
   cdr3aa <- as.vector(clones[["seg"]][["cdr3"]][["aa"]])
   vgenes <- as.vector(clones[["seg"]][["5"]])
   dgenes <- NA
   jgenes <- as.vector(clones[["seg"]][["3"]])
-  vend <- as.vector(clones[["seg"]][["5end"]], mode="numeric")
+  vend <- as.vector(clones[["seg"]][["5end"]], mode = "numeric")
   dstart <- NA
   dend <- NA
-  jstart <- as.vector(clones[["seg"]][["3start"]], mode="numeric")
+  jstart <- as.vector(clones[["seg"]][["3start"]], mode = "numeric")
   vj.insertions <- NA
   vd.insertions <- NA
   dj.insertions <- NA
 
-  df <- data.frame(count, proportion, cdr3nt, cdr3aa, vgenes, dgenes, jgenes,
-                   vend, dstart, dend, jstart, vj.insertions, vd.insertions, dj.insertions)
+  df <- data.frame(
+    count, proportion, cdr3nt, cdr3aa, vgenes, dgenes, jgenes,
+    vend, dstart, dend, jstart, vj.insertions, vd.insertions, dj.insertions
+  )
 
   colnames(df)[1] <- IMMCOL$count
   colnames(df)[2] <- IMMCOL$prop

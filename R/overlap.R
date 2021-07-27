@@ -362,7 +362,6 @@ horn_index <- function(.x, .y) {
 #' data(immdata)
 #' ov <- repOverlap(immdata$data, "inc+overlap", .step = 100, .verbose.inc = FALSE, .verbose = FALSE)
 #' vis(ov)
-#'
 #' @export inc_overlap
 inc_overlap <- function(.data, .fun, .step = 1000, .n.steps = 10, .downsample = FALSE, .bootstrap = NA, .verbose.inc = TRUE, ...) {
   .n.steps <- as.integer(.n.steps)

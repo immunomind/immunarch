@@ -50,16 +50,14 @@ if (getRversion() >= "2.15.1") {
   palette_name <- ""
   if (.n == 1) {
     palette_name <- "Set2"
-  }
-  else if (.n == 2) {
+  } else if (.n == 2) {
     palette_name <- "Set1"
   }
   # else if (.n < 4) { palette_name = "YlGnBu" }
   # else if (.n < 6) {  palette_name = "RdBu" }
   else if (.n < 12) {
     palette_name <- "Spectral"
-  }
-  else {
+  } else {
     return(scale_fill_hue())
   }
 
@@ -70,16 +68,14 @@ if (getRversion() >= "2.15.1") {
   palette_name <- ""
   if (.n == 1) {
     palette_name <- "Set2"
-  }
-  else if (.n == 2) {
+  } else if (.n == 2) {
     palette_name <- "Set1"
   }
   # else if (.n < 4) { palette_name = "YlGnBu" }
   # else if (.n < 6) {  palette_name = "RdBu" }
   else if (.n < 12) {
     palette_name <- "Spectral"
-  }
-  else {
+  } else {
     return(scale_colour_hue())
   }
 
@@ -95,8 +91,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
         linetype = "dashed"
       )
     )
-  }
-  else {
+  } else {
     theme(
       panel.grid.major.x = element_line(
         colour = "grey70",
@@ -630,9 +625,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
           Value.min = quantile(Overlap, 0.025, na.rm = TRUE),
           Value.max = quantile(Overlap, 0.975, na.rm = TRUE)
         )
-    }
-
-    else {
+    } else {
       sample_names <- colnames(.data[[1]])
 
       .data <- lapply(.data, function(mat) replace(mat, lower.tri(mat, TRUE), NA))
@@ -1233,8 +1226,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
     }
 
     return(p + .add.layer)
-  }
-  else {
+  } else {
     if (.grid) {
       if (is.na(.legend)) {
         .legend <- FALSE
@@ -1269,7 +1261,6 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
         p <- do.call(wrap_plots, c(ps, ncol = .ncol))
         p <- p + plot_annotation(title = .title)
         return(p)
-
       } else {
         res <- split(res, res$Sample)
         ps <- list()
@@ -1863,7 +1854,7 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' clp <- repClonality(immdata$data, "clonal.prop")
 #' vis(clp)
 #'
-#' hom <- repClonality(immdata$data, "homeo");
+#' hom <- repClonality(immdata$data, "homeo")
 #' # Remove p values and points from the plot
 #' vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
 #' @export
@@ -2104,7 +2095,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
     if (.stack) {
       p <- ggplot() +
         geom_col(aes(x = Group, y = Value.mean, fill = Grouping.var),
-                 position = "stack", data = .data_proc, col = "black"
+          position = "stack", data = .data_proc, col = "black"
         )
     } else {
       p <- ggplot(aes(x = Grouping.var, y = Value, color = Group, fill = Group, group = Group), data = .data) +
@@ -2126,7 +2117,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
     if (!.errorbars.off) {
       p <- p +
         geom_errorbar(aes(x = Grouping.var, y = Value.mean, ymin = Value.min, ymax = Value.max, color = Group),
-                      color = "black", data = .data_proc, width = .errorbar.width, position = position_dodge(.9)
+          color = "black", data = .data_proc, width = .errorbar.width, position = position_dodge(.9)
         )
     }
 
@@ -2645,7 +2636,11 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #' p1 + p2
 #' @export
 vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "dodge", "fill"), .log = FALSE, ...) {
-  .position <- switch(substr(.position[1], 1, 1), s = "stack", d = "dodge", f = "fill")
+  .position <- switch(substr(.position[1], 1, 1),
+    s = "stack",
+    d = "dodge",
+    f = "fill"
+  )
   # .data[is.na(.data)] <- 0
 
   max_counts <- apply(.data[, -1], 1, max, na.rm = TRUE)

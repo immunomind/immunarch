@@ -157,8 +157,7 @@ geneUsage <- function(.data, # df, list, MonetDB
         Names = names(chosen),
         Count = unlist(chosen), stringsAsFactors = FALSE
       )
-    }
-    else if (.ambig == "maj") {
+    } else if (.ambig == "maj") {
       maj_counts <- data.frame(Names = sapply(gene_col_split, "[[", 1), Counts = counts, stringsAsFactors = FALSE)
       row.names(maj_counts) <- NULL
       res <- maj_counts %>%

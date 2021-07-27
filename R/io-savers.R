@@ -5,7 +5,7 @@ save_immunarch <- function(.data, .path, .compress = TRUE) {
     filepath <- paste0(.path, ".tsv")
   }
   readr::write_lines(paste0("# Exported from immunarch ", packageVersion("immunarch"), " https://immunarch.com"),
-                     path = filepath
+    path = filepath
   )
   filepath <- gzfile(paste0(.path, ".tsv.gz"), compression = 9)
   readr::write_tsv(x = .data, path = filepath, append = TRUE, col_names = TRUE)
@@ -39,8 +39,8 @@ save_vdjtools <- function(.data, .path, .compress = TRUE) {
   )
 
   names(.data) <- plyr::mapvalues(names(.data),
-                                  from = old,
-                                  to = as.character(new)
+    from = old,
+    to = as.character(new)
   )
 
   readr::write_tsv(x = .data, path = filepath)

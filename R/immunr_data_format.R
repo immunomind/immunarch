@@ -90,9 +90,7 @@ IMMCOL_EXT$fr3aa <- "FR3.aa"
 IMMCOL_EXT$fr4nt <- "FR4.nt"
 IMMCOL_EXT$fr4aa <- "FR4.aa"
 IMMCOL_EXT$c <- "C.name"
-IMMCOL_EXT$order <- c(
-
-)
+IMMCOL_EXT$order <- c()
 
 # Additional information
 IMMCOL_ADD <- new.env()
