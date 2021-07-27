@@ -138,11 +138,12 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
   vdj <- c(.vgenes, .dgenes, .jgenes)
   names(vdj) <- c(".vgenes", ".dgenes", ".jgenes")
   # if V, D or J columns are missing in the data, add empty columns
-  for (i in seq_len(length(vdj))) {
+  for (i in length(vdj)) {
     if (is.na(vdj[[i]])) {
       # if genes header argument is NA, use ".vgenes", ".dgenes" or ".jgenes" as column name
       genes_header <- names(vdj)[i]
       vdj[[i]] <- genes_header
+      # add empty column with this name to parsed dataframe
       df[, genes_header] <- NA
     }
   }
@@ -426,20 +427,25 @@ parse_mixcr <- function(.filename, .mode) {
   # cloneCount - targetSequences - nSeqImputedCDR3
   # cloneCount - targetSequences - nSeqCDR3
 
-  seq_headers <- rep(NA, 6)
-  names(seq_headers) <- c(".nuc.seq.cdr1", ".nuc.seq.cdr2", ".nuc.seq.cdr3",
-                          ".aa.seq.cdr1", ".aa.seq.cdr2", ".aa.seq.cdr3")
+  # TODO: when refactoring, CDR headers can be implemented as objects of data class
+  # that contains headers for nucleotide sequence and amino acid sequence (such as "nseqcdr3"),
+  # and IDs for these headers (such as ".nuc.seq.cdr3")
+  SEQ_NUM <- 3
+  nuc_headers <- rep(NA, SEQ_NUM)
+  aa_headers <- rep(NA, SEQ_NUM)
+  names(nuc_headers) <- c(".nuc.seq.cdr1", ".nuc.seq.cdr2", ".nuc.seq.cdr3")
+  names(aa_headers) <- c(".aa.seq.cdr1", ".aa.seq.cdr2", ".aa.seq.cdr3")
   # configure headers for nucleotide sequences for CDR1, CDR2, CDR3
-  for (i in 1:3) {
+  for (i in 1:SEQ_NUM) {
     cdr <- paste0("cdr", i)
     if ("targetsequences" %in% table.colnames) {
       if (paste0("nseqimputed", cdr) %in% table.colnames) {
-        seq_headers[[i]] <- paste0("nseqimputed", cdr)
+        nuc_headers[[i]] <- paste0("nseqimputed", cdr)
       } else {
-        seq_headers[[i]] <- paste0("nseq", cdr)
+        nuc_headers[[i]] <- paste0("nseq", cdr)
       }
     } else {
-      seq_headers[[i]] <- paste0("nseq", cdr)
+      nuc_headers[[i]] <- paste0("nseq", cdr)
     }
   }
 
@@ -637,28 +643,26 @@ parse_mixcr <- function(.filename, .mode) {
   .freq <- "Proportion"
   df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
-  seq_headers[[".aa.seq.cdr1"]] <- IMMCOL_EXT$cdr1aa
-  seq_headers[[".aa.seq.cdr2"]] <- IMMCOL_EXT$cdr2aa
-  seq_headers[[".aa.seq.cdr3"]] <- IMMCOL$cdr3aa
-  for (i in 1:3) {
-    nuc_header <- seq_headers[[i]]
-    aa_header <- seq_headers[[i + 3]]
-    df[[aa_header]] <- bunch_translate(df[[nuc_header]])
+  aa_headers[[".aa.seq.cdr1"]] <- IMMCOL_EXT$cdr1aa
+  aa_headers[[".aa.seq.cdr2"]] <- IMMCOL_EXT$cdr2aa
+  aa_headers[[".aa.seq.cdr3"]] <- IMMCOL$cdr3aa
+  for (i in 1:SEQ_NUM) {
+    df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
   }
 
   if (is.na(.big.seq)) {
     .big.seq <- "BigSeq"
-    df$BigSeq <- df[[seq_headers[[".nuc.seq.cdr3"]]]]
+    df$BigSeq <- df[[nuc_headers[[".nuc.seq.cdr3"]]]]
   }
 
   df <- df[, make.names(c(
     .count, .freq,
-    seq_headers[[".nuc.seq.cdr3"]], seq_headers[[".aa.seq.cdr3"]],
+    nuc_headers[[".nuc.seq.cdr3"]], aa_headers[[".aa.seq.cdr3"]],
     .vgenes, .dgenes, .jgenes,
     .vend, .dalignments, .jstart,
     .total.insertions, .vd.insertions, .dj.insertions, .big.seq,
-    seq_headers[[".nuc.seq.cdr1"]], seq_headers[[".aa.seq.cdr1"]],
-    seq_headers[[".nuc.seq.cdr2"]], seq_headers[[".aa.seq.cdr2"]]
+    nuc_headers[[".nuc.seq.cdr1"]], aa_headers[[".aa.seq.cdr1"]],
+    nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]]
   ))]
 
   colnames(df) <- c(IMMCOL$order,
