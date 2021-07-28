@@ -1,17 +1,5 @@
 ---
 title: "Introduction to `immunarch`"
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
-date: "support@immunomind.io"
-output:
-  html_document:
-    fig_height: 8
-    fig_width: 10
-    theme: spacelab
-    toc: yes
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: yes
 ---
 
 
@@ -127,11 +115,11 @@ Error: package ‘dtplyr’ 0.0.3 was found, but >= 1.0.0 is required by ‘immu
 Execution halted
 ERROR: lazy loading failed for package ‘immunarch’
    ```
-   
+
 
    ```
 byte-compile and prepare package for lazy loading
-Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) :
   namespace 'ggalluvial' 0.9.1 is being loaded, but >= 0.10.0 is required
 Calls: <Anonymous> ... namespaceImportFrom -> asNamespace -> loadNamespace
 Execution halted
@@ -150,7 +138,7 @@ Execution halted
    ```
 
    Open Terminal, execute the following command and try again to install `immunarch`:
-   
+
    ```
 sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
    ```
@@ -163,22 +151,22 @@ Error: package or namespace load failed for 'igraph' in dyn.load(file, DLLpath =
  unable to load shared object '/usr/local/lib/R/site-library/00LOCK-igraph/00new/igraph/libs/igraph.so':
   libgfortran.so.4: cannot open shared object file: No such file or directory
    ```
-   
+
    See [this link](https://ashokragavendran.wordpress.com/2017/10/24/error-installing-rigraph-unable-to-load-shared-object-igraph-so-libgfortran-so-4-cannot-open-shared-object-file-no-such-file-or-directory/) for help.
 
 7. For Linux users. If you have issues with the `rgl` package:
-   
+
    ```
-configure: error: missing required header GL/gl.h 
+configure: error: missing required header GL/gl.h
 ERROR: configuration failed for package ‘rgl’
    ```
-   
+
    Install "mesa-common-dev" via OS terminal by executing the following command:
-   
+
    ```
 apt-get install mesa-common-dev
    ```
-   
+
    Check [this link](https://stackoverflow.com/questions/15292905/how-to-solve-the-error-missing-required-header-gl-gl-h-while-installing-the-p) for more information and other possible workarounds.
 
 7. If you have error messages with `rlang` in them such as:
@@ -190,7 +178,7 @@ apt-get install mesa-common-dev
    ```
 
    Remove the `rlang` package and install it again. This error is often happens after updating R to a newer version, while `rlang` not being properly updated.
-   
+
 8. If you have error messages like the following (note the `(converted from warning)` part):
 
    ```
@@ -201,21 +189,21 @@ ERROR: lazy loading failed for package 'immunarch'
    ```
 
    Execute the following command in R and try again to install the package:
-   
+
    ```
 Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
    ```
-   
+
 9. For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
 
 9. For Windows users. Make sure to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the `devtools::find_rtools()` command (after installing the devtools package). If you have an error, check [this link](https://github.com/r-lib/devtools/issues/1941) for help.
 
 9. If you can not install dependencies for `immunarch`, please try manual installation of all dependencies by executing the following command in R console:
-   
+
    ```
 install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress", "zip", "backports", "ellipsis", "zeallot", "SparseM", "MatrixModels", "sp", "haven", "curl", "readxl", "openxlsx", "minqa", "nloptr", "RcppEigen", "utf8", "vctrs", "carData", "pbkrtest", "quantreg", "maptools", "rio", "lme4", "labeling", "munsell", "cli", "fansi", "pillar", "viridis", "car", "ellipse", "flashClust", "leaps", "scatterplot3d", "modeltools", "DEoptimR", "digest", "gtable", "lazyeval", "rlang", "scales", "tibble", "viridisLite", "withr", "assertthat", "glue", "magrittr", "pkgconfig", "R6", "tidyselect", "BH", "plogr", "purrr", "ggsci", "cowplot", "ggsignif", "polynom", "fastcluster", "plyr", "abind", "dendextend", "FactoMineR", "mclust", "flexmix", "prabclus", "diptest", "robustbase", "kernlab", "GlobalOptions", "shape", "colorspace", "stringi", "hms", "clipr", "crayon", "httpuv", "mime", "jsonlite", "xtable", "htmltools", "sourcetools", "later", "promises", "gridBase", "RColorBrewer", "yaml", "ggplot2", "dplyr", "dtplyr", "dbplyr", "data.table", "gridExtra", "ggpubr", "pheatma3", "ggrepel", "reshape2", "DBI", "factoextra", "fpc", "circlize", "tidyr", "Rtsne", "readr", "readxl", "shiny", "shinythemes", "treemap", "igraph", "airr", "ggseqlogo", "UpSetR", "stringr", "ggalluvial", "Rcpp"))
    ```
-   
+
 9. If you encounter the following error while running the `devtools::install_local` function:
 
    ```

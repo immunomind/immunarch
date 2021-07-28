@@ -1,17 +1,5 @@
 ---
-title: 'Diversity estimation'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
-date: "support@immunomind.io"
-output:
-  html_document:
-    fig_height: 8
-    fig_width: 10
-    theme: spacelab
-    toc: yes
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: yes
+title: "Diversity estimation"
 ---
 
 

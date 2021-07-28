@@ -1,17 +1,5 @@
 ---
-title: 'Kmer and sequence motif analysis and visualisation'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
-date: "support@immunomind.io"
-output:
-  html_document:
-    fig_height: 8
-    fig_width: 10
-    theme: spacelab
-    toc: yes
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: yes
+title: "Kmer and sequence motif analysis and visualisation"
 ---
 
 
@@ -122,7 +110,7 @@ Argument `.method` specifies which matrix to compute:
  - `.method = "prob"` - position probability matrix (PPM);
  - `.method = "wei"` - position weight matrix (PWM);
  - `.method = "self"` - self-information matrix.
- 
+
 ```{r}
 kmer_profile(kmers, "freq")
 kmer_profile(kmers, "prob")

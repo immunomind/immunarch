@@ -1,0 +1,10 @@
+html_document:
+  pandoc_args: './common/header.yml'
+  fig_height: 8
+  fig_width: 10
+  theme: spacelab
+  toc: yes
+pdf_document:
+  toc: yes
+word_document:
+  toc: yes

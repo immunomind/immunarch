@@ -1,17 +1,5 @@
 ---
 title: "Single-cell and paired chain data: scTCRseq and scBCRseq exploration"
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
-date: "support@immunomind.io"
-output:
-  html_document:
-    fig_height: 8
-    fig_width: 10
-    theme: spacelab
-    toc: yes
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: yes
 ---
 
 
@@ -41,7 +29,7 @@ data(scdata)
 
 > This is a vignette dedicated to provide an overview on how to work with single-cell paired chain data in `immunarch`
 
-> Single-cell support is currently in the development version. In order to access it, you need to install the latest development version of the package  by executing the following command: 
+> Single-cell support is currently in the development version. In order to access it, you need to install the latest development version of the package  by executing the following command:
 
 ```r
 install.packages("devtools"); devtools::install_github("immunomind/immunarch", ref="dev")
@@ -131,4 +119,3 @@ p3 <- trackClonotypes(scdata_cl$data, target, .col = "aa") %>% vis()
 ```
 
 Several functions may work incorrectly with paired chain data in this release of `immunarch`. Let us know via [GitHub Issues](http://github.com/immunomind/immunarch/issues)!
-
