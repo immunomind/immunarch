@@ -135,9 +135,22 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
     }
   }
 
+  vdj <- c(.vgenes, .dgenes, .jgenes)
+  names(vdj) <- c(".vgenes", ".dgenes", ".jgenes")
+  # if V, D or J columns are missing in the data, add empty columns
+  for (i in length(vdj)) {
+    if (is.na(vdj[[i]])) {
+      # if genes header argument is NA, use ".vgenes", ".dgenes" or ".jgenes" as column name
+      genes_header <- names(vdj)[i]
+      vdj[[i]] <- genes_header
+      # add empty column with this name to parsed dataframe
+      df[, genes_header] <- NA
+    }
+  }
+
   vec_names <- c(
     .count, .prop, .nuc.seq, .aa.seq,
-    .vgenes, .dgenes, .jgenes,
+    vdj[[".vgenes"]], vdj[[".dgenes"]], vdj[[".jgenes"]],
     .vend, .dstart, .dend, .jstart,
     .total.insertions, .vd.insertions, .dj.insertions
   )
@@ -413,17 +426,32 @@ parse_mixcr <- function(.filename, .mode) {
   # cloneCount - clonalSequence - nSeqCDR3
   # cloneCount - targetSequences - nSeqImputedCDR3
   # cloneCount - targetSequences - nSeqCDR3
-  if ("targetsequences" %in% table.colnames) {
-    if ("nseqimputedcdr3" %in% table.colnames) {
-      .nuc.seq <- "nseqimputedcdr3"
-    } else {
-      .nuc.seq <- "nseqcdr3"
-    }
 
+  # TODO: when refactoring, CDR headers can be implemented as objects of data class
+  # that contains headers for nucleotide sequence and amino acid sequence (such as "nseqcdr3"),
+  # and IDs for these headers (such as ".nuc.seq.cdr3")
+  SEQ_NUM <- 3
+  nuc_headers <- rep(NA, SEQ_NUM)
+  aa_headers <- rep(NA, SEQ_NUM)
+  names(nuc_headers) <- c(".nuc.seq.cdr1", ".nuc.seq.cdr2", ".nuc.seq.cdr3")
+  names(aa_headers) <- c(".aa.seq.cdr1", ".aa.seq.cdr2", ".aa.seq.cdr3")
+  # configure headers for nucleotide sequences for CDR1, CDR2, CDR3
+  for (i in 1:SEQ_NUM) {
+    cdr <- paste0("cdr", i)
+    if ("targetsequences" %in% table.colnames) {
+      if (paste0("nseqimputed", cdr) %in% table.colnames) {
+        nuc_headers[[i]] <- paste0("nseqimputed", cdr)
+      } else {
+        nuc_headers[[i]] <- paste0("nseq", cdr)
+      }
+    } else {
+      nuc_headers[[i]] <- paste0("nseq", cdr)
+    }
+  }
+
+  if ("targetsequences" %in% table.colnames) {
     .big.seq <- "targetsequences"
   } else {
-    .nuc.seq <- "nseqcdr3"
-
     if ("clonalsequences" %in% table.colnames) {
       .big.seq <- "clonalsequences"
     } else if ("clonalsequence" %in% table.colnames) {
@@ -615,23 +643,30 @@ parse_mixcr <- function(.filename, .mode) {
   .freq <- "Proportion"
   df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
-  .aa.seq <- IMMCOL$cdr3aa
-  df[[.aa.seq]] <- bunch_translate(df[[.nuc.seq]])
+  aa_headers[[".aa.seq.cdr1"]] <- IMMCOL_EXT$cdr1aa
+  aa_headers[[".aa.seq.cdr2"]] <- IMMCOL_EXT$cdr2aa
+  aa_headers[[".aa.seq.cdr3"]] <- IMMCOL$cdr3aa
+  for (i in 1:SEQ_NUM) {
+    df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
+  }
 
   if (is.na(.big.seq)) {
     .big.seq <- "BigSeq"
-    df$BigSeq <- df[[.nuc.seq]]
+    df$BigSeq <- df[[nuc_headers[[".nuc.seq.cdr3"]]]]
   }
 
   df <- df[, make.names(c(
     .count, .freq,
-    .nuc.seq, .aa.seq,
+    nuc_headers[[".nuc.seq.cdr3"]], aa_headers[[".aa.seq.cdr3"]],
     .vgenes, .dgenes, .jgenes,
     .vend, .dalignments, .jstart,
-    .total.insertions, .vd.insertions, .dj.insertions, .big.seq
+    .total.insertions, .vd.insertions, .dj.insertions, .big.seq,
+    nuc_headers[[".nuc.seq.cdr1"]], aa_headers[[".aa.seq.cdr1"]],
+    nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]]
   ))]
 
-  colnames(df) <- IMMCOL$order
+  colnames(df) <- c(IMMCOL$order,
+                    IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa)
 
   df[[IMMCOL$v]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$v]])
   df[[IMMCOL$v]] <- gsub(",", ", ", df[[IMMCOL$v]])
@@ -866,18 +901,6 @@ parse_imgt <- function(.filename, .mode) {
   df
 }
 
-# parse_vidjil <- function (.filename) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-#
-# parse_rtcr <- function (.filename) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-#
-# parse_imseq <- function (.filename) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-
 parse_airr <- function(.filename, .mode) {
   df <- airr::read_rearrangement(.filename)
 
@@ -1032,4 +1055,126 @@ parse_archer <- function(.filename, .mode) {
                    .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
                    .skip = 0, .sep = "\t"
   )
+}
+
+parse_catt <- function(.filename, .mode) {
+  filename <- .filename
+  nuc.seq <- "NNseq"
+  aa.seq <- "AAseq"
+  .count <- "Frequency"
+  vgenes <- "Vregion"
+  jgenes <- "Jregion"
+  dgenes <- "Dregion"
+  vend <- NA
+  jstart <- NA
+  dstart <- NA
+  dend <- NA
+  vd.insertions <- NA
+  dj.insertions <- NA
+  total.insertions <- NA
+  .skip <- 0
+  .sep <- ","
+
+  parse_repertoire(
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
+    .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
+    .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
+    .total.insertions = total.insertions, .skip = .skip, .sep = .sep
+  )
+}
+
+parse_rtcr <- function(.filename, .mode) {
+  filename <- .filename
+  nuc.seq <- "Junction nucleotide sequence"
+  aa.seq <- "Amino acid sequence"
+  .count <- "Number of reads"
+  vgenes <- "V gene"
+  jgenes <- "J gene"
+  dgenes <- NA
+  vend <- "V gene end position"
+  jstart <- "J gene start position"
+  dstart <- NA
+  dend <- NA
+  vd.insertions <- NA
+  dj.insertions <- NA
+  total.insertions <- NA
+  .skip <- 0
+  .sep <- "\t"
+
+  parse_repertoire(
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
+    .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
+    .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
+    .total.insertions = total.insertions, .skip = .skip, .sep = .sep
+  )
+}
+
+parse_imseq <- function(.filename, .mode) {
+  filename <- .filename
+  nuc.seq <- "cdrNucSeq"
+  aa.seq <- "cdrAASeq"
+  .count <- NA
+  vgenes <- "leftMatches"
+  jgenes <- "rightMatches"
+  dgenes <- NA
+  vend <- NA
+  jstart <- NA
+  dstart <- NA
+  dend <- NA
+  vd.insertions <- NA
+  dj.insertions <- NA
+  total.insertions <- NA
+  .skip <- 0
+  .sep <- "\t"
+
+  parse_repertoire(
+    .filename = filename, .mode = .mode, .nuc.seq = nuc.seq, .aa.seq = aa.seq, .count = .count,
+    .vgenes = vgenes, .jgenes = jgenes, .dgenes = dgenes,
+    .vend = vend, .jstart = jstart, .dstart = dstart, .dend = dend,
+    .vd.insertions = vd.insertions, .dj.insertions = dj.insertions,
+    .total.insertions = total.insertions, .skip = .skip, .sep = .sep
+  )
+}
+
+parse_vidjil <- function(.filename, .mode) {
+  json_data <- read_json(.filename, simplifyVector=TRUE)
+  clones <- json_data[["clones"]]
+
+  count <- as.vector(clones[["reads"]], mode="numeric")
+  proportion <- count / sum(count)
+  cdr3nt <- NA
+  cdr3aa <- as.vector(clones[["seg"]][["cdr3"]][["aa"]])
+  vgenes <- as.vector(clones[["seg"]][["5"]])
+  dgenes <- NA
+  jgenes <- as.vector(clones[["seg"]][["3"]])
+  vend <- as.vector(clones[["seg"]][["5end"]], mode="numeric")
+  dstart <- NA
+  dend <- NA
+  jstart <- as.vector(clones[["seg"]][["3start"]], mode="numeric")
+  vj.insertions <- NA
+  vd.insertions <- NA
+  dj.insertions <- NA
+
+  df <- data.frame(count, proportion, cdr3nt, cdr3aa, vgenes, dgenes, jgenes,
+                   vend, dstart, dend, jstart, vj.insertions, vd.insertions, dj.insertions)
+
+  colnames(df)[1] <- IMMCOL$count
+  colnames(df)[2] <- IMMCOL$prop
+  colnames(df)[3] <- IMMCOL$cdr3nt
+  colnames(df)[4] <- IMMCOL$cdr3aa
+  colnames(df)[5] <- IMMCOL$v
+  colnames(df)[6] <- IMMCOL$d
+  colnames(df)[7] <- IMMCOL$j
+  colnames(df)[8] <- IMMCOL$ve
+  colnames(df)[9] <- IMMCOL$ds
+  colnames(df)[10] <- IMMCOL$de
+  colnames(df)[11] <- IMMCOL$js
+  colnames(df)[12] <- IMMCOL$vnj
+  colnames(df)[13] <- IMMCOL$vnd
+  colnames(df)[14] <- IMMCOL$dnj
+
+  df <- .postprocess(df)
+  df
 }

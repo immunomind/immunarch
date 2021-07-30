@@ -6,18 +6,19 @@ Authors@R: c(
     person("Vadim I.", "Nazarov", , "vdm.nazarov@gmail.com", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
+    person("Aleksandr A.", "Popov", , role = "aut"),
     person("Anna", "Lorenc", , role = "ctb"),
     person("Daniel J.", "Moore", , role = "ctb"),
     person("Victor", "Greiff", , role = "ctb"),
     person("ImmunoMind", role = c("cph", "fnd"))
     )
 Contact: support@immunomind.io
-Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell 
-    T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and 
+Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
+    T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
-    and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods, 
-    such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes 
-    and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor 
+    and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods,
+    such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes
+    and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
     databases and clonotype tracking in vaccination and cancer studies. A successor to our
     previously published 'tcR' immunoinformatics package (Nazarov 2015) <doi:10.1186/s12859-015-0613-1>.
 License: AGPL-3
@@ -64,7 +65,8 @@ Suggests:
     testthat (>= 2.1.0),
     pkgdown (>= 0.1.0),
     assertthat,
-    rmarkdown
+    rmarkdown,
+    jsonlite
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1

@@ -183,6 +183,10 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
         `10x (filt.contigs)` = parse_10x_filt_contigs,
         archer = parse_archer,
         immunarch = parse_immunarch,
+        catt = parse_catt,
+        rtcr = parse_rtcr,
+        imseq = parse_imseq,
+        vidjil = parse_vidjil,
         NA
       )
 
