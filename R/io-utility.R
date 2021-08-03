@@ -109,14 +109,14 @@
                           .vd.insertions, .dj.insertions, .total.insertions,
                           .skip, .sep, .add = NA) {
   table.colnames <- colnames(readr::read_delim(.filename,
-                                               col_types = cols(),
-                                               delim = .sep,
-                                               quote = "",
-                                               escape_double = FALSE,
-                                               comment = "",
-                                               n_max = 1,
-                                               trim_ws = TRUE,
-                                               skip = .skip
+    col_types = cols(),
+    delim = .sep,
+    quote = "",
+    escape_double = FALSE,
+    comment = "",
+    n_max = 1,
+    trim_ws = TRUE,
+    skip = .skip
   ))
 
   swlist <- list(

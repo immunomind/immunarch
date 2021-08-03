@@ -374,8 +374,7 @@ apply_symm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
     for (j in i:length(.datalist)) {
       if (i == j && is.na(.diag)) {
         res[i, j] <- NA
-      }
-      else {
+      } else {
         res[i, j] <- .fun(.datalist[[i]], .datalist[[j]], ...)
       }
       if (.verbose) add_pb(pb)
@@ -394,8 +393,7 @@ apply_asymm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
     for (j in 1:length(.datalist)) {
       if (i == j && is.na(.diag)) {
         res[i, j] <- NA
-      }
-      else {
+      } else {
         res[i, j] <- .fun(.datalist[[i]], .datalist[[j]], ...)
       }
       if (.verbose) add_pb(pb)

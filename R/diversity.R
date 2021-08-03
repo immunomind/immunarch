@@ -184,8 +184,7 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
 
     res <- add_class(res, new_class)
     return(res)
-  }
-  else if (.method == "raref") {
+  } else if (.method == "raref") {
     if (!has_class(.data, "list")) {
       .data <- list(Sample = .data)
     }
@@ -203,8 +202,7 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
         summarise(Div.count = sum(!!sym(IMMCOL$count))) %>%
         pull(Div.count)
     })
-  }
-  else {
+  } else {
     .col <- process_col_argument(.col)
 
     if (has_class(.data, "data.table")) {

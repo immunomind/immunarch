@@ -165,8 +165,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     # Parse the file
     if (is.na(cur_format)) {
       message("unsupported format, skipping")
-    }
-    else {
+    } else {
       message(cur_format)
 
       parse_fun <- switch(cur_format,
@@ -192,8 +191,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
 
       if (suppressWarnings(is.na(parse_fun))) {
         message("unknown format, skipping")
-      }
-      else {
+      } else {
         parse_res <- parse_fun(.path, .mode)
 
         if (is.null(parse_res)) {
@@ -225,11 +223,10 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     metadata <- tibble()
 
     for (.filepath in .files) {
-      message('  -- [', match(.filepath, .files), '/', length(.files), '] Parsing "', .filepath, '" -- ', appendLF = FALSE)
+      message("  -- [", match(.filepath, .files), "/", length(.files), '] Parsing "', .filepath, '" -- ', appendLF = FALSE)
       if (!file.exists(.filepath)) {
         message('Can\'t find\t"', .filepath, '", skipping')
-      }
-      else {
+      } else {
         # Check for the type: repertoire, metadata or barcodes
         if (stringr::str_detect(.filepath, "metadata")) {
           message("metadata")
@@ -240,11 +237,9 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
           if (!("Sample" %in% colnames(metadata))) {
             stop('No "Sample" column found in the metadata file. The "Sample" column with the names of samples without extensions (e.g., ".txt", ".tsv") is required. Please provide it and run the parsing again.')
           }
-        }
-        else if (stringr::str_detect(.filepath, "barcode")) {
+        } else if (stringr::str_detect(.filepath, "barcode")) {
           # TODO: add the barcode processing subroutine to split by samples
-        }
-        else {
+        } else {
           repertoire <- .read_repertoire(.filepath, .format, .mode, .coding)
           if (length(repertoire) != 0) {
             parsed_batch <- c(parsed_batch, repertoire)
