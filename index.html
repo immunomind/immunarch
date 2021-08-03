@@ -15,12 +15,12 @@
 <link href="docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires">
-<meta property="og:description" content="A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell 
-    T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and 
+<meta property="og:description" content="A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
+    T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
-    and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods, 
-    such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes 
-    and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor 
+    and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods,
+    such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes
+    and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
     databases and clonotype tracking in vaccination and cancer studies. A successor to our
     previously published tcR immunoinformatics package (Nazarov 2015) &lt;doi:10.1186/s12859-015-0613-1&gt;.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -72,7 +72,7 @@
       <a href="articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -115,6 +115,9 @@
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
+<li>
+  <a href="articles/web_only/community.html">ImmunoMinds Community</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -152,9 +155,9 @@
   <div class="contents col-md-9">
 
 
-<div id="immunarch-fast-and-seamless-exploration-of-single-cell-and-bulk-t-cellantibody-immune-repertoires-in-r" class="section level1">
+<div id="immunarch--fast-and-seamless-exploration-of-single-cell-and-bulk-t-cellantibody-immune-repertoires-in-r" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#immunarch-fast-and-seamless-exploration-of-single-cell-and-bulk-t-cellantibody-immune-repertoires-in-r" class="anchor"></a><code>immunarch</code> — Fast and Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires in R</h1></div>
+<a href="#immunarch--fast-and-seamless-exploration-of-single-cell-and-bulk-t-cellantibody-immune-repertoires-in-r" class="anchor"></a><code>immunarch</code> — Fast and Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires in R</h1></div>
 <div id="why-immunarch" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-immunarch" class="anchor"></a>Why <code>immunarch</code>?</h2>
@@ -174,16 +177,17 @@
 <div id="lightning-fast-start" class="section level3">
 <h3 class="hasAnchor">
 <a href="#lightning-fast-start" class="anchor"></a>Lightning-fast Start</h3>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>)           <span class="co"># Install the package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>); <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)       <span class="co"># Load the package and the test dataset</span>
-<span class="fu"><a href="reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()      <span class="co"># Compute and visualise the most important statistics:</span>
-<span class="fu"><a href="reference/geneUsage.html">geneUsage</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()  <span class="co">#     public clonotypes, gene usage, sample diversity</span>
-<span class="fu"><a href="reference/repDiversity.html">repDiversity</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>(<span class="kw">.by</span> <span class="kw">=</span> <span class="st">"Status"</span>, <span class="kw">.meta</span> <span class="kw">=</span> <span class="no">immdata</span>$<span class="no">meta</span>)      <span class="co"># Group samples</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"immunarch"</span><span class="op">)</span>           <span class="co"># Install the package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://immunarch.com/">immunarch</a></span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span>       <span class="co"># Load the package and the test dataset</span>
+<span class="fu"><a href="reference/repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>      <span class="co"># Compute and visualise the most important statistics:</span>
+<span class="fu"><a href="reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>  <span class="co">#     public clonotypes, gene usage, sample diversity</span>
+<span class="fu"><a href="reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span>.by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>      <span class="co"># Group samples</span></code></pre></div>
 </div>
 <div id="from-berkeley-with-devotion" class="section level3">
 <h3 class="hasAnchor">
 <a href="#from-berkeley-with-devotion" class="anchor"></a>From Berkeley with devotion</h3>
-<p><code>immunarch</code> is brought to you by <a href="https://immunomind.io">ImmunoMind</a> — a <a href="https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/">UC Berkeley SkyDeck</a> startup. ImmunoMind Data Science tools for single-cell and immunomics <a href="https://immunarch.com">exploration</a> and <a href="https://immunomind.io">biomarker discovery</a> are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.</p>
+<p><code>immunarch</code> is brought to you by <a href="https://immunomind.io">ImmunoMind</a> — a <a href="https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/">UC Berkeley SkyDeck</a> startup. ImmunoMind improves the design of adoptive T-cell therapies such as CAR-T by precisely identifying T-cell subpopulations and their immune profile. ImmunoMind’s tools are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.</p>
 <p><a href="https://twitter.com/intent/follow?screen_name=immunomind"><img src="https://img.shields.io/twitter/follow/immunomind.svg?style=social" alt="Follow"></a></p>
 </div>
 </div>
@@ -229,7 +233,8 @@
 <h3 class="hasAnchor">
 <a href="#latest-release-on-cran" class="anchor"></a>Latest release on CRAN</h3>
 <p>In order to install <code>immunarch</code> execute the following command:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"immunarch"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"immunarch"</span><span class="op">)</span></code></pre></div>
 <p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting">Installation Troubleshooting</a> section.</p>
 <p>Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making <code>immunarch</code> the entry-point for single-cell &amp; immune repertoire Data Science.</p>
 </div>
@@ -237,33 +242,35 @@
 <h3 class="hasAnchor">
 <a href="#latest-release-on-github" class="anchor"></a>Latest release on GitHub</h3>
 <p>If the above command doesn’t work for any reason, try installing <code>immunarch</code> directly from its repository:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"immunomind/immunarch"</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># skip this if you already installed devtools</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="latest-pre-release-on-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#latest-pre-release-on-github" class="anchor"></a>Latest pre-release on GitHub</h3>
 <p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>) <span class="co"># skip this if you already installed devtools</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"immunomind/immunarch"</span>, <span class="kw">ref</span><span class="kw">=</span><span class="st">"dev"</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># skip this if you already installed devtools</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span>, ref<span class="op">=</span><span class="st">"dev"</span><span class="op">)</span></code></pre></div>
 <p>You can find the list of releases of <code>immunarch</code> here: <a href="https://github.com/immunomind/immunarch/releases" class="uri">https://github.com/immunomind/immunarch/releases</a></p>
 </div>
 </div>
-<div id="features" class="section level2">
+<div id="key-features" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features" class="anchor"></a>Features</h2>
+<a href="#key-features" class="anchor"></a>Key Features</h2>
 <ol>
 <li>
-<p>Fast and easy manipulation of immune repertoire data:</p>
+<p>Data agnostic. Fast and easy manipulation of immune repertoire data:</p>
 <ul>
 <li><p>The package automatically detects the format of your files—no more guessing what format is <em>that</em> file, just pass them to the package;</p></li>
-<li><p>Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: <a href="https://www.adaptivebiotech.com/products-services/immunoseq/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, <a href="https://archerdx.com/immunology/">ArcherDX</a>. More coming in the future;</p></li>
+<li><p>Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: <a href="https://www.immunoseq.com/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, ArcherDX. More coming in the future;</p></li>
 <li><p>Works on any data source you are comfortable with: R data frames, data tables from <a href="https://rdatatable.gitlab.io/data.table/">data.table</a>, databases like <a href="https://github.com/MonetDB">MonetDB</a>, Apache Spark data frames via <a href="https://spark.rstudio.com/">sparklyr</a>;</p></li>
 <li><p>Tutorial is available <a href="https://immunarch.com/articles/v2_data.html">here</a>.</p></li>
 </ul>
 </li>
 <li>
-<p>Immune repertoire analysis made simple:</p>
+<p>Beginner-friendly. Immune repertoire analysis made simple:</p>
 <ul>
 <li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names. For details see <a href="https://immunarch.com/articles/v3_basic_analysis.html">link</a>;</p></li>
 <li><p>Repertoire overlap analysis <em>(common indices including overlap coefficient, Jaccard index and Morisita’s overlap index)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v4_overlap.html">here</a>;</p></li>
@@ -275,7 +282,7 @@
 </ul>
 </li>
 <li>
-<p>Publication-ready plots with a built-in tool for visualisation manipulation:</p>
+<p>Seamless publication-ready plots with a built-in tool for visualisation manipulation:</p>
 <ul>
 <li><p>Rich visualisation procedures with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>;</p></li>
 <li><p>Built-in tool <code>FixVis</code> makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;</p></li>
@@ -292,21 +299,25 @@
 <h3 class="hasAnchor">
 <a href="#use-immunarch-data" class="anchor"></a>Use <code>immunarch</code> data</h3>
 <p><strong>1) Load the package and the data</strong></p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>)  <span class="co"># Load the package into R</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)  <span class="co"># Load the test dataset</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://immunarch.com/">immunarch</a></span><span class="op">)</span>  <span class="co"># Load the package into R</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span>  <span class="co"># Load the test dataset</span></code></pre></div>
 <p><strong>2) Calculate and visualise basic statistics</strong></p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/repExplore.html">repExplore</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"lens"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()  <span class="co"># Visualise the length distribution of CDR3</span>
-<span class="fu"><a href="reference/repClonality.html">repClonality</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="st">"homeo"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()  <span class="co"># Visualise the relative abundance of clonotypes</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"lens"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Visualise the length distribution of CDR3</span>
+<span class="fu"><a href="reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"homeo"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Visualise the relative abundance of clonotypes</span></code></pre></div>
 <p><strong>3) Explore and compare T-cell and B-cell repertoires</strong></p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="reference/repOverlap.html">repOverlap</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()  <span class="co"># Build the heatmap of public clonotypes shared between repertoires</span>
-<span class="fu"><a href="reference/geneUsage.html">geneUsage</a></span>(<span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]]) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>()  <span class="co"># Visualise the V-gene distribution for the first repertoire</span>
-<span class="fu"><a href="reference/repDiversity.html">repDiversity</a></span>(<span class="no">immdata</span>$<span class="no">data</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span>(<span class="kw">.by</span> <span class="kw">=</span> <span class="st">"Status"</span>, <span class="kw">.meta</span> <span class="kw">=</span> <span class="no">immdata</span>$<span class="no">meta</span>)  <span class="co"># Visualise the Chao1 diversity of repertoires, grouped by the patient status</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Build the heatmap of public clonotypes shared between repertoires</span>
+<span class="fu"><a href="reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Visualise the V-gene distribution for the first repertoire</span>
+<span class="fu"><a href="reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span>.by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>  <span class="co"># Visualise the Chao1 diversity of repertoires, grouped by the patient status</span></code></pre></div>
 </div>
 <div id="use-your-own-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#use-your-own-data" class="anchor"></a>Use your own data</h3>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">immunarch</span>)  <span class="co"># Load the package into R</span>
-<span class="no">immdata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/repLoad.html">repLoad</a></span>(<span class="st">"path/to/your/data"</span>)  <span class="co"># Replace it with the path to your data. Immunarch automatically detects the file format.</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://immunarch.com/">immunarch</a></span><span class="op">)</span>  <span class="co"># Load the package into R</span>
+<span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="st">"path/to/your/data"</span><span class="op">)</span>  <span class="co"># Replace it with the path to your data. Immunarch automatically detects the file format.</span></code></pre></div>
 </div>
 <div id="advanced-methods" class="section level3">
 <h3 class="hasAnchor">
@@ -332,8 +343,8 @@
 <p>Have an aspiration to help the community build the ecosystem of scRNAseq &amp; AIRR analysis tools? Found a bug? A typo? Would like to improve a documentation, add a method or optimise an algorithm?</p>
 <p>We are always open to contributions. There are two ways to contribute:</p>
 <ol>
-<li><p>Create an issue <a href="http://github.com/immunomind/immunarch/issues">here</a> and describe what would you like to improve or discuss.</p></li>
-<li><p>Create an issue or find one <a href="http://github.com/immunomind/immunarch/issues">here</a>, fork the repository and make a pull request with the bugfix or improvement.</p></li>
+<li><p>Create an issue <a href="https://github.com/immunomind/immunarch/issues">here</a> and describe what would you like to improve or discuss.</p></li>
+<li><p>Create an issue or find one <a href="https://github.com/immunomind/immunarch/issues">here</a>, fork the repository and make a pull request with the bugfix or improvement.</p></li>
 </ol>
 </div>
 <div id="citation" class="section level2">
@@ -394,9 +405,13 @@ Contact us at support@immunomind.io for more information.
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Vadim I. Nazarov <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Vasily O. Tsvetkov <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<li>
+<a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a> <br><small class="roles"> Author </small>  </li>
 <li>Eugene Rumynskiy <br><small class="roles"> Author </small>  </li>
+<li>Aleksandr A. Popov <br><small class="roles"> Author </small>  </li>
+<li>Ivan Balashov <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="https://immunomind.io">ImmunoMind</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
@@ -408,13 +423,13 @@ Contact us at support@immunomind.io for more information.
 <ul class="list-unstyled">
 <li><a href="https://twitter.com/intent/follow?screen_name=immunomind"><img src="https://img.shields.io/twitter/follow/immunomind.svg?style=social" alt="Follow"></a></li>
 <li><a href="https://cran.r-project.org/package=immunarch"><img src="http://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square" alt="CRAN"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/immunarch"><img src="http://cranlogs.r-pkg.org/badges/grand-total/immunarch" alt="Downloads_all"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/immunarch"><img src="http://cranlogs.r-pkg.org/badges/last-week/immunarch" alt="Downloads_week"></a></li>
-<li><a href="http://github.com/immunomind/immunarch/issues"><img src="https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square" alt="Issues"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/immunarch"><img src="http://cranlogs.r-pkg.org/badges/grand-total/immunarch" alt="Downloads_all"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/immunarch"><img src="http://cranlogs.r-pkg.org/badges/last-week/immunarch" alt="Downloads_week"></a></li>
+<li><a href="https://github.com/immunomind/immunarch/issues"><img src="https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square" alt="Issues"></a></li>
 <li><a href="https://gitlab.com/immunomind/immunarch/-/jobs"><img src="https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square" alt="CI"></a></li>
 <li><a href="https://doi.org/10.5281/zenodo.3367200"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg" alt="DOI"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/tcR"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tcR" alt="Downloads_all"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/tcR"><img src="http://cranlogs.r-pkg.org/badges/last-week/tcR" alt="Downloads_week"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/tcR"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tcR" alt="Downloads_all"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/tcR"><img src="http://cranlogs.r-pkg.org/badges/last-week/tcR" alt="Downloads_week"></a></li>
 </ul>
 </div>
 </div>
@@ -422,11 +437,11 @@ Contact us at support@immunomind.io for more information.
 
 
       <footer><div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

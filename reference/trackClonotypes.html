@@ -117,7 +117,7 @@ Note: duplicated clonotypes are merged and their counts are summed up." />
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -159,6 +159,9 @@ Note: duplicated clonotypes are merged and their counts are summed up." />
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -207,7 +210,7 @@ time points after vaccination.</p>
 <p>Note: duplicated clonotypes are merged and their counts are summed up.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>trackClonotypes</span>(<span class='no'>.data</span>, <span class='kw'>.which</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>1</span>, <span class='fl'>15</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>, <span class='kw'>.norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>trackClonotypes</span><span class='op'>(</span><span class='va'>.data</span>, .which <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span>, .norm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -253,53 +256,60 @@ in the function output.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load an example data that comes with immunarch</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
 
 <span class='co'># Make the data smaller in order to speed up the examples</span>
-<span class='no'>immdata</span>$<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='no'>immdata</span>$<span class='no'>data</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>)]
-<span class='no'>immdata</span>$<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='no'>immdata</span>$<span class='no'>meta</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>), ]
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span><span class='op'>)</span><span class='op'>]</span>
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span><span class='op'>)</span>, <span class='op'>]</span>
 
 <span class='co'># Option 1</span>
 <span class='co'># Choose the first 10 amino acid clonotype sequences</span>
 <span class='co'># from the first repertoire to track</span>
-<span class='no'>tc</span> <span class='kw'>&lt;-</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
+<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'>trackClonotypes</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>10</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span><span class='op'>)</span>
 <span class='co'># Choose the first 20 nucleotide clonotype sequences</span>
 <span class='co'># and their V genes from the "MS1" repertoire to track</span>
-<span class='no'>tc</span> <span class='kw'>&lt;-</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"MS1"</span>, <span class='fl'>20</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"nt+v"</span>)
+<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'>trackClonotypes</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"MS1"</span>, <span class='fl'>20</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"nt+v"</span><span class='op'>)</span>
 
 <span class='co'># Option 2</span>
 <span class='co'># Choose clonotypes with amino acid sequences "CASRGLITDTQYF" or "CSASRGSPNEQYF"</span>
-<span class='no'>tc</span> <span class='kw'>&lt;-</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span>), <span class='kw'>.col</span> <span class='kw'>=</span> <span class='st'>"aa"</span>)
+<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'>trackClonotypes</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span><span class='op'>)</span>
 
 <span class='co'># Option 3</span>
 <span class='co'># Choose the first 10 clonotypes from the first repertoire</span>
 <span class='co'># with amino acid sequences and V segments</span>
-<span class='no'>target</span> <span class='kw'>&lt;-</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>%&gt;%</span>
-  <span class='fu'>select</span>(<span class='no'>CDR3.aa</span>, <span class='no'>V.name</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>10</span>)
-<span class='no'>tc</span> <span class='kw'>&lt;-</span> <span class='fu'>trackClonotypes</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>target</span>)
+<span class='va'>target</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>CDR3.aa</span>, <span class='va'>V.name</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'>trackClonotypes</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>target</span><span class='op'>)</span>
 
 <span class='co'># Visualise the output regardless of the chosen option</span>
 <span class='co'># Therea are three way to visualise it, regulated by the .plot argument</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"smooth"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"area"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='st'>"line"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"smooth"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The `.dots` argument of `group_by()` is deprecated as of dplyr 1.0.0.</span></div><div class='img'><img src='trackClonotypes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"area"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Visualising timepoints</span>
 <span class='co'># First, we create an additional column in the metadata with randomly choosen timepoints:</span>
-<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>))
-<span class='no'>immdata</span>$<span class='no'>meta</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 7</span><span>
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span>
 #&gt;   Sample  ID    Sex     Age Status Lane  Timepoint
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> A2-i129 C1    M        11 C      A             1
-#&gt; </span><span style='color: #555555;'>2</span><span> A2-i131 C2    M         9 C      A             5
-#&gt; </span><span style='color: #555555;'>3</span><span> A2-i133 C4    M        16 C      A             4
-#&gt; </span><span style='color: #555555;'>4</span><span> MS1     MS1   M        12 MS     C             6
-#&gt; </span><span style='color: #555555;'>5</span><span> MS2     MS2   M        30 MS     C             3
-#&gt; </span><span style='color: #555555;'>6</span><span> MS3     MS3   M         8 MS     C             2</div><div class='input'><span class='co'># Next, we create a vector with samples in the right order,</span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> A2-i129 C1    M        11 C      A             1
+#&gt; <span style='color: #BCBCBC;'>2</span> A2-i131 C2    M         9 C      A             5
+#&gt; <span style='color: #BCBCBC;'>3</span> A2-i133 C4    M        16 C      A             4
+#&gt; <span style='color: #BCBCBC;'>4</span> MS1     MS1   M        12 MS     C             6
+#&gt; <span style='color: #BCBCBC;'>5</span> MS2     MS2   M        30 MS     C             3
+#&gt; <span style='color: #BCBCBC;'>6</span> MS3     MS3   M         8 MS     C             2</div><div class='input'><span class='co'># Next, we create a vector with samples in the right order,</span>
 <span class='co'># according to the "Timepoint" column (from smallest to greatest):</span>
-<span class='no'>sample_order</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span>)
+<span class='va'>sample_order</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span><span class='op'>)</span>
 <span class='co'># Sanity check: timepoints are following the right order:</span>
-<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Timepoint</span>[<span class='no'>sample_order</span>]</div><div class='output co'>#&gt; [1] 1 2 3 4 5 6</div><div class='input'><span class='co'># Samples, sorted by the timepoints:</span>
-<span class='no'>immdata</span>$<span class='no'>meta</span>$<span class='no'>Sample</span>[<span class='no'>sample_order</span>]</div><div class='output co'>#&gt; [1] "A2-i129" "MS3"     "MS2"     "A2-i133" "A2-i131" "MS1"    </div><div class='input'><span class='co'># And finally, we visualise the data:</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>tc</span>, <span class='kw'>.order</span> <span class='kw'>=</span> <span class='no'>sample_order</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-4.png' alt='' width='700' height='433' /></div></span></pre>
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span><span class='op'>[</span><span class='va'>sample_order</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; [1] 1 2 3 4 5 6</div><div class='input'><span class='co'># Samples, sorted by the timepoints:</span>
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Sample</span><span class='op'>[</span><span class='va'>sample_order</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; [1] "A2-i129" "MS3"     "MS2"     "A2-i133" "A2-i131" "MS1"    </div><div class='input'><span class='co'># And finally, we visualise the data:</span>
+<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .order <span class='op'>=</span> <span class='va'>sample_order</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='trackClonotypes-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -311,11 +321,11 @@ in the function output.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

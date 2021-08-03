@@ -65,7 +65,7 @@
       <a href="../../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -108,6 +108,9 @@
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
+<li>
+  <a href="../../articles/web_only/community.html">ImmunoMinds Community</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -141,12 +144,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v8_tracking_files/header-attrs-2.9/header-attrs.js"></script><script src="v8_tracking_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tracking clonotypes across time points in <code>immunarch</code>
 </h1>
-                        <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
+                        <h4 class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+</h4>
             
             <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
@@ -172,36 +177,41 @@
 <a href="#tracking-the-most-abundant-clonotypes" class="anchor"></a>Tracking the most abundant clonotypes</h2>
 <p>The simplest approach is to choose the most abundant clonotypes from one of the input immune repertoires and track across all immune repertoires in a batch. Arguments <code>.which</code> and <code>.col</code> are used to choose the immune repertoire, the number of clonotypes to take from it and which columns to use.</p>
 <p>To choose the 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">tc1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">1</span>, <span class="fl">5</span>), <span class="kw">.col</span> <span class="kw">=</span> <span class="st">"nt"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>, .col <span class="op">=</span> <span class="st">"nt"</span><span class="op">)</span></code></pre></div>
 <p>Value <code><a href="https://rdrr.io/r/base/list.html">list(1, 5)</a></code> of the <code>.which</code> argument (second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires <code>immdata$data</code>. Value <code>"nt"</code> of the <code>.col</code> argument means that the function should take CDR3 nucleotide sequences only.</p>
 <p>To choose the 10 most abundant amino acid clonotype sequences and their V genes from the “MS1” repertoire to track:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">tc2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"MS1"</span>, <span class="fl">10</span>), <span class="kw">.col</span> <span class="kw">=</span> <span class="st">"aa+v"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"MS1"</span>, <span class="fl">10</span><span class="op">)</span>, .col <span class="op">=</span> <span class="st">"aa+v"</span><span class="op">)</span></code></pre></div>
 <p>Value <code><a href="https://rdrr.io/r/base/list.html">list("MS1", "10")</a></code> of the <code>.which</code> argument means to choose 10 clonotypes from the repertoire named “MS1” in the input list of repertoires <code>immdata$data</code>. Value <code>"aa+v"</code> of the <code>.col</code> argument means that the function should take both CDR3 amino acid sequences and V gene segments of the most abundant clonotypes.</p>
 <p>Visualisation of both approaches:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc1</span>)
-<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc2</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc1</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc2</span><span class="op">)</span>
 
-<span class="no">p1</span> / <span class="no">p2</span></pre></body></html></div>
+<span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-3-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="tracking-clonotypes-with-specific-nucleotide-or-amino-acid-sequences" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tracking-clonotypes-with-specific-nucleotide-or-amino-acid-sequences" class="anchor"></a>Tracking clonotypes with specific nucleotide or amino acid sequences</h2>
 <p>In order to track specific clonotype sequences, you can provide nucleotide or amino acid sequences as the <code>.which</code> argument, along with the column <code>.col</code> specifying in which columns to search for sequences. For example, to track seven CDR3 amino acid sequences specifyed below you need to execute the following code:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">target</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CASSLEETQYF"</span>, <span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CASSDSSGSTDTQYF"</span>, <span class="st">"CASSLAGGYNEQFF"</span>, <span class="st">"CASSDSAGGTDTQYF"</span>, <span class="st">"CASSLDSYEQYF"</span>, <span class="st">"CASSSAGGYNEQFF"</span>)
-<span class="no">tc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">target</span>, <span class="kw">.col</span> <span class="kw">=</span> <span class="st">"aa"</span>)
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CASSLEETQYF"</span>, <span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CASSDSSGSTDTQYF"</span>, <span class="st">"CASSLAGGYNEQFF"</span>, <span class="st">"CASSDSAGGTDTQYF"</span>, <span class="st">"CASSLDSYEQYF"</span>, <span class="st">"CASSSAGGYNEQFF"</span><span class="op">)</span>
+<span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="tracking-clonotypes-with-specific-sequences-and-gene-segments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tracking-clonotypes-with-specific-sequences-and-gene-segments" class="anchor"></a>Tracking clonotypes with specific sequences and gene segments</h2>
 <p>An improvement over the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. Support you have a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this by choosing the 10 most abundant clonotypes from the first repertoire in the batch:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">target</span> <span class="kw">&lt;-</span> <span class="no">immdata</span>$<span class="no">data</span><span class="kw">[[</span><span class="fl">1</span>]] <span class="kw">%&gt;%</span>
-  <span class="fu">select</span>(<span class="no">CDR3.aa</span>, <span class="no">V.name</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">10</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">CDR3.aa</span>, <span class="va">V.name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 
-<span class="no">target</span></pre></body></html></div>
+<span class="va">target</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 2
 ##    CDR3.aa           V.name 
 ##    &lt;chr&gt;             &lt;chr&gt;  
@@ -216,8 +226,9 @@
 ##  9 CASSQPGQGGGDEQFF  TRBV4-1
 ## 10 CASSWVARGPYEQYF   TRBV6-6</code></pre>
 <p>Supply this data frame as an argument value to the <code>.which</code> argument to track target clonotypes:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">tc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">target</span>)
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Note that you can use any columns in the <code>target</code> data frame, such as both CDR3 nucleotide and amino acid sequences and any gene segments.</p>
 </div>
@@ -226,71 +237,86 @@
 <h1 class="hasAnchor">
 <a href="#visualisation-of-tracking" class="anchor"></a>Visualisation of tracking</h1>
 <p>There are three ways to visualise clonotype tracking, depending on your research and aesthetic needs. To choose the type of plot, you need to provide the <code>".plot"</code> parameter to the <code><a href="../../reference/vis.html">vis()</a></code> function, specifying one of three plot types: - <code>.plot = "smooth"</code> - used by default, a visualisation using smooth lines and stacked bar plots; - <code>.plot = "area"</code> - visualise abundances using areas under the abundance lines; - <code>.plot = "line"</code> - visualise only lines, connecting levels of abundances of a same clonotype between time points.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">target</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CASSLEETQYF"</span>, <span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CASSDSSGSTDTQYF"</span>, <span class="st">"CASSLAGGYNEQFF"</span>, <span class="st">"CASSDSAGGTDTQYF"</span>, <span class="st">"CASSLDSYEQYF"</span>, <span class="st">"CASSSAGGYNEQFF"</span>)
-<span class="no">tc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">target</span>, <span class="kw">.col</span> <span class="kw">=</span> <span class="st">"aa"</span>)
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.plot</span> <span class="kw">=</span> <span class="st">"smooth"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CASSLEETQYF"</span>, <span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CASSDSSGSTDTQYF"</span>, <span class="st">"CASSLAGGYNEQFF"</span>, <span class="st">"CASSDSAGGTDTQYF"</span>, <span class="st">"CASSLDSYEQYF"</span>, <span class="st">"CASSSAGGYNEQFF"</span><span class="op">)</span>
+<span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .plot <span class="op">=</span> <span class="st">"smooth"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.plot</span> <span class="kw">=</span> <span class="st">"area"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .plot <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-7-2.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.plot</span> <span class="kw">=</span> <span class="st">"line"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .plot <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-7-3.png" width="1152" style="display: block; margin: auto;"></p>
 <div id="changing-the-order-of-samples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changing-the-order-of-samples" class="anchor"></a>Changing the order of samples</h2>
 <p>The <code>.order</code> argument of the <code>vis</code> function controls the order of samples in the visualisation. You can pass either indices of samples you plan to visualise or sample names.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># Passing indices</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">immdata</span>$<span class="no">data</span>)[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>)] <span class="co"># check sample names</span></pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Passing indices</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span> <span class="co"># check sample names</span></code></pre></div>
 <pre><code>## [1] "A2-i129" "A2-i133" "A4-i191"</code></pre>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co"># You can change the order</span>
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">3</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># You can change the order</span>
+<span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-8-2.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># Passing sample names</span>
-<span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"A2-i129"</span>, <span class="st">"A2-i133"</span>, <span class="st">"A4-i191"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Passing sample names</span>
+<span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A2-i129"</span>, <span class="st">"A2-i133"</span>, <span class="st">"A4-i191"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-8-3.png" width="1152" style="display: block; margin: auto;"></p>
 <p>If your metadata contains information about time such as timepoints for vaccination or tumor samples, you can use it to re-order samples accordingly. In our examples <code>immdata$meta</code> does not contain information about timepoints, so we will simulate this case.</p>
 <p>First, we create an additional column in the metadata with randomly choosen timepoints:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Timepoint</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">immdata</span>$<span class="no">data</span>))
-<span class="no">immdata</span>$<span class="no">meta</span></pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>
+<span class="va">immdata</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
 <pre><code>## # A tibble: 12 x 7
 ##    Sample  ID    Sex     Age Status Lane  Timepoint
 ##    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
-##  1 A2-i129 C1    M        11 C      A            12
-##  2 A2-i131 C2    M         9 C      A            11
-##  3 A2-i133 C4    M        16 C      A             8
+##  1 A2-i129 C1    M        11 C      A             3
+##  2 A2-i131 C2    M         9 C      A             8
+##  3 A2-i133 C4    M        16 C      A             9
 ##  4 A2-i132 C3    F         6 C      A             2
-##  5 A4-i191 C8    F        22 C      B             1
-##  6 A4-i192 C9    F        24 C      B            10
-##  7 MS1     MS1   M        12 MS     C             7
-##  8 MS2     MS2   M        30 MS     C             6
-##  9 MS3     MS3   M         8 MS     C             5
-## 10 MS4     MS4   F        14 MS     C             9
-## 11 MS5     MS5   F        15 MS     C             3
-## 12 MS6     MS6   F        15 MS     C             4</code></pre>
+##  5 A4-i191 C8    F        22 C      B            12
+##  6 A4-i192 C9    F        24 C      B             7
+##  7 MS1     MS1   M        12 MS     C            10
+##  8 MS2     MS2   M        30 MS     C            11
+##  9 MS3     MS3   M         8 MS     C             1
+## 10 MS4     MS4   F        14 MS     C             6
+## 11 MS5     MS5   F        15 MS     C             4
+## 12 MS6     MS6   F        15 MS     C             5</code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">sample_order</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Timepoint</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></code></pre></div>
 <p>Sanity check: timepoints are following the right order:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Timepoint</span>[<span class="no">sample_order</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12</code></pre>
 <p>Samples, sorted by the timepoints:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Sample</span>[<span class="no">sample_order</span>]</pre></body></html></div>
-<pre><code>##  [1] "A4-i191" "A2-i132" "MS5"     "MS6"     "MS3"     "MS2"     "MS1"    
-##  [8] "A2-i133" "MS4"     "A4-i192" "A2-i131" "A2-i129"</code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
+<pre><code>##  [1] "MS3"     "A2-i132" "A2-i129" "MS5"     "MS6"     "MS4"     "A4-i192"
+##  [8] "A2-i131" "A2-i133" "MS1"     "MS2"     "A4-i191"</code></pre>
 <p>And finally, we visualise the data:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="no">sample_order</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>It is possible to create a one-liner with the full pipeline from ordering to plotting:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>, <span class="kw">.order</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="no">immdata</span>$<span class="no">meta</span>$<span class="no">Timepoint</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="changing-the-colour-palette" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changing-the-colour-palette" class="anchor"></a>Changing the colour palette</h2>
 <p>If you want to change the colour palette, add a ggplot2 <code>scale_fill_*</code> function to the plot. We recommend using <code>scale_fill_brewer</code>:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>) + <span class="fu">scale_fill_brewer</span>(<span class="kw">palette</span> <span class="kw">=</span> <span class="st">"Spectral"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">tc</span>) + <span class="fu">scale_fill_brewer</span>(<span class="kw">palette</span> <span class="kw">=</span> <span class="st">"RdBu"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"RdBu"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-15-2.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Run <code>?scale_fill_brewer</code> in the R console to learn more about ColorBrewer and it’s colour schemes.</p>
 </div>
@@ -313,11 +339,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

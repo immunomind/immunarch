@@ -115,7 +115,7 @@
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -157,6 +157,9 @@
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -203,12 +206,12 @@
     <p>Sample (downsample) repertoires using different approches.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>repSample</span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"downsample"</span>, <span class='st'>"resample"</span>, <span class='st'>"sample"</span>),
-  <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.prob</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>repSample</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  .method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"downsample"</span>, <span class='st'>"resample"</span>, <span class='st'>"sample"</span><span class='op'>)</span>,
+  .n <span class='op'>=</span> <span class='cn'>NA</span>,
+  .prob <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -261,19 +264,25 @@ or each clonotype has an equal chance to be choosed (if <code>.prob</code> is FA
     <div class='dont-index'><p><a href='https://rdrr.io/r/stats/Multinom.html'>rmultinom</a>, <a href='repClonality.html'>clonal_proportion</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
 <span class='co'># Downsampling to 1000 clones (not clonotypes!)</span>
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>repSample</span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>tmp</span>$<span class='no'>Clones</span>)</div><div class='output co'>#&gt; [1] 1000</div><div class='input'>
+<span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'>repSample</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, .n <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>$</span><span class='va'>Clones</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1000</div><div class='input'>
 <span class='co'># Downsampling to 1000 clonotypes</span>
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>repSample</span>(<span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='st'>"sample"</span>, <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>tmp</span>)</div><div class='output co'>#&gt; [1] 1000</div><div class='input'>
+<span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'>repSample</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='st'>"sample"</span>, .n <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1000</div><div class='input'>
 <span class='co'># Downsampling to the smallest repertoire by clones (not clonotypes!)</span>
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>repSample</span>(<span class='no'>immdata</span>$<span class='no'>data</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>Clones</span>)</div><div class='output co'>#&gt; [1] 8500</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>Clones</span>)</div><div class='output co'>#&gt; [1] 8500</div><div class='input'>
+<span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'>repSample</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>Clones</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 8500</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>Clones</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 8500</div><div class='input'>
 <span class='co'># Downsampling to the smallest repertoire by clonotypes</span>
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>repSample</span>(<span class='no'>immdata</span>$<span class='no'>data</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)], <span class='st'>"sample"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>Clones</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>Clones</span>)</div><div class='output co'>#&gt; NULL</div></pre>
+<span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'>repSample</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span>, <span class='st'>"sample"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>Clones</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>Clones</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; NULL</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -285,11 +294,11 @@ or each clonotype has an equal chance to be choosed (if <code>.prob</code> is FA
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -1,22 +1,23 @@
-pandoc: 2.3.1
-pkgdown: 1.5.1
+pandoc: 2.9.2.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   v1_introduction: v1_introduction.html
   v2_data: v2_data.html
-  load_10x: web_only/load_10x.html
-  load_mixcr: web_only/load_mixcr.html
-  v10_prop: web_only/v10_prop.html
-  v11_db: web_only/v11_db.html
-  v21_singlecell: web_only/v21_singlecell.html
-  v3_basic_analysis: web_only/v3_basic_analysis.html
-  v4_overlap: web_only/v4_overlap.html
-  v5_gene_usage: web_only/v5_gene_usage.html
-  v6_diversity: web_only/v6_diversity.html
-  v7_fixvis: web_only/v7_fixvis.html
-  v8_tracking: web_only/v8_tracking.html
-  v9_kmers: web_only/v9_kmers.html
-last_built: 2020-06-19T05:28Z
+  web_only/community: community.html
+  web_only/load_10x: load_10x.html
+  web_only/load_mixcr: load_mixcr.html
+  web_only/v10_prop: v10_prop.html
+  web_only/v11_db: v11_db.html
+  web_only/v21_singlecell: v21_singlecell.html
+  web_only/v3_basic_analysis: v3_basic_analysis.html
+  web_only/v4_overlap: v4_overlap.html
+  web_only/v5_gene_usage: v5_gene_usage.html
+  web_only/v6_diversity: v6_diversity.html
+  web_only/v7_fixvis: v7_fixvis.html
+  web_only/v8_tracking: v8_tracking.html
+  web_only/v9_kmers: v9_kmers.html
+last_built: 2021-08-03T16:39Z
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

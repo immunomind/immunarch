@@ -115,7 +115,7 @@
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -157,6 +157,9 @@
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -203,27 +206,27 @@
     <p>Bar plots</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vis_bar</span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.by</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.meta</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.errorbars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
-  <span class='kw'>.errorbars.off</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.points</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.signif.label.size</span> <span class='kw'>=</span> <span class='fl'>3.5</span>,
-  <span class='kw'>.errorbar.width</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-  <span class='kw'>.defgroupby</span> <span class='kw'>=</span> <span class='st'>"Sample"</span>,
-  <span class='kw'>.grouping.var</span> <span class='kw'>=</span> <span class='st'>"Group"</span>,
-  <span class='kw'>.labs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"X"</span>, <span class='st'>"Y"</span>),
-  <span class='kw'>.title</span> <span class='kw'>=</span> <span class='st'>"Barplot (.title argument)"</span>,
-  <span class='kw'>.subtitle</span> <span class='kw'>=</span> <span class='st'>"Subtitle (.subtitle argument)"</span>,
-  <span class='kw'>.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>.leg.title</span> <span class='kw'>=</span> <span class='st'>"Legend (.leg.title argument)"</span>,
-  <span class='kw'>.legend.pos</span> <span class='kw'>=</span> <span class='st'>"right"</span>,
-  <span class='kw'>.rotate_x</span> <span class='kw'>=</span> <span class='fl'>90</span>
-)</pre>
+    <pre class="usage"><span class='fu'>vis_bar</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  .by <span class='op'>=</span> <span class='cn'>NA</span>,
+  .meta <span class='op'>=</span> <span class='cn'>NA</span>,
+  .errorbars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.025</span>, <span class='fl'>0.975</span><span class='op'>)</span>,
+  .errorbars.off <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  .stack <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  .points <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  .test <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  .signif.label.size <span class='op'>=</span> <span class='fl'>3.5</span>,
+  .errorbar.width <span class='op'>=</span> <span class='fl'>0.2</span>,
+  .defgroupby <span class='op'>=</span> <span class='st'>"Sample"</span>,
+  .grouping.var <span class='op'>=</span> <span class='st'>"Group"</span>,
+  .labs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"X"</span>, <span class='st'>"Y"</span><span class='op'>)</span>,
+  .title <span class='op'>=</span> <span class='st'>"Barplot (.title argument)"</span>,
+  .subtitle <span class='op'>=</span> <span class='st'>"Subtitle (.subtitle argument)"</span>,
+  .legend <span class='op'>=</span> <span class='cn'>NA</span>,
+  .leg.title <span class='op'>=</span> <span class='st'>"Legend (.leg.title argument)"</span>,
+  .legend.pos <span class='op'>=</span> <span class='st'>"right"</span>,
+  .rotate_x <span class='op'>=</span> <span class='fl'>90</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -320,7 +323,8 @@ Disabled if no group passed to the ".by" argument.</p></td>
     <p>A ggplot2 object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>vis_bar</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>Sample</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>), <span class='kw'>Value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>)))</div><div class='img'><img src='vis_bar-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>vis_bar</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span><span class='op'>)</span>, Value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='vis_bar-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -332,11 +336,11 @@ Disabled if no group passed to the ".by" argument.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

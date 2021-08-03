@@ -65,7 +65,7 @@
       <a href="../../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -108,6 +108,9 @@
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
+<li>
+  <a href="../../articles/web_only/community.html">ImmunoMinds Community</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -141,11 +144,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v11_db_files/header-attrs-2.9/header-attrs.js"></script><script src="v11_db_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Annotate clonotypes using immune receptor databases</h1>
-                        <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
+                        <h4 class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+</h4>
             
             <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
@@ -243,41 +248,43 @@
 <p>Download the VDJDB database following the instructions above. In the examples below, we use URLs to snippets of databases as file paths. In your own code you need to provide paths to your local database files, e.g., “/Users/yourname/Downloads/vdjdb-db-master/vdjdb.slim.txt”. Do not use the links below since they are only for testing purposes and not the actual databases!</p>
 <p>Note that VDJDB data obtained from the web interface differs from VDJDB obtained from raw files. Check the next section for working with VDJDB search tables.</p>
 <p>The most basic way to load VDJDB to R:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">vdjdb</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span>(<span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>)
-<span class="no">vdjdb</span></pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span><span class="op">)</span>
+<span class="va">vdjdb</span></code></pre></div>
 <pre><code>## # A tibble: 61,049 x 19
-##    gene  cdr3  species antigen.epitope antigen.gene antigen.species complex.id
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
-##  1 TRB   CASS… Macaca… STPESANL        Tat          SIV                0.     
-##  2 TRB   CASS… HomoSa… RLRAEAQVK       EBNA3A       EBV                1.93e 4
-##  3 TRB   CASS… Macaca… TTPESANL        Tat          SIV                0.     
-##  4 TRA   CASN… HomoSa… GILGFVFTL       M            InfluenzaA         0.     
-##  5 TRB   CASS… MusMus… HGIRNASFI       M45          MCMV               2.24e24
-##  6 TRB   CSAS… HomoSa… KLGGALQAK       IE1          CMV                8.58e 3
-##  7 TRA   CAVL… HomoSa… GILGFVFTL       M            InfluenzaA         0.     
-##  8 TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                3.44e 3
-##  9 TRB   CAST… MusMus… SSYRRPVGI       PB1          InfluenzaA         2.28e 4
-## 10 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                0.     
+##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
+##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
+##  1 TRB   CASSTS… Macaca… STPESANL        Tat          SIV                0      
+##  2 TRB   CASSQD… HomoSa… RLRAEAQVK       EBNA3A       EBV                1.93e 4
+##  3 TRB   CASSMS… Macaca… TTPESANL        Tat          SIV                0      
+##  4 TRA   CASNTG… HomoSa… GILGFVFTL       M            InfluenzaA         0      
+##  5 TRB   CASSLG… MusMus… HGIRNASFI       M45          MCMV               2.24e24
+##  6 TRB   CSASIL… HomoSa… KLGGALQAK       IE1          CMV                8.58e 3
+##  7 TRA   CAVLLE… HomoSa… GILGFVFTL       M            InfluenzaA         0      
+##  8 TRB   CASSYF… HomoSa… KLGGALQAK       IE1          CMV                3.44e 3
+##  9 TRB   CASTGD… MusMus… SSYRRPVGI       PB1          InfluenzaA         2.28e 4
+## 10 TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                0      
 ## # … with 61,039 more rows, and 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;,
 ## #   v.end &lt;dbl&gt;, j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,
 ## #   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,
 ## #   Pathology &lt;chr&gt;</code></pre>
 <p>To load VDJDB and filter out information you need to provide <code>.species</code>, <code>.chain</code> and <code>.pathology</code> arguments:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">vdjdb</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span>(<span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>, <span class="kw">.species</span> <span class="kw">=</span> <span class="st">"HomoSapiens"</span>, <span class="kw">.chain</span> <span class="kw">=</span> <span class="st">"TRB"</span>, <span class="kw">.pathology</span> <span class="kw">=</span> <span class="st">"CMV"</span>)
-<span class="no">vdjdb</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span>
+<span class="va">vdjdb</span></code></pre></div>
 <pre><code>## # A tibble: 18,039 x 19
-##    gene  cdr3  species antigen.epitope antigen.gene antigen.species complex.id
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
-##  1 TRB   CSAS… HomoSa… KLGGALQAK       IE1          CMV                   8584
-##  2 TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                   3445
-##  3 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  4 TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                  19396
-##  5 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  6 TRB   CAST… HomoSa… KLGGALQAK       IE1          CMV                  10972
-##  7 TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                   6231
-##  8 TRB   CASS… HomoSa… KLGGALQAK       IE1          CMV                  12587
-##  9 TRB   CATS… HomoSa… KLGGALQAK       IE1          CMV                  13267
-## 10 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
+##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
+##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
+##  1 TRB   CSASIL… HomoSa… KLGGALQAK       IE1          CMV                   8584
+##  2 TRB   CASSYF… HomoSa… KLGGALQAK       IE1          CMV                   3445
+##  3 TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  4 TRB   CASSLW… HomoSa… KLGGALQAK       IE1          CMV                  19396
+##  5 TRB   CASSLT… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  6 TRB   CASTAK… HomoSa… KLGGALQAK       IE1          CMV                  10972
+##  7 TRB   CASSGA… HomoSa… KLGGALQAK       IE1          CMV                   6231
+##  8 TRB   CASSLI… HomoSa… KLGGALQAK       IE1          CMV                  12587
+##  9 TRB   CATSSS… HomoSa… KLGGALQAK       IE1          CMV                  13267
+## 10 TRB   CASSLG… HomoSa… NLVPMVATV       pp65         CMV                      0
 ## # … with 18,029 more rows, and 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;,
 ## #   v.end &lt;dbl&gt;, j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,
 ## #   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,
@@ -286,43 +293,45 @@
 <div id="vdjdb-search-tables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#vdjdb-search-tables" class="anchor"></a>VDJDB search tables</h3>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">vdjdb_st</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span>(<span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz"</span>, <span class="st">"vdjdb-search"</span>, <span class="kw">.species</span> <span class="kw">=</span> <span class="st">"HomoSapiens"</span>, <span class="kw">.chain</span> <span class="kw">=</span> <span class="st">"TRB"</span>, <span class="kw">.pathology</span> <span class="kw">=</span> <span class="st">"CMV"</span>)
-<span class="no">vdjdb_st</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">vdjdb_st</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz"</span>, <span class="st">"vdjdb-search"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span>
+<span class="va">vdjdb_st</span></code></pre></div>
 <pre><code>## # A tibble: 4,999 x 19
-##    complex.id Gene  CDR3  V     J     Species `MHC A` `MHC B` `MHC class`
-##         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      
-##  1          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       
-##  2          0 TRB   CAWS… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       
-##  3          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       
-##  4          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-##  5          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-##  6          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-##  7          0 TRB   CASV… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-##  8          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-##  9          0 TRB   CASS… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-## 10          0 TRB   CASG… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
-## # … with 4,989 more rows, and 10 more variables: Epitope &lt;chr&gt;, `Epitope
-## #   gene` &lt;chr&gt;, `Epitope species` &lt;chr&gt;, Reference &lt;chr&gt;, Method &lt;chr&gt;,
+##    complex.id Gene  CDR3     V       J       Species `MHC A` `MHC B` `MHC class`
+##         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      
+##  1          0 TRB   CASSVDG… TRBV9*… TRBJ1-… HomoSa… HLA-A*… B2M     MHCI       
+##  2          0 TRB   CAWSWGD… TRBV30… TRBJ1-… HomoSa… HLA-A*… B2M     MHCI       
+##  3          0 TRB   CASSLVG… TRBV11… TRBJ2-… HomoSa… HLA-A*… B2M     MHCI       
+##  4          0 TRB   CASSLLM… TRBV28… TRBJ1-… HomoSa… HLA-B*… B2M     MHCI       
+##  5          0 TRB   CASSYRA… TRBV7-… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
+##  6          0 TRB   CASSQAV… TRBV3-… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
+##  7          0 TRB   CASVTGS… TRBV2*… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
+##  8          0 TRB   CASSDGT… TRBV2*… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
+##  9          0 TRB   CASSLAR… TRBV4-… TRBJ1-… HomoSa… HLA-B*… B2M     MHCI       
+## 10          0 TRB   CASGGAD… TRBV19… TRBJ1-… HomoSa… HLA-B*… B2M     MHCI       
+## # … with 4,989 more rows, and 10 more variables: Epitope &lt;chr&gt;,
+## #   Epitope gene &lt;chr&gt;, Epitope species &lt;chr&gt;, Reference &lt;chr&gt;, Method &lt;chr&gt;,
 ## #   Meta &lt;chr&gt;, CDR3fix &lt;chr&gt;, Score &lt;dbl&gt;, Chain &lt;chr&gt;, Pathology &lt;chr&gt;</code></pre>
 </div>
 <div id="mcpas-tcr-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mcpas-tcr-1" class="anchor"></a>McPAS-TCR</h3>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">mcpas</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span>(<span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz"</span>, <span class="st">"mcpas"</span>, <span class="kw">.species</span> <span class="kw">=</span> <span class="st">"Human"</span>, <span class="kw">.chain</span> <span class="kw">=</span> <span class="st">"TRB"</span>, <span class="kw">.pathology</span> <span class="kw">=</span> <span class="st">"Cytomegalovirus (CMV)"</span>)
-<span class="no">mcpas</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mcpas</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz"</span>, <span class="st">"mcpas"</span>, .species <span class="op">=</span> <span class="st">"Human"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"Cytomegalovirus (CMV)"</span><span class="op">)</span>
+<span class="va">mcpas</span></code></pre></div>
 <pre><code>## # A tibble: 2,723 x 29
-##    CDR3.alpha.aa CDR3.beta.aa Species Category Pathology Pathology.Mesh.…
-##    &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;           
-##  1 &lt;NA&gt;          CASLAPGTTNE… Human   Pathoge… Cytomega… D003586         
-##  2 &lt;NA&gt;          CASLQAGANEQF Human   Pathoge… Cytomega… D003586         
-##  3 &lt;NA&gt;          CASLSGGGEQF  Human   Pathoge… Cytomega… D003586         
-##  4 &lt;NA&gt;          CASLVASGQET… Human   Pathoge… Cytomega… D003586         
-##  5 &lt;NA&gt;          CASSHRDSGNT… Human   Pathoge… Cytomega… D003586         
-##  6 &lt;NA&gt;          CASSSANYGYTF Human   Pathoge… Cytomega… D003586         
-##  7 &lt;NA&gt;          CATSDPLTASY… Human   Pathoge… Cytomega… D003586         
-##  8 CARNTGNQF     CACSLRSQGTD… Human   Pathoge… Cytomega… D003586         
-##  9 CAGNTGNQFYFG  CASSAWDRSSG… Human   Pathoge… Cytomega… D003586         
-## 10 CAYPYNNNDMRF  CASSELGGAGT… Human   Pathoge… Cytomega… D003586         
+##    CDR3.alpha.aa CDR3.beta.aa   Species Category  Pathology     Pathology.Mesh.…
+##    &lt;chr&gt;         &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;           
+##  1 &lt;NA&gt;          CASLAPGTTNEKLF Human   Pathogens Cytomegalovi… D003586         
+##  2 &lt;NA&gt;          CASLQAGANEQF   Human   Pathogens Cytomegalovi… D003586         
+##  3 &lt;NA&gt;          CASLSGGGEQF    Human   Pathogens Cytomegalovi… D003586         
+##  4 &lt;NA&gt;          CASLVASGQETQYF Human   Pathogens Cytomegalovi… D003586         
+##  5 &lt;NA&gt;          CASSHRDSGNTIYF Human   Pathogens Cytomegalovi… D003586         
+##  6 &lt;NA&gt;          CASSSANYGYTF   Human   Pathogens Cytomegalovi… D003586         
+##  7 &lt;NA&gt;          CATSDPLTASYEQF Human   Pathogens Cytomegalovi… D003586         
+##  8 CARNTGNQF     CACSLRSQGTDTQ… Human   Pathogens Cytomegalovi… D003586         
+##  9 CAGNTGNQFYFG  CASSAWDRSSGAN… Human   Pathogens Cytomegalovi… D003586         
+## 10 CAYPYNNNDMRF  CASSELGGAGTGE… Human   Pathogens Cytomegalovi… D003586         
 ## # … with 2,713 more rows, and 23 more variables:
 ## #   Additional.study.details &lt;chr&gt;, Antigen.identification.method &lt;dbl&gt;,
 ## #   NGS &lt;chr&gt;, Antigen.protein &lt;chr&gt;, Protein.ID &lt;chr&gt;, Epitope.peptide &lt;chr&gt;,
@@ -335,17 +344,20 @@
 <div id="tbadb" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tbadb" class="anchor"></a>TBAdb</h3>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">tbadb</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span>(<span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/TBAdb.xlsx"</span>, <span class="st">"tbadb"</span>, <span class="kw">.species</span> <span class="kw">=</span> <span class="st">"Homo Sapiens"</span>, <span class="kw">.chain</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TRB"</span>, <span class="st">"TRA-TRB"</span>), <span class="kw">.pathology</span> <span class="kw">=</span> <span class="st">"CMV"</span>)
-<span class="no">tbadb</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tbadb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/TBAdb.xlsx"</span>, <span class="st">"tbadb"</span>, .species <span class="op">=</span> <span class="st">"Homo Sapiens"</span>, .chain <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRB"</span>, <span class="st">"TRA-TRB"</span><span class="op">)</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span>
+<span class="va">tbadb</span></code></pre></div>
 </div>
 </div>
 <div id="repertoire-annotation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#repertoire-annotation" class="anchor"></a>Repertoire annotation</h2>
 <p>The key <code>immunarch</code> function for annotation is <code>dbAnnotate</code>. As an input it requires repertoires to search in, a database to lookup from, and columns of interest such as CDR3 amino acid sequence or V gene segment names columns. If you want to try it on the test data packaged with <code>immunarch</code>, execute the following line of code before proceeding further:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></code></pre></div>
 <p>Just in a single line of code you are able to find all clonotypes with matching CDR3 amino acid sequences in the input data and VDJDB database:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">vdjdb</span>, <span class="st">"CDR3.aa"</span>, <span class="st">"cdr3"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">vdjdb</span>, <span class="st">"CDR3.aa"</span>, <span class="st">"cdr3"</span><span class="op">)</span></code></pre></div>
 <pre><code>##            CDR3.aa Samples A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192 MS1
 ##   1:   CASSLGETQYF      11       6       4       2       8       4       0   1
 ##   2:   CASSFQETQYF       9       3       2       2       4       2       0   1
@@ -372,7 +384,8 @@
 ## 583:   0   0   0   1   0</code></pre>
 <p>The “Samples” column specifies the number of samples in which the clonotype found. Other numbers in columns correspond to the clonal count of the clonotype in a specific input sample.</p>
 <p>In the next example we will search the McPAS-TCR database for condition-associated sequences using both CDR3 amino acid sequences and V gene segments:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">mcpas</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDR3.aa"</span>, <span class="st">"V.name"</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDR3.beta.aa"</span>, <span class="st">"TRBV"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">mcpas</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CDR3.aa"</span>, <span class="st">"V.name"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CDR3.beta.aa"</span>, <span class="st">"TRBV"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##                CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132 A4-i191
 ##    1:      CAISESYEQYF TRBV10-3       3       0       1       0       0       0
 ##    2: CASSLAPGATNEKLFF  TRBV7-6       3       0       0       0       0       0
@@ -398,9 +411,10 @@
 ## 2126:       0   0   0   0   0   0   0
 ## 2127:       0   0   0   0   0   0   0</code></pre>
 <p>If you seek to search a database for a specific set of sequences, create a data frame with them and use it as a database file:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">local_db</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">Seq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CSARLAGGQETQYF"</span>), <span class="kw">V</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TRBV6-4"</span>, <span class="st">"TRBV20-1"</span>), <span class="kw">stringsAsFactors</span> <span class="kw">=</span> <span class="no">F</span>)
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">local_db</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CSARLAGGQETQYF"</span><span class="op">)</span>, V <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRBV6-4"</span>, <span class="st">"TRBV20-1"</span><span class="op">)</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 
-<span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span>(<span class="no">immdata</span>$<span class="no">data</span>, <span class="no">local_db</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDR3.aa"</span>, <span class="st">"V.name"</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Seq"</span>, <span class="st">"V"</span>))</pre></body></html></div>
+<span class="fu"><a href="../../reference/dbAnnotate.html">dbAnnotate</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">local_db</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CDR3.aa"</span>, <span class="st">"V.name"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Seq"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##            CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132 A4-i191
 ## 1: CASSDSSGGANEQFF  TRBV6-4       7       1       1       2       0       3
 ## 2:  CSARLAGGQETQYF TRBV20-1       6       1       3       0       1       0
@@ -417,14 +431,15 @@
 <h2 class="hasAnchor">
 <a href="#advanced-filtering" class="anchor"></a>Advanced filtering</h2>
 <p><code>immunarch</code> provides a very basic query interface that permits filtering by species types, chain types and pathology types only. To perform advanced filtering such as filtering by antigen epitope, you need to use R. In the most cases, filtering with the <code>dplyr</code> package is the most seamless way. Here is an example on how to use <code>dplyr</code> to filter out specific antigen epitopes from VDJDB:</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="co"># Load the dplyr library</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Load the dplyr library</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
 <span class="co"># Load the database with immunarch</span>
-<span class="no">vdjdb</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span>(<span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>, <span class="kw">.species</span> <span class="kw">=</span> <span class="st">"HomoSapiens"</span>, <span class="kw">.chain</span> <span class="kw">=</span> <span class="st">"TRB"</span>, <span class="kw">.pathology</span> <span class="kw">=</span> <span class="st">"CMV"</span>)
+<span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span>
 
 <span class="co"># Check which antigen epitopes are presented in the database</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">vdjdb</span>$<span class="no">antigen.epitope</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">vdjdb</span><span class="op">$</span><span class="va">antigen.epitope</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## ARNLVPMVATVQGQN       AYAQKIFKI    CPSQEPMSIYVY       CVETMCNEY       DEEDAIAAY 
 ##               3              39               2               2               2 
@@ -438,28 +453,30 @@
 ##              22             207              14               1             202 
 ##       YILEETSVM     YSEHPTFTSQY 
 ##               3              53</code></pre>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="co"># Filter out all non NLVPMVATV epitopes</span>
-<span class="no">vdjdb</span> <span class="kw">=</span> <span class="no">vdjdb</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">antigen.epitope</span> <span class="kw">==</span> <span class="st">"NLVPMVATV"</span>)
-<span class="no">vdjdb</span></pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Filter out all non NLVPMVATV epitopes</span>
+<span class="va">vdjdb</span> <span class="op">=</span> <span class="va">vdjdb</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">antigen.epitope</span> <span class="op">==</span> <span class="st">"NLVPMVATV"</span><span class="op">)</span>
+<span class="va">vdjdb</span></code></pre></div>
 <pre><code>## # A tibble: 4,496 x 19
-##    gene  cdr3  species antigen.epitope antigen.gene antigen.species complex.id
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
-##  1 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  2 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  3 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  4 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  5 TRB   CSAD… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  6 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  7 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  8 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
-##  9 TRB   CSVE… HomoSa… NLVPMVATV       pp65         CMV                      0
-## 10 TRB   CASS… HomoSa… NLVPMVATV       pp65         CMV                      0
+##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
+##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
+##  1 TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  2 TRB   CASSLT… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  3 TRB   CASSLG… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  4 TRB   CASSLD… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  5 TRB   CSADGL… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  6 TRB   CASSFR… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  7 TRB   CASSFG… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  8 TRB   CASSYG… HomoSa… NLVPMVATV       pp65         CMV                      0
+##  9 TRB   CSVEAY… HomoSa… NLVPMVATV       pp65         CMV                      0
+## 10 TRB   CASSSG… HomoSa… NLVPMVATV       pp65         CMV                      0
 ## # … with 4,486 more rows, and 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;,
 ## #   v.end &lt;dbl&gt;, j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,
 ## #   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,
 ## #   Pathology &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="co"># Check if everything is OK and there is no other epitopes</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">vdjdb</span>$<span class="no">antigen.epitope</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Check if everything is OK and there is no other epitopes</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">vdjdb</span><span class="op">$</span><span class="va">antigen.epitope</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## NLVPMVATV 
 ##      4496</code></pre>
@@ -483,11 +500,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

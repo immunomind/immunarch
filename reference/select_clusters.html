@@ -117,7 +117,7 @@ split immune repertoires by patients or clusters." />
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -159,6 +159,9 @@ split immune repertoires by patients or clusters." />
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -207,7 +210,7 @@ to separate subsets following the barcodes' assigned IDs. Useful when you want t
 split immune repertoires by patients or clusters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_clusters</span>(<span class='no'>.data</span>, <span class='no'>.clusters</span>, <span class='kw'>.field</span> <span class='kw'>=</span> <span class='st'>"Cluster"</span>)</pre>
+    <pre class="usage"><span class='fu'>select_clusters</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>.clusters</span>, .field <span class='op'>=</span> <span class='st'>"Cluster"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -238,14 +241,15 @@ metadata.</p>
     <div class='dont-index'><p><a href='select_barcodes.html'>select_barcodes</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>Seurat</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/Seurat/man/Idents.html'>Idents</a></span>(<span class='no'>pbmc_small</span>)
-<span class='no'>new_cluster_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>)
-<span class='no'>new_cluster_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>pbmc_small</span>)
-<span class='no'>new_cluster_ids</span>
-<span class='no'>pbmc_small</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Seurat/man/Idents.html'>RenameIdents</a></span>(<span class='no'>pbmc_small</span>, <span class='no'>new_cluster_ids</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>Seurat</span><span class='op'>)</span>
+<span class='fu'>Idents</span><span class='op'>(</span><span class='va'>pbmc_small</span><span class='op'>)</span>
+<span class='va'>new_cluster_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span><span class='op'>)</span>
+<span class='va'>new_cluster_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>pbmc_small</span><span class='op'>)</span>
+<span class='va'>new_cluster_ids</span>
+<span class='va'>pbmc_small</span> <span class='op'>&lt;-</span> <span class='fu'>RenameIdents</span><span class='op'>(</span><span class='va'>pbmc_small</span>, <span class='va'>new_cluster_ids</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -257,11 +261,11 @@ metadata.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

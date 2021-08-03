@@ -117,7 +117,7 @@ and sequence length distribution across the input dataset." />
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -159,6 +159,9 @@ and sequence length distribution across the input dataset." />
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -207,12 +210,12 @@ repertoire: the number of unique immune receptor clonotypes, their relative abun
 and sequence length distribution across the input dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>repExplore</span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"volume"</span>, <span class='st'>"count"</span>, <span class='st'>"len"</span>, <span class='st'>"clones"</span>),
-  <span class='kw'>.col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"nt"</span>, <span class='st'>"aa"</span>),
-  <span class='kw'>.coding</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>repExplore</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  .method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"volume"</span>, <span class='st'>"count"</span>, <span class='st'>"len"</span>, <span class='st'>"clones"</span><span class='op'>)</span>,
+  .col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nt"</span>, <span class='st'>"aa"</span><span class='op'>)</span>,
+  .coding <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -262,12 +265,15 @@ with exploratory analysis statistics.</p>
     <div class='dont-index'><p><a href='vis.immunr_exp_vol.html'>vis.immunr_exp_vol</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
 
 <span class='co'># Calculate statistics and generate a visual output with vis()</span>
-<span class='fu'>repExplore</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"volume"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='repExplore-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>repExplore</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"count"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='repExplore-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>repExplore</span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"len"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span>()</div><div class='img'><img src='repExplore-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>repExplore</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"volume"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='img'><img src='repExplore-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>repExplore</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"count"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='img'><img src='repExplore-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>repExplore</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"len"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='img'><img src='repExplore-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -279,11 +285,11 @@ with exploratory analysis statistics.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

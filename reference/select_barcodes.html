@@ -119,7 +119,7 @@ and proportions are changed accordingly to the filtered barcodes." />
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -161,6 +161,9 @@ and proportions are changed accordingly to the filtered barcodes." />
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -211,7 +214,7 @@ Columns with clonotype counts
 and proportions are changed accordingly to the filtered barcodes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_barcodes</span>(<span class='no'>.data</span>, <span class='no'>.barcodes</span>, <span class='kw'>.force.list</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>select_barcodes</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>.barcodes</span>, .force.list <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -249,16 +252,17 @@ in the ".barcode" argument (Seurat::Idents() case only).</p>
     <div class='dont-index'><p><a href='select_clusters.html'>select_clusters</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
 <span class='co'># Create a fake single-cell data</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>immdata</span>$<span class='no'>data</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>df</span>$<span class='no'>Barcode</span> <span class='kw'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
-<span class='no'>df</span>$<span class='no'>Barcode</span>[<span class='fl'>51</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)] <span class='kw'>&lt;-</span> <span class='st'>"GGGGGCCCCC"</span>
-<span class='no'>barcodes</span> <span class='kw'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>select_barcodes</span>(<span class='no'>df</span>, <span class='no'>barcodes</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)
-}</div></pre>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>df</span><span class='op'>$</span><span class='va'>Barcode</span> <span class='op'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
+<span class='va'>df</span><span class='op'>$</span><span class='va'>Barcode</span><span class='op'>[</span><span class='fl'>51</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"GGGGGCCCCC"</span>
+<span class='va'>barcodes</span> <span class='op'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>select_barcodes</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>barcodes</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -270,11 +274,11 @@ in the ".barcode" argument (Seurat::Idents() case only).</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

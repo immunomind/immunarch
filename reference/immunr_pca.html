@@ -121,7 +121,7 @@ methods are:
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -163,6 +163,9 @@ methods are:
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -215,11 +218,11 @@ methods are:</p>
 <p>- <code>immunr_tsne</code> performs tSNE (t-Distributed Stochastic Neighbour Embedding) using <a href='https://rdrr.io/pkg/Rtsne/man/Rtsne.html'>Rtsne</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>immunr_pca</span>(<span class='no'>.data</span>, <span class='kw'>.scale</span> <span class='kw'>=</span> <span class='no'>default_scale_fun</span>, <span class='kw'>.raw</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>.orig</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>immunr_pca</span><span class='op'>(</span><span class='va'>.data</span>, .scale <span class='op'>=</span> <span class='va'>default_scale_fun</span>, .raw <span class='op'>=</span> <span class='cn'>TRUE</span>, .orig <span class='op'>=</span> <span class='cn'>FALSE</span>, .dist <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>immunr_mds</span>(<span class='no'>.data</span>, <span class='kw'>.scale</span> <span class='kw'>=</span> <span class='no'>default_scale_fun</span>, <span class='kw'>.raw</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>.orig</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>immunr_mds</span><span class='op'>(</span><span class='va'>.data</span>, .scale <span class='op'>=</span> <span class='va'>default_scale_fun</span>, .raw <span class='op'>=</span> <span class='cn'>TRUE</span>, .orig <span class='op'>=</span> <span class='cn'>FALSE</span>, .dist <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>immunr_tsne</span>(<span class='no'>.data</span>, <span class='kw'>.perp</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>.dist</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>immunr_tsne</span><span class='op'>(</span><span class='va'>.data</span>, .perp <span class='op'>=</span> <span class='fl'>1</span>, .dist <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,14 +271,15 @@ of neighbours each data point must have in the resulting plot.</p></td>
     <div class='dont-index'><p><a href='vis.immunr_mds.html'>vis.immunr_pca</a> for visualisations.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='no'>gu</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='geneUsage.html'>geneUsage</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>)
-<span class='no'>gu</span>[<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>gu</span>)] <span class='kw'>&lt;-</span> <span class='fl'>0</span>
-<span class='no'>gu</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>gu</span>[, -<span class='fl'>1</span>]))
-<span class='fu'>immunr_pca</span>(<span class='no'>gu</span>)</div><div class='output co'>#&gt; Standard deviations (1, .., p=12):
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
+<span class='va'>gu</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geneUsage.html'>geneUsage</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
+<span class='va'>gu</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>gu</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='va'>gu</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>gu</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>immunr_pca</span><span class='op'>(</span><span class='va'>gu</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Standard deviations (1, .., p=12):
 #&gt;  [1] 3.631709e+00 3.196007e+00 2.328286e+00 2.069586e+00 1.827896e+00
 #&gt;  [6] 1.740118e+00 1.568858e+00 1.493067e+00 1.305664e+00 1.128147e+00
-#&gt; [11] 9.245962e-01 8.799322e-16
+#&gt; [11] 9.245962e-01 7.333916e-16
 #&gt; 
 #&gt; Rotation (n x k) = (48 x 12):
 #&gt;                PC1         PC2          PC3          PC4           PC5
@@ -377,54 +381,55 @@ of neighbours each data point must have in the resulting plot.</p></td>
 #&gt; [47,] -0.145121248  0.070248141  0.243792189 -0.008071605  0.11796392
 #&gt; [48,] -0.005231829 -0.054677128 -0.207963042 -0.107409381  0.03158828
 #&gt;               PC11         PC12
-#&gt;  [1,]  0.190820049  0.277294021
-#&gt;  [2,] -0.023088305 -0.239169814
-#&gt;  [3,]  0.100415596  0.106339869
-#&gt;  [4,]  0.226634993 -0.056044241
-#&gt;  [5,]  0.081591915 -0.292161246
-#&gt;  [6,] -0.080522841 -0.025114442
-#&gt;  [7,] -0.316709028  0.178387505
-#&gt;  [8,] -0.031806383 -0.028953127
-#&gt;  [9,] -0.170024384 -0.150274353
-#&gt; [10,]  0.073022890  0.147601569
-#&gt; [11,] -0.016011425 -0.078903804
-#&gt; [12,] -0.016123920 -0.216754430
-#&gt; [13,]  0.076040036 -0.004967956
-#&gt; [14,] -0.012663650  0.067595895
-#&gt; [15,]  0.015148152  0.312869530
-#&gt; [16,] -0.375250816 -0.135856832
-#&gt; [17,]  0.043150670  0.035774473
-#&gt; [18,]  0.253158533  0.111162673
-#&gt; [19,] -0.029920269 -0.003045053
-#&gt; [20,] -0.141556297 -0.272137894
-#&gt; [21,] -0.259382191  0.177990662
-#&gt; [22,]  0.131521069  0.007159045
-#&gt; [23,]  0.173716601  0.021933296
-#&gt; [24,] -0.045116629  0.215160037
-#&gt; [25,] -0.163339397 -0.046313912
-#&gt; [26,]  0.251133360 -0.229879456
-#&gt; [27,]  0.276457318 -0.016973264
-#&gt; [28,] -0.169064055  0.096137513
-#&gt; [29,] -0.107170172 -0.057620986
-#&gt; [30,]  0.056282836  0.006846131
-#&gt; [31,]  0.103852038 -0.096236502
-#&gt; [32,]  0.032289926  0.150533373
-#&gt; [33,]  0.242945214 -0.080348454
-#&gt; [34,]  0.162942071 -0.026125267
-#&gt; [35,]  0.074067928  0.087590202
-#&gt; [36,]  0.127100271  0.045845116
-#&gt; [37,] -0.036203394  0.169995266
-#&gt; [38,] -0.083897059  0.044538941
-#&gt; [39,]  0.033449164 -0.158597997
-#&gt; [40,]  0.098998319  0.045699938
-#&gt; [41,]  0.050432042 -0.117896711
-#&gt; [42,]  0.061054984  0.054924135
-#&gt; [43,]  0.058029936  0.024614798
-#&gt; [44,] -0.108455685 -0.180138546
-#&gt; [45,] -0.063132341 -0.114009479
-#&gt; [46,]  0.007849834  0.197019115
-#&gt; [47,]  0.154027098 -0.234045862
-#&gt; [48,]  0.069562806  0.129115627</div><div class='input'><span class='fu'>immunr_mds</span>(<span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span>(<span class='no'>gu</span>))</div><div class='output co'>#&gt; Standard deviations (1, .., p=4):
+#&gt;  [1,]  0.190820049 -0.092794017
+#&gt;  [2,] -0.023088305 -0.028254220
+#&gt;  [3,]  0.100415596  0.191178680
+#&gt;  [4,]  0.226634993 -0.060391229
+#&gt;  [5,]  0.081591915 -0.094752939
+#&gt;  [6,] -0.080522841 -0.154979189
+#&gt;  [7,] -0.316709028 -0.002159380
+#&gt;  [8,] -0.031806383  0.023335465
+#&gt;  [9,] -0.170024384 -0.064512282
+#&gt; [10,]  0.073022890  0.167359155
+#&gt; [11,] -0.016011425 -0.122942492
+#&gt; [12,] -0.016123920 -0.300631454
+#&gt; [13,]  0.076040036  0.038211850
+#&gt; [14,] -0.012663650  0.019895240
+#&gt; [15,]  0.015148152  0.311478092
+#&gt; [16,] -0.375250816 -0.098700877
+#&gt; [17,]  0.043150670  0.018872118
+#&gt; [18,]  0.253158533  0.173208957
+#&gt; [19,] -0.029920269 -0.042815521
+#&gt; [20,] -0.141556297 -0.323285080
+#&gt; [21,] -0.259382191  0.216585745
+#&gt; [22,]  0.131521069 -0.033802283
+#&gt; [23,]  0.173716601  0.084468086
+#&gt; [24,] -0.045116629  0.225536036
+#&gt; [25,] -0.163339397 -0.076139349
+#&gt; [26,]  0.251133360 -0.175684016
+#&gt; [27,]  0.276457318 -0.016471442
+#&gt; [28,] -0.169064055  0.095489493
+#&gt; [29,] -0.107170172 -0.045282154
+#&gt; [30,]  0.056282836 -0.006193944
+#&gt; [31,]  0.103852038 -0.158977386
+#&gt; [32,]  0.032289926  0.139180706
+#&gt; [33,]  0.242945214 -0.096516485
+#&gt; [34,]  0.162942071 -0.002779109
+#&gt; [35,]  0.074067928  0.045744860
+#&gt; [36,]  0.127100271  0.052254510
+#&gt; [37,] -0.036203394  0.312142274
+#&gt; [38,] -0.083897059  0.077476813
+#&gt; [39,]  0.033449164 -0.113449568
+#&gt; [40,]  0.098998319  0.022979064
+#&gt; [41,]  0.050432042 -0.126071346
+#&gt; [42,]  0.061054984  0.120141396
+#&gt; [43,]  0.058029936  0.032751407
+#&gt; [44,] -0.108455685 -0.152556571
+#&gt; [45,] -0.063132341 -0.133371664
+#&gt; [46,]  0.007849834  0.178893827
+#&gt; [47,]  0.154027098 -0.299743047
+#&gt; [48,]  0.069562806  0.098655239</div><div class='input'><span class='fu'>immunr_mds</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span><span class='op'>(</span><span class='va'>gu</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Standard deviations (1, .., p=4):
 #&gt; [1] 0 0 0 0
 #&gt; 
 #&gt; Rotation (n x k) = (12 x 2):
@@ -440,7 +445,8 @@ of neighbours each data point must have in the resulting plot.</p></td>
 #&gt; MS3      -73.92883  134.97146
 #&gt; MS4      344.35982 -113.71333
 #&gt; MS5      -67.39896  114.26628
-#&gt; MS6      544.07239  354.83764</div><div class='input'><span class='fu'>immunr_tsne</span>(<span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span>(<span class='no'>gu</span>))</div><div class='output co'>#&gt;              DimI     DimII
+#&gt; MS6      544.07239  354.83764</div><div class='input'><span class='fu'>immunr_tsne</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span><span class='op'>(</span><span class='va'>gu</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              DimI     DimII
 #&gt;  [1,]   15.314316 148.72060
 #&gt;  [2,]  -97.179830 -89.20496
 #&gt;  [3,]  279.691995 -58.27676
@@ -454,7 +460,7 @@ of neighbours each data point must have in the resulting plot.</p></td>
 #&gt; [11,]  -99.697514 -82.23041
 #&gt; [12,]    7.126598 154.81880
 #&gt; attr(,"class")
-#&gt; [1] "immunr_tsne" "matrix"     </div></pre>
+#&gt; [1] "immunr_tsne" "matrix"      "array"      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -466,11 +472,11 @@ of neighbours each data point must have in the resulting plot.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

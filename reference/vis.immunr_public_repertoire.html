@@ -115,7 +115,7 @@
       <a href="../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -157,6 +157,9 @@
 </li>
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
+</li>
+<li>
+  <a href="../articles/web_only/community.html">ImmunoMinds Community</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -204,7 +207,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for immunr_public_repertoire</span>
-<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>.data</span>, <span class='kw'>.plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"freq"</span>, <span class='st'>"clonotypes"</span>), <span class='no'>...</span>)</pre>
+<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>.data</span>, .plot <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"freq"</span>, <span class='st'>"clonotypes"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -233,16 +236,14 @@ depending on the ".plot" argument.</p></td>
     <p>A ggplot2 object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>immdata</span>)
-<span class='no'>immdata</span>$<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='no'>head</span>, <span class='fl'>500</span>)
-<span class='no'>pr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pubRep.html'>pubRep</a></span>(<span class='no'>immdata</span>$<span class='no'>data</span>, <span class='kw'>.verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>pr</span>, <span class='st'>"freq"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 64256 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='vis.immunr_public_repertoire-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>pr</span>, <span class='st'>"freq"</span>, <span class='kw'>.type</span> <span class='kw'>=</span> <span class='st'>"none"</span>)</div><div class='output co'>#&gt; <span class='message'>Warning! Visualising 5884 points. Too many points may take a while to visualise depending on your hardware. We highly recommend you to use other types: "mean" or "boxplot"</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 64256 rows containing missing values (geom_point).</span></div><div class='img'><img src='vis.immunr_public_repertoire-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>pr</span>, <span class='st'>"clonotypes"</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: You are using a dplyr method on a raw data.table, which will call the</span>
-#&gt; <span class='warning'>* data frame implementation, and is likely to be inefficient.</span>
-#&gt; <span class='warning'>* </span>
-#&gt; <span class='warning'>* To suppress this message, either generate a data.table translation with</span>
-#&gt; <span class='warning'>* `lazy_dt()` or convert to a data frame or tibble with</span>
-#&gt; <span class='warning'>* `as.data.frame()`/`as_tibble()`.</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 69 rows containing missing values (geom_smooth).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='vis.immunr_public_repertoire-3.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
+<span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>head</span>, <span class='fl'>500</span><span class='op'>)</span>
+<span class='va'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pubRep.html'>pubRep</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>pr</span>, <span class='st'>"freq"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 64256 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='vis.immunr_public_repertoire-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>pr</span>, <span class='st'>"freq"</span>, .type <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Warning! Visualising 5884 points. Too many points may take a while to visualise depending on your hardware. We highly recommend you to use other types: "mean" or "boxplot"</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 64256 rows containing missing values (geom_point).</span></div><div class='img'><img src='vis.immunr_public_repertoire-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>pr</span>, <span class='st'>"clonotypes"</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous y-axis</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 69 rows containing missing values (geom_smooth).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: у 'max' нет не пропущенных аргументов; возвращаю -Inf</span></div><div class='img'><img src='vis.immunr_public_repertoire-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -254,11 +255,11 @@ depending on the ".plot" argument.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

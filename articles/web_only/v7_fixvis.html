@@ -65,7 +65,7 @@
       <a href="../../articles/web_only/load_mixcr.html">How-to: Loading MiXCR Data</a>
     </li>
     <li>
-      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10X Genomics Data</a>
+      <a href="../../articles/web_only/load_10x.html">How-to: Loading 10x Genomics Data</a>
     </li>
     <li>
       <a href="../../articles/web_only/v21_singlecell.html">How-to: Single-cell and paired chain data</a>
@@ -108,6 +108,9 @@
 <li>
   <a href="https://github.com/immunomind/covid19">COVID-19</a>
 </li>
+<li>
+  <a href="../../articles/web_only/community.html">ImmunoMinds Community</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -141,11 +144,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v7_fixvis_files/header-attrs-2.9/header-attrs.js"></script><script src="v7_fixvis_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Make your plots publication-ready with fixVis</h1>
-                        <h4 class="author"><a href="https://immunomind.io">ImmunoMind</a></h4>
+                        <h4 class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+</h4>
             
             <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
@@ -162,14 +167,17 @@
 %\VignettePackage{immunarch}
 -->
 <p>In order to make visualisation process easier, we developed a Shiny-based tool called FixVis. The FixVis is distributed with <code>immunarch</code> package. To run FixVis just apply it to any ggplot2-based plot, including those from the <code>immunarch</code>’s <code>vis</code> function. It works perfectly for every plot, except those arranged in grid by <code>grid.arrange</code> due to the complexities surrounding <code>grid.arrange</code>.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">immdata</span>)
-<span class="no">gu</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span>(<span class="no">immdata</span>$<span class="no">data</span>)
-<span class="no">p</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span>(<span class="no">gu</span>)
-<span class="fu"><a href="../../reference/fixVis.html">fixVis</a></span>(<span class="no">p</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span>
+<span class="va">gu</span> <span class="op">=</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/fixVis.html">fixVis</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
 <p>If you want to test it, run <code>fixVis</code> with no arguments; it will use the diamonds data for visualisation:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../../reference/fixVis.html">fixVis</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/fixVis.html">fixVis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>For convenience we published a FixVis instances that are available online <a href="https://immunomind.shinyapps.io/fixvis/">here</a>. Also a FixVis instance for quick overview is embedded in the cell below:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_url.html">include_app</a></span>(<span class="st">"https://immunomind.shinyapps.io/fixvis/"</span>, <span class="kw">height</span> <span class="kw">=</span> <span class="st">"800px"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_url.html">include_app</a></span><span class="op">(</span><span class="st">"https://immunomind.shinyapps.io/fixvis/"</span>, height <span class="op">=</span> <span class="st">"800px"</span><span class="op">)</span></code></pre></div>
 <iframe src="https://immunomind.shinyapps.io/fixvis/?showcase=0" width="1152" height="800px">
 </iframe>
   </div>
@@ -183,11 +191,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Vadim I. Nazarov, Vasily O. Tsvetkov, Eugene Rumynskiy, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
