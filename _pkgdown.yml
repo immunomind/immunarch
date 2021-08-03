@@ -9,6 +9,10 @@ template:
 authors:
   ImmunoMind:
     href: https://immunomind.io
+  Vadim I. Nazarov:
+    href: https://www.linkedin.com/in/vdnaz
+  Vasily O. Tsvetkov:
+    href: https://www.linkedin.com/in/vasily-tsvetkov-227218ab
 articles:
 - title: All tutorials
   desc: ~

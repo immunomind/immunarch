@@ -7,6 +7,7 @@ Authors@R: c(
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
     person("Aleksandr A.", "Popov", , role = "aut"),
+    person("Ivan", "Balashov", , role = "aut"),
     person("Anna", "Lorenc", , role = "ctb"),
     person("Daniel J.", "Moore", , role = "ctb"),
     person("Victor", "Greiff", , role = "ctb"),
