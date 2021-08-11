@@ -830,6 +830,17 @@ parse_vdjtools <- function(.filename, .mode) {
       jstart <- NA
       dstart <- NA
       dend <- NA
+    } else if (tolower(substr(l, 1, 2)) == "#c") {
+      .count <- "#count"
+      nuc.seq <- "CDR3nt"
+      aa.seq <- "CDR3aa"
+      vgenes <- "V"
+      jgenes <- "J"
+      dgenes <- "D"
+      vend <- NA
+      jstart <- NA
+      dstart <- NA
+      dend <- NA
     } else if (stringr::str_detect(l, "#")) {
       .count <- "X.count"
     } else {
