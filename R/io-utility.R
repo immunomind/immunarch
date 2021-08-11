@@ -23,7 +23,7 @@
     res_format <- "migmap"
   } else if (str_detect(l, "CDR3.amino.acid.sequence") && str_detect(l, "Umi.count")) {
     res_format <- "tcr"
-  } else if (str_detect(tolower(l), "cdr3nt") && str_detect(tolower(l), "vend") && str_detect(tolower(l), "v")) {
+  } else if (str_detect(tolower(l), "frequency") && str_detect(tolower(l), "cdr3nt") && str_detect(tolower(l), "v")) {
     res_format <- "vdjtools"
   } else if (str_detect(tolower(l), "count") && str_detect(tolower(l), "sequence") && str_detect(tolower(l), "d segment")) {
     res_format <- "vdjtools"
@@ -63,8 +63,10 @@
     res_format <- "rtcr"
   } else if (str_detect(l, "seqId") && str_detect(l, "cdrNucSeq") && str_detect(l, "cdrAASeq")) {
     res_format <- "imseq"
-  } else if (str_trim(l2) == "\"clones\": [") {
-    res_format <- "vidjil"
+  } else if (!is.na(l2)) {
+    if (str_trim(l2) == "\"clones\": [") {
+      res_format <- "vidjil"
+    }
   }
 
   res_format
