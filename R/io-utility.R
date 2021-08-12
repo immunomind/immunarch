@@ -89,7 +89,7 @@
 
   i <- 1
 
-  while (is.na(recomb_type) && i < 100) {
+  while (is.na(recomb_type) && i < 100 && !is.na(.name[i])) {
     if (any(str_detect(.name[i], c("TCRA", "TRAV", "TCRG", "TRGV", "IGKV", "IGLV")))) {
       recomb_type <- "VJ"
     } else if (any(str_detect(.name[i], c("TCRB", "TRBV", "TCRD", "TRDV", "IGHV")))) {
