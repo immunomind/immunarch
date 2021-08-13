@@ -366,7 +366,8 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
   m[, 1] <- factor(m[, 1], levels = rev(rownames(.data)))
   m[, 2] <- factor(m[, 2], levels = colnames(.data))
 
-  m$label <- format(m$value, scientific = .scientific, digits = .signif.digits)
+  format <- if (.scientific) "g" else "fg"
+  m$label <- formatC(m$value, format = format, digits = .signif.digits)
 
   p <- ggplot(m, aes(x = variable, y = name, fill = value))
   p <- p + geom_tile(aes(fill = value), colour = "white")
