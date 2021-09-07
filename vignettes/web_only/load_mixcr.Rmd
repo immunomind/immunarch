@@ -1,6 +1,6 @@
 ---
-title: 'Loading MiXCR Data'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
+title: "Loading MiXCR Data"
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
 date: "support@immunomind.io"
 output:
   html_document:
@@ -22,7 +22,7 @@ output:
 -->
 
 # Intro to MiXCR
-MiXCR is a universal software for fast and accurate extraction of T- and B- cell receptor repertoires from any type of sequencing data. It handles paired- and single-end reads, considers sequence quality, corrects PCR errors and identifies germline hypermutations. The software supports both partial- and full-length profiling and employs all available RNA or DNA information, including sequences upstream of V and downstream of J gene segments. 
+MiXCR is a universal software for fast and accurate extraction of T- and B- cell receptor repertoires from any type of sequencing data. It handles paired- and single-end reads, considers sequence quality, corrects PCR errors and identifies germline hypermutations. The software supports both partial- and full-length profiling and employs all available RNA or DNA information, including sequences upstream of V and downstream of J gene segments.
 
 Some features include:
 
@@ -30,7 +30,7 @@ Some features include:
 - Extracts repertoire data even from regular RNA-Seq
 - Successfully analyses full-length antibody data
 
-Find more info about MiXCR <a href="https://milaboratory.com/software/mixcr/">here</a> 
+Find more info about MiXCR <a href="https://milaboratory.com/software/mixcr/">here</a>
 
 # Prepare MiXCR Data
 Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data. **Important Note:** Currently supports MiXCR version 3 and above.
@@ -126,12 +126,12 @@ Done!
 Congrats! Now your data is ready for exploration. Follow the steps here to learn more about how to explore your dataset.
 
 ```{r, eval=F}
-r$> immdata_mixcr                                                                                                                                
+r$> immdata_mixcr
 $data
 $data$analysis.clonotypes.IGH
 # A tibble: 33,812 x 15
-   Clones Proportion CDR3.nt            CDR3.aa    V.name    D.name    J.name V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence          
-    <dbl>      <dbl> <chr>              <chr>      <chr>     <chr>     <chr>  <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>             
+   Clones Proportion CDR3.nt            CDR3.aa    V.name    D.name    J.name V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence
+    <dbl>      <dbl> <chr>              <chr>      <chr>     <chr>     <chr>  <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>
  1    230    0.00284 TGTGTGAGACATAAACC… CVRHKPMVQ… IGHV4-39  IGHD3-10… IGHJ6     12      NA     5      36      9      3      6 TGTGTGAGACATAAACC…
  2    201    0.00248 TGTGCGATTTGGGATGT… CAIWDVGLR… IGHV4-34  IGHD2-21  IGHJ4…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGT…
  3    179    0.00221 TGTGCGAGAGATCATGC… CARDHAGFG… IGHV1-69… IGHD3-10  IGHJ6     13      NA     4      40     18      5     13 TGTGCGAGAGATCATGC…
@@ -147,8 +147,8 @@ $data$analysis.clonotypes.IGH
 
 $meta
 # A tibble: 1 x 1
-  Sample                 
-  <chr>                  
+  Sample
+  <chr>
 1 analysis.clonotypes.IGH
 ```
 
@@ -164,7 +164,7 @@ In this tutorial I used three identical samples just to show the output, but you
 # 1.1) Load the package into R:
 > library(immunarch)
 
-# 1.2) Replace with the path to the folder with your processed MiXCR data. 
+# 1.2) Replace with the path to the folder with your processed MiXCR data.
 > file_path = "/path/to/your/mixcr/data/"
 
 # 1.3) Load MiXCR data with repLoad
@@ -191,12 +191,12 @@ Done!
 Now let's take a look at the data! Your output should look something like below.
 
 ```{r, eval=F}
-r$> immdata_mixcr                                                                                                                                
+r$> immdata_mixcr
 $data
 $data$analysis.clonotypes.IGH_1
 # A tibble: 32,744 x 15
-   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence              
-    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>                 
+   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence
+    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>
  1    230    0.00284 TGTGTGAGACATAAACCTATGG… CVRHKPMVQG… IGHV4-39  IGHD3-10, … IGHJ6      12      NA     5      36      9      3      6 TGTGTGAGACATAAACCTATG…
  2    201    0.00248 TGTGCGATTTGGGATGTGGGAC… CAIWDVGLRH… IGHV4-34  IGHD2-21    IGHJ4,…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGTGGGA…
  3    179    0.00221 TGTGCGAGAGATCATGCGGGGT… CARDHAGFGK… IGHV1-69… IGHD3-10    IGHJ6      13      NA     4      40     18      5     13 TGTGCGAGAGATCATGCGGGG…
@@ -211,8 +211,8 @@ $data$analysis.clonotypes.IGH_1
 
 $data$analysis.clonotypes.IGH_2
 # A tibble: 32,744 x 15
-   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence              
-    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>                 
+   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence
+    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>
  1    230    0.00284 TGTGTGAGACATAAACCTATGG… CVRHKPMVQG… IGHV4-39  IGHD3-10, … IGHJ6      12      NA     5      36      9      3      6 TGTGTGAGACATAAACCTATG…
  2    201    0.00248 TGTGCGATTTGGGATGTGGGAC… CAIWDVGLRH… IGHV4-34  IGHD2-21    IGHJ4,…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGTGGGA…
  3    179    0.00221 TGTGCGAGAGATCATGCGGGGT… CARDHAGFGK… IGHV1-69… IGHD3-10    IGHJ6      13      NA     4      40     18      5     13 TGTGCGAGAGATCATGCGGGG…
@@ -227,8 +227,8 @@ $data$analysis.clonotypes.IGH_2
 
 $data$analysis.clonotypes.IGH_3
 # A tibble: 32,744 x 15
-   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence              
-    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>                 
+   Clones Proportion CDR3.nt                 CDR3.aa     V.name    D.name      J.name  V.end D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence
+    <dbl>      <dbl> <chr>                   <chr>       <chr>     <chr>       <chr>   <int>   <int> <int>   <int>  <int>  <int>  <int> <chr>
  1    230    0.00284 TGTGTGAGACATAAACCTATGG… CVRHKPMVQG… IGHV4-39  IGHD3-10, … IGHJ6      12      NA     5      36      9      3      6 TGTGTGAGACATAAACCTATG…
  2    201    0.00248 TGTGCGATTTGGGATGTGGGAC… CAIWDVGLRH… IGHV4-34  IGHD2-21    IGHJ4,…     7      NA     5      29     10      7      3 TGTGCGATTTGGGATGTGGGA…
  3    179    0.00221 TGTGCGAGAGATCATGCGGGGT… CARDHAGFGK… IGHV1-69… IGHD3-10    IGHJ6      13      NA     4      40     18      5     13 TGTGCGAGAGATCATGCGGGG…
@@ -245,10 +245,10 @@ $data$analysis.clonotypes.IGH_3
 $meta
 # A tibble: 3 x 4
   Sample                    Sex     Age Status
-  <chr>                     <chr> <dbl> <chr> 
-1 analysis.clonotypes.IGH_1 M         1 C     
-2 analysis.clonotypes.IGH_2 M         2 C     
-3 analysis.clonotypes.IGH_3 F         3 A     
+  <chr>                     <chr> <dbl> <chr>
+1 analysis.clonotypes.IGH_1 M         1 C
+2 analysis.clonotypes.IGH_2 M         2 C
+3 analysis.clonotypes.IGH_3 F         3 A
 ```
 
 Congrats! Now your data is ready for exploration. Follow the steps [here](https://immunarch.com/articles/v3_basic_analysis.html) to learn more about how to explore your dataset.

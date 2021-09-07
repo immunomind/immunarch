@@ -1,6 +1,6 @@
 ---
-title: 'Tracking clonotypes across time points in `immunarch`'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
+title: "Tracking clonotypes across time points in `immunarch`"
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
 date: "support@immunomind.io"
 output:
   html_document:
@@ -36,13 +36,13 @@ library(immunarch)
 data(immdata)
 ```
 
-# Tracking of clonotypes 
+# Tracking of clonotypes
 Clonotype tracking is popular approach to monitor changes in frequency of clonotypes of interest in vaccination and cancer immunology. For example, a researcher can track a clonotype of across different time points in pre- and post-vaccination repertoires. Or analyse growth of malignant clonotypes in tumor sample.
 
 Various methods of clonotype tracking are integrated into the one `trackClonotypes` function. Currently, there are three methods to choose from. The output of `trackClonotypes` can be immediately visualised with the `vis` function.
 
 ## Tracking the most abundant clonotypes
-The simplest approach is to choose the most abundant clonotypes from one of the input immune repertoires and track across all immune repertoires in a batch. Arguments `.which` and `.col` are used to choose the immune repertoire, the number of clonotypes to take from it and which columns to use. 
+The simplest approach is to choose the most abundant clonotypes from one of the input immune repertoires and track across all immune repertoires in a batch. Arguments `.which` and `.col` are used to choose the immune repertoire, the number of clonotypes to take from it and which columns to use.
 
 To choose the 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence:
 

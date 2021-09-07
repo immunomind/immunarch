@@ -9,6 +9,10 @@ template:
 authors:
   ImmunoMind:
     href: https://immunomind.io
+  Vadim I. Nazarov:
+    href: https://www.linkedin.com/in/vdnaz
+  Vasily O. Tsvetkov:
+    href: https://www.linkedin.com/in/vasily-tsvetkov-227218ab
 articles:
 - title: All tutorials
   desc: ~
@@ -36,9 +40,6 @@ navbar:
     covid19:
       text: "COVID-19"
       href: https://github.com/immunomind/covid19
-    community:
-      text: ImmunoMinds Community
-      href: articles/web_only/community.html
     reference:
       text: Reference
       href: reference/index.html

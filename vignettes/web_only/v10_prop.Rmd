@@ -1,6 +1,6 @@
 ---
-title: 'Analysis of biophysicochemical properties of CDR3 sequences'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
+title: "Analysis of biophysicochemical properties of CDR3 sequences"
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
 date: "support@immunomind.io"
 output:
   html_document:
