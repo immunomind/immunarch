@@ -27,8 +27,10 @@ repFilter <- function(.data, .method, .query, ...) {
 }
 
 filter_by_meta <- function(.data, .query) {
-  filtered_meta <- .data$meta
+  original_classes <- class(.data)
   names <- names(.query)
+
+  filtered_meta <- .data$meta
   for (i in seq_along(names)) {
     name <- names[i]
     column_query <- unlist(.query[name])
@@ -47,9 +49,9 @@ filter_by_meta <- function(.data, .query) {
         filter(filtered_meta, get(name) == column_query)
       }
   }
-  filtered_data <- .data$data[names(.data$data) %in% filtered_meta$Sample]
+  filtered_data <- .data$data[filtered_meta$Sample]
 
   result <- list(data = filtered_data, meta = filtered_meta)
-  class(result) <- class(.data)
+  class(result) <- original_classes
   return(result)
 }
