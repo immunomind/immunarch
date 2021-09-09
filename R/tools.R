@@ -474,3 +474,11 @@ load_segments <- function(.path, .alias, .gene_df = GENE_SEGMENTS, .filter = NA)
   segm <- segm[order(segm$gene, segm$allele_id), ]
   new_gs <- rbind(segm, .gene_df[.gene_df$alias != .alias, ])
 }
+
+as_numeric_or_fail <- function(.string) {
+  result <- as.numeric(.string)
+  if (is.na(result)) {
+    stop(paste0("\"", .string, "\" is not a valid number."))
+  }
+  return(result)
+}
