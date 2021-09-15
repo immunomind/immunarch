@@ -22,3 +22,5 @@ ap <- function(.name, .prefix) {
 data(immdata)
 frame_data <- immdata$data
 table_data <- lapply(frame_data, as.data.table)
+frame_with_meta <- list(data = frame_data, meta = immdata$meta)
+table_with_meta <- list(data = table_data, meta = immdata$meta)
