@@ -17,7 +17,7 @@ if (getRversion() >= "2.15.1") {
 #' @concept io
 #'
 #' @importFrom readr read_delim read_tsv read_csv col_integer col_character col_double col_logical col_guess cols write_lines
-#' @importFrom stringr str_split str_detect str_replace_all
+#' @importFrom stringr str_split str_detect str_replace_all str_trim
 #' @importFrom methods as
 #' @importFrom dplyr contains first
 #' @importFrom utils read.table
