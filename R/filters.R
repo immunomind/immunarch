@@ -1,5 +1,7 @@
 #' Main function for data filtering
 #'
+#' @importFrom magrittr "%>%" "%<>%"
+#'
 #' @param .data The data to be processed. Must be the list of 2 elements:
 #' data table and metadata table.
 #' @param .method Method of filtering. Implemented methods: by.meta.
