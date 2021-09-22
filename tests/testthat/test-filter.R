@@ -213,10 +213,6 @@ for (i in seq_along(test_cases)) {
   method <- test_cases[[i]][["method"]]
   query <- test_cases[[i]][["query"]]
   match <- test_cases[[i]][["match"]]
-  # if match is not specified, pass it as omitted argument to repFilter
-  if (is.null(match)) {
-    match <- maybe_missing()
-  }
   expected_samples <- test_cases[[i]][["expected_samples"]]
   expected_sample_rows <- test_cases[[i]][["expected_sample_rows"]]
   # expected_sample_rows is named list, contains sample names and expected rows;
@@ -234,12 +230,17 @@ for (i in seq_along(test_cases)) {
   skip("Not implemented")
 
   # Act
-  compute_res <- apply_DF_DT(frame_with_meta, table_with_meta,
-    repFilter,
-    .method = method,
-    .query = query,
-    .match = match
-  )
+  if (is.null(match)) {
+    compute_res <- apply_DF_DT(frame_with_meta, table_with_meta,
+      repFilter,
+      .method = method, .query = query
+    )
+  } else {
+    compute_res <- apply_DF_DT(frame_with_meta, table_with_meta,
+      repFilter,
+      .method = method, .query = query, .match = match
+    )
+  }
 
   # Assert
   test_that(ap(test_name, "compute_"), {
