@@ -119,3 +119,31 @@ filter_by_repertoire <- function(.data, .min_size) {
 filter_by_clonotype <- function(.data, .query) {
   return(list(data = .data$data, meta = .data$meta))
 }
+
+include <- function(...) {
+  args <- unname(list(...))
+  if (length(args) == 0) {
+    stop("include() expects at least 1 argument!")
+  }
+  return(args)
+}
+
+exclude <- function(...) {
+  args <- unname(list(...))
+  if (length(args) == 0) {
+    stop("exclude() expects at least 1 argument!")
+  }
+  return(args)
+}
+
+lessthan <- function(value) {
+  return(value)
+}
+
+morethan <- function(value) {
+  return(value)
+}
+
+interval <- function(from, to) {
+  return(list(from, to))
+}

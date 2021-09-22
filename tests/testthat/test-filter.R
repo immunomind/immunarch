@@ -1,13 +1,6 @@
-# TODO: implement these functions in filters.R and use them in this test
-include <- function(...) {}
-exclude <- function(...) {}
-lessthan <- function(...) {}
-morethan <- function(...) {}
-interval <- function(...) {}
+test_cases <- list()
 
 original_samples_count <- nrow(immdata$data)
-
-test_cases <- list()
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
