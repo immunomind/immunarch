@@ -219,6 +219,11 @@ for (i in seq_along(test_cases)) {
   data_factory <- test_cases[[i]][["data_factory"]]
   method <- test_cases[[i]][["method"]]
   query <- test_cases[[i]][["query"]]
+  match <- test_cases[[i]][["match"]]
+  # if match is not specified, pass it as omitted argument to repFilter
+  if (is.null(match)) {
+    match <- maybe_missing()
+  }
   expected_samples <- test_cases[[i]][["expected_samples"]]
   expected_sample_rows <- test_cases[[i]][["expected_sample_rows"]]
   # expected_sample_rows is named list, contains sample names and expected rows;
@@ -239,7 +244,8 @@ for (i in seq_along(test_cases)) {
   compute_res <- apply_DF_DT(frame_with_meta, table_with_meta,
     repFilter,
     .method = method,
-    .query = query
+    .query = query,
+    .match = match
   )
 
   # Assert
