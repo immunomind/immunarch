@@ -432,10 +432,9 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
   args <- list(...)
   has_meta <- !is.na(.meta) & !is.na(.by)
   if (has_meta) {
-    ann_col <- .meta %>%
+    args[["annotation_col"]] <- .meta %>%
       tibble::column_to_rownames(var = "Sample") %>%
       dplyr::select(any_of(.by))
-    args[["annotation_col"]] <- ann_col
   }
 
   args[["mat"]] <- .data
