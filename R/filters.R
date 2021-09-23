@@ -121,7 +121,7 @@ filter_by_clonotype <- function(.data, .query) {
 }
 
 include <- function(...) {
-  args <- unname(list(...))
+  args <- unlist(unname(list(...)))
   if (length(args) == 0) {
     stop("include() expects at least 1 argument!")
   }
@@ -129,7 +129,7 @@ include <- function(...) {
 }
 
 exclude <- function(...) {
-  args <- unname(list(...))
+  args <- unlist(unname(list(...)))
   if (length(args) == 0) {
     stop("exclude() expects at least 1 argument!")
   }
@@ -145,5 +145,5 @@ morethan <- function(value) {
 }
 
 interval <- function(from, to) {
-  return(list(from, to))
+  return(c(from, to))
 }
