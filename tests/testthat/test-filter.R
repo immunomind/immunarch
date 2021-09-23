@@ -143,42 +143,42 @@ mock_genes <- function() {
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
-  method = "by.clonotype", query = list(V = exclude("TRBV1", "TRAV1")),
+  method = "by.clonotype", query = list(V.name = exclude("TRBV1", "TRAV1")),
   expected_samples = 1,
   expected_sample_rows = list(S1 = 2)
 )
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
-  method = "by.clonotype", query = list(V = exclude("TRBV1", "TRAV1")), match = "exact",
+  method = "by.clonotype", query = list(V.name = exclude("TRBV1", "TRAV1")), match = "exact",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 2)
 )
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
-  method = "by.clonotype", query = list(V = exclude("TRBV1", "TRAV1")), match = "startswith",
+  method = "by.clonotype", query = list(V.name = exclude("TRBV1", "TRAV1")), match = "startswith",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 1)
 )
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
-  method = "by.clonotype", query = list(V = include("TRBV1", "TRAV1")), match = "startswith",
+  method = "by.clonotype", query = list(V.name = include("TRBV1", "TRAV1")), match = "startswith",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 3)
 )
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
-  method = "by.clonotype", query = list(V = exclude("V1")), match = "substring",
+  method = "by.clonotype", query = list(V.name = exclude("V1")), match = "substring",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 1)
 )
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
-  method = "by.clonotype", query = list(V = include("V1")), match = "substring",
+  method = "by.clonotype", query = list(V.name = include("V1")), match = "substring",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 3)
 )
@@ -201,7 +201,7 @@ test_cases[[length(test_cases) + 1]] <- list(
     return(immdata)
   },
   method = "by.clonotype",
-  query = list(V = include("AV1"), J = include("AJ")),
+  query = list(V.name = include("AV1"), J.name = include("AJ")),
   match = "substring",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 1)
