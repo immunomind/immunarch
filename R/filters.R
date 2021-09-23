@@ -125,7 +125,7 @@ include <- function(...) {
   if (length(args) == 0) {
     stop("include() expects at least 1 argument!")
   }
-  return(args)
+  return(c("include", args))
 }
 
 exclude <- function(...) {
@@ -133,17 +133,17 @@ exclude <- function(...) {
   if (length(args) == 0) {
     stop("exclude() expects at least 1 argument!")
   }
-  return(args)
+  return(c("exclude", args))
 }
 
 lessthan <- function(value) {
-  return(value)
+  return(c("lessthan", unname(value)))
 }
 
 morethan <- function(value) {
-  return(value)
+  return(c("morethan", unname(value)))
 }
 
 interval <- function(from, to) {
-  return(c(from, to))
+  return(c("interval", unname(from), unname(to)))
 }
