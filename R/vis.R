@@ -428,14 +428,21 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' ov <- repOverlap(immdata$data)
 #' vis_heatmap2(ov)
 #' @export
-vis_heatmap2 <- function(.data, .title = NA, .labs = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
-  args <- list()
+vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
+  args <- list(...)
+  has_meta <- !is.na(.meta) & !is.na(.by)
+  if (has_meta) {
+    args[["annotation_col"]] <- .meta %>%
+      tibble::column_to_rownames(var = "Sample") %>%
+      dplyr::select(any_of(.by))
+  }
+
   args[["mat"]] <- .data
   args[["main"]] <- .title
   if (!is.na(.color)[1]) {
     args[["color"]] <- .color
   }
-  do.call(pheatmap, c(args, ...))
+  do.call(pheatmap, args)
 }
 
 
