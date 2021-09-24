@@ -1,9 +1,9 @@
 ---
-title: "Annotate clonotypes using immune receptor databases"
-author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
+title: 'Annotate clonotypes using immune receptor databases'
+author: '<a href="https://immunomind.io">ImmunoMind</a>'
 date: "support@immunomind.io"
 output:
-  html_document:
+  html_document: 
     fig_height: 8
     fig_width: 10
     theme: spacelab
@@ -110,7 +110,7 @@ After downloading the database, we can proceed to the annotation part with R. To
 
 ## Preprocessing databases with R
 
-For the start, we need to load databases into R and filter out non-human, non-TRB and non-CMV data from the input database. With databases, we follow the same philosophy as with `repLoad` and `vis` functions: the function `dbLoad` provides a singular interface to loading and basic quering for all supported databases.
+For the start, we need to load databases into R and filter out non-human, non-TRB and non-CMV data from the input database. With databases, we follow the same philosophy as with `repLoad` and `vis` functions: the function `dbLoad` provides a singular interface to loading and basic quering for all supported databases. 
 
 For demonstration purposes, we will process each of the supported databases below.
 
@@ -188,7 +188,7 @@ dbAnnotate(immdata$data, local_db, c("CDR3.aa", "V.name"), c("Seq", "V"))
 
 ### Visualisation
 
-Visualisation with the `vis()` function will be supported in the next major release of `immunarch`. You can use `ggplot2` to visualise distributions of found clonotypes.
+Visualisation with the `vis()` function will be supported in the next major release of `immunarch`. You can use `ggplot2` to visualise distributions of found clonotypes. 
 
 
 ## Advanced filtering
