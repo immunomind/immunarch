@@ -82,11 +82,45 @@ Please contact us if there are more file formats you want to be supported.
 
 For parsing IgBLAST results process the data with MigMap first.
 
-You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. A single file can be loaded as follows:
+You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. 
+
+**Working with own files**
+
+
+If you have your own files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
 
 ```{r, eval=F}
-# To load the data from a single file (note that you don't need to specify the data format):
-file_path = paste0(system.file(package="immunarch"), "/extdata/io/Sample1.tsv.gz")
+#a path to own folder or file
+immdata <- repLoad(path)
+```
+
+**Working with example files**
+
+
+You could find the path to a folder with example files [here](https://github.com/immunomind/immunarch/tree/master/inst/extdata/io). 
+
+Let's check your working folder
+```{r, eval=F}
+getwd()
+```
+
+Let's download file `'Sample1.tsv.gz'` in the working folder from [here](https://github.com/immunomind/immunarch/tree/master/inst/extdata/io) and load the file:
+
+```{r, eval=F}
+immdata <- repLoad('Sample1.tsv.gz')
+```
+
+You could also download all files to the `'example'` folder and load all of them:
+
+```{r, eval=F}
+immdata <- repLoad('example')
+```
+
+Also, example data is downloaded with `immunarch` packages. You could load whole example data using the following command:
+
+```{r, eval=F}
+#path to folder with example data
+file_path = paste0(system.file(package="immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 ```
 
