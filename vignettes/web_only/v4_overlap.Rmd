@@ -1,6 +1,6 @@
 ---
-title: 'Repertoire overlap and public clonotypes'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
+title: "Repertoire overlap and public clonotypes"
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
 date: "support@immunomind.io"
 output:
   html_document:
@@ -39,7 +39,7 @@ data(immdata)
 ```
 
 # Repertoire overlap
-Repertoire overlap is the most common approach to measure repertoire similarity. It is achieved by computation of specific statistics on clonotypes shared between given repertoires, also called "public" clonotypes. `immunarch` provides several indices: 
+Repertoire overlap is the most common approach to measure repertoire similarity. It is achieved by computation of specific statistics on clonotypes shared between given repertoires, also called "public" clonotypes. `immunarch` provides several indices:
 - number of public clonotypes (`.method = "public"`) - a classic measure of overlap similarity.
 
 - overlap coefficient (`.method = "overlap"`) - a normalised measure of overlap similarity. It is defined as the size of the intersection divided by the smaller of the size of the two sets.
