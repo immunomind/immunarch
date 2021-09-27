@@ -1,5 +1,7 @@
 #' Main function for data filtering
 #'
+#' @importFrom magrittr "%>%" "%<>%"
+#'
 #' @param .data The data to be processed. Must be the list of 2 elements:
 #' data table and metadata table.
 #' @param .method Method of filtering. Implemented methods: by.meta.
@@ -116,4 +118,32 @@ filter_by_repertoire <- function(.data, .min_size) {
 
 filter_by_clonotype <- function(.data, .query) {
   return(list(data = .data$data, meta = .data$meta))
+}
+
+include <- function(...) {
+  args <- unlist(unname(list(...)))
+  if (length(args) == 0) {
+    stop("include() expects at least 1 argument!")
+  }
+  return(c("include", args))
+}
+
+exclude <- function(...) {
+  args <- unlist(unname(list(...)))
+  if (length(args) == 0) {
+    stop("exclude() expects at least 1 argument!")
+  }
+  return(c("exclude", args))
+}
+
+lessthan <- function(value) {
+  return(c("lessthan", unname(value)))
+}
+
+morethan <- function(value) {
+  return(c("morethan", unname(value)))
+}
+
+interval <- function(from, to) {
+  return(c("interval", unname(from), unname(to)))
 }
