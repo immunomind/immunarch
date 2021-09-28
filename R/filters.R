@@ -4,39 +4,65 @@
 #'
 #' @param .data The data to be processed. Must be the list of 2 elements:
 #' data table and metadata table.
-#' @param .method Method of filtering. Implemented methods: by.meta.
+#' @param .method Method of filtering. Implemented methods:
+#' by.meta, by.repertoire (by.rep), by.clonotype (by.cl)
+#' Default value: 'by.clonotype'.
 #' @param .query Filtering query. It's a named list of filters that will be applied
-#' to data. Elements of the list are specific for selected method:
-#' - by.meta: names are metadata column headers; each value can be string
-#' (metadata value to select for the column), metadata value starting from '!'
-#' to filter out this value; vector of strings (to select multiple possible values),
-#' vector of strings with first value '!' (to filter out all values from vector)
-#' or numeric expression in format '>#', '<#', '>=#', '<=#' where '#' is a number
-#' (integer or float, can be negative);
-#' - by.repertoire: query parameter is integer: minimal repertoire size for a sample
-#' that passes the filter;
-#' - by.clonotype: .
+#' to data.
+#' Possible values for names in this list are dependent on filter methods:
+#' - by.meta: filter by metadata. Names in the named list are metadata column headers.
+#' - by.repertoire: filter by number of clonotypes or total number of clones in sample.
+#' Possible names in the named list are "n_clonotypes" and "n_clones".
+#' - by.clonotype: filter by data in all samples. Names in the named list are
+#' data column headers.
+#' Elements of the named list for each of the filters are filtering options.
+#' Possible values for filtering options:
+#' - include("STR1", "STR2", ...): keep only rows with matching values.
+#' Available for methods: "by.meta", "by.clonotype".
+#' - exclude("STR1", "STR2", ...): remove rows with matching values.
+#' Available for methods: "by.meta", "by.clonotype".
+#' - lessthan(value): keep rows/samples with numeric values less than specified.
+#' Available for methods: "by.meta", "by.repertoire", "by.clonotype".
+#' - morethan(value): keep rows/samples with numeric values more than specified.
+#' Available for methods: "by.meta", "by.repertoire", "by.clonotype".
+#' - interval(from, to): keep rows/samples with numeric values that fits in this interval.
+#' from is inclusive, to is exclusive.
+#' Available for methods: "by.meta", "by.repertoire", "by.clonotype".
+#' Default value: 'list(CDR3.aa = exclude("partial", "out_of_frame"))'.
+#' @param .match Matching method for "include" and "exclude" options in query.
+#' Possible values:
+#' - exact: match only the exact specified string;
+#' - startswith: match all strings starting with the specified substring;
+#' - substring: match all strings containing the specified substring.
+#' Default value: 'exact'.
 #'
 #' @examples
 #' data(immdata)
 #'
 #' # Select samples with status "MS"
-#' repFilter(immdata, "by.meta", list(Status = "MS"))
+#' repFilter(immdata, "by.meta", list(Status = include("MS")))
 #'
 #' # Select samples without status "MS"
-#' repFilter(immdata, "by.meta", list(Status = "!MS"))
+#' repFilter(immdata, "by.meta", list(Status = exclude("MS")))
 #'
-#' # Select samples from lanes "A" and "B" with age >= 15
-#' repFilter(immdata, "by.meta", list(Lane = c("A", "B"), Age = ">=15"))
+#' # Select samples from lanes "A" and "B" with age > 15
+#' repFilter(immdata, "by.meta", list(Lane = include("A", "B"), Age = morethan(15)))
 #'
-#' # Select samples that not from lanes "A" and "B"
-#' repFilter(immdata, "by.meta", list(Lane = c("!", "A", "B")))
+#' # Select samples that are not from lanes "A" and "B"
+#' repFilter(immdata, "by.meta", list(Lane = exclude("A", "B")))
 #'
-#' # Select samples with at least 6000 clonotypes
-#' repFilter(immdata, "by.repertoire", 6000)
+#' # Select samples with 1000-5000 clonotypes
+#' repFilter(immdata, "by.repertoire", list(n_clonotypes = interval(1000, 5000)))
+#'
+#' # Select clonotypes in all samples with alpha chains
+#' repFilter(immdata, "by.clonotype",
+#'   list(V.name = include("AV"), J.name = include("AJ")),
+#'   match = "substring"
+#' )
 #' @export repFilter
 repFilter <- function(.data, .method = "by.clonotype",
-                      .query = list(CDR3.aa = c("!partial", "!out_of_frame"))) {
+                      .query = list(CDR3.aa = exclude("partial", "out_of_frame")),
+                      .match = "exact") {
   if (!is.list(.data)) {
     stop(paste0(
       "Input data is not a list; ",
@@ -44,10 +70,20 @@ repFilter <- function(.data, .method = "by.clonotype",
     ))
   }
 
+  if (!(.match %in% c("exact", "startswith", "substring"))) {
+    stop(paste0(
+      "Unknown matching method \"", .match,
+      "\"! Supported matching methods are: ",
+      "\"exact\", \"startswith\", \"substring\"."
+    ))
+  }
+
   switch(tolower(.method),
-    by.meta = filter_by_meta(.data, .query),
+    by.meta = filter_by_meta(.data, .query, .match),
     by.repertoire = filter_by_repertoire(.data, .query),
-    by.clonotype = filter_by_clonotype(.data, .query),
+    by.rep = filter_by_repertoire(.data, .query),
+    by.clonotype = filter_by_clonotype(.data, .query, .match),
+    by.cl = filter_by_clonotype(.data, .query, .match),
     stop(paste0(
       "You entered wrong method \"", .method, "\"! Supported methods are: ",
       "\"by.meta\", \"by.repertoire\", \"by.clonotype\"."
@@ -55,7 +91,7 @@ repFilter <- function(.data, .method = "by.clonotype",
   )
 }
 
-filter_by_meta <- function(.data, .query) {
+filter_by_meta <- function(.data, .query, .match) {
   if (!("meta" %in% names(.data))) {
     stop(paste0(
       "Input data doesn't contain meta; ",
@@ -70,28 +106,10 @@ filter_by_meta <- function(.data, .query) {
       stop(paste0("Column \"", name, "\" not found in metadata."))
     }
     column_query <- .query[[name]]
-
+    query_type <- column_query[[1]]
+    query_args <- column_query[-1]
     if (nrow(filtered_meta) > 0) {
-      filtered_meta <-
-        if (length(column_query) > 1) {
-          if (column_query[[1]] == "!") {
-            filter(filtered_meta, !get(name) %in% tail(column_query, -1))
-          } else {
-            filter(filtered_meta, get(name) %in% column_query)
-          }
-        } else if (startsWith(column_query, "!")) {
-          filter(filtered_meta, get(name) != substring(column_query, 2))
-        } else if (startsWith(column_query, ">=")) {
-          filter(filtered_meta, get(name) >= as_numeric_or_fail(substring(column_query, 3)))
-        } else if (startsWith(column_query, "<=")) {
-          filter(filtered_meta, get(name) <= as_numeric_or_fail(substring(column_query, 3)))
-        } else if (startsWith(column_query, ">")) {
-          filter(filtered_meta, get(name) > as_numeric_or_fail(substring(column_query, 2)))
-        } else if (startsWith(column_query, "<")) {
-          filter(filtered_meta, get(name) < as_numeric_or_fail(substring(column_query, 2)))
-        } else {
-          filter(filtered_meta, get(name) == column_query)
-        }
+      filtered_meta %<>% filter_table(name, query_type, query_args, .match)
       if (nrow(filtered_meta) == 0) {
         warning(paste0("Filter by column \"", name, "\" removed all remaining samples!"))
       }
@@ -102,9 +120,46 @@ filter_by_meta <- function(.data, .query) {
   return(list(data = filtered_data, meta = filtered_meta))
 }
 
-filter_by_repertoire <- function(.data, .min_size) {
-  good_repertoires <- names(.data$data)[sapply(.data$data, nrow) >= .min_size]
-  filtered_data <- .data$data[good_repertoires]
+filter_by_repertoire <- function(.data, .query) {
+  filtered_data <- .data$data
+  for (i in seq_along(names(.query))) {
+    name <- names(.query)[i]
+    key_query <- .query[[name]]
+    query_type <- key_query[[1]]
+    query_args <- key_query[-1]
+    if (length(filtered_data) > 0) {
+      counts <- switch(name,
+        n_clonotypes = lapply(filtered_data, nrow),
+        n_clones = lapply(filtered_data, function(sample) {
+          sum(sample$Clones)
+        }),
+        stop(paste0(
+          "Wrong filter key for \"by.repertoire\": \"", name,
+          "\"! Available keys: \"n_clonotypes\", \"n_clones\"."
+        ))
+      )
+
+      if (query_type == "lessthan") {
+        filtered_data <- filtered_data[
+          counts < as_numeric_or_fail(query_args)
+        ]
+      } else if (query_type == "morethan") {
+        filtered_data <- filtered_data[
+          counts > as_numeric_or_fail(query_args)
+        ]
+      } else if (query_type == "interval") {
+        from <- as_numeric_or_fail(query_args[[1]])
+        to <- as_numeric_or_fail(query_args[[2]])
+        filtered_data <- filtered_data[
+          counts >= from & counts < to
+        ]
+      }
+
+      if (nrow(filtered_data) == 0) {
+        warning(paste0("Filter by key \"", name, "\" removed all remaining samples!"))
+      }
+    }
+  }
   filtered_meta <-
     if ("meta" %in% names(.data)) {
       filter(.data$meta, Sample %in% names(filtered_data))
@@ -116,8 +171,96 @@ filter_by_repertoire <- function(.data, .min_size) {
   return(list(data = filtered_data, meta = filtered_meta))
 }
 
-filter_by_clonotype <- function(.data, .query) {
-  return(list(data = .data$data, meta = .data$meta))
+filter_by_clonotype <- function(.data, .query, .match) {
+  filtered_data <- .data$data
+  for (i in seq_along(names(.query))) {
+    name <- names(.query)[i]
+    column_query <- .query[[name]]
+    query_type <- column_query[[1]]
+    query_args <- column_query[-1]
+    for (j in seq_along(names(filtered_data))) {
+      sample_name <- names(filtered_data)[j]
+      sample <- filtered_data[[sample_name]]
+      if (!(name %in% names(sample))) {
+        stop(paste0("Column \"", name, "\" not found in sample \"", sample_name, "\"."))
+      }
+      if (nrow(sample) == 0) {
+        warning(paste0("Sample \"", sample_name, "\" was empty, removed!"))
+      } else {
+        sample %<>% filter_table(name, query_type, query_args, .match)
+        if (nrow(sample) == 0) {
+          warning(paste0(
+            "Filter by column \"", name,
+            "\" removed all remaining clonotypes from sample \"",
+            sample_name, "\"; sample was removed!"
+          ))
+        }
+      }
+
+      if (nrow(sample) == 0) {
+        # removing empty sample
+        filtered_data <- filtered_data[names(filtered_data) != sample_name]
+      } else {
+        # updating sample in filtered_data
+        filtered_data[[sample_name]] <- sample
+      }
+    }
+  }
+  filtered_meta <-
+    if ("meta" %in% names(.data)) {
+      filter(.data$meta, Sample %in% names(filtered_data))
+    } else {
+      warning("No metadata in input dataset!")
+      tibble()
+    }
+
+  return(list(data = filtered_data, meta = filtered_meta))
+}
+
+filter_table <- function(.table, .column_name, .query_type, .query_args, .match) {
+  if (.query_type == "include") {
+    if (.match == "exact") {
+      .table %<>% filter(get(.column_name) %in% .query_args)
+    } else if (.match == "startswith") {
+      .table <- .table[
+        unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
+      ]
+    } else if (.match == "substring") {
+      .table <- .table[
+        unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE))),
+      ]
+    }
+  } else if (.query_type == "exclude") {
+    if (.match == "exact") {
+      .table %<>% filter(
+        !get(.column_name) %in% .query_args
+      )
+    } else if (.match == "startswith") {
+      .table <- .table[
+        -unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
+      ]
+    } else if (.match == "substring") {
+      .table <- .table[
+        -unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE))),
+      ]
+    }
+  } else if (.query_type == "lessthan") {
+    .table %<>% filter(
+      .table, get(.column_name) < as_numeric_or_fail(.query_args)
+    )
+  } else if (.query_type == "morethan") {
+    .table %<>% filter(
+      .table, get(.column_name) > as_numeric_or_fail(.query_args)
+    )
+  } else if (.query_type == "interval") {
+    .table %<>% filter(
+      .table, get(.column_name) >= as_numeric_or_fail(.query_args[[1]])
+    )
+    .table %<>% filter(
+      .table, get(.column_name) < as_numeric_or_fail(.query_args[[2]])
+    )
+  }
+  return(.table)
 }
 
 include <- function(...) {

@@ -226,9 +226,6 @@ for (i in seq_along(test_cases)) {
   frame_with_meta <- immdata
   table_with_meta <- list(data = lapply(immdata$data, as.data.table), meta = immdata$meta)
 
-  # TODO: implement all filters and remove skip()
-  skip("Not implemented")
-
   # Act
   if (is.null(match)) {
     compute_res <- apply_DF_DT(frame_with_meta, table_with_meta,
