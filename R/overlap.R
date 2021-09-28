@@ -47,7 +47,7 @@
 #' @param .n.steps Something. Skipped if ".step" is a numeric vector.
 #'
 #' @param .downsample If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-#' top N clonotypes.
+#' top N clonotypes in incremental overlaps. Change nothing for conventional methods.
 #'
 #' @param .bootstrap Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.
 #'
