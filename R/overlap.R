@@ -76,9 +76,11 @@
 #' with their counts are summed up.
 #'
 #' @return
-#' In most cases the return value is a matrix with overlap values.
+#' In most cases the return value is a matrix with overlap values for each pair of repertoires.
 #'
-#' If only two repertoires were provided,
+#' If only two repertoires were provided, return value is single numeric value.
+#'
+#' If one of the incremental method is chosen, return list of overlap matrix.
 #'
 #' @seealso \link{inc_overlap}, \link{vis}
 #'
