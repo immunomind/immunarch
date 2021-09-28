@@ -84,7 +84,7 @@ For parsing IgBLAST results process the data with MigMap first.
 
 You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. 
 
-**Working with own files**
+**Working with your own files**
 
 
 If you have your own files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
