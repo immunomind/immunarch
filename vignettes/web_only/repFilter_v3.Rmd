@@ -142,7 +142,7 @@ immdata$meta %>% filter(Age > 15 & Age < 23)
 names(immdata$data)
 ```
 
-You can also use **multiple conditions**
+You can also use **multiple conditions**. In this case, the function returns values that matches both of this conditions (logical AND operator)
 
 Filter for samples where *Age* is between *15* and *23* and *Lane* is *B*:
 
