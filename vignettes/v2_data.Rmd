@@ -97,7 +97,7 @@ immdata <- repLoad(path)
 **Working with example files**
 
 
-You could find the path to a folder with example files [here](https://github.com/immunomind/immunarch/tree/master/inst/extdata/io). 
+You could find a folder with example files [here](https://github.com/immunomind/immunarch/tree/master/inst/extdata/io) and use it to test data loading without your own files. 
 
 Let's check your working folder
 ```{r, eval=F}
