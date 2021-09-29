@@ -104,7 +104,7 @@ You can obtain you working directory with `getwd()` command
 ```{r, eval=F}
 getwd()
 
-You could also download all files to the `'example'` folder and load all of them:
+You could also download all files to the `'example'` folder in your working directory and load all of them by passing folder name to repLoad function in a quotes:
 
 ```{r, eval=F}
 immdata <- repLoad('example')
