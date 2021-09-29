@@ -36,7 +36,7 @@ library(immunarch)
 ```
 
 # Data filtering
-For filtering your data you can use universal function `repFilter`. 
+In many research cases, you want to filter your data by metadata, clonotypes parameters or genes, so for this purpose, you can use the `repFilter` function. 
 
 ## Methods for filtering data
 `repFilter` has 2 parameters: `method ` and `query`.
