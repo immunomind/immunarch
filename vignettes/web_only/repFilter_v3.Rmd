@@ -181,7 +181,7 @@ names(immdata$data)
 
 #### Example 4
 
-Filter for all noncoding clonotypes from `immdata` . As can be seen, `immdata` datasets doesn't contain any noncoding clonotypes:
+Filter out all noncoding clonotypes from `immdata`. As you see, `immdata` dataset doesn't contain any noncoding clonotypes:
 
 ```{r example-4.1}
 #method = "by.clonotype", query = list(CDR3.aa = exclude("partial", "out_of_frame"))
