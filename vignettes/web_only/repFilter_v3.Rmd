@@ -188,7 +188,7 @@ Filter out all noncoding clonotypes from `immdata`. As you see, `immdata` datase
 
 ```
 
-Note, filtering `by.clonotype` or `by.cl` works within repertoire or sample. Repertoire or sample could be removed from your data only in case if all clonotypes in sample do not satisfy the condition: 
+Note, filtering `by.clonotype` or `by.cl` works within repertoire(sample). Repertoire(sample) could be removed from your data only in case if all clonotypes in sample do not satisfy the condition: 
 
 ```{r example-4.1.1}
 #method = "by.clonotype", query = list(CDR3.aa = exclude("partial", "out_of_frame"))
