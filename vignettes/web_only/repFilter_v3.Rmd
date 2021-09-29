@@ -85,7 +85,7 @@ Let's filter your data by metadata `immdata` datasets when *Status* is *C* and l
 # method = "by.meta", query = list(Status = include("C"))
 immdata$meta %>% filter(Status == 'C')
 ```
-Note, we filter metadata and data:
+This way we have filtered both metadata and data:
 
 ```{r example-1.1.1}
 # filtered data
