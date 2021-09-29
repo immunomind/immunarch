@@ -117,7 +117,7 @@ names(immdata$data)
 ```
 
 #### Example 2
-Use  `interval`, `lessthan`(from minus infinity to your value) or `morethan`(from your value to plus affinity) to define interval values in the filter statement. These options accept  float.
+Use  `interval`, `lessthan`(from minus infinity to your value) or `morethan`(from your value to plus infinity) to define interval values in the filter statement. These options accept float.
 
 Filter for samples where *Age* is lower than *23*:
 ```{r example-2.1}
