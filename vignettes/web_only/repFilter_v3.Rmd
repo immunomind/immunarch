@@ -152,7 +152,7 @@ immdata$meta %>% filter(Age > 15 & Age < 23 & Lane == 'B')
 names(immdata$data)
 ```
 
-### Method `by.repertoire` or `by.rep`
+### Method `by.repertoire` (short alias is `by.rep`)
 
 #### Example 3
 
