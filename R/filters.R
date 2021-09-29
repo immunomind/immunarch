@@ -106,7 +106,7 @@ filter_by_meta <- function(.data, .query, .match) {
       stop(paste0("Column \"", name, "\" not found in metadata."))
     }
     column_query <- .query[[name]]
-    query_type <- column_query[[1]]
+    query_type <- column_query[1]
     query_args <- column_query[-1]
     if (nrow(filtered_meta) > 0) {
       filtered_meta %<>% filter_table(name, query_type, query_args, .match)
