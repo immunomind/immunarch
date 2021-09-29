@@ -156,7 +156,7 @@ names(immdata$data)
 
 #### Example 3
 
-Filter for repertoires  containing more than 60000 clonotypes:
+Filter for repertoires containing more than 60000 clonotypes:
 
 ```{r example-3.1}
 #method = "by.repertoire", query = list(n_clonotypes = morethan(6000))
