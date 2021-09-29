@@ -110,7 +110,7 @@ You could also download all files to the `'example'` folder in your working dire
 immdata <- repLoad('example')
 ```
 
-Also, example data is downloaded with `immunarch` packages. You could load whole example data using the following command:
+Also, example data are already downloaded with `immunarch` package. You could load whole example data using the following command:
 
 ```{r, eval=F}
 #path to folder with example data
