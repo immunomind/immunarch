@@ -204,7 +204,7 @@ names(immdata$data)
 
 #### Example 5
 
-In method `by.clonotype` or `by.cl`, there are an extra argument `match`. The argument has the following method: 
+In method `by.clonotype` or `by.cl`, there are an extra argument `match`. The `.match` argument can has the following values: 
  - `exact` - looks for exact match in gene names
  - `by substring`- looks for substring in gene names
  - `by start` - looks for gene names starting with the some pattern
