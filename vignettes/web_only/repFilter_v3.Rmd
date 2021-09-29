@@ -195,7 +195,7 @@ Note, filtering `by.clonotype` or `by.cl` works within repertoire(sample). Reper
 names(immdata$data)
 ```
 
-Filter out clonotypes with 1 clones from `immdate`:
+Filter out clonotypes with 1 clones from `immdata`:
 
 ```{r example-4.2}
 #method = "by.clonotype", query = list(Clones = morethan(2))
