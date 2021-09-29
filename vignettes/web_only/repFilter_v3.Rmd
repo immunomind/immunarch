@@ -177,7 +177,7 @@ Filter for repertoires containing less than 4000 clonotypes:
 names(immdata$data)
 ```
 
-### Method `by.clonotype` or `by.cl`
+### Method `by.clonotype` (short alias is`by.cl`)
 
 #### Example 4
 
