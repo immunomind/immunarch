@@ -206,7 +206,7 @@ names(immdata$data)
 
 In method `by.clonotype` or `by.cl`, there are an extra argument `match`. The `.match` argument can has the following values: 
  - `exact` - looks for exact match in gene names
- - `by substring`- looks for substring in gene names
+ - `substring`- looks for substring in gene names
  - `by start` - looks for gene names starting with the some pattern
  
 Filter out all clonotypes within samples with V gene 'TRBV1' or 'TRGV11'
