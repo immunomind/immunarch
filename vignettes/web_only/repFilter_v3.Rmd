@@ -163,7 +163,7 @@ Filter for repertoires containing more than 60000 clonotypes:
 #method = "by.rep", query = list(n_clonotypes = morethan(6000)) # Works both with by.rep and by.repertoire
 ```
 
-Note, filtering `by.repertoire` or `by.rep` could change a number of repertoires or samples in your data: 
+Be careful, filtering `by.repertoire` or `by.rep` could also change a number of repertoires(samples) in your data: 
 
 ```{r example-3.1.1}
 names(immdata$data)
