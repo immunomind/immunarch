@@ -164,7 +164,7 @@ names(immdata$data)
 Filter for samples where *Age* is between *15* and *23* and *Lane* is *A* or *B*:
 
 ```{r example-2.5}
-# method = "by.meta", query = list(Age = interval(15, 23), Lane = include('AB'), .match = substring)
+#.method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('AB')), .match = "substring"
 immdata$meta %>% filter(Age > 15 & Age < 23 & Lane == 'AB')
 names(immdata$data)
 ```
