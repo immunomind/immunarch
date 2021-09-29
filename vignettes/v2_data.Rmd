@@ -90,7 +90,7 @@ You can load the data either from a single file, a list of repertoire file paths
 If you have your own files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
 
 ```{r, eval=F}
-#a path to own folder or file
+#path argument is a path to the folder with your file or files including metadata file also(if you have one).
 immdata <- repLoad(path)
 ```
 
