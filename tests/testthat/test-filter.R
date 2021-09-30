@@ -1,10 +1,16 @@
 test_cases <- list()
 
-original_samples_count <- nrow(immdata$data)
+data <- immdata$data
+meta <- immdata$meta
+original_samples_count <- nrow(meta)
+
+prepare_immdata <- function() {
+  return(list(data = data, meta = meta))
+}
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
-    immdata %<>% add_mock_sample("S1", list(Status = "N"))
+    prepare_immdata() %>% add_mock_sample("S1", list(Status = "N"))
   },
   method = "by.meta", query = list(Status = include("N")),
   expected_samples = 1
@@ -12,7 +18,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
-    immdata %<>% add_mock_sample("S1", list(Lane = "D"))
+    prepare_immdata() %>% add_mock_sample("S1", list(Lane = "D"))
   },
   method = "by.meta", query = list(Lane = exclude("D")),
   expected_samples = original_samples_count
@@ -20,6 +26,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", list(Age = 1))
     immdata %<>% add_mock_sample("S2", list(Age = 2))
   },
@@ -29,6 +36,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", list(Age = 95))
     immdata %<>% add_mock_sample("S2", list(Age = 99))
   },
@@ -38,14 +46,16 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
-    immdata %<>% add_mock_sample("S1", list(Age = 100))
+    prepare_immdata() %>% add_mock_sample("S1", list(Age = 100))
   },
   method = "by.meta", query = list(Age = interval(95, 100)),
-  expected_samples = 0
+  expected_samples = 0,
+  expect_warnings = TRUE
 )
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", list(Lane = "D"))
     immdata %<>% add_mock_sample("S2", list(Lane = "E"))
   },
@@ -55,6 +65,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", list(Lane = "D"))
     immdata %<>% add_mock_sample("S2", list(Lane = "E"))
   },
@@ -64,6 +75,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", list(Lane = "D", Age = 95))
     immdata %<>% add_mock_sample("S2", list(Lane = "E", Age = 96))
   },
@@ -73,8 +85,9 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1")
-    immdata[["S1"]] %<>% rbind(immdata[["S1"]][rep(1, 10000), ])
+    immdata$data[["S1"]] %<>% rbind(immdata$data[["S1"]][rep(1, 10000), ])
     return(immdata)
   },
   method = "by.repertoire", query = list(n_clonotypes = morethan(10000)),
@@ -83,6 +96,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1")
     immdata$data[["S1"]] <- immdata$data[["S1"]][1, ]
     immdata$data[["S1"]][["Clones"]] <- 50
@@ -104,6 +118,7 @@ for (i in 1:2) {
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", .empty = TRUE)
     immdata$data[["S1"]] %<>% bind_rows(as.data.frame(list(CDR3.aa = "partial")))
     immdata$data[["S1"]] %<>% bind_rows(as.data.frame(list(CDR3.aa = "out_of_frame")))
@@ -117,6 +132,7 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", .empty = TRUE)
     immdata$data[["S1"]] %<>% bind_rows(as.data.frame(list(Clones = 1000)))
     immdata$data[["S1"]] %<>% bind_rows(as.data.frame(list(Clones = 1500)))
@@ -125,10 +141,12 @@ test_cases[[length(test_cases) + 1]] <- list(
   },
   method = "by.clonotype", query = list(Clones = interval(1000, 2000)),
   expected_samples = 1,
-  expected_sample_rows = list(S1 = 2)
+  expected_sample_rows = list(S1 = 2),
+  expect_warnings = TRUE
 )
 
 mock_genes <- function() {
+  immdata <- prepare_immdata()
   immdata %<>% add_mock_sample("S1", .empty = TRUE)
   # delete all other samples
   immdata$data <- immdata$data[names(immdata$data) == "S1"]
@@ -191,6 +209,7 @@ for (i in 1:8) {
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = function() {
+    immdata <- prepare_immdata()
     immdata %<>% add_mock_sample("S1", .empty = TRUE)
     immdata$data <- immdata$data[names(immdata$data) == "S1"]
     immdata$meta %<>% filter(Sample == "S1")
@@ -219,6 +238,12 @@ for (i in seq_along(test_cases)) {
   # if not specified, don't check sample rows
   if (is.null(expected_sample_rows)) {
     expected_sample_rows <- list()
+  }
+  expect_warnings <- test_cases[[i]][["expect_warnings"]]
+  if (is.null(expect_warnings)) {
+    options(warn = 0)
+  } else {
+    options(warn = -1)
   }
 
   test_name <- paste0("method:", method, ".case:", i)

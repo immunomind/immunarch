@@ -152,12 +152,12 @@ filter_by_repertoire <- function(.data, .query) {
         ]
       }
 
-      if (nrow(filtered_data) == 0) {
+      if (length(filtered_data) == 0) {
         warning(paste0("Filter by key \"", name, "\" removed all remaining samples!"))
       }
     }
   }
-  filtered_meta <- filter(.data$meta, Sample %in% names(filtered_data))
+  filtered_meta <- subset(.data$meta, Sample %in% names(filtered_data))
 
   return(list(data = filtered_data, meta = filtered_meta))
 }
@@ -169,8 +169,8 @@ filter_by_clonotype <- function(.data, .query, .match) {
     column_query <- .query[[name]]
     query_type <- column_query[[1]]
     query_args <- column_query[-1]
-    for (j in seq_along(names(filtered_data))) {
-      sample_name <- names(filtered_data)[j]
+    for (j in seq_along(names(.data$data))) {
+      sample_name <- names(.data$data)[j]
       sample <- filtered_data[[sample_name]]
       if (!(name %in% names(sample))) {
         stop(paste0("Column \"", name, "\" not found in sample \"", sample_name, "\"."))
@@ -197,7 +197,7 @@ filter_by_clonotype <- function(.data, .query, .match) {
       }
     }
   }
-  filtered_meta <- filter(.data$meta, Sample %in% names(filtered_data))
+  filtered_meta <- subset(.data$meta, Sample %in% names(filtered_data))
 
   return(list(data = filtered_data, meta = filtered_meta))
 }
@@ -205,7 +205,7 @@ filter_by_clonotype <- function(.data, .query, .match) {
 filter_table <- function(.table, .column_name, .query_type, .query_args, .match) {
   if (.query_type == "include") {
     if (.match == "exact") {
-      .table %<>% filter(get(.column_name) %in% .query_args)
+      .table %<>% subset(get(.column_name) %in% .query_args)
     } else if (.match == "startswith") {
       .table <- .table[
         unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
@@ -217,12 +217,10 @@ filter_table <- function(.table, .column_name, .query_type, .query_args, .match)
     }
   } else if (.query_type == "exclude") {
     if (.match == "exact") {
-      .table %<>% filter(
-        !get(.column_name) %in% .query_args
-      )
+      .table %<>% subset(!get(.column_name) %in% .query_args)
     } else if (.match == "startswith") {
       .table <- .table[
-        -unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
+        !unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
       ]
     } else if (.match == "substring") {
       .table <- .table[
@@ -230,20 +228,12 @@ filter_table <- function(.table, .column_name, .query_type, .query_args, .match)
       ]
     }
   } else if (.query_type == "lessthan") {
-    .table %<>% filter(
-      .table, get(.column_name) < as_numeric_or_fail(.query_args)
-    )
+    .table %<>% subset(get(.column_name) < as_numeric_or_fail(.query_args))
   } else if (.query_type == "morethan") {
-    .table %<>% filter(
-      .table, get(.column_name) > as_numeric_or_fail(.query_args)
-    )
+    .table %<>% subset(get(.column_name) > as_numeric_or_fail(.query_args))
   } else if (.query_type == "interval") {
-    .table %<>% filter(
-      .table, get(.column_name) >= as_numeric_or_fail(.query_args[[1]])
-    )
-    .table %<>% filter(
-      .table, get(.column_name) < as_numeric_or_fail(.query_args[[2]])
-    )
+    .table %<>% subset(get(.column_name) >= as_numeric_or_fail(.query_args[[1]]))
+    .table %<>% subset(get(.column_name) < as_numeric_or_fail(.query_args[[2]]))
   }
   return(.table)
 }
