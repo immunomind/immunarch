@@ -67,7 +67,7 @@ repFilter(immdata, "by.meta", list(Lane = include("A", "B"), Age = morethan(15))
 # Select samples that are not from lanes "A" and "B"
 repFilter(immdata, "by.meta", list(Lane = exclude("A", "B")))
 
-# Select samples with 1000-5000 clonotypes
+# Select samples with a number of clonotypes from 1000 to 5000
 repFilter(immdata, "by.repertoire", list(n_clonotypes = interval(1000, 5000)))
 
 # Select clonotypes in all samples with alpha chains

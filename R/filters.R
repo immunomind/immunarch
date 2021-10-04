@@ -207,25 +207,17 @@ filter_table <- function(.table, .column_name, .query_type, .query_args, .match)
     if (.match == "exact") {
       .table %<>% subset(get(.column_name) %in% .query_args)
     } else if (.match == "startswith") {
-      .table <- .table[
-        unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
-      ]
+      .table <- .table[startswith_rows(.table, .column_name, .query_args), ]
     } else if (.match == "substring") {
-      .table <- .table[
-        unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE))),
-      ]
+      .table <- .table[substring_rows(.table, .column_name, .query_args), ]
     }
   } else if (.query_type == "exclude") {
     if (.match == "exact") {
       .table %<>% subset(!get(.column_name) %in% .query_args)
     } else if (.match == "startswith") {
-      .table <- .table[
-        !unlist(lapply(lapply(.table[[.column_name]], startsWith, .query_args), any)),
-      ]
+      .table <- .table[-startswith_rows(.table, .column_name, .query_args), ]
     } else if (.match == "substring") {
-      .table <- .table[
-        -unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE))),
-      ]
+      .table <- .table[-substring_rows(.table, .column_name, .query_args), ]
     }
   } else if (.query_type == "lessthan") {
     .table %<>% subset(get(.column_name) < as_numeric_or_fail(.query_args))
@@ -236,6 +228,16 @@ filter_table <- function(.table, .column_name, .query_type, .query_args, .match)
     .table %<>% subset(get(.column_name) < as_numeric_or_fail(.query_args[[2]]))
   }
   return(.table)
+}
+
+# return indices for rows with "startswith" match
+startswith_rows <- function(.table, .column_name, .query_args) {
+  starts_with(match = .query_args, vars = .table[[.column_name]], ignore.case = FALSE)
+}
+
+# return indices for rows with "substring" match
+substring_rows <- function(.table, .column_name, .query_args) {
+  unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE)))
 }
 
 prepare_input_data <- function(.data, .method) {
