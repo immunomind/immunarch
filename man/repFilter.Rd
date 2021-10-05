@@ -8,7 +8,7 @@
 \alias{filter_table}
 \alias{startswith_rows}
 \alias{substring_rows}
-\alias{prepare_input_data}
+\alias{validate_input_data}
 \alias{include}
 \alias{exclude}
 \alias{lessthan}

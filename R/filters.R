@@ -2,7 +2,7 @@
 #'
 #' @concept filters
 #'
-#' @aliases repFilter filter_by_meta filter_by_repertoire filter_by_clonotype filter_table startswith_rows substring_rows prepare_input_data include exclude lessthan morethan interval
+#' @aliases repFilter filter_by_meta filter_by_repertoire filter_by_clonotype filter_table startswith_rows substring_rows validate_input_data include exclude lessthan morethan interval
 #'
 #' @importFrom magrittr "%>%" "%<>%"
 #' @importFrom tidyselect starts_with
@@ -68,7 +68,7 @@
 repFilter <- function(.data, .method = "by.clonotype",
                       .query = list(CDR3.aa = exclude("partial", "out_of_frame")),
                       .match = "exact") {
-  data <- prepare_input_data(.data, .method)
+  validate_input_data(.data)
 
   if (length(names(.query)) == 0) {
     stop("Unnamed list could not be passed as query, please provide a named list!")
@@ -87,17 +87,22 @@ repFilter <- function(.data, .method = "by.clonotype",
     ))
   }
 
-  switch(tolower(.method),
-    by.meta = filter_by_meta(data, .query, .match),
-    by.repertoire = filter_by_repertoire(data, .query),
-    by.rep = filter_by_repertoire(data, .query),
-    by.clonotype = filter_by_clonotype(data, .query, .match),
-    by.cl = filter_by_clonotype(data, .query, .match),
+  filtered_data <- switch(tolower(.method),
+    by.meta = filter_by_meta(.data, .query, .match),
+    by.repertoire = filter_by_repertoire(.data, .query),
+    by.rep = filter_by_repertoire(.data, .query),
+    by.clonotype = filter_by_clonotype(.data, .query, .match),
+    by.cl = filter_by_clonotype(.data, .query, .match),
     stop(paste0(
       "You entered wrong method \"", .method, "\"! Supported methods are: ",
       "\"by.meta\", \"by.repertoire\", \"by.clonotype\"."
     ))
   )
+  # keep intact all .data elements except "data" and "meta"
+  filtered_data_full <- .data
+  filtered_data_full$data <- filtered_data$data
+  filtered_data_full$meta <- filtered_data$meta
+  return(filtered_data_full)
 }
 
 filter_by_meta <- function(.data, .query, .match) {
@@ -247,51 +252,25 @@ substring_rows <- function(.table, .column_name, .query_args) {
   unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE)))
 }
 
-prepare_input_data <- function(.data, .method) {
+validate_input_data <- function(.data) {
   if (!is.list(.data)) {
     stop(paste0(
       "Input data is not a list; ",
       "please pass Immunarch dataset object as input."
     ))
-  } else if (length(.data) < 1 | length(.data) > 2) {
+  } else if (length(.data) < 2 |
+    !("data" %in% names(.data)) |
+    !("meta" %in% names(.data))) {
     stop(paste0(
-      "Expected input data length 2, found ", length(.data),
-      "; please pass Immunarch dataset object as input."
+      "Input list must contain \"data\" and \"meta\" elements; ",
+      "please pass Immunarch dataset object as input."
     ))
-  } else if (length(.data) == 1) {
-    if (.method == "by.meta") {
-      stop(paste0(
-        "Input data doesn't contain meta; ",
-        "please pass Immunarch dataset object with data and metadata as input."
-      ))
-    }
-    if (!is.list(.data[[1]])) {
-      stop(paste0(
-        "Wrong input data format: expected list with data list as 1st item ",
-        "and metadata dataframe as 2nd item; ",
-        "please pass Immunarch dataset object as input."
-      ))
-    }
-    warning(paste0(
-      "Input data doesn't contain meta; ",
-      "repFilter() will return list with \"data\" and empty \"meta\"!"
+  } else if (!is.list(.data$data) | !is.data.frame(.data$meta)) {
+    stop(paste0(
+      "Wrong input data format: expected list with \"data\" as list ",
+      "and \"meta\" as dataframe; ",
+      "please pass Immunarch dataset object as input."
     ))
-    return(list(data = .data[[1]], meta = tibble()))
-  } else {
-    if (!is.list(.data[[1]]) | !is.data.frame(.data[[2]])) {
-      stop(paste0(
-        "Wrong input data format: expected list with data list as 1st item ",
-        "and metadata dataframe as 2nd item; ",
-        "please pass Immunarch dataset object as input."
-      ))
-    }
-    if (names(.data)[1] != "data" | names(.data)[2] != "meta") {
-      warning(paste0(
-        "Found custom names in input dataset list; ",
-        "repFilter() will return list with \"data\" and \"meta\" names instead of custom!"
-      ))
-    }
-    return(list(data = .data[[1]], meta = .data[[2]]))
   }
 }
 
