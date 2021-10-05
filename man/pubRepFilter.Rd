@@ -25,7 +25,7 @@ Filter our clonotypes with low incidence in a specific group.
 \examples{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 2000)
-pr <- pubRep(immdata$data, .verbose=FALSE)
+pr <- pubRep(immdata$data, .verbose = FALSE)
 pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 head(pr1)
 }

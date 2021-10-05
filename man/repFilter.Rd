@@ -2,6 +2,18 @@
 % Please edit documentation in R/filters.R
 \name{repFilter}
 \alias{repFilter}
+\alias{filter_by_meta}
+\alias{filter_by_repertoire}
+\alias{filter_by_clonotype}
+\alias{filter_table}
+\alias{startswith_rows}
+\alias{substring_rows}
+\alias{prepare_input_data}
+\alias{include}
+\alias{exclude}
+\alias{lessthan}
+\alias{morethan}
+\alias{interval}
 \title{Main function for data filtering}
 \usage{
 repFilter(
@@ -73,6 +85,7 @@ repFilter(immdata, "by.repertoire", list(n_clonotypes = interval(1000, 5000)))
 # Select clonotypes in all samples with alpha chains
 repFilter(immdata, "by.clonotype",
   list(V.name = include("AV"), J.name = include("AJ")),
-  match = "substring"
+  .match = "substring"
 )
 }
+\concept{filters}

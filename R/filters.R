@@ -1,6 +1,11 @@
 #' Main function for data filtering
 #'
+#' @concept filters
+#'
+#' @aliases repFilter filter_by_meta filter_by_repertoire filter_by_clonotype filter_table startswith_rows substring_rows prepare_input_data include exclude lessthan morethan interval
+#'
 #' @importFrom magrittr "%>%" "%<>%"
+#' @importFrom tidyselect starts_with
 #'
 #' @param .data The data to be processed. Must be the list of 2 elements:
 #' data table and metadata table.
@@ -57,9 +62,9 @@
 #' # Select clonotypes in all samples with alpha chains
 #' repFilter(immdata, "by.clonotype",
 #'   list(V.name = include("AV"), J.name = include("AJ")),
-#'   match = "substring"
+#'   .match = "substring"
 #' )
-#' @export repFilter
+#' @export repFilter include exclude lessthan morethan interval
 repFilter <- function(.data, .method = "by.clonotype",
                       .query = list(CDR3.aa = exclude("partial", "out_of_frame")),
                       .match = "exact") {

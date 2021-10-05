@@ -51,7 +51,9 @@ Imports:
     ggpubr (>= 0.2),
     rlang (>= 0.4),
     plyr,
-    dbplyr (>= 1.4.0)
+    dbplyr (>= 1.4.0),
+    jsonlite,
+    tidyselect
 Depends:
     R (>= 3.5.0),
     ggplot2 (>= 3.1.0),
@@ -66,8 +68,7 @@ Suggests:
     testthat (>= 2.1.0),
     pkgdown (>= 0.1.0),
     assertthat,
-    rmarkdown,
-    jsonlite
+    rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
