@@ -84,17 +84,17 @@ For parsing IgBLAST results process the data with MigMap first.
 
 You can load the data from a single file, a list of repertoire file paths, or from a folder with repertoire files. 
 
-**Working with your own files**
+**Working with your files**
 
 
-If you have your own files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
+If you have your files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
 
 ```{r, eval=F}
 #path argument is a path to the folder with your file or files including metadata file also(if you have one).
 immdata <- repLoad(path)
 ```
 
-**Working with example files**
+**Working with sample files**
 
 
 You could find a folder with example files [here](https://github.com/immunomind/immunarch/tree/master/inst/extdata/io) and use it to test data loading without your own files. 
@@ -108,10 +108,10 @@ You could also download all files to the `'example'` folder in your working dire
 immdata <- repLoad('example')
 ```
 
-Also, example data are already downloaded with `immunarch` package. You could load whole example data using the following command:
+Also, example data are already downloaded with `immunarch` package. You can load all sample files using the following command:
 
 ```{r, eval=F}
-#path to folder with example data
+#path to the folder with example data
 file_path = paste0(system.file(package="immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 ```
