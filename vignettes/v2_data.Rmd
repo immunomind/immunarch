@@ -82,7 +82,7 @@ Please contact us if there are more file formats you want to be supported.
 
 For parsing IgBLAST results process the data with MigMap first.
 
-You can load the data from a single file, a list of repertoire file paths, or from a folder with repertoire files. 
+You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. 
 
 **Working with your files**
 
@@ -101,6 +101,8 @@ You could find a folder with example files [here](https://github.com/immunomind/
 
 If you are not familiar with file paths, you can download example data to your working directory.
 You can obtain you working directory with `getwd()` command
+```{r, eval=F}
+getwd()
 
 You could also download all files to the `'example'` folder in your working directory and load all of them by passing folder name to repLoad function in a quotes:
 
