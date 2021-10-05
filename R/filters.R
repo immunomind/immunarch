@@ -171,29 +171,31 @@ filter_by_clonotype <- function(.data, .query, .match) {
     query_args <- column_query[-1]
     for (j in seq_along(names(.data$data))) {
       sample_name <- names(.data$data)[j]
-      sample <- filtered_data[[sample_name]]
-      if (!(name %in% names(sample))) {
-        stop(paste0("Column \"", name, "\" not found in sample \"", sample_name, "\"."))
-      }
-      if (nrow(sample) == 0) {
-        warning(paste0("Sample \"", sample_name, "\" was empty, removed!"))
-      } else {
-        sample %<>% filter_table(name, query_type, query_args, .match)
-        if (nrow(sample) == 0) {
-          warning(paste0(
-            "Filter by column \"", name,
-            "\" removed all remaining clonotypes from sample \"",
-            sample_name, "\"; sample was removed!"
-          ))
+      if (sample_name %in% names(filtered_data)) {
+        sample <- filtered_data[[sample_name]]
+        if (!(name %in% names(sample))) {
+          stop(paste0("Column \"", name, "\" not found in sample \"", sample_name, "\"."))
         }
-      }
+        if (nrow(sample) == 0) {
+          warning(paste0("Sample \"", sample_name, "\" was empty, removed!"))
+        } else {
+          sample %<>% filter_table(name, query_type, query_args, .match)
+          if (nrow(sample) == 0) {
+            warning(paste0(
+              "Filter by column \"", name,
+              "\" removed all remaining clonotypes from sample \"",
+              sample_name, "\"; sample was removed!"
+            ))
+          }
+        }
 
-      if (nrow(sample) == 0) {
-        # removing empty sample
-        filtered_data <- filtered_data[names(filtered_data) != sample_name]
-      } else {
-        # updating sample in filtered_data
-        filtered_data[[sample_name]] <- sample
+        if (nrow(sample) == 0) {
+          # removing empty sample
+          filtered_data <- filtered_data[names(filtered_data) != sample_name]
+        } else {
+          # updating sample in filtered_data
+          filtered_data[[sample_name]] <- sample
+        }
       }
     }
   }
