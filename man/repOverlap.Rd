@@ -58,7 +58,7 @@ In the second case, the vector encodes all repertoire sampling depths.}
 \item{.n.steps}{Something. Skipped if ".step" is a numeric vector.}
 
 \item{.downsample}{If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-top N clonotypes.}
+top N clonotypes in incremental overlaps. Change nothing for conventional methods.}
 
 \item{.bootstrap}{Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.}
 
@@ -67,9 +67,11 @@ top N clonotypes.}
 \item{.force.matrix}{Logical. If TRUE than always force the matrix output even in case of two input repertoires.}
 }
 \value{
-In most cases the return value is a matrix with overlap values.
+In most cases the return value is a matrix with overlap values for each pair of repertoires.
 
-If only two repertoires were provided,
+If only two repertoires were provided, return value is single numeric value.
+
+If one of the incremental method is chosen, return list of overlap matrix.
 }
 \description{
 The \code{repOverlap} function is designed to analyse the overlap between

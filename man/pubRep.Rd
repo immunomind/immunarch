@@ -62,7 +62,7 @@ Create a repertoire of public clonotypes
 \examples{
 # Subset the data to make the example faster to run
 immdata$data <- lapply(immdata$data, head, 2000)
-pr <- pubRep(immdata$data, .verbose=FALSE)
+pr <- pubRep(immdata$data, .verbose = FALSE)
 vis(pr, "clonotypes", 1, 2)
 }
 \concept{pubrep}
