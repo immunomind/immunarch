@@ -6,8 +6,9 @@
 \usage{
 vis_heatmap2(
   .data,
+  .meta = NA,
+  .by = NA,
   .title = NA,
-  .labs = NA,
   .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3",
     "#053061"))(1024),
   ...
@@ -18,12 +19,12 @@ vis_heatmap2(
 
 \item{.title}{The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).}
 
-\item{.labs}{A character vector of length two with names for x-axis and y-axis, respectively.}
-
 \item{.color}{A vector specifying the colors (same as the "color" argument in \link[pheatmap]{pheatmap}).
 Pass NA to use the default pheatmap colors.}
 
 \item{...}{Other arguments for the \link[pheatmap]{pheatmap} function.}
+
+\item{.labs}{A character vector of length two with names for x-axis and y-axis, respectively.}
 }
 \value{
 A pheatmap object.

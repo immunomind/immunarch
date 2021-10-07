@@ -38,7 +38,7 @@ Immune repertoire spectratyping
 \examples{
 # Load the data
 data(immdata)
-sp <- spectratype(immdata$data[[1]], .col="aa+v")
+sp <- spectratype(immdata$data[[1]], .col = "aa+v")
 vis(sp)
 }
 \concept{vis}

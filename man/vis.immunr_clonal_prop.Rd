@@ -70,7 +70,7 @@ data(immdata)
 clp <- repClonality(immdata$data, "clonal.prop")
 vis(clp)
 
-hom <- repClonality(immdata$data, "homeo");
+hom <- repClonality(immdata$data, "homeo")
 # Remove p values and points from the plot
 vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
 }
