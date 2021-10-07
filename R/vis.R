@@ -409,9 +409,12 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #'
 #' @param .data Input matrix. Column names and row names (if presented) will be used as names for labs.
 #'
-#' @param .title The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).
+#' @param .meta A metadata object. An R dataframe with sample names and their properties,
+#' such as age, serostatus or hla.
 #'
-#' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
+#' @param .by Pass NA if you want to plot samples without grouping.
+#'
+#' @param .title The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).
 #'
 #' @param .color A vector specifying the colors (same as the "color" argument in \link[pheatmap]{pheatmap}).
 #' Pass NA to use the default pheatmap colors.
@@ -434,7 +437,7 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
   if (has_meta) {
     args[["annotation_col"]] <- .meta %>%
       tibble::column_to_rownames(var = "Sample") %>%
-      dplyr::select(any_of(.by))
+      dplyr::select(tidyselect::any_of(.by))
   }
 
   args[["mat"]] <- .data
