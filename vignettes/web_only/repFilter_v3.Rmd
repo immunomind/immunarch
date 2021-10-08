@@ -123,7 +123,7 @@ names(repFilter(immdata, .method = "by.meta", .query = list(Lane = exclude("A", 
 ```
 
 #### Example 2
-Use  `interval`, `lessthan`(from minus infinity to your value) or `morethan`(from your value to plus infinity) to define interval values in the filter statement. These options accept float. `Lessthan` and `morethan` do not include borders and `interval` includes the left border and excludes the right border.
+Use  `interval`, `lessthan`(from minus infinity to your value) or `morethan`(from your value to plus infinity) to define interval values in the filter statement. These options accept float. `lessthan` and `morethan` do not include borders and `interval` includes the left border and excludes the right border.
 
 Filter for samples where *Age* is lower than *23*:
 ```{r example-2.1}
