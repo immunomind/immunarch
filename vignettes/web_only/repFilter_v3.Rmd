@@ -202,7 +202,7 @@ Note that filtering `by.clonotype` or `by.cl` works within repertoire(sample). R
 names(repFilter(immdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))$data)
 ```
 
-Filter out clonotypes that have only one clones:
+Filter out clonotypes that have only one clone:
 
 ```{r example-4.2}
 repFilter(immdata, .method = "by.clonotype", .query = list(Clones = morethan(1)))$meta
