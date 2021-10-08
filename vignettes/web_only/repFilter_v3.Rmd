@@ -50,7 +50,7 @@ Due to the ambiguity of ways to extract required data, `repFilter` has the follo
 - `.method = "by.clonotype" or "by.cl"` - filters data using information about clonotype sequences.
 
 
-Parameter `.query` is a list specifying the condition for filtering. Elements in the list are conditions, names of elements - columns chosen for filtering. Names in elements should not be repeated in .query. If you need to write a complex condition, you can call the function multiple times.
+Parameter `.query` is a list specifying the condition for filtering. Elements in the list are conditions, names of elements - columns chosen for filtering. Names in elements should not be repeated in `.query`. If you need to write a complex condition, you can call the function multiple times.
 
 Parameter `.match` denotes the type of match between condition and value to filter: 
 
