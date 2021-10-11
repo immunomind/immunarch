@@ -244,7 +244,10 @@ data(scdata)
 Look at meta data from `scdata` datasets:
 
 ```{r scadata}
-scdata
+#look at the metadata
+scdata$meta
+#look at samples name in data
+names(scdata$data)
 ```
 
 `repFiter` can also work with single-cell data containing not only `meta` and 'data`, but also extra information, for example, about clusters:
