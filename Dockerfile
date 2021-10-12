@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install R dependencies
-RUN R -e "install.packages(c('devtools','svglite'))"
+RUN R -e "install.packages(c('remotes', 'svglite'))"
 
 # Copy source files to the image
 COPY . /immunarch-src/
