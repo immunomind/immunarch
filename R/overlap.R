@@ -47,7 +47,7 @@
 #' @param .n.steps Something. Skipped if ".step" is a numeric vector.
 #'
 #' @param .downsample If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-#' top N clonotypes.
+#' top N clonotypes in incremental overlaps. Change nothing for conventional methods.
 #'
 #' @param .bootstrap Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.
 #'
@@ -76,9 +76,11 @@
 #' with their counts are summed up.
 #'
 #' @return
-#' In most cases the return value is a matrix with overlap values.
+#' In most cases the return value is a matrix with overlap values for each pair of repertoires.
 #'
-#' If only two repertoires were provided,
+#' If only two repertoires were provided, return value is single numeric value.
+#'
+#' If one of the incremental method is chosen, return list of overlap matrix.
 #'
 #' @seealso \link{inc_overlap}, \link{vis}
 #'
