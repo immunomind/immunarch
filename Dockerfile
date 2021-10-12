@@ -9,8 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install R dependencies
 RUN R -e "install.packages(c('devtools','svglite'))"
 
-# Copy source files to the container
-ADD . /immunarch-src/
+# Copy source files to the image
+COPY . /immunarch-src/
 
 # Install Immunarch from source
 RUN R -e "devtools::install('/immunarch-src', dependencies=TRUE)"
+
+# Delete Immunarch source from the image
+RUN rm -rf /immunarch-src
