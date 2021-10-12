@@ -30,6 +30,9 @@ articles:
   - '`web_only/v8_tracking`'
   - '`web_only/v9_kmers`'
   - '`web_only/v11_db`'
+  - '`web_only/community`'
+  - '`web_only/repFilter_v3`'
+  - '`web_only/v10_prop`'
 navbar:
   structure:
     left: [articles, reference, covid19]
