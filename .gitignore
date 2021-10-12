@@ -9,4 +9,4 @@ src/*.dll
 *.DS_Store
 docs/*
 .idea/*
-vignettes/web_only/v7_fixvis.html
+vignettes/web_only/*.html
