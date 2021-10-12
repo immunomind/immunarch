@@ -13,7 +13,7 @@ RUN R -e "install.packages(c('remotes', 'svglite'))"
 COPY . /immunarch-src/
 
 # Install Immunarch from source
-RUN R -e "devtools::install('/immunarch-src', dependencies=TRUE)"
+RUN R -e "remotes::install_local('/immunarch-src', dependencies=TRUE)"
 
 # Delete Immunarch source from the image
 RUN rm -rf /immunarch-src
