@@ -14,14 +14,6 @@ jobs:
         run: echo "##[set-output name=tag;]$([ "${GITHUB_REF}" == "refs/heads/master" ] && echo base || echo ${GITHUB_REF#refs/heads/})"
         id: get_tag
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -44,8 +36,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/immunarch-docker:${{ steps.get_tag.outputs.tag }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
