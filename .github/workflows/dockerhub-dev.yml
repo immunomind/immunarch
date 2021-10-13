@@ -1,25 +1,19 @@
-# This is a basic workflow to help you get started with Actions
+name: DockerHub Image
 
-name: Build and push dockerhub image for dev branch
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push events but only for the dev branch
   push:
-    branches: [ dev ]
+    branches: [ master dev ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Get Image Tag
+        shell: bash
+        run: echo "##[set-output name=tag;]$([ "${GITHUB_REF}" == "refs/heads/master" ] && echo base || echo ${GITHUB_REF#refs/heads/})"
+        id: get_tag
+
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -49,7 +43,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/immunarch-docker:dev
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/immunarch-docker:${{ steps.get_tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
