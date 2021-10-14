@@ -2,7 +2,11 @@ name: DockerHub Image
 
 on:
   push:
-    branches: [ master dev ]
+    branches:
+      - master
+      - dev
+    tags:
+      - "*"
 
 jobs:
   build:
