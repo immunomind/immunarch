@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Get Image Tag
         shell: bash
-        run: echo "##[set-output name=tag;]$([ "${GITHUB_REF}" == "refs/heads/master" ] && echo base || echo ${GITHUB_REF#refs/heads/})"
+        run: echo "##[set-output name=tag;]$([ "${GITHUB_REF}" == "refs/heads/master" ] && echo base || echo ${GITHUB_REF##*/})"
         id: get_tag
 
       - name: Check Out Repo
