@@ -63,6 +63,8 @@ navbar:
         href: articles/web_only/v21_singlecell.html
       - text: Basic statistics and clonality
         href: articles/web_only/v3_basic_analysis.html
+      - text: 'Data filtering'
+        href: articles/web_only/repFilter_v3.html
       - text: '---'
       - text: Repertoire-level exploration and comparison
       - text: Repertoire overlap and public clonotypes
@@ -97,6 +99,9 @@ reference:
 - subtitle: Loading and saving any data
   contents:
   - has_concept("io")
+- subtitle: Filtering data
+  contents:
+  - has_concept("filtering")
 - subtitle: Single-cell
   desc: More coming soon!
   contents:
