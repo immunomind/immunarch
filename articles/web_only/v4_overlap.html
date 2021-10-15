@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="../../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -141,7 +144,7 @@
 
       
 
-      </header><script src="v4_overlap_files/header-attrs-2.9/header-attrs.js"></script><script src="v4_overlap_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="v4_overlap_files/header-attrs-2.11/header-attrs.js"></script><script src="v4_overlap_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Repertoire overlap and public clonotypes</h1>
@@ -232,18 +235,18 @@ warning("TODO")
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
 <pre><code>##               DimI      DimII
-## A2-i129 -16.780996   26.02570
-## A2-i131  42.417515 -255.65633
-## A2-i133   6.445754   51.11614
-## A2-i132 -21.764912   85.33927
-## A4-i191   8.734205   83.49566
-## A4-i192 -15.498008    7.34157
-## MS1       2.286630   18.53230
-## MS2     -11.067310   78.42370
-## MS3     -10.725028   20.81188
-## MS4      -2.708370   77.92711
-## MS5      42.414430 -248.01839
-## MS6     -23.753911   54.66139
+## A2-i129  47.182889  -44.87930
+## A2-i131 -19.908738  391.12643
+## A2-i133 -20.187456  -48.42582
+## A2-i132 -53.680324 -139.75099
+## A4-i191 -81.864433  -78.02603
+## A4-i192  80.806039  -75.70325
+## MS1      86.223716  -28.88598
+## MS2     -51.612174 -111.35059
+## MS3      63.775969  -51.38903
+## MS4     -59.614224  -94.39743
+## MS5      -2.837172  390.82805
+## MS6      11.715909 -109.14607
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"      "array"</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -274,19 +277,19 @@ warning("TODO")
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
-<pre><code>##               DimI        DimII
-## A2-i129   82.77321   -2.1269725
-## A2-i131  -59.78096  204.7897429
-## A2-i133   29.21348  -71.3380142
-## A2-i132 -104.69426  -28.0308099
-## A4-i191  -67.21765 -103.1570118
-## A4-i192  112.70189  -48.7995125
-## MS1      136.15629   -0.5463419
-## MS2      -76.35502  -48.3828136
-## MS3      100.15525  -15.6595606
-## MS4      -66.92673  -69.2068657
-## MS5      -65.55754  184.6093506
-## MS6      -20.46794   -2.1511910
+<pre><code>##               DimI      DimII
+## A2-i129 -34.236697   47.64975
+## A2-i131  50.177471 -157.79763
+## A2-i133  17.668877   14.98968
+## A2-i132   7.486786   32.64475
+## A4-i191   1.115045   11.90808
+## A4-i192 -22.870366   50.33382
+## MS1     -31.680249   36.24339
+## MS2       3.989951   25.11912
+## MS3     -29.703350   44.81302
+## MS4       4.365314   19.65843
+## MS5      45.494277 -159.40948
+## MS6     -11.807059   33.84708
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"      "array"</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

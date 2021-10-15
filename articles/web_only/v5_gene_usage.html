@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="../../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -141,7 +144,7 @@
 
       
 
-      </header><script src="v5_gene_usage_files/header-attrs-2.9/header-attrs.js"></script><script src="v5_gene_usage_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="v5_gene_usage_files/header-attrs-2.11/header-attrs.js"></script><script src="v5_gene_usage_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Gene usage analysis</h1>
@@ -214,7 +217,7 @@
 <span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")</span>
 
 <span class="va">imm_gu</span></code></pre></div>
-<pre><code>## # A tibble: 48 x 13
+<pre><code>## # A tibble: 48 × 13
 ##    Names `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2
 ##    &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt; &lt;int&gt;
 ##  1 TRBV…        24        28        NA        16        29         6    19     4

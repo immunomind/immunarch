@@ -96,7 +96,7 @@ TBAdb from PIRD - https://db.cngb.org/pird/tbadb/" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -128,6 +128,9 @@ TBAdb from PIRD - https://db.cngb.org/pird/tbadb/" />
     </li>
     <li>
       <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -259,7 +262,7 @@ Pass NA (by default) to load all available conditions.</p></td>
 <span class='co'># Load the database with human-only TRB-only receptors for all known antigens</span>
 <span class='va'>db</span> <span class='op'>&lt;-</span> <span class='fu'>dbLoad</span><span class='op'>(</span><span class='va'>file_path</span>, <span class='st'>"vdjdb"</span>, <span class='st'>"HomoSapiens"</span>, <span class='st'>"TRB"</span><span class='op'>)</span>
 <span class='va'>db</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 19</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 × 19</span>
 #&gt;    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> TRB   CASSQD… HomoSa… RLRAEAQVK       EBNA3A       EBV                  <span style='text-decoration: underline;'>19</span>268
