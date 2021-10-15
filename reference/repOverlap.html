@@ -92,7 +92,7 @@ sequences that are shared between individuals." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -124,6 +124,9 @@ sequences that are shared between individuals." />
     </li>
     <li>
       <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -274,7 +277,7 @@ the Jaccard index measure.</p></td>
     <tr>
       <th>.downsample</th>
       <td><p>If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-top N clonotypes.</p></td>
+top N clonotypes in incremental overlaps. Change nothing for conventional methods.</p></td>
     </tr>
     <tr>
       <th>.bootstrap</th>
@@ -292,8 +295,9 @@ top N clonotypes.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>In most cases the return value is a matrix with overlap values.</p>
-<p>If only two repertoires were provided,</p>
+    <p>In most cases the return value is a matrix with overlap values for each pair of repertoires.</p>
+<p>If only two repertoires were provided, return value is single numeric value.</p>
+<p>If one of the incremental method is chosen, return list of overlap matrix.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>"public" and "shared" are synonyms that exist
@@ -337,7 +341,7 @@ with their counts are summed up.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Eugene Rumynskiy</a>, <a href='https://www.linkedin.com/in/aleksandr-popov-634878105/'>Aleksandr A. Popov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Ivan Balashov</a>, <a href='https://www.linkedin.com/in/maria-volobueva-b0856a223/'>Maria Volobueva</a>, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

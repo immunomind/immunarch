@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -122,6 +122,9 @@
     </li>
     <li>
       <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -233,7 +236,7 @@ of these objects. They are supported with the same limitations as basic objects.
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
 <span class='fu'>top</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $`A2-i129`
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    173    0.020<span style='text-decoration: underline;'>4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
@@ -250,7 +253,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $`A2-i131`
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    111    0.013<span style='text-decoration: underline;'>1</span>  TGCAGTGCT… CSASRG… TRBV2… TRBD1  TRBJ2…    11      12    17
@@ -267,7 +270,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $`A2-i133`
-#&gt; <span style='color: #949494;'># A tibble: 11 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 11 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    333    0.039<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSLY… TRBV1… TRBD2  TRBJ2…    11      18    29
@@ -285,7 +288,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $`A2-i132`
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>     41    0.004<span style='text-decoration: underline;'>82</span> TGTGCCAGC… CASSFR… TRBV7… TRBD1  TRBJ2…    10      16    26
@@ -302,7 +305,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $`A4-i191`
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    449    0.052<span style='text-decoration: underline;'>8</span>  TGTGCCAGC… CASSAF… TRBV9  TRBD2  TRBJ2…    12      19    24
@@ -319,7 +322,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $`A4-i192`
-#&gt; <span style='color: #949494;'># A tibble: 11 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 11 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    150    0.017<span style='text-decoration: underline;'>6</span>  TGCGCCAGC… CASSES… TRBV1… TRBD1  TRBJ2…    16      17    19
@@ -337,7 +340,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $MS1
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    539    0.063<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSLQ… TRBV7… TRBD2  TRBJ2…    14      18    26
@@ -354,7 +357,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $MS2
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>     97    0.011<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSTR… TRBV28 TRBD1  TRBJ2…    10      15    20
@@ -371,7 +374,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $MS3
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    608    0.071<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSQD… TRBV14 TRBD1  TRBJ2…    16      19    21
@@ -388,7 +391,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $MS4
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSVV… TRBV9  TRBD1  TRBJ2…    15      24    29
@@ -405,7 +408,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $MS5
-#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    433    0.050<span style='text-decoration: underline;'>9</span>  TGTGCCAGC… CASSPG… TRBV1… TRBD1  TRBJ2…    10      13    19
@@ -422,7 +425,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $MS6
-#&gt; <span style='color: #949494;'># A tibble: 11 x 15</span>
+#&gt; <span style='color: #949494;'># A tibble: 11 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>     46    0.005<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSAT… TRBV27 TRBD1  TRBJ2…    11      14    18
@@ -439,7 +442,7 @@ of these objects. They are supported with the same limitations as basic objects.
 #&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
 #&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
 #&gt; </div><div class='input'><span class='fu'>top</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 15</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
 #&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 #&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span>    173    0.020<span style='text-decoration: underline;'>4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
@@ -465,7 +468,7 @@ of these objects. They are supported with the same limitations as basic objects.
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Eugene Rumynskiy</a>, <a href='https://www.linkedin.com/in/aleksandr-popov-634878105/'>Aleksandr A. Popov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Ivan Balashov</a>, <a href='https://www.linkedin.com/in/maria-volobueva-b0856a223/'>Maria Volobueva</a>, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

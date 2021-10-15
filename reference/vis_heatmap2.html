@@ -91,7 +91,7 @@ package with minimum amount of arguments." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -123,6 +123,9 @@ package with minimum amount of arguments." />
     </li>
     <li>
       <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -207,8 +210,9 @@ package with minimum amount of arguments.</p>
 
     <pre class="usage"><span class='fu'>vis_heatmap2</span><span class='op'>(</span>
   <span class='va'>.data</span>,
+  .meta <span class='op'>=</span> <span class='cn'>NA</span>,
+  .by <span class='op'>=</span> <span class='cn'>NA</span>,
   .title <span class='op'>=</span> <span class='cn'>NA</span>,
-  .labs <span class='op'>=</span> <span class='cn'>NA</span>,
   .color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#67001f"</span>, <span class='st'>"#d6604d"</span>, <span class='st'>"#f7f7f7"</span>, <span class='st'>"#4393c3"</span>,
     <span class='st'>"#053061"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>1024</span><span class='op'>)</span>,
   <span class='va'>...</span>
@@ -222,12 +226,17 @@ package with minimum amount of arguments.</p>
       <td><p>Input matrix. Column names and row names (if presented) will be used as names for labs.</p></td>
     </tr>
     <tr>
-      <th>.title</th>
-      <td><p>The text for the plot's title (same as the "main" argument in <a href='https://rdrr.io/pkg/pheatmap/man/pheatmap.html'>pheatmap</a>).</p></td>
+      <th>.meta</th>
+      <td><p>A metadata object. An R dataframe with sample names and their properties,
+such as age, serostatus or hla.</p></td>
     </tr>
     <tr>
-      <th>.labs</th>
-      <td><p>A character vector of length two with names for x-axis and y-axis, respectively.</p></td>
+      <th>.by</th>
+      <td><p>Pass NA if you want to plot samples without grouping.</p></td>
+    </tr>
+    <tr>
+      <th>.title</th>
+      <td><p>The text for the plot's title (same as the "main" argument in <a href='https://rdrr.io/pkg/pheatmap/man/pheatmap.html'>pheatmap</a>).</p></td>
     </tr>
     <tr>
       <th>.color</th>
@@ -263,7 +272,7 @@ Pass NA to use the default pheatmap colors.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Eugene Rumynskiy</a>, <a href='https://www.linkedin.com/in/aleksandr-popov-634878105/'>Aleksandr A. Popov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Ivan Balashov</a>, <a href='https://www.linkedin.com/in/maria-volobueva-b0856a223/'>Maria Volobueva</a>, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

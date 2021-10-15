@@ -47,7 +47,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -79,6 +79,9 @@
     </li>
     <li>
       <a href="articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -261,7 +264,7 @@
 <p>Data agnostic. Fast and easy manipulation of immune repertoire data:</p>
 <ul>
 <li><p>The package automatically detects the format of your files—no more guessing what format is <em>that</em> file, just pass them to the package;</p></li>
-<li><p>Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: <a href="https://www.immunoseq.com/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr/">MiTCR</a>, <a href="https://milaboratory.com/software/mixcr/">MiXCR</a>, <a href="https://milaboratory.com/software/migec/">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://milaboratory.com/software/vdjtools/">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/">10XGenomics</a>, ArcherDX. More coming in the future;</p></li>
+<li><p>Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: <a href="https://www.immunoseq.com/">ImmunoSEQ</a>, <a href="http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php">IMGT</a>, <a href="https://github.com/milaboratory/mitcr">MiTCR</a>, <a href="https://github.com/milaboratory/mixcr">MiXCR</a>, <a href="https://github.com/mikessh/migec">MiGEC</a>, <a href="https://github.com/mikessh/migmap">MigMap</a>, <a href="https://github.com/mikessh/vdjtools">VDJtools</a>, <a href="https://github.com/imminfo/tcr">tcR</a>, <a href="http://docs.airr-community.org/en/latest/">AIRR</a>, <a href="https://www.10xgenomics.com/resources/datasets?menu%5Bproducts.name%5D=Single+Cell+Immune+Profiling">10XGenomics</a>, ArcherDX. More coming in the future;</p></li>
 <li><p>Works on any data source you are comfortable with: R data frames, data tables from <a href="https://rdatatable.gitlab.io/data.table/">data.table</a>, databases like <a href="https://github.com/MonetDB">MonetDB</a>, Apache Spark data frames via <a href="https://spark.rstudio.com/">sparklyr</a>;</p></li>
 <li><p>Tutorial is available <a href="https://immunarch.com/articles/v2_data.html">here</a>.</p></li>
 </ul>
@@ -269,7 +272,7 @@
 <li>
 <p>Beginner-friendly. Immune repertoire analysis made simple:</p>
 <ul>
-<li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names. For details see <a href="https://immunarch.com/articles/v3_basic_analysis.html">link</a>;</p></li>
+<li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names. For details see <a href="https://immunarch.com/articles/web_only/v3_basic_analysis.html">link</a>;</p></li>
 <li><p>Repertoire overlap analysis <em>(common indices including overlap coefficient, Jaccard index and Morisita’s overlap index)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v4_overlap.html">here</a>;</p></li>
 <li><p>Gene usage estimation <em>(correlation, Jensen-Shannon Divergence, clustering)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v5_gene_usage.html">here</a>;</p></li>
 <li><p>Diversity evaluation <em>(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v6_diversity.html">here</a>;</p></li>
@@ -406,9 +409,14 @@ Contact us at support@immunomind.io for more information.
 <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a> <br><small class="roles"> Author, maintainer </small>  </li>
 <li>
 <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a> <br><small class="roles"> Author </small>  </li>
-<li>Eugene Rumynskiy <br><small class="roles"> Author </small>  </li>
-<li>Aleksandr A. Popov <br><small class="roles"> Author </small>  </li>
-<li>Ivan Balashov <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Eugene Rumynskiy</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Ivan Balashov</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a> <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="https://immunomind.io">ImmunoMind</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
@@ -434,7 +442,7 @@ Contact us at support@immunomind.io for more information.
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

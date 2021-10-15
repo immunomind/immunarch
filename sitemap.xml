@@ -103,6 +103,9 @@
     <loc>https://immunarch.com/reference/repExplore.html</loc>
   </url>
   <url>
+    <loc>https://immunarch.com/reference/repFilter.html</loc>
+  </url>
+  <url>
     <loc>https://immunarch.com/reference/repLoad.html</loc>
   </url>
   <url>
@@ -230,6 +233,9 @@
   </url>
   <url>
     <loc>https://immunarch.com/articles/web_only/load_mixcr.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/articles/web_only/repFilter_v3.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/articles/web_only/v10_prop.html</loc>

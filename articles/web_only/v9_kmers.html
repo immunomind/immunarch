@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="../../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -141,7 +144,7 @@
 
       
 
-      </header><script src="v9_kmers_files/header-attrs-2.9/header-attrs.js"></script><script src="v9_kmers_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="v9_kmers_files/header-attrs-2.11/header-attrs.js"></script><script src="v9_kmers_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Kmer and sequence motif analysis and visualisation</h1>
@@ -170,7 +173,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="va">kmers</span></code></pre></div>
-<pre><code>## # A tibble: 4,405 x 2
+<pre><code>## # A tibble: 4,405 × 2
 ##    Kmer  Count
 ##    &lt;chr&gt; &lt;int&gt;
 ##  1 AAA       6
@@ -188,7 +191,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="va">kmers</span></code></pre></div>
-<pre><code>## # A tibble: 172,926 x 13
+<pre><code>## # A tibble: 172,926 × 13
 ##    Kmer  `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2
 ##    &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt; &lt;int&gt;
 ##  1 AAAAG        NA        NA        NA        NA        NA        NA    NA     1
@@ -207,7 +210,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span>, .coding <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">kmers</span></code></pre></div>
-<pre><code>## # A tibble: 4,645 x 2
+<pre><code>## # A tibble: 4,645 × 2
 ##    Kmer  Count
 ##    &lt;chr&gt; &lt;int&gt;
 ##  1 **G       1
@@ -442,7 +445,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

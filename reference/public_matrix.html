@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -122,6 +122,9 @@
     </li>
     <li>
       <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -221,7 +224,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
 <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>head</span>, <span class='fl'>2000</span><span class='op'>)</span>
-<span class='va'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pubRep.html'>pubRep</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .verbose<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pubRep.html'>pubRep</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='va'>pr.mat</span> <span class='op'>&lt;-</span> <span class='fu'>public_matrix</span><span class='op'>(</span><span class='va'>pr</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>pr.mat</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 23261    12</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pr.mat</span><span class='op'>)</span>
@@ -243,7 +246,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/vdnaz'>Vadim I. Nazarov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Vasily O. Tsvetkov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Eugene Rumynskiy</a>, <a href='https://www.linkedin.com/in/aleksandr-popov-634878105/'>Aleksandr A. Popov</a>, <a href='https://www.linkedin.com/in/vasily-tsvetkov-227218ab'>Ivan Balashov</a>, <a href='https://www.linkedin.com/in/maria-volobueva-b0856a223/'>Maria Volobueva</a>, <a href='https://immunomind.io'>ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

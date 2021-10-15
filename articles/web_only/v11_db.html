@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="../../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -141,7 +144,7 @@
 
       
 
-      </header><script src="v11_db_files/header-attrs-2.9/header-attrs.js"></script><script src="v11_db_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="v11_db_files/header-attrs-2.11/header-attrs.js"></script><script src="v11_db_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Annotate clonotypes using immune receptor databases</h1>
@@ -248,7 +251,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span><span class="op">)</span>
 <span class="va">vdjdb</span></code></pre></div>
-<pre><code>## # A tibble: 61,049 x 19
+<pre><code>## # A tibble: 61,049 × 19
 ##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
 ##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
 ##  1 TRB   CASSTS… Macaca… STPESANL        Tat          SIV                0      
@@ -269,7 +272,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span>
 <span class="va">vdjdb</span></code></pre></div>
-<pre><code>## # A tibble: 18,039 x 19
+<pre><code>## # A tibble: 18,039 × 19
 ##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
 ##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
 ##  1 TRB   CSASIL… HomoSa… KLGGALQAK       IE1          CMV                   8584
@@ -293,19 +296,19 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vdjdb_st</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz"</span>, <span class="st">"vdjdb-search"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span>
 <span class="va">vdjdb_st</span></code></pre></div>
-<pre><code>## # A tibble: 4,999 x 19
-##    complex.id Gene  CDR3     V       J       Species `MHC A` `MHC B` `MHC class`
-##         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      
-##  1          0 TRB   CASSVDG… TRBV9*… TRBJ1-… HomoSa… HLA-A*… B2M     MHCI       
-##  2          0 TRB   CAWSWGD… TRBV30… TRBJ1-… HomoSa… HLA-A*… B2M     MHCI       
-##  3          0 TRB   CASSLVG… TRBV11… TRBJ2-… HomoSa… HLA-A*… B2M     MHCI       
-##  4          0 TRB   CASSLLM… TRBV28… TRBJ1-… HomoSa… HLA-B*… B2M     MHCI       
-##  5          0 TRB   CASSYRA… TRBV7-… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
-##  6          0 TRB   CASSQAV… TRBV3-… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
-##  7          0 TRB   CASVTGS… TRBV2*… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
-##  8          0 TRB   CASSDGT… TRBV2*… TRBJ2-… HomoSa… HLA-B*… B2M     MHCI       
-##  9          0 TRB   CASSLAR… TRBV4-… TRBJ1-… HomoSa… HLA-B*… B2M     MHCI       
-## 10          0 TRB   CASGGAD… TRBV19… TRBJ1-… HomoSa… HLA-B*… B2M     MHCI       
+<pre><code>## # A tibble: 4,999 × 19
+##    complex.id Gene  CDR3               V     J     Species `MHC A` `MHC B` `MHC class`
+##         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      
+##  1          0 TRB   CASSVDGTGGALGNTIYF TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       
+##  2          0 TRB   CAWSWGDSTNSPLHF    TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       
+##  3          0 TRB   CASSLVGGTGSVSYQFF  TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       
+##  4          0 TRB   CASSLLMATNEKLFF    TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
+##  5          0 TRB   CASSYRANYEQYF      TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
+##  6          0 TRB   CASSQAVASGGGRSEQFF TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
+##  7          0 TRB   CASVTGSTDTQYF      TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
+##  8          0 TRB   CASSDGTAYEQYF      TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
+##  9          0 TRB   CASSLARNQPQHF      TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
+## 10          0 TRB   CASGGADMKTEAFF     TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       
 ## # … with 4,989 more rows, and 10 more variables: Epitope &lt;chr&gt;,
 ## #   Epitope gene &lt;chr&gt;, Epitope species &lt;chr&gt;, Reference &lt;chr&gt;, Method &lt;chr&gt;,
 ## #   Meta &lt;chr&gt;, CDR3fix &lt;chr&gt;, Score &lt;dbl&gt;, Chain &lt;chr&gt;, Pathology &lt;chr&gt;</code></pre>
@@ -316,27 +319,26 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mcpas</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz"</span>, <span class="st">"mcpas"</span>, .species <span class="op">=</span> <span class="st">"Human"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"Cytomegalovirus (CMV)"</span><span class="op">)</span>
 <span class="va">mcpas</span></code></pre></div>
-<pre><code>## # A tibble: 2,723 x 29
-##    CDR3.alpha.aa CDR3.beta.aa   Species Category  Pathology     Pathology.Mesh.…
-##    &lt;chr&gt;         &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;           
-##  1 &lt;NA&gt;          CASLAPGTTNEKLF Human   Pathogens Cytomegalovi… D003586         
-##  2 &lt;NA&gt;          CASLQAGANEQF   Human   Pathogens Cytomegalovi… D003586         
-##  3 &lt;NA&gt;          CASLSGGGEQF    Human   Pathogens Cytomegalovi… D003586         
-##  4 &lt;NA&gt;          CASLVASGQETQYF Human   Pathogens Cytomegalovi… D003586         
-##  5 &lt;NA&gt;          CASSHRDSGNTIYF Human   Pathogens Cytomegalovi… D003586         
-##  6 &lt;NA&gt;          CASSSANYGYTF   Human   Pathogens Cytomegalovi… D003586         
-##  7 &lt;NA&gt;          CATSDPLTASYEQF Human   Pathogens Cytomegalovi… D003586         
-##  8 CARNTGNQF     CACSLRSQGTDTQ… Human   Pathogens Cytomegalovi… D003586         
-##  9 CAGNTGNQFYFG  CASSAWDRSSGAN… Human   Pathogens Cytomegalovi… D003586         
-## 10 CAYPYNNNDMRF  CASSELGGAGTGE… Human   Pathogens Cytomegalovi… D003586         
+<pre><code>## # A tibble: 2,723 × 29
+##    CDR3.alpha.aa CDR3.beta.aa      Species Category  Pathology  Pathology.Mesh.…
+##    &lt;chr&gt;         &lt;chr&gt;             &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;           
+##  1 &lt;NA&gt;          CASLAPGTTNEKLF    Human   Pathogens Cytomegal… D003586         
+##  2 &lt;NA&gt;          CASLQAGANEQF      Human   Pathogens Cytomegal… D003586         
+##  3 &lt;NA&gt;          CASLSGGGEQF       Human   Pathogens Cytomegal… D003586         
+##  4 &lt;NA&gt;          CASLVASGQETQYF    Human   Pathogens Cytomegal… D003586         
+##  5 &lt;NA&gt;          CASSHRDSGNTIYF    Human   Pathogens Cytomegal… D003586         
+##  6 &lt;NA&gt;          CASSSANYGYTF      Human   Pathogens Cytomegal… D003586         
+##  7 &lt;NA&gt;          CATSDPLTASYEQF    Human   Pathogens Cytomegal… D003586         
+##  8 CARNTGNQF     CACSLRSQGTDTQYF   Human   Pathogens Cytomegal… D003586         
+##  9 CAGNTGNQFYFG  CASSAWDRSSGANVLTF Human   Pathogens Cytomegal… D003586         
+## 10 CAYPYNNNDMRF  CASSELGGAGTGELF   Human   Pathogens Cytomegal… D003586         
 ## # … with 2,713 more rows, and 23 more variables:
 ## #   Additional.study.details &lt;chr&gt;, Antigen.identification.method &lt;dbl&gt;,
 ## #   NGS &lt;chr&gt;, Antigen.protein &lt;chr&gt;, Protein.ID &lt;chr&gt;, Epitope.peptide &lt;chr&gt;,
-## #   Epitope.ID &lt;dbl&gt;, MHC &lt;chr&gt;, Tissue &lt;chr&gt;, T.Cell.Type &lt;chr&gt;,
+## #   Epitope.ID &lt;chr&gt;, MHC &lt;chr&gt;, Tissue &lt;chr&gt;, T.Cell.Type &lt;chr&gt;,
 ## #   T.cell.characteristics &lt;chr&gt;, CDR3.alpha.nt &lt;chr&gt;, TRAV &lt;chr&gt;, TRAJ &lt;chr&gt;,
 ## #   TRBV &lt;chr&gt;, TRBD &lt;chr&gt;, TRBJ &lt;chr&gt;, Reconstructed.J.annotation &lt;chr&gt;,
-## #   CDR3.beta.nt &lt;chr&gt;, Mouse.strain &lt;chr&gt;, PubMed.ID &lt;dbl&gt;, Remarks &lt;chr&gt;,
-## #   Chain &lt;chr&gt;</code></pre>
+## #   CDR3.beta.nt &lt;chr&gt;, Mouse.strain &lt;chr&gt;, PubMed.ID &lt;dbl&gt;, Remarks &lt;chr&gt;, …</code></pre>
 </div>
 <div id="tbadb" class="section level3">
 <h3 class="hasAnchor">
@@ -454,7 +456,7 @@
 <code class="sourceCode R"><span class="co"># Filter out all non NLVPMVATV epitopes</span>
 <span class="va">vdjdb</span> <span class="op">=</span> <span class="va">vdjdb</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">antigen.epitope</span> <span class="op">==</span> <span class="st">"NLVPMVATV"</span><span class="op">)</span>
 <span class="va">vdjdb</span></code></pre></div>
-<pre><code>## # A tibble: 4,496 x 19
+<pre><code>## # A tibble: 4,496 × 19
 ##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id
 ##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;        &lt;chr&gt;                &lt;dbl&gt;
 ##  1 TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                      0
@@ -497,7 +499,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="../articles/web_only/v3_basic_analysis.html">Basic statistics and clonality</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Repertoire-level exploration and comparison</li>
@@ -141,7 +144,7 @@
 
       
 
-      </header><script src="v2_data_files/header-attrs-2.9/header-attrs.js"></script><script src="v2_data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="v2_data_files/header-attrs-2.11/header-attrs.js"></script><script src="v2_data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data loading</h1>
@@ -191,13 +194,25 @@
 </ul>
 <p>Please contact us if there are more file formats you want to be supported.</p>
 <p>For parsing IgBLAST results process the data with MigMap first.</p>
-<p>You can load the data either from a single file, a list of repertoire file paths or from a folder with repertoire files. A single file can be loaded as follows:</p>
+<p>You can load the data from a single file, a list of repertoire file paths, or from a folder with repertoire files.</p>
+<p><strong>Working with your files</strong></p>
+<p>If you have your files, you should just specify a path to your file or to a folder with files. Then load data using <code>repLoad</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># To load the data from a single file (note that you don't need to specify the data format):</span>
-<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/Sample1.tsv.gz"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co">#path argument is a path to the folder with your file or files including metadata file also(if you have one).</span>
+<span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></code></pre></div>
+<p><strong>Working with sample files</strong></p>
+<p>You could find a folder with example files <a href="https://github.com/immunomind/immunarch/tree/master/inst/extdata/io">here</a> and use it to test data loading without your own files.</p>
+<p>If you are not familiar with file paths, you can download example data to your working directory. You can obtain you working directory with <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code> command</p>
+<p>You could also download all files to the <code>'example'</code> folder in your working directory and load all of them by passing folder name to repLoad function in a quotes:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="st">'example'</span><span class="op">)</span></code></pre></div>
+<p>Also, example data are already downloaded with <code>immunarch</code> package. You can load all sample files using the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#path to the folder with example data</span>
+<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
 <span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span></code></pre></div>
 <p>In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it exactly “metadata.txt”.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For instance you have a following structure in your folder:</span>
 <span class="co"># &gt;_ ls</span>
 <span class="co"># immunoseq1.txt</span>
@@ -206,7 +221,7 @@
 <span class="co"># metadata.txt</span></code></pre></div>
 <p>With the metadata <code>repLoad</code> will create a list in the environment with 2 elements, namely <code>data</code> and <code>meta</code>. All the data will be accessible simply from <code>immdata$data</code>.</p>
 <p>Otherwise <code>repLoad</code> will create a dummy metadata file with only sample names.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># To load the whole folder with every file in it type:</span>
 <span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
 <span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span>
@@ -225,9 +240,9 @@
 <span class="co"># &gt; names(immdata)</span>
 <span class="co"># [1] "data" "meta"</span></code></pre></div>
 <p>Dummy metadata data frame look like this:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">as_tibble</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span><span class="op">)</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
+<pre><code>## # A tibble: 3 × 1
 ##   Sample    
 ##   &lt;chr&gt;     
 ## 1 immunoseq1
@@ -264,7 +279,7 @@
 </table>
 <p>In order to import data from the external databases you have to create a connection to this database and then load the data. Make sure that the table format in your database matches the <code>immunarch</code>’s format.</p>
 <p>To illustrate the use of external database, here is an example demonstrating data loading to the local MonetDB database:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Your list of repertoires in immunarch's format</span>
 <span class="va">DATA</span>
 <span class="co"># Metadata data frame</span>
@@ -308,9 +323,9 @@
 <h2 class="hasAnchor">
 <a href="#get-the-most-abundant-clonotypes" class="anchor"></a>Get the most abundant clonotypes</h2>
 <p>The function returns the most abundant clonotypes for the given repertoire:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/top.html">top</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 10 x 15
+<pre><code>## # A tibble: 10 × 15
 ##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
 ##  1    173    0.0204  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
@@ -330,25 +345,25 @@
 <h2 class="hasAnchor">
 <a href="#filter-functional-non-functional-in-frame-out-of-frame-clonotypes" class="anchor"></a>Filter functional / non-functional / in-frame / out-of-frame clonotypes</h2>
 <p>Conveniently, functions are vectorised over the list of data frames; and <code><a href="../reference/coding.html">coding(immdata$data)</a></code> in the example below returns a list of data frames with coding sequences:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/coding.html">coding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>The next one operates in a similar fashion:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/coding.html">noncoding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>Now, the computation of the number of filtered sequences is straightforward:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">inframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>And for the out-of-frame clonotypes:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">outofframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="get-subset-of-clonotypes-with-a-specific-v-gene" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor"></a>Get subset of clonotypes with a specific V gene</h2>
 <p>It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">V.name</span> <span class="op">==</span> <span class="st">'TRBV10-1'</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 24 x 15
+<pre><code>## # A tibble: 24 × 15
 ##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
 ##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
 ##  1      2   0.000235 TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25
@@ -368,14 +383,14 @@
 <div id="downsampling" class="section level1">
 <h1 class="hasAnchor">
 <a href="#downsampling" class="anchor"></a>Downsampling</h1>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
-##      96      99      98     100      89      93      87     100      89     100 
+##      95      99      97      99      82      95      88      99      82      99 
 ##     MS5     MS6 
-##      86      99</code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+##      81     100</code></pre>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
@@ -434,7 +449,7 @@ With these functions you can write the subset of your repertoires to new tables 
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, Eugene Rumynskiy, Aleksandr A. Popov, Ivan Balashov, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
