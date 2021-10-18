@@ -6,7 +6,7 @@
 
 #' @description Computing distance across repertoirs:
 #'
-#' - \code{seqDist} Computing distance between sequences;
+#' \code{seqDist} Computing distance between sequences;
 #'
 #' @usage
 #'
@@ -35,19 +35,22 @@
 #' Named list of \link{dist} objects for given repertoirs.
 #'
 #' @examples
+#'
 #' data(immdata)
+#'  # Reducing data to save time on examples
+#' immdata$data<-map(immdata$data,~.x %>% head(10))
+#'  # Hamming distance computing for each of two first repertoirs
+#' seqDist(immdata$data[1:2])
 #'
-#' immdata$data<-map(immdata$data,~.x %>% head(10)) #reducing data to save time
-#' seqDist(immdata$data[1:2]) # Hamming distance computing for each of two first repertoirs
+#' # Let's define custom distance function \n
+#'   which will count difference in number of characters in sequences.
 #'
-#' # Let's define custom distance function which will count difference in number of characters in sequences.
-#'
-#' f<-function(x,y){
-#'  res<-matrix(nrow=length(x),ncol=length(y))
-#'  for (i in 1:length(x)){
-#'  res[i,]<-abs(nchar(x[i])-nchar(y))
+#' f <- function(x, y) {
+#'  res <- matrix(nrow = length(x), ncol = length(y))
+#'  for (i in 1:length(x)) {
+#'    res[i, ] <- abs(nchar(x[i]) - nchar(y))
 #'  }
-#'  dimnames(res)<-list(x,y)
+#'  dimnames(res) <- list(x, y)
 #'  return(as.dist(res))
 #'  }
 #'
@@ -81,3 +84,5 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming",...) {
   }
   return(result)
 }
+
+
