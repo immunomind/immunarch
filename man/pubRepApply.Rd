@@ -25,7 +25,7 @@ Work In Progress
 \examples{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 2000)
-pr <- pubRep(immdata$data, .verbose=FALSE)
+pr <- pubRep(immdata$data, .verbose = FALSE)
 pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 pr2 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "C"))
 prapp <- pubRepApply(pr1, pr2)

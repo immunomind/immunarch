@@ -868,7 +868,7 @@ parse_imgt <- function(.filename, .mode) {
   }
 
   f <- file(.filename, "r")
-  l <- readLines(f, 2)[2]
+  readLines(f, 2)[2]
   close(f)
 
   nuc.seq <- "JUNCTION"
