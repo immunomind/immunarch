@@ -1,3 +1,5 @@
+#' Function for computing distance for sequences
+#'
 #' @importFrom stringdist stringdistmatrix
 #' @importFrom purrr map
 #' @importFrom magrittr %>%
