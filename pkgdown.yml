@@ -18,11 +18,7 @@ articles:
   web_only/v7_fixvis: v7_fixvis.html
   web_only/v8_tracking: v8_tracking.html
   web_only/v9_kmers: v9_kmers.html
-<<<<<<< HEAD
-last_built: 2021-10-15T14:40Z
-=======
-last_built: 2021-10-14T11:23Z
->>>>>>> e506bac763aec4c29790966c013fa97ae57a0b17
+last_built: 2021-10-19T11:59Z
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles
