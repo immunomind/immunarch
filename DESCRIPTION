@@ -3,7 +3,7 @@ Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
 Version: 0.6.7
 Authors@R: c(
-    person("Vadim I.", "Nazarov", , "vdm.nazarov@gmail.com", c("aut", "cre")),
+    person("Vadim I.", "Nazarov", , "support@immunomind.io", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
     person("Aleksandr A.", "Popov", , role = "aut"),
