@@ -52,7 +52,7 @@
 #'  }
 #'  dimnames(res) <- list(x, y)
 #'  return(as.dist(res))
-#'  }
+#' }
 #'
 #' seqDist(immdata$data[1:2],.method = f) # our custom defined distance result
 #'
