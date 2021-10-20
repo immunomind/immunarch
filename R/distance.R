@@ -12,7 +12,7 @@
 #'
 #' seqDist(.data)
 #'
-#' @param .data .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be \link{data.frame},
 ##' \link{data.table}, or a list of these objects.
 ##'
 ##' Every object must have columns in the immunarch compatible format.
