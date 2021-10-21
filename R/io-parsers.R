@@ -915,7 +915,9 @@ parse_imgt <- function(.filename, .mode) {
 }
 
 parse_airr <- function(.filename, .mode) {
-  df <- airr::read_rearrangement(.filename)
+  df <- .filename %>%
+    .as_tsv() %>%
+    airr::read_rearrangement()
 
   df <- df %>%
     select(
