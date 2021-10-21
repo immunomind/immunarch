@@ -217,7 +217,7 @@
   df <- readr::read_tsv(.delim_file, comment = "#")
   if (ncol(df) == 1) {
     # treat file as csv and convert it to temporary tsv
-    df <- readr::read_csv(.delim_file, comment = "#")
+    df <- readr::read_delim(.delim_file, comment = "#")
     tsv_file <- tempfile()
     readr::write_tsv(df, tsv_file)
     return(tsv_file)
