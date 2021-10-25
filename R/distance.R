@@ -49,7 +49,7 @@
 #' seqDist(immdata$data[1:2])
 #'
 #' # Let's define custom distance function
-#' #which will count difference in number of characters in sequences.
+#' # which will count difference in number of characters in sequences.
 #'
 #' f <- function(x, y) {
 #'  res <- matrix(nrow = length(x), ncol = length(y))
