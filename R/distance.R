@@ -60,7 +60,7 @@
 #'  return(as.dist(res))
 #' }
 #'
-#' seqDist(immdata$data[1:2],.method = f) # our custom defined distance result
+#' seqDist(immdata$data[1:2], .method = f) # our custom defined distance result
 #'
 #' @export seqDist
 
