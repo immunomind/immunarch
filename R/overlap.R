@@ -108,7 +108,7 @@ repOverlap <- function(.data,
                        .bootstrap = NA,
                        .verbose.inc = NA,
                        .force.matrix = FALSE) {
-  assertthat::assert_that(has_class(.data, "list"))
+  .validate_repertoires_data(.data)
 
   .method <- .method[1]
 
