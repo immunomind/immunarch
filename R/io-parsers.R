@@ -33,7 +33,6 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
     comment = "", trim_ws = TRUE,
     skip = .skip, na = c("", "NA", ".")
   ))
-  # suppressMessages(df <- fread(.filename, skip = .skip, data.table = FALSE, na.strings = c("", "NA", ".")))
 
   names(df) <- tolower(names(df))
   recomb_type <- .which_recomb_type(df[[.vgenes]])
