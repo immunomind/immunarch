@@ -61,7 +61,17 @@ if (getRversion() >= "2.15.1") {
 #'
 #' By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.
 #'
-#' @param .coding A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.
+#' @param .dataset_type Either "t-cells" or "b-cells". Default is "t-cells".
+#'
+#' Datasets for T-cells must contain data for the following columns:
+#' "Clones", "Proportion", "CDR3.nt", "CDR3.aa", "V.name", "D.name", "J.name"
+#'
+#' Datasets for B-cells must contain data for the following columns:
+#' "Clones", "Proportion", "CDR3.nt", "CDR3.aa", "V.name", "D.name", "J.name",
+#' "V.end", "D.start", "J.start", "VJ.ins", "VD.ins", "DJ.ins", "Sequence",
+#' "Best.V", "Best.J", "CDR3.start", "CDR3.end", "C.name"
+#'
+#' @param .coding A logical value. Pass TRUE to get coding-only clonotypes (by default). Pass FALSE to get all clonotypes.
 #'
 #' @details
 #' The metadata has to be a tab delimited file with first column named "Sample".
@@ -143,7 +153,8 @@ if (getRversion() >= "2.15.1") {
 #' # > names(immdata)
 #' # [1] "data" "meta"
 #' @export repLoad
-repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
+repLoad <- function(.path, .format = NA, .mode = "paired", .dataset_type = "t-cells",
+                    .coding = TRUE) {
   if (!is.na(.format)) {
     warning("Please don't provide the .format argument,
             immunarch detects the format automatically.
