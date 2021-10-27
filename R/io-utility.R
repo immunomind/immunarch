@@ -228,9 +228,7 @@
 
 .validate_repertoires_data <- function(.data) {
   if (!inherits(.data, "list")) {
-    stop(paste0(
-      "Wrong input data format: expected list of immune repertoires!"
-    ))
+    stop("Wrong input data format: expected list of immune repertoires!")
   } else if (length(.data) == 0) {
     stop("Input list of immune repertoires is empty!")
   }
@@ -238,10 +236,7 @@
 
 .validate_immdata <- function(.immdata) {
   if (!inherits(.immdata, "list")) {
-    stop(paste0(
-      "Input data is not a list; ",
-      "please pass Immunarch dataset object as input."
-    ))
+    stop("Input data is not a list; please pass Immunarch dataset object as input.")
   } else if (length(.immdata) < 2 |
     !("data" %in% names(.immdata)) |
     !("meta" %in% names(.immdata))) {
