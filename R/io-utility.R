@@ -225,3 +225,50 @@
     return(.delim_file)
   }
 }
+
+.check_empty_repertoires <- function(.data) {
+  empty_reps <- .data %>%
+    sapply(function(repertoire) {
+      nrow(repertoire) == 0
+    }) %>%
+    sum()
+  if (empty_reps > 0) {
+    warning("Input data contains ", empty_reps, " empty repertoire(s)!")
+  }
+}
+
+.validate_repertoires_data <- function(.data) {
+  if (!inherits(.data, "list")) {
+    stop("Wrong input data format: expected list of immune repertoires!")
+  } else if (length(.data) == 0) {
+    stop("Input list of immune repertoires is empty!")
+  }
+  .check_empty_repertoires(.data)
+}
+
+.validate_immdata <- function(.immdata) {
+  if (!inherits(.immdata, "list")) {
+    stop("Input data is not a list; please pass Immunarch dataset object as input.")
+  } else if (length(.immdata) < 2 |
+    !("data" %in% names(.immdata)) |
+    !("meta" %in% names(.immdata))) {
+    stop(
+      "Input list must contain \"data\" and \"meta\" elements;\n",
+      "please pass Immunarch dataset object as input."
+    )
+  } else if (!inherits(.immdata$data, "list") | !is.data.frame(.immdata$meta)) {
+    stop(
+      "Wrong input data format: expected list with \"data\" as list ",
+      "and \"meta\" as dataframe;\n",
+      "please pass Immunarch dataset object as input."
+    )
+  } else if (length(.immdata$data) == 0) {
+    stop("Input list of immune repertoires in \"data\" is empty!")
+  } else if (length(.immdata$data) != nrow(.immdata$meta)) {
+    stop(
+      "Number of samples is different in data (", length(.immdata$data),
+      ") and metadata (", nrow(.immdata$meta), ")!"
+    )
+  }
+  .check_empty_repertoires(.immdata$data)
+}
