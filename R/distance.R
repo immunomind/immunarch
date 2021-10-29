@@ -64,12 +64,9 @@
 #'
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming",...) {
- if (length(.data)==0){stop(paste0(.data,'is emplty list!'))}
-  if (!inherits(.data, "list")) { # TODO: here should be general validation method with checks .data is list of repertoirs
-    stop(paste0(.data, " is not a list of repertoires!"))
- }
-  sample_truth<-.data[[1]]
+seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
+  .validate_repertoires_data(.data)
+  sample_truth <- .data[[1]]
   if (!.col %in% colnames(sample_truth)) {
     stop(paste0("There is no ", .col, " column in ", .data, " data!"))
   } else {
@@ -78,15 +75,17 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming",...) {
     } else {
       if (inherits(.method, "character")) {
         result <- purrr::map(.data, ~ stringdist::stringdistmatrix(unique(.x[[.col]]),
-                                                                   method = .method,
-                                                                   useNames = "strings"))
+          method = .method,
+          useNames = "strings"
+        ))
       } else if (inherits(.method, "function")) {
-        args<-list(...)
-        dist_fun<-function(x){
-          args[['x']]<-x
-          args[['y']]<-x
-          return(do.call(.method,args))}
-        result <- purrr::map(.data, ~ .x[[.col]] %>% dist_fun)
+        args <- list(...)
+        dist_fun <- function(x) {
+          args[["x"]] <- x
+          args[["y"]] <- x
+          return(do.call(.method, args))
+        }
+        result <- purrr::map(.data, ~ .x[[.col]] %>% dist_fun())
       } else {
         stop(".method argument is not a string or a function!")
       }
