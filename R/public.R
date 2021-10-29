@@ -50,6 +50,8 @@
 #' vis(pr, "clonotypes", 1, 2)
 #' @export pubRep publicRepertoire
 pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = TRUE, .min.samples = 1, .max.samples = NA, .verbose = TRUE) {
+  .validate_repertoires_data(.data)
+
   .preprocess <- function(dt) {
     if (has_class(dt, "data.table")) {
       dt <- dt %>% lazy_dt()
@@ -60,8 +62,6 @@ pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = 
     dt <- as.data.table(dt %>% select(.col, .quant) %>% collect(n = Inf))
     dt[, sum(get(.quant)), by = .col]
   }
-
-  assertthat::assert_that(has_class(.data, "list"))
 
   .col <- sapply(unlist(strsplit(.col, split = "\\+")), switch_type, USE.NAMES = FALSE)
   .quant <- .quant_column_choice(.quant[1])
@@ -93,8 +93,6 @@ pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = 
   if (.verbose) {
     add_pb(pb)
   }
-
-  # res = res %>% ungroup()
 
   # Add #samples column after .col
   res[["Samples"]] <- rowSums(!is.na(as.matrix(res[, (length(.col) + 1):ncol(res), with = FALSE])))
@@ -261,12 +259,10 @@ publicRepertoireFilter <- pubRepFilter
 pubRepApply <- function(.pr1, .pr2, .fun = function(x) log10(x[1]) / log10(x[2])) {
   col_before_samples <- names(.pr1)[1:(match("Samples", colnames(.pr1)) - 1)]
 
-  # tmp = apply(public_matrix(.pr1), 1, .inner.fun)
   tmp <- rowMeans(public_matrix(.pr1), na.rm = TRUE)
   .pr1[, (match("Samples", colnames(.pr1)) + 1):ncol(.pr1)] <- NULL
   .pr1[["Quant"]] <- tmp
 
-  # tmp = apply(public_matrix(.pr2), 1, .inner.fun)
   tmp <- rowMeans(public_matrix(.pr2), na.rm = TRUE)
   .pr2[, (match("Samples", colnames(.pr2)) + 1):ncol(.pr2)] <- NULL
   .pr2[["Quant"]] <- tmp

@@ -68,7 +68,7 @@
 repFilter <- function(.data, .method = "by.clonotype",
                       .query = list(CDR3.aa = exclude("partial", "out_of_frame")),
                       .match = "exact") {
-  validate_input_data(.data)
+  .validate_immdata(.data)
 
   if (length(names(.query)) == 0) {
     stop("Unnamed list could not be passed as query, please provide a named list!")
@@ -250,28 +250,6 @@ startswith_rows <- function(.table, .column_name, .query_args) {
 # return indices for rows with "substring" match
 substring_rows <- function(.table, .column_name, .query_args) {
   unique(unlist(lapply(.query_args, grep, .table[[.column_name]], fixed = TRUE)))
-}
-
-validate_input_data <- function(.data) {
-  if (!is.list(.data)) {
-    stop(paste0(
-      "Input data is not a list; ",
-      "please pass Immunarch dataset object as input."
-    ))
-  } else if (length(.data) < 2 |
-    !("data" %in% names(.data)) |
-    !("meta" %in% names(.data))) {
-    stop(paste0(
-      "Input list must contain \"data\" and \"meta\" elements; ",
-      "please pass Immunarch dataset object as input."
-    ))
-  } else if (!is.list(.data$data) | !is.data.frame(.data$meta)) {
-    stop(paste0(
-      "Wrong input data format: expected list with \"data\" as list ",
-      "and \"meta\" as dataframe; ",
-      "please pass Immunarch dataset object as input."
-    ))
-  }
 }
 
 include <- function(...) {

@@ -433,11 +433,12 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' @export
 vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
   args <- list(...)
-  has_meta <- !is.na(.meta) & !is.na(.by)
-  if (has_meta) {
-    args[["annotation_col"]] <- .meta %>%
-      tibble::column_to_rownames(var = "Sample") %>%
-      dplyr::select(tidyselect::any_of(.by))
+  if (!is.na(.by)[1]) {
+    if (!is.na(.meta)[1]) {
+      args[["annotation_col"]] <- .meta %>%
+        tibble::column_to_rownames(var = "Sample") %>%
+        dplyr::select(tidyselect::any_of(.by))
+    }
   }
 
   args[["mat"]] <- .data

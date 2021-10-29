@@ -97,9 +97,7 @@
 #' vis(tc, .order = sample_order)
 #' @export trackClonotypes
 trackClonotypes <- function(.data, .which = list(1, 15), .col = "aa", .norm = TRUE) {
-  if (!has_class(.data, "list")) {
-    stop("Error: please pass a list with immune repertoires to track clonotypes.")
-  }
+  .validate_repertoires_data(.data)
   if (length(.data) < 2) {
     stop("Error: please pass a list with 2 or more immune repertoires to track clonotypes.")
   }
