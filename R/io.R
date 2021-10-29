@@ -453,6 +453,8 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
 #'
 #' @examples
 #' data(immdata)
+#' # Reduce data to save time on examples
+#' immdata$data <- purrr::map(immdata$data, ~ .x %>% head(10))
 #' dirpath <- tempdir()
 #' # Save the list of repertoires
 #' repSave(immdata, dirpath)
