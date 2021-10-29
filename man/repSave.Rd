@@ -32,6 +32,8 @@ does not exist it will be created automatically.
 }
 \examples{
 data(immdata)
+# Reduce data to save time on examples
+immdata$data <- purrr::map(immdata$data, ~ .x \%>\% head(10))
 dirpath <- tempdir()
 # Save the list of repertoires
 repSave(immdata, dirpath)

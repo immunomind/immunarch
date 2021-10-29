@@ -53,7 +53,8 @@ Imports:
     readr,
     stringr,
     tibble,
-    tidyselect
+    tidyselect,
+    purrr
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),

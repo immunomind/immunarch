@@ -433,6 +433,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
 #'
 #' @importFrom utils packageVersion
 #' @importFrom plyr mapvalues
+#' @importFrom purrr map
 #'
 #' @description The \code{repSave} function is deigned to save your data to the disk
 #' in desirable format. Currently supports "immunarch" and "vdjtools" file formats.
