@@ -1,57 +1,64 @@
-context("Distance computing base tests")
 data(immdata)
 short_immdata <- immdata$data
 short_immdata <- map(short_immdata, ~ .x %>% head(3)) # less sample size saves time in computations
 
-test_that("Input response is sanitized", {
-  test_cases <- list(
-    list(),
-    list(data.frame()),
-    list(data.table()),
-    c("a", "b", "c")
+f <- function(x, y) {
+  res <- matrix(nrow = length(x), ncol = length(y))
+  for (i in seq_along(x)) {
+    res[i, ] <- abs(nchar(x[i]) - nchar(y))
+  }
+  dimnames(res) <- list(x, y)
+  return(as.dist(res))
+}
+
+# Arrange
+positive_test_cases <- list(
+  "pos_test1" = list(
+    args = list(
+      .data = short_immdata[1],
+      .method = "lv"
+    ),
+    result = c(18, 20, 14)
+  ),
+  "pos_test2" = list(
+    args = list(
+      .data = short_immdata[1],
+      .col = "CDR3.aa",
+      .method = "lv"
+    ),
+    result = c(10, 12, 6)
+  ),
+  "pos_test3" = list(args = list(.data = short_immdata[1], .col = "CDR3.aa", .method = f), result = c(2, 1, 3)),
+  "pos_test4" = list(args = list(.data = short_immdata[1], .method = f), result = c(6, 3, 9))
+)
+
+negative_test_cases <- list(
+  "neg_test1" = list(
+    args = list(
+      .data = immdata
+    )
+  ),
+  "neg_test2" = list(
+    args = list(
+      .data = short_immdata,
+      .col = "aa"
+    )
+  ),
+  "neg_test3" = list(
+    args = list(
+      .data = short_immdata,
+      .method = "ddddd"
+    )
   )
-  for (i in test_cases) {
-    i %>%
-      seqDist() %>%
-      expect_error()
-  }
-})
+)
 
-test_that("Argument values are sanitized", {
-  args_cases <- list(
-    list(.col = "aaa"),
-    list(.method = "aaa")
-  )
+# Act
+args <- map(positive_test_cases, "args")
+results <- map(positive_test_cases, "result")
+positive_act_result <- map(args, ~ do.call(seqDist, .x)[[1]] %>% as.numeric())
 
-  for (i in args_cases) {
-    i[".data"] <- short_immdata[1]
-    do.call(seqDist, i) %>% expect_error()
-  }
-})
 
-test_that("Return values are correct", {
-  args_case <- list(.method = "lv", .data = short_immdata[1]) # it is easier to test without Inf values with lv method
-  result <- do.call(seqDist, args_case)
-  result %>% expect_type("list")
-  result[[1]] %>% expect_type("double")
-  result[[1]] %>%
-    as.numeric() %>%
-    expect_equal(c(18, 20, 14))
-})
-
-test_that("Custom function returning value is correct", {
-  f <- function(x, y) {
-    res <- matrix(nrow = length(x), ncol = length(y))
-    for (i in 1:length(x)) {
-      res[i, ] <- abs(nchar(x[i]) - nchar(y))
-    }
-    dimnames(res) <- list(x, y)
-    return(as.dist(res))
-  }
-  result <- seqDist(short_immdata[1], .method = f)
-  result %>% expect_type("list")
-  result[[1]] %>% expect_type("integer")
-  result[[1]] %>%
-    as.numeric() %>%
-    expect_equal(c(6, 3, 9))
-})
+# Assert
+pmap(list(names(positive_test_cases), positive_act_result, results), ~ test_that(..1, expect_equal(..2, ..3)))
+## for negative tests act can be done only with assert
+map2(names(negative_test_cases), map(negative_test_cases, "args"), ~ test_that(.x, expect_error(do.call(seqDist, .y))))

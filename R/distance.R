@@ -43,32 +43,32 @@
 #' @examples
 #'
 #' data(immdata)
-#'  # Reducing data to save time on examples
-#' immdata$data<-purrr::map(immdata$data,~.x %>% head(10))
-#'  # Hamming distance computing for each of two first repertoirs
+#' # Reducing data to save time on examples
+#' immdata$data <- purrr::map(immdata$data, ~ .x %>% head(10))
+#' # Hamming distance computing for each of two first repertoirs
 #' seqDist(immdata$data[1:2])
 #'
 #' # Let's define custom distance function
 #' # which will count difference in number of characters in sequences.
 #'
 #' f <- function(x, y) {
-#'  res <- matrix(nrow = length(x), ncol = length(y))
-#'  for (i in 1:length(x)) {
-#'    res[i, ] <- abs(nchar(x[i]) - nchar(y))
-#'  }
-#'  dimnames(res) <- list(x, y)
-#'  return(as.dist(res))
+#'   res <- matrix(nrow = length(x), ncol = length(y))
+#'   for (i in 1:length(x)) {
+#'     res[i, ] <- abs(nchar(x[i]) - nchar(y))
+#'   }
+#'   dimnames(res) <- list(x, y)
+#'   return(as.dist(res))
 #' }
 #'
 #' seqDist(immdata$data[1:2], .method = f) # our custom defined distance result
-#'
 #' @export seqDist
 
 seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
   .validate_repertoires_data(.data)
   sample_truth <- .data[[1]]
+  if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
   if (!.col %in% colnames(sample_truth)) {
-    stop(paste0("There is no ", .col, " column in ", .data, " data!"))
+    stop(paste0("There is no ", .col, " column in data!"))
   } else {
     if (!inherits(sample_truth[[.col]], "character")) {
       stop("Distance computing are available only for character columns!")
@@ -93,5 +93,3 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
   }
   return(result)
 }
-
-
