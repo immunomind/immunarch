@@ -45,7 +45,7 @@
 #' data(immdata)
 #' # Reducing data to save time on examples
 #' immdata$data <- purrr::map(immdata$data, ~ .x %>% head(10))
-#' # Hamming distance computing for each of two first repertoirs
+#' # Computing hamming distance for the first two repertoires in \code{'immdata'}
 #' seqDist(immdata$data[1:2])
 #'
 #' # Let's define custom distance function
