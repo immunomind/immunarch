@@ -28,7 +28,7 @@
 #' Default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
 #' If a and b have different number of characters the distance is Inf.
 #'
-#' Another possible values is:
+#' Other possible values are:
 #'
 #' \code{'lv'} for Levenshtein distance which counts the number of deletions, insertions and substitutions necessary to turn b into a.
 #'
