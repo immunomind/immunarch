@@ -48,7 +48,7 @@
 #' # Computing hamming distance for the first two repertoires in \code{'immdata'}
 #' seqDist(immdata$data[1:2])
 #'
-#' # Let's define custom distance function
+#' # Here we define a custom distance function
 #' # which will count difference in number of characters in sequences.
 #'
 #' f <- function(x, y) {
