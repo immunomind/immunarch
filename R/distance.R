@@ -4,7 +4,7 @@
 #' @importFrom purrr map
 #' @importFrom magrittr %>%
 
-#' @description Computing sequential distances between clonotypes between two repertoires:
+#' @description Computing sequential distances between clonotypes from two repertoires:
 #'
 #' @usage
 #'
