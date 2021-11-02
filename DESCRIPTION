@@ -49,6 +49,8 @@ Imports:
     rlang (>= 0.4),
     plyr,
     dbplyr (>= 1.4.0),
+    purrr,
+    stringdist,
     jsonlite,
     readr,
     stringr,
