@@ -1,7 +1,7 @@
-#' Calculate the kmer tatistics of immune repertoires
+#' Calculate the kmer statistics of immune repertoires
 #'
 #' @importFrom data.table data.table
-#' @importFrom dplyr tbl_df
+#' @importFrom dplyr as_tibble
 #'
 #' @concept kmers
 #'
@@ -51,7 +51,7 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
     res <- split_to_kmers(collect(select(.data, seq_col), n = Inf)[[1]], .k = .k)
   }
 
-  add_class(tbl_df(as.data.frame(res)), "immunr_kmer_table")
+  add_class(as_tibble(as.data.frame(res)), "immunr_kmer_table")
 }
 
 

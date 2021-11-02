@@ -30,7 +30,7 @@
 #' @examples
 #' # Load the data
 #' data(immdata)
-#' sp <- spectratype(immdata$data[[1]], .col="aa+v")
+#' sp <- spectratype(immdata$data[[1]], .col = "aa+v")
 #' vis(sp)
 #' @export spectratype
 spectratype <- function(.data, .quant = c("id", "count"), .col = "nt") {

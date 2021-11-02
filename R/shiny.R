@@ -91,15 +91,12 @@ fixVis <- function(.plot = NA) {
   ui <- fluidPage(
     theme = shinytheme("cosmo"),
     titlePanel("FixVis: make your plots publication-ready already!"),
-
     sidebarLayout(
       sidebarPanel(
         downloadButton("save_plot", "Save"),
         actionButton("console_plot", "Plot to R console"),
-
         br(),
         br(),
-
         tabsetPanel(
           tabPanel(
             "General",
@@ -127,7 +124,6 @@ fixVis <- function(.plot = NA) {
               )
             )
           ),
-
           tabPanel(
             "Title & subtitle",
             br(),
@@ -153,7 +149,6 @@ fixVis <- function(.plot = NA) {
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               ),
-
               tabPanel(
                 "Subtitle",
                 br(),
@@ -179,7 +174,6 @@ fixVis <- function(.plot = NA) {
               )
             )
           ),
-
           tabPanel(
             "Legends",
             br(),
@@ -237,7 +231,6 @@ fixVis <- function(.plot = NA) {
               )
             )
           ),
-
           tabPanel(
             "X axis",
             br(),
@@ -265,7 +258,6 @@ fixVis <- function(.plot = NA) {
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               ),
-
               tabPanel(
                 "X ticks",
                 br(),
@@ -288,7 +280,6 @@ fixVis <- function(.plot = NA) {
               )
             )
           ),
-
           tabPanel(
             "Y axis",
             br(),
@@ -316,7 +307,6 @@ fixVis <- function(.plot = NA) {
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               ),
-
               tabPanel(
                 "Y ticks",
                 br(),
@@ -341,7 +331,6 @@ fixVis <- function(.plot = NA) {
           )
         )
       ),
-
       mainPanel(
         uiOutput("main_plot", style = "position:fixed;")
       )
@@ -403,7 +392,6 @@ fixVis <- function(.plot = NA) {
               angle = .get("title_angle"),
               face = .get("title_face")
             ),
-
             label.theme = element_text(
               size = .get("text_size"),
               hjust = .get("text_hjust"),

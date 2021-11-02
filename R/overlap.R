@@ -47,7 +47,7 @@
 #' @param .n.steps Something. Skipped if ".step" is a numeric vector.
 #'
 #' @param .downsample If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-#' top N clonotypes.
+#' top N clonotypes in incremental overlaps. Change nothing for conventional methods.
 #'
 #' @param .bootstrap Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.
 #'
@@ -76,9 +76,11 @@
 #' with their counts are summed up.
 #'
 #' @return
-#' In most cases the return value is a matrix with overlap values.
+#' In most cases the return value is a matrix with overlap values for each pair of repertoires.
 #'
-#' If only two repertoires were provided,
+#' If only two repertoires were provided, return value is single numeric value.
+#'
+#' If one of the incremental method is chosen, return list of overlap matrix.
 #'
 #' @seealso \link{inc_overlap}, \link{vis}
 #'
@@ -106,7 +108,7 @@ repOverlap <- function(.data,
                        .bootstrap = NA,
                        .verbose.inc = NA,
                        .force.matrix = FALSE) {
-  assertthat::assert_that(has_class(.data, "list"))
+  .validate_repertoires_data(.data)
 
   .method <- .method[1]
 
@@ -362,7 +364,6 @@ horn_index <- function(.x, .y) {
 #' data(immdata)
 #' ov <- repOverlap(immdata$data, "inc+overlap", .step = 100, .verbose.inc = FALSE, .verbose = FALSE)
 #' vis(ov)
-#'
 #' @export inc_overlap
 inc_overlap <- function(.data, .fun, .step = 1000, .n.steps = 10, .downsample = FALSE, .bootstrap = NA, .verbose.inc = TRUE, ...) {
   .n.steps <- as.integer(.n.steps)

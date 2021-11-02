@@ -53,8 +53,8 @@ if (getRversion() >= "2.15.1") {
 #' @export
 select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
   if (has_class(.data, "list")) {
-    stop('Please apply the function to a repertoire instead of a list of repertoires.
-         In order to update both the data and metadata, consider using the select_clusters() function.')
+    stop("Please apply the function to a repertoire instead of a list of repertoires.
+         In order to update both the data and metadata, consider using the select_clusters() function.")
   }
   if (!("Barcode" %in% colnames(.data))) {
     stop('No "Barcode" column in the input data. Did you apply the function to a single-cell repertoire?')
@@ -78,7 +78,7 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
   }
 
   # Un-nest the data table
-  df <- df[, c(strsplit(Barcode, IMMCOL_ADD$scsep, useBytes = TRUE, fixed=TRUE), .SD), by = .(Barcode)]
+  df <- df[, c(strsplit(Barcode, IMMCOL_ADD$scsep, useBytes = TRUE, fixed = TRUE), .SD), by = .(Barcode)]
   df[[IMMCOL$count]] <- 1
   df[, Barcode := NULL]
   setnames(df, "", "Barcode")
@@ -154,7 +154,7 @@ select_clusters <- function(.data, .clusters, .field = "Cluster") {
   } else if (!("data" %in% names(.data) && "meta" %in% names(.data))) {
     stop("Your list is missing one of the elements required.
          Please provide a list with both 'data' and 'meta' elements.")
-  } else if (!all(sapply(.data$data, function (x) "Barcode" %in% colnames(x)))) {
+  } else if (!all(sapply(.data$data, function(x) "Barcode" %in% colnames(x)))) {
     stop('No "Barcode" column in the input data. Did you apply the function to a single-cell repertoire?')
   }
 

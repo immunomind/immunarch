@@ -17,10 +17,12 @@ Logical value.
 \description{
 A function to check if an input object has a specific class name.
 }
-\examples{
+\section{Developer Examples}{
+
 tmp <- "abc"
 immunarch:::has_class(tmp, "new_class")
 tmp <- immunarch:::add_class(tmp, "new_class")
 immunarch:::has_class(tmp, "new_class")
 }
+
 \concept{utility_private}

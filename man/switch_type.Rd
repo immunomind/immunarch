@@ -26,8 +26,10 @@ A column's name.
 \description{
 Return a column's name
 }
-\examples{
+\section{Developer Examples}{
+
 immunarch:::switch_type("nuc")
 immunarch:::switch_type("v")
 }
+
 \concept{utility_private}

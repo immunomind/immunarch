@@ -101,7 +101,11 @@ repExplore <- function(.data, .method = c("volume", "count", "len", "clones"), .
     res <- do.call(rbind, res)
     res <- add_class(res, "immunr_exp_count")
   } else if (.method[1] %in% c("len", "lens", "length")) {
-    seq_col <- switch(.col[1], nt = IMMCOL$cdr3nt, aa = IMMCOL$cdr3aa, stop("Unknown sequence column: ", .col, ". Please provide either 'nt' or 'aa'"))
+    seq_col <- switch(.col[1],
+      nt = IMMCOL$cdr3nt,
+      aa = IMMCOL$cdr3aa,
+      stop("Unknown sequence column: ", .col, ". Please provide either 'nt' or 'aa'")
+    )
     res <- lapply(.data, function(df) {
       if (has_class(df, "data.table")) {
         df <- df %>% lazy_dt()

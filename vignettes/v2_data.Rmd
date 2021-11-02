@@ -1,6 +1,6 @@
 ---
-title: 'Working with data in `immunarch`'
-author: '<a href="https://immunomind.io">ImmunoMind</a>'
+title: "Data loading"
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
 date: "support@immunomind.io"
 output:
   html_document:
@@ -38,39 +38,6 @@ library(immunarch)
 data(immdata)
 ```
 
-# Immunarch data format
-`immunarch` comes with its own data format, including tab-delimited columns that can be specified as follows:
-
- - "Clones" - count or number of barcodes (events, UMIs) or reads;
-
- - "Proportion" - proportion of barcodes (events, UMIs) or reads;
-
- - "CDR3.nt" - CDR3 nucleotide sequence;
-
- - "CDR3.aa" - CDR3 amino acid sequence;
-
- - "V.name" - names of aligned Variable gene segments;
-
- - "D.name" - names of aligned Diversity gene segments or NA;
-
- - "J.name" - names of aligned Joining gene segments;
-
- - "V.end" - last positions of aligned V gene segments (1-based);
-
- - "D.start" - positions of D'5 end of aligned D gene segments (1-based);
-
- - "D.end" - positions of D'3 end of aligned D gene segments (1-based);
-
- - "J.start" - first positions of aligned J gene segments (1-based);
-
- - "VJ.ins" - number of inserted nucleotides (N-nucleotides) at V-J junction (-1 for receptors with VDJ recombination);
-
- - "VD.ins" - number of inserted nucleotides (N-nucleotides) at V-D junction (-1 for receptors with VJ recombination);
-
- - "DJ.ins" - number of inserted nucleotides (N-nucleotides) at D-J junction (-1 for receptors with VJ recombination);
-
- - "Sequence" - full nucleotide sequence.
-
 
 # Input / output
 The package provides several IO functions:
@@ -83,7 +50,7 @@ The package provides several IO functions:
 
 - `"immunarch"` - current software tool, in case you forgot it :)
 
-- `"immunoseq"` - http://www.adaptivebiotech.com/immunoseq
+- `"immunoseq"` - https://www.immunoseq.com
 
 - `"mitcr"` - https://github.com/milaboratory/mitcr
 
@@ -103,9 +70,7 @@ The package provides several IO functions:
 
 - `"10x"` - https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation
 
-- `"archer"` - ArcherDX clonotype tables. https://archerdx.com/immunology/
-
-These parsers will be available soon.
+- `"archer"` - ArcherDX clonotype tables.
 
 - `"imseq"` - http://www.imtools.org/
 
@@ -264,6 +229,40 @@ ds = repSample(immdata$data, "sample", .n = 10)
 sapply(ds, nrow)
 ```
 
+
+# Immunarch data format
+`immunarch` comes with its own data format, including tab-delimited columns that can be specified as follows:
+
+ - "Clones" - count or number of barcodes (events, UMIs) or reads;
+
+ - "Proportion" - proportion of barcodes (events, UMIs) or reads;
+
+ - "CDR3.nt" - CDR3 nucleotide sequence;
+
+ - "CDR3.aa" - CDR3 amino acid sequence;
+
+ - "V.name" - names of aligned Variable gene segments;
+
+ - "D.name" - names of aligned Diversity gene segments or NA;
+
+ - "J.name" - names of aligned Joining gene segments;
+
+ - "V.end" - last positions of aligned V gene segments (1-based);
+
+ - "D.start" - positions of D'5 end of aligned D gene segments (1-based);
+
+ - "D.end" - positions of D'3 end of aligned D gene segments (1-based);
+
+ - "J.start" - first positions of aligned J gene segments (1-based);
+
+ - "VJ.ins" - number of inserted nucleotides (N-nucleotides) at V-J junction (-1 for receptors with VDJ recombination);
+
+ - "VD.ins" - number of inserted nucleotides (N-nucleotides) at V-D junction (-1 for receptors with VJ recombination);
+
+ - "DJ.ins" - number of inserted nucleotides (N-nucleotides) at D-J junction (-1 for receptors with VJ recombination);
+
+ - "Sequence" - full nucleotide sequence.
+
 <!---
 ## Additional functions to help with dplyr
 
@@ -277,6 +276,6 @@ sapply(ds, nrow)
 
 - `db_write` - write / rewrite a database table.
 
-With these functions you can write the subset of your repertoires to new tables with `db_write`, after you have filtered out the noncoding sequences, for instance. 
+With these functions you can write the subset of your repertoires to new tables with `db_write`, after you have filtered out the noncoding sequences, for instance.
 
 -->

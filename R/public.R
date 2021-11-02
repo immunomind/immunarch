@@ -46,10 +46,12 @@
 #' @examples
 #' # Subset the data to make the example faster to run
 #' immdata$data <- lapply(immdata$data, head, 2000)
-#' pr <- pubRep(immdata$data, .verbose=FALSE)
+#' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' vis(pr, "clonotypes", 1, 2)
 #' @export pubRep publicRepertoire
 pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = TRUE, .min.samples = 1, .max.samples = NA, .verbose = TRUE) {
+  .validate_repertoires_data(.data)
+
   .preprocess <- function(dt) {
     if (has_class(dt, "data.table")) {
       dt <- dt %>% lazy_dt()
@@ -60,8 +62,6 @@ pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = 
     dt <- as.data.table(dt %>% select(.col, .quant) %>% collect(n = Inf))
     dt[, sum(get(.quant)), by = .col]
   }
-
-  assertthat::assert_that(has_class(.data, "list"))
 
   .col <- sapply(unlist(strsplit(.col, split = "\\+")), switch_type, USE.NAMES = FALSE)
   .quant <- .quant_column_choice(.quant[1])
@@ -93,8 +93,6 @@ pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = 
   if (.verbose) {
     add_pb(pb)
   }
-
-  # res = res %>% ungroup()
 
   # Add #samples column after .col
   res[["Samples"]] <- rowSums(!is.na(as.matrix(res[, (length(.col) + 1):ncol(res), with = FALSE])))
@@ -133,7 +131,7 @@ publicRepertoire <- pubRep
 #' @examples
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
-#' pr <- pubRep(immdata$data, .verbose=FALSE)
+#' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pr.mat <- public_matrix(pr)
 #' dim(pr.mat)
 #' head(pr.mat)
@@ -141,7 +139,10 @@ publicRepertoire <- pubRep
 public_matrix <- function(.data) {
   sample_i <- match("Samples", colnames(.data)) + 1
   max_col <- dim(.data)[2]
-  .data %>% dplyr::select(sample_i:max_col) %>% collect(n = Inf) %>% as.matrix()
+  .data %>%
+    dplyr::select(sample_i:max_col) %>%
+    collect(n = Inf) %>%
+    as.matrix()
 }
 
 
@@ -180,7 +181,7 @@ get_public_repertoire_names <- function(.pr) {
 #' @examples
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
-#' pr <- pubRep(immdata$data, .verbose=FALSE)
+#' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 #' head(pr1)
 #' @export pubRepFilter publicRepertoireFilter
@@ -212,10 +213,16 @@ pubRepFilter <- function(.pr, .meta, .by, .min.samples = 1) {
 
   sample_i <- match("Samples", colnames(.pr))
   indices <- c(1:(match("Samples", colnames(.pr))), match(samples_of_interest, colnames(.pr)))
-  new.pr <- .pr %>% lazy_dt() %>% dplyr::select(indices) %>% as.data.table()
+  new.pr <- .pr %>%
+    lazy_dt() %>%
+    dplyr::select(indices) %>%
+    as.data.table()
 
   new.pr[["Samples"]] <- rowSums(!is.na(as.matrix(new.pr[, (sample_i + 1):ncol(new.pr), with = FALSE])))
-  new.pr <- new.pr %>% lazy_dt() %>% dplyr::filter(Samples >= .min.samples) %>% as.data.table()
+  new.pr <- new.pr %>%
+    lazy_dt() %>%
+    dplyr::filter(Samples >= .min.samples) %>%
+    as.data.table()
 
   new.pr
 }
@@ -243,7 +250,7 @@ publicRepertoireFilter <- pubRepFilter
 #' @examples
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
-#' pr <- pubRep(immdata$data, .verbose=FALSE)
+#' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 #' pr2 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "C"))
 #' prapp <- pubRepApply(pr1, pr2)
@@ -252,12 +259,10 @@ publicRepertoireFilter <- pubRepFilter
 pubRepApply <- function(.pr1, .pr2, .fun = function(x) log10(x[1]) / log10(x[2])) {
   col_before_samples <- names(.pr1)[1:(match("Samples", colnames(.pr1)) - 1)]
 
-  # tmp = apply(public_matrix(.pr1), 1, .inner.fun)
   tmp <- rowMeans(public_matrix(.pr1), na.rm = TRUE)
   .pr1[, (match("Samples", colnames(.pr1)) + 1):ncol(.pr1)] <- NULL
   .pr1[["Quant"]] <- tmp
 
-  # tmp = apply(public_matrix(.pr2), 1, .inner.fun)
   tmp <- rowMeans(public_matrix(.pr2), na.rm = TRUE)
   .pr2[, (match("Samples", colnames(.pr2)) + 1):ncol(.pr2)] <- NULL
   .pr2[["Quant"]] <- tmp
@@ -293,7 +298,7 @@ publicRepertoireApply <- pubRepApply
 #' @examples
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
-#' pr <- pubRep(immdata$data, .verbose=FALSE)
+#' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pubRepStatistics(pr) %>% vis()
 #' @export pubRepStatistics
 pubRepStatistics <- function(.data, .by = NA, .meta = NA) {
@@ -310,8 +315,12 @@ pubRepStatistics <- function(.data, .by = NA, .meta = NA) {
   melted_pr <- melted_pr %>%
     group_by(CDR3.aa) %>%
     mutate(Group = paste0(variable, collapse = "&")) %>%
-    filter(Samples > 1)
-  melted_pr <- as_tibble(table(melted_pr$Group), .name_repair = function(x) c("Group", "Count"))
+    filter(Samples > 1) %>%
+    as_tibble()
+
+  group_tab <- table(melted_pr$Group)
+
+  melted_pr <- as_tibble(group_tab, .name_repair = function(x) c("Group", "Count"))
   # melted_pr = bind_cols(melted_pr, Samples = sapply(melted_pr$Group, function (s) stringr::str_count(s, ";") + 1)) %>%
   # arrange(Count) %>%
   # mutate(Group = factor(Group, levels=rev(Group), ordered=TRUE))

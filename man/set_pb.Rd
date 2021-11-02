@@ -22,7 +22,8 @@ An updated progress bar.
 \description{
 Set and update progress bars
 }
-\examples{
+\section{Developer Examples}{
+
 pb <- immunarch:::set_pb(100)
 immunarch:::add_pb(pb, 25)
 immunarch:::add_pb(pb, 25)
@@ -30,4 +31,5 @@ immunarch:::add_pb(pb, 25)
 immunarch:::add_pb(pb, 25)
 close(pb)
 }
+
 \concept{utility_private}

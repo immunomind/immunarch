@@ -1,0 +1,45 @@
+name: DockerHub Image
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Image Tag
+        shell: bash
+        run: echo "##[set-output name=tag;]$([ "${GITHUB_REF}" == "refs/heads/master" ] && echo base || echo ${GITHUB_REF##*/})"
+        id: get_tag
+
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/immunarch-docker:${{ steps.get_tag.outputs.tag }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}

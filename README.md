@@ -1,13 +1,13 @@
 [![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
 [![CRAN](http://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square)](https://cran.r-project.org/package=immunarch)
-[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/immunarch)](http://www.r-pkg.org/pkg/immunarch)
-[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/immunarch)](http://www.r-pkg.org/pkg/immunarch)
-[![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
+[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/immunarch)](https://www.r-pkg.org/pkg/immunarch)
+[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/immunarch)](https://www.r-pkg.org/pkg/immunarch)
+[![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](https://github.com/immunomind/immunarch/issues)
 [![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=immunomind.immunarch)
-[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/tcR)](http://www.r-pkg.org/pkg/tcR)
-[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/tcR)](http://www.r-pkg.org/pkg/tcR)
+[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/tcR)](https://www.r-pkg.org/pkg/tcR)
+[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/tcR)](https://www.r-pkg.org/pkg/tcR)
 
 
 # `immunarch` --- Fast and Seamless Exploration of Single-cell and Bulk T-cell/Antibody Immune Repertoires in R
@@ -32,7 +32,7 @@ repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # 
 
 ### From Berkeley with devotion
 
-`immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. ImmunoMind Data Science tools for single-cell and immunomics [exploration](https://immunarch.com) and [biomarker discovery](https://immunomind.io) are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.
+`immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. ImmunoMind improves the design of adoptive T-cell therapies such as CAR-T by precisely identifying T-cell subpopulations and their immune profile. ImmunoMind's tools are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.
 
 [![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
 
@@ -110,21 +110,21 @@ devtools::install_github("immunomind/immunarch", ref="dev")
 You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
 
 
-## Features
+## Key Features
 
-1. Fast and easy manipulation of immune repertoire data:
+1. Data agnostic. Fast and easy manipulation of immune repertoire data:
 
     + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
-    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.adaptivebiotech.com/products-services/immunoseq/), [IMGT](http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr/), [MiXCR](https://milaboratory.com/software/mixcr/), [MiGEC](https://milaboratory.com/software/migec/), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://milaboratory.com/software/vdjtools/), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://support.10xgenomics.com/single-cell-vdj/datasets/), [ArcherDX](https://archerdx.com/immunology/). More coming in the future;
+    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.immunoseq.com/), [IMGT](http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr), [MiXCR](https://github.com/milaboratory/mixcr), [MiGEC](https://github.com/mikessh/migec), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://github.com/mikessh/vdjtools), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://www.10xgenomics.com/resources/datasets?menu%5Bproducts.name%5D=Single+Cell+Immune+Profiling), ArcherDX. More coming in the future;
 
     + Works on any data source you are comfortable with: R data frames, data tables from [data.table](https://rdatatable.gitlab.io/data.table/), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
     
     + Tutorial is available [here](https://immunarch.com/articles/v2_data.html).
 
-2. Immune repertoire analysis made simple:
+2. Beginner-friendly. Immune repertoire analysis made simple:
 
-    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/v3_basic_analysis.html);
+    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/web_only/v3_basic_analysis.html);
 
     + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v4_overlap.html);
   
@@ -138,7 +138,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
     
     + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.
 
-3. Publication-ready plots with a built-in tool for visualisation manipulation: 
+3. Seamless publication-ready plots with a built-in tool for visualisation manipulation: 
 
     + Rich visualisation procedures with [ggplot2](https://ggplot2.tidyverse.org/);
   
@@ -203,9 +203,9 @@ Have an aspiration to help the community build the ecosystem of scRNAseq & AIRR 
 
 We are always open to contributions. There are two ways to contribute:
 
-1. Create an issue [here](http://github.com/immunomind/immunarch/issues) and describe what would you like to improve or discuss.
+1. Create an issue [here](https://github.com/immunomind/immunarch/issues) and describe what would you like to improve or discuss.
 
-2. Create an issue or find one [here](http://github.com/immunomind/immunarch/issues), fork the repository and make a pull request with the bugfix or improvement.
+2. Create an issue or find one [here](https://github.com/immunomind/immunarch/issues), fork the repository and make a pull request with the bugfix or improvement.
 
 
 ## Citation

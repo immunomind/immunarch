@@ -17,10 +17,12 @@ Input object with additional class \code{.class}.
 \description{
 Add a new class attribute
 }
-\examples{
+\section{Developer Examples}{
+
 tmp <- "abc"
 class(tmp)
 tmp <- immunarch:::add_class(tmp, "new_class")
 class(tmp)
 }
+
 \concept{utility_private}

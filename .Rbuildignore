@@ -9,6 +9,8 @@
 ^fixVis$
 ^experiment data$
 ^docker$
+^Dockerfile$
+^.dockerignore$
 ^private$
 ^.gitlab-ci.yml$
 ^CONTRIBUTION.md$
@@ -18,3 +20,5 @@
 ^LICENSE$
 ^immunarch-citation.xml$
 ^.github$
+^.RDataFiles$
+^.idea$

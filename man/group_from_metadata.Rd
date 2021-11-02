@@ -19,7 +19,9 @@ Character vector with group names.
 \description{
 Get a character vector of samples' groups from the input metadata file
 }
-\examples{
+\section{Developer Examples}{
+
 immunarch:::group_from_metadata("Status", data.frame(Status = c("A", "A", "B", "B", "C")))
 }
+
 \concept{utility_private}

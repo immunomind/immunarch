@@ -97,9 +97,7 @@
 #' vis(tc, .order = sample_order)
 #' @export trackClonotypes
 trackClonotypes <- function(.data, .which = list(1, 15), .col = "aa", .norm = TRUE) {
-  if (!has_class(.data, "list")) {
-    stop("Error: please pass a list with immune repertoires to track clonotypes.")
-  }
+  .validate_repertoires_data(.data)
   if (length(.data) < 2) {
     stop("Error: please pass a list with 2 or more immune repertoires to track clonotypes.")
   }
@@ -147,8 +145,8 @@ trackClonotypes <- function(.data, .which = list(1, 15), .col = "aa", .norm = TR
   result_df <- NULL
   for (i_df in 1:length(.data)) {
     temp_df <- .data[[i_df]] %>%
-      select(.col, Count = count_col)
-    setDT(temp_df)
+      select(.col, Count = count_col) %>%
+      as.data.table()
 
     if (.norm) {
       temp_df$Count <- temp_df$Count / sum(temp_df$Count)

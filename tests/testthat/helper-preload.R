@@ -19,6 +19,22 @@ ap <- function(.name, .prefix) {
   paste0(.prefix, .name)
 }
 
+add_mock_sample <- function(.immdata, .sample_name, .meta = list(), .empty = FALSE) {
+  if (.empty) {
+    # copy only column headers
+    .immdata$data[[.sample_name]] <- .immdata$data[[1]][0, ]
+  } else {
+    # copy dataframe of 1st sample to the new sample
+    .immdata$data[[.sample_name]] <- .immdata$data[[1]]
+  }
+
+  # .meta must be a named list containing metadata row (full or partial) for the sample
+  .meta[["Sample"]] <- .sample_name
+  .immdata$meta %<>% bind_rows(as.data.frame(.meta))
+
+  return(.immdata)
+}
+
 data(immdata)
 frame_data <- immdata$data
 table_data <- lapply(frame_data, as.data.table)

@@ -15,11 +15,13 @@ Matrix with its upper tri part copied to the lower tri part.
 \description{
 Copy the upper matrix triangle to the lower one
 }
-\examples{
+\section{Developer Examples}{
+
 mat <- matrix(0, 3, 3)
 mat
 mat[1, 3] <- 1
 mat <- immunarch:::matrixdiagcopy(mat)
 mat
 }
+
 \concept{utility_private}

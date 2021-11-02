@@ -17,8 +17,10 @@ A string with the column name.
 \description{
 Get a column's name using the input alias
 }
-\examples{
+\section{Developer Examples}{
+
 immunarch:::.quant_column_choice("count")
 immunarch:::.quant_column_choice("freq")
 }
+
 \concept{utility_private}

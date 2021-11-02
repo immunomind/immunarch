@@ -50,16 +50,14 @@ if (getRversion() >= "2.15.1") {
   palette_name <- ""
   if (.n == 1) {
     palette_name <- "Set2"
-  }
-  else if (.n == 2) {
+  } else if (.n == 2) {
     palette_name <- "Set1"
   }
   # else if (.n < 4) { palette_name = "YlGnBu" }
   # else if (.n < 6) {  palette_name = "RdBu" }
   else if (.n < 12) {
     palette_name <- "Spectral"
-  }
-  else {
+  } else {
     return(scale_fill_hue())
   }
 
@@ -70,16 +68,14 @@ if (getRversion() >= "2.15.1") {
   palette_name <- ""
   if (.n == 1) {
     palette_name <- "Set2"
-  }
-  else if (.n == 2) {
+  } else if (.n == 2) {
     palette_name <- "Set1"
   }
   # else if (.n < 4) { palette_name = "YlGnBu" }
   # else if (.n < 6) {  palette_name = "RdBu" }
   else if (.n < 12) {
     palette_name <- "Spectral"
-  }
-  else {
+  } else {
     return(scale_colour_hue())
   }
 
@@ -95,8 +91,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
         linetype = "dashed"
       )
     )
-  }
-  else {
+  } else {
     theme(
       panel.grid.major.x = element_line(
         colour = "grey70",
@@ -371,7 +366,8 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
   m[, 1] <- factor(m[, 1], levels = rev(rownames(.data)))
   m[, 2] <- factor(m[, 2], levels = colnames(.data))
 
-  m$label <- format(m$value, scientific = .scientific, digits = .signif.digits)
+  format <- if (.scientific) "g" else "fg"
+  m$label <- formatC(m$value, format = format, digits = .signif.digits)
 
   p <- ggplot(m, aes(x = variable, y = name, fill = value))
   p <- p + geom_tile(aes(fill = value), colour = "white")
@@ -413,9 +409,12 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #'
 #' @param .data Input matrix. Column names and row names (if presented) will be used as names for labs.
 #'
-#' @param .title The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).
+#' @param .meta A metadata object. An R dataframe with sample names and their properties,
+#' such as age, serostatus or hla.
 #'
-#' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
+#' @param .by Pass NA if you want to plot samples without grouping.
+#'
+#' @param .title The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).
 #'
 #' @param .color A vector specifying the colors (same as the "color" argument in \link[pheatmap]{pheatmap}).
 #' Pass NA to use the default pheatmap colors.
@@ -432,14 +431,22 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' ov <- repOverlap(immdata$data)
 #' vis_heatmap2(ov)
 #' @export
-vis_heatmap2 <- function(.data, .title = NA, .labs = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
-  args <- list()
+vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
+  args <- list(...)
+  if (!is.na(.by)[1]) {
+    if (!is.na(.meta)[1]) {
+      args[["annotation_col"]] <- .meta %>%
+        tibble::column_to_rownames(var = "Sample") %>%
+        dplyr::select(tidyselect::any_of(.by))
+    }
+  }
+
   args[["mat"]] <- .data
   args[["main"]] <- .title
   if (!is.na(.color)[1]) {
     args[["color"]] <- .color
   }
-  do.call(pheatmap, c(args, ...))
+  do.call(pheatmap, args)
 }
 
 
@@ -630,9 +637,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
           Value.min = quantile(Overlap, 0.025, na.rm = TRUE),
           Value.max = quantile(Overlap, 0.975, na.rm = TRUE)
         )
-    }
-
-    else {
+    } else {
       sample_names <- colnames(.data[[1]])
 
       .data <- lapply(.data, function(mat) replace(mat, lower.tri(mat, TRUE), NA))
@@ -792,7 +797,8 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
   } else if (.type == "mean") {
     melted_pr <- melted_pr %>%
       group_by(Sequence, Samples) %>%
-      summarise(Value = mean(value, na.rm = TRUE))
+      summarise(Value = mean(value, na.rm = TRUE)) %>%
+      as.data.table()
 
     p <- ggplot() +
       geom_jitter(aes(x = Value, y = Samples), data = melted_pr) +
@@ -1232,8 +1238,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
     }
 
     return(p + .add.layer)
-  }
-  else {
+  } else {
     if (.grid) {
       if (is.na(.legend)) {
         .legend <- FALSE
@@ -1268,7 +1273,6 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
         p <- do.call(wrap_plots, c(ps, ncol = .ncol))
         p <- p + plot_annotation(title = .title)
         return(p)
-
       } else {
         res <- split(res, res$Sample)
         ps <- list()
@@ -1861,6 +1865,10 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' data(immdata)
 #' clp <- repClonality(immdata$data, "clonal.prop")
 #' vis(clp)
+#'
+#' hom <- repClonality(immdata$data, "homeo")
+#' # Remove p values and points from the plot
+#' vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
 #' @export
 vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
   # ToDo: this and other repClonality and repDiversity functions doesn't work on a single repertoire. Fix it
@@ -2099,7 +2107,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
     if (.stack) {
       p <- ggplot() +
         geom_col(aes(x = Group, y = Value.mean, fill = Grouping.var),
-                 position = "stack", data = .data_proc, col = "black"
+          position = "stack", data = .data_proc, col = "black"
         )
     } else {
       p <- ggplot(aes(x = Grouping.var, y = Value, color = Group, fill = Group, group = Group), data = .data) +
@@ -2121,7 +2129,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
     if (!.errorbars.off) {
       p <- p +
         geom_errorbar(aes(x = Grouping.var, y = Value.mean, ymin = Value.min, ymax = Value.max, color = Group),
-                      color = "black", data = .data_proc, width = .errorbar.width, position = position_dodge(.9)
+          color = "black", data = .data_proc, width = .errorbar.width, position = position_dodge(.9)
         )
     }
 
@@ -2640,7 +2648,11 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #' p1 + p2
 #' @export
 vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "dodge", "fill"), .log = FALSE, ...) {
-  .position <- switch(substr(.position[1], 1, 1), s = "stack", d = "dodge", f = "fill")
+  .position <- switch(substr(.position[1], 1, 1),
+    s = "stack",
+    d = "dodge",
+    f = "fill"
+  )
   # .data[is.na(.data)] <- 0
 
   max_counts <- apply(.data[, -1], 1, max, na.rm = TRUE)
