@@ -72,7 +72,7 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
     stop(paste0("There is no ", .col, " column in data!"))
   } else {
     if (!inherits(sample_truth[[.col]], "character")) {
-      stop("Distance computing are available only for character columns!")
+      stop("Computing distance is available only for character columns!")
     } else {
       if (inherits(.method, "character")) {
         result <- purrr::map(.data, ~ stringdist::stringdistmatrix(unique(.x[[.col]]),
