@@ -38,7 +38,7 @@
 #'
 #' @return
 #'
-#' Named list of \link{dist} objects for given repertoirs.
+#' Named list of \link{dist} objects for given repertoires.
 #'
 #' @examples
 #'
