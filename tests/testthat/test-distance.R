@@ -13,14 +13,14 @@ f <- function(x, y) {
 
 # Arrange
 positive_test_cases <- list(
-  "pos_test1" = list(
+  "Changing method" = list(
     args = list(
       .data = short_immdata[1],
       .method = "lv"
     ),
     result = c(18, 20, 14)
   ),
-  "pos_test2" = list(
+  "Changing column" = list(
     args = list(
       .data = short_immdata[1],
       .col = "CDR3.aa",
@@ -28,23 +28,23 @@ positive_test_cases <- list(
     ),
     result = c(10, 12, 6)
   ),
-  "pos_test3" = list(args = list(.data = short_immdata[1], .col = "CDR3.aa", .method = f), result = c(2, 1, 3)),
-  "pos_test4" = list(args = list(.data = short_immdata[1], .method = f), result = c(6, 3, 9))
+  "Custom_func" = list(args = list(.data = short_immdata[1], .method = f), result = c(6, 3, 9)),
+  "Custom_func_col" = list(args = list(.data = short_immdata[1], .col = "CDR3.aa", .method = f), result = c(2, 1, 3))
 )
 
 negative_test_cases <- list(
-  "neg_test1" = list(
+  "Immdata test" = list(
     args = list(
       .data = immdata
     )
   ),
-  "neg_test2" = list(
+  "Wrong col" = list(
     args = list(
       .data = short_immdata,
       .col = "aa"
     )
   ),
-  "neg_test3" = list(
+  "Wrong method" = list(
     args = list(
       .data = short_immdata,
       .method = "ddddd"
@@ -56,9 +56,9 @@ negative_test_cases <- list(
 args <- map(positive_test_cases, "args")
 results <- map(positive_test_cases, "result")
 positive_act_result <- map(args, ~ do.call(seqDist, .x)[[1]] %>% as.numeric())
-
-
+positive_test_values <- list(names(positive_test_cases), positive_act_result, results)
+negative_args <- map(negative_test_cases, "args")
 # Assert
-pmap(list(names(positive_test_cases), positive_act_result, results), ~ test_that(..1, expect_equal(..2, ..3)))
+pmap(positive_test_values, ~ test_that(..1, expect_equal(..2, ..3)))
 ## for negative tests act can be done only with assert
-map2(names(negative_test_cases), map(negative_test_cases, "args"), ~ test_that(.x, expect_error(do.call(seqDist, .y))))
+map2(names(negative_test_cases), negative_args, ~ test_that(.x, expect_error(do.call(seqDist, .y))))

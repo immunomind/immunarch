@@ -66,6 +66,7 @@
 seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
   .validate_repertoires_data(.data)
   sample_truth <- .data[[1]]
+  #Because seqDist work with any string columns, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
   if (!.col %in% colnames(sample_truth)) {
     stop(paste0("There is no ", .col, " column in data!"))
