@@ -1,6 +1,6 @@
 data(immdata)
 short_immdata <- immdata$data
-short_immdata <- map(short_immdata, ~ .x %>% head(3)) # less sample size saves time in computations
+short_immdata <- map(short_immdata, ~ .x %>% head(3)) # smaller sample size saves time in computations
 
 f <- function(x, y) {
   res <- matrix(nrow = length(x), ncol = length(y))
