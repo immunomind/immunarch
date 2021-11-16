@@ -400,10 +400,8 @@ parse_mitcr <- function(.filename, .mode) {
 }
 
 parse_mixcr <- function(.filename, .mode) {
-  fix.alleles <- function(.data) {
-    .data[[IMMCOL$v]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$v]])
-    .data[[IMMCOL$d]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$d]])
-    .data[[IMMCOL$j]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$j]])
+  fix.allele <- function(.data, .colname) {
+    .data[[.colname]] <- gsub("[*][[:digit:]]*", "", .data[[.colname]])
     .data
   }
 
@@ -698,7 +696,12 @@ parse_mixcr <- function(.filename, .mode) {
     function(x) paste0(unique(x), collapse = ", ")
   )
 
-  .postprocess(fix.alleles(df))
+  df %>%
+    fix.allele(IMMCOL$v) %>%
+    fix.allele(IMMCOL$d) %>%
+    fix.allele(IMMCOL$j) %>%
+    .postprocess %>%
+    return
 }
 
 parse_migec <- function(.filename, .mode) {
