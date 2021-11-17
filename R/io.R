@@ -226,8 +226,11 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     metadata <- tibble()
 
     for (.filepath in .files) {
-      message("  -- [", match(.filepath, .files), "/", length(.files), '] Parsing "',
-              .filepath, '" -- ', appendLF = FALSE)
+      message("  -- [", match(.filepath, .files), "/",
+        length(.files), "] Parsing \"",
+        .filepath, "\" -- ",
+        appendLF = FALSE
+      )
       if (!file.exists(.filepath)) {
         message('Can\'t find\t"', .filepath, '", skipping')
       } else {
@@ -240,10 +243,10 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
           # The most basic check
           if (!("Sample" %in% colnames(metadata))) {
             stop(
-              'No "Sample" column found in the metadata file.\n',
-              'The "Sample" column with the names of samples without extensions ',
-              '(e.g., ".txt", ".tsv") is required.\n',
-              'Please provide it and run the parsing again.'
+              "No \"Sample\" column found in the metadata file.\n",
+              "The \"Sample\" column with the names of samples without extensions ",
+              "(e.g., \".txt\", \".tsv\") is required.\n",
+              "Please provide it and run the parsing again."
             )
           }
         } else if (stringr::str_detect(.filepath, "barcode")) {
