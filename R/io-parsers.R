@@ -430,28 +430,54 @@ parse_mixcr <- function(.filename, .mode) {
   table.colnames <- tolower(make.names(read.table(.filename, sep = .sep, skip = 0, nrows = 1, stringsAsFactors = FALSE, strip.white = TRUE, comment.char = "", quote = "")[1, ]))
   table.colnames <- gsub(".", "", table.colnames, fixed = TRUE)
 
+  # IO_REFACTOR
+  df <- read_delim(
+    file = .filename, col_types = cols(),
+    delim = .sep, skip = 0, comment = "",
+    quote = "", escape_double = FALSE, trim_ws = TRUE
+  )
+
+  # return NULL if there are no clonotypes in the data frame
+  if (nrow(df) == 0) {
+    return(NULL)
+  }
+
+  names(df) <- make.names(names(df))
+  names(df) <- tolower(gsub(".", "", names(df), fixed = TRUE))
+  names(df) <- str_replace_all(names(df), " ", "")
+
   # Columns of different MiXCR formats
   # Clone count - Clonal sequence(s) - N. Seq. CDR3
   # cloneCount - clonalSequence - nSeqCDR3
   # cloneCount - targetSequences - nSeqImputedCDR3
   # cloneCount - targetSequences - nSeqCDR3
 
-  # TODO: when refactoring, CDR headers can be implemented as objects of data class
+  # TODO: when refactoring, CDR/FR headers can be implemented as objects of data class
   # that contains headers for nucleotide sequence and amino acid sequence (such as "nseqcdr3"),
   # and IDs for these headers (such as ".nuc.seq.cdr3")
-  nuc_headers <- list(.nuc.seq.cdr1 = NA, .nuc.seq.cdr2 = NA, .nuc.seq.cdr3 = NA)
-  aa_headers <- list(.aa.seq.cdr1 = NA, .aa.seq.cdr2 = NA, .aa.seq.cdr3 = NA)
-  # configure headers for nucleotide sequences for CDR1, CDR2, CDR3
+  nuc_headers <- list(
+    .nuc.seq.cdr1 = NA, .nuc.seq.cdr2 = NA, .nuc.seq.cdr3 = NA,
+    .nuc.seq.fr1 = NA, .nuc.seq.fr2 = NA, .nuc.seq.fr3 = NA, .nuc.seq.fr4 = NA
+  )
+  aa_headers <- list(
+    .aa.seq.cdr1 = NA, .aa.seq.cdr2 = NA, .aa.seq.cdr3 = NA,
+    .aa.seq.fr1 = NA, .aa.seq.fr2 = NA, .aa.seq.fr3 = NA, .aa.seq.fr4 = NA
+  )
+  # configure headers for nucleotide and amino acid sequences for CDRx and FRx
   for (i in seq_along(nuc_headers)) {
-    cdr <- paste0("cdr", i)
+    region <- if (i < 4) paste0("cdr", i) else paste0("fr", i - 3)
     if ("targetsequences" %in% table.colnames) {
-      if (paste0("nseqimputed", cdr) %in% table.colnames) {
-        nuc_headers[[i]] <- paste0("nseqimputed", cdr)
+      if (paste0("nseqimputed", region) %in% table.colnames) {
+        nuc_headers[[i]] <- paste0("nseqimputed", region)
       } else {
-        nuc_headers[[i]] <- paste0("nseq", cdr)
+        nuc_headers[[i]] <- paste0("nseq", region)
       }
     } else {
-      nuc_headers[[i]] <- paste0("nseq", cdr)
+      nuc_headers[[i]] <- paste0("nseq", region)
+    }
+    if (nuc_headers[[i]] %in% table.colnames) {
+      aa_headers[[i]] <- names(aa_headers)[i]   # temporary headers for subsetting from df
+      df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
     }
   }
 
@@ -463,14 +489,15 @@ parse_mixcr <- function(.filename, .mode) {
     } else if ("clonalsequence" %in% table.colnames) {
       .big.seq <- "clonalsequence"
     } else {
-      .big.seq <- NA
+      .big.seq <- "BigSeq"
+      df$BigSeq <- df[[nuc_headers[[".nuc.seq.cdr3"]]]]
     }
   }
 
   for (i in seq_along(pos_headers)) {
     default_header <- pos_headers[[i]]
     if (!(default_header %in% table.colnames)) {
-      alt_header <- gsub(".{1}$", "", default_header)   # no "s" at the end
+      alt_header <- gsub(".{1}$", "", default_header) # no "s" at the end
       if (alt_header %in% table.colnames) {
         pos_headers[[i]] <- alt_header
       } else {
@@ -502,7 +529,7 @@ parse_mixcr <- function(.filename, .mode) {
     })]
 
     if (length(gene_options) == 0) {
-      if (gene %in% c('v', 'd', 'j')) {
+      if (gene %in% c("v", "d", "j")) {
         message("Error: can't find a column with ", toupper(gene), " genes")
       }
     } else {
@@ -513,23 +540,6 @@ parse_mixcr <- function(.filename, .mode) {
       best_headers[[best]] <- best_options[[1]]
     }
   }
-
-
-  # IO_REFACTOR
-  df <- read_delim(
-    file = .filename, col_types = cols(),
-    delim = .sep, skip = 0, comment = "",
-    quote = "", escape_double = FALSE, trim_ws = TRUE
-  )
-
-  # return NULL if there are no clonotypes in the data frame
-  if (nrow(df) == 0) {
-    return(NULL)
-  }
-
-  names(df) <- make.names(names(df))
-  names(df) <- tolower(gsub(".", "", names(df), fixed = TRUE))
-  names(df) <- str_replace_all(names(df), " ", "")
 
   # check for VJ or VDJ recombination
   # VJ / VDJ / Undeterm
@@ -634,18 +644,6 @@ parse_mixcr <- function(.filename, .mode) {
   .freq <- "Proportion"
   df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
-  aa_headers[[".aa.seq.cdr1"]] <- IMMCOL_EXT$cdr1aa
-  aa_headers[[".aa.seq.cdr2"]] <- IMMCOL_EXT$cdr2aa
-  aa_headers[[".aa.seq.cdr3"]] <- IMMCOL$cdr3aa
-  for (i in seq_along(nuc_headers)) {
-    df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
-  }
-
-  if (is.na(.big.seq)) {
-    .big.seq <- "BigSeq"
-    df$BigSeq <- df[[nuc_headers[[".nuc.seq.cdr3"]]]]
-  }
-
   df_columns <- c(
     .count, .freq,
     nuc_headers[[".nuc.seq.cdr3"]], aa_headers[[".aa.seq.cdr3"]],
@@ -659,12 +657,13 @@ parse_mixcr <- function(.filename, .mode) {
     pos_extra_headers[["cdr3start"]], pos_extra_headers[["cdr3end"]],
     gene_headers[["cgenes"]],
     nuc_headers[[".nuc.seq.cdr1"]], aa_headers[[".aa.seq.cdr1"]],
-    nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]]
+    nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]],
+    nuc_headers[[".nuc.seq.fr1"]], aa_headers[[".aa.seq.fr1"]],
+    nuc_headers[[".nuc.seq.fr2"]], aa_headers[[".aa.seq.fr2"]],
+    nuc_headers[[".nuc.seq.fr3"]], aa_headers[[".aa.seq.fr3"]],
+    nuc_headers[[".nuc.seq.fr4"]], aa_headers[[".aa.seq.fr4"]]
   )
-  df_ext_column_names <- c(
-    IMMCOL_EXT$bestv, IMMCOL_EXT$bestj, IMMCOL_EXT$cdr3s, IMMCOL_EXT$cdr3e, IMMCOL_EXT$c,
-    IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa
-  )
+  df_ext_column_names <- IMMCOL_EXT$order
 
   # add extra columns that are not NA
   for (i in seq_along(df_ext_columns)) {
