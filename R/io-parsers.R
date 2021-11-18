@@ -413,8 +413,8 @@ parse_mixcr <- function(.filename, .mode) {
     jstart = "alljalignments"
   )
   pos_extra_headers <- list(
-    cdr3start = "cdr3begin",
-    cdr3end = "cdr3end"
+    cdr3start = NA,
+    cdr3end = NA
   )
   gene_headers <- list(
     vgenes = NA,
@@ -476,7 +476,7 @@ parse_mixcr <- function(.filename, .mode) {
       nuc_headers[[i]] <- paste0("nseq", region)
     }
     if (nuc_headers[[i]] %in% table.colnames) {
-      aa_headers[[i]] <- names(aa_headers)[i]   # temporary headers for subsetting from df
+      aa_headers[[i]] <- names(aa_headers)[i] # temporary headers for subsetting from df
       df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
     }
   }
@@ -624,11 +624,27 @@ parse_mixcr <- function(.filename, .mode) {
   pos_headers[["dalignments"]] <- c("D5.end", "D3.end")
   pos_headers[["jstart"]] <- "J.start"
 
-  if (!(pos_extra_headers[["cdr3start"]] %in% table.colnames)) {
-    pos_extra_headers[["cdr3start"]] <- NA
-  }
-  if (!(pos_extra_headers[["cdr3end"]] %in% table.colnames)) {
-    pos_extra_headers[["cdr3end"]] <- NA
+  if ("refpoints" %in% table.colnames) {
+    for (i in seq_along(pos_extra_headers)) {
+      pos_extra_headers[[i]] <- names(pos_extra_headers)[i]
+    }
+
+    get_ref_point_position <- function(.ref.points.str, .index) {
+      if (is.na(.ref.points.str)) {
+        return(NA)
+      } else {
+        points <- unlist(strsplit(.ref.points.str, ":"))
+        if (length(points) < 21) {
+          return(NA)
+        } else {
+          return(points[.index])
+        }
+      }
+    }
+
+    # CDR3Begin position is 10, CDR3End is 19
+    df[[pos_extra_headers[["cdr3start"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 10)
+    df[[pos_extra_headers[["cdr3end"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 19)
   }
 
   if (!(.count %in% table.colnames)) {
