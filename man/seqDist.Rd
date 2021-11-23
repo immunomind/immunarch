@@ -4,7 +4,7 @@
 \alias{seqDist}
 \title{Function for computing distance for sequences}
 \usage{
-seqDist(.data, .col = 'CDR3.nt', .method = 'hamming')
+seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', ...)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
@@ -20,12 +20,14 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.col}{A string that specifies the column name to be processed. Default value is 'CDR3.aa'.}
 
-\item{.method}{Character value or user-defined function.
+\item{.method}{Character value or user-defined function.}
+
+\item{...}{Extra arguments for user-defined function.
 
 Default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
 If a and b have different number of characters the distance is Inf.
 
-Another possible values is:
+Other possible values are:
 
 \code{'lv'} for Levenshtein distance which counts the number of deletions, insertions and substitutions necessary to turn b into a.
 
@@ -34,21 +36,21 @@ Another possible values is:
 In case of user-defined function, it should take x and y parameters as input and return \link{dist} object.}
 }
 \value{
-Named list of \link{dist} objects for given repertoirs.
+Named list of \link{dist} objects for given repertoires.
 }
 \description{
-Computing distance across repertoirs:
+Computing sequential distances between clonotypes from two repertoires:
 }
 \examples{
 
 data(immdata)
 # Reducing data to save time on examples
 immdata$data <- purrr::map(immdata$data, ~ .x \%>\% head(10))
-# Hamming distance computing for each of two first repertoirs
+# Computing hamming distance for the first two repertoires in \code{'immdata'}
 seqDist(immdata$data[1:2])
 
-# Let's define custom distance function
-# which will count difference in number of characters in sequences.
+# Here we define a custom distance function
+# that will count the difference in number of characters in sequences.
 
 f <- function(x, y) {
   res <- matrix(nrow = length(x), ncol = length(y))
@@ -59,5 +61,5 @@ f <- function(x, y) {
   return(as.dist(res))
 }
 
-seqDist(immdata$data[1:2], .method = f) # our custom defined distance result
+seqDist(immdata$data[1:2], .method = f) # the result based on our custom distance defined above
 }

@@ -138,7 +138,7 @@
   ))
   if (!is.na(.add[1])) {
     swlist <- c(swlist, rep(col_guess(), length(.add)))
-    names(swlist)[tail(1:length(swlist), length(.add))] <- .add
+    names(swlist)[tail(seq_along(swlist), length(.add))] <- .add
   }
 
   swlist <- c(swlist, "_")
@@ -191,7 +191,7 @@
       }
     }
 
-    for (col_i in 1:length(IMMCOL$order)) {
+    for (col_i in seq_along(IMMCOL$order)) {
       colname <- IMMCOL$order[col_i]
       if (colname %in% colnames(.data)) {
         if (!has_class(.data[[colname]], IMMCOL$type[col_i])) {
@@ -216,7 +216,7 @@
 .as_tsv <- function(.delim_file) {
   df <- readr::read_tsv(.delim_file, comment = "#")
   if (ncol(df) == 1) {
-    # treat file as csv and convert it to temporary tsv
+    # treat file as non-tab delimited and convert it to temporary tsv
     df <- readr::read_delim(.delim_file, comment = "#")
     tsv_file <- tempfile()
     readr::write_tsv(df, tsv_file)

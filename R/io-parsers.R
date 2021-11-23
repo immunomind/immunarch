@@ -33,7 +33,6 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
     comment = "", trim_ws = TRUE,
     skip = .skip, na = c("", "NA", ".")
   ))
-  # suppressMessages(df <- fread(.filename, skip = .skip, data.table = FALSE, na.strings = c("", "NA", ".")))
 
   names(df) <- tolower(names(df))
   recomb_type <- .which_recomb_type(df[[.vgenes]])
@@ -401,25 +400,51 @@ parse_mitcr <- function(.filename, .mode) {
 }
 
 parse_mixcr <- function(.filename, .mode) {
-  fix.alleles <- function(.data) {
-    .data[[IMMCOL$v]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$v]])
-    .data[[IMMCOL$d]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$d]])
-    .data[[IMMCOL$j]] <- gsub("[*][[:digit:]]*", "", .data[[IMMCOL$j]])
-    .data
-  }
-
   .filename <- .filename
   .count <- "clonecount"
   .sep <- "\t"
-  .vend <- "allvalignments"
-  .jstart <- "alljalignments"
-  .dalignments <- "alldalignments"
   .vd.insertions <- "VD.insertions"
   .dj.insertions <- "DJ.insertions"
   .total.insertions <- "Total.insertions"
 
+  pos_headers <- list(
+    vend = "allvalignments",
+    dalignments = "alldalignments",
+    jstart = "alljalignments"
+  )
+  pos_extra_headers <- list(
+    cdr3start = NA,
+    cdr3end = NA
+  )
+  gene_headers <- list(
+    vgenes = NA,
+    dgenes = NA,
+    jgenes = NA,
+    cgenes = NA
+  )
+  best_headers <- list(
+    bestv = NA,
+    bestj = NA
+  )
+
   table.colnames <- tolower(make.names(read.table(.filename, sep = .sep, skip = 0, nrows = 1, stringsAsFactors = FALSE, strip.white = TRUE, comment.char = "", quote = "")[1, ]))
   table.colnames <- gsub(".", "", table.colnames, fixed = TRUE)
+
+  # IO_REFACTOR
+  df <- read_delim(
+    file = .filename, col_types = cols(),
+    delim = .sep, skip = 0, comment = "",
+    quote = "", escape_double = FALSE, trim_ws = TRUE
+  )
+
+  # return NULL if there are no clonotypes in the data frame
+  if (nrow(df) == 0) {
+    return(NULL)
+  }
+
+  names(df) <- make.names(names(df))
+  names(df) <- tolower(gsub(".", "", names(df), fixed = TRUE))
+  names(df) <- str_replace_all(names(df), " ", "")
 
   # Columns of different MiXCR formats
   # Clone count - Clonal sequence(s) - N. Seq. CDR3
@@ -427,25 +452,32 @@ parse_mixcr <- function(.filename, .mode) {
   # cloneCount - targetSequences - nSeqImputedCDR3
   # cloneCount - targetSequences - nSeqCDR3
 
-  # TODO: when refactoring, CDR headers can be implemented as objects of data class
+  # TODO: when refactoring, CDR/FR headers can be implemented as objects of data class
   # that contains headers for nucleotide sequence and amino acid sequence (such as "nseqcdr3"),
   # and IDs for these headers (such as ".nuc.seq.cdr3")
-  SEQ_NUM <- 3
-  nuc_headers <- rep(NA, SEQ_NUM)
-  aa_headers <- rep(NA, SEQ_NUM)
-  names(nuc_headers) <- c(".nuc.seq.cdr1", ".nuc.seq.cdr2", ".nuc.seq.cdr3")
-  names(aa_headers) <- c(".aa.seq.cdr1", ".aa.seq.cdr2", ".aa.seq.cdr3")
-  # configure headers for nucleotide sequences for CDR1, CDR2, CDR3
-  for (i in 1:SEQ_NUM) {
-    cdr <- paste0("cdr", i)
+  nuc_headers <- list(
+    .nuc.seq.cdr1 = NA, .nuc.seq.cdr2 = NA, .nuc.seq.cdr3 = NA,
+    .nuc.seq.fr1 = NA, .nuc.seq.fr2 = NA, .nuc.seq.fr3 = NA, .nuc.seq.fr4 = NA
+  )
+  aa_headers <- list(
+    .aa.seq.cdr1 = NA, .aa.seq.cdr2 = NA, .aa.seq.cdr3 = NA,
+    .aa.seq.fr1 = NA, .aa.seq.fr2 = NA, .aa.seq.fr3 = NA, .aa.seq.fr4 = NA
+  )
+  # configure headers for nucleotide and amino acid sequences for CDRx and FRx
+  for (i in seq_along(nuc_headers)) {
+    region <- if (i < 4) paste0("cdr", i) else paste0("fr", i - 3)
     if ("targetsequences" %in% table.colnames) {
-      if (paste0("nseqimputed", cdr) %in% table.colnames) {
-        nuc_headers[[i]] <- paste0("nseqimputed", cdr)
+      if (paste0("nseqimputed", region) %in% table.colnames) {
+        nuc_headers[[i]] <- paste0("nseqimputed", region)
       } else {
-        nuc_headers[[i]] <- paste0("nseq", cdr)
+        nuc_headers[[i]] <- paste0("nseq", region)
       }
     } else {
-      nuc_headers[[i]] <- paste0("nseq", cdr)
+      nuc_headers[[i]] <- paste0("nseq", region)
+    }
+    if (nuc_headers[[i]] %in% table.colnames) {
+      aa_headers[[i]] <- names(aa_headers)[i] # temporary headers for subsetting from df
+      df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
     }
   }
 
@@ -457,114 +489,78 @@ parse_mixcr <- function(.filename, .mode) {
     } else if ("clonalsequence" %in% table.colnames) {
       .big.seq <- "clonalsequence"
     } else {
-      .big.seq <- NA
+      .big.seq <- "BigSeq"
+      df$BigSeq <- df[[nuc_headers[[".nuc.seq.cdr3"]]]]
     }
   }
 
-  if (!("allvalignments" %in% table.colnames)) {
-    if ("allvalignment" %in% table.colnames) {
-      .vend <- "allvalignment"
+  for (i in seq_along(pos_headers)) {
+    default_header <- pos_headers[[i]]
+    if (!(default_header %in% table.colnames)) {
+      alt_header <- gsub(".{1}$", "", default_header) # no "s" at the end
+      if (alt_header %in% table.colnames) {
+        pos_headers[[i]] <- alt_header
+      } else {
+        pos_headers[[i]] <- NA
+      }
+    }
+  }
+
+  for (i in seq_along(gene_headers)) {
+    gene <- substring(names(gene_headers)[i], 1, 1)
+    best <- paste0("best", gene)
+    gene_options <- c(
+      paste0("best", gene, "hit"),
+      paste0("all", gene, "hits"),
+      paste0(gene, "hits"),
+      paste0("all", gene, "hitswithscore"),
+      paste0("best", gene, "gene")
+    )
+    best_options <- c(
+      paste0("best", gene, "hit"),
+      paste0("best", gene, "gene")
+    )
+    # keep only header options that exist in loaded table
+    gene_options <- gene_options[sapply(gene_options, function(name) {
+      name %in% table.colnames
+    })]
+    best_options <- best_options[sapply(best_options, function(name) {
+      name %in% table.colnames
+    })]
+
+    if (length(gene_options) == 0) {
+      if (gene %in% c("v", "d", "j")) {
+        message("Error: can't find a column with ", toupper(gene), " genes")
+      }
     } else {
-      .vend <- NA
+      gene_headers[[i]] <- gene_options[[1]]
+    }
+
+    if ((best %in% names(best_headers)) & (length(best_options) > 0)) {
+      best_headers[[best]] <- best_options[[1]]
     }
   }
-  if (!("alldalignments" %in% table.colnames)) {
-    if ("alldalignment" %in% table.colnames) {
-      .dalignments <- "alldalignment"
-    } else {
-      .dalignments <- NA
-    }
-  }
-  if (!("alljalignments" %in% table.colnames)) {
-    if ("alljalignment" %in% table.colnames) {
-      .jstart <- "alljalignment"
-    } else {
-      .jstart <- NA
-    }
-  }
-
-  if ("bestvhit" %in% table.colnames) {
-    .vgenes <- "bestvhit"
-  } else if ("allvhits" %in% table.colnames) {
-    .vgenes <- "allvhits"
-  } else if ("vhits" %in% table.colnames) {
-    .vgenes <- "vhits"
-  } else if ("allvhitswithscore" %in% table.colnames) {
-    .vgenes <- "allvhitswithscore"
-  } else if ("bestvgene" %in% table.colnames) {
-    .vgenes <- "bestvgene"
-  } else {
-    message("Error: can't find a column with V genes")
-  }
-
-  if ("bestjhit" %in% table.colnames) {
-    .jgenes <- "bestjhit"
-  } else if ("alljhits" %in% table.colnames) {
-    .jgenes <- "alljhits"
-  } else if ("jhits" %in% table.colnames) {
-    .jgenes <- "jhits"
-  } else if ("alljhitswithscore" %in% table.colnames) {
-    .jgenes <- "alljhitswithscore"
-  } else if ("bestjgene" %in% table.colnames) {
-    .jgenes <- "bestjgene"
-  } else {
-    message("Error: can't find a column with J genes")
-  }
-
-  if ("bestdhit" %in% table.colnames) {
-    .dgenes <- "bestdhit"
-  } else if ("alldhits" %in% table.colnames) {
-    .dgenes <- "alldhits"
-  } else if ("dhits" %in% table.colnames) {
-    .dgenes <- "dhits"
-  } else if ("alldhitswithscore" %in% table.colnames) {
-    .dgenes <- "alldhitswithscore"
-  } else if ("bestdgene" %in% table.colnames) {
-    .dgenes <- "bestdgene"
-  } else {
-    message("Error: can't find a column with D genes")
-  }
-
-
-  # IO_REFACTOR
-  df <- read_delim(
-    file = .filename, col_types = cols(),
-    delim = .sep, skip = 0, comment = "",
-    quote = "", escape_double = FALSE, trim_ws = TRUE
-  )
-  # df <- fread(.filename, data.table = FALSE)
-
-  #
-  # return NULL if there is no clonotypes in the data frame
-  #
-  if (nrow(df) == 0) {
-    return(NULL)
-  }
-
-  names(df) <- make.names(names(df))
-  names(df) <- tolower(gsub(".", "", names(df), fixed = TRUE))
-  names(df) <- str_replace_all(names(df), " ", "")
 
   # check for VJ or VDJ recombination
   # VJ / VDJ / Undeterm
   recomb_type <- "Undeterm"
-  if (sum(substr(head(df)[[.vgenes]], 1, 4) %in% c("TCRA", "TRAV", "TRGV", "IGKV", "IGLV"))) {
+  if (sum(substr(head(df)[[gene_headers[["vgenes"]]]], 1, 4) %in% c("TCRA", "TRAV", "TRGV", "IGKV", "IGLV"))) {
     recomb_type <- "VJ"
-  } else if (sum(substr(head(df)[[.vgenes]], 1, 4) %in% c("TCRB", "TRBV", "TRDV", "IGHV"))) {
+  } else if (sum(substr(head(df)[[gene_headers[["vgenes"]]]], 1, 4) %in% c("TCRB", "TRBV", "TRDV", "IGHV"))) {
     recomb_type <- "VDJ"
   }
 
-  if (!is.na(.vend) && !is.na(.jstart)) {
+  if (!is.na(pos_headers[["vend"]]) && !is.na(pos_headers[["jstart"]])) {
     .vd.insertions <- "VD.insertions"
     df$VD.insertions <- -1
     if (recomb_type == "VJ") {
       df$VD.insertions <- -1
     } else if (recomb_type == "VDJ") {
-      logic <- sapply(strsplit(df[[.dalignments]], "|", TRUE, FALSE, TRUE), length) >= 4 &
-        sapply(strsplit(df[[.vend]], "|", TRUE, FALSE, TRUE), length) >= 5
+      logic <- sapply(strsplit(df[[pos_headers[["dalignments"]]]], "|", TRUE, FALSE, TRUE), length) >= 4 &
+        sapply(strsplit(df[[pos_headers[["vend"]]]], "|", TRUE, FALSE, TRUE), length) >= 5
       df$VD.insertions[logic] <-
-        as.numeric(sapply(strsplit(df[[.dalignments]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)) -
-        as.numeric(sapply(strsplit(df[[.vend]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)) - 1
+        as.numeric(sapply(strsplit(df[[pos_headers[["dalignments"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)) -
+        as.numeric(sapply(strsplit(df[[pos_headers[["vend"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)) - 1
     }
 
     .dj.insertions <- "DJ.insertions"
@@ -572,21 +568,21 @@ parse_mixcr <- function(.filename, .mode) {
     if (recomb_type == "VJ") {
       df$DJ.insertions <- -1
     } else if (recomb_type == "VDJ") {
-      logic <- sapply(strsplit(df[[.jstart]], "|", TRUE, FALSE, TRUE), length) >= 4 &
-        sapply(strsplit(df[[.dalignments]], "|", TRUE, FALSE, TRUE), length) >= 5
+      logic <- sapply(strsplit(df[[pos_headers[["jstart"]]]], "|", TRUE, FALSE, TRUE), length) >= 4 &
+        sapply(strsplit(df[[pos_headers[["dalignments"]]]], "|", TRUE, FALSE, TRUE), length) >= 5
       df$DJ.insertions[logic] <-
-        as.numeric(sapply(strsplit(df[[.jstart]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)) -
-        as.numeric(sapply(strsplit(df[[.dalignments]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)) - 1
+        as.numeric(sapply(strsplit(df[[pos_headers[["jstart"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)) -
+        as.numeric(sapply(strsplit(df[[pos_headers[["dalignments"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)) - 1
     }
 
     # VJ.insertions
-    logic <- (sapply(strsplit(df[[.vend]], "|", TRUE, FALSE, TRUE), length) > 4) & (sapply(strsplit(df[[.jstart]], "|", TRUE, FALSE, TRUE), length) >= 4)
+    logic <- (sapply(strsplit(df[[pos_headers[["vend"]]]], "|", TRUE, FALSE, TRUE), length) > 4) & (sapply(strsplit(df[[pos_headers[["jstart"]]]], "|", TRUE, FALSE, TRUE), length) >= 4)
     .total.insertions <- "Total.insertions"
     if (recomb_type == "VJ") {
       df$Total.insertions <- NA
       if (length(which(logic)) > 0) {
         df$Total.insertions[logic] <-
-          as.numeric(sapply(strsplit(df[[.jstart]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)) - as.numeric(sapply(strsplit(df[[.vend]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)) - 1
+          as.numeric(sapply(strsplit(df[[pos_headers[["jstart"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)) - as.numeric(sapply(strsplit(df[[pos_headers[["vend"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)) - 1
       }
     } else if (recomb_type == "VDJ") {
       df$Total.insertions <- df[[.vd.insertions]] + df[[.dj.insertions]]
@@ -597,11 +593,11 @@ parse_mixcr <- function(.filename, .mode) {
 
     df$V.end <- -1
     df$J.start <- -1
-    df[[.vend]] <- gsub(";", "", df[[.vend]], fixed = TRUE)
-    logic <- sapply(strsplit(df[[.vend]], "|", TRUE, FALSE, TRUE), length) >= 5
-    df$V.end[logic] <- sapply(strsplit(df[[.vend]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)
-    logic <- sapply(strsplit(df[[.jstart]], "|", TRUE, FALSE, TRUE), length) >= 4
-    df$J.start[logic] <- sapply(strsplit(df[[.jstart]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)
+    df[[pos_headers[["vend"]]]] <- gsub(";", "", df[[pos_headers[["vend"]]]], fixed = TRUE)
+    logic <- sapply(strsplit(df[[pos_headers[["vend"]]]], "|", TRUE, FALSE, TRUE), length) >= 5
+    df$V.end[logic] <- sapply(strsplit(df[[pos_headers[["vend"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 5)
+    logic <- sapply(strsplit(df[[pos_headers[["jstart"]]]], "|", TRUE, FALSE, TRUE), length) >= 4
+    df$J.start[logic] <- sapply(strsplit(df[[pos_headers[["jstart"]]]][logic], "|", TRUE, FALSE, TRUE), "[[", 4)
   } else {
     df$V.end <- -1
     df$J.start <- -1
@@ -613,22 +609,43 @@ parse_mixcr <- function(.filename, .mode) {
     .vd.insertions <- "VD.insertions"
   }
 
-  .vend <- "V.end"
-  .jstart <- "J.start"
-
-  if (!is.na(.dalignments)) {
-    logic <- sapply(str_split(df[[.dalignments]], "|"), length) >= 5
+  if (!is.na(pos_headers[["dalignments"]])) {
+    logic <- sapply(str_split(df[[pos_headers[["dalignments"]]]], "|"), length) >= 5
     df$D5.end <- -1
     df$D3.end <- -1
-    df$D5.end[logic] <- sapply(str_split(df[[.dalignments]][logic], "|"), "[[", 4)
-    df$D3.end[logic] <- sapply(str_split(df[[.dalignments]][logic], "|"), "[[", 5)
-    .dalignments <- c("D5.end", "D3.end")
+    df$D5.end[logic] <- sapply(str_split(df[[pos_headers[["dalignments"]]]][logic], "|"), "[[", 4)
+    df$D3.end[logic] <- sapply(str_split(df[[pos_headers[["dalignments"]]]][logic], "|"), "[[", 5)
   } else {
     df$D5.end <- -1
     df$D3.end <- -1
   }
 
-  .dalignments <- c("D5.end", "D3.end")
+  pos_headers[["vend"]] <- "V.end"
+  pos_headers[["dalignments"]] <- c("D5.end", "D3.end")
+  pos_headers[["jstart"]] <- "J.start"
+
+  if ("refpoints" %in% table.colnames) {
+    for (i in seq_along(pos_extra_headers)) {
+      pos_extra_headers[[i]] <- names(pos_extra_headers)[i]
+    }
+
+    get_ref_point_position <- function(.ref.points.str, .index) {
+      if (is.na(.ref.points.str)) {
+        return(NA)
+      } else {
+        points <- unlist(strsplit(.ref.points.str, ":"))
+        if (length(points) < 21) {
+          return(NA)
+        } else {
+          return(points[.index])
+        }
+      }
+    }
+
+    # CDR3Begin position is 10, CDR3End is 19
+    df[[pos_extra_headers[["cdr3start"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 10)
+    df[[pos_extra_headers[["cdr3end"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 19)
+  }
 
   if (!(.count %in% table.colnames)) {
     warn_msg <- c("  [!] Warning: can't find a column with clonal counts. Setting all clonal counts to 1.")
@@ -643,63 +660,66 @@ parse_mixcr <- function(.filename, .mode) {
   .freq <- "Proportion"
   df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 
-  aa_headers[[".aa.seq.cdr1"]] <- IMMCOL_EXT$cdr1aa
-  aa_headers[[".aa.seq.cdr2"]] <- IMMCOL_EXT$cdr2aa
-  aa_headers[[".aa.seq.cdr3"]] <- IMMCOL$cdr3aa
-  for (i in 1:SEQ_NUM) {
-    df[[aa_headers[[i]]]] <- bunch_translate(df[[nuc_headers[[i]]]])
-  }
-
-  if (is.na(.big.seq)) {
-    .big.seq <- "BigSeq"
-    df$BigSeq <- df[[nuc_headers[[".nuc.seq.cdr3"]]]]
-  }
-
-  df <- df[, make.names(c(
+  df_columns <- c(
     .count, .freq,
     nuc_headers[[".nuc.seq.cdr3"]], aa_headers[[".aa.seq.cdr3"]],
-    .vgenes, .dgenes, .jgenes,
-    .vend, .dalignments, .jstart,
-    .total.insertions, .vd.insertions, .dj.insertions, .big.seq,
+    gene_headers[["vgenes"]], gene_headers[["dgenes"]], gene_headers[["jgenes"]],
+    pos_headers[["vend"]], pos_headers[["dalignments"]], pos_headers[["jstart"]],
+    .total.insertions, .vd.insertions, .dj.insertions, .big.seq
+  )
+  df_column_names <- IMMCOL$order
+  df_ext_columns <- c(
+    best_headers[["bestv"]], best_headers[["bestj"]],
+    pos_extra_headers[["cdr3start"]], pos_extra_headers[["cdr3end"]],
+    gene_headers[["cgenes"]],
     nuc_headers[[".nuc.seq.cdr1"]], aa_headers[[".aa.seq.cdr1"]],
-    nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]]
-  ))]
-
-  colnames(df) <- c(
-    IMMCOL$order,
-    IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa
+    nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]],
+    nuc_headers[[".nuc.seq.fr1"]], aa_headers[[".aa.seq.fr1"]],
+    nuc_headers[[".nuc.seq.fr2"]], aa_headers[[".aa.seq.fr2"]],
+    nuc_headers[[".nuc.seq.fr3"]], aa_headers[[".aa.seq.fr3"]],
+    nuc_headers[[".nuc.seq.fr4"]], aa_headers[[".aa.seq.fr4"]]
   )
+  df_ext_column_names <- IMMCOL_EXT$order
 
-  df[[IMMCOL$v]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$v]])
-  df[[IMMCOL$v]] <- gsub(",", ", ", df[[IMMCOL$v]])
-  df[[IMMCOL$v]] <- str_replace_all(df[[IMMCOL$v]], '"', "")
+  # add extra columns that are not NA
+  for (i in seq_along(df_ext_columns)) {
+    loaded_header <- df_ext_columns[i]
+    if (!is.na(loaded_header)) {
+      df_columns <- c(df_columns, loaded_header)
+      df_column_names <- c(df_column_names, df_ext_column_names[i])
+    }
+  }
 
-  # Remove sorting because MiXCR outputs segments in a specific order
-  df[[IMMCOL$v]] <- sapply(
-    strsplit(df[[IMMCOL$v]], ", ", useBytes = TRUE),
-    # function(x) paste0(sort(unique(x)), collapse = ", ")
-    function(x) paste0(unique(x), collapse = ", ")
-  )
+  df <- df[, make.names(df_columns)]
+  colnames(df) <- df_column_names
 
-  df[[IMMCOL$d]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$d]])
-  df[[IMMCOL$d]] <- gsub(",", ", ", df[[IMMCOL$d]])
-  df[[IMMCOL$d]] <- str_replace_all(df[[IMMCOL$d]], '"', "")
-  df[[IMMCOL$d]] <- sapply(
-    strsplit(df[[IMMCOL$d]], ", ", useBytes = TRUE),
-    # function(x) paste0(sort(unique(x)), collapse = ", ")
-    function(x) paste0(unique(x), collapse = ", ")
-  )
+  fix.allele <- function(.data, .colname) {
+    if (.colname %in% df_column_names) {
+      .data[[.colname]] <- gsub(
+        "([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])",
+        "", .data[[.colname]]
+      )
+      .data[[.colname]] <- gsub(",", ", ", .data[[.colname]])
+      .data[[.colname]] <- str_replace_all(.data[[.colname]], '"', "")
 
-  df[[IMMCOL$j]] <- gsub("([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "", df[[IMMCOL$j]])
-  df[[IMMCOL$j]] <- gsub(",", ", ", df[[IMMCOL$j]])
-  df[[IMMCOL$j]] <- str_replace_all(df[[IMMCOL$j]], '"', "")
-  df[[IMMCOL$j]] <- sapply(
-    strsplit(df[[IMMCOL$j]], ", ", useBytes = TRUE),
-    # function(x) paste0(sort(unique(x)), collapse = ", ")
-    function(x) paste0(unique(x), collapse = ", ")
-  )
+      .data[[.colname]] <- sapply(
+        strsplit(.data[[.colname]], ", ", useBytes = TRUE),
+        # No sorting because MiXCR outputs segments in a specific order
+        function(x) paste0(unique(x), collapse = ", ")
+      )
 
-  .postprocess(fix.alleles(df))
+      .data[[.colname]] <- gsub("[*][[:digit:]]*", "", .data[[.colname]])
+    }
+    .data
+  }
+
+  df %>%
+    fix.allele(IMMCOL$v) %>%
+    fix.allele(IMMCOL$d) %>%
+    fix.allele(IMMCOL$j) %>%
+    fix.allele(IMMCOL_EXT$c) %>%
+    .postprocess() %>%
+    return()
 }
 
 parse_migec <- function(.filename, .mode) {

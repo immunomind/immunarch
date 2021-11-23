@@ -482,3 +482,11 @@ as_numeric_or_fail <- function(.string) {
   }
   return(result)
 }
+
+all_bcr_columns_present <- function(.data) {
+  expected_columns <- c(
+    IMMCOL$order,
+    IMMCOL_EXT$bestv, IMMCOL_EXT$bestj, IMMCOL_EXT$cdr3s, IMMCOL_EXT$cdr3e, IMMCOL_EXT$c
+  )
+  return(all(expected_columns %in% colnames(.data)))
+}

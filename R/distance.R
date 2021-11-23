@@ -1,14 +1,14 @@
 #' Function for computing distance for sequences
 #'
 #' @importFrom stringdist stringdistmatrix
-#' @importFrom purrr map
+#' @importFrom purrr map pmap map2
 #' @importFrom magrittr %>%
 
 #' @description Computing sequential distances between clonotypes from two repertoires:
 #'
 #' @usage
 #'
-#' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming')
+#' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', ...)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
@@ -24,6 +24,8 @@
 #' @param .col A string that specifies the column name to be processed. Default value is 'CDR3.aa'.
 #'
 #' @param .method Character value or user-defined function.
+#'
+#' @param ... Extra arguments for user-defined function.
 #'
 #' Default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
 #' If a and b have different number of characters the distance is Inf.
