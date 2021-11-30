@@ -6,7 +6,6 @@
 src/*.o
 src/*.so
 src/*.dll
-R/RcppExports.R
 *.DS_Store
 docs/*
 .idea/*
