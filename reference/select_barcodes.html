@@ -222,11 +222,11 @@ and proportions are changed accordingly to the filtered barcodes.</p>
     <tr>
       <th>.data</th>
       <td><p>The data to be processed. Can be <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>,
-data.table, or a list of these objects.</p>
+<a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format.
 <a href='immunr_data_format.html'>immunarch_data_format</a></p>
 <p>Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from copy_to or a list
+DBI database connections, Apache Spark DataFrame from <a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
@@ -252,17 +252,17 @@ in the ".barcode" argument (Seurat::Idents() case only).</p>
     <div class='dont-index'><p><a href='select_clusters.html'>select_clusters</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
-<span class='co'># Create a fake single-cell data</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>df</span><span class='op'>$</span><span class='va'>Barcode</span> <span class='op'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
-<span class='va'>df</span><span class='op'>$</span><span class='va'>Barcode</span><span class='op'>[</span><span class='fl'>51</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"GGGGGCCCCC"</span>
-<span class='va'>barcodes</span> <span class='op'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>select_barcodes</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>barcodes</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Create a fake single-cell data</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>df</span><span class='op'>$</span><span class='va'>Barcode</span> <span class='op'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span></span>
+<span class='r-in'><span class='va'>df</span><span class='op'>$</span><span class='va'>Barcode</span><span class='op'>[</span><span class='fl'>51</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"GGGGGCCCCC"</span></span>
+<span class='r-in'><span class='va'>barcodes</span> <span class='op'>&lt;-</span> <span class='st'>"AAAAACCCCC"</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>select_barcodes</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>barcodes</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

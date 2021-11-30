@@ -214,51 +214,53 @@
     <p><code>gene_stats</code> returns all segment gene statistics</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>gene_stats</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     alias                 species ighd ighj ighv igij igkj igkv iglj iglv traj
-#&gt; 1      bt               BosTaurus   21    4   25    0    1    6    5   26   46
-#&gt; 2      cd      CamelusDromedarius    0    0    0    0    0    0    0    0    0
-#&gt; 3     clf    CanisLupusFamiliaris    0    0    0    0    0    0    0    0    0
-#&gt; 4      dr              DanioRerio    7    7    0    3    0    0    0    0    0
-#&gt; 5      hs             HomoSapiens   30   13  248    0    5   64    7   69   57
-#&gt; 6  macmul           MacacaMulatta   24    7   19    0    4   83    5    0    0
-#&gt; 7     mmc    MusMusculusCastaneus    0    0    0    0    0    4    0    0    0
-#&gt; 8     mmd   MusMusculusDomesticus    0    0    0    0    0    2    0    0    0
-#&gt; 9  musmus             MusMusculus   32    8  225    0    8  109    3    5   42
-#&gt; 10     oa OrnithorhynchusAnatinus    3   10    0    0    0    0    0    0    0
-#&gt; 11     oc    OryctolagusCuniculus   10   11   39    0    8   26    2   20    0
-#&gt; 12     om      OncorhynchusMykiss    9    7    6    0    0    0    0    0    0
-#&gt; 13     rn        RattusNorvegicus   30    4  113    0    6  132    2    8    0
-#&gt; 14   smth   MusMusculusMolossinus    0    0    0    0    0    1    0    0    0
-#&gt; 15   smth     MusMusculusMusculus    0    0    0    0    0    1    0    0    0
-#&gt; 16   smth              MusSpretus    0    0    0    0    0    2    0    2    0
-#&gt; 17     ss               SusScrofa    5    5   15    0    8   19    4   14    0
-#&gt;    trav trbd trbj trbv trdd trdj trdv trgj trgv
-#&gt; 1     0    0    0    0    5    3    0    6   15
-#&gt; 2     0    0    0    0    0    0    7    2    2
-#&gt; 3     0    2    8   19    0    0    0    7    8
-#&gt; 4     0    0    0    0    0    0    0    0    0
-#&gt; 5    60    3   14   64    3    4    6    4   10
-#&gt; 6     0    2   15   58    0    0    0    0    0
-#&gt; 7     0    0    0    0    0    0    0    0    0
-#&gt; 8     0    0    0    0    0    0    0    0    0
-#&gt; 9   145    2   14   23    2    3    7    0   11
-#&gt; 10    0    0    0    0    0    0    0    0    0
-#&gt; 11    0    0    0    0    0    0    0    0    0
-#&gt; 12    0    1    9    0    0    0    0    0    0
-#&gt; 13    0    0    0    0    0    0    0    0    0
-#&gt; 14    0    0    0    0    0    0    0    0    0
-#&gt; 15    0    0    0    0    0    0    0    0    0
-#&gt; 16    0    0    0    0    0    0    0    0    0
-#&gt; 17    0    0    0    0    0    0    0    0    0</div><div class='input'><span class='fu'><a href='geneUsage.html'>get_genes</a></span><span class='op'>(</span><span class='st'>"hs.trbv"</span>, <span class='st'>"segment"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "TRBV10-1" "TRBV10-2" "TRBV10-3" "TRBV11-1" "TRBV11-2" "TRBV11-3"
-#&gt;  [7] "TRBV12-3" "TRBV12-4" "TRBV12-5" "TRBV13"   "TRBV14"   "TRBV15"  
-#&gt; [13] "TRBV16"   "TRBV18"   "TRBV19"   "TRBV2"    "TRBV20-1" "TRBV24-1"
-#&gt; [19] "TRBV25-1" "TRBV27"   "TRBV28"   "TRBV29-1" "TRBV3-1"  "TRBV30"  
-#&gt; [25] "TRBV4-1"  "TRBV4-2"  "TRBV4-3"  "TRBV5-1"  "TRBV5-4"  "TRBV5-5" 
-#&gt; [31] "TRBV5-6"  "TRBV5-8"  "TRBV6-1"  "TRBV6-2"  "TRBV6-3"  "TRBV6-4" 
-#&gt; [37] "TRBV6-5"  "TRBV6-6"  "TRBV6-8"  "TRBV6-9"  "TRBV7-2"  "TRBV7-3" 
-#&gt; [43] "TRBV7-4"  "TRBV7-6"  "TRBV7-7"  "TRBV7-8"  "TRBV7-9"  "TRBV9"   </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>gene_stats</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     alias                 species ighd ighj ighv igij igkj igkv iglj iglv traj</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      bt               BosTaurus   21    4   25    0    1    6    5   26   46</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2      cd      CamelusDromedarius    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     clf    CanisLupusFamiliaris    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4      dr              DanioRerio    7    7    0    3    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5      hs             HomoSapiens   30   13  248    0    5   64    7   69   57</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  macmul           MacacaMulatta   24    7   19    0    4   83    5    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7     mmc    MusMusculusCastaneus    0    0    0    0    0    4    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8     mmd   MusMusculusDomesticus    0    0    0    0    0    2    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  musmus             MusMusculus   32    8  225    0    8  109    3    5   42</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10     oa OrnithorhynchusAnatinus    3   10    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11     oc    OryctolagusCuniculus   10   11   39    0    8   26    2   20    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12     om      OncorhynchusMykiss    9    7    6    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13     rn        RattusNorvegicus   30    4  113    0    6  132    2    8    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14   smth   MusMusculusMolossinus    0    0    0    0    0    1    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   smth     MusMusculusMusculus    0    0    0    0    0    1    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16   smth              MusSpretus    0    0    0    0    0    2    0    2    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17     ss               SusScrofa    5    5   15    0    8   19    4   14    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    trav trbd trbj trbv trdd trdj trdv trgj trgv</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     0    0    0    0    5    3    0    6   15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     0    0    0    0    0    0    7    2    2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     0    2    8   19    0    0    0    7    8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    60    3   14   64    3    4    6    4   10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6     0    2   15   58    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7     0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8     0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9   145    2   14   23    2    3    7    0   11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12    0    1    9    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16    0    0    0    0    0    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17    0    0    0    0    0    0    0    0    0</span>
+<span class='r-in'><span class='fu'><a href='geneUsage.html'>get_genes</a></span><span class='op'>(</span><span class='st'>"hs.trbv"</span>, <span class='st'>"segment"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "TRBV10-1" "TRBV10-2" "TRBV10-3" "TRBV11-1" "TRBV11-2" "TRBV11-3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "TRBV12-3" "TRBV12-4" "TRBV12-5" "TRBV13"   "TRBV14"   "TRBV15"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "TRBV16"   "TRBV18"   "TRBV19"   "TRBV2"    "TRBV20-1" "TRBV24-1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "TRBV25-1" "TRBV27"   "TRBV28"   "TRBV29-1" "TRBV3-1"  "TRBV30"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "TRBV4-1"  "TRBV4-2"  "TRBV4-3"  "TRBV5-1"  "TRBV5-4"  "TRBV5-5" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "TRBV5-6"  "TRBV5-8"  "TRBV6-1"  "TRBV6-2"  "TRBV6-3"  "TRBV6-4" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "TRBV6-5"  "TRBV6-6"  "TRBV6-8"  "TRBV6-9"  "TRBV7-2"  "TRBV7-3" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "TRBV7-4"  "TRBV7-6"  "TRBV7-7"  "TRBV7-8"  "TRBV7-9"  "TRBV9"   </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

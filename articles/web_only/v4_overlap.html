@@ -219,39 +219,39 @@ warning("TODO")
 ## 
 ## Rotation (n x k) = (12 x 2):
 ##                [,1]       [,2]
-## A2-i129  18.7767715 -18.360817
-## A2-i131 -29.9586985  -7.870441
-## A2-i133 -28.1148594  22.629093
-## A2-i132  44.3435640   6.221812
-## A4-i191 -13.8586515   7.452149
-## A4-i192  14.0065477  27.068830
-## MS1       8.8469009  -8.151574
-## MS2       0.9712073  -1.297017
-## MS3      10.4398629   4.894354
-## MS4      -0.5131505  10.471309
-## MS5     -18.5153823 -12.628029
-## MS6      -6.4241122 -30.429669</code></pre>
+## A2-i129 -18.7767715 -18.360817
+## A2-i131  29.9586985  -7.870441
+## A2-i133  28.1148594  22.629093
+## A2-i132 -44.3435640   6.221812
+## A4-i191  13.8586515   7.452149
+## A4-i192 -14.0065477  27.068830
+## MS1      -8.8469009  -8.151574
+## MS2      -0.9712073  -1.297017
+## MS3     -10.4398629   4.894354
+## MS4       0.5131505  10.471309
+## MS5      18.5153823 -12.628029
+## MS6       6.4241122 -30.429669</code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
-<pre><code>##               DimI       DimII
-## A2-i129   80.58072 -118.583878
-## A2-i131   99.90493  389.398726
-## A2-i133  -24.10273  -47.636064
-## A2-i132 -107.15488    3.392012
-## A4-i191 -111.89058  -77.617023
-## A4-i192   45.27260 -147.954181
-## MS1       53.84511  -81.511064
-## MS2      -97.22998  -27.900639
-## MS3       59.29022 -115.433687
-## MS4      -95.63975  -49.092791
-## MS5      119.56156  392.926285
-## MS6      -22.43721 -119.987696
+<pre><code>##                DimI       DimII
+## A2-i129   15.759495 -119.757177
+## A2-i131 -215.059724  287.591597
+## A2-i133   79.675840  -80.496797
+## A2-i132   67.430285   42.793931
+## A4-i191  125.091368  -13.754186
+## A4-i192  -19.709308 -154.836863
+## MS1      -35.023074 -101.858894
+## MS2       76.560527    9.570042
+## MS3       -5.578018 -120.027800
+## MS4       92.818554   -5.559618
+## MS5     -195.165114  283.218966
+## MS6       13.199169  -26.883201
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"      "array"</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise the results</span>
-<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-1-1.png" width="768" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span>
@@ -262,43 +262,43 @@ warning("TODO")
 ## 
 ## Rotation (n x k) = (12 x 2):
 ##                [,1]       [,2]
-## A2-i129  18.7767715 -18.360817
-## A2-i131 -29.9586985  -7.870441
-## A2-i133 -28.1148594  22.629093
-## A2-i132  44.3435640   6.221812
-## A4-i191 -13.8586515   7.452149
-## A4-i192  14.0065477  27.068830
-## MS1       8.8469009  -8.151574
-## MS2       0.9712073  -1.297017
-## MS3      10.4398629   4.894354
-## MS4      -0.5131505  10.471309
-## MS5     -18.5153823 -12.628029
-## MS6      -6.4241122 -30.429669</code></pre>
+## A2-i129 -18.7767715 -18.360817
+## A2-i131  29.9586985  -7.870441
+## A2-i133  28.1148594  22.629093
+## A2-i132 -44.3435640   6.221812
+## A4-i191  13.8586515   7.452149
+## A4-i192 -14.0065477  27.068830
+## MS1      -8.8469009  -8.151574
+## MS2      -0.9712073  -1.297017
+## MS3     -10.4398629   4.894354
+## MS4       0.5131505  10.471309
+## MS5      18.5153823 -12.628029
+## MS6       6.4241122 -30.429669</code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
-<pre><code>##                DimI       DimII
-## A2-i129  159.173214   31.740390
-## A2-i131 -412.686799  109.302211
-## A2-i133   69.250454   11.993658
-## A2-i132    2.750179  -45.221274
-## A4-i191   34.452349 -110.436119
-## A4-i192  142.429023   -5.574571
-## MS1      122.911716   50.528482
-## MS2       25.483650  -63.648796
-## MS3      141.317535   24.867084
-## MS4       31.812734  -81.393962
-## MS5     -406.023695  125.740068
-## MS6       89.129640  -47.897170
+<pre><code>##                DimI      DimII
+## A2-i129   49.168576   63.41752
+## A2-i131 -544.658082   66.72190
+## A2-i133   84.908825  -59.56283
+## A2-i132  244.819646  -44.34077
+## A4-i191  174.717216 -132.49744
+## A4-i192  -15.164094   24.41292
+## MS1       -8.618626  102.05059
+## MS2      201.311534  -61.85075
+## MS3       20.141364   58.18885
+## MS4      181.958218  -86.02593
+## MS5     -540.495145   38.71098
+## MS6      151.910568   30.77497
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"      "array"</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise the results</span>
-<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-1.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Clusterise the MDS resulting components using K-means</span>
-<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds+kmeans"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds+kmeans"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="public-repertoire" class="section level1">
@@ -379,8 +379,8 @@ warning("TODO")
 <span class="va">pr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRepApply.html">pubRepApply</a></span><span class="op">(</span><span class="va">pr1</span>, <span class="va">pr2</span><span class="op">)</span>
 
 <span class="co"># Plot it</span>
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">geom_jitter</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Treatment"</span>, y <span class="op">=</span> <span class="va">Result</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">pr3</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Treatment"</span>, y <span class="op">=</span> <span class="va">Result</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">pr3</span><span class="op">)</span>
 <span class="va">p</span></code></pre></div>
 </div>
   </div>

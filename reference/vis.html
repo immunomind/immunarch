@@ -265,19 +265,24 @@ See "Details" for the list of available visualisations.</p>
     <div class='dont-index'><p><a href='fixVis.html'>fixVis</a> for precise manipulation of plots.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load the test data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
-
-<span class='co'># Compute and visualise:</span>
-<span class='va'>ov</span> <span class='op'>&lt;-</span> <span class='fu'><a href='repOverlap.html'>repOverlap</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-<span class='fu'>vis</span><span class='op'>(</span><span class='va'>ov</span><span class='op'>)</span>
-</div><div class='img'><img src='vis-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>gu</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geneUsage.html'>geneUsage</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-<span class='fu'>vis</span><span class='op'>(</span><span class='va'>gu</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Using Names as id variables</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 15 rows containing missing values (geom_bar).</span></div><div class='img'><img src='vis-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>dv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='repDiversity.html'>repDiversity</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-<span class='fu'>vis</span><span class='op'>(</span><span class='va'>dv</span><span class='op'>)</span>
-</div><div class='img'><img src='vis-3.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Load the test data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Compute and visualise:</span></span>
+<span class='r-in'><span class='va'>ov</span> <span class='op'>&lt;-</span> <span class='fu'><a href='repOverlap.html'>repOverlap</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>vis</span><span class='op'>(</span><span class='va'>ov</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='vis-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>gu</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geneUsage.html'>geneUsage</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>vis</span><span class='op'>(</span><span class='va'>gu</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Using Names as id variables</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Removed 15 rows containing missing values (geom_bar).</span>
+<span class='r-plt img'><img src='vis-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>dv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='repDiversity.html'>repDiversity</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>vis</span><span class='op'>(</span><span class='va'>dv</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='vis-3.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

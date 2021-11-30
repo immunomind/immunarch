@@ -237,11 +237,11 @@ or FALSE (don't do normalisation), respectively.</p>
     <tr>
       <th>.data</th>
       <td><p>The data to be processed. Can be <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>,
-data.table, or a list of these objects.</p>
+<a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format.
 <a href='immunr_data_format.html'>immunarch_data_format</a></p>
 <p>Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from copy_to or a list
+DBI database connections, Apache Spark DataFrame from <a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
@@ -357,51 +357,58 @@ Diversity wiki
 <a href='https://en.wikipedia.org/wiki/Measurement_of_biodiversity'>https://en.wikipedia.org/wiki/Measurement_of_biodiversity</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
-
-<span class='co'># Make data smaller for testing purposes</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='top.html'>top</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fl'>4000</span><span class='op'>)</span>
-
-<span class='co'># chao1</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"chao1"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='repDiversity-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Hill numbers</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>
-  .data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"hill"</span>, .max.q <span class='op'>=</span> <span class='fl'>6</span>,
-  .min.q <span class='op'>=</span> <span class='fl'>1</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span>
-<span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='repDiversity-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># diversity</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"div"</span>, .q <span class='op'>=</span> <span class='fl'>5</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='repDiversity-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Gini-Simpson</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"gini.simp"</span>, .q <span class='op'>=</span> <span class='fl'>5</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='repDiversity-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># inverse Simpson</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"inv.simp"</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='repDiversity-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Gini coefficient</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"gini"</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              [,1]
-#&gt; A2-i129 0.2297097
-#&gt; A2-i131 0.2252784
-#&gt; A2-i133 0.2513861
-#&gt; A2-i132 0.2017009
-#&gt; A4-i191 0.3863010
-#&gt; A4-i192 0.3064599
-#&gt; MS1     0.3610387
-#&gt; MS2     0.1561629
-#&gt; MS3     0.2396675
-#&gt; MS4     0.1224806
-#&gt; MS5     0.3320779
-#&gt; MS6     0.1278508
-#&gt; attr(,"class")
-#&gt; [1] "immunr_gini" "matrix"      "array"      </div><div class='input'>
-<span class='co'># d50</span>
-<span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"d50"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='repDiversity-6.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Make data smaller for testing purposes</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='top.html'>top</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fl'>4000</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># chao1</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"chao1"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='repDiversity-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Hill numbers</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span></span>
+<span class='r-in'>  .data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"hill"</span>, .max.q <span class='op'>=</span> <span class='fl'>6</span>,</span>
+<span class='r-in'>  .min.q <span class='op'>=</span> <span class='fl'>1</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span></span>
+<span class='r-in'><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='repDiversity-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># diversity</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"div"</span>, .q <span class='op'>=</span> <span class='fl'>5</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='repDiversity-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Gini-Simpson</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"gini.simp"</span>, .q <span class='op'>=</span> <span class='fl'>5</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='repDiversity-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># inverse Simpson</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"inv.simp"</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='repDiversity-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Gini coefficient</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"gini"</span>, .do.norm <span class='op'>=</span> <span class='cn'>NA</span>, .laplace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A2-i129 0.2297097</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A2-i131 0.2252784</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A2-i133 0.2513861</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A2-i132 0.2017009</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A4-i191 0.3863010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A4-i192 0.3064599</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS1     0.3610387</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS2     0.1561629</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS3     0.2396675</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS4     0.1224806</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS5     0.3320779</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS6     0.1278508</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "immunr_gini" "matrix"      "array"      </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># d50</span></span>
+<span class='r-in'><span class='fu'>repDiversity</span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, .method <span class='op'>=</span> <span class='st'>"d50"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='repDiversity-6.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

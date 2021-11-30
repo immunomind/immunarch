@@ -240,61 +240,72 @@ by timepoints. Either See "Examples" below for more details.</p></td>
     <p>A ggplot2 object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load an example data that comes with immunarch</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
-
-<span class='co'># Make the data smaller in order to speed up the examples</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span><span class='op'>)</span><span class='op'>]</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span><span class='op'>)</span>, <span class='op'>]</span>
-
-<span class='co'># Option 1</span>
-<span class='co'># Choose the first 10 amino acid clonotype sequences</span>
-<span class='co'># from the first repertoire to track</span>
-<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>10</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span><span class='op'>)</span>
-<span class='co'># Choose the first 20 nucleotide clonotype sequences</span>
-<span class='co'># and their V genes from the "MS1" repertoire to track</span>
-<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"MS1"</span>, <span class='fl'>20</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"nt+v"</span><span class='op'>)</span>
-
-<span class='co'># Option 2</span>
-<span class='co'># Choose clonotypes with amino acid sequences "CASRGLITDTQYF" or "CSASRGSPNEQYF"</span>
-<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span><span class='op'>)</span>
-
-<span class='co'># Option 3</span>
-<span class='co'># Choose the first 10 clonotypes from the first repertoire</span>
-<span class='co'># with amino acid sequences and V segments</span>
-<span class='va'>target</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='va'>CDR3.aa</span>, <span class='va'>V.name</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>target</span><span class='op'>)</span>
-
-<span class='co'># Visualise the output regardless of the chosen option</span>
-<span class='co'># Therea are three way to visualise it, regulated by the .plot argument</span>
-<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"smooth"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='vis.immunr_dynamics-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"area"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='vis.immunr_dynamics-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='vis.immunr_dynamics-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Visualising timepoints</span>
-<span class='co'># First, we create an additional column in the metadata with randomly choosen timepoints:</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 × 7</span>
-#&gt;   Sample  ID    Sex     Age Status Lane  Timepoint
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> A2-i129 C1    M        11 C      A             4
-#&gt; <span style='color: #BCBCBC;'>2</span> A2-i131 C2    M         9 C      A             6
-#&gt; <span style='color: #BCBCBC;'>3</span> A2-i133 C4    M        16 C      A             2
-#&gt; <span style='color: #BCBCBC;'>4</span> MS1     MS1   M        12 MS     C             3
-#&gt; <span style='color: #BCBCBC;'>5</span> MS2     MS2   M        30 MS     C             1
-#&gt; <span style='color: #BCBCBC;'>6</span> MS3     MS3   M         8 MS     C             5</div><div class='input'><span class='co'># Next, we create a vector with samples in the right order,</span>
-<span class='co'># according to the "Timepoint" column (from smallest to greatest):</span>
-<span class='va'>sample_order</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span><span class='op'>)</span>
-<span class='co'># Sanity check: timepoints are following the right order:</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span><span class='op'>[</span><span class='va'>sample_order</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] 1 2 3 4 5 6</div><div class='input'><span class='co'># Samples, sorted by the timepoints:</span>
-<span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Sample</span><span class='op'>[</span><span class='va'>sample_order</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] "MS2"     "A2-i133" "MS1"     "A2-i129" "MS3"     "A2-i131"</div><div class='input'><span class='co'># And finally, we visualise the data:</span>
-<span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .order <span class='op'>=</span> <span class='va'>sample_order</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span></div><div class='img'><img src='vis.immunr_dynamics-4.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Load an example data that comes with immunarch</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Make the data smaller in order to speed up the examples</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span><span class='op'>)</span>, <span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Option 1</span></span>
+<span class='r-in'><span class='co'># Choose the first 10 amino acid clonotype sequences</span></span>
+<span class='r-in'><span class='co'># from the first repertoire to track</span></span>
+<span class='r-in'><span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>10</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Choose the first 20 nucleotide clonotype sequences</span></span>
+<span class='r-in'><span class='co'># and their V genes from the "MS1" repertoire to track</span></span>
+<span class='r-in'><span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"MS1"</span>, <span class='fl'>20</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"nt+v"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Option 2</span></span>
+<span class='r-in'><span class='co'># Choose clonotypes with amino acid sequences "CASRGLITDTQYF" or "CSASRGSPNEQYF"</span></span>
+<span class='r-in'><span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CASRGLITDTQYF"</span>, <span class='st'>"CSASRGSPNEQYF"</span><span class='op'>)</span>, .col <span class='op'>=</span> <span class='st'>"aa"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Option 3</span></span>
+<span class='r-in'><span class='co'># Choose the first 10 clonotypes from the first repertoire</span></span>
+<span class='r-in'><span class='co'># with amino acid sequences and V segments</span></span>
+<span class='r-in'><span class='va'>target</span> <span class='op'>&lt;-</span> <span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>CDR3.aa</span>, <span class='va'>V.name</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>tc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trackClonotypes.html'>trackClonotypes</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>target</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Visualise the output regardless of the chosen option</span></span>
+<span class='r-in'><span class='co'># Therea are three way to visualise it, regulated by the .plot argument</span></span>
+<span class='r-in'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"smooth"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
+<span class='r-plt img'><img src='vis.immunr_dynamics-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"area"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
+<span class='r-plt img'><img src='vis.immunr_dynamics-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .plot <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
+<span class='r-plt img'><img src='vis.immunr_dynamics-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Visualising timepoints</span></span>
+<span class='r-in'><span class='co'># First, we create an additional column in the metadata with randomly choosen timepoints:</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 6 × 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Sample  ID    Sex     Age Status Lane  Timepoint</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> A2-i129 C1    M        11 C      A             4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> A2-i131 C2    M         9 C      A             6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> A2-i133 C4    M        16 C      A             2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> MS1     MS1   M        12 MS     C             3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> MS2     MS2   M        30 MS     C             1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> MS3     MS3   M         8 MS     C             5</span>
+<span class='r-in'><span class='co'># Next, we create a vector with samples in the right order,</span></span>
+<span class='r-in'><span class='co'># according to the "Timepoint" column (from smallest to greatest):</span></span>
+<span class='r-in'><span class='va'>sample_order</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/setorder.html'>order</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Sanity check: timepoints are following the right order:</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Timepoint</span><span class='op'>[</span><span class='va'>sample_order</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 2 3 4 5 6</span>
+<span class='r-in'><span class='co'># Samples, sorted by the timepoints:</span></span>
+<span class='r-in'><span class='va'>immdata</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>$</span><span class='va'>Sample</span><span class='op'>[</span><span class='va'>sample_order</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "MS2"     "A2-i133" "MS1"     "A2-i129" "MS3"     "A2-i131"</span>
+<span class='r-in'><span class='co'># And finally, we visualise the data:</span></span>
+<span class='r-in'><span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>tc</span>, .order <span class='op'>=</span> <span class='va'>sample_order</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
+<span class='r-plt img'><img src='vis.immunr_dynamics-4.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

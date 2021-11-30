@@ -267,10 +267,11 @@ If both then plot both.</p></td>
     <div class='dont-index'><p><a href='vis.html'>vis</a>, <a href='repOverlapAnalysis.html'>repOverlapAnalysis</a>, <a href='geneUsageAnalysis.html'>geneUsageAnalysis</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
-<span class='va'>ov</span> <span class='op'>&lt;-</span> <span class='fu'><a href='repOverlap.html'>repOverlap</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-<span class='fu'><a href='repOverlapAnalysis.html'>repOverlapAnalysis</a></span><span class='op'>(</span><span class='va'>ov</span>, <span class='st'>"mds+kmeans"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='vis.immunr_kmeans-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ov</span> <span class='op'>&lt;-</span> <span class='fu'><a href='repOverlap.html'>repOverlap</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='repOverlapAnalysis.html'>repOverlapAnalysis</a></span><span class='op'>(</span><span class='va'>ov</span>, <span class='st'>"mds+kmeans"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='vis.immunr_kmeans-1.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

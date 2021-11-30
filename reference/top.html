@@ -214,11 +214,11 @@
     <tr>
       <th>.data</th>
       <td><p>The data to be processed. Can be <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>,
-data.table, or a list of these objects.</p>
+<a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format.
 <a href='immunr_data_format.html'>immunarch_data_format</a></p>
 <p>Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from copy_to or a list
+DBI database connections, Apache Spark DataFrame from <a href='https://dplyr.tidyverse.org/reference/copy_to.html'>copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></td>
     </tr>
@@ -233,230 +233,232 @@ of these objects. They are supported with the same limitations as basic objects.
     <p>Data frame with the <code>.n</code> most abundant clonotypes only.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span>
-<span class='fu'>top</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $`A2-i129`
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    173    0.020<span style='text-decoration: underline;'>4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
-#&gt; <span style='color: #BCBCBC;'> 2</span>    163    0.019<span style='text-decoration: underline;'>2</span>  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
-#&gt; <span style='color: #BCBCBC;'> 3</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
-#&gt; <span style='color: #BCBCBC;'> 4</span>     54    0.006<span style='text-decoration: underline;'>35</span> TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
-#&gt; <span style='color: #BCBCBC;'> 5</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
-#&gt; <span style='color: #BCBCBC;'> 6</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
-#&gt; <span style='color: #BCBCBC;'> 7</span>     40    0.004<span style='text-decoration: underline;'>71</span> TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
-#&gt; <span style='color: #BCBCBC;'> 8</span>     31    0.003<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
-#&gt; <span style='color: #BCBCBC;'> 9</span>     30    0.003<span style='text-decoration: underline;'>53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
-#&gt; <span style='color: #BCBCBC;'>10</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $`A2-i131`
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    111    0.013<span style='text-decoration: underline;'>1</span>  TGCAGTGCT… CSASRG… TRBV2… TRBD1  TRBJ2…    11      12    17
-#&gt; <span style='color: #BCBCBC;'> 2</span>     93    0.010<span style='text-decoration: underline;'>9</span>  TGTGCCAGC… CASSVA… TRBV9  TRBD1  TRBJ2…    15      21    23
-#&gt; <span style='color: #BCBCBC;'> 3</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSRM… TRBV13 TRBD1  TRBJ2…    11      18    24
-#&gt; <span style='color: #BCBCBC;'> 4</span>     59    0.006<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSPT… TRBV6… TRBD2  TRBJ2…    10      14    19
-#&gt; <span style='color: #BCBCBC;'> 5</span>     57    0.006<span style='text-decoration: underline;'>71</span> TGCGCCAGC… CASSLD… TRBV5… TRBD2  TRBJ1…    15      17    20
-#&gt; <span style='color: #BCBCBC;'> 6</span>     47    0.005<span style='text-decoration: underline;'>53</span> TGTGCCAGC… CASRGL… TRBV6… TRBD2  TRBJ2…    10      11    16
-#&gt; <span style='color: #BCBCBC;'> 7</span>     46    0.005<span style='text-decoration: underline;'>41</span> TGCAGCGTT… CSVTGV… TRBV2… TRBD1  TRBJ2…     8       9    13
-#&gt; <span style='color: #BCBCBC;'> 8</span>     30    0.003<span style='text-decoration: underline;'>53</span> TGTGCCAGC… CASSYL… TRBV6… TRBD2  TRBJ1…    15      17    19
-#&gt; <span style='color: #BCBCBC;'> 9</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSLA… TRBV5… TRBD1  TRBJ1…    15      21    26
-#&gt; <span style='color: #BCBCBC;'>10</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSYI… TRBV6… TRBD1  TRBJ1…    14      17    20
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $`A2-i133`
-#&gt; <span style='color: #949494;'># A tibble: 11 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    333    0.039<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSLY… TRBV1… TRBD2  TRBJ2…    11      18    29
-#&gt; <span style='color: #BCBCBC;'> 2</span>    111    0.013<span style='text-decoration: underline;'>1</span>  TGTGCCAGC… CASSLG… TRBV7… TRBD1  TRBJ1…    12      15    19
-#&gt; <span style='color: #BCBCBC;'> 3</span>    102    0.012   TGTGCCAGC… CASSPL… TRBV7… TRBD2  TRBJ2…    11      18    23
-#&gt; <span style='color: #BCBCBC;'> 4</span>     81    0.009<span style='text-decoration: underline;'>53</span> TGTGCCAGC… CASSPF… TRBV7… TRBD2  TRBJ1…    11      16    20
-#&gt; <span style='color: #BCBCBC;'> 5</span>     71    0.008<span style='text-decoration: underline;'>35</span> TGTGCCAGC… CASSQG… TRBV4… TRBD2  TRBJ2…    15      19    22
-#&gt; <span style='color: #BCBCBC;'> 6</span>     53    0.006<span style='text-decoration: underline;'>24</span> TGTGCCAGC… CASSVT… TRBV9  TRBD1  TRBJ1…    13      14    18
-#&gt; <span style='color: #BCBCBC;'> 7</span>     45    0.005<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSLG… TRBV7… TRBD1  TRBJ1…    15      16    18
-#&gt; <span style='color: #BCBCBC;'> 8</span>     38    0.004<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSST… TRBV7… TRBD1  TRBJ1…    16      19    24
-#&gt; <span style='color: #BCBCBC;'> 9</span>     38    0.004<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASREL… TRBV28 TRBD2  TRBJ2…    10      24    29
-#&gt; <span style='color: #BCBCBC;'>10</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGCAGCGTT… CSVDEG… TRBV2… TRBD1  TRBJ2…    10      14    17
-#&gt; <span style='color: #BCBCBC;'>11</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSLS… TRBV7… TRBD2  TRBJ2…    15      19    21
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $`A2-i132`
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     41    0.004<span style='text-decoration: underline;'>82</span> TGTGCCAGC… CASSFR… TRBV7… TRBD1  TRBJ2…    10      16    26
-#&gt; <span style='color: #BCBCBC;'> 2</span>     23    0.002<span style='text-decoration: underline;'>71</span> TGTGCCATC… CAIRKQ… TRBV1… TRBD1  TRBJ1…    10      15    19
-#&gt; <span style='color: #BCBCBC;'> 3</span>     20    0.002<span style='text-decoration: underline;'>35</span> TGCGCCAGC… CASSTR… TRBV4… TRBD2  TRBJ2…    11      20    28
-#&gt; <span style='color: #BCBCBC;'> 4</span>     20    0.002<span style='text-decoration: underline;'>35</span> TGTGCCAGC… CASSYL… TRBV6… TRBD1  TRBJ1…    14      18    27
-#&gt; <span style='color: #BCBCBC;'> 5</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSYI… TRBV6… TRBD1  TRBJ1…    14      18    23
-#&gt; <span style='color: #BCBCBC;'> 6</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSLL… TRBV28 TRBD2  TRBJ2…    14      15    24
-#&gt; <span style='color: #BCBCBC;'> 7</span>     17    0.002   TGTGCCAGC… CASTSL… TRBV6… TRBD1  TRBJ2…     9      25    29
-#&gt; <span style='color: #BCBCBC;'> 8</span>     16    0.001<span style='text-decoration: underline;'>88</span> TGCGCCAGC… CASSLD… TRBV5… TRBD1  TRBJ2…    15      -<span style='color: #BB0000;'>1</span>    -<span style='color: #BB0000;'>1</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASTLR… TRBV28 TRBD1  TRBJ1…     9      19    21
-#&gt; <span style='color: #BCBCBC;'>10</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      20    23
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $`A4-i191`
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    449    0.052<span style='text-decoration: underline;'>8</span>  TGTGCCAGC… CASSAF… TRBV9  TRBD2  TRBJ2…    12      19    24
-#&gt; <span style='color: #BCBCBC;'> 2</span>    202    0.023<span style='text-decoration: underline;'>8</span>  TGCGCCTGT… CACGGG… TRBV1… TRBD2  TRBJ1…     5      12    18
-#&gt; <span style='color: #BCBCBC;'> 3</span>    187    0.022   TGTGCCAGC… CASSSG… TRBV27 TRBD2  TRBJ2…    12      15    23
-#&gt; <span style='color: #BCBCBC;'> 4</span>    143    0.016<span style='text-decoration: underline;'>8</span>  TGTGCCAGC… CASSSG… TRBV6… TRBD1  TRBJ2…    12      14    21
-#&gt; <span style='color: #BCBCBC;'> 5</span>    126    0.014<span style='text-decoration: underline;'>8</span>  TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      19    22
-#&gt; <span style='color: #BCBCBC;'> 6</span>     83    0.009<span style='text-decoration: underline;'>76</span> TGCGCCAGC… CASSQV… TRBV4… TRBD2  TRBJ1…    15      17    21
-#&gt; <span style='color: #BCBCBC;'> 7</span>     80    0.009<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSLG… TRBV28 TRBD2  TRBJ2…    14      20    24
-#&gt; <span style='color: #BCBCBC;'> 8</span>     68    0.008   TGTGCCAGC… CASSFG… TRBV1… TRBD1  TRBJ2…    13      23    26
-#&gt; <span style='color: #BCBCBC;'> 9</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSAG… TRBV7… TRBD1  TRBJ2…    11      15    21
-#&gt; <span style='color: #BCBCBC;'>10</span>     56    0.006<span style='text-decoration: underline;'>59</span> TGCGCCAGC… CASSLA… TRBV5… TRBD2  TRBJ1…    15      20    24
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $`A4-i192`
-#&gt; <span style='color: #949494;'># A tibble: 11 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    150    0.017<span style='text-decoration: underline;'>6</span>  TGCGCCAGC… CASSES… TRBV1… TRBD1  TRBJ2…    16      17    19
-#&gt; <span style='color: #BCBCBC;'> 2</span>    124    0.014<span style='text-decoration: underline;'>6</span>  TGTGCCAGC… CASIPP… TRBV7… TRBD2  TRBJ2…     9      30    38
-#&gt; <span style='color: #BCBCBC;'> 3</span>    120    0.014<span style='text-decoration: underline;'>1</span>  TGCGCCAGC… CASSSG… TRBV4… TRBD1  TRBJ1…    11      15    20
-#&gt; <span style='color: #BCBCBC;'> 4</span>    115    0.013<span style='text-decoration: underline;'>5</span>  TGCAGTGCT… CSARDI… TRBV2… TRBD1  TRBJ1…    13      18    20
-#&gt; <span style='color: #BCBCBC;'> 5</span>    107    0.012<span style='text-decoration: underline;'>6</span>  TGTGCCAGC… CASSRW… TRBV7… TRBD1  TRBJ2…    11      16    20
-#&gt; <span style='color: #BCBCBC;'> 6</span>    101    0.011<span style='text-decoration: underline;'>9</span>  TGCAGTGCT… CSARDF… TRBV2… TRBD1  TRBJ2…    13      24    31
-#&gt; <span style='color: #BCBCBC;'> 7</span>     95    0.011<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSPN… TRBV1… TRBD2  TRBJ1…    10      11    14
-#&gt; <span style='color: #BCBCBC;'> 8</span>     76    0.008<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSLI… TRBV27 TRBD1  TRBJ2…    14      17    19
-#&gt; <span style='color: #BCBCBC;'> 9</span>     51    0.006   TGTGCCAGC… CASSPK… TRBV18 TRBD2  TRBJ2…    14      18    24
-#&gt; <span style='color: #BCBCBC;'>10</span>     42    0.004<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSPN… TRBV1… TRBD2  TRBJ1…    11      16    19
-#&gt; <span style='color: #BCBCBC;'>11</span>     42    0.004<span style='text-decoration: underline;'>94</span> TGCGCCAGC… CASSHP… TRBV4… TRBD2  TRBJ2…    13      17    28
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $MS1
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    539    0.063<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSLQ… TRBV7… TRBD2  TRBJ2…    14      18    26
-#&gt; <span style='color: #BCBCBC;'> 2</span>    320    0.037<span style='text-decoration: underline;'>6</span>  TGTGCCAGC… CASSVY… TRBV9  TRBD1  TRBJ2…    13      20    22
-#&gt; <span style='color: #BCBCBC;'> 3</span>    204    0.024   TGCAGTACC… CSTEED… TRBV2… TRBD1  TRBJ2…     5      14    19
-#&gt; <span style='color: #BCBCBC;'> 4</span>    151    0.017<span style='text-decoration: underline;'>8</span>  TGCAGCGTT… CSVELR… TRBV2… TRBD1  TRBJ2…    11      16    19
-#&gt; <span style='color: #BCBCBC;'> 5</span>     98    0.011<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSLG… TRBV5… TRBD1  TRBJ2…    15      16    22
-#&gt; <span style='color: #BCBCBC;'> 6</span>     81    0.009<span style='text-decoration: underline;'>53</span> TGCAGTGCT… CSARDL… TRBV2… TRBD2  TRBJ2…    13      15    20
-#&gt; <span style='color: #BCBCBC;'> 7</span>     76    0.008<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSFE… TRBV7… TRBD1  TRBJ2…    13      16    22
-#&gt; <span style='color: #BCBCBC;'> 8</span>     62    0.007<span style='text-decoration: underline;'>29</span> TGCAGCTAT… CSYRTG… TRBV2… TRBD1  TRBJ2…     5      10    20
-#&gt; <span style='color: #BCBCBC;'> 9</span>     60    0.007<span style='text-decoration: underline;'>06</span> TGTGCCAGC… CASSLG… TRBV28 TRBD1  TRBJ2…    14      26    31
-#&gt; <span style='color: #BCBCBC;'>10</span>     38    0.004<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSLY… TRBV7… TRBD2  TRBJ2…    14      17    19
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $MS2
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     97    0.011<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSTR… TRBV28 TRBD1  TRBJ2…    10      15    20
-#&gt; <span style='color: #BCBCBC;'> 2</span>     77    0.009<span style='text-decoration: underline;'>06</span> TGCAGCGTT… CSVEGG… TRBV2… TRBD1  TRBJ2…    12      13    17
-#&gt; <span style='color: #BCBCBC;'> 3</span>     33    0.003<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSLI… TRBV28 TRBD1  TRBJ2…    14      20    26
-#&gt; <span style='color: #BCBCBC;'> 4</span>     32    0.003<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSIT… TRBV27 TRBD1  TRBJ1…    11      16    18
-#&gt; <span style='color: #BCBCBC;'> 5</span>     26    0.003<span style='text-decoration: underline;'>06</span> TGCAGCGTT… CSVEGG… TRBV2… TRBD2  TRBJ2…    12      13    16
-#&gt; <span style='color: #BCBCBC;'> 6</span>     25    0.002<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASGSG… TRBV1… TRBD1  TRBJ2…     8      15    23
-#&gt; <span style='color: #BCBCBC;'> 7</span>     24    0.002<span style='text-decoration: underline;'>82</span> TGCAGTGCT… CSAMGS… TRBV2… TRBD2  TRBJ2…     9      16    25
-#&gt; <span style='color: #BCBCBC;'> 8</span>     22    0.002<span style='text-decoration: underline;'>59</span> TGTGCCAGC… CASSQG… TRBV7… TRBD1  TRBJ2…    11      12    17
-#&gt; <span style='color: #BCBCBC;'> 9</span>     22    0.002<span style='text-decoration: underline;'>59</span> TGTGCCAGC… CASSPG… TRBV7… TRBD1  TRBJ2…    11      15    21
-#&gt; <span style='color: #BCBCBC;'>10</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGCAGTGCT… CSAGRD… TRBV2… TRBD1  TRBJ2…     8      13    17
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $MS3
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    608    0.071<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSQD… TRBV14 TRBD1  TRBJ2…    16      19    21
-#&gt; <span style='color: #BCBCBC;'> 2</span>    291    0.034<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSPT… TRBV1… TRBD1  TRBJ2…    11      14    22
-#&gt; <span style='color: #BCBCBC;'> 3</span>    131    0.015<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSQD… TRBV14 TRBD2  TRBJ2…    16      18    21
-#&gt; <span style='color: #BCBCBC;'> 4</span>    115    0.013<span style='text-decoration: underline;'>5</span>  TGTGCCACC… CATSII… TRBV15 TRBD2  TRBJ2…    11      16    24
-#&gt; <span style='color: #BCBCBC;'> 5</span>     78    0.009<span style='text-decoration: underline;'>18</span> TGTGCCACC… CATSRL… TRBV15 TRBD2  TRBJ2…    11      13    24
-#&gt; <span style='color: #BCBCBC;'> 6</span>     51    0.006   TGTGCCAGC… CASSLG… TRBV5… TRBD1  TRBJ2…    15      23    26
-#&gt; <span style='color: #BCBCBC;'> 7</span>     33    0.003<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSPG… TRBV7… TRBD1  TRBJ2…    11      16    19
-#&gt; <span style='color: #BCBCBC;'> 8</span>     33    0.003<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSPG… TRBV7… TRBD2  TRBJ2…    11      15    27
-#&gt; <span style='color: #BCBCBC;'> 9</span>     32    0.003<span style='text-decoration: underline;'>76</span> TGTGCCATC… CAIRDP… TRBV1… TRBD1  TRBJ2…    10      17    20
-#&gt; <span style='color: #BCBCBC;'>10</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSLG… TRBV7… TRBD2  TRBJ2…    15      16    27
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $MS4
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSVV… TRBV9  TRBD1  TRBJ2…    15      24    29
-#&gt; <span style='color: #BCBCBC;'> 2</span>     27    0.003<span style='text-decoration: underline;'>18</span> TGTGCCAGC… CASSPD… TRBV7… TRBD1  TRBJ2…    11      21    24
-#&gt; <span style='color: #BCBCBC;'> 3</span>     27    0.003<span style='text-decoration: underline;'>18</span> TGTGCCACC… CATSRD… TRBV15 TRBD2  TRBJ2…    11      26    31
-#&gt; <span style='color: #BCBCBC;'> 4</span>     24    0.002<span style='text-decoration: underline;'>82</span> TGCGCCAGC… CASQRE… TRBV4… TRBD2  TRBJ1…     8      15    18
-#&gt; <span style='color: #BCBCBC;'> 5</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSHR… TRBV5… TRBD1  TRBJ2…    11      16    25
-#&gt; <span style='color: #BCBCBC;'> 6</span>     16    0.001<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSFV… TRBV1… TRBD1  TRBJ2…    13      17    23
-#&gt; <span style='color: #BCBCBC;'> 7</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSYS… TRBV7… TRBD2  TRBJ2…    10      16    20
-#&gt; <span style='color: #BCBCBC;'> 8</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGCGCCAGC… CASRSG… TRBV5… TRBD1  TRBJ2…    10      16    26
-#&gt; <span style='color: #BCBCBC;'> 9</span>     14    0.001<span style='text-decoration: underline;'>65</span> TGTGCCATC… CAISDR… TRBV1… TRBD1  TRBJ1…    13      14    18
-#&gt; <span style='color: #BCBCBC;'>10</span>     14    0.001<span style='text-decoration: underline;'>65</span> TGCAGCGCC… CSATGD… TRBV2… TRBD1  TRBJ1…     7       9    15
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $MS5
-#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    433    0.050<span style='text-decoration: underline;'>9</span>  TGTGCCAGC… CASSPG… TRBV1… TRBD1  TRBJ2…    10      13    19
-#&gt; <span style='color: #BCBCBC;'> 2</span>    414    0.048<span style='text-decoration: underline;'>7</span>  TGTGCCAGC… CASSPT… TRBV6… TRBD1  TRBJ2…    10      16    19
-#&gt; <span style='color: #BCBCBC;'> 3</span>    272    0.032   TGTGCCAGC… CASSDG… TRBV2… TRBD1  TRBJ1…    13      18    20
-#&gt; <span style='color: #BCBCBC;'> 4</span>    233    0.027<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSQG… TRBV7… TRBD1  TRBJ1…    11      14    19
-#&gt; <span style='color: #BCBCBC;'> 5</span>    106    0.012<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSLG… TRBV7… TRBD2  TRBJ2…    15      16    26
-#&gt; <span style='color: #BCBCBC;'> 6</span>     79    0.009<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASRFK… TRBV6… TRBD2  TRBJ2…    10      18    27
-#&gt; <span style='color: #BCBCBC;'> 7</span>     75    0.008<span style='text-decoration: underline;'>82</span> TGTGCCAGC… CASSLG… TRBV28 TRBD1  TRBJ2…    14      15    18
-#&gt; <span style='color: #BCBCBC;'> 8</span>     55    0.006<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSQD… TRBV3… TRBD2  TRBJ2…    16      24    27
-#&gt; <span style='color: #BCBCBC;'> 9</span>     45    0.005<span style='text-decoration: underline;'>29</span> TGCGCCAGC… CASSQE… TRBV4… TRBD2  TRBJ1…    16      19    22
-#&gt; <span style='color: #BCBCBC;'>10</span>     40    0.004<span style='text-decoration: underline;'>71</span> TGTGCCACC… CATSRV… TRBV15 TRBD2  TRBJ2…    11      16    23
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $MS6
-#&gt; <span style='color: #949494;'># A tibble: 11 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     46    0.005<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSAT… TRBV27 TRBD1  TRBJ2…    11      14    18
-#&gt; <span style='color: #BCBCBC;'> 2</span>     41    0.004<span style='text-decoration: underline;'>82</span> TGCAGTGCT… CSARDK… TRBV2… TRBD2  TRBJ2…    13      16    25
-#&gt; <span style='color: #BCBCBC;'> 3</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSPL… TRBV1… TRBD1  TRBJ2…    11      19    23
-#&gt; <span style='color: #BCBCBC;'> 4</span>     26    0.003<span style='text-decoration: underline;'>06</span> TGTGCCAGC… CASSPN… TRBV1… TRBD2  TRBJ1…    11      12    14
-#&gt; <span style='color: #BCBCBC;'> 5</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASGTG… TRBV7… TRBD1  TRBJ1…     8       9    16
-#&gt; <span style='color: #BCBCBC;'> 6</span>     20    0.002<span style='text-decoration: underline;'>35</span> TGCGCCAGC… CASSLS… TRBV5… TRBD2  TRBJ2…    14      18    27
-#&gt; <span style='color: #BCBCBC;'> 7</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSPN… TRBV1… TRBD1  TRBJ2…    11      19    21
-#&gt; <span style='color: #BCBCBC;'> 8</span>     17    0.002   TGTGCCAGC… CASSTG… TRBV6… TRBD2  TRBJ2…    11      14    26
-#&gt; <span style='color: #BCBCBC;'> 9</span>     12    0.001<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSDS… TRBV6… TRBD2  TRBJ2…    16      17    27
-#&gt; <span style='color: #BCBCBC;'>10</span>     11    0.001<span style='text-decoration: underline;'>29</span> TGCAGTGCT… CSARED… TRBV2… TRBD1  TRBJ1…    13      18    20
-#&gt; <span style='color: #BCBCBC;'>11</span>     11    0.001<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSSP… TRBV27 TRBD2  TRBJ2…    12      13    17
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span>
-#&gt; </div><div class='input'><span class='fu'>top</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 × 15</span>
-#&gt;    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>    173    0.020<span style='text-decoration: underline;'>4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
-#&gt; <span style='color: #BCBCBC;'> 2</span>    163    0.019<span style='text-decoration: underline;'>2</span>  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
-#&gt; <span style='color: #BCBCBC;'> 3</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
-#&gt; <span style='color: #BCBCBC;'> 4</span>     54    0.006<span style='text-decoration: underline;'>35</span> TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
-#&gt; <span style='color: #BCBCBC;'> 5</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
-#&gt; <span style='color: #BCBCBC;'> 6</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
-#&gt; <span style='color: #BCBCBC;'> 7</span>     40    0.004<span style='text-decoration: underline;'>71</span> TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
-#&gt; <span style='color: #BCBCBC;'> 8</span>     31    0.003<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
-#&gt; <span style='color: #BCBCBC;'> 9</span>     30    0.003<span style='text-decoration: underline;'>53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
-#&gt; <span style='color: #BCBCBC;'>10</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
-#&gt; <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>top</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`A2-i129`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    173    0.020<span style='text-decoration: underline;'>4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    163    0.019<span style='text-decoration: underline;'>2</span>  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     54    0.006<span style='text-decoration: underline;'>35</span> TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     40    0.004<span style='text-decoration: underline;'>71</span> TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     31    0.003<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     30    0.003<span style='text-decoration: underline;'>53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`A2-i131`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    111    0.013<span style='text-decoration: underline;'>1</span>  TGCAGTGCT… CSASRG… TRBV2… TRBD1  TRBJ2…    11      12    17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     93    0.010<span style='text-decoration: underline;'>9</span>  TGTGCCAGC… CASSVA… TRBV9  TRBD1  TRBJ2…    15      21    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSRM… TRBV13 TRBD1  TRBJ2…    11      18    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     59    0.006<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSPT… TRBV6… TRBD2  TRBJ2…    10      14    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     57    0.006<span style='text-decoration: underline;'>71</span> TGCGCCAGC… CASSLD… TRBV5… TRBD2  TRBJ1…    15      17    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     47    0.005<span style='text-decoration: underline;'>53</span> TGTGCCAGC… CASRGL… TRBV6… TRBD2  TRBJ2…    10      11    16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     46    0.005<span style='text-decoration: underline;'>41</span> TGCAGCGTT… CSVTGV… TRBV2… TRBD1  TRBJ2…     8       9    13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     30    0.003<span style='text-decoration: underline;'>53</span> TGTGCCAGC… CASSYL… TRBV6… TRBD2  TRBJ1…    15      17    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSLA… TRBV5… TRBD1  TRBJ1…    15      21    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSYI… TRBV6… TRBD1  TRBJ1…    14      17    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`A2-i133`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 11 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    333    0.039<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSLY… TRBV1… TRBD2  TRBJ2…    11      18    29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    111    0.013<span style='text-decoration: underline;'>1</span>  TGTGCCAGC… CASSLG… TRBV7… TRBD1  TRBJ1…    12      15    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    102    0.012   TGTGCCAGC… CASSPL… TRBV7… TRBD2  TRBJ2…    11      18    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     81    0.009<span style='text-decoration: underline;'>53</span> TGTGCCAGC… CASSPF… TRBV7… TRBD2  TRBJ1…    11      16    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     71    0.008<span style='text-decoration: underline;'>35</span> TGTGCCAGC… CASSQG… TRBV4… TRBD2  TRBJ2…    15      19    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     53    0.006<span style='text-decoration: underline;'>24</span> TGTGCCAGC… CASSVT… TRBV9  TRBD1  TRBJ1…    13      14    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     45    0.005<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSLG… TRBV7… TRBD1  TRBJ1…    15      16    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     38    0.004<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSST… TRBV7… TRBD1  TRBJ1…    16      19    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     38    0.004<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASREL… TRBV28 TRBD2  TRBJ2…    10      24    29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGCAGCGTT… CSVDEG… TRBV2… TRBD1  TRBJ2…    10      14    17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSLS… TRBV7… TRBD2  TRBJ2…    15      19    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`A2-i132`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     41    0.004<span style='text-decoration: underline;'>82</span> TGTGCCAGC… CASSFR… TRBV7… TRBD1  TRBJ2…    10      16    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     23    0.002<span style='text-decoration: underline;'>71</span> TGTGCCATC… CAIRKQ… TRBV1… TRBD1  TRBJ1…    10      15    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     20    0.002<span style='text-decoration: underline;'>35</span> TGCGCCAGC… CASSTR… TRBV4… TRBD2  TRBJ2…    11      20    28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     20    0.002<span style='text-decoration: underline;'>35</span> TGTGCCAGC… CASSYL… TRBV6… TRBD1  TRBJ1…    14      18    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSYI… TRBV6… TRBD1  TRBJ1…    14      18    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSLL… TRBV28 TRBD2  TRBJ2…    14      15    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     17    0.002   TGTGCCAGC… CASTSL… TRBV6… TRBD1  TRBJ2…     9      25    29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     16    0.001<span style='text-decoration: underline;'>88</span> TGCGCCAGC… CASSLD… TRBV5… TRBD1  TRBJ2…    15      -<span style='color: #BB0000;'>1</span>    -<span style='color: #BB0000;'>1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASTLR… TRBV28 TRBD1  TRBJ1…     9      19    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      20    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`A4-i191`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    449    0.052<span style='text-decoration: underline;'>8</span>  TGTGCCAGC… CASSAF… TRBV9  TRBD2  TRBJ2…    12      19    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    202    0.023<span style='text-decoration: underline;'>8</span>  TGCGCCTGT… CACGGG… TRBV1… TRBD2  TRBJ1…     5      12    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    187    0.022   TGTGCCAGC… CASSSG… TRBV27 TRBD2  TRBJ2…    12      15    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>    143    0.016<span style='text-decoration: underline;'>8</span>  TGTGCCAGC… CASSSG… TRBV6… TRBD1  TRBJ2…    12      14    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>    126    0.014<span style='text-decoration: underline;'>8</span>  TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      19    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     83    0.009<span style='text-decoration: underline;'>76</span> TGCGCCAGC… CASSQV… TRBV4… TRBD2  TRBJ1…    15      17    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     80    0.009<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSLG… TRBV28 TRBD2  TRBJ2…    14      20    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     68    0.008   TGTGCCAGC… CASSFG… TRBV1… TRBD1  TRBJ2…    13      23    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSAG… TRBV7… TRBD1  TRBJ2…    11      15    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     56    0.006<span style='text-decoration: underline;'>59</span> TGCGCCAGC… CASSLA… TRBV5… TRBD2  TRBJ1…    15      20    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`A4-i192`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 11 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    150    0.017<span style='text-decoration: underline;'>6</span>  TGCGCCAGC… CASSES… TRBV1… TRBD1  TRBJ2…    16      17    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    124    0.014<span style='text-decoration: underline;'>6</span>  TGTGCCAGC… CASIPP… TRBV7… TRBD2  TRBJ2…     9      30    38</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    120    0.014<span style='text-decoration: underline;'>1</span>  TGCGCCAGC… CASSSG… TRBV4… TRBD1  TRBJ1…    11      15    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>    115    0.013<span style='text-decoration: underline;'>5</span>  TGCAGTGCT… CSARDI… TRBV2… TRBD1  TRBJ1…    13      18    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>    107    0.012<span style='text-decoration: underline;'>6</span>  TGTGCCAGC… CASSRW… TRBV7… TRBD1  TRBJ2…    11      16    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>    101    0.011<span style='text-decoration: underline;'>9</span>  TGCAGTGCT… CSARDF… TRBV2… TRBD1  TRBJ2…    13      24    31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     95    0.011<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSPN… TRBV1… TRBD2  TRBJ1…    10      11    14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     76    0.008<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSLI… TRBV27 TRBD1  TRBJ2…    14      17    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     51    0.006   TGTGCCAGC… CASSPK… TRBV18 TRBD2  TRBJ2…    14      18    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     42    0.004<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSPN… TRBV1… TRBD2  TRBJ1…    11      16    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>     42    0.004<span style='text-decoration: underline;'>94</span> TGCGCCAGC… CASSHP… TRBV4… TRBD2  TRBJ2…    13      17    28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $MS1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    539    0.063<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSLQ… TRBV7… TRBD2  TRBJ2…    14      18    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    320    0.037<span style='text-decoration: underline;'>6</span>  TGTGCCAGC… CASSVY… TRBV9  TRBD1  TRBJ2…    13      20    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    204    0.024   TGCAGTACC… CSTEED… TRBV2… TRBD1  TRBJ2…     5      14    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>    151    0.017<span style='text-decoration: underline;'>8</span>  TGCAGCGTT… CSVELR… TRBV2… TRBD1  TRBJ2…    11      16    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     98    0.011<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSLG… TRBV5… TRBD1  TRBJ2…    15      16    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     81    0.009<span style='text-decoration: underline;'>53</span> TGCAGTGCT… CSARDL… TRBV2… TRBD2  TRBJ2…    13      15    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     76    0.008<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASSFE… TRBV7… TRBD1  TRBJ2…    13      16    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     62    0.007<span style='text-decoration: underline;'>29</span> TGCAGCTAT… CSYRTG… TRBV2… TRBD1  TRBJ2…     5      10    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     60    0.007<span style='text-decoration: underline;'>06</span> TGTGCCAGC… CASSLG… TRBV28 TRBD1  TRBJ2…    14      26    31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     38    0.004<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSLY… TRBV7… TRBD2  TRBJ2…    14      17    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $MS2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     97    0.011<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSTR… TRBV28 TRBD1  TRBJ2…    10      15    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     77    0.009<span style='text-decoration: underline;'>06</span> TGCAGCGTT… CSVEGG… TRBV2… TRBD1  TRBJ2…    12      13    17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     33    0.003<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSLI… TRBV28 TRBD1  TRBJ2…    14      20    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     32    0.003<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSIT… TRBV27 TRBD1  TRBJ1…    11      16    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     26    0.003<span style='text-decoration: underline;'>06</span> TGCAGCGTT… CSVEGG… TRBV2… TRBD2  TRBJ2…    12      13    16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     25    0.002<span style='text-decoration: underline;'>94</span> TGTGCCAGC… CASGSG… TRBV1… TRBD1  TRBJ2…     8      15    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     24    0.002<span style='text-decoration: underline;'>82</span> TGCAGTGCT… CSAMGS… TRBV2… TRBD2  TRBJ2…     9      16    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     22    0.002<span style='text-decoration: underline;'>59</span> TGTGCCAGC… CASSQG… TRBV7… TRBD1  TRBJ2…    11      12    17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     22    0.002<span style='text-decoration: underline;'>59</span> TGTGCCAGC… CASSPG… TRBV7… TRBD1  TRBJ2…    11      15    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGCAGTGCT… CSAGRD… TRBV2… TRBD1  TRBJ2…     8      13    17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $MS3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    608    0.071<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSQD… TRBV14 TRBD1  TRBJ2…    16      19    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    291    0.034<span style='text-decoration: underline;'>2</span>  TGTGCCAGC… CASSPT… TRBV1… TRBD1  TRBJ2…    11      14    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    131    0.015<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSQD… TRBV14 TRBD2  TRBJ2…    16      18    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>    115    0.013<span style='text-decoration: underline;'>5</span>  TGTGCCACC… CATSII… TRBV15 TRBD2  TRBJ2…    11      16    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     78    0.009<span style='text-decoration: underline;'>18</span> TGTGCCACC… CATSRL… TRBV15 TRBD2  TRBJ2…    11      13    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     51    0.006   TGTGCCAGC… CASSLG… TRBV5… TRBD1  TRBJ2…    15      23    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     33    0.003<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSPG… TRBV7… TRBD1  TRBJ2…    11      16    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     33    0.003<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSPG… TRBV7… TRBD2  TRBJ2…    11      15    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     32    0.003<span style='text-decoration: underline;'>76</span> TGTGCCATC… CAIRDP… TRBV1… TRBD1  TRBJ2…    10      17    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSLG… TRBV7… TRBD2  TRBJ2…    15      16    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $MS4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSVV… TRBV9  TRBD1  TRBJ2…    15      24    29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     27    0.003<span style='text-decoration: underline;'>18</span> TGTGCCAGC… CASSPD… TRBV7… TRBD1  TRBJ2…    11      21    24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     27    0.003<span style='text-decoration: underline;'>18</span> TGTGCCACC… CATSRD… TRBV15 TRBD2  TRBJ2…    11      26    31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     24    0.002<span style='text-decoration: underline;'>82</span> TGCGCCAGC… CASQRE… TRBV4… TRBD2  TRBJ1…     8      15    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSHR… TRBV5… TRBD1  TRBJ2…    11      16    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     16    0.001<span style='text-decoration: underline;'>88</span> TGTGCCAGC… CASSFV… TRBV1… TRBD1  TRBJ2…    13      17    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGTGCCAGC… CASSYS… TRBV7… TRBD2  TRBJ2…    10      16    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     15    0.001<span style='text-decoration: underline;'>76</span> TGCGCCAGC… CASRSG… TRBV5… TRBD1  TRBJ2…    10      16    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     14    0.001<span style='text-decoration: underline;'>65</span> TGTGCCATC… CAISDR… TRBV1… TRBD1  TRBJ1…    13      14    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     14    0.001<span style='text-decoration: underline;'>65</span> TGCAGCGCC… CSATGD… TRBV2… TRBD1  TRBJ1…     7       9    15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $MS5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    433    0.050<span style='text-decoration: underline;'>9</span>  TGTGCCAGC… CASSPG… TRBV1… TRBD1  TRBJ2…    10      13    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    414    0.048<span style='text-decoration: underline;'>7</span>  TGTGCCAGC… CASSPT… TRBV6… TRBD1  TRBJ2…    10      16    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>    272    0.032   TGTGCCAGC… CASSDG… TRBV2… TRBD1  TRBJ1…    13      18    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>    233    0.027<span style='text-decoration: underline;'>4</span>  TGTGCCAGC… CASSQG… TRBV7… TRBD1  TRBJ1…    11      14    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>    106    0.012<span style='text-decoration: underline;'>5</span>  TGTGCCAGC… CASSLG… TRBV7… TRBD2  TRBJ2…    15      16    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     79    0.009<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASRFK… TRBV6… TRBD2  TRBJ2…    10      18    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     75    0.008<span style='text-decoration: underline;'>82</span> TGTGCCAGC… CASSLG… TRBV28 TRBD1  TRBJ2…    14      15    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     55    0.006<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASSQD… TRBV3… TRBD2  TRBJ2…    16      24    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     45    0.005<span style='text-decoration: underline;'>29</span> TGCGCCAGC… CASSQE… TRBV4… TRBD2  TRBJ1…    16      19    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     40    0.004<span style='text-decoration: underline;'>71</span> TGTGCCACC… CATSRV… TRBV15 TRBD2  TRBJ2…    11      16    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $MS6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 11 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     46    0.005<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSAT… TRBV27 TRBD1  TRBJ2…    11      14    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     41    0.004<span style='text-decoration: underline;'>82</span> TGCAGTGCT… CSARDK… TRBV2… TRBD2  TRBJ2…    13      16    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     29    0.003<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSPL… TRBV1… TRBD1  TRBJ2…    11      19    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     26    0.003<span style='text-decoration: underline;'>06</span> TGTGCCAGC… CASSPN… TRBV1… TRBD2  TRBJ1…    11      12    14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     21    0.002<span style='text-decoration: underline;'>47</span> TGTGCCAGC… CASGTG… TRBV7… TRBD1  TRBJ1…     8       9    16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     20    0.002<span style='text-decoration: underline;'>35</span> TGCGCCAGC… CASSLS… TRBV5… TRBD2  TRBJ2…    14      18    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     18    0.002<span style='text-decoration: underline;'>12</span> TGTGCCAGC… CASSPN… TRBV1… TRBD1  TRBJ2…    11      19    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     17    0.002   TGTGCCAGC… CASSTG… TRBV6… TRBD2  TRBJ2…    11      14    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     12    0.001<span style='text-decoration: underline;'>41</span> TGTGCCAGC… CASSDS… TRBV6… TRBD2  TRBJ2…    16      17    27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     11    0.001<span style='text-decoration: underline;'>29</span> TGCAGTGCT… CSARED… TRBV2… TRBD1  TRBJ1…    13      18    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>     11    0.001<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSSP… TRBV27 TRBD2  TRBJ2…    12      13    17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>top</span><span class='op'>(</span><span class='va'>immdata</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    173    0.020<span style='text-decoration: underline;'>4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    163    0.019<span style='text-decoration: underline;'>2</span>  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     66    0.007<span style='text-decoration: underline;'>76</span> TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     54    0.006<span style='text-decoration: underline;'>35</span> TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     48    0.005<span style='text-decoration: underline;'>65</span> TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     40    0.004<span style='text-decoration: underline;'>71</span> TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     31    0.003<span style='text-decoration: underline;'>65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     30    0.003<span style='text-decoration: underline;'>53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     28    0.003<span style='text-decoration: underline;'>29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

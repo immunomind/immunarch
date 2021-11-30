@@ -179,11 +179,11 @@
 <p>To choose the 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>, .col <span class="op">=</span> <span class="st">"nt"</span><span class="op">)</span></code></pre></div>
-<p>Value <code><a href="https://rdrr.io/r/base/list.html">list(1, 5)</a></code> of the <code>.which</code> argument (second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires <code>immdata$data</code>. Value <code>"nt"</code> of the <code>.col</code> argument means that the function should take CDR3 nucleotide sequences only.</p>
+<p>Value <code>list(1, 5)</code> of the <code>.which</code> argument (second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires <code>immdata$data</code>. Value <code>"nt"</code> of the <code>.col</code> argument means that the function should take CDR3 nucleotide sequences only.</p>
 <p>To choose the 10 most abundant amino acid clonotype sequences and their V genes from the “MS1” repertoire to track:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"MS1"</span>, <span class="fl">10</span><span class="op">)</span>, .col <span class="op">=</span> <span class="st">"aa+v"</span><span class="op">)</span></code></pre></div>
-<p>Value <code><a href="https://rdrr.io/r/base/list.html">list("MS1", "10")</a></code> of the <code>.which</code> argument means to choose 10 clonotypes from the repertoire named “MS1” in the input list of repertoires <code>immdata$data</code>. Value <code>"aa+v"</code> of the <code>.col</code> argument means that the function should take both CDR3 amino acid sequences and V gene segments of the most abundant clonotypes.</p>
+<p>Value <code>list("MS1", "10")</code> of the <code>.which</code> argument means to choose 10 clonotypes from the repertoire named “MS1” in the input list of repertoires <code>immdata$data</code>. Value <code>"aa+v"</code> of the <code>.col</code> argument means that the function should take both CDR3 amino acid sequences and V gene segments of the most abundant clonotypes.</p>
 <p>Visualisation of both approaches:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc1</span><span class="op">)</span>
@@ -207,8 +207,8 @@
 <a href="#tracking-clonotypes-with-specific-sequences-and-gene-segments" class="anchor"></a>Tracking clonotypes with specific sequences and gene segments</h2>
 <p>An improvement over the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. Support you have a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this by choosing the 10 most abundant clonotypes from the first repertoire in the batch:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">CDR3.aa</span>, <span class="va">V.name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">CDR3.aa</span>, <span class="va">V.name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 
 <span class="va">target</span></code></pre></div>
@@ -275,21 +275,21 @@
 <pre><code>## # A tibble: 12 × 7
 ##    Sample  ID    Sex     Age Status Lane  Timepoint
 ##    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
-##  1 A2-i129 C1    M        11 C      A             2
-##  2 A2-i131 C2    M         9 C      A             8
-##  3 A2-i133 C4    M        16 C      A             5
-##  4 A2-i132 C3    F         6 C      A            10
-##  5 A4-i191 C8    F        22 C      B            12
-##  6 A4-i192 C9    F        24 C      B             4
-##  7 MS1     MS1   M        12 MS     C             7
-##  8 MS2     MS2   M        30 MS     C            11
-##  9 MS3     MS3   M         8 MS     C             9
-## 10 MS4     MS4   F        14 MS     C             1
-## 11 MS5     MS5   F        15 MS     C             6
-## 12 MS6     MS6   F        15 MS     C             3</code></pre>
+##  1 A2-i129 C1    M        11 C      A            12
+##  2 A2-i131 C2    M         9 C      A             3
+##  3 A2-i133 C4    M        16 C      A             8
+##  4 A2-i132 C3    F         6 C      A            11
+##  5 A4-i191 C8    F        22 C      B             6
+##  6 A4-i192 C9    F        24 C      B            10
+##  7 MS1     MS1   M        12 MS     C             2
+##  8 MS2     MS2   M        30 MS     C             5
+##  9 MS3     MS3   M         8 MS     C             7
+## 10 MS4     MS4   F        14 MS     C             4
+## 11 MS5     MS5   F        15 MS     C             9
+## 12 MS6     MS6   F        15 MS     C             1</code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></code></pre></div>
 <p>Sanity check: timepoints are following the right order:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
@@ -297,15 +297,15 @@
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1] "MS4"     "A2-i129" "MS6"     "A4-i192" "A2-i133" "MS5"     "MS1"    
-##  [8] "A2-i131" "MS3"     "A2-i132" "MS2"     "A4-i191"</code></pre>
+<pre><code>##  [1] "MS6"     "MS1"     "A2-i131" "MS4"     "MS2"     "A4-i191" "MS3"    
+##  [8] "A2-i133" "MS5"     "A4-i192" "A2-i132" "A2-i129"</code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>It is possible to create a one-liner with the full pipeline from ordering to plotting:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="changing-the-colour-palette" class="section level2">
@@ -313,12 +313,12 @@
 <a href="#changing-the-colour-palette" class="anchor"></a>Changing the colour palette</h2>
 <p>If you want to change the colour palette, add a ggplot2 <code>scale_fill_*</code> function to the plot. We recommend using <code>scale_fill_brewer</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"RdBu"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"RdBu"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-15-2.png" width="1152" style="display: block; margin: auto;"></p>
-<p>Run <code>?scale_fill_brewer</code> in the R console to learn more about ColorBrewer and it’s colour schemes.</p>
+<p>Run <code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">?scale_fill_brewer</a></code> in the R console to learn more about ColorBrewer and it’s colour schemes.</p>
 </div>
 </div>
 <div id="get-in-contact-with-us" class="section level1">
