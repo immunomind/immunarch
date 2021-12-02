@@ -201,7 +201,7 @@
 <code class="sourceCode R"><span class="co">#path argument is a path to the folder with your file or files including metadata file also(if you have one).</span>
 <span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></code></pre></div>
 <p><strong>Working with sample files</strong></p>
-<p>You could find a folder with example files <a href="https://github.com/immunomind/immunarch/tree/master/inst/extdata/io">here</a> and use it to test data loading without your own files.</p>
+<p>You could find a folder with example files <a href="https://github.com/immunomind/immunarch/releases/download/0.6.7/test_data.zip">here</a> and use it to test data loading without your own files.</p>
 <p>If you are not familiar with file paths, you can download example data to your working directory. You can obtain you working directory with <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code> command</p>
 <p>You could also download all files to the <code>'example'</code> folder in your working directory and load all of them by passing folder name to repLoad function in a quotes:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -387,9 +387,9 @@
 <code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
-##      98      99      95      99      84      96      81      98      96      97 
+##      97      94      96      99      85      95      81      98      91     100 
 ##     MS5     MS6 
-##      85     100</code></pre>
+##      87     100</code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>

@@ -275,18 +275,18 @@
 <pre><code>## # A tibble: 12 × 7
 ##    Sample  ID    Sex     Age Status Lane  Timepoint
 ##    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
-##  1 A2-i129 C1    M        11 C      A            12
-##  2 A2-i131 C2    M         9 C      A             3
-##  3 A2-i133 C4    M        16 C      A             8
+##  1 A2-i129 C1    M        11 C      A             1
+##  2 A2-i131 C2    M         9 C      A            12
+##  3 A2-i133 C4    M        16 C      A             6
 ##  4 A2-i132 C3    F         6 C      A            11
-##  5 A4-i191 C8    F        22 C      B             6
-##  6 A4-i192 C9    F        24 C      B            10
-##  7 MS1     MS1   M        12 MS     C             2
-##  8 MS2     MS2   M        30 MS     C             5
-##  9 MS3     MS3   M         8 MS     C             7
+##  5 A4-i191 C8    F        22 C      B             5
+##  6 A4-i192 C9    F        24 C      B             9
+##  7 MS1     MS1   M        12 MS     C             8
+##  8 MS2     MS2   M        30 MS     C             2
+##  9 MS3     MS3   M         8 MS     C             3
 ## 10 MS4     MS4   F        14 MS     C             4
-## 11 MS5     MS5   F        15 MS     C             9
-## 12 MS6     MS6   F        15 MS     C             1</code></pre>
+## 11 MS5     MS5   F        15 MS     C             7
+## 12 MS6     MS6   F        15 MS     C            10</code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></code></pre></div>
@@ -297,8 +297,8 @@
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1] "MS6"     "MS1"     "A2-i131" "MS4"     "MS2"     "A4-i191" "MS3"    
-##  [8] "A2-i133" "MS5"     "A4-i192" "A2-i132" "A2-i129"</code></pre>
+<pre><code>##  [1] "A2-i129" "MS2"     "MS3"     "MS4"     "A4-i191" "A2-i133" "MS5"    
+##  [8] "MS1"     "A4-i192" "MS6"     "A2-i132" "A2-i131"</code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></code></pre></div>
