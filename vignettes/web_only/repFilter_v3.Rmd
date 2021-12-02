@@ -233,7 +233,7 @@ Filter out all clonotypes within samples where V gene name starts with 'TRBV1' o
 repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="startswith")
 ```
 
-## Using `repFilter` function for repertoire data analysis 
+## Using `repFilter` function for single-cell repertoire data analysis
 
 We will use `scdata` datasets from **Immunarch** library. Load them by executing the following command:
 ```{r}
