@@ -2,13 +2,15 @@
 #'
 #' @importFrom stringdist stringdistmatrix
 #' @importFrom purrr map pmap map2
-#' @importFrom magrittr %>%
+#' @importFrom magrittr %>% %<>% set_attr
+#' @importFrom tidyr unite
+#' @importFrom dplyr select_if group_keys group_map group_by group_by_at
 
 #' @description Computing sequential distances between clonotypes from two repertoires:
 #'
 #' @usage
 #'
-#' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', ...)
+#' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE  ...)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
@@ -25,6 +27,10 @@
 #'
 #' @param .method Character value or user-defined function.
 #'
+#' @param .group_by Character vector of column names to group sequence by. Default value is c("V.name", "J.name"). Pass NA for no grouping options
+#'
+#' @param .group_by_seqLength If TRUE  - add grouping by sequence length of .col argument
+#'
 #' @param ... Extra arguments for user-defined function.
 #'
 #' Default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
@@ -40,7 +46,7 @@
 #'
 #' @return
 #'
-#' Named list of \link{dist} objects for given repertoires.
+#' Named list of list with \link{dist} objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.
 #'
 #' @examples
 #'
@@ -62,14 +68,18 @@
 #'   return(as.dist(res))
 #' }
 #'
-#' seqDist(immdata$data[1:2], .method = f) # the result based on our custom distance defined above
+#' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
+seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...) {
   .validate_repertoires_data(.data)
   sample_truth <- .data[[1]]
+  gb_absent <- all(is.na(.group_by))
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
+  if (!all(.group_by %in% colnames(sample_truth)) && !gb_absent) {
+    stop("There is no some of the ", paste0(.group_by, collapse = ", "), " column(s) in data!")
+  }
   if (!.col %in% colnames(sample_truth)) {
     stop(paste0("There is no ", .col, " column in data!"))
   } else {
@@ -77,22 +87,40 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", ...) {
       stop("Computing distance is available only for character columns!")
     } else {
       if (inherits(.method, "character")) {
-        result <- purrr::map(.data, ~ stringdist::stringdistmatrix(unique(.x[[.col]]),
-          method = .method,
-          useNames = "strings"
-        ))
+        dist_fun <- function(x, col = .col, method = .method) {
+          stringdist::stringdistmatrix(unique(x[[col]]),
+            method = method, useNames = "strings"
+          )
+        }
       } else if (inherits(.method, "function")) {
         args <- list(...)
         dist_fun <- function(x) {
-          args[["x"]] <- x
-          args[["y"]] <- x
+          args[["x"]] <- x[[.col]]
+          args[["y"]] <- x[[.col]]
           return(do.call(.method, args))
         }
-        result <- purrr::map(.data, ~ .x[[.col]] %>% dist_fun())
       } else {
         stop(".method argument is not a string or a function!")
       }
+      res_data <- .data
+      if (!gb_absent) {
+        res_data %<>% map(., ~ .x %>% group_by_at(.group_by))
+      }
+      if (.group_by_seqLength) {
+        res_data %<>% map(., ~ .x %>% group_by(nchar(.x[[.col]]), .add = TRUE))
+      }
+      result <- map(res_data, ~ .x %>% group_map(~ dist_fun(.)))
+      if (!gb_absent) {
+        group_by_values <- map(res_data, ~ .x %>%
+          group_keys() %>%
+          select_if(is.character) %>%
+          unite("values", sep = "/"))
+        result <- map2(result, group_by_values, ~ map2(.x, .y$values, function(x, y) set_attr(x, "group_values", y)))
+      }
     }
   }
+  attributes(result)[["col"]] <- .col
+  attributes(result)[["group_by"]] <- .group_by
+  attributes(result)[["group_by_length"]] <- .group_by_seqLength
   return(result)
 }

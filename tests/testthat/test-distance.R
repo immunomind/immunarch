@@ -1,6 +1,6 @@
 data(immdata)
-short_immdata <- immdata$data
-short_immdata <- map(short_immdata, ~ .x %>% head(3)) # smaller sample size saves time in computations
+library(purrr)
+short_immdata <- map(immdata$data, ~ .x %>% head(1000)) # smaller sample size saves time in computations
 
 f <- function(x, y) {
   res <- matrix(nrow = length(x), ncol = length(y))
@@ -18,7 +18,7 @@ positive_test_cases <- list(
       .data = short_immdata[1],
       .method = "lv"
     ),
-    result = c(18, 20, 14)
+    result = c(0, 6, 6, 0)
   ),
   "Changing column" = list(
     args = list(
@@ -26,10 +26,10 @@ positive_test_cases <- list(
       .col = "CDR3.aa",
       .method = "lv"
     ),
-    result = c(10, 12, 6)
+    result = c(0, 6, 6, 0)
   ),
-  "Custom_func" = list(args = list(.data = short_immdata[1], .method = f), result = c(6, 3, 9)),
-  "Custom_func_col" = list(args = list(.data = short_immdata[1], .col = "CDR3.aa", .method = f), result = c(2, 1, 3))
+  "Custom_func" = list(args = list(.data = short_immdata[1], .method = f, .group_by_seqLength = F), result = c(0, 3, 3, 0)),
+  "Group_by changing" = list(args = list(.data = short_immdata[1], .group_by = "V.name"), result = c(0, 21, 19, 18, 13, 21, 0, 18, 23, 19, 19, 18, 0, 16, 15, 18, 23, 16, 0, 15, 13, 19, 15, 15, 0))
 )
 
 negative_test_cases <- list(
@@ -48,6 +48,12 @@ negative_test_cases <- list(
     args = list(
       .data = short_immdata,
       .method = "ddddd"
+    ),
+    "Wrong group_by" = list(
+      args = list(
+        .data = short_immdata,
+        .group_by = "ddddd"
+      )
     )
   )
 )
@@ -55,7 +61,9 @@ negative_test_cases <- list(
 # Act
 args <- map(positive_test_cases, "args")
 results <- map(positive_test_cases, "result")
-positive_act_result <- map(args, ~ do.call(seqDist, .x)[[1]] %>% as.numeric())
+positive_act_result <- map(args, ~ do.call(seqDist, .x)[[1]][10]) %>%
+  map(1) %>%
+  map(., ~ as.matrix(.x) %>% as.numeric())
 positive_test_values <- list(names(positive_test_cases), positive_act_result, results)
 negative_args <- map(negative_test_cases, "args")
 # Assert
