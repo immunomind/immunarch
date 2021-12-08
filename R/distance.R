@@ -78,7 +78,7 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
   if (!all(.group_by %in% colnames(sample_truth)) && !gb_absent) {
-    stop("There is no some of the ", paste0(.group_by, collapse = ", "), " column(s) in data!")
+    stop("Expected column(s): ", paste0(.group_by, collapse = ", "), "; some of them are missing in data!")
   }
   if (!.col %in% colnames(sample_truth)) {
     stop(paste0("There is no ", .col, " column in data!"))
