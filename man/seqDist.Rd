@@ -4,7 +4,8 @@
 \alias{seqDist}
 \title{Function for computing distance for sequences}
 \usage{
-seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE  ...)
+seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
+ .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},

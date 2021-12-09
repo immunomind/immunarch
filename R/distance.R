@@ -10,18 +10,13 @@
 #'
 #' @usage
 #'
-#' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE  ...)
+#' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
+#'  .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format \link{immunarch_data_format}
-#'
-#' Competent users may provide advanced data representations:
-#' DBI database connections, Apache Spark DataFrame from \link{copy_to} or a list
-#' of these objects. They are supported with the same limitations as basic objects.
-#'
-#' Note: each connection must represent a separate repertoire.
 #'
 #' @param .col A string that specifies the column name to be processed. Default value is 'CDR3.aa'.
 #'
@@ -73,17 +68,17 @@
 
 seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...) {
   .validate_repertoires_data(.data)
-  sample_truth <- .data[[1]]
-  gb_absent <- all(is.na(.group_by))
+  first_sample <- .data[[1]]
+  gr_by_is_na <- all(is.na(.group_by))
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
-  if (!all(.group_by %in% colnames(sample_truth)) && !gb_absent) {
+  if (!all(.group_by %in% colnames(first_sample)) && !gr_by_is_na) {
     stop("There is no some of the ", paste0(.group_by, collapse = ", "), " column(s) in data!")
   }
-  if (!.col %in% colnames(sample_truth)) {
+  if (!.col %in% colnames(first_sample)) {
     stop(paste0("There is no ", .col, " column in data!"))
   } else {
-    if (!inherits(sample_truth[[.col]], "character")) {
+    if (!inherits(first_sample[[.col]], "character")) {
       stop("Computing distance is available only for character columns!")
     } else {
       if (inherits(.method, "character")) {
@@ -103,14 +98,14 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
         stop(".method argument is not a string or a function!")
       }
       res_data <- .data
-      if (!gb_absent) {
+      if (!gr_by_is_na) {
         res_data %<>% map(., ~ .x %>% group_by_at(.group_by))
       }
       if (.group_by_seqLength) {
         res_data %<>% map(., ~ .x %>% group_by(nchar(.x[[.col]]), .add = TRUE))
       }
       result <- map(res_data, ~ .x %>% group_map(~ dist_fun(.)))
-      if (!gb_absent) {
+      if (!gr_by_is_na) {
         group_by_values <- map(res_data, ~ .x %>%
           group_keys() %>%
           select_if(is.character) %>%
