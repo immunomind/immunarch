@@ -100,7 +100,7 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
           return(do.call(.method, args))
         }
       } else {
-        stop(".method argument is not a string or a function!")
+        stop(".method argument is not a string nor a function!")
       }
       res_data <- .data
       if (!gb_absent) {
