@@ -4,7 +4,8 @@
 \alias{seqDist}
 \title{Function for computing distance for sequences}
 \usage{
-seqDist(.data, .col = 'CDR3.nt', .method = 'hamming', ...)
+seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
+ .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
@@ -22,6 +23,10 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.method}{Character value or user-defined function.}
 
+\item{.group_by}{Character vector of column names to group sequence by. Default value is c("V.name", "J.name"). Pass NA for no grouping options}
+
+\item{.group_by_seqLength}{If TRUE  - add grouping by sequence length of .col argument}
+
 \item{...}{Extra arguments for user-defined function.
 
 Default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
@@ -36,7 +41,7 @@ Other possible values are:
 In case of user-defined function, it should take x and y parameters as input and return \link{dist} object.}
 }
 \value{
-Named list of \link{dist} objects for given repertoires.
+Named list of list with \link{dist} objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.
 }
 \description{
 Computing sequential distances between clonotypes from two repertoires:
@@ -61,5 +66,5 @@ f <- function(x, y) {
   return(as.dist(res))
 }
 
-seqDist(immdata$data[1:2], .method = f) # the result based on our custom distance defined above
+seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 }
