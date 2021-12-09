@@ -72,8 +72,8 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
   gr_by_is_na <- all(is.na(.group_by))
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
-  if (!all(.group_by %in% colnames(first_sample)) && !gr_by_is_na) {
-    stop("There is no some of the ", paste0(.group_by, collapse = ", "), " column(s) in data!")
+  if (!all(.group_by %in% colnames(sample_truth)) && !gr_by_is_na) {
+    stop("Expected column(s): ", paste0(.group_by, collapse = ", "), "; some of them are missing in data!")
   }
   if (!.col %in% colnames(first_sample)) {
     stop(paste0("There is no ", .col, " column in data!"))
@@ -95,7 +95,7 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
           return(do.call(.method, args))
         }
       } else {
-        stop(".method argument is not a string or a function!")
+        stop(".method argument is not a string nor a function!")
       }
       res_data <- .data
       if (!gr_by_is_na) {

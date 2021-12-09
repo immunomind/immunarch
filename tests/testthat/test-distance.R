@@ -28,7 +28,7 @@ positive_test_cases <- list(
     ),
     result = c(0, 6, 6, 0)
   ),
-  "Custom_func" = list(args = list(.data = short_immdata[1], .method = f, .group_by_seqLength = F), result = c(0, 3, 3, 0)),
+  "Custom_func" = list(args = list(.data = short_immdata[1], .method = f, .group_by_seqLength = FALSE), result = c(0, 3, 3, 0)),
   "Group_by changing" = list(args = list(.data = short_immdata[1], .group_by = "V.name"), result = c(0, 21, 19, 18, 13, 21, 0, 18, 23, 19, 19, 18, 0, 16, 15, 18, 23, 16, 0, 15, 13, 19, 15, 15, 0))
 )
 
