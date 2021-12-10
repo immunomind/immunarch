@@ -36,24 +36,22 @@
 #' data(immdata)
 #' # In this example, we will use only 2 samples for time saving
 #'
-#' dist_result<-seqDist(immdata$data[1:2])
-#' cluster_result<-seqCluster(immdata$data[1:2],dist_result,.fixed_threshold=1)
-#'
-#'
+#' dist_result <- seqDist(immdata$data[1:2])
+#' cluster_result <- seqCluster(immdata$data[1:2], dist_result, .fixed_threshold = 1)
 #' @export seqCluster
 
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
-  matching_col<- attr(.dist,'col')
-  if (length(.data)!=length(.dist)){
-    stop('.data and .dist lengths are not match!')
+  matching_col <- attr(.dist, "col")
+  if (length(.data) != length(.dist)) {
+    stop(".data and .dist lengths are not match!")
   }
-  if (all(!(names(.data)%in%names(.dist)))){
-      stop('.data and .dist names are not matched!')
+  if (all(!(names(.data) %in% names(.dist)))) {
+    stop(".data and .dist names are not matched!")
   } else {
-    .dist<-.dist[order(match(names(.dist),names(.data)))]
+    .dist <- .dist[order(match(names(.dist), names(.data)))]
   }
-  if (!(matching_col%in%colnames(.data[[1]]))){
-    stop('There is no ',matching_col, ' in .data!')
+  if (!(matching_col %in% colnames(.data[[1]]))) {
+    stop("There is no ", matching_col, " in .data!")
   }
   thresh_cond <- c(missing(.perc_similarity), missing(.nt_similarity), missing(.fixed_threshold))
   if (all(thresh_cond)) {
@@ -63,45 +61,54 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     stop("Please, provide only one argument: .perc_similarity, .nt_similarity or .fixed_threshold value")
   }
   if (!missing(.nt_similarity)) {
-    .threshold_fun <- function(x,t=.nt_similarity){(x / t)}
+    .threshold_fun <- function(x, t = .nt_similarity) {
+      (x / t)
+    }
   }
   if (!missing(.perc_similarity)) {
-    .threshold_fun <- function(x,t=.perc_similarity){x * (1 - t)}
+    .threshold_fun <- function(x, t = .perc_similarity) {
+      x * (1 - t)
+    }
   }
   if (!missing(.fixed_threshold)) {
-    .threshold_fun <- function(x,t=.fixed_threshold){return(rep(t, times = length(x)))}
+    .threshold_fun <- function(x, t = .fixed_threshold) {
+      return(rep(t, times = length(x)))
+    }
   }
-  graph_clustering<-function(dist_list,threshold_fun){
-    seq_labels<-map(dist_list, ~ attr(.x, "Labels"))
-    singleseq_flag<-map_lgl(seq_labels,~length(.x)==1)
-    seq_length <- map(seq_labels, ~nchar(.x))
-    threshold<-map(seq_length,~.x %>% threshold_fun)
-    protocluster_names<-map(dist_list, ~ attr(.x, "group_values"))
-    protocluster_names %<>% map2_chr(.,seq_labels,~ifelse(is.null(.x),.y,.x))
-    #^if no grouping variables in data, sequences are IDs for clusters
-    result_single<-data.frame(Sequence=unlist(seq_labels[singleseq_flag]),Cluster = protocluster_names[singleseq_flag])
-    multiseq_dist<-dist_list[!singleseq_flag]
+  graph_clustering <- function(dist_list, threshold_fun) {
+    seq_labels <- map(dist_list, ~ attr(.x, "Labels"))
+    singleseq_flag <- map_lgl(seq_labels, ~ length(.x) == 1)
+    seq_length <- map(seq_labels, ~ nchar(.x))
+    threshold <- map(seq_length, ~ .x %>% threshold_fun())
+    protocluster_names <- map(dist_list, ~ attr(.x, "group_values"))
+    protocluster_names %<>% map2_chr(., seq_labels, ~ ifelse(is.null(.x), .y, .x))
+    # ^if no grouping variables in data, sequences are IDs for clusters
+    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = protocluster_names[singleseq_flag])
+    multiseq_dist <- dist_list[!singleseq_flag]
     mat_dist <- map2(multiseq_dist, threshold[!singleseq_flag], ~ as.matrix(.x) %>% apply(., 1, function(x, t) {
-    ifelse(x > t, NA, x) }, .y))
+      ifelse(x > t, NA, x)
+    }, .y))
     seq_clusters <- map(mat_dist, ~ melt(.x, na.rm = TRUE) %>%
-      graph_from_data_frame() %>% clusters() %>%
+      graph_from_data_frame() %>%
+      clusters() %>%
       .$membership %>%
       melt())
-    result_multi<-seq_clusters %>% map2(.,protocluster_names[!singleseq_flag],~rownames_to_column(.x,var='Sequence') %>%
-      group_by('value') %>%
-      mutate(Cluster = paste0(.y,'_cluster_',cur_group_id())) %>%
-      ungroup() %>%
-      select(Sequence,Cluster)) %>% map_df(~.x)
-      res<-rbind(result_single,result_multi)
-      colnames(res)<-c(matching_col,'Cluster')
-      return(res)
-}
-  clusters<-map(.dist,~graph_clustering(.x,threshold_fun = .threshold_fun))
-  if (!all(map2_lgl(clusters,.data,~nrow(.x)==nrow(.y)))){
-    warning('Number of sequence provided in .data and .dist are not matching!')
+    result_multi <- seq_clusters %>%
+      map2(., protocluster_names[!singleseq_flag], ~ rownames_to_column(.x, var = "Sequence") %>%
+        group_by("value") %>%
+        mutate(Cluster = paste0(.y, "_cluster_", cur_group_id())) %>%
+        ungroup() %>%
+        select(Sequence, Cluster)) %>%
+      map_df(~.x)
+    res <- rbind(result_single, result_multi)
+    colnames(res) <- c(matching_col, "Cluster")
+    return(res)
   }
-  result_data<-map2(.data,clusters,~left_join(.x,.y) %>% suppressMessages)
+  clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
+  if (!all(map2_lgl(clusters, .data, ~ nrow(.x) == nrow(.y)))) {
+    warning("Number of sequence provided in .data and .dist are not matching!")
+  }
+  result_data <- map2(.data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
   # supress messages because join spams about joining by matching_col is done
   return(result_data)
 }
-
