@@ -108,7 +108,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
   if (!all(map2_lgl(clusters, .data, ~ nrow(.x) == nrow(.y)))) {
     warning("Number of sequence provided in .data and .dist are not matching!")
   }
-  result_data <- map2(.data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
   # supress messages because join spams about joining by matching_col is done
+  result_data <- map2(.data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
   return(result_data)
 }
