@@ -11,15 +11,9 @@ seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
 \item{.data}{The data to be processed. Can be \link{data.frame},
 \link{data.table}, or a list of these objects.
 
-Every object must have columns in the immunarch compatible format \link{immunarch_data_format}
+Every object must have columns in the immunarch compatible format \link{immunarch_data_format}}
 
-Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from \link{copy_to} or a list
-of these objects. They are supported with the same limitations as basic objects.
-
-Note: each connection must represent a separate repertoire.}
-
-\item{.col}{A string that specifies the column name to be processed. Default value is 'CDR3.aa'.}
+\item{.col}{A string that specifies the column name to be processed. Default value is 'CDR3.nt'.}
 
 \item{.method}{Character value or user-defined function.}
 
