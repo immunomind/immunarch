@@ -46,7 +46,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     stop(".data and .dist lengths are not match!")
   }
   if (all(!(names(.data) %in% names(.dist)))) {
-    stop(".data and .dist names are not matched!")
+    stop(".data and .dist names do not match!")
   } else {
     .dist <- .dist[order(match(names(.dist), names(.data)))]
   }
