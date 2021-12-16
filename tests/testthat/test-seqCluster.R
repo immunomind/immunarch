@@ -4,6 +4,7 @@ dist_test <- seqDist(immdata$data[1])
 
 
 # Arrange
+
 negative_test_cases <- list(
   "Wrong data" = list(
     args = list(
@@ -13,7 +14,7 @@ negative_test_cases <- list(
   ),
   "No matching col" = list(
     args = list(
-      .data = immdata$data$`A2-i131` %>% mutate("CDR3.nt" = NULL),
+      .data = immdata$data[[1]] %>% mutate("CDR3.nt" = NULL),
       .dist = dist_test
     )
   ),
@@ -40,10 +41,8 @@ negative_test_cases <- list(
   )
 )
 
-# Act
-
 negative_args <- map(negative_test_cases, "args")
 
-# Assert
+# Act, Assert
 
-map2(names(negative_test_cases), negative_args, ~ test_that(.x, expect_error(do.call(seqCluster, .y))))
+map2(names(negative_test_cases), negative_args, ~ test_that(.x, expect_error(do.call(seqCluster,.y))))
