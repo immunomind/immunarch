@@ -469,10 +469,10 @@ parse_mixcr <- function(.filename, .mode) {
     if ("targetsequences" %in% table.colnames) {
       if (paste0("nseqimputed", region) %in% table.colnames) {
         nuc_headers[[i]] <- paste0("nseqimputed", region)
-      } else {
+      } else if (paste0("nseq", region) %in% table.colnames) {
         nuc_headers[[i]] <- paste0("nseq", region)
       }
-    } else {
+    } else if (paste0("nseq", region) %in% table.colnames) {
       nuc_headers[[i]] <- paste0("nseq", region)
     }
     if (nuc_headers[[i]] %in% table.colnames) {
