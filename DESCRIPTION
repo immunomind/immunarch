@@ -56,7 +56,8 @@ Imports:
     stringr,
     tibble,
     tidyselect,
-    tidyr
+    tidyr,
+    igraph
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),

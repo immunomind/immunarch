@@ -18,7 +18,7 @@
 #'
 #' Every object must have columns in the immunarch compatible format \link{immunarch_data_format}
 #'
-#' @param .col A string that specifies the column name to be processed. Default value is 'CDR3.aa'.
+#' @param .col A string that specifies the column name to be processed. Default value is 'CDR3.nt'.
 #'
 #' @param .method Character value or user-defined function.
 #'
@@ -72,7 +72,7 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
   gr_by_is_na <- all(is.na(.group_by))
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
-  if (!all(.group_by %in% colnames(sample_truth)) && !gr_by_is_na) {
+  if (!all(.group_by %in% colnames(first_sample)) && !gr_by_is_na) {
     stop("Expected column(s): ", paste0(.group_by, collapse = ", "), "; some of them are missing in data!")
   }
   if (!.col %in% colnames(first_sample)) {
