@@ -45,4 +45,4 @@ negative_args <- map(negative_test_cases, "args")
 
 # Act, Assert
 
-map2(names(negative_test_cases), negative_args, ~ test_that(.x, expect_error(do.call(seqCluster,.y))))
+map2(names(negative_test_cases), negative_args, ~ test_that(.x, expect_error(do.call(seqCluster, .y))))
