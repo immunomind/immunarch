@@ -303,6 +303,8 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #'
 #' @param .text.size Size of text in the cells of heatmap.
 #'
+#' @param .axis.text.size Size of text on the axis labels.
+#'
 #' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
 #'
 #' @param .title The The text for the plot's title.
