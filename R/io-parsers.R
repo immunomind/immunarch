@@ -410,7 +410,8 @@ parse_mixcr <- function(.filename, .mode) {
   pos_headers <- list(
     vend = "allvalignments",
     dalignments = "alldalignments",
-    jstart = "alljalignments"
+    jstart = "alljalignments",
+    calignments = "allcalignments"
   )
   pos_extra_headers <- list(
     cdr3start = NA,
@@ -609,20 +610,42 @@ parse_mixcr <- function(.filename, .mode) {
     .vd.insertions <- "VD.insertions"
   }
 
+  alignments <- list()
+  for (pos_header in c("dalignments", "calignments")) {
+    if (!is.na(pos_headers[[pos_header]])) {
+      logic <- sapply(str_split(df[[pos_headers[[pos_header]]]], "\\|"), length) >= 5
+      alignments[[pos_header]] <- list(
+        logic = logic,
+        end5 = sapply(str_split(df[[pos_headers[[pos_header]]]][logic], "\\|"), "[[", 4),
+        end3 = sapply(str_split(df[[pos_headers[[pos_header]]]][logic], "\\|"), "[[", 5)
+      )
+    }
+  }
+
   if (!is.na(pos_headers[["dalignments"]])) {
-    logic <- sapply(str_split(df[[pos_headers[["dalignments"]]]], "|"), length) >= 5
-    df$D5.end <- -1
-    df$D3.end <- -1
-    df$D5.end[logic] <- sapply(str_split(df[[pos_headers[["dalignments"]]]][logic], "|"), "[[", 4)
-    df$D3.end[logic] <- sapply(str_split(df[[pos_headers[["dalignments"]]]][logic], "|"), "[[", 5)
+    df$D5.end <- NA
+    df$D3.end <- NA
+    df$D5.end[alignments[["dalignments"]][["logic"]]] <- alignments[["dalignments"]][["end5"]]
+    df$D3.end[alignments[["dalignments"]][["logic"]]] <- alignments[["dalignments"]][["end3"]]
   } else {
-    df$D5.end <- -1
-    df$D3.end <- -1
+    df$D5.end <- NA
+    df$D3.end <- NA
+  }
+
+  if (!is.na(pos_headers[["calignments"]])) {
+    df$C5.end <- NA
+    df$C3.end <- NA
+    df$C5.end[alignments[["calignments"]][["logic"]]] <- alignments[["calignments"]][["end5"]]
+    df$C3.end[alignments[["calignments"]][["logic"]]] <- alignments[["calignments"]][["end3"]]
+  } else {
+    df$C5.end <- NA
+    df$C3.end <- NA
   }
 
   pos_headers[["vend"]] <- "V.end"
   pos_headers[["dalignments"]] <- c("D5.end", "D3.end")
   pos_headers[["jstart"]] <- "J.start"
+  pos_headers[["calignments"]] <- c("C5.end", "C3.end")
 
   if ("refpoints" %in% table.colnames) {
     for (i in seq_along(pos_extra_headers)) {
@@ -671,7 +694,7 @@ parse_mixcr <- function(.filename, .mode) {
   df_ext_columns <- c(
     best_headers[["bestv"]], best_headers[["bestj"]],
     pos_extra_headers[["cdr3start"]], pos_extra_headers[["cdr3end"]],
-    gene_headers[["cgenes"]],
+    gene_headers[["cgenes"]], pos_headers[["calignments"]],
     nuc_headers[[".nuc.seq.cdr1"]], aa_headers[[".aa.seq.cdr1"]],
     nuc_headers[[".nuc.seq.cdr2"]], aa_headers[[".aa.seq.cdr2"]],
     nuc_headers[[".nuc.seq.fr1"]], aa_headers[[".aa.seq.fr1"]],
