@@ -33,8 +33,6 @@ Graph clustering based on distances between sequences
 data(immdata)
 # In this example, we will use only 2 samples for time saving
 
-dist_result<-seqDist(immdata$data[1:2])
-cluster_result<-seqCluster(immdata$data[1:2],dist_result,.fixed_threshold=1)
-
-
+dist_result <- seqDist(immdata$data[1:2])
+cluster_result <- seqCluster(immdata$data[1:2], dist_result, .fixed_threshold = 1)
 }

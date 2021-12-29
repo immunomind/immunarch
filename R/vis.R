@@ -303,6 +303,8 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #'
 #' @param .text.size Size of text in the cells of heatmap.
 #'
+#' @param .axis.text.size Size of text on the axis labels.
+#'
 #' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
 #'
 #' @param .title The The text for the plot's title.
@@ -329,7 +331,8 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #' gu <- geneUsage(immdata$data, "hs.trbj")
 #' vis_heatmap(gu)
 #' @export
-vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits = 2, .text.size = 4,
+vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits = 2,
+                        .text.size = 4, .axis.text.size = NULL,
                         .labs = c("Sample", "Sample"), .title = "Overlap",
                         .leg.title = "Overlap values", .legend = TRUE,
                         .na.value = NA, .transpose = FALSE, ...) {
@@ -350,11 +353,11 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
   }
 
   if (is.null(colnames(.data))) {
-    colnames(.data) <- paste0("C", 1:ncol(.data))
+    colnames(.data) <- paste0("C", seq_len(ncol(.data)))
   }
 
   if (is.null(row.names(.data))) {
-    row.names(.data) <- paste0("C", 1:nrow(.data))
+    row.names(.data) <- paste0("C", seq_len(nrow(.data)))
   }
 
   .data[is.na(.data)] <- .na.value
@@ -381,8 +384,13 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
   p <- p + ggtitle(.title) +
     guides(fill = guide_colourbar(title = .leg.title)) +
     xlab(.labs[1]) + ylab(.labs[2]) + coord_fixed() +
-    theme_linedraw() + theme(axis.text.x = element_text(angle = 90, vjust = .5)) +
-    scale_x_discrete(expand = c(0, 0)) + scale_y_discrete(expand = c(0, 0))
+    theme_linedraw() + theme(
+      axis.text.x =
+        element_text(angle = 90, vjust = .5, size = .axis.text.size)
+    ) + theme(
+      axis.text.y =
+        element_text(size = .axis.text.size)
+    ) + scale_x_discrete(expand = c(0, 0)) + scale_y_discrete(expand = c(0, 0))
 
   if (!.legend) {
     p <- .rem_legend(p)
