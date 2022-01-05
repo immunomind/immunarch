@@ -569,7 +569,7 @@ parse_mixcr <- function(.filename, .mode) {
 
     .dj.insertions <- "DJ.insertions"
     df$DJ.insertions <- -1
-    if (recomb_type == "VJ") {
+    if (recomb_type == "VJ" | all(is.na(.dalignments))) {
       df$DJ.insertions <- -1
     } else if (recomb_type == "VDJ") {
       logic <- sapply(strsplit(df[[.jstart]], "|", TRUE, FALSE, TRUE), length) >= 4 &
