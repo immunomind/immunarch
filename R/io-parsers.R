@@ -557,7 +557,7 @@ parse_mixcr <- function(.filename, .mode) {
   if (!is.na(.vend) && !is.na(.jstart)) {
     .vd.insertions <- "VD.insertions"
     df$VD.insertions <- -1
-    if (recomb_type == "VJ") {
+    if (recomb_type == "VJ" | all(is.na(.dalignments))) {
       df$VD.insertions <- -1
     } else if (recomb_type == "VDJ") {
       logic <- sapply(strsplit(df[[.dalignments]], "|", TRUE, FALSE, TRUE), length) >= 4 &
