@@ -554,7 +554,7 @@ parse_mixcr <- function(.filename, .mode) {
   if (!is.na(pos_headers[["vend"]]) && !is.na(pos_headers[["jstart"]])) {
     .vd.insertions <- "VD.insertions"
     df$VD.insertions <- -1
-    if (recomb_type == "VJ") {
+    if (recomb_type == "VJ" | all(is.na(df[[.dalignments]]))) {
       df$VD.insertions <- -1
     } else if (recomb_type == "VDJ") {
       logic <- sapply(strsplit(df[[pos_headers[["dalignments"]]]], "|", TRUE, FALSE, TRUE), length) >= 4 &
@@ -566,7 +566,7 @@ parse_mixcr <- function(.filename, .mode) {
 
     .dj.insertions <- "DJ.insertions"
     df$DJ.insertions <- -1
-    if (recomb_type == "VJ") {
+    if (recomb_type == "VJ" | all(is.na(df[[.dalignments]]))) {
       df$DJ.insertions <- -1
     } else if (recomb_type == "VDJ") {
       logic <- sapply(strsplit(df[[pos_headers[["jstart"]]]], "|", TRUE, FALSE, TRUE), length) >= 4 &
