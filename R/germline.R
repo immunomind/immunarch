@@ -75,11 +75,11 @@ germline_single_df <- function(data) {
   # add J genes
   data <- merge(x = j_genes, y = data, by = "J.first.allele", all.y = TRUE)
 
-  data %<>%
+  data %>%
     mutate(Germline.Sequence = purrr::map2(
       V.sequence, J.sequence, generate_germline_sequence
-    ))
-  return(data)
+    )) %>%
+    return()
 }
 
 take_first_allele <- function(string) {
