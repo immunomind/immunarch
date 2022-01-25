@@ -2,8 +2,10 @@
 % Please edit documentation in R/germline.R
 \name{repGermline}
 \alias{repGermline}
+\alias{germline_single_df}
 \alias{take_first_allele}
 \alias{extract_gene_name}
+\alias{generate_germline_sequence}
 \alias{load_reference_sequences}
 \title{This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
 that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
@@ -15,7 +17,8 @@ for assessing the degree of mutation and maturity of the repertoire.}
 repGermline(.data)
 }
 \arguments{
-\item{.data}{The data to be processed. Can be \link{data.frame} or \link{data.table}.
+\item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
+or a list of these objects.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}}
 }
