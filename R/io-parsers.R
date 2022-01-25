@@ -716,7 +716,19 @@ parse_mixcr <- function(.filename, .mode) {
   df <- df[, make.names(df_columns)]
   colnames(df) <- df_column_names
 
+  fix_genes_column <- function(.data, .colname) {
+    if (.colname %in% df_column_names) {
+      .data[[.colname]] <- gsub(",", ", ", .data[[.colname]])
+      .data[[.colname]] <- str_replace_all(.data[[.colname]], '"', "")
+    }
+    .data
+  }
+
   df %>%
+    fix_genes_column(IMMCOL$v) %>%
+    fix_genes_column(IMMCOL$d) %>%
+    fix_genes_column(IMMCOL$j) %>%
+    fix_genes_column(IMMCOL_EXT$c) %>%
     .postprocess() %>%
     return()
 }

@@ -490,3 +490,36 @@ all_bcr_columns_present <- function(.data) {
   )
   return(all(expected_columns %in% colnames(.data)))
 }
+
+# get genes from original column, remove alleles and write to target column
+add_column_without_alleles <- function(.data, .original_colname, .target_colname) {
+  if (.original_colname %in% colnames(.data)) {
+    .data[[.target_colname]] <- gsub(
+      ", ", ",",
+      .data[[.original_colname]]
+    )
+    .data[[.target_colname]] <- gsub(
+      "([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])", "",
+      .data[[.target_colname]]
+    )
+    .data[[.target_colname]] <- gsub(
+      ",", ", ",
+      .data[[.target_colname]]
+    )
+    .data[[.target_colname]] <- sapply(
+      strsplit(.data[[.target_colname]], ", ", useBytes = TRUE),
+      # No sorting because MiXCR outputs segments in a specific order
+      function(x) paste0(unique(x), collapse = ", ")
+    )
+    .data[[.target_colname]] <- gsub(
+      "[*][[:digit:]]*", "",
+      .data[[.target_colname]]
+    )
+  } else {
+    stop(paste0(
+      "Trying to remove alleles from missing column ", .original_colname,
+      ", available columns: ", colnames(.data)
+    ))
+  }
+  .data
+}
