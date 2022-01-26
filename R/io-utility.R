@@ -244,7 +244,7 @@
     stop("Input list of immune repertoires is empty!")
   } else if (inherits(.data[[1]], "list")) {
     stop(
-      "Wrong input data format: expected list of immune repertoires, got list of lists!\n",
+      "Wrong input data format: expected list of immune repertoires, found nested list!\n",
       "Maybe, immdata is passed instead of immdata$data."
     )
   }
