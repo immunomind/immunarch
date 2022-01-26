@@ -23,12 +23,13 @@
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
 #'
-#' It must have columns in the immunarch compatible format \link{immunarch_data_format}
+#' It must have columns in the immunarch compatible format \link{immunarch_data_format}.
 #'
 #' @return
 #'
-#' Data with added columns V.allele and J.allele (with first alleles of the genes),
-#' and V.sequence and J.sequence (with germline sequences).
+#' Data with added columns V.first.allele and J.first.allele (with first alleles of the genes);
+#' V.sequence and J.sequence (with V/J germline sequences)
+#' and Germline.Sequence (with combined germline sequence)
 #'
 #' @examples
 #'
