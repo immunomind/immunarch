@@ -34,7 +34,10 @@
 #' @examples
 #'
 #' data(immdata)
-#' repGermline(immdata$data)
+#'
+#' immdata$data %>%
+#'   top(2000) %>% # reduce the dataset to save time on examples
+#'   repGermline()
 #' @export repGermline
 repGermline <- function(.data) {
   if (inherits(.data, "list")) {

@@ -33,6 +33,9 @@ Creates germlines for clonal lineages
 \examples{
 
 data(immdata)
-repGermline(immdata$data)
+
+immdata$data \%>\%
+  top(2000) \%>\% # reduce the dataset to save time on examples
+  repGermline()
 }
 \concept{germline}

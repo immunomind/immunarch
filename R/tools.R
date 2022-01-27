@@ -523,3 +523,9 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
   }
   .data
 }
+
+require_system_package <- function(package, error_message) {
+  if (Sys.which(package) == "") {
+    stop(error_message)
+  }
+}
