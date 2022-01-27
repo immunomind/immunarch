@@ -242,6 +242,11 @@
     stop("Wrong input data format: expected list of immune repertoires!")
   } else if (length(.data) == 0) {
     stop("Input list of immune repertoires is empty!")
+  } else if (inherits(.data[[1]], "list")) {
+    stop(
+      "Wrong input data format: expected list of immune repertoires, found nested list!\n",
+      "Maybe, immdata is passed instead of immdata$data."
+    )
   }
   .check_empty_repertoires(.data)
 }
@@ -254,7 +259,8 @@
     !("meta" %in% names(.immdata))) {
     stop(
       "Input list must contain \"data\" and \"meta\" elements;\n",
-      "please pass Immunarch dataset object as input."
+      "please pass Immunarch dataset object as input.\n",
+      "Maybe, immdata$data is passed instead of immdata."
     )
   } else if (!inherits(.immdata$data, "list") | !is.data.frame(.immdata$meta)) {
     stop(

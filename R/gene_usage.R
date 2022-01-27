@@ -106,6 +106,10 @@ geneUsage <- function(.data, # df, list, MonetDB
     stop("The entered gene_col name is invalid")
   }
 
+  gene_col_new_name <- paste0(gene_col, ".no.alleles")
+  .data %<>% add_column_without_alleles(gene_col, gene_col_new_name)
+  gene_col <- gene_col_new_name
+
   .gene <- get_genes(.gene, .type)
 
   # Bad Cases:

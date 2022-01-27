@@ -716,31 +716,19 @@ parse_mixcr <- function(.filename, .mode) {
   df <- df[, make.names(df_columns)]
   colnames(df) <- df_column_names
 
-  fix.allele <- function(.data, .colname) {
+  fix_genes_column <- function(.data, .colname) {
     if (.colname %in% df_column_names) {
-      .data[[.colname]] <- gsub(
-        "([*][[:digit:]]*)([(][[:digit:]]*[.,]*[[:digit:]]*[)])",
-        "", .data[[.colname]]
-      )
       .data[[.colname]] <- gsub(",", ", ", .data[[.colname]])
       .data[[.colname]] <- str_replace_all(.data[[.colname]], '"', "")
-
-      .data[[.colname]] <- sapply(
-        strsplit(.data[[.colname]], ", ", useBytes = TRUE),
-        # No sorting because MiXCR outputs segments in a specific order
-        function(x) paste0(unique(x), collapse = ", ")
-      )
-
-      .data[[.colname]] <- gsub("[*][[:digit:]]*", "", .data[[.colname]])
     }
     .data
   }
 
   df %>%
-    fix.allele(IMMCOL$v) %>%
-    fix.allele(IMMCOL$d) %>%
-    fix.allele(IMMCOL$j) %>%
-    fix.allele(IMMCOL_EXT$c) %>%
+    fix_genes_column(IMMCOL$v) %>%
+    fix_genes_column(IMMCOL$d) %>%
+    fix_genes_column(IMMCOL$j) %>%
+    fix_genes_column(IMMCOL_EXT$c) %>%
     .postprocess() %>%
     return()
 }
