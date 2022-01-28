@@ -4,6 +4,7 @@ FROM r-base
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential file libcurl4-openssl-dev libcairo2-dev libxml2-dev libssl-dev \
     libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev \
+    libnlopt-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install R dependencies
