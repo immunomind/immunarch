@@ -18,7 +18,14 @@ repGermline(.data)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
-or a list of these objects.
+or a list of these objects.}
+
+\item{species}{Species from which the data was acquired. Available options:
+"HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
+"CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
+"MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
+"OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
+"SusScrofa".
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}.}
 }
