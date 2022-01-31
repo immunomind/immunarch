@@ -18,3 +18,6 @@ RUN R -e "remotes::install_local('/immunarch-src', dependencies=TRUE)"
 
 # Delete Immunarch source from the image
 RUN rm -rf /immunarch-src
+
+# Check the image for Immunarch existence; fail if Immunarch not found
+RUN R -e 'library("immunarch")'
