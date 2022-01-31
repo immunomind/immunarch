@@ -12,7 +12,6 @@
 #' @importFrom stringr str_sub
 #' @importFrom purrr modify
 #' @importFrom magrittr %>% %<>%
-#' @importFrom VDJgermlines extractSequencesR
 
 #' @description Creates germlines for clonal lineages
 #'
@@ -22,6 +21,13 @@
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
+#'
+#' @param species Species from which the data was acquired. Available options:
+#' "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
+#' "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
+#' "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
+#' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
+#' "SusScrofa".
 #'
 #' It must have columns in the immunarch compatible format \link{immunarch_data_format}.
 #'
@@ -39,26 +45,26 @@
 #'   top(2000) %>% # reduce the dataset to save time on examples
 #'   repGermline()
 #' @export repGermline
-repGermline <- function(.data) {
+repGermline <- function(.data, species = "HomoSapiens") {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     .data %>%
       lapply(function(sample_data) {
         sample_data %>%
           as_tibble() %>%
-          germline_single_df() %>%
+          germline_single_df(species) %>%
           return()
       }) %>%
       return()
   } else {
     .data %>%
       as_tibble() %>%
-      germline_single_df() %>%
+      germline_single_df(species) %>%
       return()
   }
 }
 
-germline_single_df <- function(data) {
+germline_single_df <- function(data, species) {
   # add first allele of V and J genes
   data["V.first.allele"] <- data %>%
     select(V.name) %>%
@@ -68,13 +74,13 @@ germline_single_df <- function(data) {
     apply(MARGIN = 1, FUN = take_first_allele)
 
   # load V genes
-  v_genes <- load_reference_sequences("IGHV")
+  v_genes <- load_reference_sequences("IGHV", species)
 
   # add V genes
   data <- merge(x = v_genes, y = data, by = "V.first.allele", all.y = TRUE)
 
   # load J genes
-  j_genes <- load_reference_sequences("IGHJ")
+  j_genes <- load_reference_sequences("IGHJ", species)
 
   # add J genes
   data <- merge(x = j_genes, y = data, by = "J.first.allele", all.y = TRUE)
@@ -90,11 +96,6 @@ take_first_allele <- function(string) {
   unlist(strsplit(string, ","))[1]
 }
 
-# example input: "J00256|IGHJ1*01|Homo"; example output: "IGHJ1*01"
-extract_gene_name <- function(full_name) {
-  unlist(strsplit(full_name, "\\|"))[2]
-}
-
 generate_germline_sequence <- function(v_seq, j_seq) {
   if (is.na(v_seq) || is.na(j_seq)) {
     return(NA)
@@ -103,10 +104,10 @@ generate_germline_sequence <- function(v_seq, j_seq) {
   }
 }
 
-load_reference_sequences <- function(chain) {
-  sequences_df <- VDJgermlines::extractSequencesR("human", chain, "IMGT", FALSE)
-  sequences_df <- sequences_df[c("sequence", "names")]
-  sequences_df[["names"]] <- purrr::modify(sequences_df[["names"]], extract_gene_name)
+load_reference_sequences <- function(chain, species) {
+  data(genesegments)
+  sequences_df <- GENE_SEGMENTS %>% filter(species == species)
+  sequences_df <- sequences_df[c("sequence", "allele_id")]
   chain_letter <- stringr::str_sub(chain, -1)
   colnames(sequences_df) <- c(paste0(chain_letter, ".sequence"), paste0(chain_letter, ".first.allele"))
   return(sequences_df)
