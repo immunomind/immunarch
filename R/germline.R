@@ -46,10 +46,11 @@ repGermline <- function(.data, species = "HomoSapiens") {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     .data %>%
-      lapply(function(sample_data) {
-        sample_data %>%
+      seq_along() %>%
+      lapply(function(i) {
+        .data[[i]] %>%
           as_tibble() %>%
-          germline_single_df(species) %>%
+          germline_single_df(species, sample_name = names(.data)[i]) %>%
           return()
       }) %>%
       return()
@@ -61,8 +62,7 @@ repGermline <- function(.data, species = "HomoSapiens") {
   }
 }
 
-germline_single_df <- function(data, species) {
-  # add first allele of V and J genes
+germline_single_df <- function(data, species, sample_name = NA) {
   data["V.first.allele"] <- data %>%
     select(V.name) %>%
     apply(MARGIN = 1, FUN = take_first_allele)
@@ -70,17 +70,8 @@ germline_single_df <- function(data, species) {
     select(J.name) %>%
     apply(MARGIN = 1, FUN = take_first_allele)
 
-  # load V genes
-  v_genes <- load_reference_sequences("IGHV", species)
-
-  # add V genes
-  data <- merge(x = v_genes, y = data, by = "V.first.allele", all.y = TRUE)
-
-  # load J genes
-  j_genes <- load_reference_sequences("IGHJ", species)
-
-  # add J genes
-  data <- merge(x = j_genes, y = data, by = "J.first.allele", all.y = TRUE)
+  data %<>% merge_reference_sequences("IGHV", species, sample_name)
+  data %<>% merge_reference_sequences("IGHJ", species, sample_name)
 
   data %>%
     mutate(Germline.Sequence = purrr::map2(
@@ -101,11 +92,29 @@ generate_germline_sequence <- function(v_seq, j_seq) {
   }
 }
 
-load_reference_sequences <- function(chain, species) {
+merge_reference_sequences <- function(data, chain, species, sample_name) {
   data(genesegments)
-  sequences_df <- GENE_SEGMENTS %>% filter(species == species)
-  sequences_df <- sequences_df[c("sequence", "allele_id")]
+  reference_df <- GENE_SEGMENTS %>% filter(species == species)
+  reference_df <- reference_df[c("sequence", "allele_id")]
   chain_letter <- stringr::str_sub(chain, -1)
-  colnames(sequences_df) <- c(paste0(chain_letter, ".sequence"), paste0(chain_letter, ".first.allele"))
-  return(sequences_df)
+  chain_seq_colname <- paste0(chain_letter, ".sequence")
+  chain_allele_colname <- paste0(chain_letter, ".first.allele")
+  colnames(reference_df) <- c(chain_seq_colname, chain_allele_colname)
+
+  alleles_in_data <- unique(data[[chain_allele_colname]])
+  alleles_in_ref <- unique(reference_df[[chain_allele_colname]])
+  missing_alleles <- alleles_in_data[!(alleles_in_data %in% alleles_in_ref)]
+  if (length(missing_alleles) > 0) {
+    warning(
+      "Alleles ", paste(missing_alleles, collapse = ", "),
+      if (is.na(sample_name)) "" else paste0(" from sample ", sample_name),
+      " not found in the reference and will be dropped!\n",
+      "Probably, species argument is wrong (current value: ", species,
+      ") or the data contains non-BCR genes."
+    )
+  }
+
+  data %>%
+    merge(reference_df, by = chain_allele_colname) %>%
+    return()
 }
