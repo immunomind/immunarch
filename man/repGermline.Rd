@@ -30,9 +30,8 @@ or a list of these objects.}
 It must have columns in the immunarch compatible format \link{immunarch_data_format}.}
 }
 \value{
-Data with added columns V.first.allele and J.first.allele (with first alleles of the genes);
-V.sequence and J.sequence (with V/J germline sequences)
-and Germline.Sequence (with combined germline sequence)
+Data with added columns V.first.allele (with first allele of V gene),
+V.sequence (with V reference sequence) and Germline.sequence (with combined germline sequence)
 }
 \description{
 Creates germlines for clonal lineages

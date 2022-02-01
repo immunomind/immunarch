@@ -9,8 +9,8 @@
 #'
 #' @aliases repGermline germline_single_df take_first_allele extract_gene_name generate_germline_sequence load_reference_sequences
 #'
-#' @importFrom stringr str_sub
-#' @importFrom purrr modify
+#' @importFrom stringr str_sub str_length
+#' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>%
 
 #' @description Creates germlines for clonal lineages
@@ -33,9 +33,8 @@
 #'
 #' @return
 #'
-#' Data with added columns V.first.allele and J.first.allele (with first alleles of the genes);
-#' V.sequence and J.sequence (with V/J germline sequences)
-#' and Germline.Sequence (with combined germline sequence)
+#' Data with added columns V.first.allele (with first allele of V gene),
+#' V.sequence (with V reference sequence) and Germline.sequence (with combined germline sequence)
 #'
 #' @examples
 #'
@@ -46,11 +45,10 @@ repGermline <- function(.data, species = "HomoSapiens") {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     .data %>%
-      seq_along() %>%
-      lapply(function(i) {
-        .data[[i]] %>%
+      purrr::imap(function(sample_data, sample_name) {
+        sample_data %>%
           as_tibble() %>%
-          germline_single_df(species, sample_name = names(.data)[i]) %>%
+          germline_single_df(species, sample_name) %>%
           return()
       }) %>%
       return()
@@ -63,19 +61,13 @@ repGermline <- function(.data, species = "HomoSapiens") {
 }
 
 germline_single_df <- function(data, species, sample_name = NA) {
-  data["V.first.allele"] <- data %>%
-    select(V.name) %>%
-    apply(MARGIN = 1, FUN = take_first_allele)
-  data["J.first.allele"] <- data %>%
-    select(J.name) %>%
-    apply(MARGIN = 1, FUN = take_first_allele)
-
-  data %<>% merge_reference_sequences("IGHV", species, sample_name)
-  data %<>% merge_reference_sequences("IGHJ", species, sample_name)
-
   data %>%
-    mutate(Germline.Sequence = purrr::map2(
-      V.sequence, J.sequence, generate_germline_sequence
+    rowwise() %>%
+    mutate(V.first.allele = take_first_allele(V.name)) %>%
+    merge_reference_sequences("IGHV", species, sample_name) %>%
+    rowwise() %>%
+    mutate(Germline.sequence = generate_germline_sequence(
+      Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start
     )) %>%
     return()
 }
@@ -84,11 +76,31 @@ take_first_allele <- function(string) {
   unlist(strsplit(string, ","))[1]
 }
 
-generate_germline_sequence <- function(v_seq, j_seq) {
-  if (is.na(v_seq) || is.na(j_seq)) {
+generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start) {
+  if (is.na(seq) || is.na(v_ref) ||
+    is.na(v_end) || is.na(cdr3_start) || is.na(cdr3_end) || is.na(j_start)) {
     return(NA)
   } else {
-    return(paste(v_seq, j_seq, sep = "..."))
+    cdr3_start %<>% as.numeric()
+    cdr3_end %<>% as.numeric()
+
+    if (v_end <= cdr3_start) {
+      v_part <- v_ref
+    } else {
+      # trim intersection of V and CDR3 from reference V gene
+      v_part <- stringr::str_sub(
+        v_ref, 1,
+        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start))
+      )
+    }
+
+    cdr3_part <- paste(rep("n", cdr3_end - cdr3_start), collapse = "")
+
+    j_part <- stringr::str_sub(seq, max(cdr3_end, j_start))
+
+    paste0(v_part, cdr3_part, j_part) %>%
+      toupper() %>%
+      return()
   }
 }
 
@@ -101,6 +113,7 @@ merge_reference_sequences <- function(data, chain, species, sample_name) {
   chain_allele_colname <- paste0(chain_letter, ".first.allele")
   colnames(reference_df) <- c(chain_seq_colname, chain_allele_colname)
 
+  # check for alleles in data that don't exist in the reference
   alleles_in_data <- unique(data[[chain_allele_colname]])
   alleles_in_ref <- unique(reference_df[[chain_allele_colname]])
   missing_alleles <- alleles_in_data[!(alleles_in_data %in% alleles_in_ref)]
