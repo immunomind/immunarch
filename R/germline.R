@@ -64,7 +64,7 @@ germline_single_df <- function(data, species, sample_name = NA) {
   data %>%
     rowwise() %>%
     mutate(V.first.allele = take_first_allele(V.name)) %>%
-    merge_reference_sequences("IGHV", species, sample_name) %>%
+    merge_reference_sequences("V", species, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
       Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start
@@ -104,11 +104,10 @@ generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, 
   }
 }
 
-merge_reference_sequences <- function(data, chain, species, sample_name) {
+merge_reference_sequences <- function(data, chain_letter, species, sample_name) {
   data(genesegments)
   reference_df <- GENE_SEGMENTS %>% filter(species == species)
   reference_df <- reference_df[c("sequence", "allele_id")]
-  chain_letter <- stringr::str_sub(chain, -1)
   chain_seq_colname <- paste0(chain_letter, ".sequence")
   chain_allele_colname <- paste0(chain_letter, ".first.allele")
   colnames(reference_df) <- c(chain_seq_colname, chain_allele_colname)
