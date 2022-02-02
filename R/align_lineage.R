@@ -9,7 +9,9 @@
 #' @aliases repAlignLineage
 #'
 #' @importFrom magrittr %>% %<>%
+#' @importFrom stringr str_extract_all
 #' @importFrom ape as.DNAbin muscle
+#' @importFrom parallel mclapply detectCores
 
 #' @description Aligns all sequences incliding germline within one clonal lineage
 #'
@@ -21,7 +23,7 @@
 #' or a list of these objects.
 #'
 #' It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-#' must contain Sequence.Germline column, which is added by repGermline() function.
+#' must contain Sequence.germline column, which is added by repGermline() function.
 #'
 #' @return
 #'
@@ -62,24 +64,38 @@ repAlignLineage <- function(.data) {
 }
 
 align_single_df <- function(data) {
-  if (!("Germline.Sequence" %in% colnames(data))) {
+  if (!("Germline.sequence" %in% colnames(data))) {
     stop(
-      "Found dataframe without required column Germline.Sequence;\n",
+      "Found dataframe without required column Germline.sequence;\n",
       "existing columns: ", str(colnames(data))
     )
   }
 
-  # fastaLines = c(as.character(paste(">", str_pad('germline', 10, 'right', ' '), sep = '')))
-  # fastaLines = c(fastaLines, as.character(data[1, 'germline_sequence']))
-  # for (rowNum in 1:nrow(data)){
-  #   fastaLines = c(fastaLines, as.character(paste(">", str_pad(paste(paste(data[rowNum, 'group_id'], data[rowNum, 'CLONE_LINEAGE_ID'], sep = '_'), rowNum, sep = '_'), 10, 'right', ' '), sep = "")))
-  #   fastaLines = c(fastaLines,as.character(data[rowNum,"SEQUENCE_INPUT"]))
-  # }
+  germlines <- unique(data[["Germline.sequence"]])
 
-  seq_list <- list()
-  seq_list["germline"] <- data[1, "Germline.Sequence"]
+  germlines %>%
+    lapply(get_germline_with_lineage, data = data) %>%
+    parallel::mclapply(align_sequences,
+      mc.preschedule = FALSE, mc.cores = parallel::detectCores()
+    ) %>%
+    return()
+}
 
-  seq_list %>%
+# return a list containing the germline and all sequences with this germline
+get_germline_with_lineage <- function(germline, data) {
+  c(list(germline = germline), as.list(
+    subset(data, Germline.sequence == germline)[["Sequence"]]
+  ))
+}
+
+align_sequences <- function(list_of_sequences) {
+  list_of_sequences %>%
+    lapply(function(sequence) {
+      sequence %>%
+        stringr::str_extract_all(boundary("character")) %>%
+        unlist() %>%
+        return()
+    }) %>%
     ape::as.DNAbin() %>%
     ape::muscle() %>%
     return()

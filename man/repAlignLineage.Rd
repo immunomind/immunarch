@@ -15,7 +15,7 @@ repAlignLineage(.data)
 or a list of these objects.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-must contain Sequence.Germline column, which is added by repGermline() function.}
+must contain Sequence.germline column, which is added by repGermline() function.}
 }
 \value{
 DNAbin object with alignment if there was single input dataframe,
