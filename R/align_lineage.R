@@ -51,8 +51,7 @@ repAlignLineage <- function(.data) {
       lapply(function(sample_data) {
         sample_data %>%
           as_tibble() %>%
-          align_single_df() %>%
-          return()
+          align_single_df()
       }) %>%
       return()
   } else {
@@ -92,8 +91,7 @@ align_sequences <- function(list_of_sequences) {
     lapply(function(sequence) {
       sequence %>%
         stringr::str_extract_all(boundary("character")) %>%
-        unlist() %>%
-        return()
+        unlist()
     }) %>%
     ape::as.DNAbin() %>%
     ape::muscle()
