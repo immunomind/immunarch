@@ -67,16 +67,35 @@ germline_single_df <- function(data, species, sample_name = NA) {
     merge_reference_sequences("V", species, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
-      Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start
-    ))
+      Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
+    )) %>%
+    drop_na(Germline.sequence)
 }
 
 take_first_allele <- function(string) {
   unlist(strsplit(string, ","))[1]
 }
 
-generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start) {
-  if (any(sapply(c(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start), is.na))) {
+generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
+  if (any(is.na(c(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start))) || (seq == "")) {
+    warning(
+      "Some of mandatory fields in a row ",
+      optional_from_sample(sample_name),
+      "contain unexpected NA or empty strings! Found values:\n",
+      "Sequence = \"",
+      seq,
+      "\",\nV.sequence = \"",
+      v_ref,
+      "\",\nV.end = ",
+      v_end,
+      ", CDR3.start = ",
+      cdr3_start,
+      ", CDR3.end = ",
+      cdr3_end,
+      ", J.start = ",
+      j_start,
+      ".\nThe row will be dropped!"
+    )
     return(NA)
   } else {
     cdr3_start %<>% as.numeric()
@@ -117,12 +136,9 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
     warning(
       "Alleles ",
       paste(missing_alleles, collapse = ", "),
-      if (is.na(sample_name)) {
-        ""
-      } else {
-        paste0(" from sample ", sample_name)
-      },
-      " not found in the reference and will be dropped!\n",
+      " ",
+      optional_from_sample(sample_name),
+      "not found in the reference and will be dropped!\n",
       "Probably, species argument is wrong (current value: ",
       species,
       ") or the data contains non-BCR genes."

@@ -523,3 +523,12 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
   }
   .data
 }
+
+# used to add sample name to error/warning messages when sample name is available
+optional_from_sample <- function(sample_name) {
+  if (is.na(sample_name) || (sample_name == "")) {
+    ""
+  } else {
+    paste0("from sample ", sample_name, " ")
+  }
+}
