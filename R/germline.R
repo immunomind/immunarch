@@ -68,8 +68,7 @@ germline_single_df <- function(data, species, sample_name = NA) {
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
       Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start
-    )) %>%
-    return()
+    ))
 }
 
 take_first_allele <- function(string) {
@@ -77,8 +76,7 @@ take_first_allele <- function(string) {
 }
 
 generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start) {
-  if (is.na(seq) || is.na(v_ref) ||
-    is.na(v_end) || is.na(cdr3_start) || is.na(cdr3_end) || is.na(j_start)) {
+  if (any(sapply(c(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start), is.na))) {
     return(NA)
   } else {
     cdr3_start %<>% as.numeric()
@@ -99,8 +97,7 @@ generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, 
     j_part <- stringr::str_sub(seq, max(cdr3_end, j_start))
 
     paste0(v_part, cdr3_part, j_part) %>%
-      toupper() %>%
-      return()
+      toupper()
   }
 }
 
@@ -118,15 +115,20 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
   missing_alleles <- alleles_in_data[!(alleles_in_data %in% alleles_in_ref)]
   if (length(missing_alleles) > 0) {
     warning(
-      "Alleles ", paste(missing_alleles, collapse = ", "),
-      if (is.na(sample_name)) "" else paste0(" from sample ", sample_name),
+      "Alleles ",
+      paste(missing_alleles, collapse = ", "),
+      if (is.na(sample_name)) {
+        ""
+      } else {
+        paste0(" from sample ", sample_name)
+      },
       " not found in the reference and will be dropped!\n",
-      "Probably, species argument is wrong (current value: ", species,
+      "Probably, species argument is wrong (current value: ",
+      species,
       ") or the data contains non-BCR genes."
     )
   }
 
   data %>%
-    merge(reference_df, by = chain_allele_colname) %>%
-    return()
+    merge(reference_df, by = chain_allele_colname)
 }
