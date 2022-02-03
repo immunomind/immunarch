@@ -77,8 +77,7 @@ align_single_df <- function(data) {
     lapply(get_germline_with_lineage, data = data) %>%
     parallel::mclapply(align_sequences,
       mc.preschedule = FALSE, mc.cores = parallel::detectCores()
-    ) %>%
-    return()
+    )
 }
 
 # return a list containing the germline and all sequences with this germline
@@ -97,6 +96,5 @@ align_sequences <- function(list_of_sequences) {
         return()
     }) %>%
     ape::as.DNAbin() %>%
-    ape::muscle() %>%
-    return()
+    ape::muscle()
 }
