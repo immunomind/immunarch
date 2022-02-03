@@ -48,8 +48,7 @@ repGermline <- function(.data, species = "HomoSapiens") {
       purrr::imap(function(sample_data, sample_name) {
         sample_data %>%
           as_tibble() %>%
-          germline_single_df(species, sample_name) %>%
-          return()
+          germline_single_df(species, sample_name)
       }) %>%
       return()
   } else {
