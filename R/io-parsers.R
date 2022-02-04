@@ -724,13 +724,13 @@ parse_mixcr <- function(.filename, .mode) {
     .data
   }
 
-  df %>%
+  df %<>%
     fix_genes_column(IMMCOL$v) %>%
     fix_genes_column(IMMCOL$d) %>%
     fix_genes_column(IMMCOL$j) %>%
     fix_genes_column(IMMCOL_EXT$c) %>%
-    .postprocess() %>%
-    return()
+    .postprocess()
+  return(df)
 }
 
 parse_migec <- function(.filename, .mode) {

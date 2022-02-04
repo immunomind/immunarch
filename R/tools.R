@@ -532,3 +532,9 @@ optional_from_sample <- function(sample_name) {
     paste0("from sample ", sample_name, " ")
   }
 }
+
+require_system_package <- function(package, error_message) {
+  if (Sys.which(package) == "") {
+    stop(error_message)
+  }
+}

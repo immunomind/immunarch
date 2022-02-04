@@ -39,23 +39,26 @@
 #' @examples
 #'
 #' data(immdata)
-#' repGermline(immdata$data)
+#'
+#' immdata$data %>%
+#'   top(2000) %>% # reduce the dataset to save time on examples
+#'   repGermline()
 #' @export repGermline
 repGermline <- function(.data, species = "HomoSapiens") {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
-    .data %>%
+    .data %<>%
       purrr::imap(function(sample_data, sample_name) {
         sample_data %>%
           as_tibble() %>%
           germline_single_df(species, sample_name)
-      }) %>%
-      return()
+      })
+    return(.data)
   } else {
-    .data %>%
+    .data %<>%
       as_tibble() %>%
-      germline_single_df(species) %>%
-      return()
+      germline_single_df(species)
+    return(.data)
   }
 }
 
