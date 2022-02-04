@@ -58,7 +58,13 @@ repAlignLineage <- function(.data) {
     .data %>%
       as_tibble() %>%
       align_single_df() %>%
-      return()
+      .data %<>%
+      lapply(function(sample_data) {
+        sample_data %>%
+          as_tibble() %>%
+          align_single_df()
+      })
+      return(.data)
   }
 }
 
