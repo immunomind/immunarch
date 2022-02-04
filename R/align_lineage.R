@@ -47,18 +47,18 @@ repAlignLineage <- function(.data) {
   ))
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
-    .data %>%
+    .data %<>%
       lapply(function(sample_data) {
         sample_data %>%
           as_tibble() %>%
           align_single_df()
-      }) %>%
-      return()
+      })
+    return(.data)
   } else {
-    .data %>%
+    .data %<>%
       as_tibble() %>%
-      align_single_df() %>%
-      return()
+      align_single_df()
+    return(.data)
   }
 }
 
