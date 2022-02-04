@@ -9,8 +9,8 @@
 #'
 #' @aliases repGermline germline_single_df take_first_allele extract_gene_name generate_germline_sequence load_reference_sequences
 #'
-#' @importFrom stringr str_sub
-#' @importFrom purrr modify
+#' @importFrom stringr str_sub str_length
+#' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>%
 
 #' @description Creates germlines for clonal lineages
@@ -33,9 +33,8 @@
 #'
 #' @return
 #'
-#' Data with added columns V.first.allele and J.first.allele (with first alleles of the genes);
-#' V.sequence and J.sequence (with V/J germline sequences)
-#' and Germline.Sequence (with combined germline sequence)
+#' Data with added columns V.first.allele (with first allele of V gene),
+#' V.sequence (with V reference sequence) and Germline.sequence (with combined germline sequence)
 #'
 #' @examples
 #'
@@ -46,11 +45,10 @@ repGermline <- function(.data, species = "HomoSapiens") {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     .data %>%
-      lapply(function(sample_data) {
+      purrr::imap(function(sample_data, sample_name) {
         sample_data %>%
           as_tibble() %>%
-          germline_single_df(species) %>%
-          return()
+          germline_single_df(species, sample_name)
       }) %>%
       return()
   } else {
@@ -61,51 +59,91 @@ repGermline <- function(.data, species = "HomoSapiens") {
   }
 }
 
-germline_single_df <- function(data, species) {
-  # add first allele of V and J genes
-  data["V.first.allele"] <- data %>%
-    select(V.name) %>%
-    apply(MARGIN = 1, FUN = take_first_allele)
-  data["J.first.allele"] <- data %>%
-    select(J.name) %>%
-    apply(MARGIN = 1, FUN = take_first_allele)
-
-  # load V genes
-  v_genes <- load_reference_sequences("IGHV", species)
-
-  # add V genes
-  data <- merge(x = v_genes, y = data, by = "V.first.allele", all.y = TRUE)
-
-  # load J genes
-  j_genes <- load_reference_sequences("IGHJ", species)
-
-  # add J genes
-  data <- merge(x = j_genes, y = data, by = "J.first.allele", all.y = TRUE)
-
+germline_single_df <- function(data, species, sample_name = NA) {
   data %>%
-    mutate(Germline.Sequence = purrr::map2(
-      V.sequence, J.sequence, generate_germline_sequence
+    rowwise() %>%
+    mutate(V.first.allele = take_first_allele(V.name)) %>%
+    merge_reference_sequences("V", species, sample_name) %>%
+    rowwise() %>%
+    mutate(Germline.sequence = generate_germline_sequence(
+      Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
     )) %>%
-    return()
+    drop_na(Germline.sequence)
 }
 
 take_first_allele <- function(string) {
   unlist(strsplit(string, ","))[1]
 }
 
-generate_germline_sequence <- function(v_seq, j_seq) {
-  if (is.na(v_seq) || is.na(j_seq)) {
+generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
+  if (any(is.na(c(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start))) || (seq == "")) {
+    warning(
+      "Some of mandatory fields in a row ",
+      optional_from_sample(sample_name),
+      "contain unexpected NA or empty strings! Found values:\n",
+      "Sequence = \"",
+      seq,
+      "\",\nV.sequence = \"",
+      v_ref,
+      "\",\nV.end = ",
+      v_end,
+      ", CDR3.start = ",
+      cdr3_start,
+      ", CDR3.end = ",
+      cdr3_end,
+      ", J.start = ",
+      j_start,
+      ".\nThe row will be dropped!"
+    )
     return(NA)
   } else {
-    return(paste(v_seq, j_seq, sep = "..."))
+    cdr3_start %<>% as.numeric()
+    cdr3_end %<>% as.numeric()
+
+    if (v_end <= cdr3_start) {
+      v_part <- v_ref
+    } else {
+      # trim intersection of V and CDR3 from reference V gene
+      v_part <- stringr::str_sub(
+        v_ref, 1,
+        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start))
+      )
+    }
+
+    cdr3_part <- paste(rep("n", cdr3_end - cdr3_start), collapse = "")
+
+    j_part <- stringr::str_sub(seq, max(cdr3_end, j_start))
+
+    paste0(v_part, cdr3_part, j_part) %>%
+      toupper()
   }
 }
 
-load_reference_sequences <- function(chain, species) {
+merge_reference_sequences <- function(data, chain_letter, species, sample_name) {
   data(genesegments)
-  sequences_df <- GENE_SEGMENTS %>% filter(species == species)
-  sequences_df <- sequences_df[c("sequence", "allele_id")]
-  chain_letter <- stringr::str_sub(chain, -1)
-  colnames(sequences_df) <- c(paste0(chain_letter, ".sequence"), paste0(chain_letter, ".first.allele"))
-  return(sequences_df)
+  reference_df <- GENE_SEGMENTS %>% filter(species == species)
+  reference_df <- reference_df[c("sequence", "allele_id")]
+  chain_seq_colname <- paste0(chain_letter, ".sequence")
+  chain_allele_colname <- paste0(chain_letter, ".first.allele")
+  colnames(reference_df) <- c(chain_seq_colname, chain_allele_colname)
+
+  # check for alleles in data that don't exist in the reference
+  alleles_in_data <- unique(data[[chain_allele_colname]])
+  alleles_in_ref <- unique(reference_df[[chain_allele_colname]])
+  missing_alleles <- alleles_in_data[!(alleles_in_data %in% alleles_in_ref)]
+  if (length(missing_alleles) > 0) {
+    warning(
+      "Alleles ",
+      paste(missing_alleles, collapse = ", "),
+      " ",
+      optional_from_sample(sample_name),
+      "not found in the reference and will be dropped!\n",
+      "Probably, species argument is wrong (current value: ",
+      species,
+      ") or the data contains non-BCR genes."
+    )
+  }
+
+  data %>%
+    merge(reference_df, by = chain_allele_colname)
 }
