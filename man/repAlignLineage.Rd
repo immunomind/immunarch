@@ -3,7 +3,7 @@
 \name{repAlignLineage}
 \alias{repAlignLineage}
 \title{This function aligns all sequences incliding germline within one clonal lineage. After building
-clonal lineage and germline, the next step isto analyze the degree of mutation and maturity
+clonal lineage and germline, the next step is to analyze the degree of mutation and maturity
 of each clonal lineage. This allows you to find high mature cells and cells with a large number of offspring.
 The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
