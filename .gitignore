@@ -9,3 +9,4 @@ src/*.dll
 *.DS_Store
 docs/*
 .idea/*
+vignettes/web_only/*.html

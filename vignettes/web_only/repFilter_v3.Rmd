@@ -1,0 +1,337 @@
+---
+title: 'Data Filtering'
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Gene usage analysis}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+```
+
+# Data filtering
+In many research cases, you could want to filter your data by metadata, clonotypes parameters or genes, so for this purpose, you can use the `repFilter` function. 
+
+## Methods for filtering data
+`repFilter` has 3 parameters: `.method`, `.query` and `.match`.
+
+Due to the ambiguity of ways to extract required data, `repFilter` has the following methods:
+
+- `.method = "by.meta"` - filters data using information from meta data.
+
+- `.method = "by.repertoire" or "by.rep"` - filters data using information about repertoire statistics.
+
+- `.method = "by.clonotype" or "by.cl"` - filters data using information about clonotype sequences.
+
+
+Parameter `.query` is a list specifying the condition for filtering. Elements in the list are conditions, names of elements - columns chosen for filtering. Names in elements should not be repeated in `.query`. If you need to write a complex condition, you can call the function multiple times.
+
+Parameter `.match` denotes the type of match between condition and value to filter: 
+
+ - `exact` - looks for exact match.
+ - `substring`- looks for substring.
+ - `startswith` - looks for string starting with the some pattern
+
+Parameter `.match` can be applied to both by.meta and by.clonotype
+
+
+Load the package into the R environment:
+```{r }
+library(immunarch)
+```
+
+For testing purposes we will use `scdata` and `immdata` datasets from **Immunarch** library. Load them by executing the following command:
+
+```{r}
+data(immdata)
+```
+
+Look at meta data from `immdata` datasets:
+
+```{r}
+#look at the metadata
+immdata$meta
+#look at samples name in data
+names(immdata$data)
+```
+
+
+## How to write conditions for filtering
+
+### Method `by.meta`
+
+#### Example 1
+Use  `include` and `exclude` options to select a subset of samples or repertoires that match given filter criterion. These options accept strings.
+
+Let's filter your data by metadata `immdata` datasets when *Status* is *C* and look at new meta data:
+```{r example-1.1}
+repFilter(immdata, .method = "by.meta", .query = list(Status = include("C")))$meta
+```
+
+Note that we filter both metadata and data:
+
+```{r example-1.1.1}
+# filtered data
+names(repFilter(immdata, .method = "by.meta", .query = list(Status = include("C")))$data)
+```
+
+Filter out samples where *Lane* is not A:
+
+```{r example-1.2}
+repFilter(immdata, .method = "by.meta", .query = list(Lane = exclude("A")))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Lane = exclude("A")))$data)
+```
+
+Filter for samples where *Lane* is *B* or *C*:
+
+```{r example-1.3}
+repFilter(immdata, .method = "by.meta", .query = list(Lane = include("B", "C")))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Lane = include("B", "C")))$data)
+```
+
+Filter out samples where  *Lane* is not *A* and not *C*:
+
+```{r example-1.4}
+repFilter(immdata, .method = "by.meta", .query = list(Lane = exclude("A", "C")))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Lane = exclude("A", "C")))$data)
+```
+
+#### Example 2
+Use  `interval`, `lessthan`(from minus infinity to your value) or `morethan`(from your value to plus infinity) to define interval values in the filter statement. These options accept float. `lessthan` and `morethan` do not include borders and `interval` includes the left border and excludes the right border.
+
+Filter for samples where *Age* is lower than *23*:
+```{r example-2.1}
+repFilter(immdata, .method = "by.meta", .query = list(Age = lessthan(23)))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = lessthan(23)))$data)
+```
+
+Filter for samples where *Age* is upper than *15*:
+
+```{r example-2.2}
+repFilter(immdata, .method = "by.meta", .query = list(Age = morethan(15)))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = morethan(15)))$data)
+```
+
+Filter for samples where *Age* is between *15* and *23*:
+
+```{r example-2.3}
+repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23)))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23)))$data)
+```
+
+You can also use **multiple conditions**. In this case, the function returns values that matches both of this conditions (logical AND operator)
+
+Filter for samples where *Age* is between *15* and *23* and *Lane* is *B* :
+
+```{r example-2.4}
+repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('B')))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('B')))$data)
+```
+
+Filter for samples where *Age* is between *15* and *23* and *Lane* is *A* or *B*:
+
+```{r example-2.5}
+repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('A', 'B')))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('A', 'B')))$data)
+```
+
+### Method `by.repertoire` (short alias is `by.rep`)
+
+#### Example 3
+
+Filter for repertoires containing more than 60000 clonotypes:
+
+```{r example-3.1}
+repFilter(immdata, .method = "by.repertoire", .query = list(n_clonotypes = morethan(6000)))$meta
+repFilter(immdata, .method = "by.rep", .query = list(n_clonotypes = morethan(6000)))$meta # Works both with by.rep and by.repertoire
+```
+
+Be careful, filtering `by.repertoire` or `by.rep` could also change a number of repertoires(samples) in your data: 
+
+```{r example-3.1.1}
+names(repFilter(immdata, .method = "by.repertoire", .query = list(n_clonotypes = morethan(6000)))$data)
+```
+
+Filter for repertoires containing less than 6000 clonotypes:
+
+```{r example-3.2}
+repFilter(immdata, .method = "by.repertoire", .query = list(n_clonotypes = lessthan(6000)))$meta
+repFilter(immdata, .method = "by.rep", .query = list(n_clonotypes = lessthan(6000)))$meta # Works both with by.rep and by.repertoire
+names(repFilter(immdata, .method = "by.repertoire", .query = list(n_clonotypes = lessthan(6000)))$data)
+```
+
+### Method `by.clonotype` (short alias is`by.cl`)
+
+#### Example 4
+
+Filter out all noncoding clonotypes from `immdata`. As you see, `immdata` dataset doesn't contain any noncoding clonotypes:
+
+```{r example-4.1}
+repFilter(immdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))$meta
+```
+
+Note that filtering `by.clonotype` or `by.cl` works within repertoire(sample). Repertoire(sample) could be removed from your data only in case if all clonotypes in sample do not satisfy the condition: 
+
+```{r example-4.1.1}
+names(repFilter(immdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))$data)
+```
+
+Filter out clonotypes that have only one clone:
+
+```{r example-4.2}
+repFilter(immdata, .method = "by.clonotype", .query = list(Clones = morethan(1)))$meta
+names(repFilter(immdata, .method = "by.clonotype", .query = list(Clones = morethan(1)))$data)
+```
+
+#### Example 5
+
+In method `by.clonotype` or `by.cl`, there is an extra argument `.match`. The `.match` argument can has the following values: 
+ - `exact` - looks for exact match in gene names
+ - `substring`- looks for substring in gene names
+ - `startswith` - looks for gene names starting with the same pattern
+ 
+Filter out all clonotypes within samples with V gene 'TRBV1' or 'TRGV11'
+
+```{r example-5.1, results = 'hide'}
+repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="exact")
+```
+
+Filter out all clonotypes within samples where V gene name contains substrings 'TRBV1' or 'TRGV11'
+```{r example-5.2, results = 'hide'}
+repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="substring")
+
+```
+
+Filter out all clonotypes within samples where V gene name starts with 'TRBV1' or 'TRGV11'
+```{r example-5.3, results = 'hide'}
+repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="startswith")
+```
+
+## Using `repFilter` function for single-cell repertoire data analysis
+
+We will use `scdata` datasets from **Immunarch** library. Load them by executing the following command:
+```{r}
+data(scdata)
+```
+
+
+Look at meta data from `scdata` datasets:
+
+```{r scadata}
+#look at the metadata
+scdata$meta
+#look at samples name in data
+names(scdata$data)
+```
+
+`repFiter` can also work with single-cell data containing not only `meta` and 'data`, but also extra information, for example, about clusters:
+
+```{r, results = 'hide'}
+repFilter(scdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
+```
+
+Create a new dataset with cluster-specific immune repertoires (for more information see *Single-cell* tutorials):
+```{r}
+scdata_cl <- select_clusters(scdata, scdata$bc_cluster, "Cluster")
+scdata_cl$meta
+```
+
+And compare the number of clonotypes between clusters:
+
+```{r clonotypes, warnings = F}
+vis(repExplore(scdata_cl$data, .method = "volume"))
+```
+
+Compare J gene usage between three clusters:
+
+```{r geneUsage,  warning=F}
+sc_active <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))$data, "hs.trbj", .norm = T)
+p1 <- vis(sc_active)
+p1
+
+sc_memory <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))$data, "hs.trbj", .norm = T)
+p2 <- vis(sc_memory)
+p2
+
+sc_naive <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))$data, "hs.trbj", .norm = T)
+p3 <- vis(sc_naive)
+p3
+
+```
+
+Compare gene usage of IGHJ4 between three clusters:
+```{r IGHV3, warning=F}
+scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))
+scdata_active <- repFilter(scdata_active, .method = "by.cl", .query = list(J.name = include('IGHJ4')), .match = 'substring')
+sc_active <- geneUsage(scdata_active$data, "hs.trbj", .norm = T)
+p1 <- vis(sc_active)
+
+scdata_memory <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))
+scdata_memory <- repFilter(scdata_memory, .method = "by.cl", .query = list(J.name = include('IGHJ4')), .match = 'substring')
+sc_memory <- geneUsage(scdata_memory$data, "hs.trbj", .norm = T)
+p2 <- vis(sc_memory)
+
+scdata_naive <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))
+scdata_naive <- repFilter(scdata_naive, .method = "by.cl", .query = list(J.name = include('IGHJ4')), .match = 'substring')
+sc_naive <- geneUsage(scdata_naive$data, "hs.trbj", .norm = T)
+p3 <- vis(sc_naive)
+
+p1 + p2 + p3
+```
+
+Look at the coding clonotypes in each cluster. Note that there aren't any noncoding clonotypes in the datasets:
+```{r ORF, warning=F}
+scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))
+scdata_active <- repFilter(scdata_active, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
+exp_vol <- repExplore(scdata_active$data, .method = "volume")
+p1 <- vis(exp_vol)
+
+exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))$data, .method = "volume")
+p2 <- vis(exp_vol)
+p1+p2
+
+
+scdata_memory <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))
+scdata_memory <- repFilter(scdata_memory, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
+exp_vol <- repExplore(scdata_memory$data, .method = "volume")
+p1 <- vis(exp_vol)
+
+exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))$data, .method = "volume")
+p2 <- vis(exp_vol)
+p1+p2
+
+scdata_naive <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))
+scdata_naive <- repFilter(scdata_naive, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
+exp_vol <- repExplore(scdata_naive$data, .method = "volume")
+p1 <- vis(exp_vol)
+
+exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))$data, .method = "volume")
+p2 <- vis(exp_vol)
+p1+p2
+```
