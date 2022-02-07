@@ -74,8 +74,9 @@ germline_single_df <- function(data, species, sample_name = NA) {
     drop_na(Germline.sequence)
 }
 
+# remove everything starting from first ',' or '(' character from the string
 take_first_allele <- function(string) {
-  unlist(strsplit(string, ","))[1]
+  unlist(strsplit(string, ",|\\("))[1]
 }
 
 generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
@@ -147,6 +148,14 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
     )
   }
 
-  data %>%
-    merge(reference_df, by = chain_allele_colname)
+  data %<>% merge(reference_df, by = chain_allele_colname)
+  if (nrow(data) == 0) {
+    stop(
+      "After merging with reference, the data ",
+      optional_from_sample(sample_name),
+      "is empty.\n",
+      "There were no valid alleles, or the data was initially empty."
+    )
+  }
+  return(data)
 }
