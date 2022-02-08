@@ -9,7 +9,7 @@
 #'
 #' @aliases repGermline germline_single_df take_first_allele extract_gene_name generate_germline_sequence load_reference_sequences
 #'
-#' @importFrom stringr str_sub str_length
+#' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>%
 
@@ -74,9 +74,15 @@ germline_single_df <- function(data, species, sample_name = NA) {
     drop_na(Germline.sequence)
 }
 
-# first allele is substring until first ',' or '(' in string taken from column with gene names
 take_first_allele <- function(string) {
-  unlist(strsplit(string, ",|\\("))[1]
+  string %<>%
+    # first allele is substring until first ',' or '(' in string taken from column with gene names
+    strsplit(",|\\(") %>%
+    unlist() %>%
+    extract2(1) %>%
+    # MiXCR uses *00 for unknown alleles; replace *00 to *01 to find them in reference
+    stringr::str_replace(stringr::fixed("*00"), "*01")
+  return(string)
 }
 
 generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
