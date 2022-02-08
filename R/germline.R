@@ -74,7 +74,7 @@ germline_single_df <- function(data, species, sample_name = NA) {
     drop_na(Germline.sequence)
 }
 
-# remove everything starting from first ',' or '(' character from the string
+# first allele is substring until first ',' or '(' in string taken from column with gene names
 take_first_allele <- function(string) {
   unlist(strsplit(string, ",|\\("))[1]
 }
