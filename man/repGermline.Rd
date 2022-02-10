@@ -4,9 +4,11 @@
 \alias{repGermline}
 \alias{germline_single_df}
 \alias{take_first_allele}
-\alias{extract_gene_name}
 \alias{generate_germline_sequence}
-\alias{load_reference_sequences}
+\alias{merge_reference_sequences}
+\alias{auto_detect_positions}
+\alias{auto_detect_position}
+\alias{validate_chains_length}
 \title{This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
 that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
 Each clonal lineage has its own germline sequence that represents the ancestral sequence
@@ -18,29 +20,39 @@ repGermline(.data)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
-or a list of these objects.}
+or a list of these objects.
+
+It must have columns in the immunarch compatible format \link{immunarch_data_format}.}
 
 \item{species}{Species from which the data was acquired. Available options:
 "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
 "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
 "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
-"SusScrofa".
+"SusScrofa".}
 
-It must have columns in the immunarch compatible format \link{immunarch_data_format}.}
+\item{substring_length}{If V.end and/or J.start values are missing in the data, this function
+will try to auto-detect them by fuzzy searching part of reference sequence in clonotype sequence.
+This parameter is length of reference subsequence (end part for V, start part for J) that
+will be searched in clonotype sequence.}
+
+\item{max_mismatches}{If V.end and/or J.start values are missing in the data, this function
+will try to auto-detect them by fuzzy searching part of reference sequence in clonotype sequence.
+This parameter sets how many mismatches are allowed when performing the search.}
 }
 \value{
-Data with added columns V.first.allele (with first allele of V gene),
-V.sequence (with V reference sequence) and Germline.sequence (with combined germline sequence)
+Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
+V.sequence, J.sequence (with V and J reference sequences),
+Germline.sequence (with combined germline sequence)
 }
 \description{
 Creates germlines for clonal lineages
 }
 \examples{
 
-data(immdata)
+data(bcrdata)
 
-immdata$data \%>\%
+bcrdata$data \%>\%
   top(2000) \%>\% # reduce the dataset to save time on examples
   repGermline()
 }

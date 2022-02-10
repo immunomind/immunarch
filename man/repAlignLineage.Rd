@@ -26,10 +26,10 @@ Aligns all sequences incliding germline within one clonal lineage
 }
 \examples{
 
-data(immdata)
+data(bcrdata)
 
-immdata$data \%>\%
-  top(2000) \%>\% # reduce the dataset to save time on examples
+bcrdata$data \%>\%
+  top(100) \%>\% # reduce the dataset to save time on examples
   repGermline() \%>\%
   repAlignLineage()
 }
