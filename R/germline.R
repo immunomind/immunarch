@@ -7,7 +7,7 @@
 #'
 #' @concept germline
 #'
-#' @aliases repGermline germline_single_df take_first_allele generate_germline_sequence merge_reference_sequences auto_detect_positions auto_detect_position validate_chains_length
+#' @aliases repGermline germline_single_df take_first_allele generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
@@ -31,15 +31,6 @@
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
-#' @param substring_length If V.end and/or J.start values are missing in the data, this function
-#' will try to auto-detect them by fuzzy searching part of reference sequence in clonotype sequence.
-#' This parameter is length of reference subsequence (end part for V, start part for J) that
-#' will be searched in clonotype sequence.
-#'
-#' @param max_mismatches If V.end and/or J.start values are missing in the data, this function
-#' will try to auto-detect them by fuzzy searching part of reference sequence in clonotype sequence.
-#' This parameter sets how many mismatches are allowed when performing the search.
-#'
 #' @return
 #'
 #' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
@@ -54,33 +45,33 @@
 #'   top(2000) %>% # reduce the dataset to save time on examples
 #'   repGermline()
 #' @export repGermline
-repGermline <- function(.data, species = "HomoSapiens", substring_length = 8, max_mismatches = 1) {
+repGermline <- function(.data, species = "HomoSapiens") {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     .data %<>%
       purrr::imap(function(sample_data, sample_name) {
         sample_data %>%
           as_tibble() %>%
-          germline_single_df(species, substring_length, max_mismatches, sample_name)
+          germline_single_df(species, sample_name)
       })
     return(.data)
   } else {
     .data %<>%
       as_tibble() %>%
-      germline_single_df(species, substring_length, max_mismatches)
+      germline_single_df(species)
     return(.data)
   }
 }
 
-germline_single_df <- function(data, species, substring_length, max_mismatches, sample_name = NA) {
+germline_single_df <- function(data, species, sample_name = NA) {
   data %<>%
+    validate_genes_edges(sample_name) %>%
     rowwise() %>%
     mutate(V.first.allele = take_first_allele(V.name)) %>%
     merge_reference_sequences("V", species, sample_name) %>%
     rowwise() %>%
     mutate(J.first.allele = take_first_allele(J.name)) %>%
     merge_reference_sequences("J", species, sample_name) %>%
-    auto_detect_positions(substring_length, max_mismatches, sample_name) %>%
     validate_chains_length(sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
@@ -184,103 +175,53 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
       "After merging with reference, the data ",
       optional_sample("from sample ", sample_name, " "),
       "is empty.\n",
-      "There were no valid alleles, or the data was initially empty."
+      "There were no valid alleles in the data!"
     )
   }
   return(data)
 }
 
-# if V.end and/or J.start are missing somewhere, try to auto-detect them
-auto_detect_positions <- function(data, substring_length, max_mismatches, sample_name) {
-  if (sum(is.na(data$V.end)) > 0) {
-    old_size <- nrow(data)
-
-    data %<>%
-      rowwise() %>%
-      mutate(V.end = auto_detect_position(
-        "V", V.end, Sequence, V.sequence, substring_length, max_mismatches
-      )) %>%
-      drop_na(V.end)
-
-    new_size <- nrow(data)
-    size_diff <- old_size - new_size
-    if (new_size == 0) {
+validate_genes_edges <- function(data, sample_name) {
+  if (nrow(data) == 0) {
+    stop(
+      "Sample ",
+      optional_sample("", sample_name, " "),
+      "dataframe is empty!"
+    )
+  }
+  for (column in c("V.end", "J.start")) {
+    if (!(column %in% colnames(data))) {
       stop(
-        "Auto-detection of V.end values failed",
+        "Missing mandatory ",
+        column,
+        " column",
         optional_sample(" in sample ", sample_name, ""),
-        ":\nafter removing clonotypes with not detected V.end, data size is 0!"
+        "!"
       )
-    } else if (size_diff > 0) {
-      warning(
-        "Auto-detection of V.end values failed in some clonotypes",
+    }
+    if (all(is.na(data[, column]))) {
+      stop(
+        "No data in mandatory ",
+        column,
+        " column",
         optional_sample(" in sample ", sample_name, ""),
-        ":\ndropped ",
-        size_diff,
-        " from ",
-        old_size,
-        " clonotypes because of not detected V.end values!"
+        "!"
       )
     }
   }
-  if (sum(is.na(data$J.start)) > 0) {
-    old_size <- nrow(data)
-
-    data %<>%
-      rowwise() %>%
-      mutate(J.start = auto_detect_position(
-        "J", J.start, Sequence, J.sequence, substring_length, max_mismatches
-      )) %>%
-      drop_na(J.start)
-
-    new_size <- nrow(data)
-    size_diff <- old_size - new_size
-    if (new_size == 0) {
-      stop(
-        "Auto-detection of J.start values failed",
-        optional_sample(" in sample ", sample_name, ""),
-        "\nafter removing clonotypes with not detected J.start, data size is 0!"
-      )
-    } else if (size_diff > 0) {
-      warning(
-        "Auto-detection of J.start values failed in some clonotypes",
-        optional_sample(" in sample ", sample_name, ""),
-        ":\ndropped ",
-        size_diff,
-        " from ",
-        old_size,
-        " clonotypes because of not detected J.start values!"
-      )
-    }
+  old_length <- nrow(data)
+  data %<>% drop_na(V.end, J.start)
+  dropped_num <- old_length - nrow(data)
+  if (dropped_num > 0) {
+    warning(
+      dropped_num,
+      " rows from ",
+      old_length,
+      optional_sample(" in sample ", sample_name, ""),
+      " were dropped because of missing values in mandatory columns V.end and J.start!"
+    )
   }
   return(data)
-}
-
-# if the coordinate (V.end or J.start) is missing, try to find it by fuzzy searching substring from reference
-auto_detect_position <- function(chain, coordinate, seq, ref, substring_length, max_mismatches) {
-  if (is.na(coordinate)) {
-    # for V we search end location and for J - start location
-    if (chain == "V") {
-      ref_substring <- stringr::str_sub(ref, -substring_length)
-    } else if (chain == "J") {
-      ref_substring <- stringr::str_sub(ref, 1, substring_length)
-    } else {
-      stop("Wrong chain argument: ", chain)
-    }
-
-    found_coordinate <- aregexec(ref_substring, seq, max_mismatches, fixed = TRUE)[[1]][1]
-
-    if (found_coordinate == -1) {
-      return(NA)
-    } else {
-      if (chain == "V") {
-        return(as.integer(found_coordinate + substring_length))
-      } else {
-        return(as.integer(found_coordinate))
-      }
-    }
-  } else {
-    return(coordinate)
-  }
 }
 
 validate_chains_length <- function(data, sample_name, min_good_length = 5) {

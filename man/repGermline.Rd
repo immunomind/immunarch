@@ -6,8 +6,7 @@
 \alias{take_first_allele}
 \alias{generate_germline_sequence}
 \alias{merge_reference_sequences}
-\alias{auto_detect_positions}
-\alias{auto_detect_position}
+\alias{validate_genes_edges}
 \alias{validate_chains_length}
 \title{This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
 that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
@@ -30,15 +29,6 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 "SusScrofa".}
-
-\item{substring_length}{If V.end and/or J.start values are missing in the data, this function
-will try to auto-detect them by fuzzy searching part of reference sequence in clonotype sequence.
-This parameter is length of reference subsequence (end part for V, start part for J) that
-will be searched in clonotype sequence.}
-
-\item{max_mismatches}{If V.end and/or J.start values are missing in the data, this function
-will try to auto-detect them by fuzzy searching part of reference sequence in clonotype sequence.
-This parameter sets how many mismatches are allowed when performing the search.}
 }
 \value{
 Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
