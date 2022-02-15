@@ -221,6 +221,13 @@ validate_genes_edges <- function(data, sample_name) {
       " were dropped because of missing values in mandatory columns V.end and J.start!"
     )
   }
+  if (nrow(data) == 0) {
+    stop(
+      "Sample ",
+      optional_sample("", sample_name, " "),
+      "dataframe is empty after dropping missing values!"
+    )
+  }
   return(data)
 }
 
