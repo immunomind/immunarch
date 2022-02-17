@@ -17,7 +17,7 @@
 #'
 #' @usage
 #'
-#' repAlignLineage(.data)
+#' repAlignLineage(.data, .min.lineage.sequences, .germline.tails, .pw.gapopen, .pw.gapext, .gapopen, .gapext)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -30,7 +30,7 @@
 #' in it's lineage (counted separately for V and J genes).
 #' Value 0 means that gene in the germline after trimming will have the same length as
 #' the longest gene in it's lineage; default value 0.1 means that gene in the germline will be
-#' 10% longer.
+#' 10\% longer.
 #'
 #' @param .pw.gapopen Gap opening penalty used by Clustal during pairwise alignments.
 #'
@@ -116,21 +116,28 @@ align_single_df <- function(data, .min.lineage.sequences, .germline.tails, .pw.g
 
   germlines <- unique(data[["Germline.sequence"]])
 
-  germlines %>%
+  # results is a dataframe, see repAlignLineage @return description
+  results <- germlines %>%
     lapply(get_germline_with_lineage, data = data) %>%
     parallel::mclapply(align_sequences,
+      .min.lineage.sequences = .min.lineage.sequences, .germline.tails = .germline.tails,
+      .pw.gapopen = .pw.gapopen, .pw.gapext = .pw.gapext, .gapopen = .gapopen, .gapext = .gapext,
       mc.preschedule = FALSE, mc.cores = parallel::detectCores()
-    )
+    ) %>%
+    map_dfr(~.)
+  return(results)
 }
 
-# return a list containing the germline and all sequences with this germline
+# return a list containing raw germline sequence and all raw lineage sequences with this germline
 get_germline_with_lineage <- function(germline, data) {
   c(list(germline = germline), as.list(
     subset(data, Germline.sequence == germline)[["Sequence"]]
   ))
 }
 
-align_sequences <- function(list_of_sequences) {
+# this function returns named list containing 1 row for results dataframe
+align_sequences <- function(list_of_sequences, .min.lineage.sequences, .germline.tails, .pw.gapopen, .pw.gapext, .gapopen, .gapext) {
+  # TODO: preprocess germline and sequences; save results to output list
   list_of_sequences %>%
     lapply(function(sequence) {
       sequence %>%
