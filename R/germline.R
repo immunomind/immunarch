@@ -7,7 +7,7 @@
 #'
 #' @concept germline
 #'
-#' @aliases repGermline germline_single_df take_first_allele extract_gene_name generate_germline_sequence load_reference_sequences
+#' @aliases repGermline germline_single_df take_first_allele generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
@@ -22,6 +22,8 @@
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
 #'
+#' It must have columns in the immunarch compatible format \link{immunarch_data_format}.
+#'
 #' @param species Species from which the data was acquired. Available options:
 #' "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
 #' "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
@@ -29,12 +31,11 @@
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
-#' It must have columns in the immunarch compatible format \link{immunarch_data_format}.
-#'
 #' @return
 #'
-#' Data with added columns V.first.allele (with first allele of V gene),
-#' V.sequence (with V reference sequence) and Germline.sequence (with combined germline sequence)
+#' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
+#' V.sequence, J.sequence (with V and J reference sequences),
+#' Germline.sequence (with combined germline sequence)
 #'
 #' @examples
 #'
@@ -63,15 +64,21 @@ repGermline <- function(.data, species = "HomoSapiens") {
 }
 
 germline_single_df <- function(data, species, sample_name = NA) {
-  data %>%
+  data %<>%
+    validate_genes_edges(sample_name) %>%
     rowwise() %>%
     mutate(V.first.allele = take_first_allele(V.name)) %>%
     merge_reference_sequences("V", species, sample_name) %>%
     rowwise() %>%
+    mutate(J.first.allele = take_first_allele(J.name)) %>%
+    merge_reference_sequences("J", species, sample_name) %>%
+    validate_chains_length(sample_name) %>%
+    rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
-      Sequence, V.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
+      Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
     )) %>%
     drop_na(Germline.sequence)
+  return(data)
 }
 
 take_first_allele <- function(string) {
@@ -85,16 +92,18 @@ take_first_allele <- function(string) {
   return(string)
 }
 
-generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
-  if (any(is.na(c(seq, v_ref, v_end, cdr3_start, cdr3_end, j_start))) || (seq == "")) {
+generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
+  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start))) || (seq == "")) {
     warning(
       "Some of mandatory fields in a row ",
-      optional_from_sample(sample_name),
+      optional_sample("from sample ", sample_name, " "),
       "contain unexpected NA or empty strings! Found values:\n",
       "Sequence = \"",
       seq,
       "\",\nV.sequence = \"",
       v_ref,
+      "\",\nJ.sequence = \"",
+      j_ref,
       "\",\nV.end = ",
       v_end,
       ", CDR3.start = ",
@@ -122,10 +131,16 @@ generate_germline_sequence <- function(seq, v_ref, v_end, cdr3_start, cdr3_end, 
 
     cdr3_part <- paste(rep("n", cdr3_end - cdr3_start), collapse = "")
 
-    j_part <- stringr::str_sub(seq, max(cdr3_end, j_start))
+    if (j_start >= cdr3_end) {
+      j_part <- j_ref
+    } else {
+      # trim intersection of J and CDR3 from reference J gene
+      j_part <- stringr::str_sub(j_ref, cdr3_end - j_start + 1)
+    }
 
-    paste0(v_part, cdr3_part, j_part) %>%
+    germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()
+    return(germline)
   }
 }
 
@@ -146,7 +161,7 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
       "Alleles ",
       paste(missing_alleles, collapse = ", "),
       " ",
-      optional_from_sample(sample_name),
+      optional_sample("from sample ", sample_name, " "),
       "not found in the reference and will be dropped!\n",
       "Probably, species argument is wrong (current value: ",
       species,
@@ -158,10 +173,97 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
   if (nrow(data) == 0) {
     stop(
       "After merging with reference, the data ",
-      optional_from_sample(sample_name),
+      optional_sample("from sample ", sample_name, " "),
       "is empty.\n",
-      "There were no valid alleles, or the data was initially empty."
+      "There were no valid alleles in the data!"
     )
+  }
+  return(data)
+}
+
+validate_genes_edges <- function(data, sample_name) {
+  if (nrow(data) == 0) {
+    stop(
+      "Sample ",
+      optional_sample("", sample_name, " "),
+      "dataframe is empty!"
+    )
+  }
+  for (column in c("V.end", "J.start")) {
+    if (!(column %in% colnames(data))) {
+      stop(
+        "Missing mandatory ",
+        column,
+        " column",
+        optional_sample(" in sample ", sample_name, ""),
+        "!"
+      )
+    }
+    if (all(is.na(data[, column]))) {
+      stop(
+        "No data in mandatory ",
+        column,
+        " column",
+        optional_sample(" in sample ", sample_name, ""),
+        "!"
+      )
+    }
+  }
+  old_length <- nrow(data)
+  data %<>% drop_na(V.end, J.start)
+  dropped_num <- old_length - nrow(data)
+  if (dropped_num > 0) {
+    warning(
+      dropped_num,
+      " rows from ",
+      old_length,
+      optional_sample(" in sample ", sample_name, ""),
+      " were dropped because of missing values in mandatory columns V.end and J.start!"
+    )
+  }
+  if (nrow(data) == 0) {
+    stop(
+      "Sample ",
+      optional_sample("", sample_name, " "),
+      "dataframe is empty after dropping missing values!"
+    )
+  }
+  return(data)
+}
+
+# min_nuc_outside_cdr3 parameter sets how many nucleotides should have V or J chain
+# outside of CDR3 to be considered good for further alignment
+validate_chains_length <- function(data, sample_name, min_nuc_outside_cdr3 = 5) {
+  too_short_v_chains_num <- data %>%
+    rowwise() %>%
+    mutate(Too.short.V = min(V.end, as.numeric(CDR3.start)) < min_nuc_outside_cdr3) %>%
+    pull(Too.short.V) %>%
+    sum()
+  too_short_j_chains_num <- data %>%
+    rowwise() %>%
+    mutate(
+      Too.short.J =
+        stringr::str_length(Sequence) + 1 - max(J.start, as.numeric(CDR3.end)) < min_nuc_outside_cdr3
+    ) %>%
+    pull(Too.short.J) %>%
+    sum()
+  warning_prefix <- paste0(
+    too_short_v_chains_num,
+    " clonotype(s) ",
+    optional_sample("in sample ", sample_name, " "),
+    "have too short part of "
+  )
+  warning_suffix <- paste0(
+    " chain that doesn't intersect with CDR3!\n",
+    "Lengths less than ",
+    min_nuc_outside_cdr3,
+    " are considered too short."
+  )
+  if (too_short_v_chains_num > 0) {
+    warning(warning_prefix, "V", warning_suffix)
+  }
+  if (too_short_j_chains_num > 0) {
+    warning(warning_prefix, "J", warning_suffix)
   }
   return(data)
 }
