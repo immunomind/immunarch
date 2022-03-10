@@ -234,24 +234,21 @@ validate_genes_edges <- function(data, sample_name) {
 # min_nuc_outside_cdr3 parameter sets how many nucleotides should have V or J chain
 # outside of CDR3 to be considered good for further alignment
 validate_chains_length <- function(data, sample_name, min_nuc_outside_cdr3 = 5) {
-  too_short_v_chains_num <- data %>%
-    rowwise() %>%
-    mutate(Too.short.V = min(V.end, as.numeric(CDR3.start)) < min_nuc_outside_cdr3) %>%
-    pull(Too.short.V) %>%
-    sum()
-  too_short_j_chains_num <- data %>%
-    rowwise() %>%
-    mutate(
-      Too.short.J =
-        stringr::str_length(Sequence) + 1 - max(J.start, as.numeric(CDR3.end)) < min_nuc_outside_cdr3
-    ) %>%
-    pull(Too.short.J) %>%
-    sum()
+  old_length_v <- nrow(data)
+  data %<>% filter(pmin(V.end, as.numeric(CDR3.start)) >= min_nuc_outside_cdr3)
+  dropped_v <- old_length_v - nrow(data)
+  old_length_j <- nrow(data)
+  if (nrow(data) > 0) {
+    data %<>%
+      filter(stringr::str_length(Sequence) + 1 - pmax(J.start, as.numeric(CDR3.end)) >=
+        min_nuc_outside_cdr3)
+  }
+  dropped_j <- old_length_j - nrow(data)
+
   warning_prefix <- paste0(
-    too_short_v_chains_num,
     " clonotype(s) ",
     optional_sample("in sample ", sample_name, " "),
-    "have too short part of "
+    "were dropped because they have too short part of "
   )
   warning_suffix <- paste0(
     " chain that doesn't intersect with CDR3!\n",
@@ -259,11 +256,18 @@ validate_chains_length <- function(data, sample_name, min_nuc_outside_cdr3 = 5) 
     min_nuc_outside_cdr3,
     " are considered too short."
   )
-  if (too_short_v_chains_num > 0) {
-    warning(warning_prefix, "V", warning_suffix)
+  if (dropped_v > 0) {
+    warning(dropped_v, warning_prefix, "V", warning_suffix)
   }
-  if (too_short_j_chains_num > 0) {
-    warning(warning_prefix, "J", warning_suffix)
+  if (dropped_j > 0) {
+    warning(dropped_j, warning_prefix, "J", warning_suffix)
+  }
+  if (nrow(data) == 0) {
+    stop(
+      "Sample ",
+      optional_sample("", sample_name, " "),
+      "dataframe is empty after dropping sequences with too short V and J chains!"
+    )
   }
   return(data)
 }
