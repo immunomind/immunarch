@@ -78,6 +78,23 @@ AA_TABLE_REVERSED <- AA_TABLE_REVERSED[order(names(AA_TABLE_REVERSED))]
 "immdata"
 
 
+#' BCR dataset
+#'
+#' @concept data
+#'
+#' @description A dataset with BCR data for testing and examplatory purposes.
+#'
+#' @format A list of two elements. First element ("data") is a list of 1 element named "full_clones"
+#' that contains immune repertoire data frame.
+#' Second element ("meta") is empty metadata table.
+#' \describe{
+#'   \item{data}{List of immune repertoire data frames.}
+#'   \item{meta}{Metadata}
+#'   ...
+#' }
+"bcrdata"
+
+
 #' Paired chain immune repertoire dataset
 #'
 #' @concept data
