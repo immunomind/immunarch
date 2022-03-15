@@ -12,12 +12,14 @@
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>%
+#' @importFrom tidyr drop_na
+#' @importFrom dplyr rowwise
 
 #' @description Creates germlines for clonal lineages
 #'
 #' @usage
 #'
-#' repGermline(.data)
+#' repGermline(.data, species)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
