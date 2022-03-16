@@ -33,6 +33,9 @@
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
+#' @param min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
+#' outside of CDR3 to be considered good for further alignment.
+#'
 #' @return
 #'
 #' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
@@ -47,25 +50,25 @@
 #'   top(2000) %>% # reduce the dataset to save time on examples
 #'   repGermline()
 #' @export repGermline
-repGermline <- function(.data, species = "HomoSapiens") {
+repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5) {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     .data %<>%
       purrr::imap(function(sample_data, sample_name) {
         sample_data %>%
           as_tibble() %>%
-          germline_single_df(species, sample_name)
+          germline_single_df(species, min_nuc_outside_cdr3, sample_name)
       })
     return(.data)
   } else {
     .data %<>%
       as_tibble() %>%
-      germline_single_df(species)
+      germline_single_df(species, min_nuc_outside_cdr3)
     return(.data)
   }
 }
 
-germline_single_df <- function(data, species, sample_name = NA) {
+germline_single_df <- function(data, species, min_nuc_outside_cdr3, sample_name = NA) {
   data %<>%
     validate_genes_edges(sample_name) %>%
     rowwise() %>%
@@ -74,7 +77,7 @@ germline_single_df <- function(data, species, sample_name = NA) {
     rowwise() %>%
     mutate(J.first.allele = take_first_allele(J.name)) %>%
     merge_reference_sequences("J", species, sample_name) %>%
-    validate_chains_length(sample_name) %>%
+    validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
       Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
@@ -233,9 +236,7 @@ validate_genes_edges <- function(data, sample_name) {
   return(data)
 }
 
-# min_nuc_outside_cdr3 parameter sets how many nucleotides should have V or J chain
-# outside of CDR3 to be considered good for further alignment
-validate_chains_length <- function(data, sample_name, min_nuc_outside_cdr3 = 5) {
+validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
   old_length_v <- nrow(data)
   data %<>% filter(pmin(V.end, as.numeric(CDR3.start)) >= min_nuc_outside_cdr3)
   dropped_v <- old_length_v - nrow(data)

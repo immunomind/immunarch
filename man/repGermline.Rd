@@ -29,6 +29,9 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 "SusScrofa".}
+
+\item{min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
+outside of CDR3 to be considered good for further alignment.}
 }
 \value{
 Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
