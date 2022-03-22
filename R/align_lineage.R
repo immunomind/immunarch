@@ -65,21 +65,12 @@ repAlignLineage <- function(.data, .min.lineage.sequences = 3) {
     "repAlignLineage requires MUSCLE app to be installed!\n",
     "Please download it from here: https://github.com/rcedgar/muscle/releases/latest\n",
   ))
-  if (inherits(.data, "list")) {
-    .validate_repertoires_data(.data)
-    .data %<>%
-      lapply(function(sample_data) {
-        sample_data %>%
-          as_tibble() %>%
-          align_single_df(.min.lineage.sequences)
-      })
-    return(.data)
-  } else {
-    .data %<>%
-      as_tibble() %>%
-      align_single_df(.min.lineage.sequences)
-    return(.data)
-  }
+  .data %<>%
+    for_sample_or_list(
+      align_single_df,
+      .min.lineage.sequences = .min.lineage.sequences
+    )
+  return(.data)
 }
 
 align_single_df <- function(data, .min.lineage.sequences) {

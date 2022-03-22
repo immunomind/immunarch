@@ -7,11 +7,11 @@
 #'
 #' @concept germline
 #'
-#' @aliases repGermline germline_single_df take_first_allele generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
+#' @aliases repGermline germline_single_df generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
-#' @importFrom magrittr %>% %<>%
+#' @importFrom magrittr %>% %<>% extract2
 #' @importFrom tidyr drop_na
 #' @importFrom dplyr rowwise
 
@@ -51,31 +51,30 @@
 #'   repGermline()
 #' @export repGermline
 repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5) {
-  if (inherits(.data, "list")) {
-    .validate_repertoires_data(.data)
-    .data %<>%
-      purrr::imap(function(sample_data, sample_name) {
-        sample_data %>%
-          as_tibble() %>%
-          germline_single_df(species, min_nuc_outside_cdr3, sample_name)
-      })
-    return(.data)
-  } else {
-    .data %<>%
-      as_tibble() %>%
-      germline_single_df(species, min_nuc_outside_cdr3)
-    return(.data)
-  }
+  .data %<>%
+    for_sample_or_list(
+      germline_single_df,
+      .with_names = TRUE,
+      species = species,
+      min_nuc_outside_cdr3 = min_nuc_outside_cdr3
+    )
+  return(.data)
 }
 
 germline_single_df <- function(data, species, min_nuc_outside_cdr3, sample_name = NA) {
   data %<>%
     validate_genes_edges(sample_name) %>%
-    rowwise() %>%
-    mutate(V.first.allele = take_first_allele(V.name)) %>%
+    add_column_with_first_gene(
+      "V.name",
+      "V.first.allele",
+      .with_allele = TRUE
+    ) %>%
     merge_reference_sequences("V", species, sample_name) %>%
-    rowwise() %>%
-    mutate(J.first.allele = take_first_allele(J.name)) %>%
+    add_column_with_first_gene(
+      "J.name",
+      "J.first.allele",
+      .with_allele = TRUE
+    ) %>%
     merge_reference_sequences("J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
@@ -84,17 +83,6 @@ germline_single_df <- function(data, species, min_nuc_outside_cdr3, sample_name 
     )) %>%
     drop_na(Germline.sequence)
   return(data)
-}
-
-take_first_allele <- function(string) {
-  string %<>%
-    # first allele is substring until first ',' or '(' in string taken from column with gene names
-    strsplit(",|\\(") %>%
-    unlist() %>%
-    extract2(1) %>%
-    # MiXCR uses *00 for unknown alleles; replace *00 to *01 to find them in reference
-    stringr::str_replace(stringr::fixed("*00"), "*01")
-  return(string)
 }
 
 generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {

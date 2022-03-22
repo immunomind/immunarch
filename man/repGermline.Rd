@@ -3,7 +3,6 @@
 \name{repGermline}
 \alias{repGermline}
 \alias{germline_single_df}
-\alias{take_first_allele}
 \alias{generate_germline_sequence}
 \alias{merge_reference_sequences}
 \alias{validate_genes_edges}
