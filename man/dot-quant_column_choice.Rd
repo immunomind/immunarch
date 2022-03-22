@@ -4,12 +4,10 @@
 \alias{.quant_column_choice}
 \title{Get a column's name using the input alias}
 \usage{
-.quant_column_choice(x, .verbose = TRUE)
+.quant_column_choice(x)
 }
 \arguments{
 \item{x}{Character vector of length 1.}
-
-\item{.verbose}{If TRUE then print any issues or wanings.}
 }
 \value{
 A string with the column name.
