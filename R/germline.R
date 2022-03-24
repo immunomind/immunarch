@@ -52,7 +52,7 @@
 #' @export repGermline
 repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5) {
   .data %<>%
-    for_sample_or_list(
+    apply_to_sample_or_list(
       germline_single_df,
       .with_names = TRUE,
       species = species,

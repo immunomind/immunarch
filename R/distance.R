@@ -71,14 +71,14 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
   gr_by_is_na <- all(is.na(.group_by))
   # prepare columns with 1st V and J genes if they are used, but not yet calculated
   if ("V.first" %in% .group_by) {
-    .data %<>% for_sample_or_list(
+    .data %<>% apply_to_sample_or_list(
       add_column_with_first_gene,
       .original_colname = "V.name",
       .target_colname = "V.first"
     )
   }
   if ("J.first" %in% .group_by) {
-    .data %<>% for_sample_or_list(
+    .data %<>% apply_to_sample_or_list(
       add_column_with_first_gene,
       .original_colname = "J.name",
       .target_colname = "J.first"

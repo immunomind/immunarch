@@ -46,7 +46,7 @@ repAlignLineage <- function(.data) {
     "or install it with your system package manager (such as apt or dnf)."
   ))
   .data %<>%
-    for_sample_or_list(
+    apply_to_sample_or_list(
       align_single_df,
       .min.lineage.sequences = .min.lineage.sequences
     )
