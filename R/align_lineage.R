@@ -89,7 +89,7 @@ align_single_df <- function(data, .min.lineage.sequences) {
 
   # results is a dataframe, see repAlignLineage @return description
   results <- groups %>%
-    apply(1, get_germline_with_lineage, data = data) %>%
+    apply(1, get_lineage_subset, data = data) %>%
     parallel::mclapply(align_sequences,
       .min.lineage.sequences = .min.lineage.sequences,
       mc.preschedule = FALSE, mc.cores = parallel::detectCores()
@@ -98,18 +98,18 @@ align_single_df <- function(data, .min.lineage.sequences) {
   return(results)
 }
 
-# return a list containing raw germline sequence and all raw lineage sequences
-# for the specified combination of cluster and germline
-get_germline_with_lineage <- function(group, data) {
+# return data subset containing only rows with specified combination of cluster and germline
+get_lineage_subset <- function(group, data) {
   cluster <- group[["Cluster"]]
   germline <- group[["Germline.sequence"]]
-  c(list(germline = germline), as.list(
-    subset(data, Cluster == cluster & Germline.sequence == germline)[["Sequence"]]
-  ))
+  data %<>% subset(Cluster == cluster & Germline.sequence == germline)
+  return(data)
 }
 
 # this function returns named list containing 1 row for results dataframe
-align_sequences <- function(list_of_sequences, .min.lineage.sequences) {
+align_sequences <- function(lineage_subset, .min.lineage.sequences) {
+
+
   # TODO: preprocess germline and sequences; save results to output list
   list_of_sequences %>%
     lapply(function(sequence) {
