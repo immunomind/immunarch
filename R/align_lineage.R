@@ -64,9 +64,10 @@ repAlignLineage <- function(.data, .min.lineage.sequences = 3) {
   require_system_package("muscle", error_message = paste0(
     "repAlignLineage requires MUSCLE app to be installed!\n",
     "Please download it from here: https://github.com/rcedgar/muscle/releases/latest\n",
+    "or install it with your system package manager (such as apt or dnf)."
   ))
   .data %<>%
-    for_sample_or_list(
+    apply_to_sample_or_list(
       align_single_df,
       .min.lineage.sequences = .min.lineage.sequences
     )

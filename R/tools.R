@@ -483,7 +483,7 @@ as_numeric_or_fail <- function(.string) {
 }
 
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
-for_sample_or_list <- function(.data, .function, .with_names = FALSE, ...) {
+apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, ...) {
   if (inherits(.data, "list")) {
     .validate_repertoires_data(.data)
     if (.with_names) {
