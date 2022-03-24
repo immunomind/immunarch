@@ -11,7 +11,7 @@
 #' @usage
 #'
 #' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
-#'  .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...)
+#'  .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
@@ -22,7 +22,7 @@
 #'
 #' @param .method Character value or user-defined function.
 #'
-#' @param .group_by Character vector of column names to group sequence by. Default value is c("V.name", "J.name"). Pass NA for no grouping options
+#' @param .group_by Character vector of column names to group sequence by. Default value is c("V.first", "J.first"). Columns "V.first" and "J.first" containing first genes without allele suffixes are calculated automatically from "V.name" and "J.name" if absent in the data. Pass NA for no grouping options.
 #'
 #' @param .group_by_seqLength If TRUE  - add grouping by sequence length of .col argument
 #'
@@ -66,12 +66,27 @@
 #' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...) {
+seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...) {
   .validate_repertoires_data(.data)
-  first_sample <- .data[[1]]
   gr_by_is_na <- all(is.na(.group_by))
+  # prepare columns with 1st V and J genes if they are used, but not yet calculated
+  if ("V.first" %in% .group_by) {
+    .data %<>% apply_to_sample_or_list(
+      add_column_with_first_gene,
+      .original_colname = "V.name",
+      .target_colname = "V.first"
+    )
+  }
+  if ("J.first" %in% .group_by) {
+    .data %<>% apply_to_sample_or_list(
+      add_column_with_first_gene,
+      .original_colname = "J.name",
+      .target_colname = "J.first"
+    )
+  }
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
+  first_sample <- .data[[1]]
   if (!all(.group_by %in% colnames(first_sample)) && !gr_by_is_na) {
     stop("Expected column(s): ", paste0(.group_by, collapse = ", "), "; some of them are missing in data!")
   }

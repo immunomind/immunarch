@@ -7,11 +7,11 @@
 #'
 #' @concept germline
 #'
-#' @aliases repGermline germline_single_df take_first_allele generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
+#' @aliases repGermline germline_single_df generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
-#' @importFrom magrittr %>% %<>%
+#' @importFrom magrittr %>% %<>% extract2
 #' @importFrom tidyr drop_na
 #' @importFrom dplyr rowwise
 
@@ -33,6 +33,9 @@
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
+#' @param min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
+#' outside of CDR3 to be considered good for further alignment.
+#'
 #' @return
 #'
 #' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
@@ -47,51 +50,39 @@
 #'   top(2000) %>% # reduce the dataset to save time on examples
 #'   repGermline()
 #' @export repGermline
-repGermline <- function(.data, species = "HomoSapiens") {
-  if (inherits(.data, "list")) {
-    .validate_repertoires_data(.data)
-    .data %<>%
-      purrr::imap(function(sample_data, sample_name) {
-        sample_data %>%
-          as_tibble() %>%
-          germline_single_df(species, sample_name)
-      })
-    return(.data)
-  } else {
-    .data %<>%
-      as_tibble() %>%
-      germline_single_df(species)
-    return(.data)
-  }
+repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5) {
+  .data %<>%
+    apply_to_sample_or_list(
+      germline_single_df,
+      .with_names = TRUE,
+      species = species,
+      min_nuc_outside_cdr3 = min_nuc_outside_cdr3
+    )
+  return(.data)
 }
 
-germline_single_df <- function(data, species, sample_name = NA) {
+germline_single_df <- function(data, species, min_nuc_outside_cdr3, sample_name = NA) {
   data %<>%
     validate_genes_edges(sample_name) %>%
-    rowwise() %>%
-    mutate(V.first.allele = take_first_allele(V.name)) %>%
+    add_column_with_first_gene(
+      "V.name",
+      "V.first.allele",
+      .with_allele = TRUE
+    ) %>%
     merge_reference_sequences("V", species, sample_name) %>%
-    rowwise() %>%
-    mutate(J.first.allele = take_first_allele(J.name)) %>%
+    add_column_with_first_gene(
+      "J.name",
+      "J.first.allele",
+      .with_allele = TRUE
+    ) %>%
     merge_reference_sequences("J", species, sample_name) %>%
-    validate_chains_length(sample_name) %>%
+    validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
       Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
     )) %>%
     drop_na(Germline.sequence)
   return(data)
-}
-
-take_first_allele <- function(string) {
-  string %<>%
-    # first allele is substring until first ',' or '(' in string taken from column with gene names
-    strsplit(",|\\(") %>%
-    unlist() %>%
-    extract2(1) %>%
-    # MiXCR uses *00 for unknown alleles; replace *00 to *01 to find them in reference
-    stringr::str_replace(stringr::fixed("*00"), "*01")
-  return(string)
 }
 
 generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
@@ -233,27 +224,22 @@ validate_genes_edges <- function(data, sample_name) {
   return(data)
 }
 
-# min_nuc_outside_cdr3 parameter sets how many nucleotides should have V or J chain
-# outside of CDR3 to be considered good for further alignment
-validate_chains_length <- function(data, sample_name, min_nuc_outside_cdr3 = 5) {
-  too_short_v_chains_num <- data %>%
-    rowwise() %>%
-    mutate(Too.short.V = min(V.end, as.numeric(CDR3.start)) < min_nuc_outside_cdr3) %>%
-    pull(Too.short.V) %>%
-    sum()
-  too_short_j_chains_num <- data %>%
-    rowwise() %>%
-    mutate(
-      Too.short.J =
-        stringr::str_length(Sequence) + 1 - max(J.start, as.numeric(CDR3.end)) < min_nuc_outside_cdr3
-    ) %>%
-    pull(Too.short.J) %>%
-    sum()
+validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
+  old_length_v <- nrow(data)
+  data %<>% filter(pmin(V.end, as.numeric(CDR3.start)) >= min_nuc_outside_cdr3)
+  dropped_v <- old_length_v - nrow(data)
+  old_length_j <- nrow(data)
+  if (nrow(data) > 0) {
+    data %<>%
+      filter(stringr::str_length(Sequence) + 1 - pmax(J.start, as.numeric(CDR3.end)) >=
+        min_nuc_outside_cdr3)
+  }
+  dropped_j <- old_length_j - nrow(data)
+
   warning_prefix <- paste0(
-    too_short_v_chains_num,
     " clonotype(s) ",
     optional_sample("in sample ", sample_name, " "),
-    "have too short part of "
+    "were dropped because they have too short part of "
   )
   warning_suffix <- paste0(
     " chain that doesn't intersect with CDR3!\n",
@@ -261,11 +247,18 @@ validate_chains_length <- function(data, sample_name, min_nuc_outside_cdr3 = 5) 
     min_nuc_outside_cdr3,
     " are considered too short."
   )
-  if (too_short_v_chains_num > 0) {
-    warning(warning_prefix, "V", warning_suffix)
+  if (dropped_v > 0) {
+    warning(dropped_v, warning_prefix, "V", warning_suffix)
   }
-  if (too_short_j_chains_num > 0) {
-    warning(warning_prefix, "J", warning_suffix)
+  if (dropped_j > 0) {
+    warning(dropped_j, warning_prefix, "J", warning_suffix)
+  }
+  if (nrow(data) == 0) {
+    stop(
+      "Sample ",
+      optional_sample("", sample_name, " "),
+      "dataframe is empty after dropping sequences with too short V and J chains!"
+    )
   }
   return(data)
 }

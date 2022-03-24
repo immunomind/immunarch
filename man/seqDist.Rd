@@ -5,7 +5,7 @@
 \title{Function for computing distance for sequences}
 \usage{
 seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
- .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...)
+ .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
@@ -17,7 +17,7 @@ Every object must have columns in the immunarch compatible format \link{immunarc
 
 \item{.method}{Character value or user-defined function.}
 
-\item{.group_by}{Character vector of column names to group sequence by. Default value is c("V.name", "J.name"). Pass NA for no grouping options}
+\item{.group_by}{Character vector of column names to group sequence by. Default value is c("V.first", "J.first"). Columns "V.first" and "J.first" containing first genes without allele suffixes are calculated automatically from "V.name" and "J.name" if absent in the data. Pass NA for no grouping options.}
 
 \item{.group_by_seqLength}{If TRUE  - add grouping by sequence length of .col argument}
 

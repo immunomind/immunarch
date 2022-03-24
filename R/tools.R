@@ -150,7 +150,6 @@ add_pb <- function(.pb, .value = 1) {
 #' @concept utility_private
 #'
 #' @param x Character vector of length 1.
-#' @param .verbose If TRUE then print any issues or wanings.
 #'
 #' @return
 #' A string with the column name.
@@ -158,7 +157,7 @@ add_pb <- function(.pb, .value = 1) {
 #' @section Developer Examples:
 #' immunarch:::.quant_column_choice("count")
 #' immunarch:::.quant_column_choice("freq")
-.quant_column_choice <- function(x, .verbose = TRUE) {
+.quant_column_choice <- function(x) {
   x <- switch(x[1],
     count = IMMCOL$count,
     Count = IMMCOL$count,
@@ -252,7 +251,7 @@ check_group_names <- function(.meta, .by) {
     names_to_check <- names(.by)
   }
 
-  for (i in 1:length(names_to_check)) {
+  for (i in seq_along(names_to_check)) {
     if (!(names_to_check[i] %in% colnames(.meta))) {
       message("Check failed: '", names_to_check[i], "' not in the metadata table!")
       return(FALSE)
@@ -282,7 +281,7 @@ group_from_metadata <- function(.by, .metadata, .sep = "; ") {
   if (length(.by) == 1) {
     collect(select(.metadata, .by))[[1]]
   } else {
-    do.call(paste, c(list(sep = .sep), lapply(1:length(.by), function(i) {
+    do.call(paste, c(list(sep = .sep), lapply(seq_along(.by), function(i) {
       collect(select(.metadata, .by[i]))[[1]]
     })))
   }
@@ -370,7 +369,7 @@ rename_column <- function(.data, .old, .new) {
 apply_symm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
   res <- matrix(0, length(.datalist), length(.datalist))
   if (.verbose) pb <- set_pb(length(.datalist)^2 / 2 + length(.datalist) / 2)
-  for (i in 1:length(.datalist)) {
+  for (i in seq_along(.datalist)) {
     for (j in i:length(.datalist)) {
       if (i == j && is.na(.diag)) {
         res[i, j] <- NA
@@ -389,8 +388,8 @@ apply_symm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
 apply_asymm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
   res <- matrix(0, length(.datalist), length(.datalist))
   if (.verbose) pb <- set_pb(length(.datalist)^2)
-  for (i in 1:length(.datalist)) {
-    for (j in 1:length(.datalist)) {
+  for (i in seq_along(.datalist)) {
+    for (j in seq_along(.datalist)) {
       if (i == j && is.na(.diag)) {
         res[i, j] <- NA
       } else {
@@ -483,17 +482,51 @@ as_numeric_or_fail <- function(.string) {
   return(result)
 }
 
-all_bcr_columns_present <- function(.data) {
-  expected_columns <- c(
-    IMMCOL$order,
-    IMMCOL_EXT$bestv, IMMCOL_EXT$bestj, IMMCOL_EXT$cdr3s, IMMCOL_EXT$cdr3e, IMMCOL_EXT$c
-  )
-  return(all(expected_columns %in% colnames(.data)))
+# apply function to .data if it's a single sample or to each sample if .data is a list of samples
+apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, ...) {
+  if (inherits(.data, "list")) {
+    .validate_repertoires_data(.data)
+    if (.with_names) {
+      .data %<>%
+        purrr::imap(function(sample_data, sample_name) {
+          sample_data %>%
+            as_tibble() %>%
+            .function(..., sample_name = sample_name)
+        })
+    } else {
+      .data %<>%
+        lapply(function(sample_data) {
+          sample_data %>%
+            as_tibble() %>%
+            .function(...)
+        })
+    }
+    return(.data)
+  } else {
+    .data %<>%
+      as_tibble() %>%
+      .function(...)
+    return(.data)
+  }
+}
+
+# return TRUE if target column doesn't exist, otherwise FALSE; stop if original column doesn't exist
+validate_columns <- function(.data, .original_colname, .target_colname) {
+  if (!(.original_colname %in% colnames(.data))) {
+    stop(
+      "Trying to get data from missing column ",
+      .original_colname,
+      ", available columns: ",
+      colnames(.data)
+    )
+  }
+  # FALSE return value means that the column was previously added and no need to add it again
+  return(!(.target_colname %in% colnames(.data)))
 }
 
 # get genes from original column, remove alleles and write to target column
 add_column_without_alleles <- function(.data, .original_colname, .target_colname) {
-  if (.original_colname %in% colnames(.data)) {
+  if (validate_columns(.data, .original_colname, .target_colname)) {
     .data[[.target_colname]] <- gsub(
       ", ", ",",
       .data[[.original_colname]]
@@ -515,13 +548,34 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
       "[*][[:digit:]]*", "",
       .data[[.target_colname]]
     )
-  } else {
-    stop(paste0(
-      "Trying to remove alleles from missing column ", .original_colname,
-      ", available columns: ", colnames(.data)
-    ))
   }
-  .data
+  return(.data)
+}
+
+add_column_with_first_gene <- function(.data, .original_colname, .target_colname, .with_allele = FALSE) {
+  if (validate_columns(.data, .original_colname, .target_colname)) {
+    .data[[.target_colname]] <- .data[[.original_colname]] %>% sapply(
+      function(genes_string) {
+        if (.with_allele) {
+          genes_string %<>%
+            # first allele is substring until first ',' or '(' in string taken from column with gene names
+            strsplit(",|\\(") %>%
+            unlist() %>%
+            magrittr::extract2(1) %>%
+            # MiXCR uses *00 for unknown alleles; replace *00 to *01 to find them in reference
+            stringr::str_replace(stringr::fixed("*00"), "*01")
+        } else {
+          genes_string %<>%
+            # first gene is substring until first ',', '(' or '*'
+            strsplit(",|\\(|\\*") %>%
+            unlist() %>%
+            magrittr::extract2(1)
+        }
+        return(genes_string)
+      }
+    )
+  }
+  return(.data)
 }
 
 # used to add sample name to error/warning messages when sample name is available
