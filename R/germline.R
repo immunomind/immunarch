@@ -226,13 +226,11 @@ validate_genes_edges <- function(data, sample_name) {
 
 validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
   old_length_v <- nrow(data)
-  data %<>% filter(pmin(V.end, as.numeric(CDR3.start)) >= min_nuc_outside_cdr3)
+  data %<>% filter(v_len_outside_cdr3(V.end, CDR3.start) >= min_nuc_outside_cdr3)
   dropped_v <- old_length_v - nrow(data)
   old_length_j <- nrow(data)
   if (nrow(data) > 0) {
-    data %<>%
-      filter(stringr::str_length(Sequence) + 1 - pmax(J.start, as.numeric(CDR3.end)) >=
-        min_nuc_outside_cdr3)
+    data %<>% filter(j_len_outside_cdr3(Sequence, J.start, CDR3.end) >= min_nuc_outside_cdr3)
   }
   dropped_j <- old_length_j - nrow(data)
 

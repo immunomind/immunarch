@@ -9,7 +9,7 @@
 #' @aliases repAlignLineage
 #'
 #' @importFrom magrittr %>% %<>%
-#' @importFrom stringr str_extract_all
+#' @importFrom stringr str_extract_all str_sub str_length
 #' @importFrom ape as.DNAbin muscle
 #' @importFrom parallel mclapply detectCores
 
@@ -91,9 +91,9 @@ align_single_df <- function(data, .min.lineage.sequences) {
   # results is a dataframe, see repAlignLineage @return description
   results <- groups %>%
     apply(1, get_lineage_subset, data = data) %>%
-    parallel::mclapply(align_sequences,
-      .min.lineage.sequences = .min.lineage.sequences,
-      mc.preschedule = FALSE, mc.cores = parallel::detectCores()
+    lapply(align_sequences,
+      .min.lineage.sequences = .min.lineage.sequences
+#      mc.preschedule = FALSE, mc.cores = parallel::detectCores()
     ) %>%
     map_dfr(~.)
   return(results)
@@ -109,15 +109,60 @@ get_lineage_subset <- function(group, data) {
 
 # this function returns named list containing 1 row for results dataframe
 align_sequences <- function(lineage_subset, .min.lineage.sequences) {
+  cluster_name <- lineage_subset[[1, "Cluster"]]
+  germline_seq <- lineage_subset[[1, "Germline.sequence"]]
+  aligned <- nrow(lineage_subset) >= .min.lineage.sequences
+  lineage_subset[["V.lengths"]] <- v_len_outside_cdr3(
+    lineage_subset[["V.end"]], lineage_subset[["CDR3.start"]]
+  )
+  lineage_subset[["J.lengths"]] <- j_len_outside_cdr3(
+    lineage_subset[["Sequence"]], lineage_subset[["J.start"]], lineage_subset[["CDR3.end"]]
+  )
+  v_min_len <- min(lineage_subset[["V.lengths"]])
+  j_min_len <- min(lineage_subset[["J.lengths"]])
+  sequences <- lineage_subset[c("Sequence", "V.end", "J.start", "CDR3.start", "CDR3.end")]
 
+  germline_parts <- strsplit(germline_seq, "N")[[1]]
+  germline_v_len <- stringr::str_length(germline_parts[1])
+  germline_j_len <- stringr::str_length(tail(germline_parts, 1))
+  germline_trimmed <- trim_seq(germline_seq, germline_v_len, v_min_len, germline_j_len, j_min_len)
+  clonotypes_trimmed <- trim_seq(
+    lineage_subset[["Sequence"]],
+    lineage_subset[["V.lengths"]],
+    v_min_len,
+    lineage_subset[["J.lengths"]],
+    j_min_len
+  )
+  alignment <- convert_to_dnabin(germline_trimmed, clonotypes_trimmed)
+  if (aligned) {
+    alignment %<>% ape::muscle()
+  }
 
-  # TODO: preprocess germline and sequences; save results to output list
-  list_of_sequences %>%
-    lapply(function(sequence) {
+  return(list(
+    Cluster = cluster,
+    Germline = germline_seq,
+    Aligned = aligned,
+    Alignment = alignment,
+    V.length = v_min_len,
+    J.length = j_min_len,
+    Sequences = sequences
+  ))
+}
+
+convert_to_dnabin <- function(germline_seq, clonotypes) {
+  all_sequences_list <- c(list(germline = germline_seq), as.list(clonotypes))
+  dnabin <- lapply(
+    function(sequence) {
       sequence %>%
         stringr::str_extract_all(boundary("character")) %>%
         unlist()
-    }) %>%
-    ape::as.DNAbin() %>%
-    ape::muscle()
+    }
+  ) %>%
+    ape::as.DNAbin()
+  return(dnabin)
+}
+
+# trim V/J tails in sequence to the specified lenghts v_min, j_min
+trim_seq <- function(seq, v_len, v_min, j_len, j_min) {
+  stringr::str_sub(seq, v_len - v_min + 1, -(j_len - j_min + 1))
 }

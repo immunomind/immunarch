@@ -2,75 +2,55 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
-\title{This function aligns all sequences incliding germline within one clonal lineage. After building
-clonal lineage and germline, the next step is to analyze the degree of mutation and maturity
-of each clonal lineage. This allows you to find high mature cells and cells with a large number of offspring.
-The phylogenetic analysis will find mutations that increase the affinity of BCR.
+\title{This function aligns all sequences incliding germline that belong to one clonal lineage and one cluster.
+After clustering, building clonal lineage and germline, the next step is to analyze the degree of mutation
+and maturity of each clonal lineage. This allows you to find high mature cells and cells with a large
+number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
-repAlignLineage(.data, .min.lineage.sequences, .germline.tails, .pw.gapopen, .pw.gapext, .gapopen, .gapext)
+repAlignLineage(.data, .min.lineage.sequences)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
 or a list of these objects.}
 
-\item{.min.lineage.sequences}{If number of sequences in the clonal lineage
-(not including germline) is lower than this threshold, this lineage will not be aligned and
-will not be used in next steps of BCR pipeline (but still will be saved in the output table).}
-
-\item{.germline.tails}{Extra germline V/J length relative to the longest V/J gene
-in it's lineage (counted separately for V and J genes).
-Value 0 means that gene in the germline after trimming will have the same length as
-the longest gene in it's lineage; default value 0.1 means that gene in the germline will be
-10\% longer.}
-
-\item{.pw.gapopen}{Gap opening penalty used by Clustal during pairwise alignments.}
-
-\item{.pw.gapext}{Gap extension penalty used by Clustal during pairwise alignments.}
-
-\item{.gapopen}{Gap opening penalty used by Clustal during global alignments.}
-
-\item{.gapext}{Gap extension penalty used by Clustal during global alignments.
+\item{.min.lineage.sequences}{If number of sequences in the same clonal lineage and the same
+cluster (not including germline) is lower than this threshold, this group of sequences
+will not be aligned and will not be used in next steps of BCR pipeline
+(but still will be saved in the output table).
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-must contain Sequence.germline column, which is added by repGermline() function.}
+must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
+column, which is added by repGermline() function.}
 }
 \value{
 Dataframe or list of dataframes (if input is a list with multiple samples).
-The dataframe has number of rows equal to number of unique germlines, and has these columns:
+The dataframe has number of rows equal to number of combinations of unique clusters
+and unique germlines, and has these columns:
+* Cluster: cluster name
 * Germline: germline sequence
-* Aligned: FALSE if it was not aligned with lineage (.min.lineage.sequences is below
-  the threshold); TRUE if it was aligned
+* Aligned: FALSE if this group of sequences was not aligned with lineage (.min.lineage.sequences
+  is below the threshold); TRUE if it was aligned
 * Alignment: DNAbin object with alignment (if Aligned=TRUE) or DNAbin object with unaligned
   sequences (if Aligned=FALSE)
-* V.trim: start (starting from 1, inclusive) of the germline part that is included
-  in the alignment; all positions on the left of V.trim are present in Germline column,
-  but not present in Alignment object
-* J.trim: end (starting from 1, exclusive) of the germline part that is included
-  in the alignment; all positions on J.trim position and on the right are present
-  in Germline column, but not present in Alignment object
-* Sequences: nested dataframe containing all sequences for this germline; has these columns:
-  * Sequence: original sequence; V/J genes padded with nucleotides taken from
-    the germline if they are shorter than the longest V/J genes in this lineage
-    (only in sequences, not in the germline)
-  * V.start: start (starting from 1, inclusive) of the original V gene of this sequence:
-    this number shows where it's located in the padded sequence (that is in Sequence column)
-  * V.end: end (starting from 1, exclusive) of the original V gene of this sequence:
-    this number shows where it's located in the padded sequence (that is in Sequence column)
-  * J.start: start (starting from 1, inclusive) of the original J gene of this sequence:
-    this number shows where it's located in the padded sequence (that is in Sequence column)
-  * J.end: end (starting from 1, exclusive) of the original J gene of this sequence:
-    this number shows where it's located in the padded sequence (that is in Sequence column)
+* V.length: shortest length of V gene part outside of CDR3 in this group of sequences;
+  longer V genes (including germline) are trimmed to this length before alignment
+* J.length: shortest length of J gene part outside of CDR3 in this group of sequences;
+  longer J genes (including germline) are trimmed to this length before alignment
+* Sequences: nested dataframe containing all sequences for this combination
+  of cluster and germline; it has columns
+  Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
 }
 \description{
-Aligns all sequences incliding germline within one clonal lineage
+Aligns all sequences incliding germline within each clonal lineage within each cluster
 }
 \examples{
 
 data(bcrdata)
+bcr_data <- bcrdata$data \%>\% top(100) # reduce the dataset to save time on examples
 
-bcrdata$data \%>\%
-  top(100) \%>\% # reduce the dataset to save time on examples
+bcr_data \%>\%
+  seqCluster(seqDist(bcr_data)) \%>\%
   repGermline() \%>\%
   repAlignLineage()
 }
