@@ -7,6 +7,7 @@
 #' @importFrom igraph graph_from_data_frame clusters
 #' @importFrom reshape2 melt
 #' @importFrom tibble rownames_to_column
+#' @importFrom glue glue
 #'
 #' @description Graph clustering based on distances between sequences
 #'
@@ -83,7 +84,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     protocluster_names <- map(dist_list, ~ attr(.x, "group_values"))
     protocluster_names %<>% map2_chr(., seq_labels, ~ ifelse(is.null(.x), .y, .x))
     # ^if no grouping variables in data, sequences are IDs for clusters
-    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = protocluster_names[singleseq_flag])
+    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag]))
     multiseq_dist <- dist_list[!singleseq_flag]
     mat_dist <- map2(multiseq_dist, threshold[!singleseq_flag], ~ as.matrix(.x) %>% apply(., 1, function(x, t) {
       ifelse(x > t, NA, x)
@@ -94,9 +95,10 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       .$membership %>%
       melt())
     result_multi <- seq_clusters %>%
+      map2(., seq_length[!singleseq_flag], ~ .x %>% mutate(length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]), yes = .x[1], no = glue("range_{min(.x)}:{max(.x)}"))))) %>%
       map2(., protocluster_names[!singleseq_flag], ~ rownames_to_column(.x, var = "Sequence") %>%
-        group_by("value") %>%
-        mutate(Cluster = paste0(.y, "_cluster_", cur_group_id())) %>%
+        group_by(value, length_value) %>%
+        mutate(Cluster = paste0(.y, "_length_", length_value, "_cluster_", cur_group_id())) %>%
         ungroup() %>%
         select(Sequence, Cluster)) %>%
       map_df(~.x)
