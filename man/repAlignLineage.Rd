@@ -2,34 +2,66 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
-\title{This function aligns all sequences incliding germline within one clonal lineage. After building
-clonal lineage and germline, the next step is to analyze the degree of mutation and maturity
-of each clonal lineage. This allows you to find high mature cells and cells with a large number of offspring.
-The phylogenetic analysis will find mutations that increase the affinity of BCR.
+\alias{align_single_df}
+\alias{prepare_results_row}
+\alias{convert_to_dnabin}
+\alias{trim_seq}
+\alias{convert_nested_to_df}
+\alias{align_sequences}
+\title{This function aligns all sequences incliding germline that belong to one clonal lineage and one cluster.
+After clustering, building clonal lineage and germline, the next step is to analyze the degree of mutation
+and maturity of each clonal lineage. This allows you to find high mature cells and cells with a large
+number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
-repAlignLineage(.data)
+repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
-or a list of these objects.
+or a list of these objects.}
+
+\item{.min.lineage.sequences}{If number of sequences in the same clonal lineage and the same
+cluster (not including germline) is lower than this threshold, this group of sequences
+will not be aligned and will not be used in next steps of BCR pipeline
+(but still will be saved in the output table).}
+
+\item{.prepare_threads}{Number of threads to prepare results table.
+High number can cause heavy memory usage!}
+
+\item{.align_threads}{Number of threads for lineage alignment.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-must contain Sequence.germline column, which is added by repGermline() function.}
+must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
+column, which is added by repGermline() function.}
 }
 \value{
-DNAbin object with alignment if there was single input dataframe,
-or list of DNAbin objects if the input was a list of dataframes
+Dataframe or list of dataframes (if input is a list with multiple samples).
+The dataframe has number of rows equal to number of combinations of unique clusters
+and unique germlines, and has these columns:
+* Cluster: cluster name
+* Germline: germline sequence
+* Aligned: FALSE if this group of sequences was not aligned with lineage (.min.lineage.sequences
+  is below the threshold); TRUE if it was aligned
+* Alignment: DNAbin object with alignment (if Aligned=TRUE) or DNAbin object with unaligned
+  sequences (if Aligned=FALSE)
+* V.length: shortest length of V gene part outside of CDR3 in this group of sequences;
+  longer V genes (including germline) are trimmed to this length before alignment
+* J.length: shortest length of J gene part outside of CDR3 in this group of sequences;
+  longer J genes (including germline) are trimmed to this length before alignment
+* Sequences: nested dataframe containing all sequences for this combination
+  of cluster and germline; it has columns
+  Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
 }
 \description{
-Aligns all sequences incliding germline within one clonal lineage
+Aligns all sequences incliding germline within each clonal lineage within each cluster
 }
 \examples{
 
 data(bcrdata)
+bcr_data <- bcrdata$data \%>\% top(100) # reduce the dataset to save time on examples
 
-bcrdata$data \%>\%
-  top(100) \%>\% # reduce the dataset to save time on examples
+bcr_data \%>\%
+  seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
   repAlignLineage()
 }

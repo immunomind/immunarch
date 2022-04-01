@@ -14,7 +14,7 @@ for each BCR in clonal lineage. In other words, germline sequence is a sequence 
 after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
 for assessing the degree of mutation and maturity of the repertoire.}
 \usage{
-repGermline(.data, species)
+repGermline(.data, species, min_nuc_outside_cdr3)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
