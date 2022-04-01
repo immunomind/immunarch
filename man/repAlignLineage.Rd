@@ -2,13 +2,19 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
+\alias{align_single_df}
+\alias{prepare_results_row}
+\alias{convert_to_dnabin}
+\alias{trim_seq}
+\alias{convert_nested_to_df}
+\alias{align_sequences}
 \title{This function aligns all sequences incliding germline that belong to one clonal lineage and one cluster.
 After clustering, building clonal lineage and germline, the next step is to analyze the degree of mutation
 and maturity of each clonal lineage. This allows you to find high mature cells and cells with a large
 number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
-repAlignLineage(.data, .min.lineage.sequences)
+repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -17,7 +23,12 @@ or a list of these objects.}
 \item{.min.lineage.sequences}{If number of sequences in the same clonal lineage and the same
 cluster (not including germline) is lower than this threshold, this group of sequences
 will not be aligned and will not be used in next steps of BCR pipeline
-(but still will be saved in the output table).
+(but still will be saved in the output table).}
+
+\item{.prepare_threads}{Number of threads to prepare results table.
+High number can cause heavy memory usage!}
+
+\item{.align_threads}{Number of threads for lineage alignment.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
 must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
@@ -50,7 +61,7 @@ data(bcrdata)
 bcr_data <- bcrdata$data \%>\% top(100) # reduce the dataset to save time on examples
 
 bcr_data \%>\%
-  seqCluster(seqDist(bcr_data)) \%>\%
+  seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
   repAlignLineage()
 }

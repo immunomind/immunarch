@@ -600,5 +600,5 @@ v_len_outside_cdr3 <- function(v_end, cdr3_start) {
 
 # calculate J gene part length outside of CDR3; works with vectors acquired from dataframe columns
 j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
-  stringr::str_length(seq) + 1 - pmax(j_start, as.numeric(cdr3_end))
+  stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
 }

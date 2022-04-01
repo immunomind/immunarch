@@ -19,7 +19,7 @@
 #'
 #' @usage
 #'
-#' repGermline(.data, species)
+#' repGermline(.data, species, min_nuc_outside_cdr3)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
