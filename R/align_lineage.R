@@ -16,7 +16,7 @@
 #' @importFrom utils str
 #' @importFrom ape as.DNAbin muscle
 #' @importFrom doParallel registerDoParallel
-#' @importFrom parallel mclapply detectCores
+#' @importFrom parallel mclapply
 
 #' @description Aligns all sequences incliding germline within each clonal lineage within each cluster
 #'
@@ -73,7 +73,7 @@
 repAlignLineage <- function(.data,
                             .min.lineage.sequences = 3,
                             .prepare_threads = 2,
-                            .align_threads = parallel::detectCores()) {
+                            .align_threads = 4) {
   require_system_package("clustalw", error_message = paste0(
     "repAlignLineage requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
