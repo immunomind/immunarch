@@ -63,7 +63,9 @@ Imports:
     doParallel,
     rlist,
     utils,
-    Rphylip
+    glue,
+    phangorn,
+    uuid
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),

@@ -10,9 +10,9 @@ repClonalFamily(.data, .threads)
 \arguments{
 \item{.data}{The data to be processed. Can be output of repAlignLineage, Alignment column
 from repAlignLineage output (filtered by Aligned column or not), or list of samples with
-Alignment column for each sample.
+Alignment column for each sample.}
 
-#' @param .threads Number of threads to use.}
+\item{.threads}{Number of threads to use.}
 }
 \value{
 list of trees in "phylo" format and output files of PHYLIP dnapars function;

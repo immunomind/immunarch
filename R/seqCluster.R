@@ -1,6 +1,6 @@
 #' Function for asignment clusters based on sequencies similarity
 #'
-#' @importFrom purrr map map_lgl map2 map2_chr map_df map2_lgl
+#' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl
 #' @importFrom magrittr %>% %<>%
 #' @importFrom reshape2 melt
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join

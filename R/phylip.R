@@ -8,9 +8,9 @@
 #' @importFrom magrittr %>% %<>%
 #' @importFrom purrr discard imap
 #' @importFrom utils capture.output
-#' @importFrom ape read.tree
 #' @importFrom parallel mclapply detectCores
-#' @importFrom Rphylip Rdnapars
+#' @importFrom phangorn write.phyDat
+#' @importFrom uuid UUIDgenerate
 
 #' @description This function builds a phylogenetic tree using the sequences of a clonal lineage
 #'
@@ -22,7 +22,7 @@
 #' from repAlignLineage output (filtered by Aligned column or not), or list of samples with
 #' Alignment column for each sample.
 #'
-#' #' @param .threads Number of threads to use.
+#' @param .threads Number of threads to use.
 #'
 #' @return
 #'
@@ -85,10 +85,10 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores()) {
   } else {
     stop("Unrecognized format of input data for repClonalFamily!")
   }
-  return(.data)
+  return(results)
 }
 
-process_dataframe <- function(df, .threads, sample_name = NULL) {
+process_dataframe <- function(df, .threads, sample_name = NA) {
   for (column in c("Aligned", "Alignment")) {
     if (!(column %in% colnames(df))) {
       stop(
@@ -103,12 +103,13 @@ process_dataframe <- function(df, .threads, sample_name = NULL) {
 
   results <- df %>%
     filter(Aligned) %>%
-    process_list_of_alignments(.[["Alignment"]], .threads, sample_name)
+    magrittr::extract2("Alignment") %>%
+    process_list_of_alignments(.threads, sample_name)
   return(results)
 }
 
-process_list_of_alignments <- function(alignments, .threads, sample_name = NULL) {
-  if (length(.data) == 0) {
+process_list_of_alignments <- function(alignments, .threads, sample_name = NA) {
+  if (length(alignments) == 0) {
     stop(
       "repClonalFamily: aligned sequences not found in input data",
       optional_sample(" in sample ", sample_name, ""),
@@ -126,13 +127,18 @@ process_list_of_alignments <- function(alignments, .threads, sample_name = NULL)
 }
 
 process_alignment <- function(alignment) {
-  old_workdir <- getwd()
-  temp_dir <- tempdir()
-  setwd(temp_dir)
-  (tree <- Rphylip::Rdnapars(alignment, "phylip ", cleanup = FALSE)) %>%
-    capture.output() %>%
-    invisible()
-  outfile <- read_file("outfile")
-  setwd(old_workdir)
-  return(list(TREE = tree, OUTFILE = outfile))
+  temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
+  dir.create(temp_dir)
+  # bugfix for phylip: it shows "Unexpected end-of-file" for too short sequence labels
+  rownames(alignment) %<>% paste0("\t")
+  phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
+  system(
+    paste0("sh -c \"cd ", temp_dir, "; phylip dnapars infile\""),
+    input = (c("V", 1, 5, "Y"))
+  ) %>%
+    quiet()
+  outfile <- read_file(file.path(temp_dir, "outfile"))
+  outtree <- read_file(file.path(temp_dir, "outtree"))
+  unlink(temp_dir, recursive = TRUE)
+  return(list(OUTFILE = outfile, OUTTREE = outtree))
 }
