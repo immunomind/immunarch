@@ -14,7 +14,7 @@ for each BCR in clonal lineage. In other words, germline sequence is a sequence 
 after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
 for assessing the degree of mutation and maturity of the repertoire.}
 \usage{
-repGermline(.data, species, min_nuc_outside_cdr3)
+repGermline(.data, species, min_nuc_outside_cdr3, ref_only_first)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -31,6 +31,10 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 
 \item{min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
 outside of CDR3 to be considered good for further alignment.}
+
+\item{ref_only_first}{This parameter, if TRUE, means to take only first sequence from reference
+for each allele name; if FALSE, all sequences will be taken, and output table will
+increase in size as a result.}
 }
 \value{
 Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
