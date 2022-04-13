@@ -93,14 +93,16 @@ germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, s
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
-      Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
+      Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start,
+      V3.Deletions, J3.Deletions, sample_name
     )) %>%
     drop_na(Germline.sequence)
   return(data)
 }
 
-generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
-  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start))) || (seq == "")) {
+generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, v3_del, j3_del, sample_name) {
+  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, v3_del, j3_del))) ||
+    (seq == "")) {
     warning(
       "Some of mandatory fields in a row ",
       optional_sample("from sample ", sample_name, " "),
@@ -119,12 +121,18 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       cdr3_end,
       ", J.start = ",
       j_start,
+      ",\nV3.Deletions = ",
+      v3_del,
+      ", J3.Deletions = ",
+      j3_del,
       ".\nThe row will be dropped!"
     )
     return(NA)
   } else {
     cdr3_start %<>% as.numeric()
     cdr3_end %<>% as.numeric()
+    v3_del %<>% as.numeric()
+    j3_del %<>% as.numeric()
 
     if (v_end <= cdr3_start) {
       v_part <- v_ref
@@ -132,7 +140,7 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       # trim intersection of V and CDR3 from reference V gene
       v_part <- stringr::str_sub(
         v_ref, 1,
-        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start))
+        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start + v3_del))
       )
     }
 
@@ -142,7 +150,7 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       j_part <- j_ref
     } else {
       # trim intersection of J and CDR3 from reference J gene
-      j_part <- stringr::str_sub(j_ref, cdr3_end - j_start + 1)
+      j_part <- stringr::str_sub(j_ref, cdr3_end - j_start + j3_del + 1)
     }
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
