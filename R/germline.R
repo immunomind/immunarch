@@ -9,6 +9,7 @@
 #'
 #' @aliases repGermline germline_single_df generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
 #'
+#' @importFrom rlang current_env
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>% extract2
@@ -19,7 +20,7 @@
 #'
 #' @usage
 #'
-#' repGermline(.data, species, min_nuc_outside_cdr3)
+#' repGermline(.data, species, min_nuc_outside_cdr3, ref_only_first)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -36,6 +37,10 @@
 #' @param min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
 #' outside of CDR3 to be considered good for further alignment.
 #'
+#' @param ref_only_first This parameter, if TRUE, means to take only first sequence from reference
+#' for each allele name; if FALSE, all sequences will be taken, and output table will
+#' increase in size as a result.
+#'
 #' @return
 #'
 #' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
@@ -50,18 +55,27 @@
 #'   top(2000) %>% # reduce the dataset to save time on examples
 #'   repGermline()
 #' @export repGermline
-repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5) {
+repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5, ref_only_first = TRUE) {
+  # prepare reference sequences for all alleles
+  data(genesegments, envir = rlang::current_env())
+  reference <- GENE_SEGMENTS %>% filter(species == species)
+  reference <- reference[c("sequence", "allele_id")]
+  if (ref_only_first) {
+    reference <- reference[!duplicated(reference$allele_id), ]
+  }
+
   .data %<>%
     apply_to_sample_or_list(
       germline_single_df,
       .with_names = TRUE,
+      reference = reference,
       species = species,
       min_nuc_outside_cdr3 = min_nuc_outside_cdr3
     )
   return(.data)
 }
 
-germline_single_df <- function(data, species, min_nuc_outside_cdr3, sample_name = NA) {
+germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, sample_name = NA) {
   data %<>%
     validate_genes_edges(sample_name) %>%
     add_column_with_first_gene(
@@ -69,24 +83,26 @@ germline_single_df <- function(data, species, min_nuc_outside_cdr3, sample_name 
       "V.first.allele",
       .with_allele = TRUE
     ) %>%
-    merge_reference_sequences("V", species, sample_name) %>%
+    merge_reference_sequences(reference, "V", species, sample_name) %>%
     add_column_with_first_gene(
       "J.name",
       "J.first.allele",
       .with_allele = TRUE
     ) %>%
-    merge_reference_sequences("J", species, sample_name) %>%
+    merge_reference_sequences(reference, "J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
-      Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start, sample_name
+      Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start,
+      V3.Deletions, J3.Deletions, sample_name
     )) %>%
     drop_na(Germline.sequence)
   return(data)
 }
 
-generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, sample_name) {
-  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start))) || (seq == "")) {
+generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, v3_del, j3_del, sample_name) {
+  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, v3_del, j3_del))) ||
+    (seq == "")) {
     warning(
       "Some of mandatory fields in a row ",
       optional_sample("from sample ", sample_name, " "),
@@ -105,12 +121,18 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       cdr3_end,
       ", J.start = ",
       j_start,
+      ",\nV3.Deletions = ",
+      v3_del,
+      ", J3.Deletions = ",
+      j3_del,
       ".\nThe row will be dropped!"
     )
     return(NA)
   } else {
     cdr3_start %<>% as.numeric()
     cdr3_end %<>% as.numeric()
+    v3_del %<>% as.numeric()
+    j3_del %<>% as.numeric()
 
     if (v_end <= cdr3_start) {
       v_part <- v_ref
@@ -118,7 +140,7 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       # trim intersection of V and CDR3 from reference V gene
       v_part <- stringr::str_sub(
         v_ref, 1,
-        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start))
+        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start + v3_del))
       )
     }
 
@@ -128,7 +150,7 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       j_part <- j_ref
     } else {
       # trim intersection of J and CDR3 from reference J gene
-      j_part <- stringr::str_sub(j_ref, cdr3_end - j_start + 1)
+      j_part <- stringr::str_sub(j_ref, cdr3_end - j_start + j3_del + 1)
     }
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
@@ -137,17 +159,14 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
   }
 }
 
-merge_reference_sequences <- function(data, chain_letter, species, sample_name) {
-  data(genesegments)
-  reference_df <- GENE_SEGMENTS %>% filter(species == species)
-  reference_df <- reference_df[c("sequence", "allele_id")]
+merge_reference_sequences <- function(data, reference, chain_letter, species, sample_name) {
   chain_seq_colname <- paste0(chain_letter, ".sequence")
   chain_allele_colname <- paste0(chain_letter, ".first.allele")
-  colnames(reference_df) <- c(chain_seq_colname, chain_allele_colname)
+  colnames(reference) <- c(chain_seq_colname, chain_allele_colname)
 
   # check for alleles in data that don't exist in the reference
   alleles_in_data <- unique(data[[chain_allele_colname]])
-  alleles_in_ref <- unique(reference_df[[chain_allele_colname]])
+  alleles_in_ref <- unique(reference[[chain_allele_colname]])
   missing_alleles <- alleles_in_data[!(alleles_in_data %in% alleles_in_ref)]
   if (length(missing_alleles) > 0) {
     warning(
@@ -162,7 +181,7 @@ merge_reference_sequences <- function(data, chain_letter, species, sample_name) 
     )
   }
 
-  data %<>% merge(reference_df, by = chain_allele_colname)
+  data %<>% merge(reference, by = chain_allele_colname)
   if (nrow(data) == 0) {
     stop(
       "After merging with reference, the data ",

@@ -10,7 +10,7 @@
 #'
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom stringr str_extract_all str_sub str_length boundary
-#' @importFrom plyr dlply
+#' @importFrom plyr dlply .
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
 #' @importFrom utils str
@@ -22,7 +22,7 @@
 #'
 #' @usage
 #'
-#' repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads)
+#' repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -30,7 +30,7 @@
 #' @param .min.lineage.sequences If number of sequences in the same clonal lineage and the same
 #' cluster (not including germline) is lower than this threshold, this group of sequences
 #' will not be aligned and will not be used in next steps of BCR pipeline
-#' (but still will be saved in the output table).
+#' (will be saved in output table only if .verbose_output parameter is set to TRUE).
 #'
 #' @param .prepare_threads Number of threads to prepare results table.
 #' High number can cause heavy memory usage!
@@ -41,6 +41,10 @@
 #' must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
 #' column, which is added by repGermline() function.
 #'
+#' @param .verbose_output If TRUE, all output dataframe columns will be included (see documentation about this
+#' function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
+#' increases memory usage.
+#'
 #' @return
 #'
 #' Dataframe or list of dataframes (if input is a list with multiple samples).
@@ -48,15 +52,14 @@
 #' and unique germlines, and has these columns:
 #' * Cluster: cluster name
 #' * Germline: germline sequence
-#' * Aligned: FALSE if this group of sequences was not aligned with lineage (.min.lineage.sequences
-#'   is below the threshold); TRUE if it was aligned
-#' * Alignment: DNAbin object with alignment (if Aligned=TRUE) or DNAbin object with unaligned
-#'   sequences (if Aligned=FALSE)
-#' * V.length: shortest length of V gene part outside of CDR3 in this group of sequences;
-#'   longer V genes (including germline) are trimmed to this length before alignment
-#' * J.length: shortest length of J gene part outside of CDR3 in this group of sequences;
-#'   longer J genes (including germline) are trimmed to this length before alignment
-#' * Sequences: nested dataframe containing all sequences for this combination
+#' * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
+#'   (.min.lineage.sequences is below the threshold); TRUE if it was aligned
+#' * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
+#' * V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 in this
+#'   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
+#' * J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 in this
+#'   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
+#' * Sequences (included if .verbose_output=TRUE): nested dataframe containing all sequences for this combination
 #'   of cluster and germline; it has columns
 #'   Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
 #'
@@ -73,7 +76,8 @@
 repAlignLineage <- function(.data,
                             .min.lineage.sequences = 3,
                             .prepare_threads = 2,
-                            .align_threads = 4) {
+                            .align_threads = 4,
+                            .verbose_output = FALSE) {
   require_system_package("clustalw", error_message = paste0(
     "repAlignLineage requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
@@ -84,12 +88,13 @@ repAlignLineage <- function(.data,
     apply_to_sample_or_list(
       align_single_df,
       .min.lineage.sequences = .min.lineage.sequences,
-      .align_threads = .align_threads
+      .align_threads = .align_threads,
+      .verbose_output = .verbose_output
     )
   return(.data)
 }
 
-align_single_df <- function(data, .min.lineage.sequences, .align_threads) {
+align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbose_output) {
   for (required_column in c("Cluster", "Germline.sequence")) {
     if (!(required_column %in% colnames(data))) {
       stop(
@@ -106,35 +111,49 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads) {
       .variables = .(Cluster, Germline.sequence),
       .fun = prepare_results_row,
       .min.lineage.sequences = .min.lineage.sequences,
+      .verbose_output = .verbose_output,
       .parallel = TRUE
     ) %>%
+    `[`(!is.na(.)) %>%
     unname()
 
   # only required columns are passed to alignment function to reduce consumed memory
-  alignments <- results %>%
-    lapply("[", c("Aligned", "Alignment")) %>%
-    parallel::mclapply(
-      align_sequences,
-      mc.preschedule = TRUE,
-      mc.cores = .align_threads
-    )
+  if (.verbose_output) {
+    alignments <- lapply(results, "[", c("Aligned", "Alignment"))
+  } else {
+    alignments <- lapply(results, "[", "Alignment")
+  }
+  alignments %<>% parallel::mclapply(
+    align_sequences,
+    .verbose_output = .verbose_output,
+    mc.preschedule = TRUE,
+    mc.cores = .align_threads
+  )
 
-  return(convert_nested_to_df(results, alignments))
+  return(convert_nested_to_df(results, alignments, .verbose_output))
 }
 
 # this function accepts dataframe subset containing rows only for current lineage
 # and returns named list containing 1 row for results dataframe
-prepare_results_row <- function(lineage_subset, .min.lineage.sequences) {
+prepare_results_row <- function(lineage_subset, .min.lineage.sequences, .verbose_output) {
   cluster_name <- lineage_subset[[1, "Cluster"]]
   germline_seq <- lineage_subset[[1, "Germline.sequence"]]
   aligned <- nrow(lineage_subset) >= .min.lineage.sequences
+
+  if (!aligned & !.verbose_output) {
+    return(NA)
+  }
+
   lineage_subset[["V.lengths"]] <- v_len_outside_cdr3(
     lineage_subset[["V.end"]], lineage_subset[["CDR3.start"]]
   )
   lineage_subset[["J.lengths"]] <- j_len_outside_cdr3(
     lineage_subset[["Sequence"]], lineage_subset[["J.start"]], lineage_subset[["CDR3.end"]]
   )
-  sequences <- lineage_subset[c("Sequence", "V.end", "J.start", "CDR3.start", "CDR3.end")]
+
+  if (.verbose_output) {
+    sequences <- lineage_subset[c("Sequence", "V.end", "J.start", "CDR3.start", "CDR3.end")]
+  }
 
   germline_parts <- strsplit(germline_seq, "N")[[1]]
   germline_v_len <- stringr::str_length(germline_parts[1])
@@ -152,15 +171,23 @@ prepare_results_row <- function(lineage_subset, .min.lineage.sequences) {
   )
   alignment <- convert_to_dnabin(germline_trimmed, clonotypes_trimmed)
 
-  return(list(
-    Cluster = cluster_name,
-    Germline = germline_seq,
-    Aligned = aligned,
-    Alignment = alignment,
-    V.length = v_min_len,
-    J.length = j_min_len,
-    Sequences = sequences
-  ))
+  if (.verbose_output) {
+    return(list(
+      Cluster = cluster_name,
+      Germline = germline_seq,
+      Aligned = aligned,
+      Alignment = alignment,
+      V.length = v_min_len,
+      J.length = j_min_len,
+      Sequences = sequences
+    ))
+  } else {
+    return(list(
+      Cluster = cluster_name,
+      Germline = germline_seq,
+      Alignment = alignment
+    ))
+  }
 }
 
 convert_to_dnabin <- function(germline_seq, clonotypes) {
@@ -182,22 +209,30 @@ trim_seq <- function(seq, v_len, v_min, j_len, j_min) {
   stringr::str_sub(seq, v_len - v_min + 1, -(j_len - j_min + 1))
 }
 
-convert_nested_to_df <- function(nested_results_list, nested_alignments_list) {
+convert_nested_to_df <- function(nested_results_list, nested_alignments_list, .verbose_output) {
   alignments <- nested_alignments_list %>%
     lapply(magrittr::extract2, "Alignment") %>%
     tibble(Alignment = .)
-  sequences <- nested_results_list %>%
-    lapply(magrittr::extract2, "Sequences") %>%
-    tibble(Sequences = .)
   df <- nested_results_list %>%
     lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
-    cbind(alignments, sequences)
+    cbind(alignments)
+  if (.verbose_output) {
+    sequences <- nested_results_list %>%
+      lapply(magrittr::extract2, "Sequences") %>%
+      tibble(Sequences = .)
+    df %<>% cbind(sequences)
+  }
   return(df)
 }
 
-align_sequences <- function(df_row) {
-  if (df_row[["Aligned"]]) {
+align_sequences <- function(df_row, .verbose_output) {
+  if (.verbose_output) {
+    aligned <- df_row[["Aligned"]]
+  } else {
+    aligned <- TRUE
+  }
+  if (aligned) {
     df_row[["Alignment"]] %<>% ape::clustal()
   }
   return(df_row)
