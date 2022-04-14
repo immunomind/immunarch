@@ -14,7 +14,7 @@ and maturity of each clonal lineage. This allows you to find high mature cells a
 number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
-repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads)
+repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -23,7 +23,7 @@ or a list of these objects.}
 \item{.min.lineage.sequences}{If number of sequences in the same clonal lineage and the same
 cluster (not including germline) is lower than this threshold, this group of sequences
 will not be aligned and will not be used in next steps of BCR pipeline
-(but still will be saved in the output table).}
+(will be saved in output table only if .verbose_output parameter is set to TRUE).}
 
 \item{.prepare_threads}{Number of threads to prepare results table.
 High number can cause heavy memory usage!}
@@ -33,6 +33,10 @@ High number can cause heavy memory usage!}
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
 must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
 column, which is added by repGermline() function.}
+
+\item{.verbose_output}{If TRUE, all output dataframe columns will be included (see documentation about this
+function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
+increases memory usage.}
 }
 \value{
 Dataframe or list of dataframes (if input is a list with multiple samples).
@@ -40,15 +44,14 @@ The dataframe has number of rows equal to number of combinations of unique clust
 and unique germlines, and has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
-* Aligned: FALSE if this group of sequences was not aligned with lineage (.min.lineage.sequences
-  is below the threshold); TRUE if it was aligned
-* Alignment: DNAbin object with alignment (if Aligned=TRUE) or DNAbin object with unaligned
-  sequences (if Aligned=FALSE)
-* V.length: shortest length of V gene part outside of CDR3 in this group of sequences;
-  longer V genes (including germline) are trimmed to this length before alignment
-* J.length: shortest length of J gene part outside of CDR3 in this group of sequences;
-  longer J genes (including germline) are trimmed to this length before alignment
-* Sequences: nested dataframe containing all sequences for this combination
+* Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
+  (.min.lineage.sequences is below the threshold); TRUE if it was aligned
+* Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
+* V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 in this
+  group of sequences; longer V genes (including germline) are trimmed to this length before alignment
+* J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 in this
+  group of sequences; longer J genes (including germline) are trimmed to this length before alignment
+* Sequences (included if .verbose_output=TRUE): nested dataframe containing all sequences for this combination
   of cluster and germline; it has columns
   Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
 }
