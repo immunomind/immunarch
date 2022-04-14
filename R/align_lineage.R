@@ -43,7 +43,8 @@
 #'
 #' @param .verbose_output If TRUE, all output dataframe columns will be included (see documentation about this
 #' function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
-#' increases memory usage.
+#' increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
+#' will be included in the output.
 #'
 #' @return
 #'
@@ -55,9 +56,9 @@
 #' * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
 #'   (.min.lineage.sequences is below the threshold); TRUE if it was aligned
 #' * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
-#' * V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 in this
+#' * V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 region in this
 #'   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
-#' * J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 in this
+#' * J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 region in this
 #'   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
 #' * Sequences (included if .verbose_output=TRUE): nested dataframe containing all sequences for this combination
 #'   of cluster and germline; it has columns
