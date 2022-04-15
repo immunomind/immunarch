@@ -415,7 +415,9 @@ parse_mixcr <- function(.filename, .mode) {
   )
   pos_extra_headers <- list(
     cdr3start = NA,
-    cdr3end = NA
+    cdr3end = NA,
+    v3del = NA,
+    j3del = NA
   )
   gene_headers <- list(
     vgenes = NA,
@@ -668,6 +670,10 @@ parse_mixcr <- function(.filename, .mode) {
     # CDR3Begin position is 10, CDR3End is 19
     df[[pos_extra_headers[["cdr3start"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 10)
     df[[pos_extra_headers[["cdr3end"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 19)
+
+    # number of 3' V deletions is 11; number of 3' J deletions is 18
+    df[[pos_extra_headers[["v3del"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 11)
+    df[[pos_extra_headers[["j3del"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 18)
   }
 
   if (!(.count %in% table.colnames)) {
@@ -700,7 +706,8 @@ parse_mixcr <- function(.filename, .mode) {
     nuc_headers[[".nuc.seq.fr1"]], aa_headers[[".aa.seq.fr1"]],
     nuc_headers[[".nuc.seq.fr2"]], aa_headers[[".aa.seq.fr2"]],
     nuc_headers[[".nuc.seq.fr3"]], aa_headers[[".aa.seq.fr3"]],
-    nuc_headers[[".nuc.seq.fr4"]], aa_headers[[".aa.seq.fr4"]]
+    nuc_headers[[".nuc.seq.fr4"]], aa_headers[[".aa.seq.fr4"]],
+    pos_extra_headers[["v3del"]], pos_extra_headers[["j3del"]]
   )
   df_ext_column_names <- IMMCOL_EXT$order
 

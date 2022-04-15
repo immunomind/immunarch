@@ -62,7 +62,8 @@ Imports:
     ape,
     doParallel,
     rlist,
-    utils
+    utils,
+    glue
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),
