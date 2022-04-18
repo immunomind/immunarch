@@ -483,9 +483,11 @@ as_numeric_or_fail <- function(.string) {
 }
 
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
-apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, ...) {
+apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .validate = TRUE, ...) {
   if (inherits(.data, "list")) {
-    .validate_repertoires_data(.data)
+    if (.validate) {
+      .validate_repertoires_data(.data)
+    }
     if (.with_names) {
       .data %<>%
         purrr::imap(function(sample_data, sample_name) {

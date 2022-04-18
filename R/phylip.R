@@ -6,11 +6,13 @@
 #' @aliases repClonalFamily
 #'
 #' @importFrom magrittr %>% %<>%
-#' @importFrom purrr discard imap
+#' @importFrom purrr map_dfr
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
 #' @importFrom phangorn write.phyDat
+#' @importFrom ape read.tree
 #' @importFrom uuid UUIDgenerate
+#' @importFrom data.table fread
 
 #' @description This function builds a phylogenetic tree using the sequences of a clonal lineage
 #'
@@ -18,16 +20,22 @@
 #'
 #' repClonalFamily(.data, .threads)
 #'
-#' @param .data The data to be processed. Can be output of repAlignLineage, Alignment column
-#' from repAlignLineage output (filtered by Aligned column or not), or list of samples with
-#' Alignment column for each sample.
+#' @param .data The data to be processed. Can be output of repAlignLineage() with normal
+#' or verbose output; variants with one sample and list of samples are both supported.
 #'
 #' @param .threads Number of threads to use.
 #'
 #' @return
 #'
-#' list of trees in "phylo" format and output files of PHYLIP dnapars function;
-#' or list of these lists if the input was a list of samples.
+#' Dataframe or list of dataframes (if input is a list with multiple samples).
+#' The dataframe has these columns:
+#' * Cluster: cluster name
+#' * Germline.Input: germline sequence, like it was in the input
+#' * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output
+#' * Common.Ancestor: common ancestor sequence, parsed from PHYLIP dnapars function output
+#' * Trunk.Length: mean trunk length, representing the distance between the most recent
+#'   common ancestor and germline sequence as a measure of the maturity of a lineage
+#' * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
 #'
 #' @examples
 #'
@@ -46,87 +54,51 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores()) {
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
   ))
-
-  # verify input data, detect format and run process function that fits the format
-  if (length(.data) == 0) {
-    stop("repClonalFamily: input data is empty!")
-  } else if (inherits(.data, "list")) {
-    if (inherits(.data[[1]], "DNAbin")) {
-      # if we got only Alignment column, filter out unaligned rows manually;
-      # unaligned rows are DNAbin lists, so for them nrow() returns NULL
-      results <- .data %>%
-        purrr::discard(~ is.null(nrow(.x))) %>%
-        process_list_of_alignments(.threads)
-    } else if (inherits(.data[[1]], "data.frame")) {
-      results <- .data %>%
-        lapply(process_dataframe, .threads = .threads, sample_name = sample_name)
-    } else if (inherits(.data[[1]], "list")) {
-      # this is list of samples, and each has only Alignment column in it
-      results <- .data %>%
-        purrr::imap(function(sample_data, sample_name) {
-          if (length(sample_data) == 0) {
-            stop("repClonalFamily: input contains empty sample ", sample_name)
-          }
-          if (inherits(sample_data[[1]], "DNAbin")) {
-            sample_results <- sample_data %>%
-              purrr::discard(~ is.null(nrow(.x))) %>%
-              process_list_of_alignments(.threads, sample_name = sample_name)
-          } else {
-            stop("Unrecognized format of input data for repClonalFamily in sample ", sample_name)
-          }
-          return(sample_results)
-        })
-    } else {
-      stop("Unrecognized format of input data for repClonalFamily!")
-    }
-  } else if (inherits(.data, "data.frame")) {
-    results <- .data %>%
-      process_dataframe(.threads)
-  } else {
-    stop("Unrecognized format of input data for repClonalFamily!")
-  }
-  return(results)
-}
-
-process_dataframe <- function(df, .threads, sample_name = NA) {
-  for (column in c("Aligned", "Alignment")) {
-    if (!(column %in% colnames(df))) {
-      stop(
-        "Unrecognized input dataframe format for repClonalFamily: missing \"",
-        column,
-        "\" column",
-        optional_sample(" in sample ", sample_name, ""),
-        "!"
-      )
-    }
-  }
-
-  results <- df %>%
-    filter(Aligned) %>%
-    magrittr::extract2("Alignment") %>%
-    process_list_of_alignments(.threads, sample_name)
-  return(results)
-}
-
-process_list_of_alignments <- function(alignments, .threads, sample_name = NA) {
-  if (length(alignments) == 0) {
-    stop(
-      "repClonalFamily: aligned sequences not found in input data",
-      optional_sample(" in sample ", sample_name, ""),
-      "!"
-    )
-  }
-
-  results <- parallel::mclapply(
-    alignments,
-    process_alignment,
-    mc.preschedule = FALSE,
-    mc.cores = .threads
+  results <- .data %>% apply_to_sample_or_list(
+    process_dataframe,
+    .with_names = TRUE,
+    .validate = FALSE,
+    .threads = .threads
   )
   return(results)
 }
 
-process_alignment <- function(alignment) {
+process_dataframe <- function(df, .threads, sample_name = NA) {
+  if (nrow(df) == 0) {
+    stop(
+      "repClonalFamily: input dataframe is empty",
+      optional_sample(" in sample ", sample_name, ""),
+      "!"
+    )
+  }
+  if (!("Alignment" %in% colnames(df))) {
+    stop(
+      "Unrecognized input dataframe format for repClonalFamily: missing \"Alignment\" column",
+      optional_sample(" in sample ", sample_name, ""),
+      "!"
+    )
+  }
+  if ("Aligned" %in% colnames(df)) {
+    df %<>% filter(Aligned)
+  }
+  df <- df[c("Cluster", "Germline", "Alignment")]
+  clusters_list <- split(df, seq(nrow(df)))
+
+  results <- parallel::mclapply(
+    clusters_list,
+    process_cluster,
+    mc.preschedule = FALSE,
+    mc.cores = .threads
+  ) %>%
+    purrr::map_dfr(~.)
+  return(results)
+}
+
+process_cluster <- function(cluster_row) {
+  cluster_name <- cluster_row[["Cluster"]]
+  cluster_germline <- cluster_row[["Germline"]]
+  alignment <- cluster_row[["Alignment"]]
+
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
   # bugfix for phylip: it shows "Unexpected end-of-file" for too short sequence labels
@@ -137,8 +109,48 @@ process_alignment <- function(alignment) {
     input = (c("V", 1, 5, "Y"))
   ) %>%
     quiet()
-  outfile <- read_file(file.path(temp_dir, "outfile"))
-  outtree <- read_file(file.path(temp_dir, "outtree"))
+
+  tree <- ape::read.tree(file.path(temp_dir, "outtree"))
+  outfile_path <- file.path(temp_dir, "outfile")
+  common_ancestor_path <- file.path(temp_dir, "common_ancestor.csv")
+  germline_path <- file.path(temp_dir, "germline.csv")
+
+  # parse common ancestor
+  system(paste0(
+    "grep  '         1   ' ",
+    outfile_path,
+    " > ",
+    common_ancestor_path
+  ))
+  system(paste0("cat ", common_ancestor_path))
+  common_ancestor <- data.table::fread(common_ancestor_path, drop = c(1)) %>%
+    t() %>%
+    paste(collapse = "")
+
+  # parse germline
+  system(paste0(
+    "grep  '1   germline' ",
+    outfile_path,
+    " > ",
+    germline_path
+  ))
+  system(paste0("cat ", germline_path))
+  germline <- read.delim(germline_path, delim)
+  print(germline)
+  germline <- data.table::fread(germline_path, drop = c(1:3)) %>%
+    t() %>%
+    paste(collapse = "") %>%
+    as.character()
+
   unlink(temp_dir, recursive = TRUE)
-  return(list(OUTFILE = outfile, OUTTREE = outtree))
+
+  # return row of output dataframe as named list
+  return(list(
+    Cluster = cluster,
+    Germline.Input = cluster_germline,
+    Germline.Output = germline,
+    Common.Ancestor = common_ancestor,
+    Trunk.Length = trunk_length,
+    Tree = tree
+  ))
 }

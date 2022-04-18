@@ -8,15 +8,21 @@ maximum parsimony methods.}
 repClonalFamily(.data, .threads)
 }
 \arguments{
-\item{.data}{The data to be processed. Can be output of repAlignLineage, Alignment column
-from repAlignLineage output (filtered by Aligned column or not), or list of samples with
-Alignment column for each sample.}
+\item{.data}{The data to be processed. Can be output of repAlignLineage() with normal
+or verbose output; variants with one sample and list of samples are both supported.}
 
 \item{.threads}{Number of threads to use.}
 }
 \value{
-list of trees in "phylo" format and output files of PHYLIP dnapars function;
-or list of these lists if the input was a list of samples.
+Dataframe or list of dataframes (if input is a list with multiple samples).
+The dataframe has these columns:
+* Cluster: cluster name
+* Germline.Input: germline sequence, like it was in the input
+* Germline.Output: germline sequence, parsed from PHYLIP dnapars function output
+* Common.Ancestor: common ancestor sequence, parsed from PHYLIP dnapars function output
+* Trunk.Length: mean trunk length, representing the distance between the most recent
+  common ancestor and germline sequence as a measure of the maturity of a lineage
+* Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
 }
 \description{
 This function builds a phylogenetic tree using the sequences of a clonal lineage

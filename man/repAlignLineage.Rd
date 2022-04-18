@@ -41,8 +41,7 @@ will be included in the output.}
 }
 \value{
 Dataframe or list of dataframes (if input is a list with multiple samples).
-The dataframe has number of rows equal to number of combinations of unique clusters
-and unique germlines, and has these columns:
+The dataframe has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
 * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
