@@ -270,6 +270,9 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     folders <- c()
     files <- c()
     for (path in .paths) {
+      if (!file.exists(path)) {
+        stop("Input file or directory not found: ", path)
+      }
       if (file.info(path)$isdir) {
         folders <- c(folders, path)
       } else if (!any(endsWith(path, exclude_extensions))) {
