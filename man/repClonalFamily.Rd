@@ -2,6 +2,10 @@
 % Please edit documentation in R/phylip.R
 \name{repClonalFamily}
 \alias{repClonalFamily}
+\alias{process_dataframe}
+\alias{process_cluster}
+\alias{join_to_string}
+\alias{convert_nested_to_df}
 \title{This function uses PHYLIP package to make phylogenetic analysis. For making trees it uses
 maximum parsimony methods.}
 \usage{

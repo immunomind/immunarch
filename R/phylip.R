@@ -3,10 +3,13 @@
 #'
 #' @concept phylip
 #'
-#' @aliases repClonalFamily
+#' @aliases repClonalFamily process_dataframe process_cluster join_to_string convert_nested_to_df
 #'
-#' @importFrom magrittr %>% %<>%
+#' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
+#' @importFrom rlist list.remove
+#' @importFrom stringr str_match
+#' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
 #' @importFrom phangorn write.phyDat
@@ -64,23 +67,30 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores()) {
 }
 
 process_dataframe <- function(df, .threads, sample_name = NA) {
-  if (nrow(df) == 0) {
-    stop(
-      "repClonalFamily: input dataframe is empty",
-      optional_sample(" in sample ", sample_name, ""),
-      "!"
-    )
+  for (column in c("Cluster", "Germline", "Alignment")) {
+    if (!(column %in% colnames(df))) {
+      stop(
+        "Unrecognized input dataframe format for repClonalFamily: missing \"",
+        column,
+        "\" column",
+        optional_sample(" in sample ", sample_name, ""),
+        "!"
+      )
+    }
   }
-  if (!("Alignment" %in% colnames(df))) {
-    stop(
-      "Unrecognized input dataframe format for repClonalFamily: missing \"Alignment\" column",
-      optional_sample(" in sample ", sample_name, ""),
-      "!"
-    )
-  }
+
   if ("Aligned" %in% colnames(df)) {
     df %<>% filter(Aligned)
   }
+
+  if (nrow(df) == 0) {
+    stop(
+      "repClonalFamily: input dataframe ",
+      optional_sample("in sample ", sample_name, " "),
+      "doesn't contain any aligned clusters!"
+    )
+  }
+
   df <- df[c("Cluster", "Germline", "Alignment")]
   clusters_list <- split(df, seq(nrow(df)))
 
@@ -90,14 +100,15 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
     mc.preschedule = FALSE,
     mc.cores = .threads
   ) %>%
-    purrr::map_dfr(~.)
+    convert_nested_to_df()
   return(results)
 }
 
 process_cluster <- function(cluster_row) {
   cluster_name <- cluster_row[["Cluster"]]
   cluster_germline <- cluster_row[["Germline"]]
-  alignment <- cluster_row[["Alignment"]]
+  # alignment should be extracted from 1-element list because of Alignment column format
+  alignment <- cluster_row[["Alignment"]][[1]]
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
@@ -112,45 +123,44 @@ process_cluster <- function(cluster_row) {
 
   tree <- ape::read.tree(file.path(temp_dir, "outtree"))
   outfile_path <- file.path(temp_dir, "outfile")
-  common_ancestor_path <- file.path(temp_dir, "common_ancestor.csv")
-  germline_path <- file.path(temp_dir, "germline.csv")
+  outfile_lines <- scan(outfile_path, what = "", sep = "\n", quiet = TRUE)
+  common_ancestor <- outfile_lines[grepl("         1   ", outfile_lines)]
+  germline <- outfile_lines[grepl("1   germline", outfile_lines)]
 
-  # parse common ancestor
-  system(paste0(
-    "grep  '         1   ' ",
-    outfile_path,
-    " > ",
-    common_ancestor_path
-  ))
-  system(paste0("cat ", common_ancestor_path))
-  common_ancestor <- data.table::fread(common_ancestor_path, drop = c(1)) %>%
-    t() %>%
-    paste(collapse = "")
-
-  # parse germline
-  system(paste0(
-    "grep  '1   germline' ",
-    outfile_path,
-    " > ",
-    germline_path
-  ))
-  system(paste0("cat ", germline_path))
-  germline <- read.delim(germline_path, delim)
-  print(germline)
-  germline <- data.table::fread(germline_path, drop = c(1:3)) %>%
-    t() %>%
-    paste(collapse = "") %>%
-    as.character()
+  common_ancestor %<>%
+    stringr::str_match(" +1 +(.+) *") %>%
+    join_to_string()
+  germline %<>%
+    stringr::str_match(" +1 +germline\\s+[a-z]* *(.+) *") %>%
+    join_to_string()
 
   unlink(temp_dir, recursive = TRUE)
+  trunk_length <- "dummy"
 
   # return row of output dataframe as named list
   return(list(
-    Cluster = cluster,
+    Cluster = cluster_name,
     Germline.Input = cluster_germline,
     Germline.Output = germline,
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
     Tree = tree
   ))
+}
+
+join_to_string <- function(matching_results) {
+  matching_results[, 2] %>%
+    paste(collapse = "") %>%
+    stringi::stri_replace_all_fixed(" ", "")
+}
+
+convert_nested_to_df <- function(nested_results_list) {
+  tree <- nested_results_list %>%
+    lapply(magrittr::extract2, "Tree") %>%
+    tibble(Tree = .)
+  df <- nested_results_list %>%
+    lapply(rlist::list.remove, "Tree") %>%
+    purrr::map_dfr(~.) %>%
+    cbind(tree)
+  return(df)
 }
