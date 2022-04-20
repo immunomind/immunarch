@@ -46,7 +46,7 @@
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline() %>%
 #'   repAlignLineage() %>%
-#'   repLineagePhylogeny()
+#'   repClonalFamily()
 #' @export repClonalFamily
 repClonalFamily <- function(.data, .threads = parallel::detectCores()) {
   require_system_package("phylip", error_message = paste0(
