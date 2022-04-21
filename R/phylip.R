@@ -8,7 +8,7 @@
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
-#' @importFrom stringr str_match
+#' @importFrom stringr str_match str_count fixed
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
@@ -133,9 +133,9 @@ process_cluster <- function(cluster_row) {
   germline %<>%
     stringr::str_match(" +1 +germline\\s+[a-z]* *(.+) *") %>%
     join_to_string()
+  trunk_length <- nchar(germline) - stringr::str_count(germline,  stringr::fixed("."))
 
   unlink(temp_dir, recursive = TRUE)
-  trunk_length <- "dummy"
 
   # return row of output dataframe as named list
   return(list(
