@@ -2,19 +2,14 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
-\alias{align_single_df}
-\alias{prepare_results_row}
-\alias{convert_to_dnabin}
-\alias{trim_seq}
-\alias{convert_nested_to_df}
-\alias{align_sequences}
 \title{This function aligns all sequences incliding germline that belong to one clonal lineage and one cluster.
 After clustering, building clonal lineage and germline, the next step is to analyze the degree of mutation
 and maturity of each clonal lineage. This allows you to find high mature cells and cells with a large
 number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
-repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
+repAlignLineage(.data,
+.min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -61,11 +56,11 @@ Aligns all sequences incliding germline within each clonal lineage within each c
 \examples{
 
 data(bcrdata)
-bcr_data <- bcrdata$data \%>\% top(100) # reduce the dataset to save time on examples
+bcr_data <- bcrdata$data \%>\% top(500) # reduce the dataset to save time on examples
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
-  repAlignLineage()
+  repAlignLineage(.align_threads = 2)
 }
 \concept{align_lineage}

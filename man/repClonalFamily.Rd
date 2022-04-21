@@ -2,10 +2,6 @@
 % Please edit documentation in R/phylip.R
 \name{repClonalFamily}
 \alias{repClonalFamily}
-\alias{process_dataframe}
-\alias{process_cluster}
-\alias{join_to_string}
-\alias{convert_nested_to_df}
 \title{This function uses PHYLIP package to make phylogenetic analysis. For making trees it uses
 maximum parsimony methods.}
 \usage{
@@ -34,12 +30,12 @@ This function builds a phylogenetic tree using the sequences of a clonal lineage
 \examples{
 
 data(bcrdata)
-bcr_data <- bcrdata$data \%>\% top(100) # reduce the dataset to save time on examples
+bcr_data <- bcrdata$data \%>\% top(500) # reduce the dataset to save time on examples
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
-  repAlignLineage() \%>\%
-  repClonalFamily()
+  repAlignLineage(.align_threads = 2) \%>\%
+  repClonalFamily(.threads = 2)
 }
 \concept{phylip}

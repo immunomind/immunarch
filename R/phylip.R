@@ -3,7 +3,7 @@
 #'
 #' @concept phylip
 #'
-#' @aliases repClonalFamily process_dataframe process_cluster join_to_string convert_nested_to_df
+#' @aliases repClonalFamily
 #'
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
@@ -43,13 +43,13 @@
 #' @examples
 #'
 #' data(bcrdata)
-#' bcr_data <- bcrdata$data %>% top(100) # reduce the dataset to save time on examples
+#' bcr_data <- bcrdata$data %>% top(500) # reduce the dataset to save time on examples
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline() %>%
-#'   repAlignLineage() %>%
-#'   repClonalFamily()
+#'   repAlignLineage(.align_threads = 2) %>%
+#'   repClonalFamily(.threads = 2)
 #' @export repClonalFamily
 repClonalFamily <- function(.data, .threads = parallel::detectCores()) {
   require_system_package("phylip", error_message = paste0(
@@ -80,7 +80,7 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
   }
 
   if ("Aligned" %in% colnames(df)) {
-    df %<>% filter(Aligned)
+    df %<>% filter(get("Aligned"))
   }
 
   if (nrow(df) == 0) {
@@ -133,7 +133,7 @@ process_cluster <- function(cluster_row) {
   germline %<>%
     stringr::str_match(" +1 +germline\\s+[a-z]* *(.+) *") %>%
     join_to_string()
-  trunk_length <- nchar(germline) - stringr::str_count(germline,  stringr::fixed("."))
+  trunk_length <- nchar(germline) - stringr::str_count(germline, stringr::fixed("."))
 
   unlink(temp_dir, recursive = TRUE)
 

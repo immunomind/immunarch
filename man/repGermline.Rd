@@ -2,11 +2,6 @@
 % Please edit documentation in R/germline.R
 \name{repGermline}
 \alias{repGermline}
-\alias{germline_single_df}
-\alias{generate_germline_sequence}
-\alias{merge_reference_sequences}
-\alias{validate_genes_edges}
-\alias{validate_chains_length}
 \title{This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
 that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
 Each clonal lineage has its own germline sequence that represents the ancestral sequence

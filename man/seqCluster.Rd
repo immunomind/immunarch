@@ -31,8 +31,8 @@ Graph clustering based on distances between sequences
 \examples{
 
 data(immdata)
-# In this example, we will use only 2 samples for time saving
-
-dist_result <- seqDist(immdata$data[1:2])
-cluster_result <- seqCluster(immdata$data[1:2], dist_result, .fixed_threshold = 1)
+# In this example, we will use only 2 samples with 500 clonotypes in each for time saving
+input_data <- lapply(immdata$data[1:2], head, 500)
+dist_result <- seqDist(input_data)
+cluster_result <- seqCluster(input_data, dist_result, .fixed_threshold = 1)
 }

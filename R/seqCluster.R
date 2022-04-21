@@ -35,10 +35,10 @@
 #' @examples
 #'
 #' data(immdata)
-#' # In this example, we will use only 2 samples for time saving
-#'
-#' dist_result <- seqDist(immdata$data[1:2])
-#' cluster_result <- seqCluster(immdata$data[1:2], dist_result, .fixed_threshold = 1)
+#' # In this example, we will use only 2 samples with 500 clonotypes in each for time saving
+#' input_data <- lapply(immdata$data[1:2], head, 500)
+#' dist_result <- seqDist(input_data)
+#' cluster_result <- seqCluster(input_data, dist_result, .fixed_threshold = 1)
 #' @export seqCluster
 
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
@@ -61,21 +61,26 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
   if (sum(thresh_cond) == 1) {
     stop("Please, provide only one argument: .perc_similarity, .nt_similarity or .fixed_threshold value")
   }
+
+  nt_similarity_fun <- function(x, t = .nt_similarity) {
+    (x / t)
+  }
+  perc_similarity_fun <- function(x, t = .perc_similarity) {
+    x * (1 - t)
+  }
+  fixed_threshold_fun <- function(x, t = .fixed_threshold) {
+    return(rep(t, times = length(x)))
+  }
   if (!missing(.nt_similarity)) {
-    .threshold_fun <- function(x, t = .nt_similarity) {
-      (x / t)
-    }
+    .threshold_fun <- nt_similarity_fun
   }
   if (!missing(.perc_similarity)) {
-    .threshold_fun <- function(x, t = .perc_similarity) {
-      x * (1 - t)
-    }
+    .threshold_fun <- perc_similarity_fun
   }
   if (!missing(.fixed_threshold)) {
-    .threshold_fun <- function(x, t = .fixed_threshold) {
-      return(rep(t, times = length(x)))
-    }
+    .threshold_fun <- fixed_threshold_fun
   }
+
   graph_clustering <- function(dist_list, threshold_fun) {
     seq_labels <- map(dist_list, ~ attr(.x, "Labels"))
     singleseq_flag <- map_lgl(seq_labels, ~ length(.x) == 1)

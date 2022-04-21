@@ -96,19 +96,20 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
     if (!inherits(first_sample[[.col]], "character")) {
       stop("Computing distance is available only for character columns!")
     } else {
+      character_dist <- function(x, col = .col, method = .method) {
+        stringdist::stringdistmatrix(unique(x[[col]]),
+          method = method, useNames = "strings"
+        )
+      }
+      function_dist <- function(x, col = .col, method = .method, args = list(...)) {
+        args[["x"]] <- x[[col]]
+        args[["y"]] <- x[[col]]
+        return(do.call(method, args))
+      }
       if (inherits(.method, "character")) {
-        dist_fun <- function(x, col = .col, method = .method) {
-          stringdist::stringdistmatrix(unique(x[[col]]),
-            method = method, useNames = "strings"
-          )
-        }
+        dist_fun <- character_dist
       } else if (inherits(.method, "function")) {
-        args <- list(...)
-        dist_fun <- function(x) {
-          args[["x"]] <- x[[.col]]
-          args[["y"]] <- x[[.col]]
-          return(do.call(.method, args))
-        }
+        dist_fun <- function_dist
       } else {
         stop(".method argument is not a string nor a function!")
       }

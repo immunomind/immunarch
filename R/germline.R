@@ -7,14 +7,13 @@
 #'
 #' @concept germline
 #'
-#' @aliases repGermline germline_single_df generate_germline_sequence merge_reference_sequences validate_genes_edges validate_chains_length
+#' @aliases repGermline
 #'
 #' @importFrom rlang current_env
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>% extract2
-#' @importFrom tidyr drop_na
-#' @importFrom dplyr rowwise
+#' @importFrom dplyr filter rowwise
 
 #' @description Creates germlines for clonal lineages
 #'
@@ -57,7 +56,7 @@
 #' @export repGermline
 repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5, ref_only_first = TRUE) {
   # prepare reference sequences for all alleles
-  data(genesegments, envir = rlang::current_env())
+  data("genesegments", envir = rlang::current_env())
   reference <- GENE_SEGMENTS %>% filter(species == species)
   reference <- reference[c("sequence", "allele_id")]
   if (ref_only_first) {
@@ -93,10 +92,11 @@ germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, s
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
-      Sequence, V.sequence, J.sequence, V.end, CDR3.start, CDR3.end, J.start,
-      V3.Deletions, J3.Deletions, sample_name
+      get("Sequence"), get("V.sequence"), get("J.sequence"),
+      get("V.end"), get("CDR3.start"), get("CDR3.end"), get("J.start"),
+      get("V3.Deletions"), get("J3.Deletions"), sample_name
     )) %>%
-    drop_na(Germline.sequence)
+    filter(!is.na(get("Germline.sequence")))
   return(data)
 }
 
@@ -222,7 +222,7 @@ validate_genes_edges <- function(data, sample_name) {
     }
   }
   old_length <- nrow(data)
-  data %<>% drop_na(V.end, J.start)
+  data %<>% filter(!is.na(get("V.end")) & !is.na(get("J.start")))
   dropped_num <- old_length - nrow(data)
   if (dropped_num > 0) {
     warning(
@@ -245,11 +245,22 @@ validate_genes_edges <- function(data, sample_name) {
 
 validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
   old_length_v <- nrow(data)
-  data %<>% filter(v_len_outside_cdr3(V.end, CDR3.start) >= min_nuc_outside_cdr3)
+  data %<>% filter(
+    v_len_outside_cdr3(
+      get("V.end"),
+      get("CDR3.start")
+    ) >= min_nuc_outside_cdr3
+  )
   dropped_v <- old_length_v - nrow(data)
   old_length_j <- nrow(data)
   if (nrow(data) > 0) {
-    data %<>% filter(j_len_outside_cdr3(Sequence, J.start, CDR3.end) >= min_nuc_outside_cdr3)
+    data %<>% filter(
+      j_len_outside_cdr3(
+        get("Sequence"),
+        get("J.start"),
+        get("CDR3.end")
+      ) >= min_nuc_outside_cdr3
+    )
   }
   dropped_j <- old_length_j - nrow(data)
 
