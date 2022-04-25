@@ -139,7 +139,7 @@ Execution halted
 
 3. For Mac users. Make sure to install XCode from App Store first and command line developers tools second by executing the following command in Terminal: `xcode-select –install`
 
-4. For Mac users. If you have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](http://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
+4. For Mac users. If you have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
 
 5. For Mac Mojave (1.14) users. If you run into the following error:
 

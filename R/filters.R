@@ -2,7 +2,7 @@
 #'
 #' @concept filters
 #'
-#' @aliases repFilter filter_by_meta filter_by_repertoire filter_by_clonotype filter_table startswith_rows substring_rows validate_input_data include exclude lessthan morethan interval
+#' @aliases repFilter include exclude lessthan morethan interval
 #'
 #' @importFrom magrittr "%>%" "%<>%"
 #' @importFrom tidyselect starts_with

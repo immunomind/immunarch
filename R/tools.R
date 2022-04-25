@@ -483,9 +483,11 @@ as_numeric_or_fail <- function(.string) {
 }
 
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
-apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, ...) {
+apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .validate = TRUE, ...) {
   if (inherits(.data, "list")) {
-    .validate_repertoires_data(.data)
+    if (.validate) {
+      .validate_repertoires_data(.data)
+    }
     if (.with_names) {
       .data %<>%
         purrr::imap(function(sample_data, sample_name) {
@@ -601,4 +603,11 @@ v_len_outside_cdr3 <- function(v_end, cdr3_start) {
 # calculate J gene part length outside of CDR3; works with vectors acquired from dataframe columns
 j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
   stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
+}
+
+quiet <- function(procedure) {
+  procedure %>%
+    capture.output() %>%
+    invisible() %>%
+    suppressMessages()
 }

@@ -6,7 +6,7 @@
 #'
 #' @concept align_lineage
 #'
-#' @aliases repAlignLineage align_single_df prepare_results_row convert_to_dnabin trim_seq convert_nested_to_df align_sequences
+#' @aliases repAlignLineage
 #'
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom stringr str_extract_all str_sub str_length boundary
@@ -22,7 +22,8 @@
 #'
 #' @usage
 #'
-#' repAlignLineage(.data, .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
+#' repAlignLineage(.data,
+#' .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -49,8 +50,7 @@
 #' @return
 #'
 #' Dataframe or list of dataframes (if input is a list with multiple samples).
-#' The dataframe has number of rows equal to number of combinations of unique clusters
-#' and unique germlines, and has these columns:
+#' The dataframe has these columns:
 #' * Cluster: cluster name
 #' * Germline: germline sequence
 #' * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
@@ -67,12 +67,12 @@
 #' @examples
 #'
 #' data(bcrdata)
-#' bcr_data <- bcrdata$data %>% top(100) # reduce the dataset to save time on examples
+#' bcr_data <- bcrdata$data %>% top(500) # reduce the dataset to save time on examples
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline() %>%
-#'   repAlignLineage()
+#'   repAlignLineage(.align_threads = 2)
 #' @export repAlignLineage
 repAlignLineage <- function(.data,
                             .min.lineage.sequences = 3,
@@ -109,7 +109,7 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbo
 
   results <- data %>%
     plyr::dlply(
-      .variables = .(Cluster, Germline.sequence),
+      .variables = .(get("Cluster"), get("Germline.sequence")),
       .fun = prepare_results_row,
       .min.lineage.sequences = .min.lineage.sequences,
       .verbose_output = .verbose_output,
@@ -117,6 +117,10 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbo
     ) %>%
     `[`(!is.na(.)) %>%
     unname()
+
+  if (length(results) == 0) {
+    stop("There are no lineages containing at least ", .min.lineage.sequences, " sequences!")
+  }
 
   # only required columns are passed to alignment function to reduce consumed memory
   if (.verbose_output) {
@@ -131,7 +135,7 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbo
     mc.cores = .align_threads
   )
 
-  return(convert_nested_to_df(results, alignments, .verbose_output))
+  return(convert_results_to_df(results, alignments, .verbose_output))
 }
 
 # this function accepts dataframe subset containing rows only for current lineage
@@ -210,7 +214,7 @@ trim_seq <- function(seq, v_len, v_min, j_len, j_min) {
   stringr::str_sub(seq, v_len - v_min + 1, -(j_len - j_min + 1))
 }
 
-convert_nested_to_df <- function(nested_results_list, nested_alignments_list, .verbose_output) {
+convert_results_to_df <- function(nested_results_list, nested_alignments_list, .verbose_output) {
   alignments <- nested_alignments_list %>%
     lapply(magrittr::extract2, "Alignment") %>%
     tibble(Alignment = .)
