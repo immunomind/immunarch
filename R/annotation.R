@@ -20,7 +20,7 @@ if (getRversion() >= "2.15.1") {
 #'
 #' McPAS-TCR - \url{http://friedmanlab.weizmann.ac.il/McPAS-TCR/}
 #'
-#' TBAdb from PIRD - \url{https://db.cngb.org/pird/tbadb/}
+#' TBAdb from PIRD - \url{https://db.cngb.org/pird/}
 #'
 #' @param .path Character. A path to the database file, e.g., "/Users/researcher/Downloads/McPAS-TCR.csv".
 #'

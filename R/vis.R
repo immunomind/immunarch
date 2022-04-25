@@ -617,7 +617,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
       sample_names <- colnames(.data[[1]])
     }
 
-    p_list <- lapply(1:length(sample_names), function(i_name) {
+    p_list <- lapply(seq_along(sample_names), function(i_name) {
       p <- vis(.data, .target = i_name) + ggtitle(sample_names[i_name]) + theme_pubr(legend = "right") + theme_cleveland2()
       p
     })
@@ -698,7 +698,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 #'
 #' @examples
 #' data(immdata)
-#' immdata$data <- lapply(immdata$data, head, 500)
+#' immdata$data <- lapply(immdata$data, head, 300)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' vis(pr, "freq")
 #' vis(pr, "freq", .type = "none")
@@ -969,7 +969,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 
     min_df <- min(floor(log10(min(df_full[, 1], na.rm = TRUE))), floor(log10(min(df_full[, 2], na.rm = TRUE))))
     max_df <- max(trunc(log10(max(df_full[, 1], na.rm = TRUE))), trunc(log10(max(df_full[, 2], na.rm = TRUE))))
-    breaks_values <- 10**seq(min_df, 1)
+    breaks_values <- 10^seq(min_df, 1)
     breaks_labels <- format(log10(breaks_values), scientific = FALSE)
 
     grey_col <- "#CCCCCC"
@@ -1006,7 +1006,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
       df2 <- rbind(df2, data.frame(Clonotype = df_full[!is.na(df_full[, 1]) & !is.na(df_full[, 2]), 1], Type = "public", stringsAsFactors = FALSE))
       top_plot <- ggplot() +
         geom_density(aes(x = Clonotype, fill = Type), colour = "grey25", data = df2, alpha = .3) +
-        scale_x_log10(breaks = 10**(seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
+        scale_x_log10(breaks = 10^(seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
         theme_bw() +
         theme(
           axis.title.x = element_blank(),
@@ -1022,7 +1022,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
       df2 <- rbind(df2, data.frame(Clonotype = df_full[!is.na(df_full[, 2]) & !is.na(df_full[, 1]), 2], Type = "public", stringsAsFactors = FALSE))
       right_plot <- ggplot() +
         geom_density(aes(x = Clonotype, fill = Type), colour = "grey25", data = df2, alpha = .3) +
-        scale_x_log10(breaks = 10**(seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
+        scale_x_log10(breaks = 10^(seq(min_df, 0)), lim = mat.lims, expand = c(.12, .015)) +
         coord_flip() +
         theme_bw() +
         theme(
@@ -1253,7 +1253,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
       }
 
       if (is.na(.ncol)) {
-        .ncol <- round(length(unique(res$Sample))**.5)
+        .ncol <- round(length(unique(res$Sample))^.5)
       }
 
       if (!is.na(.by[1])) {
@@ -1264,7 +1264,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
         res <- split(res, res$Group)
         ps <- list()
 
-        for (i in 1:length(res)) {
+        for (i in seq_along(res)) {
           res[[i]]$Value <- res[[i]]$Freq
 
           ps[[i]] <- vis_bar(
@@ -1284,7 +1284,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
       } else {
         res <- split(res, res$Sample)
         ps <- list()
-        for (i in 1:length(res)) {
+        for (i in seq_along(res)) {
           ps[[i]] <- vis_hist(res[[i]],
             .title = names(res)[i], .ncol = NA, .coord.flip = .coord.flip,
             .grid = FALSE, .labs = c("Gene", NA),

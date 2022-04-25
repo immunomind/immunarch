@@ -91,17 +91,11 @@ To download McPAS-TCR you just need to go to http://friedmanlab.weizmann.ac.il/M
 
 ## TBAdb from PIRD
 
-TBAdb is a manually curated database of T-cell receptor (TCR) and B-cell receptor (BCR) targeting specific antigen or diseases. The database contains three parts, namely TCR-AB, TCR-GD and BCR. These three parts are aimed at collecting sequences and specificity information of TCRA and TCRB, TCR- gamma and TCR-delta and BCR separately. The database is available at https://db.cngb.org/pird/tbadb/
+TBAdb is a manually curated database of T-cell receptor (TCR) and B-cell receptor (BCR) targeting specific antigen or diseases. The database contains three parts, namely TCR-AB, TCR-GD and BCR. These three parts are aimed at collecting sequences and specificity information of TCRA and TCRB, TCR- gamma and TCR-delta and BCR separately. The database is referenced in this paper: https://doi.org/10.1093/bioinformatics/btz614
+
+Currently there is no direct way to download TBAdb.
 
 Citation: *ZHANG W, Wang L, Liu K, Wei X, Yang K, Du W, Wang S, Guo N, Ma C, Luo L, et al. PIRD: Pan immune repertoire database. Bioinformatics(2019)*
-
-### How to filter and download data
-
-Currently there is no way to download the filtered data from TBAdb. The query functionality is available at https://db.cngb.org/pird/query/ in the "TBAdb" tab.
-
-### How to download full TBAdb
-
-To download TBAdb you need to go to https://db.cngb.org/pird/tbadb/ and press the "Download TBAdb" button. Note that you should agree with the licensing agreement in order to download the database file.
 
 
 # Annotation of clonotypes
