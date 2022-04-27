@@ -589,10 +589,19 @@ optional_sample <- function(prefix, sample_name, suffix) {
   }
 }
 
-require_system_package <- function(package, error_message) {
-  if (Sys.which(package) == "") {
-    stop(error_message)
+require_system_package <- function(package, error_message, .nofail = FALSE, .prev_failed = FALSE) {
+  if (.nofail & .prev_failed) {
+    return(FALSE)
   }
+  if (Sys.which(package) == "") {
+    if (.nofail) {
+      cat(error_message)
+      return(FALSE)
+    } else {
+      stop(error_message)
+    }
+  }
+  return(TRUE)
 }
 
 # calculate V gene part length outside of CDR3; works with vectors acquired from dataframe columns

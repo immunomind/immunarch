@@ -21,20 +21,26 @@
 #'
 #' @usage
 #'
-#' repClonalFamily(.data, .threads)
+#' repClonalFamily(.data, .threads, .nofail)
 #'
 #' @param .data The data to be processed. Can be output of repAlignLineage() with normal
 #' or verbose output; variants with one sample and list of samples are both supported.
 #'
 #' @param .threads Number of threads to use.
 #'
+#' @param .nofail Return NA instead of stopping if PHYLIP is not installed.
+#' Used to avoid raising errors in examples on computers where PHYLIP is not installed.
+#'
 #' @return
 #'
 #' Dataframe or list of dataframes (if input is a list with multiple samples).
 #' The dataframe has these columns:
 #' * Cluster: cluster name
-#' * Germline.Input: germline sequence, like it was in the input
-#' * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output
+#' * Germline.Input: germline sequence, like it was in the input; not trimmed and not aligned
+#' * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
+#'   it contains difference of germline from the common ancestor; "." characters mean
+#'   matching letters. It's usually shorter than Germline.Input, because germline and
+#'   clonotype sequences were trimmed to the same length before alignment.
 #' * Common.Ancestor: common ancestor sequence, parsed from PHYLIP dnapars function output
 #' * Trunk.Length: mean trunk length, representing the distance between the most recent
 #'   common ancestor and germline sequence as a measure of the maturity of a lineage
@@ -48,15 +54,18 @@
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline() %>%
-#'   repAlignLineage(.align_threads = 2) %>%
-#'   repClonalFamily(.threads = 2)
+#'   repAlignLineage(.align_threads = 2, .nofail = TRUE) %>%
+#'   repClonalFamily(.threads = 2, .nofail = TRUE)
 #' @export repClonalFamily
-repClonalFamily <- function(.data, .threads = parallel::detectCores()) {
-  require_system_package("phylip", error_message = paste0(
+repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
+  if (!require_system_package("phylip", error_message = paste0(
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
-  ))
+  ), .nofail, is.na(.data))) {
+    return(NA)
+  }
+
   results <- .data %>% apply_to_sample_or_list(
     process_dataframe,
     .with_names = TRUE,

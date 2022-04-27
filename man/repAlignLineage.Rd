@@ -9,7 +9,7 @@ number of offspring. The phylogenetic analysis will find mutations that increase
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
 repAlignLineage(.data,
-.min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
+.min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -33,6 +33,9 @@ column, which is added by repGermline() function.}
 function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
 increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
 will be included in the output.}
+
+\item{.nofail}{Return NA instead of stopping if Clustal W is not installed.
+Used to avoid raising errors in examples on computers where Clustal W is not installed.}
 }
 \value{
 Dataframe or list of dataframes (if input is a list with multiple samples).
@@ -61,6 +64,6 @@ bcr_data <- bcrdata$data \%>\% top(500) # reduce the dataset to save time on exa
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
-  repAlignLineage(.align_threads = 2)
+  repAlignLineage(.align_threads = 2, .nofail = TRUE)
 }
 \concept{align_lineage}

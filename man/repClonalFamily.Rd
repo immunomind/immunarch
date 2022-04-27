@@ -5,20 +5,26 @@
 \title{This function uses PHYLIP package to make phylogenetic analysis. For making trees it uses
 maximum parsimony methods.}
 \usage{
-repClonalFamily(.data, .threads)
+repClonalFamily(.data, .threads, .nofail)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be output of repAlignLineage() with normal
 or verbose output; variants with one sample and list of samples are both supported.}
 
 \item{.threads}{Number of threads to use.}
+
+\item{.nofail}{Return NA instead of stopping if PHYLIP is not installed.
+Used to avoid raising errors in examples on computers where PHYLIP is not installed.}
 }
 \value{
 Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
-* Germline.Input: germline sequence, like it was in the input
-* Germline.Output: germline sequence, parsed from PHYLIP dnapars function output
+* Germline.Input: germline sequence, like it was in the input; not trimmed and not aligned
+* Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
+  it contains difference of germline from the common ancestor; "." characters mean
+  matching letters. It's usually shorter than Germline.Input, because germline and
+  clonotype sequences were trimmed to the same length before alignment.
 * Common.Ancestor: common ancestor sequence, parsed from PHYLIP dnapars function output
 * Trunk.Length: mean trunk length, representing the distance between the most recent
   common ancestor and germline sequence as a measure of the maturity of a lineage
@@ -35,7 +41,7 @@ bcr_data <- bcrdata$data \%>\% top(500) # reduce the dataset to save time on exa
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
-  repAlignLineage(.align_threads = 2) \%>\%
-  repClonalFamily(.threads = 2)
+  repAlignLineage(.align_threads = 2, .nofail = TRUE) \%>\%
+  repClonalFamily(.threads = 2, .nofail = TRUE)
 }
 \concept{phylip}

@@ -23,7 +23,7 @@
 #' @usage
 #'
 #' repAlignLineage(.data,
-#' .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output)
+#' .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -46,6 +46,9 @@
 #' function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
 #' increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
 #' will be included in the output.
+#'
+#' @param .nofail Return NA instead of stopping if Clustal W is not installed.
+#' Used to avoid raising errors in examples on computers where Clustal W is not installed.
 #'
 #' @return
 #'
@@ -72,18 +75,22 @@
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline() %>%
-#'   repAlignLineage(.align_threads = 2)
+#'   repAlignLineage(.align_threads = 2, .nofail = TRUE)
 #' @export repAlignLineage
 repAlignLineage <- function(.data,
                             .min.lineage.sequences = 3,
                             .prepare_threads = 2,
                             .align_threads = 4,
-                            .verbose_output = FALSE) {
-  require_system_package("clustalw", error_message = paste0(
+                            .verbose_output = FALSE,
+                            .nofail = FALSE) {
+  if (!require_system_package("clustalw", error_message = paste0(
     "repAlignLineage requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
-  ))
+  ), .nofail)) {
+    return(NA)
+  }
+
   doParallel::registerDoParallel(cores = .prepare_threads)
   .data %<>%
     apply_to_sample_or_list(
