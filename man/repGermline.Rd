@@ -44,7 +44,6 @@ Creates germlines for clonal lineages
 data(bcrdata)
 
 bcrdata$data \%>\%
-  top(2000) \%>\% # reduce the dataset to save time on examples
   repGermline()
 }
 \concept{germline}

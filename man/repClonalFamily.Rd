@@ -36,12 +36,12 @@ This function builds a phylogenetic tree using the sequences of a clonal lineage
 \examples{
 
 data(bcrdata)
-bcr_data <- bcrdata$data \%>\% top(500) # reduce the dataset to save time on examples
+bcr_data <- bcrdata$data
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
-  repAlignLineage(.align_threads = 2, .nofail = TRUE) \%>\%
+  repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
   repClonalFamily(.threads = 2, .nofail = TRUE)
 }
 \concept{phylip}

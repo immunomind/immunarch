@@ -23,12 +23,12 @@
 #' @usage
 #'
 #' repAlignLineage(.data,
-#' .min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
+#' .min_lineage_sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
 #'
-#' @param .min.lineage.sequences If number of sequences in the same clonal lineage and the same
+#' @param .min_lineage_sequences If number of sequences in the same clonal lineage and the same
 #' cluster (not including germline) is lower than this threshold, this group of sequences
 #' will not be aligned and will not be used in next steps of BCR pipeline
 #' (will be saved in output table only if .verbose_output parameter is set to TRUE).
@@ -57,7 +57,7 @@
 #' * Cluster: cluster name
 #' * Germline: germline sequence
 #' * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
-#'   (.min.lineage.sequences is below the threshold); TRUE if it was aligned
+#'   (.min_lineage_sequences is below the threshold); TRUE if it was aligned
 #' * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
 #' * V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 region in this
 #'   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
@@ -70,15 +70,15 @@
 #' @examples
 #'
 #' data(bcrdata)
-#' bcr_data <- bcrdata$data %>% top(500) # reduce the dataset to save time on examples
+#' bcr_data <- bcrdata$data
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline() %>%
-#'   repAlignLineage(.align_threads = 2, .nofail = TRUE)
+#'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 #' @export repAlignLineage
 repAlignLineage <- function(.data,
-                            .min.lineage.sequences = 3,
+                            .min_lineage_sequences = 3,
                             .prepare_threads = 2,
                             .align_threads = 4,
                             .verbose_output = FALSE,
@@ -95,14 +95,14 @@ repAlignLineage <- function(.data,
   .data %<>%
     apply_to_sample_or_list(
       align_single_df,
-      .min.lineage.sequences = .min.lineage.sequences,
+      .min_lineage_sequences = .min_lineage_sequences,
       .align_threads = .align_threads,
       .verbose_output = .verbose_output
     )
   return(.data)
 }
 
-align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbose_output) {
+align_single_df <- function(data, .min_lineage_sequences, .align_threads, .verbose_output) {
   for (required_column in c("Cluster", "Germline.sequence")) {
     if (!(required_column %in% colnames(data))) {
       stop(
@@ -118,7 +118,7 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbo
     plyr::dlply(
       .variables = .(get("Cluster"), get("Germline.sequence")),
       .fun = prepare_results_row,
-      .min.lineage.sequences = .min.lineage.sequences,
+      .min_lineage_sequences = .min_lineage_sequences,
       .verbose_output = .verbose_output,
       .parallel = TRUE
     ) %>%
@@ -126,7 +126,7 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbo
     unname()
 
   if (length(results) == 0) {
-    stop("There are no lineages containing at least ", .min.lineage.sequences, " sequences!")
+    stop("There are no lineages containing at least ", .min_lineage_sequences, " sequences!")
   }
 
   # only required columns are passed to alignment function to reduce consumed memory
@@ -147,10 +147,10 @@ align_single_df <- function(data, .min.lineage.sequences, .align_threads, .verbo
 
 # this function accepts dataframe subset containing rows only for current lineage
 # and returns named list containing 1 row for results dataframe
-prepare_results_row <- function(lineage_subset, .min.lineage.sequences, .verbose_output) {
+prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose_output) {
   cluster_name <- lineage_subset[[1, "Cluster"]]
   germline_seq <- lineage_subset[[1, "Germline.sequence"]]
-  aligned <- nrow(lineage_subset) >= .min.lineage.sequences
+  aligned <- nrow(lineage_subset) >= .min_lineage_sequences
 
   if (!aligned & !.verbose_output) {
     return(NA)

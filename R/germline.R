@@ -50,7 +50,6 @@
 #' data(bcrdata)
 #'
 #' bcrdata$data %>%
-#'   top(2000) %>% # reduce the dataset to save time on examples
 #'   repGermline()
 #' @export repGermline
 repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5, ref_only_first = TRUE) {

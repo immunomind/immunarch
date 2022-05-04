@@ -9,13 +9,13 @@ number of offspring. The phylogenetic analysis will find mutations that increase
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
 repAlignLineage(.data,
-.min.lineage.sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
+.min_lineage_sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
 or a list of these objects.}
 
-\item{.min.lineage.sequences}{If number of sequences in the same clonal lineage and the same
+\item{.min_lineage_sequences}{If number of sequences in the same clonal lineage and the same
 cluster (not including germline) is lower than this threshold, this group of sequences
 will not be aligned and will not be used in next steps of BCR pipeline
 (will be saved in output table only if .verbose_output parameter is set to TRUE).}
@@ -43,7 +43,7 @@ The dataframe has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
 * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
-  (.min.lineage.sequences is below the threshold); TRUE if it was aligned
+  (.min_lineage_sequences is below the threshold); TRUE if it was aligned
 * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
 * V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 region in this
   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
@@ -59,11 +59,11 @@ Aligns all sequences incliding germline within each clonal lineage within each c
 \examples{
 
 data(bcrdata)
-bcr_data <- bcrdata$data \%>\% top(500) # reduce the dataset to save time on examples
+bcr_data <- bcrdata$data
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
   repGermline() \%>\%
-  repAlignLineage(.align_threads = 2, .nofail = TRUE)
+  repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 }
 \concept{align_lineage}
