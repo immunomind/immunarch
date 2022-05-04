@@ -9,7 +9,6 @@
 #'
 #' @aliases repGermline
 #'
-#' @importFrom rlang current_env
 #' @importFrom stringr str_sub str_length str_replace fixed
 #' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>% extract2
@@ -56,8 +55,10 @@
 #' @export repGermline
 repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5, ref_only_first = TRUE) {
   # prepare reference sequences for all alleles
-  data("genesegments", envir = rlang::current_env())
-  reference <- GENE_SEGMENTS %>% filter(species == species)
+  genesegments_env <- new.env()
+  data("genesegments", envir = genesegments_env)
+  reference <- genesegments_env$GENE_SEGMENTS %>% filter(species == species)
+  rm(genesegments_env)
   reference <- reference[c("sequence", "allele_id")]
   if (ref_only_first) {
     reference <- reference[!duplicated(reference$allele_id), ]
