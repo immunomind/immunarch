@@ -227,9 +227,15 @@ filter_table <- function(.table, .column_name, .query_type, .query_args, .match)
     if (.match == "exact") {
       .table %<>% subset(!get(.column_name) %in% .query_args)
     } else if (.match == "startswith") {
-      .table <- .table[-startswith_rows(.table, .column_name, .query_args), ]
+      matching_rows <- startswith_rows(.table, .column_name, .query_args)
+      if (length(matching_rows) > 0) {
+        .table <- .table[-matching_rows, ]
+      }
     } else if (.match == "substring") {
-      .table <- .table[-substring_rows(.table, .column_name, .query_args), ]
+      matching_rows <- substring_rows(.table, .column_name, .query_args)
+      if (length(matching_rows) > 0) {
+        .table <- .table[-matching_rows, ]
+      }
     }
   } else if (.query_type == "lessthan") {
     .table %<>% subset(get(.column_name) < as_numeric_or_fail(.query_args))
