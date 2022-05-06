@@ -2,13 +2,6 @@
 % Please edit documentation in R/filters.R
 \name{repFilter}
 \alias{repFilter}
-\alias{filter_by_meta}
-\alias{filter_by_repertoire}
-\alias{filter_by_clonotype}
-\alias{filter_table}
-\alias{startswith_rows}
-\alias{substring_rows}
-\alias{validate_input_data}
 \alias{include}
 \alias{exclude}
 \alias{lessthan}

@@ -28,7 +28,7 @@ Public repertoire visualisation
 }
 \examples{
 data(immdata)
-immdata$data <- lapply(immdata$data, head, 500)
+immdata$data <- lapply(immdata$data, head, 300)
 pr <- pubRep(immdata$data, .verbose = FALSE)
 vis(pr, "freq")
 vis(pr, "freq", .type = "none")

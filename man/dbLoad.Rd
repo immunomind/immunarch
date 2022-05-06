@@ -38,7 +38,7 @@ VDJDB - \url{https://github.com/antigenomics/vdjdb-db}
 
 McPAS-TCR - \url{http://friedmanlab.weizmann.ac.il/McPAS-TCR/}
 
-TBAdb from PIRD - \url{https://db.cngb.org/pird/tbadb/}
+TBAdb from PIRD - \url{https://db.cngb.org/pird/}
 }
 \examples{
 # Example file path

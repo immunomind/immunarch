@@ -10,6 +10,7 @@ vis_heatmap(
   .scientific = FALSE,
   .signif.digits = 2,
   .text.size = 4,
+  .axis.text.size = NULL,
   .labs = c("Sample", "Sample"),
   .title = "Overlap",
   .leg.title = "Overlap values",
@@ -35,6 +36,8 @@ just plot coloured cells instead.}
 \item{.signif.digits}{Number of significant digits to display on plot.}
 
 \item{.text.size}{Size of text in the cells of heatmap.}
+
+\item{.axis.text.size}{Size of text on the axis labels.}
 
 \item{.labs}{A character vector of length two with names for x-axis and y-axis, respectively.}
 

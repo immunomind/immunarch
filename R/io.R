@@ -150,7 +150,9 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
             The .format argument will soon be removed.")
   }
 
-  exclude_extensions <- c("so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca")
+  exclude_extensions <- c(
+    "so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca"
+  )
 
   # Process a repertoire file: detect format and load the data
   # Return: a named list with a repertoire data frame and it's name
@@ -224,7 +226,11 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     metadata <- tibble()
 
     for (.filepath in .files) {
-      message("  -- [", match(.filepath, .files), "/", length(.files), '] Parsing "', .filepath, '" -- ', appendLF = FALSE)
+      message("  -- [", match(.filepath, .files), "/",
+        length(.files), "] Parsing \"",
+        .filepath, "\" -- ",
+        appendLF = FALSE
+      )
       if (!file.exists(.filepath)) {
         message('Can\'t find\t"', .filepath, '", skipping')
       } else {
@@ -236,7 +242,12 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
 
           # The most basic check
           if (!("Sample" %in% colnames(metadata))) {
-            stop('No "Sample" column found in the metadata file. The "Sample" column with the names of samples without extensions (e.g., ".txt", ".tsv") is required. Please provide it and run the parsing again.')
+            stop(
+              "No \"Sample\" column found in the metadata file.\n",
+              "The \"Sample\" column with the names of samples without extensions ",
+              "(e.g., \".txt\", \".tsv\") is required.\n",
+              "Please provide it and run the parsing again."
+            )
           }
         } else if (stringr::str_detect(.filepath, "barcode")) {
           # TODO: add the barcode processing subroutine to split by samples
@@ -259,6 +270,9 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
     folders <- c()
     files <- c()
     for (path in .paths) {
+      if (!file.exists(path)) {
+        stop("Input file or directory not found: ", path)
+      }
       if (file.info(path)$isdir) {
         folders <- c(folders, path)
       } else if (!any(endsWith(path, exclude_extensions))) {
@@ -341,7 +355,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
 
   # Parse repertoires from each batch
   parsed_batches <- list()
-  for (batch_i in 1:length(batches)) {
+  for (batch_i in seq_along(batches)) {
     if (length(batches[[batch_i]])) {
       message('Processing "', names(batches)[batch_i], '" ...')
       parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .format, .mode, .coding)
@@ -353,7 +367,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
   #
   message("\n== Step 2/3: checking metadata files and merging files... ==\n")
 
-  for (batch_i in 1:length(parsed_batches)) {
+  for (batch_i in seq_along(parsed_batches)) {
     message('Processing "', names(parsed_batches)[batch_i], '" ...')
     parsed_batches[[batch_i]]$meta <- .check_metadata(parsed_batches[[batch_i]]$meta, names(parsed_batches[[batch_i]]$data))
   }
@@ -398,7 +412,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
             message("  -- Column ", source_col, " specifies the initial sample name for a repertoire after splitting by chain types")
           }
 
-          for (i in 1:length(df_split)) {
+          for (i in seq_along(df_split)) {
             sample_name <- paste0(source_name, "_", names(df_split)[i])
             parsed_batches$data[[sample_name]] <- df_split[[i]]
             new_record <- metadata[which(metadata$Sample == source_name), ]

@@ -77,6 +77,13 @@ IMMCOL$type <- c(
 # Immunarch extended column names
 IMMCOL_EXT <- new.env()
 
+IMMCOL_EXT$bestv <- "Best.V"
+IMMCOL_EXT$bestj <- "Best.J"
+IMMCOL_EXT$cdr3s <- "CDR3.start"
+IMMCOL_EXT$cdr3e <- "CDR3.end"
+IMMCOL_EXT$c <- "C.name"
+IMMCOL_EXT$cs <- "C.start"
+IMMCOL_EXT$ce <- "C.end"
 IMMCOL_EXT$cdr1nt <- "CDR1.nt"
 IMMCOL_EXT$cdr1aa <- "CDR1.aa"
 IMMCOL_EXT$cdr2nt <- "CDR2.nt"
@@ -89,8 +96,24 @@ IMMCOL_EXT$fr3nt <- "FR3.nt"
 IMMCOL_EXT$fr3aa <- "FR3.aa"
 IMMCOL_EXT$fr4nt <- "FR4.nt"
 IMMCOL_EXT$fr4aa <- "FR4.aa"
-IMMCOL_EXT$c <- "C.name"
-IMMCOL_EXT$order <- c()
+IMMCOL_EXT$v3del <- "V3.Deletions"
+IMMCOL_EXT$j3del <- "J3.Deletions"
+IMMCOL_EXT$order <- c(
+  IMMCOL_EXT$bestv, IMMCOL_EXT$bestj, IMMCOL_EXT$cdr3s, IMMCOL_EXT$cdr3e,
+  IMMCOL_EXT$c, IMMCOL_EXT$cs, IMMCOL_EXT$ce,
+  IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa,
+  IMMCOL_EXT$fr1nt, IMMCOL_EXT$fr1aa, IMMCOL_EXT$fr2nt, IMMCOL_EXT$fr2aa,
+  IMMCOL_EXT$fr3nt, IMMCOL_EXT$fr3aa, IMMCOL_EXT$fr4nt, IMMCOL_EXT$fr4aa,
+  IMMCOL_EXT$v3del, IMMCOL_EXT$j3del
+)
+IMMCOL_EXT$type <- c(
+  "character", "character", "integer", "integer",
+  "character", "integer", "integer",
+  "character", "character", "character", "character",
+  "character", "character", "character", "character",
+  "character", "character", "character", "character",
+  "integer", "integer"
+)
 
 # Additional information
 IMMCOL_ADD <- new.env()

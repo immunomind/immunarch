@@ -1,13 +1,14 @@
 Package: immunarch
 Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.6.7
+Version: 0.6.8
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "support@immunomind.io", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
     person("Aleksandr A.", "Popov", , role = "aut"),
     person("Ivan", "Balashov", , role = "aut"),
+    person("Maria", "Volobueva", , role = "aut"),
     person("Anna", "Lorenc", , role = "ctb"),
     person("Daniel J.", "Moore", , role = "ctb"),
     person("Victor", "Greiff", , role = "ctb"),
@@ -48,13 +49,23 @@ Imports:
     ggpubr (>= 0.2),
     rlang (>= 0.4),
     plyr,
-    dbplyr (>= 1.4.0),
+    purrr,
+    stringdist,
     jsonlite,
     readr,
     stringr,
     tibble,
     tidyselect,
-    purrr
+    tidyr,
+    igraph,
+    ape,
+    doParallel,
+    rlist,
+    utils,
+    glue,
+    phangorn,
+    uuid,
+    stringi
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),
@@ -74,3 +85,4 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 LazyData: true
+LazyDataCompression: xz
