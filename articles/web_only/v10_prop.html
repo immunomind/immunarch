@@ -28,6 +28,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
       </span>
     </div>
 
@@ -57,7 +59,8 @@
       <a href="../../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">First steps</li>
+    </li>
+<li class="dropdown-header">First steps</li>
     <li>
       <a href="../../articles/v2_data.html">Data loading</a>
     </li>
@@ -77,7 +80,8 @@
       <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
@@ -88,7 +92,8 @@
       <a href="../../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Clonotype-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
     </li>
@@ -99,9 +104,19 @@
       <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preparing to publication</li>
+    </li>
+<li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">BCR analysis</li>
+    <li>
+      <a href="../../articles/web_only/BCRpipeline.html">BCR pipeline</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/clustering.html">Clustering</a>
     </li>
   </ul>
 </li>
@@ -109,21 +124,21 @@
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -144,17 +159,17 @@
 
       
 
-      </header><script src="v10_prop_files/header-attrs-2.11/header-attrs.js"></script><script src="v10_prop_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Analysis of biophysicochemical properties of CDR3 sequences</h1>
-                        <h4 class="author">
-<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+                        <h4 data-toc-skip class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io" class="external-link">immunomind.io</a>
 </h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
+            <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v10_prop.Rmd"><code>vignettes/web_only/v10_prop.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v10_prop.Rmd" class="external-link"><code>vignettes/web_only/v10_prop.Rmd</code></a></small>
       <div class="hidden name"><code>v10_prop.Rmd</code></div>
 
     </div>
@@ -168,7 +183,7 @@
 -->
 <div id="get-in-contact-with-us" class="section level1">
 <h1 class="hasAnchor">
-<a href="#get-in-contact-with-us" class="anchor"></a>Get in contact with us</h1>
+<a href="#get-in-contact-with-us" class="anchor" aria-hidden="true"></a>Get in contact with us</h1>
 <p>Can not find an important feature? Have a question or found a bug? Contact us at <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></p>
 </div>
   </div>
@@ -184,11 +199,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

@@ -28,6 +28,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
       </span>
     </div>
 
@@ -57,7 +59,8 @@
       <a href="../../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">First steps</li>
+    </li>
+<li class="dropdown-header">First steps</li>
     <li>
       <a href="../../articles/v2_data.html">Data loading</a>
     </li>
@@ -77,7 +80,8 @@
       <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
@@ -88,7 +92,8 @@
       <a href="../../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Clonotype-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
     </li>
@@ -99,9 +104,19 @@
       <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preparing to publication</li>
+    </li>
+<li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">BCR analysis</li>
+    <li>
+      <a href="../../articles/web_only/BCRpipeline.html">BCR pipeline</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/clustering.html">Clustering</a>
     </li>
   </ul>
 </li>
@@ -109,21 +124,21 @@
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -144,17 +159,17 @@
 
       
 
-      </header><script src="v4_overlap_files/header-attrs-2.11/header-attrs.js"></script><script src="v4_overlap_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Repertoire overlap and public clonotypes</h1>
-                        <h4 class="author">
-<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+                        <h4 data-toc-skip class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io" class="external-link">immunomind.io</a>
 </h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
+            <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v4_overlap.Rmd"><code>vignettes/web_only/v4_overlap.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v4_overlap.Rmd" class="external-link"><code>vignettes/web_only/v4_overlap.Rmd</code></a></small>
       <div class="hidden name"><code>v4_overlap.Rmd</code></div>
 
     </div>
@@ -168,7 +183,7 @@
 -->
 <div id="repertoire-overlap" class="section level1">
 <h1 class="hasAnchor">
-<a href="#repertoire-overlap" class="anchor"></a>Repertoire overlap</h1>
+<a href="#repertoire-overlap" class="anchor" aria-hidden="true"></a>Repertoire overlap</h1>
 <p>Repertoire overlap is the most common approach to measure repertoire similarity. It is achieved by computation of specific statistics on clonotypes shared between given repertoires, also called “public” clonotypes. <code>immunarch</code> provides several indices: - number of public clonotypes (<code>.method = "public"</code>) - a classic measure of overlap similarity.</p>
 <ul>
 <li><p>overlap coefficient (<code>.method = "overlap"</code>) - a normalised measure of overlap similarity. It is defined as the size of the intersection divided by the smaller of the size of the two sets.</p></li>
@@ -234,24 +249,24 @@ warning("TODO")
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
-<pre><code>##                DimI       DimII
-## A2-i129   15.759495 -119.757177
-## A2-i131 -215.059724  287.591597
-## A2-i133   79.675840  -80.496797
-## A2-i132   67.430285   42.793931
-## A4-i191  125.091368  -13.754186
-## A4-i192  -19.709308 -154.836863
-## MS1      -35.023074 -101.858894
-## MS2       76.560527    9.570042
-## MS3       -5.578018 -120.027800
-## MS4       92.818554   -5.559618
-## MS5     -195.165114  283.218966
-## MS6       13.199169  -26.883201
+<pre><code>##               DimI      DimII
+## A2-i129   55.91219 -26.522331
+## A2-i131 -278.35982   8.060975
+## A2-i133   41.90810   2.479033
+## A2-i132   77.49466  27.360227
+## A4-i191   48.16214  32.946045
+## A4-i192   51.44503 -44.376283
+## MS1       36.31622 -30.328954
+## MS2       65.69934  23.357776
+## MS3       49.31653 -30.642152
+## MS4       57.66025  24.905259
+## MS5     -277.51354  15.474082
+## MS6       71.95892  -2.713676
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"      "array"</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise the results</span>
-<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-1-1.png" width="768" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span>
@@ -278,32 +293,32 @@ warning("TODO")
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
 <pre><code>##                DimI      DimII
-## A2-i129   49.168576   63.41752
-## A2-i131 -544.658082   66.72190
-## A2-i133   84.908825  -59.56283
-## A2-i132  244.819646  -44.34077
-## A4-i191  174.717216 -132.49744
-## A4-i192  -15.164094   24.41292
-## MS1       -8.618626  102.05059
-## MS2      201.311534  -61.85075
-## MS3       20.141364   58.18885
-## MS4      181.958218  -86.02593
-## MS5     -540.495145   38.71098
-## MS6      151.910568   30.77497
+## A2-i129 -169.162899  122.43644
+## A2-i131  -33.450388 -479.33235
+## A2-i133  -21.925144  119.44208
+## A2-i132  188.786772  180.58777
+## A4-i191  105.531122   48.43325
+## A4-i192 -253.408806   84.13795
+## MS1     -172.083783   23.48401
+## MS2      161.133177  126.28609
+## MS3     -184.760923   86.31360
+## MS4      128.370622  102.12880
+## MS5        3.457591 -473.82621
+## MS6      247.512659   59.90858
 ## attr(,"class")
 ## [1] "immunr_tsne" "matrix"      "array"</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise the results</span>
-<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-1.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Clusterise the MDS resulting components using K-means</span>
-<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds+kmeans"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds+kmeans"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="public-repertoire" class="section level1">
 <h1 class="hasAnchor">
-<a href="#public-repertoire" class="anchor"></a>Public repertoire</h1>
+<a href="#public-repertoire" class="anchor" aria-hidden="true"></a>Public repertoire</h1>
 <p>In order to build a massive table with all clonotypes from the list of repertoires use the <code>pubRep</code> function.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pass "nt" as the second parameter to build the public repertoire table using CDR3 nucleotide sequences</span>
@@ -370,17 +385,17 @@ warning("TODO")
 <span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"aa+v"</span>, .coding <span class="op">=</span> <span class="cn">T</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 
 <span class="co"># Apply the filter subroutine to leave clonotypes presented only in healthy individuals</span>
-<span class="va">pr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">pr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Apply the filter subroutine to leave clonotypes presented only in diseased individuals</span>
-<span class="va">pr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"MS"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">pr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"MS"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Divide one by another</span>
 <span class="va">pr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRepApply.html">pubRepApply</a></span><span class="op">(</span><span class="va">pr1</span>, <span class="va">pr2</span><span class="op">)</span>
 
 <span class="co"># Plot it</span>
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Treatment"</span>, y <span class="op">=</span> <span class="va">Result</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">pr3</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Treatment"</span>, y <span class="op">=</span> <span class="va">Result</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">pr3</span><span class="op">)</span>
 <span class="va">p</span></code></pre></div>
 </div>
   </div>
@@ -396,11 +411,13 @@ warning("TODO")
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

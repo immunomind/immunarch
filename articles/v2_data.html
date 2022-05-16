@@ -28,6 +28,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
       </span>
     </div>
 
@@ -57,7 +59,8 @@
       <a href="../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">First steps</li>
+    </li>
+<li class="dropdown-header">First steps</li>
     <li>
       <a href="../articles/v2_data.html">Data loading</a>
     </li>
@@ -77,7 +80,8 @@
       <a href="../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
@@ -88,7 +92,8 @@
       <a href="../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Clonotype-level exploration and comparison</li>
     <li>
       <a href="../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
     </li>
@@ -99,9 +104,19 @@
       <a href="../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preparing to publication</li>
+    </li>
+<li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">BCR analysis</li>
+    <li>
+      <a href="../articles/web_only/BCRpipeline.html">BCR pipeline</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/clustering.html">Clustering</a>
     </li>
   </ul>
 </li>
@@ -109,21 +124,21 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -144,17 +159,17 @@
 
       
 
-      </header><script src="v2_data_files/header-attrs-2.11/header-attrs.js"></script><script src="v2_data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data loading</h1>
-                        <h4 class="author">
-<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+                        <h4 data-toc-skip class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io" class="external-link">immunomind.io</a>
 </h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
+            <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/v2_data.Rmd"><code>vignettes/v2_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/v2_data.Rmd" class="external-link"><code>vignettes/v2_data.Rmd</code></a></small>
       <div class="hidden name"><code>v2_data.Rmd</code></div>
 
     </div>
@@ -168,7 +183,7 @@
 -->
 <div id="input-output" class="section level1">
 <h1 class="hasAnchor">
-<a href="#input-output" class="anchor"></a>Input / output</h1>
+<a href="#input-output" class="anchor" aria-hidden="true"></a>Input / output</h1>
 <p>The package provides several IO functions:</p>
 <ul>
 <li><p><code>repLoad</code> - to load the repertoires, having compatible format.</p></li>
@@ -177,20 +192,20 @@
 <p><code>repLoad</code> detects the input file format automatically. <code>immunarch</code> currently support the following immune repertoire data formats:</p>
 <ul>
 <li><p><code>"immunarch"</code> - current software tool, in case you forgot it :)</p></li>
-<li><p><code>"immunoseq"</code> - <a href="https://www.immunoseq.com" class="uri">https://www.immunoseq.com</a></p></li>
-<li><p><code>"mitcr"</code> - <a href="https://github.com/milaboratory/mitcr" class="uri">https://github.com/milaboratory/mitcr</a></p></li>
-<li><p><code>"mixcr"</code> - <a href="https://github.com/milaboratory/mixcr" class="uri">https://github.com/milaboratory/mixcr</a></p></li>
-<li><p><code>"migec"</code> - <a href="http://migec.readthedocs.io/en/latest/" class="uri">http://migec.readthedocs.io/en/latest/</a></p></li>
-<li><p><code>"migmap"</code> - <a href="https://github.com/mikessh/migmap" class="uri">https://github.com/mikessh/migmap</a></p></li>
-<li><p><code>"tcr"</code> - <a href="https://imminfo.github.io/tcr/" class="uri">https://imminfo.github.io/tcr/</a></p></li>
-<li><p><code>"vdjtools"</code> - <a href="https://vdjtools-doc.readthedocs.io/en/master/" class="uri">https://vdjtools-doc.readthedocs.io/en/master/</a></p></li>
-<li><p><code>"imgt"</code> - <a href="http://www.imgt.org/HighV-QUEST/" class="uri">http://www.imgt.org/HighV-QUEST/</a></p></li>
-<li><p><code>"airr"</code> - <a href="http://docs.airr-community.org/en/latest/datarep/overview.html" class="uri">http://docs.airr-community.org/en/latest/datarep/overview.html</a></p></li>
-<li><p><code>"10x"</code> - <a href="https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation" class="uri">https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation</a></p></li>
+<li><p><code>"immunoseq"</code> - <a href="https://www.immunoseq.com" class="external-link uri">https://www.immunoseq.com</a></p></li>
+<li><p><code>"mitcr"</code> - <a href="https://github.com/milaboratory/mitcr" class="external-link uri">https://github.com/milaboratory/mitcr</a></p></li>
+<li><p><code>"mixcr"</code> - <a href="https://github.com/milaboratory/mixcr" class="external-link uri">https://github.com/milaboratory/mixcr</a></p></li>
+<li><p><code>"migec"</code> - <a href="http://migec.readthedocs.io/en/latest/" class="external-link uri">http://migec.readthedocs.io/en/latest/</a></p></li>
+<li><p><code>"migmap"</code> - <a href="https://github.com/mikessh/migmap" class="external-link uri">https://github.com/mikessh/migmap</a></p></li>
+<li><p><code>"tcr"</code> - <a href="https://imminfo.github.io/tcr/" class="external-link uri">https://imminfo.github.io/tcr/</a></p></li>
+<li><p><code>"vdjtools"</code> - <a href="https://vdjtools-doc.readthedocs.io/en/master/" class="external-link uri">https://vdjtools-doc.readthedocs.io/en/master/</a></p></li>
+<li><p><code>"imgt"</code> - <a href="https://www.imgt.org/HighV-QUEST/" class="external-link uri">https://www.imgt.org/HighV-QUEST/</a></p></li>
+<li><p><code>"airr"</code> - <a href="http://docs.airr-community.org/en/latest/datarep/overview.html" class="external-link uri">http://docs.airr-community.org/en/latest/datarep/overview.html</a></p></li>
+<li><p><code>"10x"</code> - <a href="https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation" class="external-link uri">https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/output/annotation</a></p></li>
 <li><p><code>"archer"</code> - ArcherDX clonotype tables.</p></li>
-<li><p><code>"imseq"</code> - <a href="http://www.imtools.org/" class="uri">http://www.imtools.org/</a></p></li>
-<li><p><code>"rtcr"</code> - <a href="https://github.com/uubram/RTCR" class="uri">https://github.com/uubram/RTCR</a></p></li>
-<li><p><code>"vidjil"</code> - <a href="http://www.vidjil.org/" class="uri">http://www.vidjil.org/</a></p></li>
+<li><p><code>"imseq"</code> - <a href="http://www.imtools.org/" class="external-link uri">http://www.imtools.org/</a></p></li>
+<li><p><code>"rtcr"</code> - <a href="https://github.com/uubram/RTCR" class="external-link uri">https://github.com/uubram/RTCR</a></p></li>
+<li><p><code>"vidjil"</code> - <a href="http://www.vidjil.org/" class="external-link uri">http://www.vidjil.org/</a></p></li>
 </ul>
 <p>Please contact us if there are more file formats you want to be supported.</p>
 <p>For parsing IgBLAST results process the data with MigMap first.</p>
@@ -201,15 +216,15 @@
 <code class="sourceCode R"><span class="co">#path argument is a path to the folder with your file or files including metadata file also(if you have one).</span>
 <span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></code></pre></div>
 <p><strong>Working with sample files</strong></p>
-<p>You could find a folder with example files <a href="https://github.com/immunomind/immunarch/tree/master/inst/extdata/io">here</a> and use it to test data loading without your own files.</p>
-<p>If you are not familiar with file paths, you can download example data to your working directory. You can obtain you working directory with <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code> command</p>
+<p>You could find a folder with example files <a href="https://github.com/immunomind/immunarch/releases/tag/0.6.7" class="external-link">here</a> (download and extract test_data.zip or test_data.tar.gz) and use it to test data loading without your own files.</p>
+<p>If you are not familiar with file paths, you can download example data to your working directory. You can obtain you working directory with <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code> command</p>
 <p>You could also download all files to the <code>'example'</code> folder in your working directory and load all of them by passing folder name to repLoad function in a quotes:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="st">'example'</span><span class="op">)</span></code></pre></div>
 <p>Also, example data are already downloaded with <code>immunarch</code> package. You can load all sample files using the following command:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#path to the folder with example data</span>
-<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
+<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
 <span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span></code></pre></div>
 <p>In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it exactly “metadata.txt”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -223,9 +238,9 @@
 <p>Otherwise <code>repLoad</code> will create a dummy metadata file with only sample names.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># To load the whole folder with every file in it type:</span>
-<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
+<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
 <span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># In order to do that your folder must contain metadata file named</span>
 <span class="co"># exactly "metadata.txt".</span>
@@ -241,13 +256,13 @@
 <span class="co"># [1] "data" "meta"</span></code></pre></div>
 <p>Dummy metadata data frame look like this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span><span class="op">)</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 1
+<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span><span class="op">)</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>##  [38;5;246m# A tibble: 3 × 1 [39m
 ##   Sample    
-##   &lt;chr&gt;     
-## 1 immunoseq1
-## 2 immunoseq2
-## 3 immunoseq3</code></pre>
+##    [3m [38;5;246m&lt;chr&gt; [39m [23m     
+##  [38;5;250m1 [39m immunoseq1
+##  [38;5;250m2 [39m immunoseq2
+##  [38;5;250m3 [39m immunoseq3</code></pre>
 <p>The metadata file “metadata.txt” has to be tab delimited file with first column named “Sample” and any number of additional columns with arbitrary names. The first column should contain base names of files without extensions in your folder.</p>
 <table class="table">
 <thead><tr class="header">
@@ -286,27 +301,27 @@
 <span class="va">META</span>
 
 <span class="co"># Create a temporary directory</span>
-<span class="va">dbdir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">dbdir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span>
-<span class="va">con</span> <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">MonetDBLite</span><span class="op">(</span><span class="op">)</span>, embedded <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span>
+<span class="va">con</span> <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">MonetDBLite</span><span class="op">(</span><span class="op">)</span>, embedded <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span>
 
 <span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html">dbWriteTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">DATA</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html" class="external-link">dbWriteTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">DATA</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="co"># Create a source in the temporary directory with MonetDB</span>
 <span class="va">ms</span> <span class="op">=</span> <span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">src_monetdblite</span><span class="op">(</span>dbdir <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span>
-<span class="va">res_db</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">res_db</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Load the data from MonetDB to dplyr tables</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">res_db</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span><span class="op">(</span><span class="va">ms</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">res_db</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">tbl</a></span><span class="op">(</span><span class="va">ms</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="co"># Your data is ready to use</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">res_db</span>, meta <span class="op">=</span> <span class="va">META</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">res_db</span>, meta <span class="op">=</span> <span class="va">META</span><span class="op">)</span></code></pre></div>
 <p><code>immunarch</code> is compatible with following sources:</p>
 <ul>
 <li><p>R data frames (for common applications)</p></li>
@@ -317,33 +332,33 @@
 </div>
 <div id="basic-data-manipulations-with-dplyr-and-immunarch" class="section level1">
 <h1 class="hasAnchor">
-<a href="#basic-data-manipulations-with-dplyr-and-immunarch" class="anchor"></a>Basic data manipulations with dplyr and immunarch</h1>
-<p>You can find the introduction to <code>dplyr</code> here: <a href="https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html" class="uri">https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html</a></p>
+<a href="#basic-data-manipulations-with-dplyr-and-immunarch" class="anchor" aria-hidden="true"></a>Basic data manipulations with dplyr and immunarch</h1>
+<p>You can find the introduction to <code>dplyr</code> here: <a href="https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html" class="external-link uri">https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html</a></p>
 <div id="get-the-most-abundant-clonotypes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#get-the-most-abundant-clonotypes" class="anchor"></a>Get the most abundant clonotypes</h2>
+<a href="#get-the-most-abundant-clonotypes" class="anchor" aria-hidden="true"></a>Get the most abundant clonotypes</h2>
 <p>The function returns the most abundant clonotypes for the given repertoire:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/top.html">top</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 15
+<pre><code>##  [38;5;246m# A tibble: 10 × 15 [39m
 ##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
-##  1    173    0.0204  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
-##  2    163    0.0192  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
-##  3     66    0.00776 TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
-##  4     54    0.00635 TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
-##  5     48    0.00565 TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
-##  6     48    0.00565 TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
-##  7     40    0.00471 TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
-##  8     31    0.00365 TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
-##  9     30    0.00353 TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
-## 10     28    0.00329 TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
-## # … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,
-## #   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
+##      [3m [38;5;246m&lt;dbl&gt; [39m [23m       [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m       [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;int&gt; [39m [23m    [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m
+##  [38;5;250m 1 [39m    173    0.020 [4m4 [24m  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26
+##  [38;5;250m 2 [39m    163    0.019 [4m2 [24m  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18
+##  [38;5;250m 3 [39m     66    0.007 [4m7 [24m [4m6 [24m TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22
+##  [38;5;250m 4 [39m     54    0.006 [4m3 [24m [4m5 [24m TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25
+##  [38;5;250m 5 [39m     48    0.005 [4m6 [24m [4m5 [24m TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23
+##  [38;5;250m 6 [39m     48    0.005 [4m6 [24m [4m5 [24m TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19
+##  [38;5;250m 7 [39m     40    0.004 [4m7 [24m [4m1 [24m TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26
+##  [38;5;250m 8 [39m     31    0.003 [4m6 [24m [4m5 [24m TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20
+##  [38;5;250m 9 [39m     30    0.003 [4m5 [24m [4m3 [24m TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28
+##  [38;5;250m10 [39m     28    0.003 [4m2 [24m [4m9 [24m TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25
+##  [38;5;246m# … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;, [39m
+##  [38;5;246m#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt; [39m</code></pre>
 </div>
 <div id="filter-functional-non-functional-in-frame-out-of-frame-clonotypes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#filter-functional-non-functional-in-frame-out-of-frame-clonotypes" class="anchor"></a>Filter functional / non-functional / in-frame / out-of-frame clonotypes</h2>
+<a href="#filter-functional-non-functional-in-frame-out-of-frame-clonotypes" class="anchor" aria-hidden="true"></a>Filter functional / non-functional / in-frame / out-of-frame clonotypes</h2>
 <p>Conveniently, functions are vectorised over the list of data frames; and <code>coding(immdata$data)</code> in the example below returns a list of data frames with coding sequences:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/coding.html">coding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
@@ -352,47 +367,47 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/coding.html">noncoding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>Now, the computation of the number of filtered sequences is straightforward:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">inframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">inframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>And for the out-of-frame clonotypes:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">outofframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">outofframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="get-subset-of-clonotypes-with-a-specific-v-gene" class="section level2">
 <h2 class="hasAnchor">
-<a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor"></a>Get subset of clonotypes with a specific V gene</h2>
+<a href="#get-subset-of-clonotypes-with-a-specific-v-gene" class="anchor" aria-hidden="true"></a>Get subset of clonotypes with a specific V gene</h2>
 <p>It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">V.name</span> <span class="op">==</span> <span class="st">'TRBV10-1'</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 24 × 15
+<code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">V.name</span> <span class="op">==</span> <span class="st">'TRBV10-1'</span><span class="op">)</span></code></pre></div>
+<pre><code>##  [38;5;246m# A tibble: 24 × 15 [39m
 ##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end
-##     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;   &lt;int&gt; &lt;int&gt;
-##  1      2   0.000235 TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25
-##  2      2   0.000235 TGCGCCAGC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22
-##  3      1   0.000118 TGCGCCAGC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15
-##  4      1   0.000118 TGCGCCACC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9
-##  5      1   0.000118 TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22
-##  6      1   0.000118 TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21
-##  7      1   0.000118 TGCGCCAGC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21
-##  8      1   0.000118 TGCGCCAGC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19
-##  9      1   0.000118 TGCGCCAGC… CASSEV… TRBV1… TRBD1  TRBJ2…    14      19    24
-## 10      1   0.000118 TGCGCCAGC… CASSEG… TRBV1… TRBD2  TRBJ2…    13      19    27
-## # … with 14 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,
-## #   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</code></pre>
+##      [3m [38;5;246m&lt;dbl&gt; [39m [23m       [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m       [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;int&gt; [39m [23m    [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m
+##  [38;5;250m 1 [39m      2   0.000 [4m2 [24m [4m3 [24m [4m5 [24m TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25
+##  [38;5;250m 2 [39m      2   0.000 [4m2 [24m [4m3 [24m [4m5 [24m TGCGCCAGC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22
+##  [38;5;250m 3 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15
+##  [38;5;250m 4 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCACC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9
+##  [38;5;250m 5 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22
+##  [38;5;250m 6 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21
+##  [38;5;250m 7 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21
+##  [38;5;250m 8 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19
+##  [38;5;250m 9 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASSEV… TRBV1… TRBD1  TRBJ2…    14      19    24
+##  [38;5;250m10 [39m      1   0.000 [4m1 [24m [4m1 [24m [4m8 [24m TGCGCCAGC… CASSEG… TRBV1… TRBD2  TRBJ2…    13      19    27
+##  [38;5;246m# … with 14 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, [39m
+##  [38;5;246m#   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt; [39m</code></pre>
 </div>
 </div>
 <div id="downsampling" class="section level1">
 <h1 class="hasAnchor">
-<a href="#downsampling" class="anchor"></a>Downsampling</h1>
+<a href="#downsampling" class="anchor" aria-hidden="true"></a>Downsampling</h1>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
-##      98      99      95      99      84      96      81      98      96      97 
+##      97      99      94      99      92      94      78      99      91      99 
 ##     MS5     MS6 
-##      85     100</code></pre>
+##      90      99</code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
 <pre><code>## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 
 ##      10      10      10      10      10      10      10      10      10      10 
 ##     MS5     MS6 
@@ -400,7 +415,7 @@
 </div>
 <div id="immunarch-data-format" class="section level1">
 <h1 class="hasAnchor">
-<a href="#immunarch-data-format" class="anchor"></a>Immunarch data format</h1>
+<a href="#immunarch-data-format" class="anchor" aria-hidden="true"></a>Immunarch data format</h1>
 <p><code>immunarch</code> comes with its own data format, including tab-delimited columns that can be specified as follows:</p>
 <ul>
 <li><p>“Clones” - count or number of barcodes (events, UMIs) or reads;</p></li>
@@ -449,11 +464,13 @@ With these functions you can write the subset of your repertoires to new tables 
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

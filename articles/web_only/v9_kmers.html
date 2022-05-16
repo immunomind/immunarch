@@ -28,6 +28,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
       </span>
     </div>
 
@@ -57,7 +59,8 @@
       <a href="../../articles/v1_introduction.html">Installation &amp; troubleshooting</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">First steps</li>
+    </li>
+<li class="dropdown-header">First steps</li>
     <li>
       <a href="../../articles/v2_data.html">Data loading</a>
     </li>
@@ -77,7 +80,8 @@
       <a href="../../articles/web_only/repFilter_v3.html">Data filtering</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Repertoire-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Repertoire-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v4_overlap.html">Repertoire overlap and public clonotypes</a>
     </li>
@@ -88,7 +92,8 @@
       <a href="../../articles/web_only/v6_diversity.html">Diversity estimation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Clonotype-level exploration and comparison</li>
+    </li>
+<li class="dropdown-header">Clonotype-level exploration and comparison</li>
     <li>
       <a href="../../articles/web_only/v8_tracking.html">Track clonotypes across samples and time</a>
     </li>
@@ -99,9 +104,19 @@
       <a href="../../articles/web_only/v9_kmers.html">Kmer and sequence motif analysis and visualisation</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preparing to publication</li>
+    </li>
+<li class="dropdown-header">Preparing to publication</li>
     <li>
       <a href="../../articles/web_only/v7_fixvis.html">Make your plots publication-ready with fixVis</a>
+    </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">BCR analysis</li>
+    <li>
+      <a href="../../articles/web_only/BCRpipeline.html">BCR pipeline</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/clustering.html">Clustering</a>
     </li>
   </ul>
 </li>
@@ -109,21 +124,21 @@
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -144,17 +159,17 @@
 
       
 
-      </header><script src="v9_kmers_files/header-attrs-2.11/header-attrs.js"></script><script src="v9_kmers_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Kmer and sequence motif analysis and visualisation</h1>
-                        <h4 class="author">
-<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>
+                        <h4 data-toc-skip class="author">
+<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io" class="external-link">immunomind.io</a>
 </h4>
             
-            <h4 class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
+            <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v9_kmers.Rmd"><code>vignettes/web_only/v9_kmers.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v9_kmers.Rmd" class="external-link"><code>vignettes/web_only/v9_kmers.Rmd</code></a></small>
       <div class="hidden name"><code>v9_kmers.Rmd</code></div>
 
     </div>
@@ -168,65 +183,65 @@
 -->
 <div id="kmer-statistics-computation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#kmer-statistics-computation" class="anchor"></a>Kmer statistics computation</h1>
+<a href="#kmer-statistics-computation" class="anchor" aria-hidden="true"></a>Kmer statistics computation</h1>
 <p>Counting kmer occurrences in <code>immunarch</code> is very easy. All you need to do is to run the <code><a href="../../reference/getKmers.html">getKmers()</a></code> function on your data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="va">kmers</span></code></pre></div>
-<pre><code>## # A tibble: 4,405 × 2
+<pre><code>##  [38;5;246m# A tibble: 4,405 × 2 [39m
 ##    Kmer  Count
-##    &lt;chr&gt; &lt;int&gt;
-##  1 AAA       6
-##  2 AAD       5
-##  3 AAE       9
-##  4 AAF       2
-##  5 AAG      37
-##  6 AAI       2
-##  7 AAK       5
-##  8 AAL       4
-##  9 AAM       1
-## 10 AAN      13
-## # … with 4,395 more rows</code></pre>
+##     [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m
+##  [38;5;250m 1 [39m AAA       6
+##  [38;5;250m 2 [39m AAD       5
+##  [38;5;250m 3 [39m AAE       9
+##  [38;5;250m 4 [39m AAF       2
+##  [38;5;250m 5 [39m AAG      37
+##  [38;5;250m 6 [39m AAI       2
+##  [38;5;250m 7 [39m AAK       5
+##  [38;5;250m 8 [39m AAL       4
+##  [38;5;250m 9 [39m AAM       1
+##  [38;5;250m10 [39m AAN      13
+##  [38;5;246m# … with 4,395 more rows [39m</code></pre>
 <p>If is possible to compute occurrences of kmers in a batch of immune repertoires. In order to do that, you just need to provide a list of immune repertoires to the function. NA means that there is no such kmer found in a sample, specifyed by the column name.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="va">kmers</span></code></pre></div>
-<pre><code>## # A tibble: 172,926 × 13
+<pre><code>##  [38;5;246m# A tibble: 172,926 × 13 [39m
 ##    Kmer  `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2
-##    &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1 AAAAG        NA        NA        NA        NA        NA        NA    NA     1
-##  2 AAAAL        NA        NA        NA        NA        NA        NA    NA    NA
-##  3 AAAAW        NA        NA        NA        NA        NA         1    NA    NA
-##  4 AAADE        NA        NA        NA        NA        NA        NA    NA    NA
-##  5 AAADN        NA         1        NA        NA        NA        NA    NA    NA
-##  6 AAADT        NA        NA        NA        NA        NA        NA    NA    NA
-##  7 AAAEA        NA        NA        NA        NA        NA        NA    NA    NA
-##  8 AAAEN        NA        NA        NA         1        NA        NA    NA    NA
-##  9 AAAET        NA        NA        NA        NA        NA        NA    NA    NA
-## 10 AAAFE        NA        NA        NA         1        NA        NA    NA    NA
-## # … with 172,916 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;,
-## #   MS5 &lt;int&gt;, MS6 &lt;int&gt;</code></pre>
+##     [3m [38;5;246m&lt;chr&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m
+##  [38;5;250m 1 [39m AAAAG         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     1
+##  [38;5;250m 2 [39m AAAAL         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 3 [39m AAAAW         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         1     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 4 [39m AAADE         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 5 [39m AAADN         [31mNA [39m         1         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 6 [39m AAADT         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 7 [39m AAAEA         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 8 [39m AAAEN         [31mNA [39m         [31mNA [39m         [31mNA [39m         1         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m 9 [39m AAAET         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;250m10 [39m AAAFE         [31mNA [39m         [31mNA [39m         [31mNA [39m         1         [31mNA [39m         [31mNA [39m     [31mNA [39m     [31mNA [39m
+##  [38;5;246m# … with 172,916 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;, [39m
+##  [38;5;246m#   MS5 &lt;int&gt;, MS6 &lt;int&gt; [39m</code></pre>
 <p>Note that by default <code><a href="../../reference/getKmers.html">getKmers()</a></code> filter out all non-coding sequences before counting the kmer statistics. You can use both coding and non-coding sequences by setting the <code>.coding</code> argument to FALSE:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span>, .coding <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">kmers</span></code></pre></div>
-<pre><code>## # A tibble: 4,645 × 2
+<pre><code>##  [38;5;246m# A tibble: 4,645 × 2 [39m
 ##    Kmer  Count
-##    &lt;chr&gt; &lt;int&gt;
-##  1 **G       1
-##  2 *~G       4
-##  3 *~L       1
-##  4 *AA       1
-##  5 *D~       1
-##  6 *EE       1
-##  7 *G~       1
-##  8 *GG       1
-##  9 *GP       1
-## 10 *HL       1
-## # … with 4,635 more rows</code></pre>
+##     [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m
+##  [38;5;250m 1 [39m **G       1
+##  [38;5;250m 2 [39m *~G       4
+##  [38;5;250m 3 [39m *~L       1
+##  [38;5;250m 4 [39m *AA       1
+##  [38;5;250m 5 [39m *D~       1
+##  [38;5;250m 6 [39m *EE       1
+##  [38;5;250m 7 [39m *G~       1
+##  [38;5;250m 8 [39m *GG       1
+##  [38;5;250m 9 [39m *GP       1
+##  [38;5;250m10 [39m *HL       1
+##  [38;5;246m# … with 4,635 more rows [39m</code></pre>
 <div id="kmer-statistics-visualisation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#kmer-statistics-visualisation" class="anchor"></a>Kmer statistics visualisation</h2>
+<a href="#kmer-statistics-visualisation" class="anchor" aria-hidden="true"></a>Kmer statistics visualisation</h2>
 <p>To visualise your kmer statistics, the <code><a href="../../reference/vis.html">vis()</a></code> function comes to help:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span>
@@ -260,7 +275,7 @@
 </div>
 <div id="sequence-motifs-analysis" class="section level1">
 <h1 class="hasAnchor">
-<a href="#sequence-motifs-analysis" class="anchor"></a>Sequence motifs analysis</h1>
+<a href="#sequence-motifs-analysis" class="anchor" aria-hidden="true"></a>Sequence motifs analysis</h1>
 <p><code>immunarch</code> utilises common approaches to sequence motif analysis and uses different types of matrices to represent sequence motifs:</p>
 <ul>
 <li>position frequency matrix (PFM) - a matrix with occurences of each amino acid in each position;</li>
@@ -296,7 +311,7 @@
 ## attr(,"class")
 ## [1] "immunr_kmer_profile_pfm" "matrix"                 
 ## [3] "array"</code></pre>
-<p>Currently we are not supporting sequence motifs analysis for more than one sample, but we are working on it. In order to compute and visualise sequence motif matrices for all of your samples you need to process them one-by-one, which can be easily done in for-loops or via the <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> function.</p>
+<p>Currently we are not supporting sequence motifs analysis for more than one sample, but we are working on it. In order to compute and visualise sequence motif matrices for all of your samples you need to process them one-by-one, which can be easily done in for-loops or via the <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> function.</p>
 <p>Argument <code>.method</code> specifies which matrix to compute:</p>
 <ul>
 <li>
@@ -414,7 +429,7 @@
 ## [3] "array"</code></pre>
 <div id="sequence-motif-visualisation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sequence-motif-visualisation" class="anchor"></a>Sequence motif visualisation</h2>
+<a href="#sequence-motif-visualisation" class="anchor" aria-hidden="true"></a>Sequence motif visualisation</h2>
 <p>Visualisation of sequence motif matrices is done by <code><a href="../../reference/vis.html">vis()</a></code>. There are two types of plots to choose from - sequence logo and “text logo”. The argument <code>.plot</code> regulates the type of plot: <code>.plot = "seq"</code> for sequence logo plots and <code>.plot = "text"</code> (by default) for “text logo” plots.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"self"</span><span class="op">)</span>
@@ -429,7 +444,7 @@
 </div>
 <div id="get-in-contact-with-us" class="section level1">
 <h1 class="hasAnchor">
-<a href="#get-in-contact-with-us" class="anchor"></a>Get in contact with us</h1>
+<a href="#get-in-contact-with-us" class="anchor" aria-hidden="true"></a>Get in contact with us</h1>
 <p>Can not find an important feature? Have a question or found a bug? Contact us at <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></p>
 </div>
   </div>
@@ -445,11 +460,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.linkedin.com/in/vdnaz">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/">Maria Volobueva</a>, <a href="https://immunomind.io">ImmunoMind</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
