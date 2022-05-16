@@ -18,6 +18,8 @@ articles:
   web_only/v7_fixvis: v7_fixvis.html
   web_only/v8_tracking: v8_tracking.html
   web_only/v9_kmers: v9_kmers.html
+  web_only/BCRpipeline: BCRpipeline.html
+  web_only/clustering: clustering.html
 last_built: 2021-11-29T16:41Z
 urls:
   reference: https://immunarch.com/reference
