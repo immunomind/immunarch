@@ -2,7 +2,7 @@
 % Please edit documentation in R/seqCluster.R
 \name{seqCluster}
 \alias{seqCluster}
-\title{Function for asignment clusters based on sequencies similarity}
+\title{Function for assigning clusters based on sequences similarity}
 \usage{
 seqCluster(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold)
 }
