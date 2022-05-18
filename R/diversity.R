@@ -362,7 +362,7 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
   }
 
   if (.verbose) {
-    pb <- set_pb(sum(sapply(1:length(.data), function(i) {
+    pb <- set_pb(sum(sapply(seq_along(.data), function(i) {
       bc.vec <- .data[[i]]
       bc.sum <- sum(.data[[i]])
       sizes <- seq(.step, bc.sum, .step)
@@ -373,10 +373,13 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
     })))
   }
 
-  muc.list <- lapply(1:length(.data), function(i) {
+  muc.list <- lapply(seq_along(.data), function(i) {
     Sobs <- length(.data[[i]])
     bc.vec <- .data[[i]]
-    Sest <- chao1(bc.vec)
+    Sest <- chao1(bc.vec)[1]
+    if (is.na(Sest)) {
+      Sest <- Sobs
+    }
     n <- sum(bc.vec)
     sizes <- seq(.step, n, .step)
     # if (sizes[length(sizes)] != n) {
@@ -389,11 +392,11 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
       alphas <- sapply(freqs, function(k) .alpha(n, k, sz))
 
       # poisson
-      Sind <- sum(sapply(1:length(freqs), function(k) (1 - alphas[k]) * counts[k]))
-      if (Sest[1] == Sobs) {
+      Sind <- sum(sapply(seq_along(freqs), function(k) (1 - alphas[k]) * counts[k]))
+      if (Sest == Sobs) {
         SD <- 0
       } else {
-        SD <- sqrt(sum(sapply(1:length(freqs), function(k) (1 - alphas[k])^2 * counts[k])) - Sind^2 / Sest[1])
+        SD <- sqrt(sum(sapply(seq_along(freqs), function(k) (1 - alphas[k])^2 * counts[k])) - Sind^2 / Sest[1])
       }
       t <- Sind - Sobs
       if (t != 0) {
@@ -419,7 +422,7 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
       )
       if (length(sizes) != 1) {
         ex.res <- t(sapply(sizes, function(sz) {
-          f0 <- Sest[1] - Sobs
+          f0 <- Sest - Sobs
           f1 <- counts["1"]
           if (is.na(f1) || f0 == 0) {
             Sind <- Sobs
