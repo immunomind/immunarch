@@ -95,8 +95,9 @@ germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, s
       seq = get("Sequence"),
       v_ref = get("V.sequence"),
       j_ref = get("J.sequence"),
-      v_end = str_length(get("CDR1.nt")) + str_length("CDR2.nt")
-        + str_length("FR1.nt") + str_length("FR2.nt") + str_length("FR3.nt"),
+      v_end = str_length(get("CDR1.nt")) + str_length(get("CDR2.nt"))
+        + str_length(get("FR1.nt")) + str_length(get("FR2.nt"))
+        + str_length(get("FR3.nt")),
       cdr3_start = get("CDR3.start"),
       cdr3_end = get("CDR3.end"),
       j_start = get("J.start"),
