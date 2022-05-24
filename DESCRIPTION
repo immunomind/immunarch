@@ -1,7 +1,7 @@
 Package: immunarch
 Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.6.8.1
+Version: 0.6.9
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "support@immunomind.io", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
