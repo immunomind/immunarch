@@ -13,7 +13,9 @@
   l2 <- ifelse(str_trim(l) == "{", readLines(f, 1), NA)
   close(f)
 
-  if (any(str_detect(l, c("MiTCRFullExport", "mitcr")))) {
+  if (identical(l, character(0))) {
+    res_format <- NA
+  } else if (any(str_detect(l, c("MiTCRFullExport", "mitcr")))) {
     res_format <- "mitcr"
   } else if (str_detect(l, "CDR3 amino acid sequence") && str_detect(l, "V segment") && !str_detect(l, "Good events")) {
     res_format <- "mitcr"
