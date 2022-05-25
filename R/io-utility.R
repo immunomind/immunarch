@@ -76,9 +76,7 @@
 .make_names <- function(.char) {
   if (is.na(.char[1])) {
     NA
-  }
-  # else { tolower(make.names(.char)) }
-  else {
+  } else {
     tolower(.char)
   }
 }
