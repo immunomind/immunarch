@@ -195,6 +195,13 @@ test_cases[[length(test_cases) + 1]] <- list(
 
 test_cases[[length(test_cases) + 1]] <- list(
   data_factory = mock_genes,
+  method = "by.clonotype", query = list(CDR3.aa = exclude("DUMMY")), match = "startswith",
+  expected_samples = mock_genes() %>% .$data %>% length(),
+  expected_sample_rows = list(S1 = 4)
+)
+
+test_cases[[length(test_cases) + 1]] <- list(
+  data_factory = mock_genes,
   method = "by.clonotype", query = list(V.name = exclude("V1")), match = "substring",
   expected_samples = 1,
   expected_sample_rows = list(S1 = 1)
@@ -207,9 +214,16 @@ test_cases[[length(test_cases) + 1]] <- list(
   expected_sample_rows = list(S1 = 3)
 )
 
-# repeat the last 8 test cases, but abbreviate method as "by.cl"
-for (i in 1:8) {
-  test_cases[[length(test_cases) + 1]] <- test_cases[[length(test_cases) - 7]]
+test_cases[[length(test_cases) + 1]] <- list(
+  data_factory = mock_genes,
+  method = "by.clonotype", query = list(CDR3.aa = exclude("DUMMY")), match = "substring",
+  expected_samples = mock_genes() %>% .$data %>% length(),
+  expected_sample_rows = list(S1 = 4)
+)
+
+# repeat the last 10 test cases, but abbreviate method as "by.cl"
+for (i in 1:10) {
+  test_cases[[length(test_cases) + 1]] <- test_cases[[length(test_cases) - 9]]
   test_cases[[length(test_cases)]][["method"]] <- "by.cl"
 }
 

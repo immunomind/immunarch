@@ -1,4 +1,4 @@
-#' Function for asignment clusters based on sequencies similarity
+#' Function for assigning clusters based on sequences similarity
 #'
 #' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl
 #' @importFrom magrittr %>% %<>%
