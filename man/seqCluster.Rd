@@ -14,7 +14,7 @@ Every object must have columns in the immunarch compatible format \link{immunarc
 
 \item{.dist}{List of distance objects produced with \link{seqDist} function.}
 
-\item{.perc_similarity}{Numeric value between 0-1  specifying the maximum acceptable weight of an edge in a graph.
+\item{.perc_similarity}{Numeric value between 0 and 1 specifying the maximum acceptable weight of an edge in a graph.
 This threshold depends on the length of sequences.}
 
 \item{.nt_similarity}{Numeric between 0-sequence length specifying

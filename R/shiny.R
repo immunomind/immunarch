@@ -3,7 +3,7 @@ if (getRversion() >= "2.15.1") {
 }
 
 
-#' Manipulate ggplot plots and make publication-ready plots
+#' Manipulate ggplot plots and create publication-ready plots
 #'
 #' @concept fixvis
 #'

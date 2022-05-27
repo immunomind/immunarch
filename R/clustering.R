@@ -8,7 +8,7 @@
 #' @importFrom factoextra hcut fviz_nbclust
 #' @importFrom stats kmeans as.dist cmdscale dist
 #'
-#' @description Cluster the data with one of the following methods:
+#' @description Clusters the data with one of the following methods:
 #'
 #' - \code{immunr_hclust} clusters the data using the hierarchical clustering from \link[factoextra]{hcut};
 #'
@@ -26,7 +26,7 @@
 #'
 #' @param .data Matrix or data frame with features, distance matrix or output from \link{repOverlapAnalysis} or \link{geneUsageAnalysis} functions.
 #'
-#' @param .k The number of clusters to create, passed as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.
+#' @param .k The number of clusters to create, defined as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.
 #'
 #' @param .k.max Limits the maximum number of clusters. It is passed as \code{k.max} to \link{fviz_nbclust} for \code{immunr_hclust} and \code{immunr_kmeans}.
 #'
@@ -41,15 +41,15 @@
 #' @param .dist If TRUE then ".data" is expected to be a distance matrix. If FALSE then the euclidean distance is computed for the input objects.
 #'
 #' @return
-#' \code{immunr_hclust} - list with two elements. First element is an output from \link{hcut}.
-#' Second element is an output from \link{fviz_nbclust}
+#' \code{immunr_hclust} - list with two elements. The first element is an output from \link{hcut}.
+#' The second element is an output from \link{fviz_nbclust}
 #'
-#' \code{immunr_kmeans} - list with three elements. First element is an output from \link{kmeans}.
-#' Second element is an output from \link{fviz_nbclust}.
-#' Third element is the input dataset \code{.data}.
+#' \code{immunr_kmeans} - list with three elements. The first element is an output from \link{kmeans}.
+#' The second element is an output from \link{fviz_nbclust}.
+#' The third element is the input dataset \code{.data}.
 #'
-#' \code{immunr_dbscan} - list with two elements. First element is an output from \link{dbscan}.
-#' Second element is the input dataset \code{.data}.
+#' \code{immunr_dbscan} - list with two elements. The first element is an output from \link{dbscan}.
+#' The second element is the input dataset \code{.data}.
 #'
 #' @examples
 #' data(immdata)

@@ -36,7 +36,7 @@ Currently "single" works for every format, and "paired" works only for 10X Genom
 
 By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.}
 
-\item{.coding}{A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.}
+\item{.coding}{A logical value. Set TRUE to get coding-only clonotypes (by defaul). Set FALSE to get all clonotypes.}
 }
 \value{
 A list with two named elements:
@@ -111,7 +111,7 @@ file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 print(names(immdata))
 
-# We recommend creating a metadata file named exactly "metadata.txt" in the folder.
+# We recommend creating a metadata file named "metadata.txt" in the folder.
 
 # In that case, when you load your data you will see:
 # > immdata <- repLoad("path/to/your/folder/")

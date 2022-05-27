@@ -20,19 +20,19 @@
 #' of these objects. They are supported with the same limitations as basic objects.
 #'
 #' Note: each connection must represent a separate repertoire.
-#' @param .col A string that specifies the column(s) to be processed. Pass one of the
+#' @param .col A string that specifies the column(s) to be processed. Outputs one of the
 #' following strings, separated by the plus sign: "nt" for nucleotide sequences,
 #' "aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
 #' pass "aa+v" to compute overlaps on CDR3 amino acid sequences paired with V gene segments, i.e.,
 #' in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.
-#' @param .quant A string that specifies the column to be processed. Pass "count" to see
-#' public clonotype sharing with the number of clones, pass "prop" to see proportions.
-#' @param .coding Logical. If TRUE then preprocess the data to filter out non-coding sequences.
+#' @param .quant A string that specifies the column to be processed. Set "count" to see
+#' public clonotype sharing with the number of clones, set "prop" to see proportions.
+#' @param .coding Logical. If TRUE then preprocesses the data to filter out non-coding sequences.
 #' @param .min.samples Integer. A minimal number of samples a clonotype must have to be included
 #' in the public repertoire table.
 #' @param .max.samples Integer. A maxminal number of samples a clonotype must have to be included
-#' in the public repertoire table. Pass NA (by default) to have the maximal amount of samples.
-#' @param .verbose Logical. If TRUE then output the progress.
+#' in the public repertoire table. Set NA (by default) to have the maximal amount of samples.
+#' @param .verbose Logical. If TRUE then outputs the progress.
 #'
 #' @return
 #' Data table with columns for:
@@ -173,7 +173,7 @@ get_public_repertoire_names <- function(.pr) {
 #' @param .pr Public repertoires, an output from \link{pubRep}.
 #' @param .meta Metadata file.
 #' @param .by Named character vector. Names of the group to filter by.
-#' @param .min.samples Integer. Filter out clonotypes with the number of samples below than this number.
+#' @param .min.samples Integer. Filters out clonotypes with the number of samples below than this number.
 #'
 #' @return
 #' Data frame with filtered clonotypes.

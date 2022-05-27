@@ -48,11 +48,11 @@ repertoire, e.g., ten most abundant clonotypes. Use \code{".head"} to define ind
 such as 10, 100 and so on.
 
 Set \code{"rare"} to estimate relative abundance for the groups of rare clonotypes
-with low counts. Use \code{".bound"} to define the boundaries of clonotype groups.}
+with low counts. Use \code{".bound"} to define the threshold of clonotype groups.}
 
 \item{.perc}{A single numerical value ranging from 0 to 100.}
 
-\item{.clone.types}{A named numerical vector with the boundaries of the half-closed
+\item{.clone.types}{A named numerical vector with the threshold of the half-closed
 intervals that mark off clonal groups.}
 
 \item{.head}{A numerical vector with ranges of the top clonotypes.}

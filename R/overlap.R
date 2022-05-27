@@ -44,16 +44,16 @@
 #'
 #' In the second case, the vector encodes all repertoire sampling depths.
 #'
-#' @param .n.steps Something. Skipped if ".step" is a numeric vector.
+#' @param .n.steps Skipped if ".step" is a numeric vector.
 #'
-#' @param .downsample If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-#' top N clonotypes in incremental overlaps. Change nothing for conventional methods.
+#' @param .downsample If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
+#' top N clonotypes in incremental overlaps. Change nothing of you are using conventional methods.
 #'
-#' @param .bootstrap Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.
+#' @param .bootstrap Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.
 #'
-#' @param .verbose.inc Logical. If TRUE then show output from the computation process.
+#' @param .verbose.inc Logical. If TRUE then shows output from the computation process.
 #'
-#' @param .force.matrix Logical. If TRUE than always force the matrix output even in case of two input repertoires.
+#' @param .force.matrix Logical. If TRUE then always forces the matrix output even in case of two input repertoires.
 #'
 #' @details "public" and "shared" are synonyms that exist
 #' for the convenience of researchers.
@@ -323,7 +323,7 @@ horn_index <- function(.x, .y) {
 #'
 #' @concept overlap
 #'
-#' @description Like in paper https://www.pnas.org/content/111/16/5980 (Fig. 4).
+#' @description For reference please look up https://www.pnas.org/content/111/16/5980 (Fig. 4).
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
@@ -348,12 +348,12 @@ horn_index <- function(.x, .y) {
 #' @param .n.steps Integer. Number of steps if \code{.step} is a single integer.
 #' Skipped if ".step" is a numeric vector.
 #'
-#' @param .downsample If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
+#' @param .downsample If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
 #' top N clonotypes.
 #'
-#' @param .bootstrap Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.
+#' @param .bootstrap Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.
 #'
-#' @param .verbose.inc Logical. If TRUE then show output from the computation process.
+#' @param .verbose.inc Logical. If TRUE then shows the output from the computation process.
 #'
 #' @param ... Other arguments passed to \code{.fun}.
 #'

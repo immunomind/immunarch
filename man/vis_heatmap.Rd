@@ -28,10 +28,10 @@ If matrix: column names and row names (if presented) will be used as names for l
 If data frame: the first column will be used for row names and removed from the data.
 Other columns will be used for values in the heatmap.}
 
-\item{.text}{If TRUE then plot values in the heatmap cells. If FALSE do not plot values,
+\item{.text}{If TRUE then plots values in the heatmap cells. If FALSE does not plot values,
 just plot coloured cells instead.}
 
-\item{.scientific}{If TRUE then use the scientific notation for numbers (e.g., "2.0e+2").}
+\item{.scientific}{If TRUE then uses the scientific notation for numbers (e.g., "2.0e+2").}
 
 \item{.signif.digits}{Number of significant digits to display on plot.}
 
@@ -45,7 +45,7 @@ just plot coloured cells instead.}
 
 \item{.leg.title}{The The text for the plots's legend. Provide NULL to remove the legend's title completely.}
 
-\item{.legend}{If TRUE then displays a legend, otherwise removes legend from the plot.}
+\item{.legend}{If TRUE then displays a legend, otherwise removes the legend from the plot.}
 
 \item{.na.value}{Replace NA values with this value. By default they remain NA.}
 

@@ -21,12 +21,12 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.which}{An argument that regulates which clonotypes to choose for tracking. There are three options for this argument:
 
-1) pass a list with two elements \code{list(X, Y)}, where \code{X} is the name or the index of a target repertoire from ".data", and
+1) passes a list with two elements \code{list(X, Y)}, where \code{X} is the name or the index of a target repertoire from ".data", and
 \code{Y} is the number of the most abundant clonotypes to take from \code{X}.
 
-2) pass a character vector of sequences to take from all data frames;
+2) passes a character vector of sequences to take from all data frames;
 
-3) pass a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).
+3) passes a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).
 
 See the "Examples" below with examples for each option.}
 
@@ -36,14 +36,14 @@ chooses clonotype sequences. Specify "nt" for nucleotide sequences, "aa" for ami
 sequences with Joining genes, or any combination of the above.
 Used only if ".which" has option 1) or option 2).}
 
-\item{.norm}{Logical. If TRUE then use Proportion instead of the number of Clones per clonotype to store
+\item{.norm}{Logical. If TRUE then uses Proportion instead of the number of Clones per clonotype to store
 in the function output.}
 }
 \value{
 Data frame with input sequences and counts or proportions for each of the input repertoire.
 }
 \description{
-Track the temporal dynamics of clonotypes in repertoires. For example, tracking across multiple
+Tracks the temporal dynamics of clonotypes in repertoires. For example, tracking across multiple
 time points after vaccination.
 
 Note: duplicated clonotypes are merged and their counts are summed up.

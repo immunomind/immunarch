@@ -20,10 +20,10 @@
 #' @param .alpha Numeric vector. A distribution of some random value.
 #' @param .beta Numeric vector. A distribution of some random value.
 #' @param .base Numeric. A base of logarithm.
-#' @param .norm Logical. If TRUE then normalise the entropy by the maximal value of the entropy.
-#' @param .do.norm If TRUE then normalise input distributions to make them sum up to 1.
+#' @param .norm Logical. If TRUE then normalises the entropy by the maximal value of the entropy.
+#' @param .do.norm If TRUE then normalises the input distributions to make them sum up to 1.
 #' @param .laplace Numeric. A value for the laplace correction.
-#' @param .norm.entropy Logical. If TRUE then normalise the resultant value by the average entropy of input distributions.
+#' @param .norm.entropy Logical. If TRUE then normalises the resulting value by the average entropy of input distributions.
 #'
 #' @return
 #' A numeric value.
