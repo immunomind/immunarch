@@ -35,7 +35,8 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.method}{A string that specifies the method of analysis or a combination of
 methods. The \code{repOverlap} function supports following basic methods:
-"public", "overlap", "jaccard", "tversky", "cosine", "morisita".}
+"public", "overlap", "jaccard", "tversky", "cosine", "morisita".
+If vector of multiple methods is given for this parameter, the first method will be used.}
 
 \item{.col}{A string that specifies the column(s) to be processed. Pass one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
