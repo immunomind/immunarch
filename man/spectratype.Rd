@@ -19,10 +19,10 @@ of these objects. They are supported with the same limitations as basic objects.
 
 Note: each connection must represent a separate repertoire.}
 
-\item{.quant}{Select the column with clonal counts to evaluate. Pass "id" to count every clonotype once.
-Pass "count" to take into the account number of clones per clonotype.}
+\item{.quant}{Select the column with clonal counts to evaluate. Set to "id" to count every clonotype once.
+Set to "count" to take into the account number of clones per clonotype.}
 
-\item{.col}{A string that specifies the column(s) to be processed. Pass one of the
+\item{.col}{A string that specifies the column(s) to be processed. The output is one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
 "aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
 pass "aa+v" for spectratyping on CDR3 amino acid sequences paired with V gene segments, i.e.,

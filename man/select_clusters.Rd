@@ -21,8 +21,8 @@ A list with two elements "data" and "meta" with updated immune repertoire tables
 metadata.
 }
 \description{
-Given the vector of barcodes from Seurat, split the input repertoires
-to separate subsets following the barcodes' assigned IDs. Useful when you want to
+Given the vector of barcodes from Seurat, splits the input repertoires
+to separate subsets following the barcodes' assigned IDs. Useful in case you want to
 split immune repertoires by patients or clusters.
 }
 \examples{

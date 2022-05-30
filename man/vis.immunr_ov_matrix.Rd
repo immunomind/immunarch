@@ -30,8 +30,8 @@
 A ggplot2, pheatmap or circlize object.
 }
 \description{
-Visualise matrices with overlap values or gene usage distances among samples.
-For details see links below.
+Visualises matrices with overlap values or gene usage distances among samples.
+For details see the links below.
 }
 \examples{
 data(immdata)

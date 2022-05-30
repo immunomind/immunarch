@@ -26,7 +26,7 @@ Note: each connection must represent a separate repertoire.}
 \item{.col}{Character. Which column to use, pass "aa" (by default) for CDR3 amino acid sequence,
 pass "nt" for CDR3 nucleotide sequences.}
 
-\item{.coding}{Logical. If TRUE (by default) then remove all non-coding sequences from input data first.}
+\item{.coding}{Logical. If TRUE (by default) then removes all non-coding sequences from input data first.}
 }
 \value{
 Data frame with two columns (kmers and their counts).

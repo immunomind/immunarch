@@ -210,8 +210,8 @@ vis <- function(.data, ...) {
 #'
 #' @aliases vis.immunr_ov_matrix vis.immunr_gu_matrix
 #'
-#' @description Visualise matrices with overlap values or gene usage distances among samples.
-#' For details see links below.
+#' @description Visualises matrices with overlap values or gene usage distances among samples.
+#' For details see the links below.
 #'
 #' @param .data Output from \link{repOverlap} or \link{geneUsageAnalysis}.
 #'
@@ -294,10 +294,10 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #' If data frame: the first column will be used for row names and removed from the data.
 #' Other columns will be used for values in the heatmap.
 #'
-#' @param .text If TRUE then plot values in the heatmap cells. If FALSE do not plot values,
+#' @param .text If TRUE then plots values in the heatmap cells. If FALSE does not plot values,
 #' just plot coloured cells instead.
 #'
-#' @param .scientific If TRUE then use the scientific notation for numbers (e.g., "2.0e+2").
+#' @param .scientific If TRUE then uses the scientific notation for numbers (e.g., "2.0e+2").
 #'
 #' @param .signif.digits Number of significant digits to display on plot.
 #'
@@ -311,7 +311,7 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #'
 #' @param .leg.title The The text for the plots's legend. Provide NULL to remove the legend's title completely.
 #'
-#' @param .legend If TRUE then displays a legend, otherwise removes legend from the plot.
+#' @param .legend If TRUE then displays a legend, otherwise removes the legend from the plot.
 #'
 #' @param .na.value Replace NA values with this value. By default they remain NA.
 #'
@@ -420,7 +420,7 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' @param .meta A metadata object. An R dataframe with sample names and their properties,
 #' such as age, serostatus or hla.
 #'
-#' @param .by Pass NA if you want to plot samples without grouping.
+#' @param .by Set NA if you want to plot samples without grouping.
 #'
 #' @param .title The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).
 #'

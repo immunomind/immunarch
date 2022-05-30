@@ -22,16 +22,16 @@ Note: each connection must represent a separate repertoire.}
 \item{.barcodes}{Either a character vector with barcodes or a named character/factor vector with
 barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.}
 
-\item{.force.list}{Logical. If TRUE then always return a list, even if the result is one data frame.}
+\item{.force.list}{Logical. If TRUE then always returns a list, even if the result is one data frame.}
 }
 \value{
 An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
 (if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
-with clonotype barcodes corresponding to the input barcodes. The output list's names are cluster names
+with clonotype barcodes corresponding to the input barcodes. The output list names are cluster names
 in the ".barcode" argument (Seurat::Idents() case only).
 }
 \description{
-Subset the input immune repertoire by barcodes. Pass a vector of
+Subsets the input immune repertoire by barcodes. Creates a vector of
 barcodes to subset or a vector cluster IDs and corresponding barcodes to
 get a list of immune repertoires corresponding to cluster IDs.
 Columns with clonotype counts

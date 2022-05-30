@@ -22,7 +22,7 @@
 #' @param .k Integer. Length of kmers.
 #' @param .col Character. Which column to use, pass "aa" (by default) for CDR3 amino acid sequence,
 #' pass "nt" for CDR3 nucleotide sequences.
-#' @param .coding Logical. If TRUE (by default) then remove all non-coding sequences from input data first.
+#' @param .coding Logical. If TRUE (by default) then removes all non-coding sequences from input data first.
 #'
 #' @return
 #' Data frame with two columns (kmers and their counts).
@@ -96,15 +96,15 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #'
 #' @param .data Character vector or the output from \code{getKmers}.
 #' @param .k Integer. Size of kmers.
-#' @param .method Character vector of length one. If "freq" then return a position frequency matrix (PFM) -
+#' @param .method Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 #' a matrix with occurences of each amino acid in each position.
 #'
-#' If "prob" then return a position probability matrix (PPM) - a matrix with probabilities of occurences of
+#' If "prob" then returns a position probability matrix (PPM) - a matrix with probabilities of occurences of
 #' each amino acid in each position. This is a traditional representation of sequence motifs.
 #'
-#' If "wei" then return a position weight matrix (PWM) - a matrix with log likelihoods of PPM elements.
+#' If "wei" then returns a position weight matrix (PWM) - a matrix with log likelihoods of PPM elements.
 #'
-#' If "self" then return a matrix with self-information of elements in PWM.
+#' If "self" then returns a matrix with self-information of elements in PWM.
 #'
 #' For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.
 #' @param .remove.stop Logical. If TRUE (by default) remove stop codons.

@@ -34,10 +34,10 @@
 #' such as 10, 100 and so on.
 #'
 #' Set \code{"rare"} to estimate relative abundance for the groups of rare clonotypes
-#' with low counts. Use \code{".bound"} to define the boundaries of clonotype groups.
+#' with low counts. Use \code{".bound"} to define the threshold of clonotype groups.
 #'
 #' @param .perc A single numerical value ranging from 0 to 100.
-#' @param .clone.types A named numerical vector with the boundaries of the half-closed
+#' @param .clone.types A named numerical vector with the threshold of the half-closed
 #' intervals that mark off clonal groups.
 #' @param .head A numerical vector with ranges of the top clonotypes.
 #' @param .bound A numerical vector with ranges of abundance for the rare clonotypes in

@@ -14,15 +14,15 @@ kmer_profile(.data, .method = c("freq", "prob", "wei", "self"), .remove.stop = T
 
 \item{.k}{Integer. Size of kmers.}
 
-\item{.method}{Character vector of length one. If "freq" then return a position frequency matrix (PFM) -
+\item{.method}{Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 a matrix with occurences of each amino acid in each position.
 
-If "prob" then return a position probability matrix (PPM) - a matrix with probabilities of occurences of
+If "prob" then returns a position probability matrix (PPM) - a matrix with probabilities of occurences of
 each amino acid in each position. This is a traditional representation of sequence motifs.
 
-If "wei" then return a position weight matrix (PWM) - a matrix with log likelihoods of PPM elements.
+If "wei" then returns a position weight matrix (PWM) - a matrix with log likelihoods of PPM elements.
 
-If "self" then return a matrix with self-information of elements in PWM.
+If "self" then returns a matrix with self-information of elements in PWM.
 
 For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.}
 

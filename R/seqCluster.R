@@ -22,11 +22,11 @@
 #'
 #' @param .dist List of distance objects produced with \link{seqDist} function.
 #'
-#' @param .perc_similarity   Numeric value between 0-1  specifying the maximum acceptable weight of an edge in a graph.
+#' @param .perc_similarity   Numeric value between 0 and 1 specifying the maximum acceptable weight of an edge in a graph.
 #'                           This threshold depends on the length of sequences.
 #' @param .nt_similarity     Numeric between 0-sequence length specifying
 #'                           the threshold of allowing a 1 in n nucleotides mismatch in sequencies.
-#' @param .fixed_threshold     Numeric specifying the threshold on the maximum weight of an edge in a graph.
+#' @param .fixed_threshold   Numeric specifying the threshold on the maximum weight of an edge in a graph.
 #'
 #' @return
 #'

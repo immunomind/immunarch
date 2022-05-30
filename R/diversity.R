@@ -3,7 +3,7 @@ if (getRversion() >= "2.15.1") {
 }
 
 
-#' Main function for immune repertoire diversity estimation
+#' The main function for immune repertoire diversity estimation
 #'
 #' @concept diversity
 #'
@@ -16,8 +16,7 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom rlang sym
 #'
 #' @description
-#' This is a utility function to estimate the diversity of species or objects
-#' in the given distribution.
+#' This is a utility function to estimate the diversity of species or objects in the given distribution.
 #'
 #' Note: functions will check if .data is a distribution of a random variable (sum == 1) or not.
 #' To force normalisation and / or to prevent this, set .do.norm to TRUE (do normalisation)
@@ -35,7 +34,7 @@ if (getRversion() >= "2.15.1") {
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .method Pick a method used for estimation out of a following list: chao1,
+#' @param .method Picks a method used for estimation out of a following list: chao1,
 #' hill, div, gini.simp, inv.simp, gini, raref, d50, dxx.
 #' @param .col A string that specifies the column(s) to be processed. Pass one of the
 #' following strings, separated by the plus sign: "nt" for nucleotide sequences,
@@ -51,11 +50,11 @@ if (getRversion() >= "2.15.1") {
 #' @param .extrapolation An integer. An upper limit for the number of clones to extrapolate to.
 #' Pass 0 (zero) to turn extrapolation subroutines off.
 #' @param .perc Set the percent to dXX index measurement.
-#' @param .norm Normalise rarefaction curves.
-#' @param .verbose If TRUE then output progress.
-#' @param .do.norm One of the three values - NA, TRUE or FALSE. If NA then check for distrubution (sum(.data) == 1)
-#' and normalise if needed with the given laplace correction value. if TRUE then do normalisation and laplace
-#' correction. If FALSE then don't do normalisaton and laplace correction.
+#' @param .norm Normalises rarefaction curves.
+#' @param .verbose If TRUE then outputs progress.
+#' @param .do.norm One of the three values - NA, TRUE or FALSE. If NA then checks for distrubution (sum(.data) == 1)
+#' and normalises if needed with the given laplace correction value. if TRUE then does normalisation and laplace
+#' correction. If FALSE then doesn't do neither normalisaton nor laplace correction.
 #' @param .laplace A numeric value, which is used as a pseudocount for Laplace
 #' smoothing.
 #'
