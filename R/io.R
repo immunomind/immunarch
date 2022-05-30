@@ -51,10 +51,6 @@ if (getRversion() >= "2.15.1") {
 #' R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 #' cell and chain types for different samples.
 #'
-#' @param .format A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
-#'
-#' Leave NA (which is default) if you want `immunarch` to detect formats automatically.
-#'
 #' @param .mode Either "single" for single chain data or "paired" for paired chain data.
 #'
 #' Currently "single" works for every format, and "paired" works only for 10X Genomics data.
@@ -74,10 +70,6 @@ if (getRversion() >= "2.15.1") {
 #'  immunoseq_2 \tab M \tab 2 \tab C\cr
 #'  immunoseq_3 \tab FALSE \tab 3 \tab A
 #' }
-#'
-#' \code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-#' Immunarch detects the file format automatically, and the argument is left only for the compatability
-#' purposes. It will be soon removed. Do not pass it or your code will stop working!
 #'
 #' Currently, Immunarch support the following formats:
 #'
@@ -143,27 +135,16 @@ if (getRversion() >= "2.15.1") {
 #' # > names(immdata)
 #' # [1] "data" "meta"
 #' @export repLoad
-repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
-  if (!is.na(.format)) {
-    warning("Please don't provide the .format argument,
-            immunarch detects the format automatically.
-            The .format argument will soon be removed.")
-  }
-
+repLoad <- function(.path, .mode = "paired", .coding = TRUE) {
   exclude_extensions <- c(
     "so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca"
   )
 
   # Process a repertoire file: detect format and load the data
   # Return: a named list with a repertoire data frame and it's name
-  .read_repertoire <- function(.path, .format, .mode, .coding) {
+  .read_repertoire <- function(.path, .mode, .coding) {
     parse_res <- list()
-
-    # Detect format
-    cur_format <- .format
-    if (is.na(.format)) {
-      cur_format <- .detect_format(.path)
-    }
+    cur_format <- .detect_format(.path)
 
     # Parse the file
     if (is.na(cur_format)) {
@@ -221,7 +202,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
   # just load all repertoire files.
   # Do NOT (!) create a dummy metadata, return en empty data frame instead
   # Return: list with data, metadata and barcodes (if necessary)
-  .process_batch <- function(.files, .format, .mode, .coding) {
+  .process_batch <- function(.files, .mode, .coding) {
     parsed_batch <- list()
     metadata <- tibble()
 
@@ -252,7 +233,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
         } else if (stringr::str_detect(.filepath, "barcode")) {
           # TODO: add the barcode processing subroutine to split by samples
         } else {
-          repertoire <- .read_repertoire(.filepath, .format, .mode, .coding)
+          repertoire <- .read_repertoire(.filepath, .mode, .coding)
           if (length(repertoire) != 0) {
             parsed_batch <- c(parsed_batch, repertoire)
           }
@@ -358,7 +339,7 @@ repLoad <- function(.path, .format = NA, .mode = "paired", .coding = TRUE) {
   for (batch_i in seq_along(batches)) {
     if (length(batches[[batch_i]])) {
       message('Processing "', names(batches)[batch_i], '" ...')
-      parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .format, .mode, .coding)
+      parsed_batches[[names(batches)[batch_i]]] <- .process_batch(batches[[batch_i]], .mode, .coding)
     }
   }
 

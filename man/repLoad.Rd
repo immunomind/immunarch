@@ -4,7 +4,7 @@
 \alias{repLoad}
 \title{Load immune repertoire files into the R workspace}
 \usage{
-repLoad(.path, .format = NA, .mode = "paired", .coding = TRUE)
+repLoad(.path, .mode = "paired", .coding = TRUE)
 }
 \arguments{
 \item{.path}{A character string specifying the path to the input data.
@@ -25,10 +25,6 @@ If input data has multiple chains or cell types stored in the same file
 (for example, like in 10xGenomics repertoire files), such repertoire files will be splitted to different
 R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 cell and chain types for different samples.}
-
-\item{.format}{A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
-
-Leave NA (which is default) if you want `immunarch` to detect formats automatically.}
 
 \item{.mode}{Either "single" for single chain data or "paired" for paired chain data.
 
@@ -65,10 +61,6 @@ your folder. Example:
  immunoseq_2 \tab M \tab 2 \tab C\cr
  immunoseq_3 \tab FALSE \tab 3 \tab A
 }
-
-\code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-Immunarch detects the file format automatically, and the argument is left only for the compatability
-purposes. It will be soon removed. Do not pass it or your code will stop working!
 
 Currently, Immunarch support the following formats:
 
