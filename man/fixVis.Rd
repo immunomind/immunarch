@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny.R
 \name{fixVis}
 \alias{fixVis}
-\title{Manipulate ggplot plots and make publication-ready plots}
+\title{Manipulate ggplot plots and create publication-ready plots}
 \usage{
 fixVis(.plot = NA)
 }

@@ -9,7 +9,7 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @concept single_cell
 #'
-#' @description Subset the input immune repertoire by barcodes. Pass a vector of
+#' @description Subsets the input immune repertoire by barcodes. Creates a vector of
 #' barcodes to subset or a vector cluster IDs and corresponding barcodes to
 #' get a list of immune repertoires corresponding to cluster IDs.
 #' Columns with clonotype counts
@@ -30,11 +30,11 @@ if (getRversion() >= "2.15.1") {
 #' @param .barcodes Either a character vector with barcodes or a named character/factor vector with
 #' barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.
 #'
-#' @param .force.list Logical. If TRUE then always return a list, even if the result is one data frame.
+#' @param .force.list Logical. If TRUE then always returns a list, even if the result is one data frame.
 #'
 #' @return An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
 #' (if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
-#' with clonotype barcodes corresponding to the input barcodes. The output list's names are cluster names
+#' with clonotype barcodes corresponding to the input barcodes. The output list names are cluster names
 #' in the ".barcode" argument (Seurat::Idents() case only).
 #'
 #' @seealso \link{select_clusters}
@@ -120,8 +120,8 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
 #'
 #' @concept single_cell
 #'
-#' @description Given the vector of barcodes from Seurat, split the input repertoires
-#' to separate subsets following the barcodes' assigned IDs. Useful when you want to
+#' @description Given the vector of barcodes from Seurat, splits the input repertoires
+#' to separate subsets following the barcodes' assigned IDs. Useful in case you want to
 #' split immune repertoires by patients or clusters.
 #'
 #' @param .data List of two elements "data" and "meta", with "data" being a list of

@@ -17,7 +17,7 @@ default_scale_fun <- function(x) {
 #'
 #' @aliases immunr_pca immunr_mds immunr_tsne
 #'
-#' @description Collect a set of principal variables, reducing the number of not important variables
+#' @description Collects a set of principal variables, reducing the number of not important variables
 #' to analyse. Dimensionality reduction makes data analysis algorithms work faster and
 #' sometimes more accurate, since it also reduces noise in the data. Currently available
 #' methods are:
@@ -44,13 +44,13 @@ default_scale_fun <- function(x) {
 #' @param .perp The perplexity parameter for \link[Rtsne]{Rtsne}. Sepcifies the number
 #' of neighbours each data point must have in the resulting plot.
 #'
-#' @param .raw If TRUE then return non-processed output from dimensionality reduction
+#' @param .raw If TRUE then returns the non-processed output from dimensionality reduction
 #' algorithms. Pass FALSE if you want to visualise results.
 #'
-#' @param .orig If TRUE then return the original result from algorithms. Pass FALSE
+#' @param .orig If TRUE then returns the original result from algorithms. Pass FALSE
 #' if you want to visualise results.
 #'
-#' @param .dist If TRUE then assume ".data" is a distance matrix.
+#' @param .dist If TRUE then assumes that ".data" is a distance matrix.
 #'
 #' @param ... Other parameters passed to \link[Rtsne]{Rtsne}.
 #'

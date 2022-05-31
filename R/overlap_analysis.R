@@ -19,8 +19,8 @@
 #' output from \code{\link{repOverlap}}.
 #' @param .method A string that defines the type of analysis to perform.
 #' @param .scale A function to scale the data before passing it to the MDS algorithm.
-#' @param .raw A logical value. Pass TRUE if you want to receive raw output of clustering
-#' or dimensionality reduction function of choice. Pass FALSE if you want to receive
+#' @param .raw A logical value. Set TRUE if you want to receive raw output of clustering
+#' or dimensionality reduction function of choice. Set FALSE if you want to receive
 #' processed output that can be subjected to visualisation with \code{\link{vis}} function.
 #'
 #' @param .perp A numerical value, t-SNE parameter, see \code{\link{immunr_tsne}}.

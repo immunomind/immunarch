@@ -4,7 +4,7 @@
 \alias{repLoad}
 \title{Load immune repertoire files into the R workspace}
 \usage{
-repLoad(.path, .format = NA, .mode = "paired", .coding = TRUE)
+repLoad(.path, .mode = "paired", .coding = TRUE)
 }
 \arguments{
 \item{.path}{A character string specifying the path to the input data.
@@ -26,17 +26,13 @@ If input data has multiple chains or cell types stored in the same file
 R data frames with only one type of chain and cell presented. The metadata file will have additional columns specifying
 cell and chain types for different samples.}
 
-\item{.format}{A character string specifying what format to use. Do NOT use it. See "Details" for more information on supported formats.
-
-Leave NA (which is default) if you want `immunarch` to detect formats automatically.}
-
 \item{.mode}{Either "single" for single chain data or "paired" for paired chain data.
 
 Currently "single" works for every format, and "paired" works only for 10X Genomics data.
 
 By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.}
 
-\item{.coding}{A logical value. Pass TRUE to get coding-only clonotypes (by defaul). Pass FALSE to get all clonotypes.}
+\item{.coding}{A logical value. Set TRUE to get coding-only clonotypes (by defaul). Set FALSE to get all clonotypes.}
 }
 \value{
 A list with two named elements:
@@ -65,10 +61,6 @@ your folder. Example:
  immunoseq_2 \tab M \tab 2 \tab C\cr
  immunoseq_3 \tab FALSE \tab 3 \tab A
 }
-
-\code{repLoad} has the ".format" argument that sets the format for input repertoire files.
-Immunarch detects the file format automatically, and the argument is left only for the compatability
-purposes. It will be soon removed. Do not pass it or your code will stop working!
 
 Currently, Immunarch support the following formats:
 
@@ -111,7 +103,7 @@ file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 print(names(immdata))
 
-# We recommend creating a metadata file named exactly "metadata.txt" in the folder.
+# We recommend creating a metadata file named "metadata.txt" in the folder.
 
 # In that case, when you load your data you will see:
 # > immdata <- repLoad("path/to/your/folder/")

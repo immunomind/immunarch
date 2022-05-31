@@ -16,9 +16,9 @@ check_distribution(
 \arguments{
 \item{.data}{Numeric vector of values.}
 
-\item{.do.norm}{One of the three values - NA, TRUE or FALSE. If NA then check for distrubution (sum(.data) == 1)
-and normalise if needed with the given laplace correction value. if TRUE then do normalisation and laplace
-correction. If FALSE then don't do normalisaton and laplace correction.}
+\item{.do.norm}{One of the three values - NA, TRUE or FALSE. If NA then checks for distrubution (sum(.data) == 1)
+and normalises if needed with the given laplace correction value. if TRUE then does the normalisation and laplace
+correction. If FALSE then doesn't do either normalisaton or laplace correction.}
 
 \item{.laplace}{Value for the laplace correction.}
 
@@ -34,7 +34,7 @@ is equal to one, and prints a warning message if not.}
 Numeric vector.
 }
 \description{
-Check if the given .data is a distribution and normalise it if necessary with an optional laplace correction.
+Check if the given .data is a distribution and normalise it if necessary with an optional Laplace correction.
 }
 \section{Developer Examples}{
 

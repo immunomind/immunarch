@@ -16,7 +16,7 @@ immunr_dbscan(.data, .eps, .dist = TRUE)
 \arguments{
 \item{.data}{Matrix or data frame with features, distance matrix or output from \link{repOverlapAnalysis} or \link{geneUsageAnalysis} functions.}
 
-\item{.k}{The number of clusters to create, passed as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.}
+\item{.k}{The number of clusters to create, defined as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.}
 
 \item{.k.max}{Limits the maximum number of clusters. It is passed as \code{k.max} to \link{fviz_nbclust} for \code{immunr_hclust} and \code{immunr_kmeans}.}
 
@@ -31,18 +31,18 @@ In case of \link{fviz_nbclust} it is the method to be used for estimating the op
 \item{.eps}{Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as \code{eps} to \link[fpc]{dbscan}.}
 }
 \value{
-\code{immunr_hclust} - list with two elements. First element is an output from \link{hcut}.
-Second element is an output from \link{fviz_nbclust}
+\code{immunr_hclust} - list with two elements. The first element is an output from \link{hcut}.
+The second element is an output from \link{fviz_nbclust}
 
-\code{immunr_kmeans} - list with three elements. First element is an output from \link{kmeans}.
-Second element is an output from \link{fviz_nbclust}.
-Third element is the input dataset \code{.data}.
+\code{immunr_kmeans} - list with three elements. The first element is an output from \link{kmeans}.
+The second element is an output from \link{fviz_nbclust}.
+The third element is the input dataset \code{.data}.
 
-\code{immunr_dbscan} - list with two elements. First element is an output from \link{dbscan}.
-Second element is the input dataset \code{.data}.
+\code{immunr_dbscan} - list with two elements. The first element is an output from \link{dbscan}.
+The second element is the input dataset \code{.data}.
 }
 \description{
-Cluster the data with one of the following methods:
+Clusters the data with one of the following methods:
 
 - \code{immunr_hclust} clusters the data using the hierarchical clustering from \link[factoextra]{hcut};
 

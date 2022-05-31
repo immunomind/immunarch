@@ -2,7 +2,7 @@
 % Please edit documentation in R/phylip.R
 \name{repClonalFamily}
 \alias{repClonalFamily}
-\title{This function uses PHYLIP package to make phylogenetic analysis. For making trees it uses
+\title{This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
 maximum parsimony methods.}
 \usage{
 repClonalFamily(.data, .threads, .nofail)
@@ -13,7 +13,7 @@ or verbose output; variants with one sample and list of samples are both support
 
 \item{.threads}{Number of threads to use.}
 
-\item{.nofail}{Return NA instead of stopping if PHYLIP is not installed.
+\item{.nofail}{Returns NA instead of stopping if PHYLIP is not installed.
 Used to avoid raising errors in examples on computers where PHYLIP is not installed.}
 }
 \value{

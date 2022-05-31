@@ -5,9 +5,9 @@
 \alias{bcrdata}
 \title{BCR dataset}
 \format{
-A list of two elements. First element ("data") is a list of 1 element named "full_clones"
+A list of two elements. The first element ("data") is a list of 1 element named "full_clones"
 that contains immune repertoire data frame.
-Second element ("meta") is empty metadata table.
+The second element ("meta") is empty metadata table.
 \describe{
   \item{data}{List of immune repertoire data frames.}
   \item{meta}{Metadata}

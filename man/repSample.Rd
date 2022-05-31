@@ -25,17 +25,17 @@ of these objects. They are supported with the same limitations as basic objects.
 Note: each connection must represent a separate repertoire.}
 
 \item{.method}{Character. Name of a sampling method. See "Description" for more details. Default value is "downsample"
-that downsamples repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
-doesn't pass any value to the ".n" argument.}
+that downsamples the repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
+doesn't set any value to the ".n" argument.}
 
-\item{.n}{Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Pass NA to sample
+\item{.n}{Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Set NA to sample
 repertoires to the size of the smallest repertoire in the ".data".}
 
-\item{.prob}{Logical. If TRUE then sample clonotypes with probability weights equal to their number of clones. Used only if
+\item{.prob}{Logical. If TRUE then samples the clonotypes with probability weights equal to their number of clones. Used only if
 ".method" is "sample".}
 }
 \value{
-Subsampled immune repertoires or a list of subsampled immune repertoires.
+Subsampled immune repertoire or a list of subsampled immune repertoires.
 }
 \description{
 Sample (downsample) repertoires using different approches.

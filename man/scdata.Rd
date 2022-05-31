@@ -5,7 +5,7 @@
 \alias{scdata}
 \title{Paired chain immune repertoire dataset}
 \format{
-A list of four elements.
+A list of four elements:
 "data" is a list with data frames with clonotype tables.
 "meta" is a metadata table.
 "bc_patients" is a list of barcodes corresponding to specific patients.

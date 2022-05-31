@@ -68,8 +68,8 @@ AA_TABLE_REVERSED <- AA_TABLE_REVERSED[order(names(AA_TABLE_REVERSED))]
 #'
 #' @description A dataset with single chain TCR data for testing and examplatory purposes.
 #'
-#' @format A list of two elements. First element ("data") is a list with data frames with clonotype tables.
-#' Second element ("meta") is a metadata table.
+#' @format A list of two elements. The first element ("data") is a list with data frames with clonotype tables.
+#' The second element ("meta") is a metadata table.
 #' \describe{
 #'   \item{data}{List of immune repertoire data frames.}
 #'   \item{meta}{Metadata}
@@ -84,9 +84,9 @@ AA_TABLE_REVERSED <- AA_TABLE_REVERSED[order(names(AA_TABLE_REVERSED))]
 #'
 #' @description A dataset with BCR data for testing and examplatory purposes.
 #'
-#' @format A list of two elements. First element ("data") is a list of 1 element named "full_clones"
+#' @format A list of two elements. The first element ("data") is a list of 1 element named "full_clones"
 #' that contains immune repertoire data frame.
-#' Second element ("meta") is empty metadata table.
+#' The second element ("meta") is empty metadata table.
 #' \describe{
 #'   \item{data}{List of immune repertoire data frames.}
 #'   \item{meta}{Metadata}
@@ -101,7 +101,7 @@ AA_TABLE_REVERSED <- AA_TABLE_REVERSED[order(names(AA_TABLE_REVERSED))]
 #'
 #' @description A dataset with paired chain IG data for testing and examplatory purposes.
 #'
-#' @format A list of four elements.
+#' @format A list of four elements:
 #' "data" is a list with data frames with clonotype tables.
 #' "meta" is a metadata table.
 #' "bc_patients" is a list of barcodes corresponding to specific patients.

@@ -8,37 +8,37 @@
 #' @importFrom tidyselect starts_with
 #'
 #' @param .data The data to be processed. Must be the list of 2 elements:
-#' data table and metadata table.
+#' a data table and a metadata table.
 #' @param .method Method of filtering. Implemented methods:
 #' by.meta, by.repertoire (by.rep), by.clonotype (by.cl)
 #' Default value: 'by.clonotype'.
 #' @param .query Filtering query. It's a named list of filters that will be applied
 #' to data.
 #' Possible values for names in this list are dependent on filter methods:
-#' - by.meta: filter by metadata. Names in the named list are metadata column headers.
-#' - by.repertoire: filter by number of clonotypes or total number of clones in sample.
+#' - by.meta: filters by metadata. Names in the named list are metadata column headers.
+#' - by.repertoire: filters by the number of clonotypes or total number of clones in sample.
 #' Possible names in the named list are "n_clonotypes" and "n_clones".
-#' - by.clonotype: filter by data in all samples. Names in the named list are
+#' - by.clonotype: filters by data in all samples. Names in the named list are
 #' data column headers.
 #' Elements of the named list for each of the filters are filtering options.
 #' Possible values for filtering options:
-#' - include("STR1", "STR2", ...): keep only rows with matching values.
+#' - include("STR1", "STR2", ...): keeps only rows with matching values.
 #' Available for methods: "by.meta", "by.clonotype".
-#' - exclude("STR1", "STR2", ...): remove rows with matching values.
+#' - exclude("STR1", "STR2", ...): removes rows with matching values.
 #' Available for methods: "by.meta", "by.clonotype".
-#' - lessthan(value): keep rows/samples with numeric values less than specified.
+#' - lessthan(value): keeps rows/samples with numeric values less than specified.
 #' Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-#' - morethan(value): keep rows/samples with numeric values more than specified.
+#' - morethan(value): keeps rows/samples with numeric values more than specified.
 #' Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-#' - interval(from, to): keep rows/samples with numeric values that fits in this interval.
+#' - interval(from, to): keeps rows/samples with numeric values that fits in this interval.
 #' from is inclusive, to is exclusive.
 #' Available for methods: "by.meta", "by.repertoire", "by.clonotype".
 #' Default value: 'list(CDR3.aa = exclude("partial", "out_of_frame"))'.
 #' @param .match Matching method for "include" and "exclude" options in query.
 #' Possible values:
-#' - exact: match only the exact specified string;
-#' - startswith: match all strings starting with the specified substring;
-#' - substring: match all strings containing the specified substring.
+#' - exact: matches only the exact specified string;
+#' - startswith: matches all strings starting with the specified substring;
+#' - substring: matches all strings containing the specified substring.
 #' Default value: 'exact'.
 #'
 #' @examples
@@ -227,9 +227,15 @@ filter_table <- function(.table, .column_name, .query_type, .query_args, .match)
     if (.match == "exact") {
       .table %<>% subset(!get(.column_name) %in% .query_args)
     } else if (.match == "startswith") {
-      .table <- .table[-startswith_rows(.table, .column_name, .query_args), ]
+      matching_rows <- startswith_rows(.table, .column_name, .query_args)
+      if (length(matching_rows) > 0) {
+        .table <- .table[-matching_rows, ]
+      }
     } else if (.match == "substring") {
-      .table <- .table[-substring_rows(.table, .column_name, .query_args), ]
+      matching_rows <- substring_rows(.table, .column_name, .query_args)
+      if (length(matching_rows) > 0) {
+        .table <- .table[-matching_rows, ]
+      }
     }
   } else if (.query_type == "lessthan") {
     .table %<>% subset(get(.column_name) < as_numeric_or_fail(.query_args))

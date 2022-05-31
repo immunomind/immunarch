@@ -3,12 +3,12 @@
 #' @concept utility_private
 #'
 #' @description
-#' Check if the given .data is a distribution and normalise it if necessary with an optional laplace correction.
+#' Check if the given .data is a distribution and normalise it if necessary with an optional Laplace correction.
 #'
 #' @param .data Numeric vector of values.
-#' @param .do.norm One of the three values - NA, TRUE or FALSE. If NA then check for distrubution (sum(.data) == 1)
-#' and normalise if needed with the given laplace correction value. if TRUE then do normalisation and laplace
-#' correction. If FALSE then don't do normalisaton and laplace correction.
+#' @param .do.norm One of the three values - NA, TRUE or FALSE. If NA then checks for distrubution (sum(.data) == 1)
+#' and normalises if needed with the given laplace correction value. if TRUE then does the normalisation and laplace
+#' correction. If FALSE then doesn't do either normalisaton or laplace correction.
 #' @param .laplace Value for the laplace correction.
 #' @param .na.val Replace all NAs with this value.
 #' @param .warn.zero if TRUE then the function checks if in the resulted vector (after normalisation)
@@ -416,7 +416,7 @@ apply_asymm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
 #'
 #' process_col_argument(.col)
 #'
-#' @param .col A string that specifies the column(s) to be processed. Pass one of the
+#' @param .col A string that specifies the column(s) to be processed. Select one of the
 #' following strings, separated by the plus sign: "nt" for nucleotide sequences,
 #' "aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments.
 #' @param type Character. Specifies the column to choose:

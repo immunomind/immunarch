@@ -26,10 +26,10 @@ if (getRversion() >= "2.15.1") {
 #'
 #' Note: each connection must represent a separate repertoire.
 #' @param .gene A character vector of length one with the name of the gene you want
-#' to analyse of the specific species. If you provide a vector of different length, only first element
+#' to analyse of the specific species. If you provide a vector of different length, only the first element
 #' will be used. The string should also contain the species of interest, for example, valid ".gene" arguments
 #' are "hs.trbv", "HomoSapiens.TRBJ" or "macmul.IGHV". For details run \code{gene_stats()}.
-#' @param .quant Select the column with data to evaluate.
+#' @param .quant Selects the column with data to evaluate.
 #' Pass NA if you want to compute gene statistics at the clonotype level without re-weighting.
 #' Pass "count" to use the "Clones" column to weight genes by abundance of their corresponding clonotypes.
 #' @param .ambig An option to handle ambiguous gene assigments, e.g., "TRAV1,TRAV2".
@@ -40,10 +40,10 @@ if (getRversion() >= "2.15.1") {
 #' - Pass "exc" to exclude all ambiguous gene assignments, so "TRAV1,TRAV2" is excluded from the resultant gene table.
 #'
 #'
-#' We recommend to turn in on by passing "inc" (turned on by default).
+#' We recommend to turn it on by passing "inc" (turned on by default).
 #' You can exclude data for the cases where
 #' there is no clear match for gene, include it for every supplied gene,
-#' or pick only first from the set. Set it to "exc", "inc" or "maj", correspondingly.
+#' or pick only first from the set. Set it to "exc", "inc" or "maj", respectively.
 #' @param .type Set the type of data to evaluate: "segment", "allele", or "family".
 #' @param .norm If TRUE then return proportions of genes. If FALSE then return counts of genes.
 #'

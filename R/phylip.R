@@ -1,4 +1,4 @@
-#' This function uses PHYLIP package to make phylogenetic analysis. For making trees it uses
+#' This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
 #' maximum parsimony methods.
 #'
 #' @concept phylip
@@ -28,7 +28,7 @@
 #'
 #' @param .threads Number of threads to use.
 #'
-#' @param .nofail Return NA instead of stopping if PHYLIP is not installed.
+#' @param .nofail Returns NA instead of stopping if PHYLIP is not installed.
 #' Used to avoid raising errors in examples on computers where PHYLIP is not installed.
 #'
 #' @return
