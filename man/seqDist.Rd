@@ -13,17 +13,17 @@ seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
 
 Every object must have columns in the immunarch compatible format \link{immunarch_data_format}}
 
-\item{.col}{A string that specifies the column name to be processed. Default value is 'CDR3.nt'.}
+\item{.col}{A string that specifies the column name to be processed. The default value is 'CDR3.nt'.}
 
 \item{.method}{Character value or user-defined function.}
 
-\item{.group_by}{Character vector of column names to group sequence by. Default value is c("V.first", "J.first"). Columns "V.first" and "J.first" containing first genes without allele suffixes are calculated automatically from "V.name" and "J.name" if absent in the data. Pass NA for no grouping options.}
+\item{.group_by}{Character vector of column names to group sequence by. The default value is c("V.first", "J.first"). Columns "V.first" and "J.first" containing first genes without allele suffixes are calculated automatically from "V.name" and "J.name" if absent in the data. Pass NA for no grouping options.}
 
-\item{.group_by_seqLength}{If TRUE  - add grouping by sequence length of .col argument}
+\item{.group_by_seqLength}{If TRUE  - adds grouping by sequence length of .col argument}
 
 \item{...}{Extra arguments for user-defined function.
 
-Default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
+The default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
 If a and b have different number of characters the distance is Inf.
 
 Other possible values are:

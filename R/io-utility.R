@@ -13,7 +13,9 @@
   l2 <- ifelse(str_trim(l) == "{", readLines(f, 1), NA)
   close(f)
 
-  if (any(str_detect(l, c("MiTCRFullExport", "mitcr")))) {
+  if (identical(l, character(0))) {
+    res_format <- NA
+  } else if (any(str_detect(l, c("MiTCRFullExport", "mitcr")))) {
     res_format <- "mitcr"
   } else if (str_detect(l, "CDR3 amino acid sequence") && str_detect(l, "V segment") && !str_detect(l, "Good events")) {
     res_format <- "mitcr"
@@ -23,10 +25,6 @@
     res_format <- "migmap"
   } else if (str_detect(l, "CDR3.amino.acid.sequence") && str_detect(l, "Umi.count")) {
     res_format <- "tcr"
-  } else if (str_detect(tolower(l), "frequency") && str_detect(tolower(l), "cdr3nt") && str_detect(tolower(l), "v")) {
-    res_format <- "vdjtools"
-  } else if (str_detect(tolower(l), "count") && str_detect(tolower(l), "sequence") && str_detect(tolower(l), "d segment")) {
-    res_format <- "vdjtools"
   } else if (str_detect(tolower(l), "junction start") && str_detect(tolower(l), "v-d-j-region end") && str_detect(tolower(l), "v-region")) {
     res_format <- "imgt"
   } else if (str_detect(tolower(l), "v_resolved") && str_detect(tolower(l), "amino_acid")) {
@@ -63,6 +61,10 @@
     res_format <- "rtcr"
   } else if (str_detect(l, "seqId") && str_detect(l, "cdrNucSeq") && str_detect(l, "cdrAASeq")) {
     res_format <- "imseq"
+  } else if (str_detect(tolower(l), "freq") && str_detect(tolower(l), "cdr3nt") && str_detect(tolower(l), "v")) {
+    res_format <- "vdjtools"
+  } else if (str_detect(tolower(l), "count") && str_detect(tolower(l), "sequence") && str_detect(tolower(l), "d segment")) {
+    res_format <- "vdjtools"
   } else if (!is.na(l2)) {
     if (str_trim(l2) == "\"clones\": [") {
       res_format <- "vidjil"
@@ -76,9 +78,7 @@
 .make_names <- function(.char) {
   if (is.na(.char[1])) {
     NA
-  }
-  # else { tolower(make.names(.char)) }
-  else {
+  } else {
     tolower(.char)
   }
 }

@@ -2,9 +2,9 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
-\title{This function aligns all sequences incliding germline that belong to one clonal lineage and one cluster.
-After clustering, building clonal lineage and germline, the next step is to analyze the degree of mutation
-and maturity of each clonal lineage. This allows you to find high mature cells and cells with a large
+\title{This function aligns all sequences (incliding germline) that belong to one clonal lineage and one cluster.
+After clustering and building the clonal lineage and germline, the next step is to analyze the degree of mutation
+and maturity of each clonal lineage. This allows for finding high mature cells and cells with a large
 number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
 Making alignment of the sequence is the first step towards sequence analysis including BCR.}
 \usage{
@@ -21,7 +21,7 @@ will not be aligned and will not be used in next steps of BCR pipeline
 (will be saved in output table only if .verbose_output parameter is set to TRUE).}
 
 \item{.prepare_threads}{Number of threads to prepare results table.
-High number can cause heavy memory usage!}
+Please note that high number can cause heavy memory usage!}
 
 \item{.align_threads}{Number of threads for lineage alignment.
 
@@ -34,7 +34,7 @@ function return), and unaligned clusters will be included in the output. Setting
 increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
 will be included in the output.}
 
-\item{.nofail}{Return NA instead of stopping if Clustal W is not installed.
+\item{.nofail}{Will return NA instead of stopping if Clustal W is not installed.
 Used to avoid raising errors in examples on computers where Clustal W is not installed.}
 }
 \value{

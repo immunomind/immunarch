@@ -28,7 +28,7 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 outside of CDR3 to be considered good for further alignment.}
 
 \item{ref_only_first}{This parameter, if TRUE, means to take only first sequence from reference
-for each allele name; if FALSE, all sequences will be taken, and output table will
+for each allele name; if FALSE, all sequences will be taken, and the output table will
 increase in size as a result.}
 }
 \value{

@@ -20,7 +20,7 @@ vis_heatmap2(
 \item{.meta}{A metadata object. An R dataframe with sample names and their properties,
 such as age, serostatus or hla.}
 
-\item{.by}{Pass NA if you want to plot samples without grouping.}
+\item{.by}{Set NA if you want to plot samples without grouping.}
 
 \item{.title}{The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).}
 

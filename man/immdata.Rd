@@ -5,8 +5,8 @@
 \alias{immdata}
 \title{Single chain immune repertoire dataset}
 \format{
-A list of two elements. First element ("data") is a list with data frames with clonotype tables.
-Second element ("meta") is a metadata table.
+A list of two elements. The first element ("data") is a list with data frames with clonotype tables.
+The second element ("meta") is a metadata table.
 \describe{
   \item{data}{List of immune repertoire data frames.}
   \item{meta}{Metadata}

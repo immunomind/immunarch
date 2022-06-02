@@ -35,7 +35,8 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.method}{A string that specifies the method of analysis or a combination of
 methods. The \code{repOverlap} function supports following basic methods:
-"public", "overlap", "jaccard", "tversky", "cosine", "morisita".}
+"public", "overlap", "jaccard", "tversky", "cosine", "morisita".
+If vector of multiple methods is given for this parameter, the first method will be used.}
 
 \item{.col}{A string that specifies the column(s) to be processed. Pass one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
@@ -55,16 +56,16 @@ In the first case, the integer defines the step of incremental overlap.
 
 In the second case, the vector encodes all repertoire sampling depths.}
 
-\item{.n.steps}{Something. Skipped if ".step" is a numeric vector.}
+\item{.n.steps}{Skipped if ".step" is a numeric vector.}
 
-\item{.downsample}{If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
-top N clonotypes in incremental overlaps. Change nothing for conventional methods.}
+\item{.downsample}{If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
+top N clonotypes in incremental overlaps. Change nothing of you are using conventional methods.}
 
-\item{.bootstrap}{Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.}
+\item{.bootstrap}{Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.}
 
-\item{.verbose.inc}{Logical. If TRUE then show output from the computation process.}
+\item{.verbose.inc}{Logical. If TRUE then shows output from the computation process.}
 
-\item{.force.matrix}{Logical. If TRUE than always force the matrix output even in case of two input repertoires.}
+\item{.force.matrix}{Logical. If TRUE then always forces the matrix output even in case of two input repertoires.}
 }
 \value{
 In most cases the return value is a matrix with overlap values for each pair of repertoires.

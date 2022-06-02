@@ -1022,10 +1022,11 @@ parse_10x_consensus <- function(.filename, .mode) {
     .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
     .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-    .skip = 0, .sep = ",", .add = c("chain", "clonotype_id", "consensus_id")
+    .skip = 0, .sep = ",", .add = c("chain", "clonotype_id", "consensus_id", "c_gene")
   )
   setnames(df, "clonotype_id", "ClonotypeID")
   setnames(df, "consensus_id", "ConsensusID")
+  setnames(df, "c_gene", IMMCOL_EXT$c)
   df
 }
 
@@ -1037,10 +1038,8 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
     .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
     .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
-    .add = c("chain", "barcode", "raw_clonotype_id", "contig_id")
+    .add = c("chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene")
   )
-  # setnames(df, "raw_clonotype_id", "RawClonotypeID")
-  # setnames(df, "raw_consensus_id", "RawConsensusID")
 
   # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
   df <- df[order(df$chain), ]
@@ -1051,31 +1050,36 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
       lazy_dt() %>%
       group_by(barcode, raw_clonotype_id) %>%
       summarise(
-        CDR3.nt = paste0(CDR3.nt, collapse = IMMCOL_ADD$scsep),
-        CDR3.aa = paste0(CDR3.aa, collapse = IMMCOL_ADD$scsep),
-        V.name = paste0(V.name, collapse = IMMCOL_ADD$scsep),
-        J.name = paste0(J.name, collapse = IMMCOL_ADD$scsep),
-        D.name = paste0(D.name, collapse = IMMCOL_ADD$scsep),
-        chain = paste0(chain, collapse = IMMCOL_ADD$scsep),
-        # raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
-        # raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
-        contig_id = gsub("_contig_", "", paste0(contig_id, collapse = IMMCOL_ADD$scsep))
+        CDR3.nt = paste0(get("CDR3.nt"), collapse = IMMCOL_ADD$scsep),
+        CDR3.aa = paste0(get("CDR3.aa"), collapse = IMMCOL_ADD$scsep),
+        V.name = paste0(get("V.name"), collapse = IMMCOL_ADD$scsep),
+        J.name = paste0(get("J.name"), collapse = IMMCOL_ADD$scsep),
+        D.name = paste0(get("D.name"), collapse = IMMCOL_ADD$scsep),
+        chain = paste0(get("chain"), collapse = IMMCOL_ADD$scsep),
+        contig_id = gsub(
+          "_contig_", "",
+          paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep)
+        ),
+        c_gene = paste0(get("c_gene"), collapse = IMMCOL_ADD$scsep)
       ) %>%
       as.data.table()
   }
+
   df <- df %>%
     lazy_dt() %>%
     group_by(CDR3.nt, V.name, J.name) %>%
     summarise(
-      Clones = length(unique(barcode)),
-      CDR3.aa = first(CDR3.aa),
-      D.name = first(D.name),
-      chain = first(chain),
-      barcode = paste0(unique(barcode), collapse = IMMCOL_ADD$scsep),
-      raw_clonotype_id = gsub("clonotype|None", "", paste0(unique(raw_clonotype_id), collapse = IMMCOL_ADD$scsep)),
-      # raw_clonotype_id = gsub("clonotype", "", paste0(raw_clonotype_id, collapse = IMMCOL_ADD$scsep)),
-      # raw_consensus_id = gsub("clonotype|consensus", "", paste0(raw_consensus_id, collapse = IMMCOL_ADD$scsep)),
-      contig_id = paste0(contig_id, collapse = IMMCOL_ADD$scsep)
+      Clones = length(unique(get("barcode"))),
+      CDR3.aa = first(get("CDR3.aa")),
+      D.name = first(get("D.name")),
+      chain = first(get("chain")),
+      barcode = paste0(unique(get("barcode")), collapse = IMMCOL_ADD$scsep),
+      raw_clonotype_id = gsub(
+        "clonotype|None", "",
+        paste0(unique(get("raw_clonotype_id")), collapse = IMMCOL_ADD$scsep)
+      ),
+      contig_id = paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep),
+      c_gene = first(get("c_gene"))
     ) %>%
     as.data.table()
 
@@ -1090,6 +1094,7 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
 
   setnames(df, "contig_id", "ContigID")
   setnames(df, "barcode", "Barcode")
+  setnames(df, "c_gene", IMMCOL_EXT$c)
 
   df[[IMMCOL$prop]] <- df[[IMMCOL$count]] / sum(df[[IMMCOL$count]])
   setcolorder(df, IMMCOL$order)

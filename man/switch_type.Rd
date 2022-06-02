@@ -16,7 +16,7 @@ process_col_argument(.col)
 "v" chooses the V gene segment column,
 "j" chooses the J gene segment column.}
 
-\item{.col}{A string that specifies the column(s) to be processed. Pass one of the
+\item{.col}{A string that specifies the column(s) to be processed. Select one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
 "aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments.}
 }

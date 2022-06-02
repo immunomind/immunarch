@@ -3,7 +3,7 @@ if (getRversion() >= "2.15.1") {
 }
 
 
-#' Main function for immune repertoire diversity estimation
+#' The main function for immune repertoire diversity estimation
 #'
 #' @concept diversity
 #'
@@ -16,8 +16,7 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom rlang sym
 #'
 #' @description
-#' This is a utility function to estimate the diversity of species or objects
-#' in the given distribution.
+#' This is a utility function to estimate the diversity of species or objects in the given distribution.
 #'
 #' Note: functions will check if .data is a distribution of a random variable (sum == 1) or not.
 #' To force normalisation and / or to prevent this, set .do.norm to TRUE (do normalisation)
@@ -35,7 +34,7 @@ if (getRversion() >= "2.15.1") {
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .method Pick a method used for estimation out of a following list: chao1,
+#' @param .method Picks a method used for estimation out of a following list: chao1,
 #' hill, div, gini.simp, inv.simp, gini, raref, d50, dxx.
 #' @param .col A string that specifies the column(s) to be processed. Pass one of the
 #' following strings, separated by the plus sign: "nt" for nucleotide sequences,
@@ -51,11 +50,11 @@ if (getRversion() >= "2.15.1") {
 #' @param .extrapolation An integer. An upper limit for the number of clones to extrapolate to.
 #' Pass 0 (zero) to turn extrapolation subroutines off.
 #' @param .perc Set the percent to dXX index measurement.
-#' @param .norm Normalise rarefaction curves.
-#' @param .verbose If TRUE then output progress.
-#' @param .do.norm One of the three values - NA, TRUE or FALSE. If NA then check for distrubution (sum(.data) == 1)
-#' and normalise if needed with the given laplace correction value. if TRUE then do normalisation and laplace
-#' correction. If FALSE then don't do normalisaton and laplace correction.
+#' @param .norm Normalises rarefaction curves.
+#' @param .verbose If TRUE then outputs progress.
+#' @param .do.norm One of the three values - NA, TRUE or FALSE. If NA then checks for distrubution (sum(.data) == 1)
+#' and normalises if needed with the given laplace correction value. if TRUE then does normalisation and laplace
+#' correction. If FALSE then doesn't do neither normalisaton nor laplace correction.
 #' @param .laplace A numeric value, which is used as a pseudocount for Laplace
 #' smoothing.
 #'
@@ -362,7 +361,7 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
   }
 
   if (.verbose) {
-    pb <- set_pb(sum(sapply(1:length(.data), function(i) {
+    pb <- set_pb(sum(sapply(seq_along(.data), function(i) {
       bc.vec <- .data[[i]]
       bc.sum <- sum(.data[[i]])
       sizes <- seq(.step, bc.sum, .step)
@@ -373,10 +372,13 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
     })))
   }
 
-  muc.list <- lapply(1:length(.data), function(i) {
+  muc.list <- lapply(seq_along(.data), function(i) {
     Sobs <- length(.data[[i]])
     bc.vec <- .data[[i]]
-    Sest <- chao1(bc.vec)
+    Sest <- chao1(bc.vec)[1]
+    if (is.na(Sest)) {
+      Sest <- Sobs
+    }
     n <- sum(bc.vec)
     sizes <- seq(.step, n, .step)
     # if (sizes[length(sizes)] != n) {
@@ -389,11 +391,11 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
       alphas <- sapply(freqs, function(k) .alpha(n, k, sz))
 
       # poisson
-      Sind <- sum(sapply(1:length(freqs), function(k) (1 - alphas[k]) * counts[k]))
-      if (Sest[1] == Sobs) {
+      Sind <- sum(sapply(seq_along(freqs), function(k) (1 - alphas[k]) * counts[k]))
+      if (Sest == Sobs) {
         SD <- 0
       } else {
-        SD <- sqrt(sum(sapply(1:length(freqs), function(k) (1 - alphas[k])^2 * counts[k])) - Sind^2 / Sest[1])
+        SD <- sqrt(sum(sapply(seq_along(freqs), function(k) (1 - alphas[k])^2 * counts[k])) - Sind^2 / Sest[1])
       }
       t <- Sind - Sobs
       if (t != 0) {
@@ -419,7 +421,7 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
       )
       if (length(sizes) != 1) {
         ex.res <- t(sapply(sizes, function(sz) {
-          f0 <- Sest[1] - Sobs
+          f0 <- Sest - Sobs
           f1 <- counts["1"]
           if (is.na(f1) || f0 == 0) {
             Sind <- Sobs

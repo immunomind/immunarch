@@ -28,24 +28,24 @@ of these objects. They are supported with the same limitations as basic objects.
 
 Note: each connection must represent a separate repertoire.}
 
-\item{.col}{A string that specifies the column(s) to be processed. Pass one of the
+\item{.col}{A string that specifies the column(s) to be processed. Outputs one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
 "aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
 pass "aa+v" to compute overlaps on CDR3 amino acid sequences paired with V gene segments, i.e.,
 in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.}
 
-\item{.quant}{A string that specifies the column to be processed. Pass "count" to see
-public clonotype sharing with the number of clones, pass "prop" to see proportions.}
+\item{.quant}{A string that specifies the column to be processed. Set "count" to see
+public clonotype sharing with the number of clones, set "prop" to see proportions.}
 
-\item{.coding}{Logical. If TRUE then preprocess the data to filter out non-coding sequences.}
+\item{.coding}{Logical. If TRUE then preprocesses the data to filter out non-coding sequences.}
 
 \item{.min.samples}{Integer. A minimal number of samples a clonotype must have to be included
 in the public repertoire table.}
 
 \item{.max.samples}{Integer. A maxminal number of samples a clonotype must have to be included
-in the public repertoire table. Pass NA (by default) to have the maximal amount of samples.}
+in the public repertoire table. Set NA (by default) to have the maximal amount of samples.}
 
-\item{.verbose}{Logical. If TRUE then output the progress.}
+\item{.verbose}{Logical. If TRUE then outputs the progress.}
 }
 \value{
 Data table with columns for:

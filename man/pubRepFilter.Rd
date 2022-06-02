@@ -14,7 +14,7 @@ pubRepFilter(.pr, .meta, .by, .min.samples = 1)
 
 \item{.by}{Named character vector. Names of the group to filter by.}
 
-\item{.min.samples}{Integer. Filter out clonotypes with the number of samples below than this number.}
+\item{.min.samples}{Integer. Filters out clonotypes with the number of samples below than this number.}
 }
 \value{
 Data frame with filtered clonotypes.

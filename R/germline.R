@@ -36,7 +36,7 @@
 #' outside of CDR3 to be considered good for further alignment.
 #'
 #' @param ref_only_first This parameter, if TRUE, means to take only first sequence from reference
-#' for each allele name; if FALSE, all sequences will be taken, and output table will
+#' for each allele name; if FALSE, all sequences will be taken, and the output table will
 #' increase in size as a result.
 #'
 #' @return
@@ -92,16 +92,24 @@ germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, s
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     rowwise() %>%
     mutate(Germline.sequence = generate_germline_sequence(
-      get("Sequence"), get("V.sequence"), get("J.sequence"),
-      get("V.end"), get("CDR3.start"), get("CDR3.end"), get("J.start"),
-      get("V3.Deletions"), get("J3.Deletions"), sample_name
+      seq = get("Sequence"),
+      v_ref = get("V.sequence"),
+      j_ref = get("J.sequence"),
+      v_end = str_length(get("CDR1.nt")) + str_length(get("CDR2.nt"))
+        + str_length(get("FR1.nt")) + str_length(get("FR2.nt"))
+        + str_length(get("FR3.nt")),
+      cdr3_start = get("CDR3.start"),
+      cdr3_end = get("CDR3.end"),
+      j_start = get("J.start"),
+      j3_del = get("J3.Deletions"),
+      sample_name = sample_name
     )) %>%
     filter(!is.na(get("Germline.sequence")))
   return(data)
 }
 
-generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, v3_del, j3_del, sample_name) {
-  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, v3_del, j3_del))) ||
+generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del, sample_name) {
+  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del))) ||
     (seq == "")) {
     warning(
       "Some of mandatory fields in a row ",
@@ -113,7 +121,7 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       v_ref,
       "\",\nJ.sequence = \"",
       j_ref,
-      "\",\nV.end = ",
+      "\",\nCalculated_V_end = ",
       v_end,
       ", CDR3.start = ",
       cdr3_start,
@@ -121,8 +129,6 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       cdr3_end,
       ", J.start = ",
       j_start,
-      ",\nV3.Deletions = ",
-      v3_del,
       ", J3.Deletions = ",
       j3_del,
       ".\nThe row will be dropped!"
@@ -131,27 +137,15 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
   } else {
     cdr3_start %<>% as.numeric()
     cdr3_end %<>% as.numeric()
-    v3_del %<>% as.numeric()
     j3_del %<>% as.numeric()
 
-    if (v_end <= cdr3_start) {
-      v_part <- v_ref
-    } else {
-      # trim intersection of V and CDR3 from reference V gene
-      v_part <- stringr::str_sub(
-        v_ref, 1,
-        max(0, stringr::str_length(v_ref) - (v_end - cdr3_start + v3_del))
-      )
-    }
+    # trim intersection of V and CDR3 from reference V gene
+    v_part <- str_sub(v_ref, 1, v_end)
 
     cdr3_part <- paste(rep("n", cdr3_end - cdr3_start), collapse = "")
 
-    if (j_start >= cdr3_end) {
-      j_part <- j_ref
-    } else {
-      # trim intersection of J and CDR3 from reference J gene
-      j_part <- stringr::str_sub(j_ref, cdr3_end - j_start + j3_del + 1)
-    }
+    # trim intersection of J and CDR3 from reference J gene
+    j_part <- str_sub(j_ref, max(0, cdr3_end - j_start - j3_del + 1))
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()

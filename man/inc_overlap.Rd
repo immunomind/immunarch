@@ -39,12 +39,12 @@ In the second case, the vector encodes all repertoire sampling depths.}
 \item{.n.steps}{Integer. Number of steps if \code{.step} is a single integer.
 Skipped if ".step" is a numeric vector.}
 
-\item{.downsample}{If TRUE then perform downsampling to N clonotypes at each step instead of choosing the
+\item{.downsample}{If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
 top N clonotypes.}
 
-\item{.bootstrap}{Pass NA to turn off any bootstrapping, pass a number to perform bootstrapping with this number of tries.}
+\item{.bootstrap}{Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.}
 
-\item{.verbose.inc}{Logical. If TRUE then show output from the computation process.}
+\item{.verbose.inc}{Logical. If TRUE then shows the output from the computation process.}
 
 \item{...}{Other arguments passed to \code{.fun}.}
 }
@@ -52,7 +52,7 @@ top N clonotypes.}
 List with overlap matrices.
 }
 \description{
-Like in paper https://www.pnas.org/content/111/16/5980 (Fig. 4).
+For reference please look up https://www.pnas.org/content/111/16/5980 (Fig. 4).
 }
 \examples{
 data(immdata)

@@ -37,16 +37,16 @@
 #' Note: each connection must represent a separate repertoire.
 #'
 #' @param .method Character. Name of a sampling method. See "Description" for more details. Default value is "downsample"
-#' that downsamples repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
-#' doesn't pass any value to the ".n" argument.
+#' that downsamples the repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
+#' doesn't set any value to the ".n" argument.
 #'
-#' @param .n Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Pass NA to sample
+#' @param .n Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Set NA to sample
 #' repertoires to the size of the smallest repertoire in the ".data".
 #'
-#' @param .prob Logical. If TRUE then sample clonotypes with probability weights equal to their number of clones. Used only if
+#' @param .prob Logical. If TRUE then samples the clonotypes with probability weights equal to their number of clones. Used only if
 #' ".method" is "sample".
 #'
-#' @return Subsampled immune repertoires or a list of subsampled immune repertoires.
+#' @return Subsampled immune repertoire or a list of subsampled immune repertoires.
 #'
 #' @details
 #' If \code{.method} is "downsample" then \code{repSample} chooses \code{.n} clones (not clonotypes!) from the input repertoires without any probabilistic simulation,
