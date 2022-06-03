@@ -150,7 +150,7 @@ process_cluster <- function(cluster_row) {
     paste0("sh -c \"cd ", temp_dir, "; phylip dnapars infile\""),
     input = (c("V", 1, 5, "Y"))
   ) %>%
-    quiet()
+    quiet(capture_output = TRUE)
 
   tree <- ape::read.tree(file.path(temp_dir, "outtree"))
 

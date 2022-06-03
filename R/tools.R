@@ -639,9 +639,14 @@ convert_seq_list_to_dnabin <- function(seq_list) {
   return(dnabin)
 }
 
-quiet <- function(procedure) {
-  procedure %>%
-    capture.output() %>%
+# capture_output() suppresses stdout, but also drops returned value
+quiet <- function(procedure, capture_output = FALSE) {
+  (if (capture_output) {
+    procedure %>% capture.output()
+  } else {
+    procedure
+  }) %>%
     invisible() %>%
-    suppressMessages()
+    suppressMessages() %>%
+    suppressWarnings()
 }
