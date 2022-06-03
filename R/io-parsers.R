@@ -26,7 +26,7 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
   )
 
   # IO_REFACTOR
-  suppressMessages(df <- readr::read_delim(.filename,
+  df <- quiet(readr::read_delim(.filename,
     col_names = TRUE,
     col_types = col.classes, delim = .sep,
     quote = "", escape_double = FALSE,

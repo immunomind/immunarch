@@ -614,9 +614,14 @@ j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
   stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
 }
 
-quiet <- function(procedure) {
-  procedure %>%
-    capture.output() %>%
+# capture_output() suppresses stdout, but also drops returned value
+quiet <- function(procedure, capture_output = FALSE) {
+  (if (capture_output) {
+    procedure %>% capture.output()
+  } else {
+    procedure
+  }) %>%
     invisible() %>%
-    suppressMessages()
+    suppressMessages() %>%
+    suppressWarnings()
 }
