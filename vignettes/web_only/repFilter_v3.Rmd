@@ -36,7 +36,7 @@ library(immunarch)
 ```
 
 # Data filtering
-In many research cases, you could want to filter your data by metadata, clonotypes parameters or genes, so for this purpose, you can use the `repFilter` function. 
+In many research cases, you would want to filter your data by metadata, clonotypes parameters or genes, so for this purpose, you can use the `repFilter` function.
 
 ## Methods for filtering data
 `repFilter` has 3 parameters: `.method`, `.query` and `.match`.
@@ -165,7 +165,7 @@ names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 2
 
 #### Example 3
 
-Filter for repertoires containing more than 60000 clonotypes:
+Filter for repertoires containing more than 6000 clonotypes:
 
 ```{r example-3.1}
 repFilter(immdata, .method = "by.repertoire", .query = list(n_clonotypes = morethan(6000)))$meta
@@ -196,7 +196,7 @@ Filter out all noncoding clonotypes from `immdata`. As you see, `immdata` datase
 repFilter(immdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))$meta
 ```
 
-Note that filtering `by.clonotype` or `by.cl` works within repertoire(sample). Repertoire(sample) could be removed from your data only in case if all clonotypes in sample do not satisfy the condition: 
+Note that filtering `by.clonotype` or `by.cl` works within repertoire(sample). Repertoire(sample) could be removed from your data only in case if all clonotypes in sample do not meet the condition:
 
 ```{r example-4.1.1}
 names(repFilter(immdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))$data)
@@ -214,7 +214,7 @@ names(repFilter(immdata, .method = "by.clonotype", .query = list(Clones = moreth
 In method `by.clonotype` or `by.cl`, there is an extra argument `.match`. The `.match` argument can has the following values: 
  - `exact` - looks for exact match in gene names
  - `substring`- looks for substring in gene names
- - `startswith` - looks for gene names starting with the same pattern
+ - `startswith` - looks for gene names starting with the chosen pattern
  
 Filter out all clonotypes within samples with V gene 'TRBV1' or 'TRGV11'
 
@@ -250,7 +250,7 @@ scdata$meta
 names(scdata$data)
 ```
 
-`repFiter` can also work with single-cell data containing not only `meta` and 'data`, but also extra information, for example, about clusters:
+`repFiter` can also work with single-cell data containing not only `meta` and 'data`, but also extra information, e.g. about clusters:
 
 ```{r, results = 'hide'}
 repFilter(scdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))

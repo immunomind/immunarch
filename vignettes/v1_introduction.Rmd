@@ -95,16 +95,16 @@ immdata <- repLoad("path/to/your/data")  # Replace it with the path to your data
 
 ### Advanced methods
 
-For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see "Tutorials".
+For advanced methods such as clonotype annotation, clonotype tracking, k-mer analysis and public repertoire analysis see "Tutorials".
 
 
 ## Installation troubleshooting
 
-If you can not install `devtools`, check sections 1 and 2 below.
+If you cannot install `devtools`, check sections 1 and 2 below.
 
-If you run in any other trouble, try the following steps:
+If you run into any other trouble, try the following steps:
 
-1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.5.0 (for example, `R version 3.1.0`), try updating your R version to the latest one. Note: if you try to install a package after the update and it still fails with the following message:
+1. Check your R version. Run `version` command in the console to get your R versions. If the R version is below 3.5.0 (for example, `R version 3.1.0`), try updating your R version to the most recent one. Note: if you try to install a package after the update and it still fails with the following message:
 
    ```
    ERROR: dependencies ‘httr’, ‘usethis’ are not available for package ‘devtools’
@@ -113,7 +113,7 @@ If you run in any other trouble, try the following steps:
      installation of package ‘devtools’ had non-zero exit status
    ```
 
-   it means that you need to re-install packages that were built under the previous R version. In the above example it would be packages `httr` and `usethis`. In order to re-install a package you need to execute the command `install.packages("package_name")`, where `package_name` is the name of the package to update. To find packages that need to be re-installed after updating R, you need to look for installation messages like this in the installation process:
+   it means that you need to reinstall the packages that were built under the previous R versions. In the example above those would be the packages `httr` and `usethis`. In order to reinstall a package you need to execute the command `install.packages("package_name")`, where `package_name` is the name of the package to update. To find the packages that need to be reinstalled after updating R, you need to look for installation messages like this in the installation process:
 
    ```
 ERROR: package ‘usethis’ was installed by an R version with different internals; it needs to be reinstalled for use with this R version
@@ -139,7 +139,7 @@ Execution halted
 
 3. For Mac users. Make sure to install XCode from App Store first and command line developers tools second by executing the following command in Terminal: `xcode-select –install`
 
-4. For Mac users. If you have issues like old packages can't be updated, or error messages such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
+4. For Mac users. If you have other issues, for instance some old packages can't be updated, or you see an error message such as `ld: warning: directory not found for option` or `ld: library not found for -lgfortran`, [this link](https://thecoatlessprofessor.com/programming/rcpp-rcpparmadillo-and-os-x-mavericks--lgfortran-and--lquadmath-error/) will help you to fix the issue.
 
 5. For Mac Mojave (1.14) users. If you run into the following error:
 
@@ -206,11 +206,11 @@ ERROR: lazy loading failed for package 'immunarch'
 Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
    ```
 
-9. For Windows users. If you have issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
+9. For Windows users. If you encounter issues with the package installation, or if you want to change the folder for R packages, feel free to check [this forum post](https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8).
 
-9. For Windows users. Make sure to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). Before installation close RStudio, install Rtools and re-open it afterwards. To check if Rtools installed correctly, run the `devtools::find_rtools()` command (after installing the devtools package). If you have an error, check [this link](https://github.com/r-lib/devtools/issues/1941) for help.
+9. For Windows users. Make sure to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). Before installation close RStudio, install Rtools and reopen it afterwards. To check if Rtools installed correctly, run the `devtools::find_rtools()` command (after installing the devtools package). If you have an error, check [this link](https://github.com/r-lib/devtools/issues/1941) for help.
 
-9. If you can not install dependencies for `immunarch`, please try manual installation of all dependencies by executing the following command in R console:
+9. If you cannot install dependencies for `immunarch`, please consider manual installation of all dependencies by executing the following command in R console:
 
    ```
 install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress", "zip", "backports", "ellipsis", "zeallot", "SparseM", "MatrixModels", "sp", "haven", "curl", "readxl", "openxlsx", "minqa", "nloptr", "RcppEigen", "utf8", "vctrs", "carData", "pbkrtest", "quantreg", "maptools", "rio", "lme4", "labeling", "munsell", "cli", "fansi", "pillar", "viridis", "car", "ellipse", "flashClust", "leaps", "scatterplot3d", "modeltools", "DEoptimR", "digest", "gtable", "lazyeval", "rlang", "scales", "tibble", "viridisLite", "withr", "assertthat", "glue", "magrittr", "pkgconfig", "R6", "tidyselect", "BH", "plogr", "purrr", "ggsci", "cowplot", "ggsignif", "polynom", "fastcluster", "plyr", "abind", "dendextend", "FactoMineR", "mclust", "flexmix", "prabclus", "diptest", "robustbase", "kernlab", "GlobalOptions", "shape", "colorspace", "stringi", "hms", "clipr", "crayon", "httpuv", "mime", "jsonlite", "xtable", "htmltools", "sourcetools", "later", "promises", "gridBase", "RColorBrewer", "yaml", "ggplot2", "dplyr", "dtplyr", "data.table", "gridExtra", "ggpubr", "pheatma3", "ggrepel", "reshape2", "DBI", "factoextra", "fpc", "circlize", "tidyr", "Rtsne", "readr", "readxl", "shiny", "shinythemes", "treemap", "igraph", "airr", "ggseqlogo", "UpSetR", "stringr", "ggalluvial", "Rcpp"))
@@ -229,4 +229,4 @@ install.packages(c("rematch", "prettyunits", "forcats", "cellranger", "progress"
    Check your path to the downloaded package archive file. It should not be "path/to/your/folder/with/immunarch.tar.gz", but a path on your PC to the downloaded file, e.g., "C:/Users/UserName/Downloads/immunarch.tar.gz" or "/Users/UserName/Downloads/immunarch.tar.gz".
 
 
-9. If troubles still persist, let us know via [GitHub](https://github.com/immunomind/immunarch/issues) (preferably) or [support@immunomind.io](mailto:support@immunomind.io) (in case of private data).
+9. If any of the troubles still persist, let us know via [GitHub](https://github.com/immunomind/immunarch/issues) (preferably) or [support@immunomind.io](mailto:support@immunomind.io) (in case of private data).

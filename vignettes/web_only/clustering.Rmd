@@ -26,7 +26,7 @@ Clustering B-cell receptors (BCRs) and T-cell receptors (TCRs) sequences is a co
 
 In the B-cell repertoire, this step is required for making clonal lineages. B-cell **clonal lineage** represents a set of B cells that presumably share a common origin (arising from the same VDJ rearrangement event) and a common ancestor. Information about clonal lineages allows you to estimate somatic hypermutation levels and find binding affinity-changing mutations.
 
-T cells that are able to recognize identical  epitopes were shown to have high similar TCR (Glanville et al. 2017; Dash et al. 2017). Clustering allows finding high similar TCR in repertoires that are likely to recognize the same antigens. 
+T cells that are able to recognize identical epitopes were shown to have high similar TCR (Glanville et al. 2017; Dash et al. 2017). Clustering allows for finding high similar TCR in repertoires that are likely to recognize the same antigens.
 
 Clustering analysis involves two steps. The first step requires calculating the distance between sequences. The second step requires clustering the sequences using the information about the distance between them. 
 
@@ -46,7 +46,7 @@ library(immunarch)
 
 # Calculating the distance
 
-CDR3 region is the most variable region in BCR and TCR. This region is commonly used for calculating the distance between sequences. However, other regions could also be used for calculating this distance — like full nucleotide reads. You can use any user-defined column of sequences to calculate the distance, since column selection depends solely on your research purpose. For example, the use of ‘nt’ sequences results in more conservative clustering. 
+CDR3 region is the most variable region in BCR and TCR. This region is commonly used for calculating the distance between sequences. However, other regions could also be used for calculating this distance — like the full nucleotide reads. You can use any user-defined column of sequences to calculate the distance, since column selection depends solely on your research purpose. For example, the use of ‘nt’ sequences results in more conservative clustering.
 
 Example:
 
@@ -86,7 +86,7 @@ distBCR <- seqDist( BCRdata, .group_by = c('V.name', 'J.name'), .group_by_seqLen
 
 There are several possible approaches to estimating the distance between the sequences. 
 
-The default approach is to use a Hamming distance. When sequences have different lengths the distance between them equals infinity. Use this approach if you want to take into consideration only the point mutations excluding the indels. 
+The default approach is to use the Hamming distance. When sequences have different lengths the distance between them equals infinity. Use this approach if you want to take into consideration only the point mutations excluding the indels.
 
 Example:
 
@@ -94,7 +94,7 @@ Example:
 distBCR <- seqDist( BCRdata, .col = 'CDR3.aa', .methods = "hamming", .group_by_seqLength = T)
 ```
 
-When you want to take into consideration not only the single mutations but also indels, Levenshtein distance is a more appropriate method to use.
+When you want to take into consideration not only single mutations but also indels, Levenshtein distance is a more appropriate method to use.
 
 ```{r example 4}
 distBCR <- seqDist( BCRdata, .col = 'CDR3.aa', .methods = "lv", .group_by_seqLength = F)
@@ -138,7 +138,7 @@ In general, the number of clusters you get depends on threshold you defined prev
 
 1) *Percentage similarity*
 
-You define in advance the minimum percentage of similarity for the sequences in your cluster. For example, you want to find cluster of BCRs that not only have the same [V.name](http://V.name), [J.name](http://J.name), and CDR3 length — but also have more than 90 percent match in their CDR3  
+Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same [V.name](http://V.name), [J.name](http://J.name), and CDR3 length — but also have more than 90 percent match in their CDR3.
 
 ```{r example 8}
 #clustering TCR 
@@ -150,7 +150,7 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 2) *Fixed similarity*
 
-You directly determine the number of mismatched nucleotides. In case of TCR-recognising the same epitope, you use 1 amino acid mismatch in CDR3 sequences.
+Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.
 
 ```{r example 9}
 #clustering TCR 
@@ -174,7 +174,7 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 # Clustering result
 
-If you have made it to this part, then you've successfully clustered your sequences. Congratulations! Now you have a new column `“cluster”` in your data sheet. You can now generalize the concept of clonotype based on sequence similarity and consider clusters as clonotypes.
+If you made it to this part, then you have successfully clustered your sequences. Congratulations! Now you have a new column `“cluster”` in your data sheet. You can now generalize the concept of clonotype based on sequence similarity and consider clusters as clonotypes.
 
 # Other ways to identify B cell clones
 

@@ -40,4 +40,4 @@ data(immdata)
 
 # Get in contact with us
 
-Can not find an important feature? Have a question or found a bug? Contact us at support@immunomind.io
+Cannot find an important feature? Have a question or found a bug? Contact us at support@immunomind.io

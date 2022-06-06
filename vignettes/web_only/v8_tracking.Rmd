@@ -37,20 +37,20 @@ data(immdata)
 ```
 
 # Tracking of clonotypes
-Clonotype tracking is popular approach to monitor changes in frequency of clonotypes of interest in vaccination and cancer immunology. For example, a researcher can track a clonotype of across different time points in pre- and post-vaccination repertoires. Or analyse growth of malignant clonotypes in tumor sample.
+Clonotype tracking is a popular approach to monitor changes in the frequency of clonotypes of interest in vaccination and cancer immunology. For example, a researcher can track a clonotype across different time points in pre- and post-vaccination repertoires, or analyse the growth of malignant clonotypes in a tumor sample.
 
 Various methods of clonotype tracking are integrated into the one `trackClonotypes` function. Currently, there are three methods to choose from. The output of `trackClonotypes` can be immediately visualised with the `vis` function.
 
 ## Tracking the most abundant clonotypes
 The simplest approach is to choose the most abundant clonotypes from one of the input immune repertoires and track across all immune repertoires in a batch. Arguments `.which` and `.col` are used to choose the immune repertoire, the number of clonotypes to take from it and which columns to use.
 
-To choose the 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence:
+To choose the top 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence use this code:
 
 ```{r warning=F}
 tc1 <- trackClonotypes(immdata$data, list(1, 5), .col = "nt")
 ```
 
-Value `list(1, 5)` of the `.which` argument (second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires `immdata$data`. Value `"nt"` of the `.col` argument means that the function should take CDR3 nucleotide sequences only.
+Value `list(1, 5)` of the `.which` argument (the second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires `immdata$data`. Value `"nt"` of the `.col` argument means that the function should apply to CDR3 nucleotide sequences only.
 
 To choose the 10 most abundant amino acid clonotype sequences and their V genes from the "MS1" repertoire to track:
 
@@ -69,7 +69,7 @@ p1 / p2
 ```
 
 ## Tracking clonotypes with specific nucleotide or amino acid sequences
-In order to track specific clonotype sequences, you can provide nucleotide or amino acid sequences as the `.which` argument, along with the column `.col` specifying in which columns to search for sequences. For example, to track seven CDR3 amino acid sequences specifyed below you need to execute the following code:
+In order to track specific clonotype sequences, you can provide nucleotide or amino acid sequences as the `.which` argument, along with the column `.col` specifying in which columns to search for sequences. For example, to track seven CDR3 amino acid sequences specified below you need to execute the following code:
 
 ```{r warning=F}
 target <- c("CASSLEETQYF", "CASSDSSGGANEQFF", "CASSDSSGSTDTQYF", "CASSLAGGYNEQFF", "CASSDSAGGTDTQYF", "CASSLDSYEQYF", "CASSSAGGYNEQFF")
@@ -79,7 +79,7 @@ vis(tc)
 
 
 ## Tracking clonotypes with specific sequences and gene segments
-An improvement over the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. Support you have a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this by choosing the 10 most abundant clonotypes from the first repertoire in the batch:
+An improvement upon the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. For support you can use a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this below by choosing the 10 most abundant clonotypes from the first repertoire in the batch:
 
 ```{r}
 target <- immdata$data[[1]] %>%
@@ -101,8 +101,8 @@ Note that you can use any columns in the `target` data frame, such as both CDR3 
 # Visualisation of tracking
 There are three ways to visualise clonotype tracking, depending on your research and aesthetic needs. To choose the type of plot, you need to provide the `".plot"` parameter to the `vis()` function, specifying one of three plot types:
  - `.plot = "smooth"` - used by default, a visualisation using smooth lines and stacked bar plots;
- - `.plot = "area"` - visualise abundances using areas under the abundance lines;
- - `.plot = "line"` - visualise only lines, connecting levels of abundances of a same clonotype between time points.
+ - `.plot = "area"` - visualises abundances using areas under the abundance lines;
+ - `.plot = "line"` - visualises only the lines, connecting levels of abundances of a same clonotype between time points.
 
 ```{r warning=F, fig.height=5}
 target <- c("CASSLEETQYF", "CASSDSSGGANEQFF", "CASSDSSGSTDTQYF", "CASSLAGGYNEQFF", "CASSDSAGGTDTQYF", "CASSLDSYEQYF", "CASSSAGGYNEQFF")
@@ -129,7 +129,7 @@ vis(tc, .order = c("A2-i129", "A2-i133", "A4-i191"))
 
 If your metadata contains information about time such as timepoints for vaccination or tumor samples, you can use it to re-order samples accordingly. In our examples `immdata$meta` does not contain information about timepoints, so we will simulate this case.
 
-First, we create an additional column in the metadata with randomly choosen timepoints:
+First, we create an additional column in the metadata with randomly chosen time points:
 ```{r}
 immdata$meta$Timepoint <- sample(1:length(immdata$data))
 immdata$meta
@@ -172,4 +172,4 @@ Run `?scale_fill_brewer` in the R console to learn more about ColorBrewer and it
 
 # Get in contact with us
 
-Can not find an important feature? Have a question or found a bug? Contact us at support@immunomind.io
+Cannot find an important feature? Have a question or found a bug? Contact us at support@immunomind.io

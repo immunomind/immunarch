@@ -24,18 +24,18 @@ output:
 # Intro to MiXCR
 MiXCR is a universal software for fast and accurate extraction of T- and B- cell receptor repertoires from any type of sequencing data. It handles paired- and single-end reads, considers sequence quality, corrects PCR errors and identifies germline hypermutations. The software supports both partial- and full-length profiling and employs all available RNA or DNA information, including sequences upstream of V and downstream of J gene segments.
 
-Some features include:
+Some of its features include:
 
-- Extracts both T- and B-cell receptor repertoires
-- Extracts repertoire data even from regular RNA-Seq
-- Successfully analyses full-length antibody data
+- Extracting both T- and B-cell receptor repertoires
+- Extracting repertoire data even from regular RNA-Seq
+- Successfully analysing full-length antibody data
 
-Find more info about MiXCR <a href="https://milaboratory.com/software/mixcr/">here</a>
+Find more info about MiXCR at <a href="https://milaboratory.com/software/mixcr/">here</a>
 
 # Prepare MiXCR Data
 Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data. **Important Note:** Currently supports MiXCR version 3 and above.
 
-MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz. In this tutorial I used the real IGH data from <a href="https://github.com/milaboratory/mixcr/blob/develop/doc/paper/paperAttachments.md">here</a>.
+MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz. In this tutorial we use the real IGH data from <a href="https://github.com/milaboratory/mixcr/blob/develop/doc/paper/paperAttachments.md">here</a>.
 
 You can choose to use the `analyze amplicon` method to process in one go:
 
@@ -158,7 +158,7 @@ $meta
 
 ## Loading a folder
 
-In this tutorial I used three identical samples just to show the output, but you should put all your output `.txt` clonotype files in this folder, along with your `metadata.txt` file.
+In this tutorial we use three identical samples just to demonstrate the output, but you should put all your output `.txt` clonotype files in this folder, along with your `metadata.txt` file.
 
 ```{r, eval=F}
 # 1.1) Load the package into R:
@@ -188,7 +188,7 @@ Processing "/path/to/your/mixcr/data/" ...
 Done!
 ```
 
-Now let's take a look at the data! Your output should look something like below.
+Now let's take a look at the data! Your output should look something like that.
 
 ```{r, eval=F}
 r$> immdata_mixcr
