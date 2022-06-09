@@ -14,7 +14,7 @@
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
 #' @importFrom utils str
-#' @importFrom ape as.DNAbin muscle
+#' @importFrom ape as.DNAbin clustal
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel mclapply
 
@@ -39,7 +39,7 @@
 #' @param .align_threads Number of threads for lineage alignment.
 #'
 #' It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-#' must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
+#' must contain 'Cluster' column, which is added by seqCluster() function, and 'Germline.sequence'
 #' column, which is added by repGermline() function.
 #'
 #' @param .verbose_output If TRUE, all output dataframe columns will be included (see documentation about this
@@ -74,7 +74,7 @@
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline() %>%
+#'   repGermline(.threads = 2, .nofail = TRUE) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 #' @export repAlignLineage
 repAlignLineage <- function(.data,
@@ -87,7 +87,7 @@ repAlignLineage <- function(.data,
     "repAlignLineage requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
-  ), .nofail)) {
+  ), .nofail, is.na(.data))) {
     return(NA)
   }
 

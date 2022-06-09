@@ -26,7 +26,7 @@ Please note that high number can cause heavy memory usage!}
 \item{.align_threads}{Number of threads for lineage alignment.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
+must contain 'Cluster' column, which is added by seqCluster() function, and 'Germline.sequence'
 column, which is added by repGermline() function.}
 
 \item{.verbose_output}{If TRUE, all output dataframe columns will be included (see documentation about this
@@ -63,7 +63,7 @@ bcr_data <- bcrdata$data
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
-  repGermline() \%>\%
+  repGermline(.threads = 2, .nofail = TRUE) \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 }
 \concept{align_lineage}

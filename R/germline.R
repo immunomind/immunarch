@@ -9,16 +9,18 @@
 #'
 #' @aliases repGermline
 #'
-#' @importFrom stringr str_sub str_length str_replace fixed
+#' @importFrom stringr str_sub str_length str_replace fixed str_extract_all str_extract boundary str_c
 #' @importFrom purrr imap
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom dplyr filter rowwise
-
+#' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
+#' @importFrom ape as.DNAbin clustal
+#'
 #' @description Creates germlines for clonal lineages
 #'
 #' @usage
 #'
-#' repGermline(.data, species, min_nuc_outside_cdr3, ref_only_first)
+#' repGermline(.data, species, min_nuc_outside_cdr3, ref_only_first, .threads, .nofail)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -39,6 +41,11 @@
 #' for each allele name; if FALSE, all sequences will be taken, and the output table will
 #' increase in size as a result.
 #'
+#' @param .threads Number of threads to use.
+#'
+#' @param .nofail Will return NA instead of stopping if Clustal W is not installed.
+#' Used to avoid raising errors in examples on computers where Clustal W is not installed.
+#'
 #' @return
 #'
 #' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
@@ -50,9 +57,22 @@
 #' data(bcrdata)
 #'
 #' bcrdata$data %>%
-#'   repGermline()
+#'   repGermline(.threads = 2, .nofail = TRUE)
 #' @export repGermline
-repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5, ref_only_first = TRUE) {
+repGermline <- function(.data,
+                        species = "HomoSapiens",
+                        min_nuc_outside_cdr3 = 5,
+                        ref_only_first = TRUE,
+                        .threads = parallel::detectCores(),
+                        .nofail = FALSE) {
+  if (!require_system_package("clustalw", error_message = paste0(
+    "repGermline requires Clustal W app to be installed!\n",
+    "Please download it from here: http://www.clustal.org/download/current/\n",
+    "or install it with your system package manager (such as apt or dnf)."
+  ), .nofail)) {
+    return(NA)
+  }
+
   # prepare reference sequences for all alleles
   genesegments_env <- new.env()
   data("genesegments", envir = genesegments_env)
@@ -69,12 +89,18 @@ repGermline <- function(.data, species = "HomoSapiens", min_nuc_outside_cdr3 = 5
       .with_names = TRUE,
       reference = reference,
       species = species,
-      min_nuc_outside_cdr3 = min_nuc_outside_cdr3
+      min_nuc_outside_cdr3 = min_nuc_outside_cdr3,
+      threads = .threads
     )
   return(.data)
 }
 
-germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, sample_name = NA) {
+germline_single_df <- function(data,
+                               reference,
+                               species,
+                               min_nuc_outside_cdr3,
+                               threads,
+                               sample_name = NA) {
   data %<>%
     validate_genes_edges(sample_name) %>%
     add_column_with_first_gene(
@@ -90,26 +116,38 @@ germline_single_df <- function(data, reference, species, min_nuc_outside_cdr3, s
     ) %>%
     merge_reference_sequences(reference, "J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
-    rowwise() %>%
-    mutate(Germline.sequence = generate_germline_sequence(
-      seq = get("Sequence"),
-      v_ref = get("V.sequence"),
-      j_ref = get("J.sequence"),
-      v_end = str_length(get("CDR1.nt")) + str_length(get("CDR2.nt"))
-        + str_length(get("FR1.nt")) + str_length(get("FR2.nt"))
-        + str_length(get("FR3.nt")),
-      cdr3_start = get("CDR3.start"),
-      cdr3_end = get("CDR3.end"),
-      j_start = get("J.start"),
-      j3_del = get("J3.Deletions"),
-      sample_name = sample_name
-    )) %>%
+    calculate_germlines_parallel(threads, sample_name) %>%
     filter(!is.na(get("Germline.sequence")))
   return(data)
 }
 
-generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del, sample_name) {
-  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del))) ||
+calculate_germlines_parallel <- function(data, threads, sample_name) {
+  cluster <- makeCluster(threads)
+  clusterExport(cluster, c("generate_germline_sequence", "calculate_j_start", "sample_name"),
+    envir = environment()
+  )
+
+  data[["Germline.sequence"]] <- parApply(cluster, data, 1, function(row) {
+    generate_germline_sequence(
+      seq = row[["Sequence"]],
+      v_ref = row[["V.sequence"]],
+      j_ref = row[["J.sequence"]],
+      v_end = str_length(row[["CDR1.nt"]]) + str_length(row[["CDR2.nt"]])
+        + str_length(row[["FR1.nt"]]) + str_length(row[["FR2.nt"]])
+        + str_length(row[["FR3.nt"]]),
+      cdr3_start = row[["CDR3.start"]],
+      cdr3_end = row[["CDR3.end"]],
+      fr4_seq = row[["FR4.nt"]],
+      sample_name = sample_name
+    )
+  })
+
+  stopCluster(cluster)
+  return(data)
+}
+
+generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, fr4_seq, sample_name) {
+  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, fr4_seq))) ||
     (seq == "")) {
     warning(
       "Some of mandatory fields in a row ",
@@ -127,25 +165,21 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       cdr3_start,
       ", CDR3.end = ",
       cdr3_end,
-      ", J.start = ",
-      j_start,
-      ", J3.Deletions = ",
-      j3_del,
-      ".\nThe row will be dropped!"
+      ",\nFR4.nt = \"",
+      fr4_seq,
+      "\".\nThe row will be dropped!"
     )
     return(NA)
   } else {
-    cdr3_start %<>% as.numeric()
-    cdr3_end %<>% as.numeric()
-    j3_del %<>% as.numeric()
+    cdr3_length <- as.numeric(cdr3_end) - as.numeric(cdr3_start)
 
     # trim intersection of V and CDR3 from reference V gene
     v_part <- str_sub(v_ref, 1, v_end)
 
-    cdr3_part <- paste(rep("n", cdr3_end - cdr3_start), collapse = "")
+    cdr3_part <- paste(rep("n", cdr3_length), collapse = "")
 
     # trim intersection of J and CDR3 from reference J gene
-    j_part <- str_sub(j_ref, max(0, cdr3_end - j_start - j3_del + 1))
+    j_part <- str_sub(j_ref, calculate_j_start(j_ref, fr4_seq))
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()
@@ -283,4 +317,39 @@ validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
     )
   }
   return(data)
+}
+
+# align reference J gene and FR4 segment from clonotype to find start of J gene outside of CDR3
+calculate_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
+  # max_len_diff is needed to prevent alignment of sequences that are very different in length;
+  # we are only interested in the left side of alignment
+  j_len <- str_length(j_ref)
+  fr4_len <- str_length(fr4_seq)
+  min_len <- min(j_len, fr4_len)
+  max_len <- max(j_len, fr4_len)
+  trim_len <- min(min_len + max_len_diff, max_len)
+  j_trimmed <- str_sub(j_ref, 1, trim_len)
+  fr4_trimmed <- str_sub(fr4_seq, 1, trim_len)
+
+  # alignment will contain vector of 2 aligned strings where deletions are "-" characters
+  alignment <- list(J = j_trimmed, FR4 = fr4_trimmed) %>%
+    lapply(
+      function(sequence) {
+        sequence %>%
+          str_extract_all(boundary("character")) %>%
+          unlist()
+      }
+    ) %>%
+    ape::as.DNAbin() %>%
+    ape::clustal() %>%
+    as.character() %>%
+    apply(1, paste, collapse = "") %>%
+    lapply(toupper)
+
+  num_deletions <- str_length(stringr::str_extract(alignment[["FR4"]], pattern = "^(-+)"))
+  if (is.na(num_deletions) | (str_length(alignment[["J"]]) <= num_deletions)) {
+    return(1)
+  } else {
+    return(num_deletions + 1)
+  }
 }
