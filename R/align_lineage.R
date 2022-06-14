@@ -74,7 +74,7 @@
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline(.threads = 2, .nofail = TRUE) %>%
+#'   repGermline(.threads = 2) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 #' @export repAlignLineage
 repAlignLineage <- function(.data,
@@ -87,7 +87,7 @@ repAlignLineage <- function(.data,
     "repAlignLineage requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
-  ), .nofail, is.na(.data))) {
+  ), .nofail)) {
     return(NA)
   }
 

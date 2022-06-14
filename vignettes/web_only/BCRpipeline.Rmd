@@ -28,26 +28,26 @@ A **B-cell receptor (BCR)** consists of an immunoglobulin molecule and a СD79 m
 
 The pipeline involves five steps:
 
-1. **Data loading.** 
-    
+1. **Data loading.**
+
     The step includes loading the data and checking whether there is enough information for the pipeline to work.
-    
-2. **Reconstructing clonal lineages.** 
-    
+
+2. **Reconstructing clonal lineages.**
+
     At this step, all BCR sequences are divided into clonal lineages — sets of sequences that presumably share a common ancestor.
-    
-3. **Building germline.** 
-    
-    At this step, the algorithm generates a sequence that represents the ancestral sequence for each BCR in a clonal lineage. 
-    
-4. **Aligning sequences within clonal lineages.** 
-    
+
+3. **Building germline.**
+
+    At this step, the algorithm generates a sequence that represents the ancestral sequence for each BCR in a clonal lineage.
+
+4. **Aligning sequences within clonal lineages.**
+
     This step involves preparation for phylogenetic and somatic hypermutation analysis.
-    
-5. **Phylogenetic analysis.** 
-    
+
+5. **Phylogenetic analysis.**
+
     This final step provides phylogeny reconstruction and trunk length calculation (by running the PHYLIP package).
-    
+
 
 ```{r setup, include=FALSE, echo=FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
@@ -82,7 +82,7 @@ data(bcrdata)
 
 # Reconstructing clonal lineages
 
-B-cell **clonal lineage** represents a set of B cells that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor. BCR sequences are clustered according to their similarity, and sets of sequences in one cluster are named clonal lineages. Clustering involves two steps. 
+B-cell **clonal lineage** represents a set of B cells that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor. BCR sequences are clustered according to their similarity, and sets of sequences in one cluster are named clonal lineages. Clustering involves two steps.
 
 - The first step is calculating the distance between sequences.
 - The second step is clustering the sequences using the information about the distance between them. Check our tutorial for more information about clustering: [https://www.notion.so/immunomind/Clustering-1752b661f8794fb6aba19f25e9373488](https://www.notion.so/Clustering-1752b661f8794fb6aba19f25e9373488)
@@ -99,13 +99,13 @@ bcrdata$data <- seqCluster(bcrdata$data  %>% top(500), distBCR, .perc_similarity
 
 # Building germline
 
-Each clonal lineage has its own **germline sequence** that represents the ancestral sequence for each BCR in the clonal lineage. In other words, germline sequence is a sequence of B-cells immediately after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful for assessing the degree of mutation and maturity of the repertoire. 
+Each clonal lineage has its own **germline sequence** that represents the ancestral sequence for each BCR in the clonal lineage. In other words, germline sequence is a sequence of B-cells immediately after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful for assessing the degree of mutation and maturity of the repertoire.
 
 In Immunarch, `repGermline()` function generates germline for each sequence:
 
 ```{r example 3}
 #generate germline
-bcrdata$data %>% 
+bcrdata$data %>%
     repGermline()
 ```
 
@@ -122,22 +122,22 @@ bcrdata$data %>%
 
 `.data` - The data to be processed. Can be `data.frame`, `data.table`, or a list of these objects.
 
-`species` - Specifies species from which reference V and J are taken.	
+`.species` - Specifies species from which reference V and J are taken.
 Available species: "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius", "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus", "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus", "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus", "SusScrofa".
 
-`min_nuc_outside_cdr3` — filters out reads with low numbers of nucleotides from V or J gene outside of CDR3 region
+`.min_nuc_outside_cdr3` — filters out reads with low numbers of nucleotides from V or J gene outside of CDR3 region
 
-`ref_only_first`  
+`.ref_only_first`
 
 - if `TRUE`, only the first sequence from reference for each allele name will be used in the analysis;
 - if `FALSE`, all allele variants will be analyzed, and the output table will increase in size as a result.
 
-If  `ref_only_first = FALSE`, you will get several different germlines:
+If  `.ref_only_first = FALSE`, you will get several different germlines:
 
 ```{r example 5}
 bcrdata$data %>%
     top(1) %>%
-repGermline(ref_only_first = FALSE) %>% .$full_clones %>% .$Germline.sequence
+repGermline(.ref_only_first = FALSE) %>% .$full_clones %>% .$Germline.sequence
 ```
 
 # Aligning sequences within a clonal lineage
@@ -160,7 +160,7 @@ sudo apt install clustalw
 ```{r example 7, results = 'hide'}
 data(bcrdata)
 bcr_data <- bcrdata$data %>% top(500)
-bcr_data %>% 
+bcr_data %>%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
   repGermline() %>%
   repAlignLineage(.min_lineage_sequences = 2)
@@ -181,7 +181,7 @@ bcr_data %>%
 - `.prepare_threads` — the number of threads to prepare results table. A high number can cause memory overload!
 - `.align_threads` — the number of threads for lineage alignment.
 
-Requirements for the input table for `repAlignLineage()`  
+Requirements for the input table for `repAlignLineage()`
 
 - must have columns in the immunarch compatible format `immunarch_data_format`,
 - must contain the 'Cluster' column generated by seqCluster() function,
@@ -189,11 +189,11 @@ Requirements for the input table for `repAlignLineage()`
 
 # Phylogenetic analysis
 
-For BCR phylogenetic analysis, we use the **maximum parsimony method**. The maximum parsimony method reconstructs a phylogenetic tree for the lineage by minimizing the total number of mutation events [2]. 
+For BCR phylogenetic analysis, we use the **maximum parsimony method**. The maximum parsimony method reconstructs a phylogenetic tree for the lineage by minimizing the total number of mutation events [2].
 
 This method also enables the reconstruction of intermediate sequences that may have existed between BCR and germline sequence. These simulated sequences contain mutations that were ancestral to the clonotype group selected with the maximum parsimony analysis.
 
-In Immunarch, function `repClonalFamily` builds a phylogeny of B-cells, generates a common ancestor, and calculates a trunk length. The mean trunk length represents the distance between the most recent common ancestor and germline sequence [3]. Mean trunk length serves as a measure of the maturity of a lineage. The trunk length of the lineage tree approximates the maturation state of the initiating B cell for each clone [4]. 
+In Immunarch, function `repClonalFamily` builds a phylogeny of B-cells, generates a common ancestor, and calculates a trunk length. The mean trunk length represents the distance between the most recent common ancestor and germline sequence [3]. Mean trunk length serves as a measure of the maturity of a lineage. The trunk length of the lineage tree approximates the maturation state of the initiating B cell for each clone [4].
 
 This function requires `PHYLIP` app to be installed. The app can be downloaded here: [https://evolution.genetics.washington.edu/phylip/getme-new1.html](https://evolution.genetics.washington.edu/phylip/getme-new1.html), or could be installed with your system package manager (such as apt or dnf).
 
@@ -212,10 +212,10 @@ sudo apt-get install -y phylip
 repClonalFamily usage example:
 
 ```{r example 10, results = 'hide'}
-bcr <- bcr_data %>% 
+bcr <- bcr_data %>%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
   repGermline() %>%
-  repAlignLineage(.min_lineage_sequences = 2) %>% 
+  repAlignLineage(.min_lineage_sequences = 2) %>%
   repClonalFamily(.threads = 2)
 ```
 

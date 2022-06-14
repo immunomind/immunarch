@@ -9,7 +9,7 @@ for each BCR in clonal lineage. In other words, germline sequence is a sequence 
 after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
 for assessing the degree of mutation and maturity of the repertoire.}
 \usage{
-repGermline(.data, species, min_nuc_outside_cdr3, ref_only_first, .threads, .nofail)
+repGermline(.data, .species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -17,24 +17,26 @@ or a list of these objects.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}.}
 
-\item{species}{Species from which the data was acquired. Available options:
+\item{.species}{Species from which the data was acquired. Available options:
 "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
 "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
 "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 "SusScrofa".}
 
-\item{min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
+\item{.align_j_gene}{In some data, calculation of J gene start in reference based on
+numbers from input file can be wrong, and as result, J genes from germline and input clonotype
+become misaligned. Setting this parameter to TRUE enables precise alignment of J genes
+to detect the correct starting point, but it significantly reduces performance.}
+
+\item{.min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
 outside of CDR3 to be considered good for further alignment.}
 
-\item{ref_only_first}{This parameter, if TRUE, means to take only first sequence from reference
+\item{.ref_only_first}{This parameter, if TRUE, means to take only first sequence from reference
 for each allele name; if FALSE, all sequences will be taken, and the output table will
 increase in size as a result.}
 
 \item{.threads}{Number of threads to use.}
-
-\item{.nofail}{Will return NA instead of stopping if Clustal W is not installed.
-Used to avoid raising errors in examples on computers where Clustal W is not installed.}
 }
 \value{
 Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
@@ -49,6 +51,6 @@ Creates germlines for clonal lineages
 data(bcrdata)
 
 bcrdata$data \%>\%
-  repGermline(.threads = 2, .nofail = TRUE)
+  repGermline(.threads = 2)
 }
 \concept{germline}

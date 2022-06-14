@@ -20,31 +20,34 @@
 #'
 #' @usage
 #'
-#' repGermline(.data, species, min_nuc_outside_cdr3, ref_only_first, .threads, .nofail)
+#' repGermline(.data,
+#' .species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
 #'
 #' It must have columns in the immunarch compatible format \link{immunarch_data_format}.
 #'
-#' @param species Species from which the data was acquired. Available options:
+#' @param .species Species from which the data was acquired. Available options:
 #' "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
 #' "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
 #' "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
-#' @param min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
+#' @param .align_j_gene In some data, calculation of J gene start in reference based on
+#' numbers from input file can be wrong, and as result, J genes from germline and input clonotype
+#' become misaligned. Setting this parameter to TRUE enables precise alignment of J genes
+#' to detect the correct starting point, but it significantly reduces performance.
+#'
+#' @param .min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
 #' outside of CDR3 to be considered good for further alignment.
 #'
-#' @param ref_only_first This parameter, if TRUE, means to take only first sequence from reference
+#' @param .ref_only_first This parameter, if TRUE, means to take only first sequence from reference
 #' for each allele name; if FALSE, all sequences will be taken, and the output table will
 #' increase in size as a result.
 #'
 #' @param .threads Number of threads to use.
-#'
-#' @param .nofail Will return NA instead of stopping if Clustal W is not installed.
-#' Used to avoid raising errors in examples on computers where Clustal W is not installed.
 #'
 #' @return
 #'
@@ -57,29 +60,29 @@
 #' data(bcrdata)
 #'
 #' bcrdata$data %>%
-#'   repGermline(.threads = 2, .nofail = TRUE)
+#'   repGermline(.threads = 2)
 #' @export repGermline
 repGermline <- function(.data,
-                        species = "HomoSapiens",
-                        min_nuc_outside_cdr3 = 5,
-                        ref_only_first = TRUE,
-                        .threads = parallel::detectCores(),
-                        .nofail = FALSE) {
-  if (!require_system_package("clustalw", error_message = paste0(
-    "repGermline requires Clustal W app to be installed!\n",
-    "Please download it from here: http://www.clustal.org/download/current/\n",
-    "or install it with your system package manager (such as apt or dnf)."
-  ), .nofail)) {
-    return(NA)
+                        .species = "HomoSapiens",
+                        .align_j_gene = FALSE,
+                        .min_nuc_outside_cdr3 = 5,
+                        .ref_only_first = TRUE,
+                        .threads = parallel::detectCores()) {
+  if (.align_j_gene) {
+    require_system_package("clustalw", error_message = paste0(
+      "repGermline with .align_j_gene = TRUE requires Clustal W app to be installed!\n",
+      "Please download it from here: http://www.clustal.org/download/current/\n",
+      "or install it with your system package manager (such as apt or dnf)."
+    ))
   }
 
   # prepare reference sequences for all alleles
   genesegments_env <- new.env()
   data("genesegments", envir = genesegments_env)
-  reference <- genesegments_env$GENE_SEGMENTS %>% filter(species == species)
+  reference <- genesegments_env$GENE_SEGMENTS %>% filter(species == .species)
   rm(genesegments_env)
   reference <- reference[c("sequence", "allele_id")]
-  if (ref_only_first) {
+  if (.ref_only_first) {
     reference <- reference[!duplicated(reference$allele_id), ]
   }
 
@@ -88,8 +91,9 @@ repGermline <- function(.data,
       germline_single_df,
       .with_names = TRUE,
       reference = reference,
-      species = species,
-      min_nuc_outside_cdr3 = min_nuc_outside_cdr3,
+      species = .species,
+      align_j_gene = .align_j_gene,
+      min_nuc_outside_cdr3 = .min_nuc_outside_cdr3,
       threads = .threads
     )
   return(.data)
@@ -98,6 +102,7 @@ repGermline <- function(.data,
 germline_single_df <- function(data,
                                reference,
                                species,
+                               align_j_gene,
                                min_nuc_outside_cdr3,
                                threads,
                                sample_name = NA) {
@@ -116,14 +121,14 @@ germline_single_df <- function(data,
     ) %>%
     merge_reference_sequences(reference, "J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
-    calculate_germlines_parallel(threads, sample_name) %>%
+    calculate_germlines_parallel(align_j_gene, threads, sample_name) %>%
     filter(!is.na(get("Germline.sequence")))
   return(data)
 }
 
-calculate_germlines_parallel <- function(data, threads, sample_name) {
+calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_name) {
   cluster <- makeCluster(threads)
-  clusterExport(cluster, c("generate_germline_sequence", "calculate_j_start", "sample_name"),
+  clusterExport(cluster, c("generate_germline_sequence", "align_and_find_j_start", "sample_name"),
     envir = environment()
   )
 
@@ -137,7 +142,10 @@ calculate_germlines_parallel <- function(data, threads, sample_name) {
         + str_length(row[["FR3.nt"]]),
       cdr3_start = row[["CDR3.start"]],
       cdr3_end = row[["CDR3.end"]],
+      j_start = row[["J.start"]],
+      j3_del = row[["J3.Deletions"]],
       fr4_seq = row[["FR4.nt"]],
+      align_j_gene = align_j_gene,
       sample_name = sample_name
     )
   })
@@ -146,8 +154,18 @@ calculate_germlines_parallel <- function(data, threads, sample_name) {
   return(data)
 }
 
-generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, fr4_seq, sample_name) {
-  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, fr4_seq))) ||
+generate_germline_sequence <- function(seq,
+                                       v_ref,
+                                       j_ref,
+                                       v_end,
+                                       cdr3_start,
+                                       cdr3_end,
+                                       j_start,
+                                       j3_del,
+                                       fr4_seq,
+                                       align_j_gene,
+                                       sample_name) {
+  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del, fr4_seq))) ||
     (seq == "")) {
     warning(
       "Some of mandatory fields in a row ",
@@ -165,13 +183,20 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
       cdr3_start,
       ", CDR3.end = ",
       cdr3_end,
+      ", J.start = ",
+      j_start,
+      ", J3.Deletions = ",
+      j3_del,
       ",\nFR4.nt = \"",
       fr4_seq,
       "\".\nThe row will be dropped!"
     )
     return(NA)
   } else {
-    cdr3_length <- as.numeric(cdr3_end) - as.numeric(cdr3_start)
+    cdr3_start %<>% as.numeric()
+    cdr3_end %<>% as.numeric()
+    j3_del %<>% as.numeric()
+    cdr3_length <- cdr3_end - cdr3_start
 
     # trim intersection of V and CDR3 from reference V gene
     v_part <- str_sub(v_ref, 1, v_end)
@@ -179,7 +204,12 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, v_end, cdr3_start, cdr
     cdr3_part <- paste(rep("n", cdr3_length), collapse = "")
 
     # trim intersection of J and CDR3 from reference J gene
-    j_part <- str_sub(j_ref, calculate_j_start(j_ref, fr4_seq))
+    if (align_j_gene) {
+      calculated_j_start <- align_and_find_j_start(j_ref, fr4_seq)
+    } else {
+      calculated_j_start <- max(0, cdr3_end - j_start - j3_del + 1)
+    }
+    j_part <- str_sub(j_ref, calculated_j_start)
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()
@@ -320,7 +350,7 @@ validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
 }
 
 # align reference J gene and FR4 segment from clonotype to find start of J gene outside of CDR3
-calculate_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
+align_and_find_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
   # max_len_diff is needed to prevent alignment of sequences that are very different in length;
   # we are only interested in the left side of alignment
   j_len <- str_length(j_ref)
