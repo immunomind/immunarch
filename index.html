@@ -268,10 +268,11 @@
 <div class="section level3">
 <h3 id="latest-pre-release-on-github">Latest pre-release on GitHub<a class="anchor" aria-label="anchor" href="#latest-pre-release-on-github"></a>
 </h3>
-<p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:</p>
+<p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># skip this if you already installed devtools</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span>, ref<span class="op">=</span><span class="st">"dev"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"pkgload"</span><span class="op">)</span><span class="op">)</span> <span class="co"># skip this if you already installed these packages</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span>, ref<span class="op">=</span><span class="st">"dev"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/reload.html" class="external-link">reload</a></span><span class="op">(</span><span class="fu">pkgload</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pkgload/man/inst.html" class="external-link">inst</a></span><span class="op">(</span><span class="st">"immunarch"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>You can find the list of releases of <code>immunarch</code> here: <a href="https://github.com/immunomind/immunarch/releases" class="external-link uri">https://github.com/immunomind/immunarch/releases</a></p>
 </div>
 </div>
@@ -296,7 +297,7 @@
 <li><p>Gene usage estimation <em>(correlation, Jensen-Shannon Divergence, clustering)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v5_gene_usage.html">here</a>;</p></li>
 <li><p>Diversity evaluation <em>(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v6_diversity.html">here</a>;</p></li>
 <li><p>Tracking of clonotypes across time points, widely used in vaccination and cancer immunology domains. Tutorial is available <a href="https://immunarch.com/articles/web_only/v8_tracking.html">here</a>;</p></li>
-<li><p>Kmer distribution measures and statistics. Tutorial is available <a href="https://immunarch.com/articles/web_only/v9_kmers.html">here</a>;</p></li>
+<li><p>K-mer distribution measures and statistics. Tutorial is available <a href="https://immunarch.com/articles/web_only/v9_kmers.html">here</a>;</p></li>
 <li><p>Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.</p></li>
 </ul>
 </li>
@@ -341,7 +342,7 @@
 <div class="section level3">
 <h3 id="advanced-methods">Advanced methods<a class="anchor" aria-label="anchor" href="#advanced-methods"></a>
 </h3>
-<p>For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see “Tutorials”.</p>
+<p>For advanced methods such as clonotype annotation, clonotype tracking, k-mer analysis and public repertoire analysis see “Tutorials”.</p>
 </div>
 </div>
 <div class="section level2">
