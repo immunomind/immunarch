@@ -183,3 +183,57 @@ reference:
 - subtitle: Internal utility functions
   contents:
   - has_concept("utility_private")
+- title: internal
+  contents:
+  - aa_properties
+  - aa_table
+  - add_class
+  - apply_symm
+  - bcrdata
+  - bunch_translate
+  - check_distribution
+  - coding
+  - dbAnnotate
+  - dbLoad
+  - .quant_column_choice
+  - entropy
+  - fixVis
+  - geneUsage
+  - geneUsageAnalysis
+  - gene_segments
+  - gene_stats
+  - getKmers
+  - group_from_metadata
+  - has_class
+  - immdata
+  - immunr_data_format
+  - immunr_hclust
+  - immunr_pca
+  - inc_overlap
+  - matrixdiagcopy
+  - pubRep
+  - pubRepApply
+  - pubRepFilter
+  - pubRepStatistics
+  - public_matrix
+  - repAlignLineage
+  - repClonalFamily
+  - repClonality
+  - repDiversity
+  - repExplore
+  - repFilter
+  - repGermline
+  - repLoad
+  - repSample
+  - repSave
+  - scdata
+  - select_barcodes
+  - select_clusters
+  - seqCluster
+  - seqDist
+  - set_pb
+  - spectratype
+  - split_to_kmers
+  - switch_type
+  - top
+  - trackClonotypes
