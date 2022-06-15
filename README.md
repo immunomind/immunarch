@@ -100,11 +100,12 @@ devtools::install_github("immunomind/immunarch")
 
 
 ### Latest pre-release on GitHub
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:
+Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:
 
 ```r
-install.packages("devtools") # skip this if you already installed devtools
+install.packages(c("devtools", "pkgload")) # skip this if you already installed these packages
 devtools::install_github("immunomind/immunarch", ref="dev")
+devtools::reload(pkgload::inst("immunarch"))
 ```
 
 You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
@@ -134,7 +135,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
 
     + Tracking of clonotypes across time points, widely used in vaccination and cancer immunology domains. Tutorial is available [here](https://immunarch.com/articles/web_only/v8_tracking.html);
     
-    + Kmer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/web_only/v9_kmers.html);
+    + K-mer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/web_only/v9_kmers.html);
     
     + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.
 
@@ -182,7 +183,7 @@ immdata <- repLoad("path/to/your/data")  # Replace it with the path to your data
 
 ### Advanced methods
 
-For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see "Tutorials".
+For advanced methods such as clonotype annotation, clonotype tracking, k-mer analysis and public repertoire analysis see "Tutorials".
 
 
 ## Bugs and Issues
