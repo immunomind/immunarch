@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,7 +129,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Information measures</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/info_theory.R"><code>R/info_theory.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/info_theory.R" class="external-link"><code>R/info_theory.R</code></a></small>
     <div class="hidden name"><code>entropy.Rd</code></div>
     </div>
 
@@ -137,7 +137,8 @@
     <p>Compute information-based estimates and distances.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">entropy</span><span class="op">(</span><span class="va">.data</span>, .base <span class="op">=</span> <span class="fl">2</span>, .norm <span class="op">=</span> <span class="cn">FALSE</span>, .do.norm <span class="op">=</span> <span class="cn">NA</span>, .laplace <span class="op">=</span> <span class="fl">1e-12</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">entropy</span><span class="op">(</span><span class="va">.data</span>, .base <span class="op">=</span> <span class="fl">2</span>, .norm <span class="op">=</span> <span class="cn">FALSE</span>, .do.norm <span class="op">=</span> <span class="cn">NA</span>, .laplace <span class="op">=</span> <span class="fl">1e-12</span><span class="op">)</span>
 
 <span class="fu">kl_div</span><span class="op">(</span><span class="va">.alpha</span>, <span class="va">.beta</span>, .base <span class="op">=</span> <span class="fl">2</span>, .do.norm <span class="op">=</span> <span class="cn">NA</span>, .laplace <span class="op">=</span> <span class="fl">1e-12</span><span class="op">)</span>
 
@@ -145,40 +146,63 @@
 
 <span class="fu">cross_entropy</span><span class="op">(</span><span class="va">.alpha</span>, <span class="va">.beta</span>, .base <span class="op">=</span> <span class="fl">2</span>, .do.norm <span class="op">=</span> <span class="cn">NA</span>,
               .laplace <span class="op">=</span> <span class="fl">1e-12</span>, .norm.entropy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>Numeric vector. Any distribution.</p></td>
-    </tr><tr><th>.base</th>
-      <td><p>Numeric. A base of logarithm.</p></td>
-    </tr><tr><th>.norm</th>
-      <td><p>Logical. If TRUE then normalise the entropy by the maximal value of the entropy.</p></td>
-    </tr><tr><th>.do.norm</th>
-      <td><p>If TRUE then normalise input distributions to make them sum up to 1.</p></td>
-    </tr><tr><th>.laplace</th>
-      <td><p>Numeric. A value for the laplace correction.</p></td>
-    </tr><tr><th>.alpha</th>
-      <td><p>Numeric vector. A distribution of some random value.</p></td>
-    </tr><tr><th>.beta</th>
-      <td><p>Numeric vector. A distribution of some random value.</p></td>
-    </tr><tr><th>.norm.entropy</th>
-      <td><p>Logical. If TRUE then normalise the resultant value by the average entropy of input distributions.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>Numeric vector. Any distribution.</p></dd>
 
-    <p>A numeric value.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<dt>.base</dt>
+<dd><p>Numeric. A base of logarithm.</p></dd>
+
+
+<dt>.norm</dt>
+<dd><p>Logical. If TRUE then normalises the entropy by the maximal value of the entropy.</p></dd>
+
+
+<dt>.do.norm</dt>
+<dd><p>If TRUE then normalises the input distributions to make them sum up to 1.</p></dd>
+
+
+<dt>.laplace</dt>
+<dd><p>Numeric. A value for the laplace correction.</p></dd>
+
+
+<dt>.alpha</dt>
+<dd><p>Numeric vector. A distribution of some random value.</p></dd>
+
+
+<dt>.beta</dt>
+<dd><p>Numeric vector. A distribution of some random value.</p></dd>
+
+
+<dt>.norm.entropy</dt>
+<dd><p>Logical. If TRUE then normalises the resulting value by the average entropy of input distributions.</p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>A numeric value.</p>
+    </div>
+
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">entropy</span><span class="op">(</span><span class="va">P</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.95677</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.072809</span>
 <span class="r-in"><span class="fu">kl_div</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.304658</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4633592</span>
 <span class="r-in"><span class="fu">js_div</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.190757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0978894</span>
 <span class="r-in"><span class="fu">cross_entropy</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.261428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.536168</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -191,7 +215,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

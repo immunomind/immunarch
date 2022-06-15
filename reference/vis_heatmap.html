@@ -24,13 +24,13 @@ with functions based on the ggplot2 package."><!-- mathjax --><script src="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -98,19 +98,19 @@ with functions based on the ggplot2 package."><!-- mathjax --><script src="https
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -130,7 +130,7 @@ with functions based on the ggplot2 package."><!-- mathjax --><script src="https
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Visualisation of matrices and data frames using ggplo2-based heatmaps</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/vis.R"><code>R/vis.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/vis.R" class="external-link"><code>R/vis.R</code></a></small>
     <div class="hidden name"><code>vis_heatmap.Rd</code></div>
     </div>
 
@@ -139,14 +139,15 @@ with functions based on the ggplot2 package."><!-- mathjax --><script src="https
 with functions based on the ggplot2 package.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_heatmap</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_heatmap</span><span class="op">(</span>
   <span class="va">.data</span>,
   .text <span class="op">=</span> <span class="cn">TRUE</span>,
   .scientific <span class="op">=</span> <span class="cn">FALSE</span>,
   .signif.digits <span class="op">=</span> <span class="fl">2</span>,
   .text.size <span class="op">=</span> <span class="fl">4</span>,
   .axis.text.size <span class="op">=</span> <span class="cn">NULL</span>,
-  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="st">"Sample"</span><span class="op">)</span>,
+  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="st">"Sample"</span><span class="op">)</span>,
   .title <span class="op">=</span> <span class="st">"Overlap"</span>,
   .leg.title <span class="op">=</span> <span class="st">"Overlap values"</span>,
   .legend <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -154,54 +155,88 @@ with functions based on the ggplot2 package.</p>
   .transpose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>Input object: a matrix or a data frame.</p>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>Input object: a matrix or a data frame.</p>
 <p>If matrix: column names and row names (if presented) will be used as names for labs.</p>
 <p>If data frame: the first column will be used for row names and removed from the data.
-Other columns will be used for values in the heatmap.</p></td>
-    </tr><tr><th>.text</th>
-      <td><p>If TRUE then plot values in the heatmap cells. If FALSE do not plot values,
-just plot coloured cells instead.</p></td>
-    </tr><tr><th>.scientific</th>
-      <td><p>If TRUE then use the scientific notation for numbers (e.g., "2.0e+2").</p></td>
-    </tr><tr><th>.signif.digits</th>
-      <td><p>Number of significant digits to display on plot.</p></td>
-    </tr><tr><th>.text.size</th>
-      <td><p>Size of text in the cells of heatmap.</p></td>
-    </tr><tr><th>.axis.text.size</th>
-      <td><p>Size of text on the axis labels.</p></td>
-    </tr><tr><th>.labs</th>
-      <td><p>A character vector of length two with names for x-axis and y-axis, respectively.</p></td>
-    </tr><tr><th>.title</th>
-      <td><p>The The text for the plot's title.</p></td>
-    </tr><tr><th>.leg.title</th>
-      <td><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></td>
-    </tr><tr><th>.legend</th>
-      <td><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></td>
-    </tr><tr><th>.na.value</th>
-      <td><p>Replace NA values with this value. By default they remain NA.</p></td>
-    </tr><tr><th>.transpose</th>
-      <td><p>Logical. If TRUE then switch rows and columns.</p></td>
-    </tr><tr><th>...</th>
-      <td><p>Other passed arguments.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+Other columns will be used for values in the heatmap.</p></dd>
 
-    <p>A ggplot2 object.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+<dt>.text</dt>
+<dd><p>If TRUE then plots values in the heatmap cells. If FALSE does not plot values,
+just plot coloured cells instead.</p></dd>
+
+
+<dt>.scientific</dt>
+<dd><p>If TRUE then uses the scientific notation for numbers (e.g., "2.0e+2").</p></dd>
+
+
+<dt>.signif.digits</dt>
+<dd><p>Number of significant digits to display on plot.</p></dd>
+
+
+<dt>.text.size</dt>
+<dd><p>Size of text in the cells of heatmap.</p></dd>
+
+
+<dt>.axis.text.size</dt>
+<dd><p>Size of text on the axis labels.</p></dd>
+
+
+<dt>.labs</dt>
+<dd><p>A character vector of length two with names for x-axis and y-axis, respectively.</p></dd>
+
+
+<dt>.title</dt>
+<dd><p>The The text for the plot's title.</p></dd>
+
+
+<dt>.leg.title</dt>
+<dd><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></dd>
+
+
+<dt>.legend</dt>
+<dd><p>If TRUE then displays a legend, otherwise removes the legend from the plot.</p></dd>
+
+
+<dt>.na.value</dt>
+<dd><p>Replace NA values with this value. By default they remain NA.</p></dd>
+
+
+<dt>.transpose</dt>
+<dd><p>Logical. If TRUE then switch rows and columns.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Other passed arguments.</p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>A ggplot2 object.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
     <div class="dont-index"><p><a href="vis.html">vis</a>, <a href="repOverlap.html">repOverlap</a>.</p></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">vis_heatmap</span><span class="op">(</span><span class="va">ov</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_heatmap-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis_heatmap-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">vis_heatmap</span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_heatmap-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis_heatmap-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -214,7 +249,7 @@ just plot coloured cells instead.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

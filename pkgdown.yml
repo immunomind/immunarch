@@ -1,6 +1,6 @@
-pandoc: '2.12'
-pkgdown: 1.9000.9000.9000
-pkgdown_sha: 2368908b8d9d70237052ddd51dd93c3a129d6bc2
+pandoc: 2.9.2.1
+pkgdown: 2.0.4
+pkgdown_sha: ~
 articles:
   v1_introduction: v1_introduction.html
   v2_data: v2_data.html
@@ -20,7 +20,7 @@ articles:
   v7_fixvis: web_only/v7_fixvis.html
   v8_tracking: web_only/v8_tracking.html
   v9_kmers: web_only/v9_kmers.html
-last_built: 2022-05-16T15:05Z
+last_built: 2022-06-15T15:49Z
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

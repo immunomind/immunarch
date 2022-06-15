@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="clustering_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Clustering</h1>
@@ -169,7 +169,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/clustering.Rmd" class="external-link"><code>vignettes/web_only/clustering.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/clustering.Rmd" class="external-link"><code>vignettes/web_only/clustering.Rmd</code></a></small>
       <div class="hidden name"><code>clustering.Rmd</code></div>
 
     </div>
@@ -183,13 +183,13 @@
 -->
 <p>Clustering B-cell receptors (BCRs) and T-cell receptors (TCRs) sequences is a common step in the analysis of B and T cells.</p>
 <p>In the B-cell repertoire, this step is required for making clonal lineages. B-cell <strong>clonal lineage</strong> represents a set of B cells that presumably share a common origin (arising from the same VDJ rearrangement event) and a common ancestor. Information about clonal lineages allows you to estimate somatic hypermutation levels and find binding affinity-changing mutations.</p>
-<p>T cells that are able to recognize identical epitopes were shown to have high similar TCR (Glanville et al. 2017; Dash et al. 2017). Clustering allows finding high similar TCR in repertoires that are likely to recognize the same antigens.</p>
+<p>T cells that are able to recognize identical epitopes were shown to have high similar TCR (Glanville et al. 2017; Dash et al. 2017). Clustering allows for finding high similar TCR in repertoires that are likely to recognize the same antigens.</p>
 <p>Clustering analysis involves two steps. The first step requires calculating the distance between sequences. The second step requires clustering the sequences using the information about the distance between them.</p>
 <p>Application of clustering enables you to expand the clonotype concept. A <strong>clonotype</strong> is a set of cells that supposedly share a common ancestor or properties. There are a few possible ways to define clonotypes. For example, some researchers define clonotypes as a set of sequences that have the same V gene and same nucleotide CDR3 sequence. Other researchers define clonotypes as cell sets that have the same V gene, the same J gene, and the same amino acid CDR3 sequence. Clustering provides you with a way to create new groups of sequences based on your vision.</p>
-<div id="calculating-the-distance" class="section level1">
-<h1 class="hasAnchor">
-<a href="#calculating-the-distance" class="anchor" aria-hidden="true"></a>Calculating the distance</h1>
-<p>CDR3 region is the most variable region in BCR and TCR. This region is commonly used for calculating the distance between sequences. However, other regions could also be used for calculating this distance — like full nucleotide reads. You can use any user-defined column of sequences to calculate the distance, since column selection depends solely on your research purpose. For example, the use of ‘nt’ sequences results in more conservative clustering.</p>
+<div class="section level2">
+<h2 id="calculating-the-distance">Calculating the distance<a class="anchor" aria-label="anchor" href="#calculating-the-distance"></a>
+</h2>
+<p>CDR3 region is the most variable region in BCR and TCR. This region is commonly used for calculating the distance between sequences. However, other regions could also be used for calculating this distance — like the full nucleotide reads. You can use any user-defined column of sequences to calculate the distance, since column selection depends solely on your research purpose. For example, the use of ‘nt’ sequences results in more conservative clustering.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#load the package into the R environment:</span>
@@ -219,22 +219,22 @@
 <span class="co">#group sequence by V.name and J.name</span>
 <span class="va">distBCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span> <span class="va">BCRdata</span>, .group_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'V.name'</span>, <span class="st">'J.name'</span><span class="op">)</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p>There are several possible approaches to estimating the distance between the sequences.</p>
-<p>The default approach is to use a Hamming distance. When sequences have different lengths the distance between them equals infinity. Use this approach if you want to take into consideration only the point mutations excluding the indels.</p>
+<p>The default approach is to use the Hamming distance. When sequences have different lengths the distance between them equals infinity. Use this approach if you want to take into consideration only the point mutations excluding the indels.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">distBCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span> <span class="va">BCRdata</span>, .col <span class="op">=</span> <span class="st">'CDR3.aa'</span>, .methods <span class="op">=</span> <span class="st">"hamming"</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p>When you want to take into consideration not only the single mutations but also indels, Levenshtein distance is a more appropriate method to use.</p>
+<p>When you want to take into consideration not only single mutations but also indels, Levenshtein distance is a more appropriate method to use.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">distBCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span> <span class="va">BCRdata</span>, .col <span class="op">=</span> <span class="st">'CDR3.aa'</span>, .methods <span class="op">=</span> <span class="st">"lv"</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p>Or you could also use the longest common substring:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">distBCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span> <span class="va">BCRdata</span>, .col <span class="op">=</span> <span class="st">'CDR3.aa'</span>, .methods <span class="op">=</span> <span class="st">"cls"</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p>Another way is to write your own function for calculating distance. For example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>distBCR <span class="ot">&lt;-</span> <span class="fu">seqDist</span>(BCRdata, <span class="at">.col =</span> <span class="st">'CDR3.aa'</span>, <span class="at">.methods =</span> {user<span class="sc">-</span><span class="cf">function</span>}, <span class="at">.group_by_seqLength =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>distBCR &lt;-<span class="st"> </span><span class="kw">seqDist</span>(BCRdata, <span class="dt">.col =</span> <span class="st">'CDR3.aa'</span>, <span class="dt">.methods =</span> {user<span class="op">-</span><span class="cf">function</span>}, <span class="dt">.group_by_seqLength =</span> F)</span></code></pre></div>
 </div>
-<div id="clustering" class="section level1">
-<h1 class="hasAnchor">
-<a href="#clustering" class="anchor" aria-hidden="true"></a>Clustering</h1>
+<div class="section level2">
+<h2 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
+</h2>
 <p>After calculating the distance, it’s time to cluster your sequences and find TCRs and BCRs that have similar CDR3 sequences or other similar regions. It is possible to run the analysis based only on the similarity of CDR3 sequence, but we recommend not limiting the analysis to this sequence similarity.</p>
 <p>In mathematical terms, a clonotype is a vertex in graph. If two clonotypes have the same V and J genes and ‘CDR3.aa’. differs by less than a predefined threshold value, we draw an edge between the vertices. A cluster is a connected component — a set of clonotypes connected by edges.</p>
 <p>Clustering is commonly used to expand the concept of a clonotype. For example, you can consider clonotype as a group of sequences with the same amino acid CDR3 sequences, as these sequences are likely to have the same properties.</p>
@@ -245,39 +245,39 @@
 
 <span class="co">#clustering TCR by CDR3 regions</span>
 <span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .perc_similarity <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in seqCluster(TCRdata, distTCR, .perc_similarity = 0.9): Number of
-## sequence provided in .data and .dist are not matching!</code></pre>
+<pre><code><span class="co">## Warning in seqCluster(TCRdata, distTCR, .perc_similarity = 0.9): Number of</span>
+<span class="co">## sequence provided in .data and .dist are not matching!</span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#calculate number of unique clusters in column 'Cluster'</span>
 <span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Cluster</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 6379</code></pre>
+<pre><code><span class="co">## [1] 6379</span></code></pre>
 <p>In general, the number of clusters you get depends on threshold you defined previously. There are 3 different ways to assign a threshold for clustering:</p>
 <ol style="list-style-type: decimal">
 <li><em>Percentage similarity</em></li>
 </ol>
-<p>You define in advance the minimum percentage of similarity for the sequences in your cluster. For example, you want to find cluster of BCRs that not only have the same <a href="http://V.name" class="external-link">V.name</a>, <a href="http://J.name" class="external-link">J.name</a>, and CDR3 length — but also have more than 90 percent match in their CDR3</p>
+<p>Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same <a href="http://V.name" class="external-link">V.name</a>, <a href="http://J.name" class="external-link">J.name</a>, and CDR3 length — but also have more than 90 percent match in their CDR3.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#clustering TCR </span>
 <span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .perc_similarity <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in seqCluster(TCRdata, distTCR, .perc_similarity = 0.9): Number of
-## sequence provided in .data and .dist are not matching!</code></pre>
+<pre><code><span class="co">## Warning in seqCluster(TCRdata, distTCR, .perc_similarity = 0.9): Number of</span>
+<span class="co">## sequence provided in .data and .dist are not matching!</span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#calculate number of unique clusters in column 'Cluster'</span>
 <span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Cluster</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 6379</code></pre>
+<pre><code><span class="co">## [1] 6379</span></code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li><em>Fixed similarity</em></li>
 </ol>
-<p>You directly determine the number of mismatched nucleotides. In case of TCR-recognising the same epitope, you use 1 amino acid mismatch in CDR3 sequences.</p>
+<p>Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#clustering TCR </span>
 <span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .fixed_threshold <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </code></pre></div>
-<pre><code>## Warning in seqCluster(TCRdata, distTCR, .fixed_threshold = 1): Number of
-## sequence provided in .data and .dist are not matching!</code></pre>
+<pre><code><span class="co">## Warning in seqCluster(TCRdata, distTCR, .fixed_threshold = 1): Number of</span>
+<span class="co">## sequence provided in .data and .dist are not matching!</span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#calculate number of unique clusters in column 'Cluster'</span>
 <span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Cluster</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 6377</code></pre>
+<pre><code><span class="co">## [1] 6377</span></code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li><em>Similarity for every n letters in the sequence</em></li>
 </ol>
@@ -285,30 +285,30 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#clustering TCR </span>
 <span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .nt_similarity <span class="op">=</span> <span class="fl">15</span><span class="op">)</span> </code></pre></div>
-<pre><code>## Warning in seqCluster(TCRdata, distTCR, .nt_similarity = 15): Number of sequence
-## provided in .data and .dist are not matching!</code></pre>
+<pre><code><span class="co">## Warning in seqCluster(TCRdata, distTCR, .nt_similarity = 15): Number of sequence</span>
+<span class="co">## provided in .data and .dist are not matching!</span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#calculate number of unique clusters in column 'Cluster'</span>
 <span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Cluster</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 6488</code></pre>
+<pre><code><span class="co">## [1] 6488</span></code></pre>
 </div>
-<div id="clustering-result" class="section level1">
-<h1 class="hasAnchor">
-<a href="#clustering-result" class="anchor" aria-hidden="true"></a>Clustering result</h1>
-<p>If you have made it to this part, then you’ve successfully clustered your sequences. Congratulations! Now you have a new column <code>“cluster”</code> in your data sheet. You can now generalize the concept of clonotype based on sequence similarity and consider clusters as clonotypes.</p>
+<div class="section level2">
+<h2 id="clustering-result">Clustering result<a class="anchor" aria-label="anchor" href="#clustering-result"></a>
+</h2>
+<p>If you made it to this part, then you have successfully clustered your sequences. Congratulations! Now you have a new column <code>“cluster”</code> in your data sheet. You can now generalize the concept of clonotype based on sequence similarity and consider clusters as clonotypes.</p>
 </div>
-<div id="other-ways-to-identify-b-cell-clones" class="section level1">
-<h1 class="hasAnchor">
-<a href="#other-ways-to-identify-b-cell-clones" class="anchor" aria-hidden="true"></a>Other ways to identify B cell clones</h1>
+<div class="section level2">
+<h2 id="other-ways-to-identify-b-cell-clones">Other ways to identify B cell clones<a class="anchor" aria-label="anchor" href="#other-ways-to-identify-b-cell-clones"></a>
+</h2>
 <p>There are other packages that provide computational framework for identification of B cell clones. One of the most popular is a <code>scoper</code> package (<a href="https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/#introduction" class="external-link">https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/#introduction</a>)</p>
 <p><code>Immunarch</code> enables users to integrate results from <code>scoper</code> package for further analysis:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#load the package into the R environment</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scoper.readthedocs.io" class="external-link">scoper</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## As of v1.0.0 the AIRR Rearrangement schema is now the default file format.
-## A description of the standard is available at https://docs.airr-community.org.
-## The legacy Change-O format is supported through arguments to each function
-## that allow the input column names to be explicitly defined.</code></pre>
+<pre><code><span class="co">## As of v1.0.0 the AIRR Rearrangement schema is now the default file format.</span>
+<span class="co">## A description of the standard is available at https://docs.airr-community.org.</span>
+<span class="co">## The legacy Change-O format is supported through arguments to each function</span>
+<span class="co">## that allow the input column names to be explicitly defined.</span></code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#generate germline sequence</span>
 <span class="va">bcr</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -326,22 +326,22 @@
 <p>Cluster using <code>scoper</code> method:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scoper/man/hierarchicalClones.html" class="external-link">hierarchicalClones</a></span><span class="op">(</span><span class="va">ExampleDb</span>, threshold<span class="op">=</span><span class="fl">0.15</span><span class="op">)</span></code></pre></div>
-<pre><code>## Running defineClonesScoper in bulk mode</code></pre>
+<pre><code><span class="co">## Running defineClonesScoper in bulk mode</span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, binwidth<span class="op">=</span><span class="fl">0.02</span><span class="op">)</span></code></pre></div>
 <p><img src="clustering_files/figure-html/example%2014-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Note that the column ‘clone_id’ in <code>scoper</code> format has the same meaning as the ‘Cluster’ column in <code>immunarch</code>:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Rows: 609
-## Columns: 7
-## $ vjl_group        [3m [38;5;246m&lt;int&gt; [39m [23m 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
-## $ sequence_count   [3m [38;5;246m&lt;int&gt; [39m [23m 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 5, 3, 1, 2, …
-## $ v_call           [3m [38;5;246m&lt;chr&gt; [39m [23m "IGHV1-18*01", "IGHV1-24*01", "IGHV4-30-2*01", "IGHV4-…
-## $ j_call           [3m [38;5;246m&lt;chr&gt; [39m [23m "IGHJ2*01", "IGHJ3*01", "IGHJ6*01", "IGHJ6*01", "IGHJ6…
-## $ junction_length  [3m [38;5;246m&lt;int&gt; [39m [23m 69, 51, 51, 54, 63, 66, 69, 57, 69, 30, 36, 39, 42, 45…
-## $ clone_count      [3m [38;5;246m&lt;int&gt; [39m [23m 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 5, 3, 1, 2, …
-## $ clone_id         [3m [38;5;246m&lt;chr&gt; [39m [23m "1", "199", "370", "567", "751", "913", "947", "964", …</code></pre>
+<pre><code><span class="co">## Rows: 609</span>
+<span class="co">## Columns: 7</span>
+<span class="co">## $ vjl_group       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…</span>
+<span class="co">## $ sequence_count  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 5, 3, 1, 2, …</span>
+<span class="co">## $ v_call          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IGHV1-18*01", "IGHV1-24*01", "IGHV4-30-2*01", "IGHV4-…</span>
+<span class="co">## $ j_call          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IGHJ2*01", "IGHJ3*01", "IGHJ6*01", "IGHJ6*01", "IGHJ6…</span>
+<span class="co">## $ junction_length <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 69, 51, 51, 54, 63, 66, 69, 57, 69, 30, 36, 39, 42, 45…</span>
+<span class="co">## $ clone_count     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 5, 3, 1, 2, …</span>
+<span class="co">## $ clone_id        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1", "199", "370", "567", "751", "913", "947", "964", …</span></code></pre>
 </div>
   </div>
 
@@ -357,12 +357,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>

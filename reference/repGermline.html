@@ -33,13 +33,13 @@ for assessing the degree of mutation and maturity of the repertoire. — repGerm
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -107,19 +107,19 @@ for assessing the degree of mutation and maturity of the repertoire. — repGerm
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -144,7 +144,7 @@ Each clonal lineage has its own germline sequence that represents the ancestral 
 for each BCR in clonal lineage. In other words, germline sequence is a sequence of B-cells immediately
 after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
 for assessing the degree of mutation and maturity of the repertoire.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/germline.R"><code>R/germline.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/germline.R" class="external-link"><code>R/germline.R</code></a></small>
     <div class="hidden name"><code>repGermline.Rd</code></div>
     </div>
 
@@ -152,38 +152,53 @@ for assessing the degree of mutation and maturity of the repertoire.</h1>
     <p>Creates germlines for clonal lineages</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">repGermline</span><span class="op">(</span><span class="va">.data</span>, <span class="va">species</span>, <span class="va">min_nuc_outside_cdr3</span>, <span class="va">ref_only_first</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">repGermline</span><span class="op">(</span><span class="va">.data</span>, <span class="va">species</span>, <span class="va">min_nuc_outside_cdr3</span>, <span class="va">ref_only_first</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html">data.frame</a>, <a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>, <a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>
 or a list of these objects.</p>
-<p>It must have columns in the immunarch compatible format <a href="immunr_data_format.html">immunarch_data_format</a>.</p></td>
-    </tr><tr><th>species</th>
-      <td><p>Species from which the data was acquired. Available options:
+<p>It must have columns in the immunarch compatible format <a href="immunr_data_format.html">immunarch_data_format</a>.</p></dd>
+
+
+<dt>species</dt>
+<dd><p>Species from which the data was acquired. Available options:
 "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
 "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus",
 "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
-"SusScrofa".</p></td>
-    </tr><tr><th>min_nuc_outside_cdr3</th>
-      <td><p>This parameter sets how many nucleotides should have V or J chain
-outside of CDR3 to be considered good for further alignment.</p></td>
-    </tr><tr><th>ref_only_first</th>
-      <td><p>This parameter, if TRUE, means to take only first sequence from reference
-for each allele name; if FALSE, all sequences will be taken, and output table will
-increase in size as a result.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+"SusScrofa".</p></dd>
 
-    <p>Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
+
+<dt>min_nuc_outside_cdr3</dt>
+<dd><p>This parameter sets how many nucleotides should have V or J chain
+outside of CDR3 to be considered good for further alignment.</p></dd>
+
+
+<dt>ref_only_first</dt>
+<dd><p>This parameter, if TRUE, means to take only first sequence from reference
+for each allele name; if FALSE, all sequences will be taken, and the output table will
+increase in size as a result.</p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
 V.sequence, J.sequence (with V and J reference sequences),
 Germline.sequence (with combined germline sequence)</p>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">bcrdata</span><span class="op">)</span></span>
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bcrdata</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span class="r-in"><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">repGermline</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Alleles IGHV4-55*01 from sample full_clones not found in the reference and will be dropped!</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Probably, species argument is wrong (current value: HomoSapiens) or the data contains non-BCR genes.</span>
@@ -211,6 +226,7 @@ Germline.sequence (with combined germline sequence)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   V3.Deletions &lt;chr&gt;, J3.Deletions &lt;chr&gt;, V.sequence &lt;chr&gt;, …</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -223,7 +239,7 @@ Germline.sequence (with combined germline sequence)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

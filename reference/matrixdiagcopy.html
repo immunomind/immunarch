@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,7 +129,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Copy the upper matrix triangle to the lower one</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/tools.R"><code>R/tools.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/tools.R" class="external-link"><code>R/tools.R</code></a></small>
     <div class="hidden name"><code>matrixdiagcopy.Rd</code></div>
     </div>
 
@@ -137,16 +137,24 @@
     <p>Copy the upper matrix triangle to the lower one</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">matrixdiagcopy</span><span class="op">(</span><span class="va">.mat</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">matrixdiagcopy</span><span class="op">(</span><span class="va">.mat</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.mat</th>
-      <td><p>Matrix.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.mat</dt>
+<dd><p>Matrix.</p></dd>
 
-    <p>Matrix with its upper tri part copied to the lower tri part.</p>
-    <h2 class="hasAnchor" id="developer-examples"><a class="anchor" href="#developer-examples"></a>Developer Examples</h2>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
 
+<p>Matrix with its upper tri part copied to the lower tri part.</p>
+    </div>
+    <div id="developer-examples">
+    <h2>Developer Examples</h2>
     
 
 <p>mat &lt;- matrix(0, 3, 3)
@@ -154,6 +162,7 @@ mat
 mat[1, 3] &lt;- 1
 mat &lt;- immunarch:::matrixdiagcopy(mat)
 mat</p>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -167,7 +176,7 @@ mat</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

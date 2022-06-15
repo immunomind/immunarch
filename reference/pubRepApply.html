@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,7 +129,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Apply transformations to public repertoires</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/public.R"><code>R/public.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/public.R" class="external-link"><code>R/public.R</code></a></small>
     <div class="hidden name"><code>pubRepApply.Rd</code></div>
     </div>
 
@@ -137,29 +137,42 @@
     <p>Work In Progress</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">pubRepApply</span><span class="op">(</span><span class="va">.pr1</span>, <span class="va">.pr2</span>, .fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pubRepApply</span><span class="op">(</span><span class="va">.pr1</span>, <span class="va">.pr2</span>, .fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.pr1</th>
-      <td><p>First public repertoire.</p></td>
-    </tr><tr><th>.pr2</th>
-      <td><p>Second public repertoire.</p></td>
-    </tr><tr><th>.fun</th>
-      <td><p>A function to apply to pairs of frequencies of same clonotypes from "pr1" and "pr2".
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.pr1</dt>
+<dd><p>First public repertoire.</p></dd>
+
+
+<dt>.pr2</dt>
+<dd><p>Second public repertoire.</p></dd>
+
+
+<dt>.fun</dt>
+<dd><p>A function to apply to pairs of frequencies of same clonotypes from "pr1" and "pr2".
 By default - <code>log(X) / log(Y)</code> where <code>X,Y</code> - frequencies of the same clonotype,
-found in both public repertoires.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+found in both public repertoires.</p></dd>
 
-    <p>Work in progress.</p>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">2000</span><span class="op">)</span></span>
+<p>Work in progress.</p>
+    </div>
+
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">2000</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"MS"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">pr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"MS"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">pr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRepFilter.html">pubRepFilter</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">prapp</span> <span class="op">&lt;-</span> <span class="fu">pubRepApply</span><span class="op">(</span><span class="va">pr1</span>, <span class="va">pr2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">prapp</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">prapp</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            CDR3.aa   V.name Samples Quant.x  Quant.y    Result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:     CASSLEETQYF  TRBV5-1       8     1.0 1.250000 0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:     CASSFQETQYF  TRBV5-1       6     1.0 1.666667 0.0000000</span>
@@ -168,6 +181,7 @@ found in both public repertoires.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  CSARLAGGQETQYF TRBV20-1       5     1.0 1.666667 0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: CASSDSAGGTDTQYF  TRBV6-4       4     1.0 1.000000       NaN</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -180,7 +194,7 @@ found in both public repertoires.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

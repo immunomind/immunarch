@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,7 +129,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Main function for data filtering</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/filters.R"><code>R/filters.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/filters.R" class="external-link"><code>R/filters.R</code></a></small>
     <div class="hidden name"><code>repFilter.Rd</code></div>
     </div>
 
@@ -137,56 +137,69 @@
     <p>Main function for data filtering</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">repFilter</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">repFilter</span><span class="op">(</span>
   <span class="va">.data</span>,
   .method <span class="op">=</span> <span class="st">"by.clonotype"</span>,
-  .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>CDR3.aa <span class="op">=</span> <span class="fu">exclude</span><span class="op">(</span><span class="st">"partial"</span>, <span class="st">"out_of_frame"</span><span class="op">)</span><span class="op">)</span>,
+  .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CDR3.aa <span class="op">=</span> <span class="fu">exclude</span><span class="op">(</span><span class="st">"partial"</span>, <span class="st">"out_of_frame"</span><span class="op">)</span><span class="op">)</span>,
   .match <span class="op">=</span> <span class="st">"exact"</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>The data to be processed. Must be the list of 2 elements:
-data table and metadata table.</p></td>
-    </tr><tr><th>.method</th>
-      <td><p>Method of filtering. Implemented methods:
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>The data to be processed. Must be the list of 2 elements:
+a data table and a metadata table.</p></dd>
+
+
+<dt>.method</dt>
+<dd><p>Method of filtering. Implemented methods:
 by.meta, by.repertoire (by.rep), by.clonotype (by.cl)
-Default value: 'by.clonotype'.</p></td>
-    </tr><tr><th>.query</th>
-      <td><p>Filtering query. It's a named list of filters that will be applied
+Default value: 'by.clonotype'.</p></dd>
+
+
+<dt>.query</dt>
+<dd><p>Filtering query. It's a named list of filters that will be applied
 to data.
 Possible values for names in this list are dependent on filter methods:
-- by.meta: filter by metadata. Names in the named list are metadata column headers.
-- by.repertoire: filter by number of clonotypes or total number of clones in sample.
+- by.meta: filters by metadata. Names in the named list are metadata column headers.
+- by.repertoire: filters by the number of clonotypes or total number of clones in sample.
 Possible names in the named list are "n_clonotypes" and "n_clones".
-- by.clonotype: filter by data in all samples. Names in the named list are
+- by.clonotype: filters by data in all samples. Names in the named list are
 data column headers.
 Elements of the named list for each of the filters are filtering options.
 Possible values for filtering options:
-- include("STR1", "STR2", ...): keep only rows with matching values.
+- include("STR1", "STR2", ...): keeps only rows with matching values.
 Available for methods: "by.meta", "by.clonotype".
-- exclude("STR1", "STR2", ...): remove rows with matching values.
+- exclude("STR1", "STR2", ...): removes rows with matching values.
 Available for methods: "by.meta", "by.clonotype".
-- lessthan(value): keep rows/samples with numeric values less than specified.
+- lessthan(value): keeps rows/samples with numeric values less than specified.
 Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-- morethan(value): keep rows/samples with numeric values more than specified.
+- morethan(value): keeps rows/samples with numeric values more than specified.
 Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-- interval(from, to): keep rows/samples with numeric values that fits in this interval.
+- interval(from, to): keeps rows/samples with numeric values that fits in this interval.
 from is inclusive, to is exclusive.
 Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-Default value: 'list(CDR3.aa = exclude("partial", "out_of_frame"))'.</p></td>
-    </tr><tr><th>.match</th>
-      <td><p>Matching method for "include" and "exclude" options in query.
+Default value: 'list(CDR3.aa = exclude("partial", "out_of_frame"))'.</p></dd>
+
+
+<dt>.match</dt>
+<dd><p>Matching method for "include" and "exclude" options in query.
 Possible values:
-- exact: match only the exact specified string;
-- startswith: match all strings starting with the specified substring;
-- substring: match all strings containing the specified substring.
-Default value: 'exact'.</p></td>
-    </tr></table><h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
+- exact: matches only the exact specified string;
+- startswith: matches all strings starting with the specified substring;
+- substring: matches all strings containing the specified substring.
+Default value: 'exact'.</p></dd>
+
+</dl></div>
+
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Select samples with status "MS"</span></span>
-<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"MS"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"MS"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data$MS1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,405 × 15</span></span>
@@ -304,7 +317,7 @@ Default value: 'exact'.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Select samples without status "MS"</span></span>
-<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="fu">exclude</span><span class="op">(</span><span class="st">"MS"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="fu">exclude</span><span class="op">(</span><span class="st">"MS"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data$`A2-i129`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6,532 × 15</span></span>
@@ -422,7 +435,7 @@ Default value: 'exact'.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Select samples from lanes "A" and "B" with age &gt; 15</span></span>
-<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, Age <span class="op">=</span> <span class="fu">morethan</span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, Age <span class="op">=</span> <span class="fu">morethan</span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data$`A2-i133`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6,393 × 15</span></span>
@@ -486,7 +499,7 @@ Default value: 'exact'.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Select samples that are not from lanes "A" and "B"</span></span>
-<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu">exclude</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.meta"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu">exclude</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data$MS1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,405 × 15</span></span>
@@ -604,7 +617,7 @@ Default value: 'exact'.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Select samples with a number of clonotypes from 1000 to 5000</span></span>
-<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.repertoire"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu">interval</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">5000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.repertoire"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu">interval</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">5000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Filter by key "n_clonotypes" removed all remaining samples!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> named list()</span>
@@ -617,7 +630,7 @@ Default value: 'exact'.</p></td>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Select clonotypes in all samples with alpha chains</span></span>
 <span class="r-in"><span class="fu">repFilter</span><span class="op">(</span><span class="va">immdata</span>, <span class="st">"by.clonotype"</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>V.name <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"AV"</span><span class="op">)</span>, J.name <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"AJ"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>V.name <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"AV"</span><span class="op">)</span>, J.name <span class="op">=</span> <span class="fu">include</span><span class="op">(</span><span class="st">"AJ"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span class="r-in">  .match <span class="op">=</span> <span class="st">"substring"</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Filter by column "V.name" removed all remaining clonotypes from sample "A2-i129"; sample was removed!</span>
@@ -641,6 +654,7 @@ Default value: 'exact'.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Status &lt;chr&gt;, Lane &lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -653,7 +667,7 @@ Default value: 'exact'.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

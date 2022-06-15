@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v8_tracking_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tracking clonotypes across time points in <code>immunarch</code>
@@ -170,7 +170,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v8_tracking.Rmd" class="external-link"><code>vignettes/web_only/v8_tracking.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/v8_tracking.Rmd" class="external-link"><code>vignettes/web_only/v8_tracking.Rmd</code></a></small>
       <div class="hidden name"><code>v8_tracking.Rmd</code></div>
 
     </div>
@@ -182,19 +182,19 @@
 %\VignetteIndexEntry{Tracking clonotypes across time points}
 %\VignettePackage{immunarch}
 -->
-<div id="tracking-of-clonotypes" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tracking-of-clonotypes" class="anchor" aria-hidden="true"></a>Tracking of clonotypes</h1>
-<p>Clonotype tracking is popular approach to monitor changes in frequency of clonotypes of interest in vaccination and cancer immunology. For example, a researcher can track a clonotype of across different time points in pre- and post-vaccination repertoires. Or analyse growth of malignant clonotypes in tumor sample.</p>
+<div class="section level2">
+<h2 id="tracking-of-clonotypes">Tracking of clonotypes<a class="anchor" aria-label="anchor" href="#tracking-of-clonotypes"></a>
+</h2>
+<p>Clonotype tracking is a popular approach to monitor changes in the frequency of clonotypes of interest in vaccination and cancer immunology. For example, a researcher can track a clonotype across different time points in pre- and post-vaccination repertoires, or analyse the growth of malignant clonotypes in a tumor sample.</p>
 <p>Various methods of clonotype tracking are integrated into the one <code>trackClonotypes</code> function. Currently, there are three methods to choose from. The output of <code>trackClonotypes</code> can be immediately visualised with the <code>vis</code> function.</p>
-<div id="tracking-the-most-abundant-clonotypes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tracking-the-most-abundant-clonotypes" class="anchor" aria-hidden="true"></a>Tracking the most abundant clonotypes</h2>
+<div class="section level3">
+<h3 id="tracking-the-most-abundant-clonotypes">Tracking the most abundant clonotypes<a class="anchor" aria-label="anchor" href="#tracking-the-most-abundant-clonotypes"></a>
+</h3>
 <p>The simplest approach is to choose the most abundant clonotypes from one of the input immune repertoires and track across all immune repertoires in a batch. Arguments <code>.which</code> and <code>.col</code> are used to choose the immune repertoire, the number of clonotypes to take from it and which columns to use.</p>
-<p>To choose the 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence:</p>
+<p>To choose the top 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence use this code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>, .col <span class="op">=</span> <span class="st">"nt"</span><span class="op">)</span></code></pre></div>
-<p>Value <code>list(1, 5)</code> of the <code>.which</code> argument (second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires <code>immdata$data</code>. Value <code>"nt"</code> of the <code>.col</code> argument means that the function should take CDR3 nucleotide sequences only.</p>
+<p>Value <code>list(1, 5)</code> of the <code>.which</code> argument (the second argument) means to choose 10 clonotypes from the 1st repertoire in the input list of repertoires <code>immdata$data</code>. Value <code>"nt"</code> of the <code>.col</code> argument means that the function should apply to CDR3 nucleotide sequences only.</p>
 <p>To choose the 10 most abundant amino acid clonotype sequences and their V genes from the “MS1” repertoire to track:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"MS1"</span>, <span class="fl">10</span><span class="op">)</span>, .col <span class="op">=</span> <span class="st">"aa+v"</span><span class="op">)</span></code></pre></div>
@@ -207,39 +207,39 @@
 <span class="va">p1</span> <span class="op">/</span> <span class="va">p2</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-3-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
-<div id="tracking-clonotypes-with-specific-nucleotide-or-amino-acid-sequences" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tracking-clonotypes-with-specific-nucleotide-or-amino-acid-sequences" class="anchor" aria-hidden="true"></a>Tracking clonotypes with specific nucleotide or amino acid sequences</h2>
-<p>In order to track specific clonotype sequences, you can provide nucleotide or amino acid sequences as the <code>.which</code> argument, along with the column <code>.col</code> specifying in which columns to search for sequences. For example, to track seven CDR3 amino acid sequences specifyed below you need to execute the following code:</p>
+<div class="section level3">
+<h3 id="tracking-clonotypes-with-specific-nucleotide-or-amino-acid-sequences">Tracking clonotypes with specific nucleotide or amino acid sequences<a class="anchor" aria-label="anchor" href="#tracking-clonotypes-with-specific-nucleotide-or-amino-acid-sequences"></a>
+</h3>
+<p>In order to track specific clonotype sequences, you can provide nucleotide or amino acid sequences as the <code>.which</code> argument, along with the column <code>.col</code> specifying in which columns to search for sequences. For example, to track seven CDR3 amino acid sequences specified below you need to execute the following code:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CASSLEETQYF"</span>, <span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CASSDSSGSTDTQYF"</span>, <span class="st">"CASSLAGGYNEQFF"</span>, <span class="st">"CASSDSAGGTDTQYF"</span>, <span class="st">"CASSLDSYEQYF"</span>, <span class="st">"CASSSAGGYNEQFF"</span><span class="op">)</span>
 <span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span>
 <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
-<div id="tracking-clonotypes-with-specific-sequences-and-gene-segments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tracking-clonotypes-with-specific-sequences-and-gene-segments" class="anchor" aria-hidden="true"></a>Tracking clonotypes with specific sequences and gene segments</h2>
-<p>An improvement over the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. Support you have a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this by choosing the 10 most abundant clonotypes from the first repertoire in the batch:</p>
+<div class="section level3">
+<h3 id="tracking-clonotypes-with-specific-sequences-and-gene-segments">Tracking clonotypes with specific sequences and gene segments<a class="anchor" aria-label="anchor" href="#tracking-clonotypes-with-specific-sequences-and-gene-segments"></a>
+</h3>
+<p>An improvement upon the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. For support you can use a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this below by choosing the 10 most abundant clonotypes from the first repertoire in the batch:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">CDR3.aa</span>, <span class="va">V.name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 
 <span class="va">target</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 10 × 2 [39m
-##    CDR3.aa           V.name 
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m              [3m [38;5;246m&lt;chr&gt; [39m [23m  
-##  [38;5;250m 1 [39m CASSQEGTGYSGELFF  TRBV4-1
-##  [38;5;250m 2 [39m CASSYRVGTDTQYF    TRBV4-1
-##  [38;5;250m 3 [39m CATSTNRGGTPADTQYF TRBV15 
-##  [38;5;250m 4 [39m CATSIGGGSYEQYF    TRBV15 
-##  [38;5;250m 5 [39m CASSPWTGSMALHF    TRBV27 
-##  [38;5;250m 6 [39m CASQGDSFNSPLHF    TRBV4-1
-##  [38;5;250m 7 [39m CASSQDMGGRNTGELFF TRBV4-1
-##  [38;5;250m 8 [39m CASSEEPRLFGYTF    TRBV2  
-##  [38;5;250m 9 [39m CASSQPGQGGGDEQFF  TRBV4-1
-##  [38;5;250m10 [39m CASSWVARGPYEQYF   TRBV6-6</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 10 × 2</span></span>
+<span class="co">##    CDR3.aa           V.name </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> CASSQEGTGYSGELFF  TRBV4-1</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> CASSYRVGTDTQYF    TRBV4-1</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> CATSTNRGGTPADTQYF TRBV15 </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> CATSIGGGSYEQYF    TRBV15 </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> CASSPWTGSMALHF    TRBV27 </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> CASQGDSFNSPLHF    TRBV4-1</span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> CASSQDMGGRNTGELFF TRBV4-1</span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> CASSEEPRLFGYTF    TRBV2  </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> CASSQPGQGGGDEQFF  TRBV4-1</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> CASSWVARGPYEQYF   TRBV6-6</span></code></pre>
 <p>Supply this data frame as an argument value to the <code>.which</code> argument to track target clonotypes:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span><span class="op">)</span>
@@ -248,10 +248,10 @@
 <p>Note that you can use any columns in the <code>target</code> data frame, such as both CDR3 nucleotide and amino acid sequences and any gene segments.</p>
 </div>
 </div>
-<div id="visualisation-of-tracking" class="section level1">
-<h1 class="hasAnchor">
-<a href="#visualisation-of-tracking" class="anchor" aria-hidden="true"></a>Visualisation of tracking</h1>
-<p>There are three ways to visualise clonotype tracking, depending on your research and aesthetic needs. To choose the type of plot, you need to provide the <code>".plot"</code> parameter to the <code><a href="../../reference/vis.html">vis()</a></code> function, specifying one of three plot types: - <code>.plot = "smooth"</code> - used by default, a visualisation using smooth lines and stacked bar plots; - <code>.plot = "area"</code> - visualise abundances using areas under the abundance lines; - <code>.plot = "line"</code> - visualise only lines, connecting levels of abundances of a same clonotype between time points.</p>
+<div class="section level2">
+<h2 id="visualisation-of-tracking">Visualisation of tracking<a class="anchor" aria-label="anchor" href="#visualisation-of-tracking"></a>
+</h2>
+<p>There are three ways to visualise clonotype tracking, depending on your research and aesthetic needs. To choose the type of plot, you need to provide the <code>".plot"</code> parameter to the <code><a href="../../reference/vis.html">vis()</a></code> function, specifying one of three plot types: - <code>.plot = "smooth"</code> - used by default, a visualisation using smooth lines and stacked bar plots; - <code>.plot = "area"</code> - visualises abundances using areas under the abundance lines; - <code>.plot = "line"</code> - visualises only the lines, connecting levels of abundances of a same clonotype between time points.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CASSLEETQYF"</span>, <span class="st">"CASSDSSGGANEQFF"</span>, <span class="st">"CASSDSSGSTDTQYF"</span>, <span class="st">"CASSLAGGYNEQFF"</span>, <span class="st">"CASSDSAGGTDTQYF"</span>, <span class="st">"CASSLDSYEQYF"</span>, <span class="st">"CASSSAGGYNEQFF"</span><span class="op">)</span>
 <span class="va">tc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span>
@@ -263,14 +263,14 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .plot <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-7-3.png" width="1152" style="display: block; margin: auto;"></p>
-<div id="changing-the-order-of-samples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changing-the-order-of-samples" class="anchor" aria-hidden="true"></a>Changing the order of samples</h2>
+<div class="section level3">
+<h3 id="changing-the-order-of-samples">Changing the order of samples<a class="anchor" aria-label="anchor" href="#changing-the-order-of-samples"></a>
+</h3>
 <p>The <code>.order</code> argument of the <code>vis</code> function controls the order of samples in the visualisation. You can pass either indices of samples you plan to visualise or sample names.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Passing indices</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span> <span class="co"># check sample names</span></code></pre></div>
-<pre><code>## [1] "A2-i129" "A2-i133" "A4-i191"</code></pre>
+<pre><code><span class="co">## [1] "A2-i129" "A2-i133" "A4-i191"</span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;"></p>
@@ -283,37 +283,37 @@
 <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A2-i129"</span>, <span class="st">"A2-i133"</span>, <span class="st">"A4-i191"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-8-3.png" width="1152" style="display: block; margin: auto;"></p>
 <p>If your metadata contains information about time such as timepoints for vaccination or tumor samples, you can use it to re-order samples accordingly. In our examples <code>immdata$meta</code> does not contain information about timepoints, so we will simulate this case.</p>
-<p>First, we create an additional column in the metadata with randomly choosen timepoints:</p>
+<p>First, we create an additional column in the metadata with randomly chosen time points:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>
 <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 12 × 7 [39m
-##    Sample  ID    Sex     Age Status Lane  Timepoint
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m
-##  [38;5;250m 1 [39m A2-i129 C1    M        11 C      A             5
-##  [38;5;250m 2 [39m A2-i131 C2    M         9 C      A             9
-##  [38;5;250m 3 [39m A2-i133 C4    M        16 C      A             7
-##  [38;5;250m 4 [39m A2-i132 C3    F         6 C      A             3
-##  [38;5;250m 5 [39m A4-i191 C8    F        22 C      B             1
-##  [38;5;250m 6 [39m A4-i192 C9    F        24 C      B             4
-##  [38;5;250m 7 [39m MS1     MS1   M        12 MS     C             8
-##  [38;5;250m 8 [39m MS2     MS2   M        30 MS     C            10
-##  [38;5;250m 9 [39m MS3     MS3   M         8 MS     C             2
-##  [38;5;250m10 [39m MS4     MS4   F        14 MS     C            12
-##  [38;5;250m11 [39m MS5     MS5   F        15 MS     C            11
-##  [38;5;250m12 [39m MS6     MS6   F        15 MS     C             6</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 12 × 7</span></span>
+<span class="co">##    Sample  ID    Sex     Age Status Lane  Timepoint</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A             7</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A            11</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A            12</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A             9</span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B             1</span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B             6</span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C             4</span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C             8</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C             5</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C             3</span>
+<span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C            10</span>
+<span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C             2</span></code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html" class="external-link">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></code></pre></div>
 <p>Sanity check: timepoints are following the right order:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12</code></pre>
+<pre><code><span class="co">##  [1]  1  2  3  4  5  6  7  8  9 10 11 12</span></code></pre>
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1] "A4-i191" "MS3"     "A2-i132" "A4-i192" "A2-i129" "MS6"     "A2-i133"
-##  [8] "MS1"     "A2-i131" "MS2"     "MS5"     "MS4"</code></pre>
+<pre><code><span class="co">##  [1] "A4-i191" "MS6"     "MS4"     "MS1"     "MS3"     "A4-i192" "A2-i129"</span>
+<span class="co">##  [8] "MS2"     "A2-i132" "MS5"     "A2-i131" "A2-i133"</span></code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></code></pre></div>
@@ -323,9 +323,9 @@
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html" class="external-link">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="v8_tracking_files/figure-html/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
-<div id="changing-the-colour-palette" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changing-the-colour-palette" class="anchor" aria-hidden="true"></a>Changing the colour palette</h2>
+<div class="section level3">
+<h3 id="changing-the-colour-palette">Changing the colour palette<a class="anchor" aria-label="anchor" href="#changing-the-colour-palette"></a>
+</h3>
 <p>If you want to change the colour palette, add a ggplot2 <code>scale_fill_*</code> function to the plot. We recommend using <code>scale_fill_brewer</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span></code></pre></div>
@@ -336,10 +336,10 @@
 <p>Run <code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">?scale_fill_brewer</a></code> in the R console to learn more about ColorBrewer and it’s colour schemes.</p>
 </div>
 </div>
-<div id="get-in-contact-with-us" class="section level1">
-<h1 class="hasAnchor">
-<a href="#get-in-contact-with-us" class="anchor" aria-hidden="true"></a>Get in contact with us</h1>
-<p>Can not find an important feature? Have a question or found a bug? Contact us at <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></p>
+<div class="section level2">
+<h2 id="get-in-contact-with-us">Get in contact with us<a class="anchor" aria-label="anchor" href="#get-in-contact-with-us"></a>
+</h2>
+<p>Cannot find an important feature? Have a question or found a bug? Contact us at <a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></p>
 </div>
   </div>
 
@@ -355,12 +355,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
