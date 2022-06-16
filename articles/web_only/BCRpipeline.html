@@ -250,60 +250,146 @@
 <p>In Immunarch, <code><a href="../../reference/repGermline.html">repGermline()</a></code> function generates germline for each sequence:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#generate germline</span>
-<span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-    <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## $full_clones</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 501 × 40</span></span>
-<span class="co">## <span style="color: #949494;"># Rowwise: </span></span>
-<span class="co">##    J.first.allele V.first.allele Clones Proportion CDR3.nt CDR3.aa V.name D.name</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> IGHJ1*01       IGHV1-69*01       824 0.000<span style="text-decoration: underline;">075</span>7  TGTGCG… CATPAE… IGHV1… IGHD5…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> IGHJ1*01       IGHV1-69*01        42 0.000<span style="text-decoration: underline;">003</span>86 TGTGTG… CVRDSA… IGHV1… IGHD6…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> IGHJ1*01       IGHV4-30-2*01      59 0.000<span style="text-decoration: underline;">005</span>42 TGTGTG… CVRDQR… IGHV4… IGHD2…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> IGHJ1*01       IGHV2-5*01         24 0.000<span style="text-decoration: underline;">002</span>21 TGTGTC… CVEGQP… IGHV2… IGHD6…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> IGHJ2*01       IGHV1-18*01        21 0.000<span style="text-decoration: underline;">001</span>93 TGTGCG… CARSYY… IGHV1… IGHD3…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> IGHJ3*01       IGHV1-2*01         44 0.000<span style="text-decoration: underline;">004</span>04 TGTGTG… CVREWA… IGHV1… IGHD1…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> IGHJ3*01       IGHV3-48*01        27 0.000<span style="text-decoration: underline;">002</span>48 TGTGCG… CARYVI… IGHV3… IGHD3…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> IGHJ3*01       IGHV4-61*01        32 0.000<span style="text-decoration: underline;">002</span>94 TGTGCG… CARGRP… IGHV4… IGHD5…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> IGHJ3*01       IGHV3-23*01        27 0.000<span style="text-decoration: underline;">002</span>48 TGTGTG… CVKSQS… IGHV3… IGHD1…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> IGHJ3*01       IGHV4-31*01        19 0.000<span style="text-decoration: underline;">001</span>75 TGTGCC… CARDFD… IGHV4… IGHD3…</span>
-<span class="co">## <span style="color: #949494;"># … with 491 more rows, and 32 more variables: J.name &lt;chr&gt;, V.end &lt;int&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   D.start &lt;int&gt;, D.end &lt;int&gt;, J.start &lt;int&gt;, VJ.ins &lt;int&gt;, VD.ins &lt;int&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   DJ.ins &lt;int&gt;, Sequence &lt;chr&gt;, CDR3.start &lt;chr&gt;, CDR3.end &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   C.name &lt;chr&gt;, C.start &lt;list&gt;, C.end &lt;list&gt;, CDR1.nt &lt;chr&gt;, CDR1.aa &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   CDR2.nt &lt;chr&gt;, CDR2.aa &lt;chr&gt;, FR1.nt &lt;chr&gt;, FR1.aa &lt;chr&gt;, FR2.nt &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   FR2.aa &lt;chr&gt;, FR3.nt &lt;chr&gt;, FR3.aa &lt;chr&gt;, FR4.nt &lt;chr&gt;, FR4.aa &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   V3.Deletions &lt;chr&gt;, J3.Deletions &lt;chr&gt;, Cluster &lt;chr&gt;, V.sequence &lt;chr&gt;, …</span></span></code></pre>
+<span class="co">##   J.first.allele V.first.allele Clones   Proportion</span>
+<span class="co">## 1       IGHJ4*01     IGHV1-8*01   3576 0.0003287193</span>
+<span class="co">## 2       IGHJ4*01    IGHV4-39*01  14773 0.0013579896</span>
+<span class="co">## 3       IGHJ4*01    IGHV4-39*01   3712 0.0003412210</span>
+<span class="co">## 4       IGHJ4*01     IGHV6-1*01   3543 0.0003256859</span>
+<span class="co">## 5       IGHJ6*01    IGHV4-59*01   4758 0.0004373732</span>
+<span class="co">##                                                                 CDR3.nt</span>
+<span class="co">## 1 TGTGCGAGACGGGCCGAAACCAATGGCTGGAACGGTTTTGGTGCCGACAAGTATTACTTTGACTTCTGG</span>
+<span class="co">## 2                               TGTGCGAGAACGGATAGTGTTGGCTATTATCCGTACTTT</span>
+<span class="co">## 3                         TGTGCGAGAGTAAAATTAGCCGGCCGCGGTGGTTTTGACTACTGG</span>
+<span class="co">## 4                TGTGCAAGAGAGTTCCCGTATTATGTGAGCAGTGACAGTTACCTTGACTACTGG</span>
+<span class="co">## 5                      TGTGCGCGAGGAGAAGACGCGTTCTTTTACTACGGTTTGGACGTCTGG</span>
+<span class="co">##                   CDR3.aa                                     V.name</span>
+<span class="co">## 1 CARRAETNGWNGFGADKYYFDFW                         IGHV1-8*00(867, 7)</span>
+<span class="co">## 2           CARTDSVGYYPYF IGHV4-39*00(1227, 6), IGHV4-28*00(1079, 4)</span>
+<span class="co">## 3         CARVKLAGRGGFDYW                       IGHV4-39*00(1105, 4)</span>
+<span class="co">## 4      CAREFPYYVSSDSYLDYW                        IGHV6-1*00(1387, 6)</span>
+<span class="co">## 5        CARGEDAFFYYGLDVW    IGHV4-59*00(836, 7), IGHV4-4*00(835, 7)</span>
+<span class="co">##                                              D.name</span>
+<span class="co">## 1  IGHD6-19*00(42), IGHD1-1*00(40), IGHD1-20*00(40)</span>
+<span class="co">## 2                   IGHD3-22*00(43), IGHD3-3*00(39)</span>
+<span class="co">## 3 IGHD4-23*00(35), IGHD2-15*00(30), IGHD2-21*00(30)</span>
+<span class="co">## 4                                   IGHD3-16*00(45)</span>
+<span class="co">## 5 IGHD3-10*00(41), IGHD3-22*00(40), IGHD4-23*00(40)</span>
+<span class="co">##                               J.name V.end D.start D.end J.start VJ.ins VD.ins</span>
+<span class="co">## 1                   IGHJ4*00(412, 9)   150     161   175     190     NA     NA</span>
+<span class="co">## 2 IGHJ4*00(246, 9), IGHJ5*00(244, 9)   180     183   200     204     NA     NA</span>
+<span class="co">## 3                      IGHJ4*00(381)   174     191   198     198     NA     NA</span>
+<span class="co">## 4                   IGHJ4*00(387, 8)   166     171   180     194     NA     NA</span>
+<span class="co">## 5                   IGHJ6*00(336, 1)   125     141   152     152     NA     NA</span>
+<span class="co">##   DJ.ins</span>
+<span class="co">## 1     NA</span>
+<span class="co">## 2     NA</span>
+<span class="co">## 3     NA</span>
+<span class="co">## 4     NA</span>
+<span class="co">## 5     NA</span>
+<span class="co">##                                                                                                                                                                                                                                                 Sequence</span>
+<span class="co">## 1 GGGTGGATGAACCCTAACACTGGTAACTCAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGTGATACTTCCATAAGCACAGCCCACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTGCGAGACGGGCCGAAACCAATGGCTGGAACGGTTTTGGTGCCGACAAGTATTACTTTGACTTCTGGGGGCAGGGAACCCTGGTCACCGTCTCCTCAGGTAAG</span>
+<span class="co">## 2 CGGCAGCCCCCAGGGAAGGGGCTGGAGTGGGTTGCGAGTATCTATCATAGTGGGACCACCTACTACAACCCGTCCCTCACGAGCCGAGTCACCATATCAGTAGACACGTCCAAGAATCAATTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACTCGGCCGTGTATTATTGTGCGAGAACGGATAGTGTTGGCTATTATCCGTACTTTGGACAGGGAACCCTGGTCACCGTCTCCTCAGGTAAG</span>
+<span class="co">## 3 CCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGCATCTATCACAGTGGGAATACCTACTATAACCCGTCCCTCAAGAGTCGAGTCTCCATCTCACTTGACACGTCCAAGAACCACTTCTCCCTGGAGCTGACCTCTGTGACCGCCGCAGACACGGCCGTCTATTACTGTGCGAGAGTAAAATTAGCCGGCCGCGGTGGTTTTGACTACTGGGGCCTGGGAACCCTGGTCACCGTCTCCTCAGGTAAG</span>
+<span class="co">## 4  TTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTGTCTGTGAAAAGTCGAATAACCGTCACCCCAGACACATCCAAGAACCAGTTCTCCCTGCATCTGAACTCTGTGACTCCCGAGGACACGGCTGTCTATTACTGTGCAAGAGAGTTCCCGTATTATGTGAGCAGTGACAGTTACCTTGACTACTGGGGCCAGGGAGCCCTGGTCACCGTCTCCTCAGGTAAG</span>
+<span class="co">## 5                                                CACCAGCTACAACCCCTCCCTCAAGAGTCGAGTCACCATGTCGGTGGACACGTCCAAGAGCCAGTTCTCCCTGAAGTTGACCTCTGTGACCGCTGCGGACACGGCCGTGTATTACTGTGCGCGAGGAGAAGACGCGTTCTTTTACTACGGTTTGGACGTCTGGGGCCAAGGGATCACGGTCACCGTCTCCTCAGGTAAG</span>
+<span class="co">##   CDR3.start CDR3.end        C.name C.start C.end</span>
+<span class="co">## 1        141      210 IGHD*00(0, 5)      NA    NA</span>
+<span class="co">## 2        171      210 IGHD*00(0, 4)      NA    NA</span>
+<span class="co">## 3        165      210 IGHD*00(0, 4)      NA    NA</span>
+<span class="co">## 4        155      209 IGHD*00(0, 5)      NA    NA</span>
+<span class="co">## 5        115      163 IGHD*00(0, 4)      NA    NA</span>
+<span class="co">##                          CDR1.nt    CDR1.aa                     CDR2.nt</span>
+<span class="co">## 1       ggatacaccttcaccagttatgat   GYTFTSYD    ATGAACCCTAACACTGGTAACTCA</span>
+<span class="co">## 2 ggtggctccatcagcagtagtagttactac GGSISSSSYY       ATCTATCATAGTGGGACCACC</span>
+<span class="co">## 3 ggtggctccatcagcagtagtagttactac GGSISSSSYY       ATCTATCACAGTGGGAATACC</span>
+<span class="co">## 4 ggggacagtgtctctagcaacagtgctgct GDSVSSNSAA ACATACTACAGGTCCAAGTGGTATAAT</span>
+<span class="co">## 5       ggtggctccatcagtagttactac   GGSISSYY       atctattacagtgggagCACC</span>
+<span class="co">##     CDR2.aa</span>
+<span class="co">## 1  MNPNTGNS</span>
+<span class="co">## 2   IYHSGTT</span>
+<span class="co">## 3   IYHSGNT</span>
+<span class="co">## 4 TYYRSKWYN</span>
+<span class="co">## 5   IYYSGST</span>
+<span class="co">##                                                                        FR1.nt</span>
+<span class="co">## 1 caggtgcagctggtgcagtctggggctgaggtgaagaagcctggggcctcagtgaaggtctcctgcaaggcttct</span>
+<span class="co">## 2 cagctgcagctgcaggagtcgggcccaggactggtgaagccttcggagaccctgtccctcacctgcactgtctct</span>
+<span class="co">## 3 cagctgcagctgcaggagtcgggcccaggactggtgaagccttcggagaccctgtccctcacctgcactgtctct</span>
+<span class="co">## 4 caggtacagctgcagcagtcaggtccaggactggtgaagccctcgcagaccctctcactcacctgtgccatctcc</span>
+<span class="co">## 5 caggtgcagctgcaggagtcgggcccaggactggtgaagccttcggagaccctgtccctcacctgcactgtctct</span>
+<span class="co">##                      FR1.aa                                              FR2.nt</span>
+<span class="co">## 1 QVQLVQSGAEVKKPGASVKVSCKAS atcaactgggtgcgacaggccactggacaagggcttgagtggatgGGGTGG</span>
+<span class="co">## 2 QLQLQESGPGLVKPSETLSLTCTVS tggggctggatcCGGCAGCCCCCAGGGAAGGGGCTGGAGTGGGTTGCGAGT</span>
+<span class="co">## 3 QLQLQESGPGLVKPSETLSLTCTVS tggggctggatccgccagCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGC</span>
+<span class="co">## 4 QVQLQQSGPGLVKPSQTLSLTCAIS tggaactggatcaggcagtccccatcgagaggccTTGAGTGGCTGGGAAGG</span>
+<span class="co">## 5 QVQLQESGPGLVKPSETLSLTCTVS tggagctggatccggcagcccccagggaagggactggagtggattgggtat</span>
+<span class="co">##              FR2.aa</span>
+<span class="co">## 1 INWVRQATGQGLEWMGW</span>
+<span class="co">## 2 WGWIRQPPGKGLEWVAS</span>
+<span class="co">## 3 WGWIRQPPGKGLEWIGS</span>
+<span class="co">## 4 WNWIRQSPSRGLEWLGR</span>
+<span class="co">## 5 WSWIRQPPGKGLEWIGY</span>
+<span class="co">##                                                                                                            FR3.nt</span>
+<span class="co">## 1 GGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGTGATACTTCCATAAGCACAGCCCACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTAC</span>
+<span class="co">## 2 TACTACAACCCGTCCCTCACGAGCCGAGTCACCATATCAGTAGACACGTCCAAGAATCAATTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACTCGGCCGTGTATTAT</span>
+<span class="co">## 3 TACTATAACCCGTCCCTCAAGAGTCGAGTCTCCATCTCACTTGACACGTCCAAGAACCACTTCTCCCTGGAGCTGACCTCTGTGACCGCCGCAGACACGGCCGTCTATTAC</span>
+<span class="co">## 4 GATTATGCAGTGTCTGTGAAAAGTCGAATAACCGTCACCCCAGACACATCCAAGAACCAGTTCTCCCTGCATCTGAACTCTGTGACTCCCGAGGACACGGCTGTCTATTAC</span>
+<span class="co">## 5 AGCTACAACCCCTCCCTCAAGAGTCGAGTCACCATGTCGGTGGACACGTCCAAGAGCCAGTTCTCCCTGAAGTTGACCTCTGTGACCGCTGCGGACACGGCCGTGTATTAC</span>
+<span class="co">##                                  FR3.aa                          FR4.nt</span>
+<span class="co">## 1 GYAQKFQGRVTMTSDTSISTAHMELSSLRSEDTAVYY GGGCAGGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 2 YYNPSLTSRVTISVDTSKNQFSLKLSSVTAADSAVYY GGACAGGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 3 YYNPSLKSRVSISLDTSKNHFSLELTSVTAADTAVYY GGCCTGGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 4 DYAVSVKSRITVTPDTSKNQFSLHLNSVTPEDTAVYY GGCCAGGGAGCCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 5 SYNPSLKSRVTMSVDTSKSQFSLKLTSVTAADTAVYY GGCCAAGGGATCACGGTCACCGTCTCCTCAG</span>
+<span class="co">##         FR4.aa V3.Deletions J3.Deletions                            Cluster</span>
+<span class="co">## 1 GQGTLV~SPSPQ           -2            3            IGHV1-8/IGHJ4_length_69</span>
+<span class="co">## 2 GQGTLV~SPSPQ           -2          -11 IGHV4-39/IGHJ4_length_39_cluster_2</span>
+<span class="co">## 3 GLGTLV~SPSPQ           -2           -5 IGHV4-39/IGHJ4_length_45_cluster_2</span>
+<span class="co">## 4 GQGALV~SPSPQ            0           -2            IGHV6-1/IGHJ4_length_54</span>
+<span class="co">## 5 GQGITV~SPSPQ           -1          -21 IGHV4-59/IGHJ6_length_48_cluster_3</span>
+<span class="co">##                                                                                                                                                                                                                                                                                                          V.sequence</span>
+<span class="co">## 1          CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTCTCCTGCAAGGCTTCTGGATACACCTTCACCAGTTATGATATCAACTGGGTGCGACAGGCCACTGGACAAGGGCTTGAGTGGATGGGATGGATGAACCCTAACAGTGGTAACACAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGGAACACCTCCATAAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTGCGAGAGG</span>
+<span class="co">## 2       CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACTGTGCGAGACA</span>
+<span class="co">## 3       CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACTGTGCGAGACA</span>
+<span class="co">## 4 CAGGTACAGCTGCAGCAGTCAGGTCCAGGACTGGTGAAGCCCTCGCAGACCCTCTCACTCACCTGTGCCATCTCCGGGGACAGTGTCTCTAGCAACAGTGCTGCTTGGAACTGGATCAGGCAGTCCCCATCGAGAGGCCTTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTATCTGTGAAAAGTCGAATAACCATCAACCCAGACACATCCAAGAACCAGTTCTCCCTGCAGCTGAACTCTGTGACTCCCGAGGACACGGCTGTGTATTACTGTGCAAGAGA</span>
+<span class="co">## 5             CAGGTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGTAGTTACTACTGGAGCTGGATCCGGCAGCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCTATTACAGTGGGAGCACCAACTACAACCCCTCCCTCAAGAGTCGAGTCACCATATCAGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCTGCGGACACGGCCGTGTATTACTGTGCGAGAGA</span>
+<span class="co">##                                                        J.sequence</span>
+<span class="co">## 1                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 2                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 3                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 4                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 5 ATTACTACTACTACTACGGTATGGACGTCTGGGGGCAAGGGACCACGGTCACCGTCTCCTCAG</span>
+<span class="co">##                                                                                                                                                                                                                                                                                                                                                                                   Germline.sequence</span>
+<span class="co">## 1 CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTCTCCTGCAAGGCTTCTGGATACACCTTCACCAGTTATGATATCAACTGGGTGCGACAGGCCACTGGACAAGGGCTTGAGTGGATGGGATGGATGAACCCTAACAGTGGTAACACAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGGAACACCTCCATAAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 2                            CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 3                      CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 4       CAGGTACAGCTGCAGCAGTCAGGTCCAGGACTGGTGAAGCCCTCGCAGACCCTCTCACTCACCTGTGCCATCTCCGGGGACAGTGTCTCTAGCAACAGTGCTGCTTGGAACTGGATCAGGCAGTCCCCATCGAGAGGCCTTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTATCTGTGAAAAGTCGAATAACCATCAACCCAGACACATCCAAGAACCAGTTCTCCCTGCAGCTGAACTCTGTGACTCCCGAGGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="co">## 5                         CAGGTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGTAGTTACTACTGGAGCTGGATCCGGCAGCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCTATTACAGTGGGAGCACCAACTACAACCCCTCCCTCAAGAGTCGAGTCACCATATCAGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCTGCGGACACGGCCGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGGCAAGGGACCACGGTCACCGTCTCCTCAG</span></code></pre>
 <p>A germline is represented via sequences of V gene - N…N (CDR3 length) - J gene:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#germline example</span>
 <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
      <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Germline.sequence</span></code></pre></div>
-<pre><code><span class="co">## [1] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNTACTGGGGTCAAGGAACCTCAGTCACCGTCTCCTCAG"</span></code></pre>
+     <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Germline.sequence</span></code></pre></div>
+<pre><code><span class="co">## [1] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG"</span></code></pre>
 <p>Оptions:</p>
 <p><code>.data</code> - The data to be processed. Can be <code>data.frame</code>, <code>data.table</code>, or a list of these objects.</p>
-<p><code>species</code> - Specifies species from which reference V and J are taken.<br>
-Available species: “HomoSapiens” (default), “MusMusculus”, “BosTaurus”, “CamelusDromedarius”, “CanisLupusFamiliaris”, “DanioRerio”, “MacacaMulatta”, “MusMusculusDomesticus”, “MusMusculusCastaneus”, “MusMusculusMolossinus”, “MusMusculusMusculus”, “MusSpretus”, “OncorhynchusMykiss”, “OrnithorhynchusAnatinus”, “OryctolagusCuniculus”, “RattusNorvegicus”, “SusScrofa”.</p>
-<p><code>min_nuc_outside_cdr3</code> — filters out reads with low numbers of nucleotides from V or J gene outside of CDR3 region</p>
-<p><code>ref_only_first</code></p>
+<p><code>.species</code> - Specifies species from which reference V and J are taken. Available species: “HomoSapiens” (default), “MusMusculus”, “BosTaurus”, “CamelusDromedarius”, “CanisLupusFamiliaris”, “DanioRerio”, “MacacaMulatta”, “MusMusculusDomesticus”, “MusMusculusCastaneus”, “MusMusculusMolossinus”, “MusMusculusMusculus”, “MusSpretus”, “OncorhynchusMykiss”, “OrnithorhynchusAnatinus”, “OryctolagusCuniculus”, “RattusNorvegicus”, “SusScrofa”.</p>
+<p><code>.min_nuc_outside_cdr3</code> — filters out reads with low numbers of nucleotides from V or J gene outside of CDR3 region</p>
+<p><code>.ref_only_first</code></p>
 <ul>
 <li>if <code>TRUE</code>, only the first sequence from reference for each allele name will be used in the analysis;</li>
 <li>if <code>FALSE</code>, all allele variants will be analyzed, and the output table will increase in size as a result.</li>
 </ul>
-<p>If <code>ref_only_first = FALSE</code>, you will get several different germlines:</p>
+<p>If <code>.ref_only_first = FALSE</code>, you will get several different germlines:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
     <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-<span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>ref_only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Germline.sequence</span></code></pre></div>
-<pre><code><span class="co">## [1] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG"      </span>
-<span class="co">## [2] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNTACTGGGGTCAAGGAACCTCAGTCACCGTCTCCTCAG"</span>
-<span class="co">## [3] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCCAGGCACCCTGGTCACCGTCTCCTCAG"      </span>
-<span class="co">## [4] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGCCTGGGGTCAAGGAGCTTCAGTCACTGTCTCCTCAG"</span>
-<span class="co">## [5] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNTGGGGCCAGGGGACCCTAGTCTACGACGCCTCGG"   </span>
-<span class="co">## [6] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNTGGGGGAAAGGGACCATGGTGACCGTGTCCACAG"   </span>
-<span class="co">## [7] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNAACTGGGGCCAAGGCACCATGGTCACCGTCTCCTCAG"</span>
-<span class="co">## [8] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAGGGAGTCCTGGTCACCGTCTCCTCAG"</span></code></pre>
+    <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.ref_only_first <span class="op">=</span> <span class="cn">FALSE</span>, .threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Germline.sequence</span></code></pre></div>
+<pre><code><span class="co">## [1] "CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG"</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="aligning-sequences-within-a-clonal-lineage">Aligning sequences within a clonal lineage<a class="anchor" aria-label="anchor" href="#aligning-sequences-within-a-clonal-lineage"></a>
@@ -324,9 +410,9 @@ Available species: “HomoSapiens” (default), “MusMusculus”, “BosTaurus�
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bcrdata</span><span class="op">)</span>
 <span class="va">bcr_data</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span>
-<span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+<span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">bcr_data</span><span class="op">)</span>, .fixed_threshold <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p>The function has several parameters:</p>
 <ul>
@@ -334,10 +420,10 @@ Available species: “HomoSapiens” (default), “MusMusculus”, “BosTaurus�
 <code>.min_lineage_sequences</code> — Filters clusters (clonal lineages) with the number of clonotypes lower than the threshold. Aligning clonal lineages with few sequences is of little use.</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#take clusters that contain at least 1 sequences</span>
+<code class="sourceCode R"><span class="co"># take clusters that contain at least 1 sequence</span>
 <span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">bcr_data</span><span class="op">)</span>, .fixed_threshold <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">1</span>, .align_threads <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <ul>
 <li>
@@ -375,10 +461,10 @@ Available species: “HomoSapiens” (default), “MusMusculus”, “BosTaurus�
 </ul>
 <p>repClonalFamily usage example:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bcr</span> <span class="op">&lt;-</span> <span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+<code class="sourceCode R"><span class="va">bcr</span> <span class="op">&lt;-</span> <span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">bcr_data</span><span class="op">)</span>, .fixed_threshold <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../../reference/repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../../reference/repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/repClonalFamily.html">repClonalFamily</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p>We have found 27 clusters:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -388,11 +474,11 @@ Available species: “HomoSapiens” (default), “MusMusculus”, “BosTaurus�
 <p>We have found mismatches between a germline and an ancestor sequence. Dots represent nucleotides matches between the sequences, letters represent mismatches between the sequences:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Output</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></code></pre></div>
-<pre><code><span class="co">## [1] "....................................T....................................................A....................................C...G................................ACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN........T..A......TCA..............------"</span></code></pre>
+<pre><code><span class="co">## [1] "....................................T....................................................A....................................C...G................................A.NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN.....A........................."</span></code></pre>
 <p>We have calculated a trunk length for each cluster:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Trunk.Length</span></code></pre></div>
-<pre><code><span class="co">## [1] 62 80 82 51</span></code></pre>
+<pre><code><span class="co">## [1] 51 70 66 51</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

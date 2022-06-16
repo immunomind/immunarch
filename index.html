@@ -18,7 +18,7 @@
 <meta property="og:description" content="A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
     T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
-    and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods,
+    and single-cell sequencing (scRNAseq). Immunarch implements most of the widely used AIRR analysis methods,
     such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes
     and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
     databases and clonotype tracking in vaccination and cancer studies. A successor to our
@@ -238,12 +238,12 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p><code>immunarch</code> is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding.</p>
+<p><code>immunarch</code> is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, mainly tailored to medical scientists and bioinformaticians. The mission of <code>immunarch</code> is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding.</p>
 </div>
 <div class="section level2">
 <h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
 </h2>
-<p>Create a ticket with a bug or question on <a href="https://github.com/immunomind/immunarch/issues" class="external-link">GitHub Issues</a> to help the community help you and enrich it with your experience. If you need to send us a sensitive data, feel free to contact us via <a href="mailto:support@immunomind.io">support@immunomind.io</a>.</p>
+<p>Create a ticket with a bug or question on <a href="https://github.com/immunomind/immunarch/issues" class="external-link">GitHub Issues</a> to get help from the community and enrich it with your experience. If you need to send us sensitive data, feel free to contact us via <a href="mailto:support@immunomind.io">support@immunomind.io</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -254,7 +254,7 @@
 <p>In order to install <code>immunarch</code> execute the following command:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"immunarch"</span><span class="op">)</span></code></pre></div>
-<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the <a href="https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting">Installation Troubleshooting</a> section.</p>
+<p>That’s it, you can start using <code>immunarch</code> now! See the <a href="#quick-start">Quick Start</a> section below to dive into immune repertoire data analysis. If you run in any trouble during installation, take a look at the <a href="https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting">Installation Troubleshooting</a> section.</p>
 <p>Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making <code>immunarch</code> the entry-point for single-cell &amp; immune repertoire Data Science.</p>
 </div>
 <div class="section level3">
@@ -262,13 +262,14 @@
 </h3>
 <p>If the above command doesn’t work for any reason, try installing <code>immunarch</code> directly from its repository:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># skip this if you already installed devtools</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"pkgload"</span><span class="op">)</span><span class="op">)</span> <span class="co"># skip this if you already installed these packages</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/reload.html" class="external-link">reload</a></span><span class="op">(</span><span class="fu">pkgload</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pkgload/man/inst.html" class="external-link">inst</a></span><span class="op">(</span><span class="st">"immunarch"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="latest-pre-release-on-github">Latest pre-release on GitHub<a class="anchor" aria-label="anchor" href="#latest-pre-release-on-github"></a>
 </h3>
-<p>Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:</p>
+<p>Since releasing on CRAN is limited to one release per one or two months, you can install the latest pre-release version with all the bleeding edge and optimised features directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"pkgload"</span><span class="op">)</span><span class="op">)</span> <span class="co"># skip this if you already installed these packages</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span>, ref<span class="op">=</span><span class="st">"dev"</span><span class="op">)</span>
@@ -292,7 +293,7 @@
 <li>
 <p>Beginner-friendly. Immune repertoire analysis made simple:</p>
 <ul>
-<li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering tens and tens of functions with obscure names. For details see <a href="https://immunarch.com/articles/web_only/v3_basic_analysis.html">link</a>;</p></li>
+<li><p>Most methods are incorporated in a couple of main functions with clear naming—no more remembering dozens and dozens of functions with obscure names. For details see <a href="https://immunarch.com/articles/web_only/v3_basic_analysis.html">link</a>;</p></li>
 <li><p>Repertoire overlap analysis <em>(common indices including overlap coefficient, Jaccard index and Morisita’s overlap index)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v4_overlap.html">here</a>;</p></li>
 <li><p>Gene usage estimation <em>(correlation, Jensen-Shannon Divergence, clustering)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v5_gene_usage.html">here</a>;</p></li>
 <li><p>Diversity evaluation <em>(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)</em>. Tutorial is available <a href="https://immunarch.com/articles/web_only/v6_diversity.html">here</a>;</p></li>
@@ -360,7 +361,7 @@
 <div class="section level2">
 <h2 id="help-the-community">Help the community<a class="anchor" aria-label="anchor" href="#help-the-community"></a>
 </h2>
-<p>Have an aspiration to help the community build the ecosystem of scRNAseq &amp; AIRR analysis tools? Found a bug? A typo? Would like to improve a documentation, add a method or optimise an algorithm?</p>
+<p>Aspiring to help the community build the ecosystem of scRNAseq &amp; AIRR analysis tools? Found a bug? A typo? Would like to improve documentation, add a method or optimise an algorithm?</p>
 <p>We are always open to contributions. There are two ways to contribute:</p>
 <ol style="list-style-type: decimal">
 <li><p>Create an issue <a href="https://github.com/immunomind/immunarch/issues" class="external-link">here</a> and describe what would you like to improve or discuss.</p></li>
