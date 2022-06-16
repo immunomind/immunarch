@@ -41,7 +41,7 @@ repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # 
 
 <form action="https://formspree.io/mjveopnl" method="POST">
   <br>
-  <div class="group">      
+  <div class="group">
       <input type="text" required name="_replyto" style="width:50%">
       <span class="highlight" style="width:50%; height:30%"></span>
       <span class="bar" style="width:50%"></span>
@@ -69,11 +69,11 @@ repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # 
 
 ## Introduction
 
-`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding.
+`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, mainly tailored to medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding.
 
 
 ## Contact
-Create a ticket with a bug or question on [GitHub Issues](https://github.com/immunomind/immunarch/issues) to help the community help you and enrich it with your experience. If you need to send us a sensitive data, feel free to contact us via [support@immunomind.io](mailto:support@immunomind.io).
+Create a ticket with a bug or question on [GitHub Issues](https://github.com/immunomind/immunarch/issues) to get help from the community and enrich it with your experience. If you need to send us sensitive data, feel free to contact us via [support@immunomind.io](mailto:support@immunomind.io).
 
 
 ## Installation
@@ -85,7 +85,7 @@ In order to install `immunarch` execute the following command:
 install.packages("immunarch")
 ```
 
-That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
+That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble during installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
 
 Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making `immunarch` the entry-point for single-cell & immune repertoire Data Science.
 
@@ -100,11 +100,12 @@ devtools::install_github("immunomind/immunarch")
 
 
 ### Latest pre-release on GitHub
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:
+Since releasing on CRAN is limited to one release per one or two months, you can install the latest pre-release version with all the bleeding edge and optimised features directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:
 
 ```r
-install.packages("devtools") # skip this if you already installed devtools
+install.packages(c("devtools", "pkgload")) # skip this if you already installed these packages
 devtools::install_github("immunomind/immunarch", ref="dev")
+devtools::reload(pkgload::inst("immunarch"))
 ```
 
 You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
@@ -124,7 +125,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
 
 2. Beginner-friendly. Immune repertoire analysis made simple:
 
-    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/web_only/v3_basic_analysis.html);
+    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering dozens and dozens of functions with obscure names. For details see [link](https://immunarch.com/articles/web_only/v3_basic_analysis.html);
 
     + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v4_overlap.html);
   
@@ -134,7 +135,7 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
 
     + Tracking of clonotypes across time points, widely used in vaccination and cancer immunology domains. Tutorial is available [here](https://immunarch.com/articles/web_only/v8_tracking.html);
     
-    + Kmer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/web_only/v9_kmers.html);
+    + K-mer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/web_only/v9_kmers.html);
     
     + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.
 
@@ -182,7 +183,7 @@ immdata <- repLoad("path/to/your/data")  # Replace it with the path to your data
 
 ### Advanced methods
 
-For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see "Tutorials".
+For advanced methods such as clonotype annotation, clonotype tracking, k-mer analysis and public repertoire analysis see "Tutorials".
 
 
 ## Bugs and Issues
@@ -199,7 +200,7 @@ Bug reports must:
 
 ## Help the community
 
-Have an aspiration to help the community build the ecosystem of scRNAseq & AIRR analysis tools? Found a bug? A typo? Would like to improve a documentation, add a method or optimise an algorithm?
+Aspiring to help the community build the ecosystem of scRNAseq & AIRR analysis tools? Found a bug? A typo? Would like to improve documentation, add a method or optimise an algorithm?
 
 We are always open to contributions. There are two ways to contribute:
 
