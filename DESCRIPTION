@@ -14,11 +14,11 @@ Authors@R: c(
     person("Victor", "Greiff", , role = "ctb"),
     person("ImmunoMind", role = c("cph", "fnd"))
     )
-Contact: support@immunomind.io
+Contact us: support@immunomind.io
 Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
     T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
-    and single-cell sequencing (scRNAseq). It implements most of the widely used AIRR analysis methods,
+    and single-cell sequencing (scRNAseq). Immunarch implements most of the widely used AIRR analysis methods,
     such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes
     and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
     databases and clonotype tracking in vaccination and cancer studies. A successor to our
