@@ -23,7 +23,7 @@ output:
 
 
 # Introduction
-`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) for news and updates.
+`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, mainly tailored to medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) for news and updates.
 
 
 ## Installation
@@ -35,7 +35,7 @@ In order to install `immunarch` execute the following command:
 install.packages("immunarch")
 ```
 
-That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
+That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble during installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
 
 Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making `immunarch` the entry-point for single-cell & immune repertoire Data Science.
 
@@ -44,13 +44,14 @@ Note: there are quite a lot of dependencies to install with the package because 
 If the above command doesn't work for any reason, try installing `immunarch` directly from its repository:
 
 ```r
-install.packages("devtools") # skip this if you already installed devtools
+install.packages(c("devtools", "pkgload")) # skip this if you already installed these packages
 devtools::install_github("immunomind/immunarch")
+devtools::reload(pkgload::inst("immunarch"))
 ```
 
 
 ### Latest pre-release on GitHub
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:
+Since releasing on CRAN is limited to one release per one or two months, you can install the latest pre-release version with all the bleeding edge and optimised features directly from the code repository. In order to install the latest pre-release version, you need to execute the following commands:
 
 ```r
 install.packages(c("devtools", "pkgload")) # skip this if you already installed these packages
