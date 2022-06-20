@@ -1,5 +1,7 @@
 #' Function for computing distance for sequences
 #'
+#' @concept distance
+#'
 #' @importFrom stringdist stringdistmatrix
 #' @importFrom purrr map pmap map2
 #' @importFrom magrittr %>% %<>% set_attr

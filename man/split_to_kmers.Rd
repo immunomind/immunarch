@@ -41,4 +41,4 @@ data(immdata)
 kmers <- getKmers(immdata$data[[1]], 5)
 kmer_profile(kmers) \%>\% vis()
 }
-\concept{kmers}
+\concept{k-mers}
