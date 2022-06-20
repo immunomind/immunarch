@@ -40,18 +40,18 @@ repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # 
 ## Stay connected!
 
 <form action="https://formspree.io/mjveopnl" method="POST">
-  <br>
-  <div class="group">
-      <input type="text" required name="_replyto" style="width:50%">
-      <span class="highlight" style="width:50%; height:30%"></span>
-      <span class="bar" style="width:50%"></span>
-      <label>Leave your email and get the latest immunarch news</label>
-      <br>
-      <button class="bttn-fill bttn-md bttn-danger" type="submit">Connect!</button>
-  </div>
+<br>
+<div class="group">
+<input type="text" required name="_replyto" style="width:50%">
+<span class="highlight" style="width:50%; height:30%"></span>
+<span class="bar" style="width:50%"></span>
+<label>Leave your email and get the latest immunarch news</label>
+<br>
+<button class="bttn-fill bttn-md bttn-danger" type="submit">Connect!</button>
+</div>
   
-  <input type="text" name="_gotcha" style="display:none" />
-  <input type="hidden" name="_next" value="https://immunarch.com"/>
+<input type="text" name="_gotcha" style="display:none" />
+<input type="hidden" name="_next" value="https://immunarch.com"/>
 </form>
 
 ---
