@@ -94,8 +94,9 @@ Note: there are quite a lot of dependencies to install with the package because 
 If the above command doesn't work for any reason, try installing `immunarch` directly from its repository:
 
 ```r
-install.packages("devtools") # skip this if you already installed devtools
+install.packages(c("devtools", "pkgload")) # skip this if you already installed these packages
 devtools::install_github("immunomind/immunarch")
+devtools::reload(pkgload::inst("immunarch"))
 ```
 
 

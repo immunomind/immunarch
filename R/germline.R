@@ -35,9 +35,11 @@
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
-#' @param .align_j_gene In some data, calculation of J gene start in reference based on
-#' numbers from input file can be wrong, and as result, J genes from germline and input clonotype
-#' become misaligned. Setting this parameter to TRUE enables precise alignment of J genes
+#' @param .align_j_gene MiXCR provides the number of J indels only for 1 allele of J gene
+#' in the output file, and a germline can contain another allele. Therefore, calculation of
+#' J gene start in reference based on numbers from input file can be sometimes incorrect.
+#' As result, J gene in the germline will be trimmed in the start or will contain some
+#' nucleotides from CDR3. Setting this parameter to TRUE enables precise alignment of J genes
 #' to detect the correct starting point, but it significantly reduces performance.
 #'
 #' @param .min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain

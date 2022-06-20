@@ -9,7 +9,8 @@ for each BCR in clonal lineage. In other words, germline sequence is a sequence 
 after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
 for assessing the degree of mutation and maturity of the repertoire.}
 \usage{
-repGermline(.data, .species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
+repGermline(.data,
+.species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -24,9 +25,11 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 "SusScrofa".}
 
-\item{.align_j_gene}{In some data, calculation of J gene start in reference based on
-numbers from input file can be wrong, and as result, J genes from germline and input clonotype
-become misaligned. Setting this parameter to TRUE enables precise alignment of J genes
+\item{.align_j_gene}{MiXCR provides the number of J indels only for 1 allele of J gene
+in the output file, and a germline can contain another allele. Therefore, calculation of
+J gene start in reference based on numbers from input file can be sometimes incorrect.
+As result, J gene in the germline will be trimmed in the start or will contain some
+nucleotides from CDR3. Setting this parameter to TRUE enables precise alignment of J genes
 to detect the correct starting point, but it significantly reduces performance.}
 
 \item{.min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
