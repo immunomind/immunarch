@@ -148,24 +148,14 @@
 <dd><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>,
 <a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format <a href="immunr_data_format.html">immunarch_data_format</a></p></dd>
-
-
 <dt>.col</dt>
 <dd><p>A string that specifies the column name to be processed. The default value is 'CDR3.nt'.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>Character value or user-defined function.</p></dd>
-
-
 <dt>.group_by</dt>
 <dd><p>Character vector of column names to group sequence by. The default value is c("V.first", "J.first"). Columns "V.first" and "J.first" containing first genes without allele suffixes are calculated automatically from "V.name" and "J.name" if absent in the data. Pass NA for no grouping options.</p></dd>
-
-
 <dt>.group_by_seqLength</dt>
 <dd><p>If TRUE  - adds grouping by sequence length of .col argument</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Extra arguments for user-defined function.</p>
 <p>The default value is <code>'hamming'</code> for Hamming distance which counts the number of character substitutions that turns b into a.
@@ -174,13 +164,10 @@ If a and b have different number of characters the distance is Inf.</p>
 <p><code>'lv'</code> for Levenshtein distance which counts the number of deletions, insertions and substitutions necessary to turn b into a.</p>
 <p><code>'lcs'</code> for longest common substring is defined as the longest string can be obtained by pairing characters from a and b while keeping the order of characters intact.</p>
 <p>In case of user-defined function, it should take x and y parameters as input and return <a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a> object.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Named list of list with <a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a> objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.</p>
+    <p>Named list of list with <a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a> objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.</p>
     </div>
 
     <div id="ref-examples">
@@ -357,7 +344,7 @@ If a and b have different number of characters the distance is Inf.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

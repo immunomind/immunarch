@@ -159,44 +159,31 @@ Making alignment of the sequence is the first step towards sequence analysis inc
     <dl><dt>.data</dt>
 <dd><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>, <a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>
 or a list of these objects.</p></dd>
-
-
 <dt>.min_lineage_sequences</dt>
 <dd><p>If number of sequences in the same clonal lineage and the same
 cluster (not including germline) is lower than this threshold, this group of sequences
 will not be aligned and will not be used in next steps of BCR pipeline
 (will be saved in output table only if .verbose_output parameter is set to TRUE).</p></dd>
-
-
 <dt>.prepare_threads</dt>
 <dd><p>Number of threads to prepare results table.
 Please note that high number can cause heavy memory usage!</p></dd>
-
-
 <dt>.align_threads</dt>
 <dd><p>Number of threads for lineage alignment.</p>
 <p>It must have columns in the immunarch compatible format <a href="immunr_data_format.html">immunarch_data_format</a>, and also
 must contain 'Cluster' column, which is added by seqCluster() function, and 'Germline.sequence'
 column, which is added by repGermline() function.</p></dd>
-
-
 <dt>.verbose_output</dt>
 <dd><p>If TRUE, all output dataframe columns will be included (see documentation about this
 function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
 increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
 will be included in the output.</p></dd>
-
-
 <dt>.nofail</dt>
 <dd><p>Will return NA instead of stopping if Clustal W is not installed.
 Used to avoid raising errors in examples on computers where Clustal W is not installed.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Dataframe or list of dataframes (if input is a list with multiple samples).
+    <p>Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
@@ -255,7 +242,7 @@ The dataframe has these columns:
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

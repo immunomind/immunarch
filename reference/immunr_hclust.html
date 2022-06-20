@@ -156,45 +156,26 @@
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Matrix or data frame with features, distance matrix or output from <a href="repOverlapAnalysis.html">repOverlapAnalysis</a> or <a href="geneUsageAnalysis.html">geneUsageAnalysis</a> functions.</p></dd>
-
-
 <dt>.k</dt>
 <dd><p>The number of clusters to create, defined as <code>k</code> to <a href="https://rdrr.io/pkg/factoextra/man/hcut.html" class="external-link">hcut</a> or as <code>centers</code> to <a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a>.</p></dd>
-
-
 <dt>.k.max</dt>
 <dd><p>Limits the maximum number of clusters. It is passed as <code>k.max</code> to fviz_nbclust for <code>immunr_hclust</code> and <code>immunr_kmeans</code>.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>Passed to <a href="https://rdrr.io/pkg/factoextra/man/hcut.html" class="external-link">hcut</a> or as fviz_nbclust.</p>
 <p>In case of <a href="https://rdrr.io/pkg/factoextra/man/hcut.html" class="external-link">hcut</a> the agglomeration method is going to be used (argument <code>hc_method</code>).</p>
 <p>In case of fviz_nbclust it is the method to be used for estimating the optimal number of clusters (argument <code>method</code>).</p></dd>
-
-
 <dt>.dist</dt>
 <dd><p>If TRUE then ".data" is expected to be a distance matrix. If FALSE then the euclidean distance is computed for the input objects.</p></dd>
-
-
 <dt>.eps</dt>
 <dd><p>Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as <code>eps</code> to <a href="https://rdrr.io/pkg/fpc/man/dbscan.html" class="external-link">dbscan</a>.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>immunr_hclust</code> - list with two elements. The first element is an output from hcut.
-The second element is an output from fviz_nbclust</p>
-
-
-
-<p><code>immunr_kmeans</code> - list with three elements. The first element is an output from <a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a>.
+    <p><code>immunr_hclust</code> - list with two elements. The first element is an output from hcut.
+The second element is an output from fviz_nbclust<code>immunr_kmeans</code> - list with three elements. The first element is an output from <a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a>.
 The second element is an output from fviz_nbclust.
-The third element is the input dataset <code>.data</code>.</p>
-
-
-<p><code>immunr_dbscan</code> - list with two elements. The first element is an output from dbscan.
+The third element is the input dataset <code>.data</code>.
+<code>immunr_dbscan</code> - list with two elements. The first element is an output from dbscan.
 The second element is the input dataset <code>.data</code>.</p>
     </div>
 
@@ -403,7 +384,7 @@ The second element is the input dataset <code>.data</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

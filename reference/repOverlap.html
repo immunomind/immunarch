@@ -170,15 +170,11 @@ sequences that are shared between individuals.</p>
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>A string that specifies the method of analysis or a combination of
 methods. The <code>repOverlap</code> function supports following basic methods:
 "public", "overlap", "jaccard", "tversky", "cosine", "morisita".
 If vector of multiple methods is given for this parameter, the first method will be used.</p></dd>
-
-
 <dt>.col</dt>
 <dd><p>A string that specifies the column(s) to be processed. Pass one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
@@ -186,55 +182,32 @@ following strings, separated by the plus sign: "nt" for nucleotide sequences,
 pass "aa+v" to compute overlaps on CDR3 amino acid sequences paired with V gene segments, i.e.,
 in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.
 Clonal counts of equal clonotypes will be summed up.</p></dd>
-
-
 <dt>.a, .b</dt>
 <dd><p>Alpha and beta parameters for Tversky Index. Default values give
 the Jaccard index measure.</p></dd>
-
-
 <dt>.verbose</dt>
 <dd><p>if TRUE then output the progress.</p></dd>
-
-
 <dt>.step</dt>
 <dd><p>Either an integer or a numeric vector.</p>
 <p>In the first case, the integer defines the step of incremental overlap.</p>
 <p>In the second case, the vector encodes all repertoire sampling depths.</p></dd>
-
-
 <dt>.n.steps</dt>
 <dd><p>Skipped if ".step" is a numeric vector.</p></dd>
-
-
 <dt>.downsample</dt>
 <dd><p>If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
 top N clonotypes in incremental overlaps. Change nothing of you are using conventional methods.</p></dd>
-
-
 <dt>.bootstrap</dt>
 <dd><p>Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.</p></dd>
-
-
 <dt>.verbose.inc</dt>
 <dd><p>Logical. If TRUE then shows output from the computation process.</p></dd>
-
-
 <dt>.force.matrix</dt>
 <dd><p>Logical. If TRUE then always forces the matrix output even in case of two input repertoires.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>In most cases the return value is a matrix with overlap values for each pair of repertoires.</p>
-
-
-<p>If only two repertoires were provided, return value is single numeric value.</p>
-
-
-<p>If one of the incremental method is chosen, return list of overlap matrix.</p>
+    <p>In most cases the return value is a matrix with overlap values for each pair of repertoires.
+If only two repertoires were provided, return value is single numeric value.
+If one of the incremental method is chosen, return list of overlap matrix.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -286,7 +259,7 @@ with their counts are summed up.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

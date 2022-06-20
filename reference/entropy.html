@@ -152,41 +152,24 @@
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Numeric vector. Any distribution.</p></dd>
-
-
 <dt>.base</dt>
 <dd><p>Numeric. A base of logarithm.</p></dd>
-
-
 <dt>.norm</dt>
 <dd><p>Logical. If TRUE then normalises the entropy by the maximal value of the entropy.</p></dd>
-
-
 <dt>.do.norm</dt>
 <dd><p>If TRUE then normalises the input distributions to make them sum up to 1.</p></dd>
-
-
 <dt>.laplace</dt>
 <dd><p>Numeric. A value for the laplace correction.</p></dd>
-
-
 <dt>.alpha</dt>
 <dd><p>Numeric vector. A distribution of some random value.</p></dd>
-
-
 <dt>.beta</dt>
 <dd><p>Numeric vector. A distribution of some random value.</p></dd>
-
-
 <dt>.norm.entropy</dt>
 <dd><p>Logical. If TRUE then normalises the resulting value by the average entropy of input distributions.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A numeric value.</p>
+    <p>A numeric value.</p>
     </div>
 
     <div id="ref-examples">
@@ -194,13 +177,13 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">entropy</span><span class="op">(</span><span class="va">P</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.965315</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.150175</span>
 <span class="r-in"><span class="fu">kl_div</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5470498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.467644</span>
 <span class="r-in"><span class="fu">js_div</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1336707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2032849</span>
 <span class="r-in"><span class="fu">cross_entropy</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.512365</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.617819</span>
 </code></pre></div>
     </div>
   </div>
@@ -215,7 +198,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

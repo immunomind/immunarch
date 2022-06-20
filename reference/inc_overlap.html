@@ -161,45 +161,28 @@
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
-
-
 <dt>.fun</dt>
 <dd><p>Function to compute overlaps. e.g., <code>morisita_index</code>.</p></dd>
-
-
 <dt>.step</dt>
 <dd><p>Either an integer or a numeric vector.</p>
 <p>In the first case, the integer defines the step of incremental overlap.</p>
 <p>In the second case, the vector encodes all repertoire sampling depths.</p></dd>
-
-
 <dt>.n.steps</dt>
 <dd><p>Integer. Number of steps if <code>.step</code> is a single integer.
 Skipped if ".step" is a numeric vector.</p></dd>
-
-
 <dt>.downsample</dt>
 <dd><p>If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
 top N clonotypes.</p></dd>
-
-
 <dt>.bootstrap</dt>
 <dd><p>Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.</p></dd>
-
-
 <dt>.verbose.inc</dt>
 <dd><p>Logical. If TRUE then shows the output from the computation process.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Other arguments passed to <code>.fun</code>.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>List with overlap matrices.</p>
+    <p>List with overlap matrices.</p>
     </div>
 
     <div id="ref-examples">
@@ -222,7 +205,7 @@ top N clonotypes.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

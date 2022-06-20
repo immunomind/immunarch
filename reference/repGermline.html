@@ -163,8 +163,6 @@ for assessing the degree of mutation and maturity of the repertoire.</h1>
 <dd><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>, <a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>
 or a list of these objects.</p>
 <p>It must have columns in the immunarch compatible format <a href="immunr_data_format.html">immunarch_data_format</a>.</p></dd>
-
-
 <dt>.species</dt>
 <dd><p>Species from which the data was acquired. Available options:
 "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",
@@ -172,8 +170,6 @@ or a list of these objects.</p>
 "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus",
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 "SusScrofa".</p></dd>
-
-
 <dt>.align_j_gene</dt>
 <dd><p>MiXCR provides the number of J indels only for 1 allele of J gene
 in the output file, and a germline can contain another allele. Therefore, calculation of
@@ -181,28 +177,19 @@ J gene start in reference based on numbers from input file can be sometimes inco
 As result, J gene in the germline will be trimmed in the start or will contain some
 nucleotides from CDR3. Setting this parameter to TRUE enables precise alignment of J genes
 to detect the correct starting point, but it significantly reduces performance.</p></dd>
-
-
 <dt>.min_nuc_outside_cdr3</dt>
 <dd><p>This parameter sets how many nucleotides should have V or J chain
 outside of CDR3 to be considered good for further alignment.</p></dd>
-
-
 <dt>.ref_only_first</dt>
 <dd><p>This parameter, if TRUE, means to take only first sequence from reference
 for each allele name; if FALSE, all sequences will be taken, and the output table will
 increase in size as a result.</p></dd>
-
-
 <dt>.threads</dt>
 <dd><p>Number of threads to use.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
+    <p>Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
 V.sequence, J.sequence (with V and J reference sequences),
 Germline.sequence (with combined germline sequence)</p>
     </div>
@@ -21232,7 +21219,7 @@ Germline.sequence (with combined germline sequence)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

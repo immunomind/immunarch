@@ -165,65 +165,40 @@ correlation coefficients.</p>
     <dl><dt>.data</dt>
 <dd><p>The <code>geneUsageAnalysis</code> function runs on the output from
 <code><a href="geneUsage.html">geneUsage</a></code>.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>A string that defines the type of analysis to perform. Can be "pca",
 "mds", "js", "kmeans", "hclust", "dbscan" or "cor" if you want to calculate
 correlation coefficient. In the latter case you have to provide <code>.cor</code> argument.</p></dd>
-
-
 <dt>.base</dt>
 <dd><p>A numerical value that defines the logarithm base for Jensen-Shannon
 divergence.</p></dd>
-
-
 <dt>.norm.entropy</dt>
 <dd><p>A logical value. Set TRUE to normalise your data if you haven't
 done it already.</p></dd>
-
-
 <dt>.cor</dt>
 <dd><p>A string that defines the correlation coefficient for analysis. Can be
 "pearson", "kendall" or "spearman".</p></dd>
-
-
 <dt>.do.norm</dt>
 <dd><p>A logical value. If TRUE it forces Laplace smoothing, if NA it checks
 if smoothing is necessary, if FALSE does nothing.</p></dd>
-
-
 <dt>.laplace</dt>
 <dd><p>The numeric value, which is used as a pseudocount for Laplace
 smoothing.</p></dd>
-
-
 <dt>.verbose</dt>
 <dd><p>A logical value.</p></dd>
-
-
 <dt>.k</dt>
 <dd><p>The number of clusters to create, passed as <code>k</code> to <a href="https://rdrr.io/pkg/factoextra/man/hcut.html" class="external-link">hcut</a> or as <code>centers</code> to <a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a>.</p></dd>
-
-
 <dt>.eps</dt>
 <dd><p>A numerical value, DBscan epsylon parameter, see
 <code><a href="immunr_hclust.html">immunr_dbscan</a></code>.</p></dd>
-
-
 <dt>.perp</dt>
 <dd><p>A numerical value, t-SNE perplexity, see <code><a href="immunr_pca.html">immunr_tsne</a></code>.</p></dd>
-
-
 <dt>.theta</dt>
 <dd><p>A numerical value, t-SNE theta parameter, see <code><a href="immunr_pca.html">immunr_tsne</a></code>.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Depends on the last element in the <code>.method</code> string. See <a href="immunr_pca.html">immunr_tsne</a> for more info.</p>
+    <p>Depends on the last element in the <code>.method</code> string. See <a href="immunr_pca.html">immunr_tsne</a> for more info.</p>
     </div>
 
     <div id="ref-examples">
@@ -247,7 +222,7 @@ smoothing.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

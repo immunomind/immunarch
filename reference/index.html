@@ -139,19 +139,97 @@
           <h3 id="loading-and-saving-any-data">Loading and saving any data <a href="#loading-and-saving-any-data" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="repLoad.html">repLoad()</a></code> </p>
+        </td>
+        <td><p>Load immune repertoire files into the R workspace</p></td>
+      </tr><tr><td>
+          <p><code><a href="repSave.html">repSave()</a></code> </p>
+        </td>
+        <td><p>Save immune repertoires to the disk</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="filtering-data">Filtering data <a href="#filtering-data" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="repFilter.html">repFilter()</a></code> </p>
+        </td>
+        <td><p>Main function for data filtering</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="single-cell">Single-cell <a href="#single-cell" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p><p>More coming soon!</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="select_barcodes.html">select_barcodes()</a></code> </p>
+        </td>
+        <td><p>Select specific clonotypes using barcodes from single-cell metadata</p></td>
+      </tr><tr><td>
+          <p><code><a href="select_clusters.html">select_clusters()</a></code> </p>
+        </td>
+        <td><p>Split the immune repertoire data to clusters from single-cell barcodes</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="preprocessing">Preprocessing <a href="#preprocessing" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="bunch_translate.html">bunch_translate()</a></code> </p>
+        </td>
+        <td><p>Nucleotide to amino acid sequence translation</p></td>
+      </tr><tr><td>
+          <p><code><a href="coding.html">coding()</a></code> <code><a href="coding.html">noncoding()</a></code> <code><a href="coding.html">inframes()</a></code> <code><a href="coding.html">outofframes()</a></code> </p>
+        </td>
+        <td><p>Filter out coding and non-coding clonotype sequences</p></td>
+      </tr><tr><td>
+          <p><code><a href="repSample.html">repSample()</a></code> </p>
+        </td>
+        <td><p>Downsampling and resampling of immune repertoires</p></td>
+      </tr><tr><td>
+          <p><code><a href="top.html">top()</a></code> </p>
+        </td>
+        <td><p>Get the N most abundant clonotypes</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="bcr-data">BCR data <a href="#bcr-data" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h3 id="clustering">Clustering <a href="#clustering" class="anchor" aria-hidden="true"></a></h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="seqDist.html">seqDist()</a></code> </p>
+        </td>
+        <td><p>Function for computing distance for sequences</p></td>
+      </tr><tr><td>
+          <p><code><a href="seqCluster.html">seqCluster()</a></code> </p>
+        </td>
+        <td><p>Function for assigning clusters based on sequences similarity</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h3 id="bcr-pipeline">BCR pipeline <a href="#bcr-pipeline" class="anchor" aria-hidden="true"></a></h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="repGermline.html">repGermline()</a></code> </p>
+        </td>
+        <td><p>This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
+that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
+Each clonal lineage has its own germline sequence that represents the ancestral sequence
+for each BCR in clonal lineage. In other words, germline sequence is a sequence of B-cells immediately
+after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
+for assessing the degree of mutation and maturity of the repertoire.</p></td>
+      </tr><tr><td>
+          <p><code><a href="repAlignLineage.html">repAlignLineage()</a></code> </p>
+        </td>
+        <td><p>This function aligns all sequences (incliding germline) that belong to one clonal lineage and one cluster.
+After clustering and building the clonal lineage and germline, the next step is to analyze the degree of mutation
+and maturity of each clonal lineage. This allows for finding high mature cells and cells with a large
+number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
+Making alignment of the sequence is the first step towards sequence analysis including BCR.</p></td>
+      </tr><tr><td>
+          <p><code><a href="repClonalFamily.html">repClonalFamily()</a></code> </p>
+        </td>
+        <td><p>This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
+maximum parsimony methods.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="basic-immune-repertoire-statistics">Basic immune repertoire statistics <a href="#basic-immune-repertoire-statistics" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -159,11 +237,27 @@
           <h3 id="exploratory-data-analysis">Exploratory data analysis <a href="#exploratory-data-analysis" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="repExplore.html">repExplore()</a></code> </p>
+        </td>
+        <td><p>Main function for exploratory data analysis: compute the distribution of lengths, clones, etc.</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_exp_vol.html">vis(<i>&lt;immunr_exp_vol&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise results of the exploratory analysis</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="clonality-analysis">Clonality analysis <a href="#clonality-analysis" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="repClonality.html">repClonality()</a></code> </p>
+        </td>
+        <td><p>Clonality analysis of immune repertoires</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_clonal_prop.html">vis(<i>&lt;immunr_clonal_prop&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise results of the clonality analysis</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="clonotype-annotation-and-dynamics">Clonotype annotation and dynamics <a href="#clonotype-annotation-and-dynamics" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -171,11 +265,27 @@
           <h3 id="clonotype-annotation">Clonotype annotation <a href="#clonotype-annotation" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p><p>Annotate clonotypes in immune repertoires using external immune receptor databases (VDJDB, McPAS and PIRD).</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="dbAnnotate.html">dbAnnotate()</a></code> </p>
+        </td>
+        <td><p>Annotate clonotypes in immune repertoires using clonotype databases such as VDJDB and MCPAS</p></td>
+      </tr><tr><td>
+          <p><code><a href="dbLoad.html">dbLoad()</a></code> </p>
+        </td>
+        <td><p>Load clonotype databases such as VDJDB and McPAS into the R workspace</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="immune-repertoire-dynamics">Immune repertoire dynamics <a href="#immune-repertoire-dynamics" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p><p>Track the differences in clonotype abundances over time.</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="trackClonotypes.html">trackClonotypes()</a></code> </p>
+        </td>
+        <td><p>Track clonotypes across time and data points</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_dynamics.html">vis(<i>&lt;immunr_dynamics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise clonotype dynamics</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="compare-repertoires">Compare repertoires <a href="#compare-repertoires" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -183,11 +293,35 @@
           <h3 id="repertoire-diversity-analysis">Repertoire diversity analysis <a href="#repertoire-diversity-analysis" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="repDiversity.html">repDiversity()</a></code> </p>
+        </td>
+        <td><p>The main function for immune repertoire diversity estimation</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_chao1.html">vis(<i>&lt;immunr_chao1&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise diversity.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="gene-usage">Gene usage <a href="#gene-usage" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p><p>V-gene and J-gene usage statistics, analysis and visualisations</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="geneUsage.html">geneUsage()</a></code> </p>
+        </td>
+        <td><p>Main function for estimation of V-gene and J-gene statistics</p></td>
+      </tr><tr><td>
+          <p><code><a href="geneUsageAnalysis.html">geneUsageAnalysis()</a></code> </p>
+        </td>
+        <td><p>Post-analysis of V-gene and J-gene statistics: PCA, clustering, etc.</p></td>
+      </tr><tr><td>
+          <p><code><a href="gene_stats.html">gene_stats()</a></code> </p>
+        </td>
+        <td><p>WIP</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_gene_usage.html">vis(<i>&lt;immunr_gene_usage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Histograms and boxplots (general case / gene usage)</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="overlap">Overlap <a href="#overlap" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
@@ -199,11 +333,59 @@
           <p><code><a href="repOverlapAnalysis.html">repOverlapAnalysis()</a></code> </p>
         </td>
         <td><p>Post-analysis of public clonotype statistics: PCA, clustering, etc.</p></td>
+      </tr><tr><td>
+          <p><code><a href="inc_overlap.html">inc_overlap()</a></code> </p>
+        </td>
+        <td><p>Incremental counting of repertoire similarity</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_inc_overlap.html">vis(<i>&lt;immunr_inc_overlap&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise incremental overlaps</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_ov_matrix.html">vis(<i>&lt;immunr_ov_matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Repertoire overlap and gene usage visualisations</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="public-repertoire">Public repertoire <a href="#public-repertoire" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="pubRep.html">pubRep()</a></code> </p>
+        </td>
+        <td><p>Create a repertoire of public clonotypes</p></td>
+      </tr><tr><td>
+          <p><code><a href="pubRepApply.html">pubRepApply()</a></code> </p>
+        </td>
+        <td><p>Apply transformations to public repertoires</p></td>
+      </tr><tr><td>
+          <p><code><a href="pubRepFilter.html">pubRepFilter()</a></code> </p>
+        </td>
+        <td><p>Filter out clonotypes from public repertoires</p></td>
+      </tr><tr><td>
+          <p><code><a href="pubRepStatistics.html">pubRepStatistics()</a></code> </p>
+        </td>
+        <td><p>Statistics of number of public clonotypes for each possible combinations of repertoires</p></td>
+      </tr><tr><td>
+          <p><code><a href="public_matrix.html">public_matrix()</a></code> </p>
+        </td>
+        <td><p>Get a matrix with public clonotype frequencies</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_public_repertoire.html">vis(<i>&lt;immunr_public_repertoire&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Public repertoire visualisation</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_public_statistics.html">vis(<i>&lt;immunr_public_statistics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise sharing of clonotypes among samples</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis_public_clonotypes.html">vis_public_clonotypes()</a></code> </p>
+        </td>
+        <td><p>Visualisation of public clonotypes</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis_public_frequencies.html">vis_public_frequencies()</a></code> </p>
+        </td>
+        <td><p>Public repertoire visualisation</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="advanced-immune-repertoire-analysis">Advanced immune repertoire analysis <a href="#advanced-immune-repertoire-analysis" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -211,11 +393,39 @@
           <h3 id="kmers-analysis">Kmers analysis <a href="#kmers-analysis" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="getKmers.html">getKmers()</a></code> </p>
+        </td>
+        <td><p>Calculate the k-mer statistics of immune repertoires</p></td>
+      </tr><tr><td>
+          <p><code><a href="split_to_kmers.html">split_to_kmers()</a></code> <code><a href="split_to_kmers.html">kmer_profile()</a></code> </p>
+        </td>
+        <td><p>Analysis immune repertoire kmer statistics: sequence profiles, etc.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="post-analysis">Post-analysis <a href="#post-analysis" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p><p>Advanced methods for post-analysis of gene usage, overlap and other statistics.</p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="immunr_hclust.html">immunr_hclust()</a></code> <code><a href="immunr_hclust.html">immunr_kmeans()</a></code> <code><a href="immunr_hclust.html">immunr_dbscan()</a></code> </p>
+        </td>
+        <td><p>Clustering of objects or distance matrices</p></td>
+      </tr><tr><td>
+          <p><code><a href="immunr_pca.html">immunr_pca()</a></code> <code><a href="immunr_pca.html">immunr_mds()</a></code> <code><a href="immunr_pca.html">immunr_tsne()</a></code> </p>
+        </td>
+        <td><p>Dimensionality reduction</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_hclust.html">vis(<i>&lt;immunr_hclust&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualisation of hierarchical clustering</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_kmeans.html">vis(<i>&lt;immunr_kmeans&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualisation of K-means and DBSCAN clustering</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.immunr_mds.html">vis(<i>&lt;immunr_mds&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>PCA / MDS / tSNE visualisation (mainly overlap / gene usage)</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="visualisations">Visualisations <a href="#visualisations" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -319,11 +529,19 @@
           <p><code><a href="vis_textlogo.html">vis_textlogo()</a></code> <code><a href="vis_textlogo.html">vis_seqlogo()</a></code> </p>
         </td>
         <td><p>Sequence logo plots for amino acid profiles.</p></td>
+      </tr><tr><td>
+          <p><code><a href="spectratype.html">spectratype()</a></code> </p>
+        </td>
+        <td><p>Immune repertoire spectratyping</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="publication-ready-plots">Publication-ready plots <a href="#publication-ready-plots" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="fixVis.html">fixVis()</a></code> </p>
+        </td>
+        <td><p>Manipulate ggplot plots and create publication-ready plots</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="utilities">Utilities <a href="#utilities" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -331,15 +549,83 @@
           <h3 id="data">Data <a href="#data" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="aa_properties.html">aa_properties</a></code> </p>
+        </td>
+        <td><p>Tables with amino acid properties</p></td>
+      </tr><tr><td>
+          <p><code><a href="aa_table.html">AA_TABLE</a></code> </p>
+        </td>
+        <td><p>Amino acid / codon table</p></td>
+      </tr><tr><td>
+          <p><code><a href="bcrdata.html">bcrdata</a></code> </p>
+        </td>
+        <td><p>BCR dataset</p></td>
+      </tr><tr><td>
+          <p><code><a href="gene_segments.html">gene_segments</a></code> </p>
+        </td>
+        <td><p>Gene segments table</p></td>
+      </tr><tr><td>
+          <p><code><a href="immdata.html">immdata</a></code> </p>
+        </td>
+        <td><p>Single chain immune repertoire dataset</p></td>
+      </tr><tr><td>
+          <p><code><a href="immunr_data_format.html">immunr_data_format</a></code> </p>
+        </td>
+        <td><p>Specification of the data format used by immunarch dataframes</p></td>
+      </tr><tr><td>
+          <p><code><a href="scdata.html">scdata</a></code> </p>
+        </td>
+        <td><p>Paired chain immune repertoire dataset</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="public-utility-utilities">Public utility utilities <a href="#public-utility-utilities" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="apply_symm.html">apply_symm()</a></code> <code><a href="apply_symm.html">apply_asymm()</a></code> </p>
+        </td>
+        <td><p>Apply function to each pair of data frames from a list.</p></td>
+      </tr><tr><td>
+          <p><code><a href="entropy.html">entropy()</a></code> <code><a href="entropy.html">kl_div()</a></code> <code><a href="entropy.html">js_div()</a></code> <code><a href="entropy.html">cross_entropy()</a></code> </p>
+        </td>
+        <td><p>Information measures</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
           <h3 id="internal-utility-functions">Internal utility functions <a href="#internal-utility-functions" class="anchor" aria-hidden="true"></a></h3>
           <p class="section-desc"></p>
         </th>
-      </tr></tbody><tbody></tbody></table></div>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="add_class.html">add_class()</a></code> </p>
+        </td>
+        <td><p>Add a new class attribute</p></td>
+      </tr><tr><td>
+          <p><code><a href="check_distribution.html">check_distribution()</a></code> </p>
+        </td>
+        <td><p>Check and normalise distributions</p></td>
+      </tr><tr><td>
+          <p><code><a href="dot-quant_column_choice.html">.quant_column_choice()</a></code> </p>
+        </td>
+        <td><p>Get a column's name using the input alias</p></td>
+      </tr><tr><td>
+          <p><code><a href="group_from_metadata.html">group_from_metadata()</a></code> </p>
+        </td>
+        <td><p>Get a character vector of samples' groups from the input metadata file</p></td>
+      </tr><tr><td>
+          <p><code><a href="has_class.html">has_class()</a></code> </p>
+        </td>
+        <td><p>Check for the specific class</p></td>
+      </tr><tr><td>
+          <p><code><a href="matrixdiagcopy.html">matrixdiagcopy()</a></code> </p>
+        </td>
+        <td><p>Copy the upper matrix triangle to the lower one</p></td>
+      </tr><tr><td>
+          <p><code><a href="set_pb.html">set_pb()</a></code> <code><a href="set_pb.html">add_pb()</a></code> </p>
+        </td>
+        <td><p>Set and update progress bars</p></td>
+      </tr><tr><td>
+          <p><code><a href="switch_type.html">switch_type()</a></code> <code><a href="switch_type.html">process_col_argument()</a></code> </p>
+        </td>
+        <td><p>Return a column's name</p></td>
+      </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -352,7 +638,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

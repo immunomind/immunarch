@@ -156,8 +156,6 @@ time points after vaccination.</p>
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
-
-
 <dt>.which</dt>
 <dd><p>An argument that regulates which clonotypes to choose for tracking. There are three options for this argument:</p>
 <p>1) passes a list with two elements <code>list(X, Y)</code>, where <code>X</code> is the name or the index of a target repertoire from ".data", and
@@ -165,26 +163,19 @@ of these objects. They are supported with the same limitations as basic objects.
 <p>2) passes a character vector of sequences to take from all data frames;</p>
 <p>3) passes a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).</p>
 <p>See the "Examples" below with examples for each option.</p></dd>
-
-
 <dt>.col</dt>
 <dd><p>A character vector of length 1. Specifies an identifier for a column, from which the function
 chooses clonotype sequences. Specify "nt" for nucleotide sequences, "aa" for amino acid sequences,
 "aa+v" for amino acid sequences and Variable genes, "nt+j" for nucleotide
 sequences with Joining genes, or any combination of the above.
 Used only if ".which" has option 1) or option 2).</p></dd>
-
-
 <dt>.norm</dt>
 <dd><p>Logical. If TRUE then uses Proportion instead of the number of Clones per clonotype to store
 in the function output.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Data frame with input sequences and counts or proportions for each of the input repertoire.</p>
+    <p>Data frame with input sequences and counts or proportions for each of the input repertoire.</p>
     </div>
 
     <div id="ref-examples">
@@ -275,7 +266,7 @@ in the function output.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

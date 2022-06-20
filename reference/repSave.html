@@ -149,27 +149,18 @@ in desirable format. Currently supports "immunarch" and "vdjtools" file formats.
 <dd><p>An R dataframe, a list of R dataframes or a list with <code>data</code> and
 <code>meta</code> where first element is a list of dataframes and the latter is a dataframe
 with metadata.</p></dd>
-
-
 <dt>.path</dt>
 <dd><p>A string with the path to the output directory. It should include file
 name if a single dataframe is provided to .data argument.</p></dd>
-
-
 <dt>.format</dt>
 <dd><p>A string with desirable format specification. Current options are
 "immunarch" and "vdjtools".</p></dd>
-
-
 <dt>.compress</dt>
 <dd><p>A boolean value. Defines whether the output will be compressed or not.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>No return value.</p>
+    <p>No return value.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -197,91 +188,91 @@ does not exist it will be created automatically.</p>
 <span class="r-in"><span class="va">new_immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">dirpath</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> == Step 1/3: loading repertoire files... ==</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/RtmpbAlD78" ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [1/27] Parsing "/tmp/RtmpbAlD78/A2-i129.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/Rtmp144c87" ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [1/27] Parsing "/tmp/Rtmp144c87/A2-i129.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [2/27] Parsing "/tmp/RtmpbAlD78/A2-i131.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [2/27] Parsing "/tmp/Rtmp144c87/A2-i131.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [3/27] Parsing "/tmp/RtmpbAlD78/A2-i132.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [3/27] Parsing "/tmp/Rtmp144c87/A2-i132.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [4/27] Parsing "/tmp/RtmpbAlD78/A2-i133.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [4/27] Parsing "/tmp/Rtmp144c87/A2-i133.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [5/27] Parsing "/tmp/RtmpbAlD78/A4-i191.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [5/27] Parsing "/tmp/Rtmp144c87/A4-i191.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [6/27] Parsing "/tmp/RtmpbAlD78/A4-i192.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [6/27] Parsing "/tmp/Rtmp144c87/A4-i192.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [7/27] Parsing "/tmp/RtmpbAlD78/MS1.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [7/27] Parsing "/tmp/Rtmp144c87/MS1.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [8/27] Parsing "/tmp/RtmpbAlD78/MS2.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [8/27] Parsing "/tmp/Rtmp144c87/MS2.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [9/27] Parsing "/tmp/RtmpbAlD78/MS3.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [9/27] Parsing "/tmp/Rtmp144c87/MS3.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [10/27] Parsing "/tmp/RtmpbAlD78/MS4.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [10/27] Parsing "/tmp/Rtmp144c87/MS4.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [11/27] Parsing "/tmp/RtmpbAlD78/MS5.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [11/27] Parsing "/tmp/Rtmp144c87/MS5.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [12/27] Parsing "/tmp/RtmpbAlD78/MS6.tsv.gz" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [12/27] Parsing "/tmp/Rtmp144c87/MS6.tsv.gz" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> immunarch</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [13/27] Parsing "/tmp/RtmpbAlD78/clustalb3a50373b01d9.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [13/27] Parsing "/tmp/Rtmp144c87/clustal3292a912a22892.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [14/27] Parsing "/tmp/RtmpbAlD78/clustalb3a50710bb863.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [14/27] Parsing "/tmp/Rtmp144c87/clustal3292a926823d26.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [15/27] Parsing "/tmp/RtmpbAlD78/clustalb3a51373b01d9.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [15/27] Parsing "/tmp/Rtmp144c87/clustal3292aa12a22892.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [16/27] Parsing "/tmp/RtmpbAlD78/clustalb3a51710bb863.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [16/27] Parsing "/tmp/Rtmp144c87/clustal3292aa26823d26.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [17/27] Parsing "/tmp/RtmpbAlD78/clustalb43c1373b01d9.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [17/27] Parsing "/tmp/Rtmp144c87/clustal32947326823d26.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [18/27] Parsing "/tmp/RtmpbAlD78/clustalb43c15005ecb2.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [18/27] Parsing "/tmp/Rtmp144c87/clustal3294735a866ebc.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [19/27] Parsing "/tmp/RtmpbAlD78/clustalb43c2373b01d9.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [19/27] Parsing "/tmp/Rtmp144c87/clustal32947926823d26.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [20/27] Parsing "/tmp/RtmpbAlD78/clustalb43c25005ecb2.dnd" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [20/27] Parsing "/tmp/Rtmp144c87/clustal3294795a866ebc.dnd" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [21/27] Parsing "/tmp/RtmpbAlD78/fileb24b026d1be78" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [21/27] Parsing "/tmp/Rtmp144c87/file3275901587c65e" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [22/27] Parsing "/tmp/RtmpbAlD78/fileb24b0362a1f66" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [22/27] Parsing "/tmp/Rtmp144c87/file327590459a9778" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [23/27] Parsing "/tmp/RtmpbAlD78/fileb24b043821a08" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [23/27] Parsing "/tmp/Rtmp144c87/file3275904c61aa47" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [24/27] Parsing "/tmp/RtmpbAlD78/fileb24b05bfe8839" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [24/27] Parsing "/tmp/Rtmp144c87/file327590558773b9" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [25/27] Parsing "/tmp/RtmpbAlD78/fileb24b071d6a20c" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [25/27] Parsing "/tmp/Rtmp144c87/file32759058ce6fc7" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [26/27] Parsing "/tmp/RtmpbAlD78/fileb24b07a23871c" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [26/27] Parsing "/tmp/Rtmp144c87/file3275905ed8c9fa" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [27/27] Parsing "/tmp/RtmpbAlD78/metadata.txt" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [27/27] Parsing "/tmp/Rtmp144c87/metadata.txt" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> metadata</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/RtmpbAlD78/downlit" ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [1/12] Parsing "/tmp/RtmpbAlD78/downlit/MASS" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/Rtmp144c87/downlit" ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [1/12] Parsing "/tmp/Rtmp144c87/downlit/MASS" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [2/12] Parsing "/tmp/RtmpbAlD78/downlit/Rtsne" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [2/12] Parsing "/tmp/Rtmp144c87/downlit/Rtsne" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [3/12] Parsing "/tmp/RtmpbAlD78/downlit/base" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [3/12] Parsing "/tmp/Rtmp144c87/downlit/base" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [4/12] Parsing "/tmp/RtmpbAlD78/downlit/data.table" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [4/12] Parsing "/tmp/Rtmp144c87/downlit/data.table" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [5/12] Parsing "/tmp/RtmpbAlD78/downlit/devtools" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [5/12] Parsing "/tmp/Rtmp144c87/downlit/devtools" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [6/12] Parsing "/tmp/RtmpbAlD78/downlit/dplyr" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [6/12] Parsing "/tmp/Rtmp144c87/downlit/dplyr" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [7/12] Parsing "/tmp/RtmpbAlD78/downlit/factoextra" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [7/12] Parsing "/tmp/Rtmp144c87/downlit/factoextra" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [8/12] Parsing "/tmp/RtmpbAlD78/downlit/fpc" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [8/12] Parsing "/tmp/Rtmp144c87/downlit/fpc" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [9/12] Parsing "/tmp/RtmpbAlD78/downlit/magrittr" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [9/12] Parsing "/tmp/Rtmp144c87/downlit/magrittr" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [10/12] Parsing "/tmp/RtmpbAlD78/downlit/pkgload" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [10/12] Parsing "/tmp/Rtmp144c87/downlit/pkgload" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [11/12] Parsing "/tmp/RtmpbAlD78/downlit/stats" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [11/12] Parsing "/tmp/Rtmp144c87/downlit/stats" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [12/12] Parsing "/tmp/RtmpbAlD78/downlit/utils" -- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   -- [12/12] Parsing "/tmp/Rtmp144c87/downlit/utils" -- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> unsupported format, skipping</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> == Step 2/3: checking metadata files and merging files... ==</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/RtmpbAlD78" ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/Rtmp144c87" ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   -- Everything is OK!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/RtmpbAlD78/downlit" ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Processing "/tmp/Rtmp144c87/downlit" ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   -- Metadata file not found; creating a dummy metadata...</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `Sample`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `Sample`.</span>
@@ -305,7 +296,7 @@ does not exist it will be created automatically.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

@@ -147,12 +147,8 @@
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Character vector or the output from <code>getKmers</code>.</p></dd>
-
-
 <dt>.k</dt>
 <dd><p>Integer. Size of k-mers.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 a matrix with occurences of each amino acid in each position.</p>
@@ -161,20 +157,13 @@ each amino acid in each position. This is a traditional representation of sequen
 <p>If "wei" then returns a position weight matrix (PWM) - a matrix with log likelihoods of PPM elements.</p>
 <p>If "self" then returns a matrix with self-information of elements in PWM.</p>
 <p>For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.</p></dd>
-
-
 <dt>.remove.stop</dt>
 <dd><p>Logical. If TRUE (by default) remove stop codons.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>split_to_kmers</code> - Data frame with two columns (k-mers and their counts).</p>
-
-
-<p><code>kmer_profile</code> - a matrix with per-position amino acid statistics.</p>
+    <p><code>split_to_kmers</code> - Data frame with two columns (k-mers and their counts).
+<code>kmer_profile</code> - a matrix with per-position amino acid statistics.</p>
     </div>
 
     <div id="ref-examples">
@@ -202,7 +191,7 @@ each amino acid in each position. This is a traditional representation of sequen
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

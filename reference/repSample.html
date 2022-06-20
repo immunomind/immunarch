@@ -157,29 +157,20 @@
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>Character. Name of a sampling method. See "Description" for more details. Default value is "downsample"
 that downsamples the repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
 doesn't set any value to the ".n" argument.</p></dd>
-
-
 <dt>.n</dt>
 <dd><p>Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Set NA to sample
 repertoires to the size of the smallest repertoire in the ".data".</p></dd>
-
-
 <dt>.prob</dt>
 <dd><p>Logical. If TRUE then samples the clonotypes with probability weights equal to their number of clones. Used only if
 ".method" is "sample".</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Subsampled immune repertoire or a list of subsampled immune repertoires.</p>
+    <p>Subsampled immune repertoire or a list of subsampled immune repertoires.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -238,7 +229,7 @@ or each clonotype has an equal chance to be choosed (if <code>.prob</code> is FA
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

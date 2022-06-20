@@ -162,8 +162,6 @@ clonal proportions in a given repertoire.</p>
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>A String with one of the following options: <code>"clonal.prop"</code>,
 <code>"homeo"</code>, <code>"top"</code> or <code>"rare"</code>.</p>
@@ -177,35 +175,22 @@ repertoire, e.g., ten most abundant clonotypes. Use <code>".head"</code> to defi
 such as 10, 100 and so on.</p>
 <p>Set <code>"rare"</code> to estimate relative abundance for the groups of rare clonotypes
 with low counts. Use <code>".bound"</code> to define the threshold of clonotype groups.</p></dd>
-
-
 <dt>.perc</dt>
 <dd><p>A single numerical value ranging from 0 to 100.</p></dd>
-
-
 <dt>.clone.types</dt>
 <dd><p>A named numerical vector with the threshold of the half-closed
 intervals that mark off clonal groups.</p></dd>
-
-
 <dt>.head</dt>
 <dd><p>A numerical vector with ranges of the top clonotypes.</p></dd>
-
-
 <dt>.bound</dt>
 <dd><p>A numerical vector with ranges of abundance for the rare clonotypes in
 the dataset.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>If input data is a single immune repertoire, then the function returns a numeric vector
-with clonality statistics.</p>
-
-
-<p>Otherwise, it returns a numeric matrix with clonality statistics for all input repertoires.</p>
+    <p>If input data is a single immune repertoire, then the function returns a numeric vector
+with clonality statistics.
+Otherwise, it returns a numeric matrix with clonality statistics for all input repertoires.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -259,7 +244,7 @@ a non-parametric approach to comparing their underlying distributions.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

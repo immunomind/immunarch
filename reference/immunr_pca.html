@@ -161,47 +161,28 @@ methods are:</p>
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A matrix or a data frame with features, distance matrix or output from <a href="repOverlapAnalysis.html">repOverlapAnalysis</a> or <a href="geneUsageAnalysis.html">geneUsageAnalysis</a> functions.</p></dd>
-
-
 <dt>.scale</dt>
 <dd><p>A function to apply to your data before passing it to any of
 dimensionality reduction algorithms. There is no scaling by default.</p></dd>
-
-
 <dt>.raw</dt>
 <dd><p>If TRUE then returns the non-processed output from dimensionality reduction
 algorithms. Pass FALSE if you want to visualise results.</p></dd>
-
-
 <dt>.orig</dt>
 <dd><p>If TRUE then returns the original result from algorithms. Pass FALSE
 if you want to visualise results.</p></dd>
-
-
 <dt>.dist</dt>
 <dd><p>If TRUE then assumes that ".data" is a distance matrix.</p></dd>
-
-
 <dt>.perp</dt>
 <dd><p>The perplexity parameter for <a href="https://rdrr.io/pkg/Rtsne/man/Rtsne.html" class="external-link">Rtsne</a>. Sepcifies the number
 of neighbours each data point must have in the resulting plot.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Other parameters passed to <a href="https://rdrr.io/pkg/Rtsne/man/Rtsne.html" class="external-link">Rtsne</a>.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>immunr_pca</code> - an output from <a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a>.</p>
-
-
-<p><code>immunr_mds</code> - an output from isoMDS.</p>
-
-
-<p><code>immunr_tsne</code> - an output from Rtsne.</p>
+    <p><code>immunr_pca</code> - an output from <a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a>.
+<code>immunr_mds</code> - an output from isoMDS.
+<code>immunr_tsne</code> - an output from Rtsne.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -416,7 +397,7 @@ of neighbours each data point must have in the resulting plot.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

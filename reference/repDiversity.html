@@ -173,13 +173,9 @@ or FALSE (don't do normalisation), respectively.</p>
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
-
-
 <dt>.method</dt>
 <dd><p>Picks a method used for estimation out of a following list: chao1,
 hill, div, gini.simp, inv.simp, gini, raref, d50, dxx.</p></dd>
-
-
 <dt>.col</dt>
 <dd><p>A string that specifies the column(s) to be processed. Pass one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
@@ -187,84 +183,43 @@ following strings, separated by the plus sign: "nt" for nucleotide sequences,
 pass "aa+v" to compute diversity estimations on CDR3 amino acid sequences paired with V gene segments, i.e.,
 in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.
 Clonal counts of equal clonotypes will be summed up.</p></dd>
-
-
 <dt>.max.q</dt>
 <dd><p>The max hill number to calculate (default: 5).</p></dd>
-
-
 <dt>.min.q</dt>
 <dd><p>Function calculates several hill numbers. Set the min (default: 1).</p></dd>
-
-
 <dt>.q</dt>
 <dd><p>q-parameter for the Diversity index.</p></dd>
-
-
 <dt>.step</dt>
 <dd><p>Rarefaction step's size.</p></dd>
-
-
 <dt>.quantile</dt>
 <dd><p>Numeric vector with quantiles for confidence intervals.</p></dd>
-
-
 <dt>.extrapolation</dt>
 <dd><p>An integer. An upper limit for the number of clones to extrapolate to.
 Pass 0 (zero) to turn extrapolation subroutines off.</p></dd>
-
-
 <dt>.perc</dt>
 <dd><p>Set the percent to dXX index measurement.</p></dd>
-
-
 <dt>.norm</dt>
 <dd><p>Normalises rarefaction curves.</p></dd>
-
-
 <dt>.verbose</dt>
 <dd><p>If TRUE then outputs progress.</p></dd>
-
-
 <dt>.do.norm</dt>
 <dd><p>One of the three values - NA, TRUE or FALSE. If NA then checks for distrubution (sum(.data) == 1)
 and normalises if needed with the given laplace correction value. if TRUE then does normalisation and laplace
 correction. If FALSE then doesn't do neither normalisaton nor laplace correction.</p></dd>
-
-
 <dt>.laplace</dt>
 <dd><p>A numeric value, which is used as a pseudocount for Laplace
 smoothing.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>div, gini, gini.simp, inv.simp, raref return numeric vector of length 1
-with value.</p>
-
-
-<p>chao1 returns 4 values: estimated number of species, standart deviation of
-this number and two 95<!-- % confidence intervals for the species number. --></p>
-
-
-
-<p>hill returns a vector of specified length <code>.max.q - .min.q</code></p>
-
-
-
-<p>For most methods, if input data is a single immune repertoire, then the function returns a numeric vector
-with diversity statistics.</p>
-
-
-<p>Otherwise, it returns a numeric matrix with diversity statistics for all input repertoires.</p>
-
-
-<p>For Chao1 the function returns a matrix with diversity estimations.</p>
-
-
-<p>For rarefaction the function returns either a matrix with diversity estimatinos
+    <p>div, gini, gini.simp, inv.simp, raref return numeric vector of length 1
+with value.
+chao1 returns 4 values: estimated number of species, standart deviation of
+this number and two 95<!-- % confidence intervals for the species number. -->hill returns a vector of specified length <code>.max.q - .min.q</code>For most methods, if input data is a single immune repertoire, then the function returns a numeric vector
+with diversity statistics.
+Otherwise, it returns a numeric matrix with diversity statistics for all input repertoires.
+For Chao1 the function returns a matrix with diversity estimations.
+For rarefaction the function returns either a matrix with diversity estimatinos
 on different step of the simulaiton process or a list with such matrices.</p>
     </div>
     <div id="details">
@@ -370,7 +325,7 @@ Diversity wiki
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
