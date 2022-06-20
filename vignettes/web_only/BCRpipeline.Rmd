@@ -106,7 +106,8 @@ In Immunarch, `repGermline()` function generates germline for each sequence:
 ```{r example 3}
 #generate germline
 bcrdata$data %>%
-    repGermline()
+    top(5) %>%
+    repGermline(.threads = 1)
 ```
 
 A germline is represented via sequences of V gene - N...N (CDR3 length) - J gene:
@@ -115,7 +116,7 @@ A germline is represented via sequences of V gene - N...N (CDR3 length) - J gene
 #germline example
 bcrdata$data %>%
      top(1) %>%
-     repGermline() %>% .$full_clones %>% .$Germline.sequence
+     repGermline(.threads = 1) %>% .$full_clones %>% .$Germline.sequence
 ```
 
 Оptions:
@@ -137,7 +138,7 @@ If  `.ref_only_first = FALSE`, you will get several different germlines:
 ```{r example 5}
 bcrdata$data %>%
     top(1) %>%
-repGermline(.ref_only_first = FALSE) %>% .$full_clones %>% .$Germline.sequence
+    repGermline(.ref_only_first = FALSE, .threads = 1) %>% .$full_clones %>% .$Germline.sequence
 ```
 
 # Aligning sequences within a clonal lineage
@@ -162,7 +163,7 @@ data(bcrdata)
 bcr_data <- bcrdata$data %>% top(500)
 bcr_data %>%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-  repGermline() %>%
+  repGermline(.threads = 1) %>%
   repAlignLineage(.min_lineage_sequences = 2)
 ```
 
@@ -171,10 +172,10 @@ The function has several parameters:
 - `.min_lineage_sequences` — Filters clusters (clonal lineages) with the number of clonotypes lower than the threshold. Aligning clonal lineages with few sequences is of little use.
 
 ```{r example 8, results = 'hide'}
-#take clusters that contain at least 1 sequences
+# take clusters that contain at least 1 sequence
 bcr_data %>%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-  repGermline() %>%
+  repGermline(.threads = 1) %>%
   repAlignLineage(.min_lineage_sequences = 1, .align_threads = 2)
 ```
 
@@ -214,7 +215,7 @@ repClonalFamily usage example:
 ```{r example 10, results = 'hide'}
 bcr <- bcr_data %>%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-  repGermline() %>%
+  repGermline(.threads = 1) %>%
   repAlignLineage(.min_lineage_sequences = 2) %>%
   repClonalFamily(.threads = 2)
 ```
