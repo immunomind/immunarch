@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
@@ -97,19 +97,19 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -132,27 +132,22 @@
     </div>
 
 <div id="contributing-to-immunarch" class="section level1">
-
 <p>This document outlines how to propose a change to immunarch.</p>
-<div id="how-to-contribute" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-contribute" class="anchor" aria-hidden="true"></a>How to contribute?</h2>
+<div class="section level2">
+<h2 id="how-to-contribute">How to contribute?<a class="anchor" aria-label="anchor" href="#how-to-contribute"></a></h2>
 <p>There are three general ways to contribute to the package.</p>
 <ol style="list-style-type: decimal"><li><p>Code contribution via pull requests. Helps us improve the codebase of the package, add new features or fix bugs and typos in the documentation.</p></li>
 <li><p>Bug reports and feature requests via GitHub issues. Helps us notice important issues and improvements to address.</p></li>
 <li><p>Helping others by answering tickets in GitHub issues. Greatly helps build the community and accelerates the immune repertoire research progress.</p></li>
 </ol></div>
-<div id="code-contribution-via-pull-requests" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-contribution-via-pull-requests" class="anchor" aria-hidden="true"></a>Code contribution via pull requests</h2>
-<div id="prerequisites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#prerequisites" class="anchor" aria-hidden="true"></a>Prerequisites</h3>
+<div class="section level2">
+<h2 id="code-contribution-via-pull-requests">Code contribution via pull requests<a class="anchor" aria-label="anchor" href="#code-contribution-via-pull-requests"></a></h2>
+<div class="section level3">
+<h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a></h3>
 <p>Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex" class="external-link">reprex</a>. If you need to send a data and can’t do that via GitHub, please note it in the issue.</p>
 </div>
-<div id="pull-request-process" class="section level3">
-<h3 class="hasAnchor">
-<a href="#pull-request-process" class="anchor" aria-hidden="true"></a>Pull request process</h3>
+<div class="section level3">
+<h3 id="pull-request-process">Pull request process<a class="anchor" aria-label="anchor" href="#pull-request-process"></a></h3>
 <ul><li>Always start by forking the <code>dev</code> branch <a href="https://github.com/immunomind/immunarch/tree/dev" class="external-link">from here</a> to make sure you have the latest pre-release version of <code>immunarch</code>. Name it accordingly to your contributions. <code>repClonality refactor</code> or <code>fix-issue-12</code> would work.</li>
 <li>We recommend that you create a Git branch for each pull request (PR).<br></li>
 <li>We follow the <a href="https://medium.com/@kevinkreuzer/the-way-to-fully-automated-releases-in-open-source-projects-44c015f38fd6" class="external-link">following guidelines for commit naming</a>.</li>
@@ -161,33 +156,28 @@
 <li>We use <a href="https://cran.r-project.org/package=testthat" class="external-link">testthat</a>. Contributions with test cases included are easier to accept.</li>
 <li>Look at the CI (Continuous Integration) build status before and after making changes. The <code>README</code> should contain badges for any continuous integration services used by the package.</li>
 </ul></div>
-<div id="fixing-typos" class="section level3">
-<h3 class="hasAnchor">
-<a href="#fixing-typos" class="anchor" aria-hidden="true"></a>Fixing typos</h3>
+<div class="section level3">
+<h3 id="fixing-typos">Fixing typos<a class="anchor" aria-label="anchor" href="#fixing-typos"></a></h3>
 <p>Small typos or grammatical errors in documentation may be edited directly using the GitLab web IDE functionality / GitHub web interface, so long as the changes are made in the <em>source</em> file. Please make sure to create a Pull Request instead of commiting directly to the <code>master</code> branch.</p>
 <ul><li>YES: you edit a roxygen comment in a <code>.R</code> file below <code>R/</code>.</li>
 <li>NO: you edit an <code>.Rd</code> file below <code>man/</code>.</li>
 </ul></div>
-<div id="version-naming" class="section level3">
-<h3 class="hasAnchor">
-<a href="#version-naming" class="anchor" aria-hidden="true"></a>Version naming</h3>
+<div class="section level3">
+<h3 id="version-naming">Version naming<a class="anchor" aria-label="anchor" href="#version-naming"></a></h3>
 <p>We employ Major.Minor.Patch. E.g., 0.4.0.</p>
 <p>Hotfixes: Major.Minor.Patch → Major.Minor.(Patch + 1)</p>
 <p>Guidelines: <a href="http://r-pkgs.had.co.nz/release.html" class="external-link">http://r-pkgs.had.co.nz/release.html</a></p>
 </div>
-<div id="commit-naming" class="section level3">
-<h3 class="hasAnchor">
-<a href="#commit-naming" class="anchor" aria-hidden="true"></a>Commit naming</h3>
+<div class="section level3">
+<h3 id="commit-naming">Commit naming<a class="anchor" aria-label="anchor" href="#commit-naming"></a></h3>
 <p>We follow the <a href="https://medium.com/@kevinkreuzer/the-way-to-fully-automated-releases-in-open-source-projects-44c015f38fd6" class="external-link">following guidelines for commit naming</a>.</p>
-<div id="commit-types" class="section level4">
-<h4 class="hasAnchor">
-<a href="#commit-types" class="anchor" aria-hidden="true"></a>Commit types</h4>
+<div class="section level4">
+<h4 id="commit-types">Commit types<a class="anchor" aria-label="anchor" href="#commit-types"></a></h4>
 <p>There are eight types of commits: <code>chore</code>, <code>docs</code>, <code>feat</code>, <code>fix</code>, <code>refactor</code>, <code>test</code>, <code>perf</code>, <code>style</code>. Most used are <code>feat</code> for implementation of a new feauture, <code>docs</code> for updating the documentation, <code>fix</code> for fixing a bug.</p>
 <p>Commit name examples: <code>feat(diversity): added the Chao1 method for diversity estimations</code>, <code>fix(clonality): fixed a bug in clonality computations #12</code>, where <code>#12</code> is a link to the issue on the immunarch issue page.</p>
 </div>
-<div id="commit-scopes" class="section level4">
-<h4 class="hasAnchor">
-<a href="#commit-scopes" class="anchor" aria-hidden="true"></a>Commit scopes</h4>
+<div class="section level4">
+<h4 id="commit-scopes">Commit scopes<a class="anchor" aria-label="anchor" href="#commit-scopes"></a></h4>
 <ul><li><p>Changes in analysis- and visualisation-specific functions: <code>diversity</code>, <code>overlap</code>, <code>pub-rep</code>, <code>clonality</code>, <code>gene-usage</code>, <code>explore</code>, <code>kmers</code>, <code>spectratype</code>, <code>dynamics</code>, <code>tools</code>, <code>single-cell</code>.</p></li>
 <li><p>General changes in visualisation functions (e.g., replace one package with another, or change a non-specific visualisation function such as <code>vis_bar</code>): <code>vis</code></p></li>
 <li><p>Changes in parsing: <code>io</code></p></li>
@@ -201,23 +191,19 @@
 </ul></div>
 </div>
 </div>
-<div id="bug-reports-and-feature-requests" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-reports-and-feature-requests" class="anchor" aria-hidden="true"></a>Bug reports and feature requests</h2>
-<div id="how-to-create-an-issue" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-create-an-issue" class="anchor" aria-hidden="true"></a>How to create an Issue</h3>
+<div class="section level2">
+<h2 id="bug-reports-and-feature-requests">Bug reports and feature requests<a class="anchor" aria-label="anchor" href="#bug-reports-and-feature-requests"></a></h2>
+<div class="section level3">
+<h3 id="how-to-create-an-issue">How to create an Issue<a class="anchor" aria-label="anchor" href="#how-to-create-an-issue"></a></h3>
 <p>We have a rich list of templates for Issues <a href="https://github.com/immunomind/immunarch/tree/master/.github/ISSUE_TEMPLATE" class="external-link">here</a>. Go to the <a href="https://github.com/immunomind/immunarch/issues" class="external-link">GitHub Issues page</a> for <code>immunarch</code> and create a new Issue ticket from there.</p>
 </div>
 </div>
-<div id="helping-others-by-answering-tickets" class="section level2">
-<h2 class="hasAnchor">
-<a href="#helping-others-by-answering-tickets" class="anchor" aria-hidden="true"></a>Helping others by answering tickets</h2>
+<div class="section level2">
+<h2 id="helping-others-by-answering-tickets">Helping others by answering tickets<a class="anchor" aria-label="anchor" href="#helping-others-by-answering-tickets"></a></h2>
 <p>Got to <a href="https://github.com/immunomind/immunarch/issues" class="external-link">GitHub Issues page</a> and find Issues that you are familiar with to answer.</p>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of Conduct</h2>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a></h2>
 <p>Please note that this project is released with a <a href="code-of-conduct.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 <p>(adapted from <a href="https://github.com/tidyverse/dplyr/blob/master/.github/CONTRIBUTING.md" class="external-link">dplyr</a> contribution guide)</p>
 </div>
@@ -238,7 +224,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

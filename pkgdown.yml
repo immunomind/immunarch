@@ -1,6 +1,6 @@
 pandoc: '2.12'
-pkgdown: 1.9000.9000.9000
-pkgdown_sha: 2368908b8d9d70237052ddd51dd93c3a129d6bc2
+pkgdown: 2.0.3
+pkgdown_sha: 97923d367c5afef139f1fd760b6f125abda99898
 articles:
   v1_introduction: v1_introduction.html
   v2_data: v2_data.html
@@ -20,9 +20,7 @@ articles:
   v7_fixvis: web_only/v7_fixvis.html
   v8_tracking: web_only/v8_tracking.html
   v9_kmers: web_only/v9_kmers.html
-  BCRpipeline: web_only/BCRpipeline.html
-  сlustering: web_only/сlustering.html
-last_built: 2022-05-16T15:05Z
+last_built: 2022-06-22T12:10Z
 urls:
   reference: https://immunarch.com/reference
   article: https://immunarch.com/articles

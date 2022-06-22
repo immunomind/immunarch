@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v21_singlecell_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Single-cell and paired chain data: scTCRseq and scBCRseq exploration</h1>
@@ -169,7 +169,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v21_singlecell.Rmd" class="external-link"><code>vignettes/web_only/v21_singlecell.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/v21_singlecell.Rmd" class="external-link"><code>vignettes/web_only/v21_singlecell.Rmd</code></a></small>
       <div class="hidden name"><code>v21_singlecell.Rmd</code></div>
 
     </div>
@@ -181,9 +181,9 @@
 %\VignetteIndexEntry{Working with data in immunarch}
 %\VignettePackage{immunarch}
 -->
-<div id="executive-summary" class="section level1">
-<h1 class="hasAnchor">
-<a href="#executive-summary" class="anchor" aria-hidden="true"></a>Executive Summary</h1>
+<div class="section level2">
+<h2 id="executive-summary">Executive Summary<a class="anchor" aria-label="anchor" href="#executive-summary"></a>
+</h2>
 <blockquote>
 <p>This is a vignette dedicated to provide an overview on how to work with single-cell paired chain data in <code>immunarch</code></p>
 </blockquote>
@@ -193,19 +193,18 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>; <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunomind/immunarch"</span>, ref<span class="op">=</span><span class="st">"dev"</span><span class="op">)</span></code></pre></div>
 <blockquote>
-<p>To read paired chain data into <code>immunarch</code> use the <code>repLoad</code> function with <code>.mode = "paired"</code>. Currently we support 10X Genomics only.</p>
+<p>To read paired chain data with <code>immunarch</code> use the <code>repLoad</code> function with <code>.mode = "paired"</code>. Currently we support 10X Genomics only.</p>
 </blockquote>
 <blockquote>
-<p>To subset immune repertoires by specific barcodes use the <code>select_barcodes</code> function. Output of <code><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html" class="external-link">Seurat::Idents()</a></code> as a barcode vector works.</p>
+<p>To create subset immune repertoires with specific barcodes use the <code>select_barcodes</code> function. Output of <code>Seurat::Idents()</code> as a barcode vector works.</p>
 </blockquote>
 <blockquote>
-<p>To create cluster-specific and patient-specific datasets using barcodes from the output of <code><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html" class="external-link">Seurat::Idents()</a></code> use the <code>select_clusters</code> function.</p>
+<p>To create cluster-specific and patient-specific datasets using barcodes from the output of <code>Seurat::Idents()</code> use the <code>select_clusters</code> function.</p>
 </blockquote>
 </div>
-<div id="use-the-data-packaged-with-immunarch" class="section level1">
-<h1 class="hasAnchor">
-<a href="#use-the-data-packaged-with-immunarch" class="anchor" aria-hidden="true"></a>Use the data packaged with <code>immunarch</code>
-</h1>
+<div class="section level2">
+<h2 id="use-the-data-packaged-with-immunarch">Use the data packaged with <code>immunarch</code><a class="anchor" aria-label="anchor" href="#use-the-data-packaged-with-immunarch"></a>
+</h2>
 <p>Load the package into the R enviroment:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://immunarch.com/">immunarch</a></span><span class="op">)</span></code></pre></div>
@@ -213,68 +212,68 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">scdata</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="load-the-paired-chain-data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#load-the-paired-chain-data" class="anchor" aria-hidden="true"></a>Load the paired chain data</h1>
+<div class="section level2">
+<h2 id="load-the-paired-chain-data">Load the paired chain data<a class="anchor" aria-label="anchor" href="#load-the-paired-chain-data"></a>
+</h2>
 <p>To load your own datasets, use the <code>repLoad</code> function. Currently we implemented paired chain data support for 10X Genomics data only. A working example of loading datasets into R:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/sc/flu.csv.gz"</span><span class="op">)</span>
 <span class="va">igdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span>, .mode <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
-## == Step 1/3: loading repertoire files... ==</code></pre>
-<pre><code>## Processing "&lt;initial&gt;" ...</code></pre>
-<pre><code>##   -- [1/1] Parsing "/tmp/Rtmp9VzjqV/temp_libpath567a27b42f8c1/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</code></pre>
-<pre><code>## Warning: The following named parsers don't match the column names:
-## sample,barcode,is_cell,contig_id,high_confidence,length,chain,v_gene,d_gene,j_gene,c_gene,full_length,productive,cdr3,cdr3_nt,reads,umis,raw_clonotype_id,raw_consensus_id</code></pre>
-<pre><code>## 
-## == Step 2/3: checking metadata files and merging files... ==
-## 
-## Processing "&lt;initial&gt;" ...
-##   -- Metadata file not found; creating a dummy metadata...
-## 
-## == Step 3/3: processing paired chain data... ==
-## 
-## Done!</code></pre>
+<pre><code><span class="co">## </span>
+<span class="co">## == Step 1/3: loading repertoire files... ==</span></code></pre>
+<pre><code><span class="co">## Processing "&lt;initial&gt;" ...</span></code></pre>
+<pre><code><span class="co">##   -- [1/1] Parsing "/tmp/RtmpHbHDQZ/temp_libpath3267c347584f1b/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</span></code></pre>
+<pre><code><span class="co">## Warning: The following named parsers don't match the column names:</span>
+<span class="co">## sample,barcode,is_cell,contig_id,high_confidence,length,chain,v_gene,d_gene,j_gene,c_gene,full_length,productive,cdr3,cdr3_nt,reads,umis,raw_clonotype_id,raw_consensus_id</span></code></pre>
+<pre><code><span class="co">## </span>
+<span class="co">## == Step 2/3: checking metadata files and merging files... ==</span>
+<span class="co">## </span>
+<span class="co">## Processing "&lt;initial&gt;" ...</span>
+<span class="co">##   -- Metadata file not found; creating a dummy metadata...</span>
+<span class="co">## </span>
+<span class="co">## == Step 3/3: processing paired chain data... ==</span>
+<span class="co">## </span>
+<span class="co">## Done!</span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">igdata</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 1 × 1 [39m
-##   Sample
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m 
-##  [38;5;250m1 [39m flu</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span>
+<span class="co">##   Sample</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> flu</span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">igdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="fl">16</span>, <span class="fl">17</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Clones Proportion
-## 1      3      3e-04
-## 2      3      3e-04
-## 3      2      2e-04
-## 4      2      2e-04
-## 5      2      2e-04
-## 6      2      2e-04
-##                                                                                                         CDR3.nt
-## 1          TGTGCACACACCACCGAACTCTATTGTACTAATGGTGTATGCTATGGGGGCTACTTTGACTACTGG;TGCCAACAGTATAATAGTTATTCGTGGACGTTC
-## 2                                     TGTGCGAGGCTATGGGGTTGGGGATTACTCTACTGG;TGCACCTCATATGCAGGCAGCAACAATTTGGTATTC
-## 3                                  TGTACCGCTCATGGTAGGGAGGGTACTTTTGATCTCTGG;TGTCAACAATATGATAATCTCCCTCGGTACACTTTT
-## 4                            TGTGCAAGAGACGACTTTGCTTCGGGGGGTCGACACTTTGGCTGCTGG;TGTCAGCAGTCTGGTAACGCACCTCGAACTTTT
-## 5                                           TGTGCAAGAGATCTGGACTACATGGACGTCTGG;TGTCAACAGAGTTACAGTACCCCTCGAACTTTT
-## 6 TGTGCAAGAGGTTTAATACCCTCAGTTAGTGGCTACGACTACTACTACTACTACGGTATGGACGTCTGG;TGTCAATCAGCAGACAGCAGTGGTACTTATGAGGTATTC
-##                                 CDR3.aa             V.name        D.name
-## 1    CAHTTELYCTNGVCYGGYFDYW;CQQYNSYSWTF    IGHV2-5;IGKV1-5  IGHD2-8;None
-## 2             CARLWGWGLLYW;CTSYAGSNNLVF  IGHV4-59;IGLV2-11 IGHD3-10;None
-## 3            CTAHGREGTFDLW;CQQYDNLPRYTF  IGHV3-15;IGKV1-33 IGHD2-15;None
-## 4          CARDDFASGGRHFGCW;CQQSGNAPRTF   IGHV1-2;IGKV3-20 IGHD3-10;None
-## 5               CARDLDYMDVW;CQQSYSTPRTF IGHV3-13;IGKV1D-39     None;None
-## 6 CARGLIPSVSGYDYYYYYGMDVW;CQSADSSGTYEVF  IGHV3-74;IGLV3-25 IGHD5-12;None
-##        J.name   chain                                                  Barcode
-## 1 IGHJ4;IGKJ1 IGH;IGK AGTAGTCAGTGTACTC-1;GGCGACTGTACCGAGA-1;TTGAACGGTCACCTAA-1
-## 2 IGHJ4;IGLJ2 IGH;IGL AGAGCGACACCTTGTC-1;ATTGGTGAGACCTAGG-1;TCTTCGGAGGTGATTA-1
-## 3 IGHJ3;IGKJ2 IGH;IGK                    CGCGGTATCCTCTAGC-1;TGAGCATCAGGAACGT-1
-## 4 IGHJ4;IGKJ2 IGH;IGK                    ACTGTCCAGACGCAAC-1;CACACTCTCCGTTGTC-1
-## 5 IGHJ6;IGKJ2 IGH;IGK                    AGGTCCGAGTCAAGCG-1;GGCGTGTTCTCTAGGA-1
-## 6 IGHJ6;IGLJ2 IGH;IGL                    ACTGAGTCAAGCGATG-1;CTGCTGTCACGCATCG-1</code></pre>
+<pre><code><span class="co">##   Clones Proportion</span>
+<span class="co">## 1      3      3e-04</span>
+<span class="co">## 2      3      3e-04</span>
+<span class="co">## 3      2      2e-04</span>
+<span class="co">## 4      2      2e-04</span>
+<span class="co">## 5      2      2e-04</span>
+<span class="co">## 6      2      2e-04</span>
+<span class="co">##                                                                                                         CDR3.nt</span>
+<span class="co">## 1          TGTGCACACACCACCGAACTCTATTGTACTAATGGTGTATGCTATGGGGGCTACTTTGACTACTGG;TGCCAACAGTATAATAGTTATTCGTGGACGTTC</span>
+<span class="co">## 2                                     TGTGCGAGGCTATGGGGTTGGGGATTACTCTACTGG;TGCACCTCATATGCAGGCAGCAACAATTTGGTATTC</span>
+<span class="co">## 3                                  TGTACCGCTCATGGTAGGGAGGGTACTTTTGATCTCTGG;TGTCAACAATATGATAATCTCCCTCGGTACACTTTT</span>
+<span class="co">## 4                            TGTGCAAGAGACGACTTTGCTTCGGGGGGTCGACACTTTGGCTGCTGG;TGTCAGCAGTCTGGTAACGCACCTCGAACTTTT</span>
+<span class="co">## 5                                           TGTGCAAGAGATCTGGACTACATGGACGTCTGG;TGTCAACAGAGTTACAGTACCCCTCGAACTTTT</span>
+<span class="co">## 6 TGTGCAAGAGGTTTAATACCCTCAGTTAGTGGCTACGACTACTACTACTACTACGGTATGGACGTCTGG;TGTCAATCAGCAGACAGCAGTGGTACTTATGAGGTATTC</span>
+<span class="co">##                                 CDR3.aa             V.name        D.name</span>
+<span class="co">## 1    CAHTTELYCTNGVCYGGYFDYW;CQQYNSYSWTF    IGHV2-5;IGKV1-5  IGHD2-8;None</span>
+<span class="co">## 2             CARLWGWGLLYW;CTSYAGSNNLVF  IGHV4-59;IGLV2-11 IGHD3-10;None</span>
+<span class="co">## 3            CTAHGREGTFDLW;CQQYDNLPRYTF  IGHV3-15;IGKV1-33 IGHD2-15;None</span>
+<span class="co">## 4          CARDDFASGGRHFGCW;CQQSGNAPRTF   IGHV1-2;IGKV3-20 IGHD3-10;None</span>
+<span class="co">## 5               CARDLDYMDVW;CQQSYSTPRTF IGHV3-13;IGKV1D-39     None;None</span>
+<span class="co">## 6 CARGLIPSVSGYDYYYYYGMDVW;CQSADSSGTYEVF  IGHV3-74;IGLV3-25 IGHD5-12;None</span>
+<span class="co">##        J.name   chain                                                  Barcode</span>
+<span class="co">## 1 IGHJ4;IGKJ1 IGH;IGK AGTAGTCAGTGTACTC-1;GGCGACTGTACCGAGA-1;TTGAACGGTCACCTAA-1</span>
+<span class="co">## 2 IGHJ4;IGLJ2 IGH;IGL AGAGCGACACCTTGTC-1;ATTGGTGAGACCTAGG-1;TCTTCGGAGGTGATTA-1</span>
+<span class="co">## 3 IGHJ3;IGKJ2 IGH;IGK                    CGCGGTATCCTCTAGC-1;TGAGCATCAGGAACGT-1</span>
+<span class="co">## 4 IGHJ4;IGKJ2 IGH;IGK                    ACTGTCCAGACGCAAC-1;CACACTCTCCGTTGTC-1</span>
+<span class="co">## 5 IGHJ6;IGKJ2 IGH;IGK                    AGGTCCGAGTCAAGCG-1;GGCGTGTTCTCTAGGA-1</span>
+<span class="co">## 6 IGHJ6;IGLJ2 IGH;IGL                    ACTGAGTCAAGCGATG-1;CTGCTGTCACGCATCG-1</span></code></pre>
 </div>
-<div id="subset-by-barcodes" class="section level1">
-<h1 class="hasAnchor">
-<a href="#subset-by-barcodes" class="anchor" aria-hidden="true"></a>Subset by barcodes</h1>
+<div class="section level2">
+<h2 id="subset-by-barcodes">Subset by barcodes<a class="anchor" aria-label="anchor" href="#subset-by-barcodes"></a>
+</h2>
 <p>To subset the data by barcodes, use the <code>select_barcodes</code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">barcodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AGTAGTCAGTGTACTC-1"</span>, <span class="st">"GGCGACTGTACCGAGA-1"</span>, <span class="st">"TTGAACGGTCACCTAA-1"</span><span class="op">)</span>
@@ -282,64 +281,64 @@
 <span class="va">new_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_barcodes.html">select_barcodes</a></span><span class="op">(</span><span class="va">scdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">barcodes</span><span class="op">)</span>
 
 <span class="va">new_df</span></code></pre></div>
-<pre><code>##                                                                                                CDR3.nt
-## 1 TGTGCACACACCACCGAACTCTATTGTACTAATGGTGTATGCTATGGGGGCTACTTTGACTACTGG;TGCCAACAGTATAATAGTTATTCGTGGACGTTC
-##                              CDR3.aa          V.name D.name      J.name V.end
-## 1 CAHTTELYCTNGVCYGGYFDYW;CQQYNSYSWTF IGHV2-5;IGKV1-5     NA IGHJ4;IGKJ1    NA
-##   D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence   chain raw_clonotype_id
-## 1      NA    NA      NA     NA     NA     NA       NA IGH;IGK               14
-##   ContigID Clones                                                  Barcode
-## 1       NA      3 AGTAGTCAGTGTACTC-1;GGCGACTGTACCGAGA-1;TTGAACGGTCACCTAA-1
-##   Proportion
-## 1          1</code></pre>
-<div id="patient-specific-datasets" class="section level2">
-<h2 class="hasAnchor">
-<a href="#patient-specific-datasets" class="anchor" aria-hidden="true"></a>Patient-specific datasets</h2>
+<pre><code><span class="co">##                                                                                                CDR3.nt</span>
+<span class="co">## 1 TGTGCACACACCACCGAACTCTATTGTACTAATGGTGTATGCTATGGGGGCTACTTTGACTACTGG;TGCCAACAGTATAATAGTTATTCGTGGACGTTC</span>
+<span class="co">##                              CDR3.aa          V.name D.name      J.name V.end</span>
+<span class="co">## 1 CAHTTELYCTNGVCYGGYFDYW;CQQYNSYSWTF IGHV2-5;IGKV1-5     NA IGHJ4;IGKJ1    NA</span>
+<span class="co">##   D.start D.end J.start VJ.ins VD.ins DJ.ins Sequence   chain raw_clonotype_id</span>
+<span class="co">## 1      NA    NA      NA     NA     NA     NA       NA IGH;IGK               14</span>
+<span class="co">##   ContigID Clones                                                  Barcode</span>
+<span class="co">## 1       NA      3 AGTAGTCAGTGTACTC-1;GGCGACTGTACCGAGA-1;TTGAACGGTCACCTAA-1</span>
+<span class="co">##   Proportion</span>
+<span class="co">## 1          1</span></code></pre>
+<div class="section level3">
+<h3 id="patient-specific-datasets">Patient-specific datasets<a class="anchor" aria-label="anchor" href="#patient-specific-datasets"></a>
+</h3>
 <p>To create a new dataset with cluster-specific immune repertoires, use the <code>select_clusters</code> function:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_clusters.html">select_clusters</a></span><span class="op">(</span><span class="va">scdata</span>, <span class="va">scdata</span><span class="op">$</span><span class="va">bc_patient</span>, <span class="st">"Patient"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">scdata_pat</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "flu_PatientA" "flu_PatientB" "flu_PatientC"</code></pre>
+<pre><code><span class="co">## [1] "flu_PatientA" "flu_PatientB" "flu_PatientC"</span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_pat</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 3 × 3 [39m
-##   Sample       Patient.source Patient 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m         [3m [38;5;246m&lt;chr&gt; [39m [23m           [3m [38;5;246m&lt;chr&gt; [39m [23m   
-##  [38;5;250m1 [39m flu_PatientA flu            PatientA
-##  [38;5;250m2 [39m flu_PatientB flu            PatientB
-##  [38;5;250m3 [39m flu_PatientC flu            PatientC</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="co">##   Sample       Patient.source Patient </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> flu_PatientA flu            PatientA</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> flu_PatientB flu            PatientB</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> flu_PatientC flu            PatientC</span></code></pre>
 </div>
-<div id="cluster-specific-datasets" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cluster-specific-datasets" class="anchor" aria-hidden="true"></a>Cluster-specific datasets</h2>
+<div class="section level3">
+<h3 id="cluster-specific-datasets">Cluster-specific datasets<a class="anchor" aria-label="anchor" href="#cluster-specific-datasets"></a>
+</h3>
 <p>To create a new dataset with cluster-specific immune repertoires, use the <code>select_clusters</code> function. You can apply this function after you created patient-specific datasets to get patient-specific cell cluster-specific immune repertoires, e.g., a Memory B Cell repertoire for a specific patient:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_clusters.html">select_clusters</a></span><span class="op">(</span><span class="va">scdata_pat</span>, <span class="va">scdata</span><span class="op">$</span><span class="va">bc_cluster</span>, <span class="st">"Cluster"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "flu_PatientA_Activ"  "flu_PatientA_Memory" "flu_PatientA_Naive" 
-## [4] "flu_PatientB_Activ"  "flu_PatientB_Memory" "flu_PatientB_Naive" 
-## [7] "flu_PatientC_Activ"  "flu_PatientC_Memory" "flu_PatientC_Naive"</code></pre>
+<pre><code><span class="co">## [1] "flu_PatientA_Activ"  "flu_PatientA_Memory" "flu_PatientA_Naive" </span>
+<span class="co">## [4] "flu_PatientB_Activ"  "flu_PatientB_Memory" "flu_PatientB_Naive" </span>
+<span class="co">## [7] "flu_PatientC_Activ"  "flu_PatientC_Memory" "flu_PatientC_Naive"</span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_cl</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 9 × 5 [39m
-##   Sample              Patient.source Patient  Cluster.source Cluster
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m                [3m [38;5;246m&lt;chr&gt; [39m [23m           [3m [38;5;246m&lt;chr&gt; [39m [23m     [3m [38;5;246m&lt;chr&gt; [39m [23m           [3m [38;5;246m&lt;chr&gt; [39m [23m  
-##  [38;5;250m1 [39m flu_PatientA_Activ  flu            PatientA flu_PatientA   Activ  
-##  [38;5;250m2 [39m flu_PatientA_Memory flu            PatientA flu_PatientA   Memory 
-##  [38;5;250m3 [39m flu_PatientA_Naive  flu            PatientA flu_PatientA   Naive  
-##  [38;5;250m4 [39m flu_PatientB_Activ  flu            PatientB flu_PatientB   Activ  
-##  [38;5;250m5 [39m flu_PatientB_Memory flu            PatientB flu_PatientB   Memory 
-##  [38;5;250m6 [39m flu_PatientB_Naive  flu            PatientB flu_PatientB   Naive  
-##  [38;5;250m7 [39m flu_PatientC_Activ  flu            PatientC flu_PatientC   Activ  
-##  [38;5;250m8 [39m flu_PatientC_Memory flu            PatientC flu_PatientC   Memory 
-##  [38;5;250m9 [39m flu_PatientC_Naive  flu            PatientC flu_PatientC   Naive</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 9 × 5</span></span>
+<span class="co">##   Sample              Patient.source Patient  Cluster.source Cluster</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> flu_PatientA_Activ  flu            PatientA flu_PatientA   Activ  </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> flu_PatientA_Memory flu            PatientA flu_PatientA   Memory </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> flu_PatientA_Naive  flu            PatientA flu_PatientA   Naive  </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> flu_PatientB_Activ  flu            PatientB flu_PatientB   Activ  </span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> flu_PatientB_Memory flu            PatientB flu_PatientB   Memory </span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> flu_PatientB_Naive  flu            PatientB flu_PatientB   Naive  </span>
+<span class="co">## <span style="color: #BCBCBC;">7</span> flu_PatientC_Activ  flu            PatientC flu_PatientC   Activ  </span>
+<span class="co">## <span style="color: #BCBCBC;">8</span> flu_PatientC_Memory flu            PatientC flu_PatientC   Memory </span>
+<span class="co">## <span style="color: #BCBCBC;">9</span> flu_PatientC_Naive  flu            PatientC flu_PatientC   Naive</span></code></pre>
 </div>
 </div>
-<div id="explore-and-compute-statistics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#explore-and-compute-statistics" class="anchor" aria-hidden="true"></a>Explore and compute statistics</h1>
+<div class="section level2">
+<h2 id="explore-and-compute-statistics">Explore and compute statistics<a class="anchor" aria-label="anchor" href="#explore-and-compute-statistics"></a>
+</h2>
 <p>Most functions will work out-of-the-box with paired chain data.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span>
@@ -347,19 +346,19 @@
 
 <span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CARAGYLRGFDYW;CQQYGSSPLTF"</span>, <span class="st">"CARATSFYYFHHW;CTSYTTRTTLIF"</span>, <span class="st">"CARDLSRGDYFPYFSYHMNVW;CQSDDTANHVIF"</span>, <span class="st">"CARGFDTNAFDIW;CTAWDDSLSGVVF"</span>, <span class="st">"CTREDYW;CMQTIQLRTF"</span><span class="op">)</span>
 <span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/trackClonotypes.html">trackClonotypes</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span>, <span class="va">target</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in melt.data.table(.data): id.vars and measure.vars are internally
-## guessed when both are 'NULL'. All non-numeric/integer/logical type columns are
-## considered id.vars, which in this case are columns [CDR3.aa, ...]. Consider
-## providing at least one of 'id' or 'measure' vars in future.</code></pre>
+<pre><code><span class="co">## Warning in melt.data.table(.data): id.vars and measure.vars are internally</span>
+<span class="co">## guessed when both are 'NULL'. All non-numeric/integer/logical type columns are</span>
+<span class="co">## considered id.vars, which in this case are columns [CDR3.aa, ...]. Consider</span>
+<span class="co">## providing at least one of 'id' or 'measure' vars in future.</span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span><span class="op">)</span> <span class="op">/</span> <span class="va">p3</span></code></pre></div>
-<pre><code>## Warning: `spread_()` was deprecated in tidyr 1.2.0.
-## Please use `spread()` instead.
-##  [90mThis warning is displayed once every 8 hours. [39m
-##  [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was generated. [39m</code></pre>
-<pre><code>## Warning: The `.dots` argument of `group_by()` is deprecated as of dplyr 1.0.0.
-##  [90mThis warning is displayed once every 8 hours. [39m
-##  [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was generated. [39m</code></pre>
+<pre><code><span class="co">## Warning: `spread_()` was deprecated in tidyr 1.2.0.</span>
+<span class="co">## Please use `spread()` instead.</span>
+<span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
+<span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span></code></pre>
+<pre><code><span class="co">## Warning: The `.dots` argument of `group_by()` is deprecated as of dplyr 1.0.0.</span>
+<span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
+<span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span></code></pre>
 <p><img src="v21_singlecell_files/figure-html/unnamed-chunk-7-1.png" width="1728" style="display: block; margin: auto;"></p>
 <p>Several functions may work incorrectly with paired chain data in this release of <code>immunarch</code>. Let us know via <a href="http://github.com/immunomind/immunarch/issues" class="external-link">GitHub Issues</a>!</p>
 </div>
@@ -377,12 +376,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

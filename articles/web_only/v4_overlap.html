@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v4_overlap_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Repertoire overlap and public clonotypes</h1>
@@ -169,7 +169,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v4_overlap.Rmd" class="external-link"><code>vignettes/web_only/v4_overlap.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/v4_overlap.Rmd" class="external-link"><code>vignettes/web_only/v4_overlap.Rmd</code></a></small>
       <div class="hidden name"><code>v4_overlap.Rmd</code></div>
 
     </div>
@@ -181,19 +181,19 @@
 %\VignetteIndexEntry{Repertoire overlap and public clonotypes}
 %\VignettePackage{immunarch}
 -->
-<div id="repertoire-overlap" class="section level1">
-<h1 class="hasAnchor">
-<a href="#repertoire-overlap" class="anchor" aria-hidden="true"></a>Repertoire overlap</h1>
+<div class="section level2">
+<h2 id="repertoire-overlap">Repertoire overlap<a class="anchor" aria-label="anchor" href="#repertoire-overlap"></a>
+</h2>
 <p>Repertoire overlap is the most common approach to measure repertoire similarity. It is achieved by computation of specific statistics on clonotypes shared between given repertoires, also called “public” clonotypes. <code>immunarch</code> provides several indices: - number of public clonotypes (<code>.method = "public"</code>) - a classic measure of overlap similarity.</p>
 <ul>
 <li><p>overlap coefficient (<code>.method = "overlap"</code>) - a normalised measure of overlap similarity. It is defined as the size of the intersection divided by the smaller of the size of the two sets.</p></li>
-<li><p>Jaccard index (<code>.method = "jaccard"</code>) - it measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets.</p></li>
+<li><p>Jaccard index (<code>.method = "jaccard"</code>) - measures the similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets.</p></li>
 <li><p>Tversky index (<code>.method = "tversky"</code>) - an asymmetric similarity measure on sets that compares a variant to a prototype. If using default arguments, it’s similar to Dice’s coefficient.</p></li>
 <li><p>cosine similarity (<code>.method = "cosine"</code>) - a measure of similarity between two non-zero vectors</p></li>
 <li><p>Morisita’s overlap index (<code>.method = "morisita"</code>) - a statistical measure of dispersion of individuals in a population. It is used to compare overlap among samples.</p></li>
 <li><p>incremental overlap - overlaps of the N most abundant clonotypes with incrementally growing N (<code>.method = "inc+METHOD"</code>, e.g., <code>"inc+public"</code> or <code>"inc+morisita"</code>).</p></li>
 </ul>
-<p>The function that includes described methods is <code>repOverlap</code>. Again the output is easily visualised when passed to <code><a href="../../reference/vis.html">vis()</a></code> function that does all the work:</p>
+<p>The function that includes described methods is <code>repOverlap</code>. Again, the output is easily visualised when passed to <code><a href="../../reference/vis.html">vis()</a></code> function that does all the work:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">imm_ov1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"public"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">imm_ov2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"morisita"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
@@ -229,41 +229,41 @@ warning("TODO")
 <code class="sourceCode R"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span>
 <span class="co"># "mds" - Multi-dimensional Scaling</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Standard deviations (1, .., p=4):
-## [1] 0 0 0 0
-## 
-## Rotation (n x k) = (12 x 2):
-##                [,1]       [,2]
-## A2-i129 -18.7767715 -18.360817
-## A2-i131  29.9586985  -7.870441
-## A2-i133  28.1148594  22.629093
-## A2-i132 -44.3435640   6.221812
-## A4-i191  13.8586515   7.452149
-## A4-i192 -14.0065477  27.068830
-## MS1      -8.8469009  -8.151574
-## MS2      -0.9712073  -1.297017
-## MS3     -10.4398629   4.894354
-## MS4       0.5131505  10.471309
-## MS5      18.5153823 -12.628029
-## MS6       6.4241122 -30.429669</code></pre>
+<pre><code><span class="co">## Standard deviations (1, .., p=4):</span>
+<span class="co">## [1] 0 0 0 0</span>
+<span class="co">## </span>
+<span class="co">## Rotation (n x k) = (12 x 2):</span>
+<span class="co">##                [,1]       [,2]</span>
+<span class="co">## A2-i129 -18.7767715 -18.360817</span>
+<span class="co">## A2-i131  29.9586985  -7.870441</span>
+<span class="co">## A2-i133  28.1148594  22.629093</span>
+<span class="co">## A2-i132 -44.3435640   6.221812</span>
+<span class="co">## A4-i191  13.8586515   7.452149</span>
+<span class="co">## A4-i192 -14.0065477  27.068830</span>
+<span class="co">## MS1      -8.8469009  -8.151574</span>
+<span class="co">## MS2      -0.9712073  -1.297017</span>
+<span class="co">## MS3     -10.4398629   4.894354</span>
+<span class="co">## MS4       0.5131505  10.471309</span>
+<span class="co">## MS5      18.5153823 -12.628029</span>
+<span class="co">## MS6       6.4241122 -30.429669</span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
-<pre><code>##               DimI      DimII
-## A2-i129   55.91219 -26.522331
-## A2-i131 -278.35982   8.060975
-## A2-i133   41.90810   2.479033
-## A2-i132   77.49466  27.360227
-## A4-i191   48.16214  32.946045
-## A4-i192   51.44503 -44.376283
-## MS1       36.31622 -30.328954
-## MS2       65.69934  23.357776
-## MS3       49.31653 -30.642152
-## MS4       57.66025  24.905259
-## MS5     -277.51354  15.474082
-## MS6       71.95892  -2.713676
-## attr(,"class")
-## [1] "immunr_tsne" "matrix"      "array"</code></pre>
+<pre><code><span class="co">##                 DimI       DimII</span>
+<span class="co">## A2-i129  -39.4331203   17.804333</span>
+<span class="co">## A2-i131 -402.3428796  437.841030</span>
+<span class="co">## A2-i133  195.8210145 -102.242921</span>
+<span class="co">## A2-i132   80.3662582 -189.027083</span>
+<span class="co">## A4-i191  177.5566810 -202.229845</span>
+<span class="co">## A4-i192   34.6407036   39.587804</span>
+<span class="co">## MS1        0.8156422  -24.316800</span>
+<span class="co">## MS2      117.9181551 -167.849583</span>
+<span class="co">## MS3        4.6231433    3.124305</span>
+<span class="co">## MS4      147.1629305 -170.426240</span>
+<span class="co">## MS5     -377.1808293  447.110574</span>
+<span class="co">## MS6       60.0523007  -89.375573</span>
+<span class="co">## attr(,"class")</span>
+<span class="co">## [1] "immunr_tsne" "matrix"      "array"</span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise the results</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -272,41 +272,41 @@ warning("TODO")
 <code class="sourceCode R"><span class="co"># Apply different analysis algorithms to the matrix of public clonotypes:</span>
 <span class="co"># "mds" - Multi-dimensional Scaling</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Standard deviations (1, .., p=4):
-## [1] 0 0 0 0
-## 
-## Rotation (n x k) = (12 x 2):
-##                [,1]       [,2]
-## A2-i129 -18.7767715 -18.360817
-## A2-i131  29.9586985  -7.870441
-## A2-i133  28.1148594  22.629093
-## A2-i132 -44.3435640   6.221812
-## A4-i191  13.8586515   7.452149
-## A4-i192 -14.0065477  27.068830
-## MS1      -8.8469009  -8.151574
-## MS2      -0.9712073  -1.297017
-## MS3     -10.4398629   4.894354
-## MS4       0.5131505  10.471309
-## MS5      18.5153823 -12.628029
-## MS6       6.4241122 -30.429669</code></pre>
+<pre><code><span class="co">## Standard deviations (1, .., p=4):</span>
+<span class="co">## [1] 0 0 0 0</span>
+<span class="co">## </span>
+<span class="co">## Rotation (n x k) = (12 x 2):</span>
+<span class="co">##                [,1]       [,2]</span>
+<span class="co">## A2-i129 -18.7767715 -18.360817</span>
+<span class="co">## A2-i131  29.9586985  -7.870441</span>
+<span class="co">## A2-i133  28.1148594  22.629093</span>
+<span class="co">## A2-i132 -44.3435640   6.221812</span>
+<span class="co">## A4-i191  13.8586515   7.452149</span>
+<span class="co">## A4-i192 -14.0065477  27.068830</span>
+<span class="co">## MS1      -8.8469009  -8.151574</span>
+<span class="co">## MS2      -0.9712073  -1.297017</span>
+<span class="co">## MS3     -10.4398629   4.894354</span>
+<span class="co">## MS4       0.5131505  10.471309</span>
+<span class="co">## MS5      18.5153823 -12.628029</span>
+<span class="co">## MS6       6.4241122 -30.429669</span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></code></pre></div>
-<pre><code>##                DimI      DimII
-## A2-i129 -169.162899  122.43644
-## A2-i131  -33.450388 -479.33235
-## A2-i133  -21.925144  119.44208
-## A2-i132  188.786772  180.58777
-## A4-i191  105.531122   48.43325
-## A4-i192 -253.408806   84.13795
-## MS1     -172.083783   23.48401
-## MS2      161.133177  126.28609
-## MS3     -184.760923   86.31360
-## MS4      128.370622  102.12880
-## MS5        3.457591 -473.82621
-## MS6      247.512659   59.90858
-## attr(,"class")
-## [1] "immunr_tsne" "matrix"      "array"</code></pre>
+<pre><code><span class="co">##                DimI      DimII</span>
+<span class="co">## A2-i129 -175.104020  -61.26986</span>
+<span class="co">## A2-i131  199.427601  514.37855</span>
+<span class="co">## A2-i133  -48.409471  -41.47809</span>
+<span class="co">## A2-i132  121.300482 -161.17823</span>
+<span class="co">## A4-i191  100.161970  -36.15977</span>
+<span class="co">## A4-i192 -136.814323 -135.71348</span>
+<span class="co">## MS1     -223.478783 -123.08561</span>
+<span class="co">## MS2       86.568856 -120.32967</span>
+<span class="co">## MS3     -170.404265  -95.08422</span>
+<span class="co">## MS4       81.837713  -85.57016</span>
+<span class="co">## MS5      167.419735  516.75633</span>
+<span class="co">## MS6       -2.505495 -171.26580</span>
+<span class="co">## attr(,"class")</span>
+<span class="co">## [1] "immunr_tsne" "matrix"      "array"</span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise the results</span>
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -316,67 +316,67 @@ warning("TODO")
 <span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"mds+kmeans"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="v4_overlap_files/figure-html/overlap-2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
-<div id="public-repertoire" class="section level1">
-<h1 class="hasAnchor">
-<a href="#public-repertoire" class="anchor" aria-hidden="true"></a>Public repertoire</h1>
+<div class="section level2">
+<h2 id="public-repertoire">Public repertoire<a class="anchor" aria-label="anchor" href="#public-repertoire"></a>
+</h2>
 <p>In order to build a massive table with all clonotypes from the list of repertoires use the <code>pubRep</code> function.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pass "nt" as the second parameter to build the public repertoire table using CDR3 nucleotide sequences</span>
 <span class="va">pr.nt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"nt"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">pr.nt</span></code></pre></div>
-<pre><code>##                                                    CDR3.nt Samples A2-i129
-##     1:                   TGCGCCAGCAGCTTGGAAGAGACCCAGTACTTC       8       1
-##     2:                   TGTGCCAGCAGCTTCCAAGAGACCCAGTACTTC       7      NA
-##     3:                   TGTGCCAGCAGTTACCAAGAGACCCAGTACTTC       7       1
-##     4:                   TGCGCCAGCAGCTTCCAAGAGACCCAGTACTTC       6       2
-##     5:                      TGTGCCAGCAGCCAAGAGACCCAGTACTTC       6       4
-##    ---                                                                    
-## 75101:             TGTGCTTCACAACTCTTATTGGACGAGACCCAGTACTTC       1      NA
-## 75102: TGTGCTTCACAAGCCCTACAGGGCACTTTCCATAATTCACCCCTCCACTTT       1      NA
-## 75103:                   TGTGCTTCAGGGCGGGCCTACGAGCAGTACTTC       1      NA
-## 75104:             TGTGCTTCCGCCGGACCGGACCGGGAGACCCAGTACTTC       1      NA
-## 75105:                TGTGCTTGCGGGACAGATAACTATGGCTACACCTTC       1      NA
-##        A2-i131 A2-i133 A2-i132 A4-i191 A4-i192 MS1 MS2 MS3 MS4 MS5 MS6
-##     1:      NA       1       1      NA       1  NA  NA   1   1   1   1
-##     2:       1       1       2       1      NA   1  NA  NA   2  NA   1
-##     3:       1       1      NA       1       1   1  NA   2  NA  NA  NA
-##     4:      NA       1       1      NA      NA  NA   1  NA   1  NA   1
-##     5:       2      NA       2       3       1  NA  NA  NA  NA   4  NA
-##    ---                                                                
-## 75101:       1      NA      NA      NA      NA  NA  NA  NA  NA  NA  NA
-## 75102:      NA      NA      NA      NA      NA  NA  NA  NA  NA   1  NA
-## 75103:      NA      NA      NA      NA      NA   1  NA  NA  NA  NA  NA
-## 75104:      NA       1      NA      NA      NA  NA  NA  NA  NA  NA  NA
-## 75105:      NA      NA      NA      NA       1  NA  NA  NA  NA  NA  NA</code></pre>
+<pre><code><span class="co">##                                                    CDR3.nt Samples A2-i129</span>
+<span class="co">##     1:                   TGCGCCAGCAGCTTGGAAGAGACCCAGTACTTC       8       1</span>
+<span class="co">##     2:                   TGTGCCAGCAGCTTCCAAGAGACCCAGTACTTC       7      NA</span>
+<span class="co">##     3:                   TGTGCCAGCAGTTACCAAGAGACCCAGTACTTC       7       1</span>
+<span class="co">##     4:                   TGCGCCAGCAGCTTCCAAGAGACCCAGTACTTC       6       2</span>
+<span class="co">##     5:                      TGTGCCAGCAGCCAAGAGACCCAGTACTTC       6       4</span>
+<span class="co">##    ---                                                                    </span>
+<span class="co">## 75101:             TGTGCTTCACAACTCTTATTGGACGAGACCCAGTACTTC       1      NA</span>
+<span class="co">## 75102: TGTGCTTCACAAGCCCTACAGGGCACTTTCCATAATTCACCCCTCCACTTT       1      NA</span>
+<span class="co">## 75103:                   TGTGCTTCAGGGCGGGCCTACGAGCAGTACTTC       1      NA</span>
+<span class="co">## 75104:             TGTGCTTCCGCCGGACCGGACCGGGAGACCCAGTACTTC       1      NA</span>
+<span class="co">## 75105:                TGTGCTTGCGGGACAGATAACTATGGCTACACCTTC       1      NA</span>
+<span class="co">##        A2-i131 A2-i133 A2-i132 A4-i191 A4-i192 MS1 MS2 MS3 MS4 MS5 MS6</span>
+<span class="co">##     1:      NA       1       1      NA       1  NA  NA   1   1   1   1</span>
+<span class="co">##     2:       1       1       2       1      NA   1  NA  NA   2  NA   1</span>
+<span class="co">##     3:       1       1      NA       1       1   1  NA   2  NA  NA  NA</span>
+<span class="co">##     4:      NA       1       1      NA      NA  NA   1  NA   1  NA   1</span>
+<span class="co">##     5:       2      NA       2       3       1  NA  NA  NA  NA   4  NA</span>
+<span class="co">##    ---                                                                </span>
+<span class="co">## 75101:       1      NA      NA      NA      NA  NA  NA  NA  NA  NA  NA</span>
+<span class="co">## 75102:      NA      NA      NA      NA      NA  NA  NA  NA  NA   1  NA</span>
+<span class="co">## 75103:      NA      NA      NA      NA      NA   1  NA  NA  NA  NA  NA</span>
+<span class="co">## 75104:      NA       1      NA      NA      NA  NA  NA  NA  NA  NA  NA</span>
+<span class="co">## 75105:      NA      NA      NA      NA       1  NA  NA  NA  NA  NA  NA</span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pass "aa+v" as the second parameter to build the public repertoire table using CDR3 aminoacid sequences and V alleles</span>
 <span class="co"># In order to use only CDR3 aminoacid sequences, just pass "aa"</span>
 <span class="va">pr.aav</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"aa+v"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">pr.aav</span></code></pre></div>
-<pre><code>##                    CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132
-##     1:         CASSLEETQYF  TRBV5-1       8       1      NA       2       1
-##     2:     CASSDSSGGANEQFF  TRBV6-4       6       1       1       2      NA
-##     3:         CASSFQETQYF  TRBV5-1       6       3      NA       1       1
-##     4:         CASSLGETQYF TRBV12-4       6       2      NA      NA       4
-##     5:     CASSDSGGSYNEQFF  TRBV6-4       5      NA      NA      NA       3
-##    ---                                                                     
-## 74440:     CTSSRPTQGAYEQYF  TRBV7-2       1      NA      NA      NA      NA
-## 74441:    CTSSSRAGAGTDTQYF  TRBV7-2       1      NA      NA      NA      NA
-## 74442: CTSSYPGLAGLKRKETQYF  TRBV7-2       1      NA      NA      NA       1
-## 74443:    CTSSYRQRPYQETQYF  TRBV7-2       1      NA      NA      NA      NA
-## 74444:      CTSSYSTSGVGQFF  TRBV7-2       1      NA      NA      NA      NA
-##        A4-i191 A4-i192 MS1 MS2 MS3 MS4 MS5 MS6
-##     1:      NA       2  NA  NA   1   1   1   1
-##     2:       3      NA  NA  NA   2  NA  NA  12
-##     3:      NA      NA  NA   1  NA   1  NA   1
-##     4:       3      NA   1  NA  NA  NA   2   1
-##     5:      NA       1   1  NA   1  NA  NA   1
-##    ---                                        
-## 74440:      NA      NA  NA  NA  NA  NA  NA   1
-## 74441:      NA      NA  NA  NA   1  NA  NA  NA
-## 74442:      NA      NA  NA  NA  NA  NA  NA  NA
-## 74443:      NA      NA  NA  NA   1  NA  NA  NA
-## 74444:      NA      NA  NA  NA  NA   1  NA  NA</code></pre>
+<pre><code><span class="co">##                    CDR3.aa   V.name Samples A2-i129 A2-i131 A2-i133 A2-i132</span>
+<span class="co">##     1:         CASSLEETQYF  TRBV5-1       8       1      NA       2       1</span>
+<span class="co">##     2:     CASSDSSGGANEQFF  TRBV6-4       6       1       1       2      NA</span>
+<span class="co">##     3:         CASSFQETQYF  TRBV5-1       6       3      NA       1       1</span>
+<span class="co">##     4:         CASSLGETQYF TRBV12-4       6       2      NA      NA       4</span>
+<span class="co">##     5:     CASSDSGGSYNEQFF  TRBV6-4       5      NA      NA      NA       3</span>
+<span class="co">##    ---                                                                     </span>
+<span class="co">## 74440:     CTSSRPTQGAYEQYF  TRBV7-2       1      NA      NA      NA      NA</span>
+<span class="co">## 74441:    CTSSSRAGAGTDTQYF  TRBV7-2       1      NA      NA      NA      NA</span>
+<span class="co">## 74442: CTSSYPGLAGLKRKETQYF  TRBV7-2       1      NA      NA      NA       1</span>
+<span class="co">## 74443:    CTSSYRQRPYQETQYF  TRBV7-2       1      NA      NA      NA      NA</span>
+<span class="co">## 74444:      CTSSYSTSGVGQFF  TRBV7-2       1      NA      NA      NA      NA</span>
+<span class="co">##        A4-i191 A4-i192 MS1 MS2 MS3 MS4 MS5 MS6</span>
+<span class="co">##     1:      NA       2  NA  NA   1   1   1   1</span>
+<span class="co">##     2:       3      NA  NA  NA   2  NA  NA  12</span>
+<span class="co">##     3:      NA      NA  NA   1  NA   1  NA   1</span>
+<span class="co">##     4:       3      NA   1  NA  NA  NA   2   1</span>
+<span class="co">##     5:      NA       1   1  NA   1  NA  NA   1</span>
+<span class="co">##    ---                                        </span>
+<span class="co">## 74440:      NA      NA  NA  NA  NA  NA  NA   1</span>
+<span class="co">## 74441:      NA      NA  NA  NA   1  NA  NA  NA</span>
+<span class="co">## 74442:      NA      NA  NA  NA  NA  NA  NA  NA</span>
+<span class="co">## 74443:      NA      NA  NA  NA   1  NA  NA  NA</span>
+<span class="co">## 74444:      NA      NA  NA  NA  NA   1  NA  NA</span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># You can also pass the ".coding" parameter to filter out all noncoding sequences first:</span>
 <span class="va">pr.aav.cod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"aa+v"</span>, .coding <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
@@ -412,12 +412,12 @@ warning("TODO")
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

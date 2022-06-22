@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,38 +129,32 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/immunomind/immunarch/blob/master/NEWS.md"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="immunarch-043" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.3">
-<a href="#immunarch-043" class="anchor" aria-hidden="true"></a>immunarch 0.4.3<small> Unreleased </small></h1>
-<div id="documentation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation" class="anchor" aria-hidden="true"></a>Documentation</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.3" id="immunarch-043">immunarch 0.4.3<a class="anchor" aria-label="anchor" href="#immunarch-043"></a></h2>
+<div class="section level3">
+<h3 id="documentation-0-4-3">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-4-3"></a></h3>
 <p>Make README more clear with the focus on installation.</p>
 <p>Add a vignette for clonotype tracking.</p>
 <p>Add a vignette for kmer analysis.</p>
 </div>
-<div id="work-in-progress" class="section level2">
-<h2 class="hasAnchor">
-<a href="#work-in-progress" class="anchor" aria-hidden="true"></a>Work in progress</h2>
+<div class="section level3">
+<h3 id="work-in-progress-0-4-3">Work in progress<a class="anchor" aria-label="anchor" href="#work-in-progress-0-4-3"></a></h3>
 <p>Kmers - analysis + plots, seqlogo / textlogo</p>
 <p><code>pubRepStatistics</code> function for computation of public clonotypes across groups and repertoires.</p>
 <p><code>vis_public_frequencies</code>, <code>vis_public_clonotypes</code>, <code>vis_upset</code> for public repertoire visualisations.</p>
 </div>
 </div>
-    <div id="immunarch-041---042" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.1">
-<a href="#immunarch-041---042" class="anchor" aria-hidden="true"></a>immunarch 0.4.1 - 0.4.2<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.1" id="immunarch-041---042">immunarch 0.4.1 - 0.4.2<a class="anchor" aria-label="anchor" href="#immunarch-041---042"></a></h2>
 <p>Minor releases with bug fixes and minor improvements.</p>
 </div>
-    <div id="immunarch-040" class="section level1">
-<h1 class="page-header" data-toc-text="0.4.0">
-<a href="#immunarch-040" class="anchor" aria-hidden="true"></a>immunarch 0.4.0<small> Unreleased </small></h1>
-<div id="features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#features" class="anchor" aria-hidden="true"></a>Features</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.0" id="immunarch-040">immunarch 0.4.0<a class="anchor" aria-label="anchor" href="#immunarch-040"></a></h2>
+<div class="section level3">
+<h3 id="features-0-4-0">Features<a class="anchor" aria-label="anchor" href="#features-0-4-0"></a></h3>
 <p>The <code>trackClonotype</code> function for tracking clonotypes.</p>
 <p>Visualisations for <code>trackClonotype</code>.</p>
 <p>Speed up Morisita-Horn index computation for up to 3 times.</p>
@@ -180,9 +174,8 @@
 <p>Add more MiXCR file variants parsing.</p>
 <p><code>repLoad</code> returns sorted by “Clones” data frames now.</p>
 </div>
-<div id="bug-fixes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
 <p>Fix <code>geneUsage</code> when the first two columns with gene usages were swapped.</p>
 <p>Fix <code>repExplore</code> doesn’t work with a single repertoire.</p>
 <p>Fix <code>vis_heatmap</code> doesn’t work with <code>geneUsage</code> output.</p>
@@ -195,9 +188,8 @@
 <p>Fix a bug when clonal homeostasis and clonotype tracking don’t work properly with filtered coding.</p>
 <p>Fix D50, “top” and “clonal.prop” from repClonality returns wrong values when the input data frame is not sorted.</p>
 </div>
-<div id="minor-updates" class="section level2">
-<h2 class="hasAnchor">
-<a href="#minor-updates" class="anchor" aria-hidden="true"></a>Minor updates</h2>
+<div class="section level3">
+<h3 id="minor-updates-0-4-0">Minor updates<a class="anchor" aria-label="anchor" href="#minor-updates-0-4-0"></a></h3>
 <p>Remove the “wei” option from <code>geneUsage</code> becase it’s useless.</p>
 <p>New dependency <code>ggseqlogo</code> for visualising of seq-logo plots.</p>
 <p>Add <code>.transpose</code> to <code>vis_heatmap</code>.</p>
@@ -208,74 +200,61 @@
 <p>Remove short function names.</p>
 </div>
 </div>
-    <div id="immunarch-033" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.3">
-<a href="#immunarch-033" class="anchor" aria-hidden="true"></a>immunarch 0.3.3<small> Unreleased </small></h1>
-<div id="features-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#features-1" class="anchor" aria-hidden="true"></a>Features</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.3" id="immunarch-033">immunarch 0.3.3<a class="anchor" aria-label="anchor" href="#immunarch-033"></a></h2>
+<div class="section level3">
+<h3 id="features-0-3-3">Features<a class="anchor" aria-label="anchor" href="#features-0-3-3"></a></h3>
 <p>Parser for ArcherDX.</p>
 <p>Update a parser for MiXCR to make it work with the “targetSequences” column format.</p>
 <p>Update the coding function family to make it work with CDR3 amino acid sequences only.</p>
 </div>
-<div id="minor-updates-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#minor-updates-1" class="anchor" aria-hidden="true"></a>Minor updates</h2>
+<div class="section level3">
+<h3 id="minor-updates-0-3-3">Minor updates<a class="anchor" aria-label="anchor" href="#minor-updates-0-3-3"></a></h3>
 <p>Replace all “unresolved” genes in ImmunoSEQ parsed files with NAs.</p>
 <p>Add an argument for the color palette to <code>vis_heatmap2</code>.</p>
 <p>Make <code>.grid=F</code> by default in <code>vis_hist</code> for gene usage analysis.</p>
 <p>Fix parsing functions to not remove strings after dots in filenames.</p>
 <p>Update the post-parsing processing subroutine to remove all characters except for amino acid alphabet, <code>*</code> and <code>~</code> for compatability with all <code>immunarch</code>’s functions.</p>
 </div>
-<div id="documentation-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation-1" class="anchor" aria-hidden="true"></a>Documentation</h2>
+<div class="section level3">
+<h3 id="documentation-0-3-3">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-3"></a></h3>
 <p>Add a documentation to the coding function family.</p>
 <p>Update README.</p>
 </div>
 </div>
-    <div id="immunarch-032" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.2">
-<a href="#immunarch-032" class="anchor" aria-hidden="true"></a>immunarch 0.3.2<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.2" id="immunarch-032">immunarch 0.3.2<a class="anchor" aria-label="anchor" href="#immunarch-032"></a></h2>
 <p>Remove MonetDBLite from dependencies because it got removed from CRAN.</p>
-<div id="bug-fixes-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
-<ul><li>Fix a bug in MiXCR parser.</li>
-</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-2"></a></h3>
+<ul><li>Fix a bug in MiXCR parser.</li></ul></div>
 </div>
-    <div id="immunarch-031" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.1">
-<a href="#immunarch-031" class="anchor" aria-hidden="true"></a>immunarch 0.3.1<small> Unreleased </small></h1>
-<div id="features-2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#features-2" class="anchor" aria-hidden="true"></a>Features</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.1" id="immunarch-031">immunarch 0.3.1<a class="anchor" aria-label="anchor" href="#immunarch-031"></a></h2>
+<div class="section level3">
+<h3 id="features-0-3-1">Features<a class="anchor" aria-label="anchor" href="#features-0-3-1"></a></h3>
 <ul><li><p>Boxplots and barplots are now support statistical tests via the <code>.test</code> argument.</p></li>
 <li><p>Add parsers for old VDJtools formats.</p></li>
 </ul></div>
-<div id="documentation-2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation-2" class="anchor" aria-hidden="true"></a>Documentation</h2>
+<div class="section level3">
+<h3 id="documentation-0-3-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-1"></a></h3>
 <ul><li><p>Update docs and vignettes with statistical tests information.</p></li>
 <li><p>Add a note for list names to vignettes.</p></li>
 <li><p>Documentation for clustering.</p></li>
 <li><p>Documentation for dimension reduction.</p></li>
 <li><p>Minor fix for <code>repOverlap</code> documentation.</p></li>
 </ul></div>
-<div id="bug-fixes-2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
 <ul><li><p>Fix a grouping bug in visualisations.</p></li>
 <li><p>Fix statistical tests from <code>ggpubr</code>.</p></li>
 <li><p>Fix for <code>geneUsage</code> with <code>.type="family"</code>.</p></li>
 </ul></div>
 </div>
-    <div id="immunarch-030" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.0">
-<a href="#immunarch-030" class="anchor" aria-hidden="true"></a>immunarch 0.3.0<small> Unreleased </small></h1>
-<div id="features-3" class="section level2">
-<h2 class="hasAnchor">
-<a href="#features-3" class="anchor" aria-hidden="true"></a>Features</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.0" id="immunarch-030">immunarch 0.3.0<a class="anchor" aria-label="anchor" href="#immunarch-030"></a></h2>
+<div class="section level3">
+<h3 id="features-0-3-0">Features<a class="anchor" aria-label="anchor" href="#features-0-3-0"></a></h3>
 <ul><li><p><code>fixVis</code> now supports the following legends: size, shape, color, fill, linetype.</p></li>
 <li><p><code>fixVis</code> can plot figures to R console / RStudio “Plots” tab.</p></li>
 <li><p><code>fixVis</code> now supports the number of columns in legends.</p></li>
@@ -284,9 +263,8 @@
 <li><p>Save and load <code>immunarch</code> format via <code>repSave</code> and <code>repLoad</code>.</p></li>
 <li><p>Save and load VDJtools format via <code>repSave</code> and <code>repLoad</code>.</p></li>
 </ul></div>
-<div id="bug-fixes-3" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-0"></a></h3>
 <ul><li><p><code>.a</code> and <code>.b</code> didn’t passed to Tversky index.</p></li>
 <li><p><code>fixVis</code> - fix a bug when users apply X/Y settings to the other axis.</p></li>
 </ul></div>
@@ -305,7 +283,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

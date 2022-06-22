@@ -29,13 +29,13 @@ TBAdb from PIRD - https://db.cngb.org/pird/"><!-- mathjax --><script src="https:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -103,19 +103,19 @@ TBAdb from PIRD - https://db.cngb.org/pird/"><!-- mathjax --><script src="https:
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -135,7 +135,7 @@ TBAdb from PIRD - https://db.cngb.org/pird/"><!-- mathjax --><script src="https:
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Load clonotype databases such as VDJDB and McPAS into the R workspace</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/annotation.R"><code>R/annotation.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/annotation.R" class="external-link"><code>R/annotation.R</code></a></small>
     <div class="hidden name"><code>dbLoad.Rd</code></div>
     </div>
 
@@ -144,37 +144,43 @@ TBAdb from PIRD - https://db.cngb.org/pird/"><!-- mathjax --><script src="https:
 Additionally, the function provides a general query interface to databases that allows
 filtering by species, chain types (i.e., locus) and pathology (i.e., antigen species).</p>
 <p>Currently we support three popular databases:</p>
-<p>VDJDB - <a href="https://github.com/antigenomics/vdjdb-db">https://github.com/antigenomics/vdjdb-db</a></p>
-<p>McPAS-TCR - <a href="http://friedmanlab.weizmann.ac.il/McPAS-TCR/">http://friedmanlab.weizmann.ac.il/McPAS-TCR/</a></p>
-<p>TBAdb from PIRD - <a href="https://db.cngb.org/pird/">https://db.cngb.org/pird/</a></p>
+<p>VDJDB - <a href="https://github.com/antigenomics/vdjdb-db" class="external-link">https://github.com/antigenomics/vdjdb-db</a></p>
+<p>McPAS-TCR - <a href="http://friedmanlab.weizmann.ac.il/McPAS-TCR/" class="external-link">http://friedmanlab.weizmann.ac.il/McPAS-TCR/</a></p>
+<p>TBAdb from PIRD - <a href="https://db.cngb.org/pird/" class="external-link">https://db.cngb.org/pird/</a></p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">dbLoad</span><span class="op">(</span><span class="va">.path</span>, <span class="va">.db</span>, .species <span class="op">=</span> <span class="cn">NA</span>, .chain <span class="op">=</span> <span class="cn">NA</span>, .pathology <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dbLoad</span><span class="op">(</span><span class="va">.path</span>, <span class="va">.db</span>, .species <span class="op">=</span> <span class="cn">NA</span>, .chain <span class="op">=</span> <span class="cn">NA</span>, .pathology <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.path</th>
-      <td><p>Character. A path to the database file, e.g., "/Users/researcher/Downloads/McPAS-TCR.csv".</p></td>
-    </tr><tr><th>.db</th>
-      <td><p>Character. A database type: either "vdjdb", "vdjdb-search", "mcpas" or "tbadb".</p>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.path</dt>
+<dd><p>Character. A path to the database file, e.g., "/Users/researcher/Downloads/McPAS-TCR.csv".</p></dd>
+<dt>.db</dt>
+<dd><p>Character. A database type: either "vdjdb", "vdjdb-search", "mcpas" or "tbadb".</p>
 <p>"vdjdb" for VDJDB; "vdjdb-search" for search table obtained from the web interface of VDJDB;
-"mcpas" for McPAS-TCR; "tbadb" for PIRD TBAdb.</p></td>
-    </tr><tr><th>.species</th>
-      <td><p>Character. A string or a vector of strings specifying which species need to be in the database, e.g., "HomoSapiens".
-Pass NA (by default) to load all available species.</p></td>
-    </tr><tr><th>.chain</th>
-      <td><p>Character. A string or a vector of strings specifying which chains need to be in the database, e.g., "TRB".
-Pass NA (by default) to load all available chains.</p></td>
-    </tr><tr><th>.pathology</th>
-      <td><p>Character. A string or a vector of strings specifying which disease, virus, bacteria or any condition
+"mcpas" for McPAS-TCR; "tbadb" for PIRD TBAdb.</p></dd>
+<dt>.species</dt>
+<dd><p>Character. A string or a vector of strings specifying which species need to be in the database, e.g., "HomoSapiens".
+Pass NA (by default) to load all available species.</p></dd>
+<dt>.chain</dt>
+<dd><p>Character. A string or a vector of strings specifying which chains need to be in the database, e.g., "TRB".
+Pass NA (by default) to load all available chains.</p></dd>
+<dt>.pathology</dt>
+<dd><p>Character. A string or a vector of strings specifying which disease, virus, bacteria or any condition
 needs to be in the database, e.g., "CMV".
-Pass NA (by default) to load all available conditions.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+Pass NA (by default) to load all available conditions.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>Data frame with the input database records.</p>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example file path</span></span>
-<span class="r-in"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span>
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example file path</span></span>
+<span class="r-in"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Load the database with human-only TRB-only receptors for all known antigens</span></span>
 <span class="r-in"><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">dbLoad</span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span>
@@ -197,6 +203,7 @@ Pass NA (by default) to load all available conditions.</p></td>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Pathology &lt;chr&gt;</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -209,7 +216,7 @@ Pass NA (by default) to load all available conditions.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

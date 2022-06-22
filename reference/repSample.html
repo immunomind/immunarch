@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,7 +129,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Downsampling and resampling of immune repertoires</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/sampling.R"><code>R/sampling.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/sampling.R" class="external-link"><code>R/sampling.R</code></a></small>
     <div class="hidden name"><code>repSample.Rd</code></div>
     </div>
 
@@ -137,38 +137,43 @@
     <p>Sample (downsample) repertoires using different approches.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">repSample</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">repSample</span><span class="op">(</span>
   <span class="va">.data</span>,
-  .method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"downsample"</span>, <span class="st">"resample"</span>, <span class="st">"sample"</span><span class="op">)</span>,
+  .method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"downsample"</span>, <span class="st">"resample"</span>, <span class="st">"sample"</span><span class="op">)</span>,
   .n <span class="op">=</span> <span class="cn">NA</span>,
   .prob <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html">data.frame</a>,
-<a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a>, or a list of these objects.</p>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>The data to be processed. Can be <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>,
+<a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format.
 <a href="immunr_data_format.html">immunarch_data_format</a></p>
 <p>Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html">copy_to</a> or a list
+DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
-<p>Note: each connection must represent a separate repertoire.</p></td>
-    </tr><tr><th>.method</th>
-      <td><p>Character. Name of a sampling method. See "Description" for more details. Default value is "downsample"
-that downsamples repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
-doesn't pass any value to the ".n" argument.</p></td>
-    </tr><tr><th>.n</th>
-      <td><p>Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Pass NA to sample
-repertoires to the size of the smallest repertoire in the ".data".</p></td>
-    </tr><tr><th>.prob</th>
-      <td><p>Logical. If TRUE then sample clonotypes with probability weights equal to their number of clones. Used only if
-".method" is "sample".</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Subsampled immune repertoires or a list of subsampled immune repertoires.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
+<p>Note: each connection must represent a separate repertoire.</p></dd>
+<dt>.method</dt>
+<dd><p>Character. Name of a sampling method. See "Description" for more details. Default value is "downsample"
+that downsamples the repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
+doesn't set any value to the ".n" argument.</p></dd>
+<dt>.n</dt>
+<dd><p>Integer. Number of clones / clonotypes / reads / UMIs to choose, depending on the method. Set NA to sample
+repertoires to the size of the smallest repertoire in the ".data".</p></dd>
+<dt>.prob</dt>
+<dd><p>Logical. If TRUE then samples the clonotypes with probability weights equal to their number of clones. Used only if
+".method" is "sample".</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>Subsampled immune repertoire or a list of subsampled immune repertoires.</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
     <p>If <code>.method</code> is "downsample" then <code>repSample</code> chooses <code>.n</code> clones (not clonotypes!) from the input repertoires without any probabilistic simulation,
 but exactly computing each choosed clones. Such approach is is more consistent and biologically pleasant than
 an output from the function if <code>.method</code> is "resample".</p>
@@ -178,36 +183,40 @@ is a percentage of this cloneset in the "Proportion" column. It's a some sort of
 <p>if <code>.method</code> is "sample" then <code>repSample</code> chooses <code>.n</code> clonotypes (not clones!) randomly. Depending on the
 <code>.prob</code> argument, the function chooses clonotypes either according to their size (if <code>.prob</code> is TRUE, by default),
 or each clonotype has an equal chance to be choosed (if <code>.prob</code> is FALSE). Note that sampling is done without replacing.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a>, <a href="repClonality.html">clonal_proportion</a></p></div>
+    </div>
 
-    <div class="dont-index"><p><a href="https://rdrr.io/r/stats/Multinom.html">rmultinom</a>, <a href="repClonality.html">clonal_proportion</a></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Downsampling to 1000 clones (not clonotypes!)</span></span>
 <span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">repSample</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, .n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1000</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Downsampling to 1000 clonotypes</span></span>
 <span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">repSample</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1000</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Downsampling to the smallest repertoire by clones (not clonotypes!)</span></span>
-<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">repSample</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">repSample</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8500</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8500</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Downsampling to the smallest repertoire by clonotypes</span></span>
-<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">repSample</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>, <span class="st">"sample"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">repSample</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>, <span class="st">"sample"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Clones</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -220,7 +229,7 @@ or each clonotype has an equal chance to be choosed (if <code>.prob</code> is FA
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -97,19 +97,19 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -129,7 +129,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Flexible box-plots for visualisation of distributions</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/vis.R"><code>R/vis.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/vis.R" class="external-link"><code>R/vis.R</code></a></small>
     <div class="hidden name"><code>vis_box.Rd</code></div>
     </div>
 
@@ -137,7 +137,8 @@
     <p>Visualisation of distributions using ggplot2-based boxplots.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_box</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_box</span><span class="op">(</span>
   <span class="va">.data</span>,
   .by <span class="op">=</span> <span class="cn">NA</span>,
   .meta <span class="op">=</span> <span class="cn">NA</span>,
@@ -147,66 +148,73 @@
   .signif.label.size <span class="op">=</span> <span class="fl">3.5</span>,
   .defgroupby <span class="op">=</span> <span class="st">"Sample"</span>,
   .grouping.var <span class="op">=</span> <span class="st">"Group"</span>,
-  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span>,
+  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span>,
   .title <span class="op">=</span> <span class="st">"Boxplot (.title argument)"</span>,
   .subtitle <span class="op">=</span> <span class="st">"Subtitle (.subtitle argument)"</span>,
   .legend <span class="op">=</span> <span class="cn">NA</span>,
   .leg.title <span class="op">=</span> <span class="st">"Legend (.leg.title argument)"</span>,
   .legend.pos <span class="op">=</span> <span class="st">"right"</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>Input matrix or data frame.</p></td>
-    </tr><tr><th>.by</th>
-      <td><p>Pass NA if you want to plot samples without grouping.</p>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>Input matrix or data frame.</p></dd>
+<dt>.by</dt>
+<dd><p>Pass NA if you want to plot samples without grouping.</p>
 <p>You can pass a character vector with one or several column names from ".meta"
 to group your data before plotting. In this case you should provide ".meta".</p>
 <p>You can pass a character vector that exactly matches the number of samples in
 your data, each value should correspond to a sample's property. It will be used
 to group data based on the values provided. Note that in this case you should
-pass NA to ".meta".</p></td>
-    </tr><tr><th>.meta</th>
-      <td><p>A metadata object. An R dataframe with sample names and their properties,
-such as age, serostatus or hla.</p></td>
-    </tr><tr><th>.melt</th>
-      <td><p>If TRUE then apply <a href="https://Rdatatable.gitlab.io/data.table/reference/melt.data.table.html">melt</a> to the ".data" before plotting.
+pass NA to ".meta".</p></dd>
+<dt>.meta</dt>
+<dd><p>A metadata object. An R dataframe with sample names and their properties,
+such as age, serostatus or hla.</p></dd>
+<dt>.melt</dt>
+<dd><p>If TRUE then apply <a href="https://Rdatatable.gitlab.io/data.table/reference/melt.data.table.html" class="external-link">melt</a> to the ".data" before plotting.
 In this case ".data" is supposed to be a data frame with the first character column reserved
 for names of genes and other numeric columns reserved to counts or frequencies of genes.
-Each numeric column should be associated with a specific repertoire sample.</p></td>
-    </tr><tr><th>.points</th>
-      <td><p>A logical value defining whether points will be visualised or not.</p></td>
-    </tr><tr><th>.test</th>
-      <td><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></td>
-    </tr><tr><th>.signif.label.size</th>
-      <td><p>An integer value defining the size of text for p-value.</p></td>
-    </tr><tr><th>.defgroupby</th>
-      <td><p>A name for the column with sample names.</p></td>
-    </tr><tr><th>.grouping.var</th>
-      <td><p>A name for the column to group by.</p></td>
-    </tr><tr><th>.labs</th>
-      <td><p>Character vector of length two with names for x-axis and y-axis, respectively.</p></td>
-    </tr><tr><th>.title</th>
-      <td><p>The text for the title of the plot.</p></td>
-    </tr><tr><th>.subtitle</th>
-      <td><p>The The text for the plot's subtitle.</p></td>
-    </tr><tr><th>.legend</th>
-      <td><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></td>
-    </tr><tr><th>.leg.title</th>
-      <td><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></td>
-    </tr><tr><th>.legend.pos</th>
-      <td><p>Positions of the legend: either "top", "bottom", "left" or "right".</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+Each numeric column should be associated with a specific repertoire sample.</p></dd>
+<dt>.points</dt>
+<dd><p>A logical value defining whether points will be visualised or not.</p></dd>
+<dt>.test</dt>
+<dd><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></dd>
+<dt>.signif.label.size</dt>
+<dd><p>An integer value defining the size of text for p-value.</p></dd>
+<dt>.defgroupby</dt>
+<dd><p>A name for the column with sample names.</p></dd>
+<dt>.grouping.var</dt>
+<dd><p>A name for the column to group by.</p></dd>
+<dt>.labs</dt>
+<dd><p>Character vector of length two with names for x-axis and y-axis, respectively.</p></dd>
+<dt>.title</dt>
+<dd><p>The text for the title of the plot.</p></dd>
+<dt>.subtitle</dt>
+<dd><p>The The text for the plot's subtitle.</p></dd>
+<dt>.legend</dt>
+<dd><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></dd>
+<dt>.leg.title</dt>
+<dd><p>The The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></dd>
+<dt>.legend.pos</dt>
+<dd><p>Positions of the legend: either "top", "bottom", "left" or "right".</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A ggplot2 object.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
     <div class="dont-index"><p><a href="vis.immunr_gene_usage.html">vis.immunr_gene_usage</a>, <a href="geneUsage.html">geneUsage</a></p></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">vis_box</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span>, Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>, .melt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_box-1.png" alt="" width="700" height="433"></span>
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">vis_box</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span>, Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>, .melt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis_box-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -219,7 +227,7 @@ Each numeric column should be associated with a specific repertoire sample.</p><
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

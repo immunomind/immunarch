@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v5_gene_usage_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Gene usage analysis</h1>
@@ -169,7 +169,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/v5_gene_usage.Rmd" class="external-link"><code>vignettes/web_only/v5_gene_usage.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/v5_gene_usage.Rmd" class="external-link"><code>vignettes/web_only/v5_gene_usage.Rmd</code></a></small>
       <div class="hidden name"><code>v5_gene_usage.Rmd</code></div>
 
     </div>
@@ -181,49 +181,49 @@
 %\VignetteIndexEntry{Gene usage analysis}
 %\VignettePackage{immunarch}
 -->
-<div id="gene-usage-computation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#gene-usage-computation" class="anchor" aria-hidden="true"></a>Gene usage computation</h1>
+<div class="section level2">
+<h2 id="gene-usage-computation">Gene usage computation<a class="anchor" aria-label="anchor" href="#gene-usage-computation"></a>
+</h2>
 <p><code>immunarch</code> comes with a gene segments data table containing known gene segments for several species following the <a href="http://www.imgt.org/IMGTrepertoire/LocusGenes/" class="external-link">IMGT</a> nomenclature. In order to get the current statistics of genes, call the <code><a href="../../reference/gene_stats.html">gene_stats()</a></code> function:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/gene_stats.html">gene_stats</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>##     alias                 species ighd ighj ighv igij igkj igkv iglj iglv traj
-## 1      bt               BosTaurus   21    4   25    0    1    6    5   26   46
-## 2      cd      CamelusDromedarius    0    0    0    0    0    0    0    0    0
-## 3     clf    CanisLupusFamiliaris    0    0    0    0    0    0    0    0    0
-## 4      dr              DanioRerio    7    7    0    3    0    0    0    0    0
-## 5      hs             HomoSapiens   30   13  248    0    5   64    7   69   57
-## 6  macmul           MacacaMulatta   24    7   19    0    4   83    5    0    0
-## 7     mmc    MusMusculusCastaneus    0    0    0    0    0    4    0    0    0
-## 8     mmd   MusMusculusDomesticus    0    0    0    0    0    2    0    0    0
-## 9  musmus             MusMusculus   32    8  225    0    8  109    3    5   42
-## 10     oa OrnithorhynchusAnatinus    3   10    0    0    0    0    0    0    0
-## 11     oc    OryctolagusCuniculus   10   11   39    0    8   26    2   20    0
-## 12     om      OncorhynchusMykiss    9    7    6    0    0    0    0    0    0
-## 13     rn        RattusNorvegicus   30    4  113    0    6  132    2    8    0
-## 14   smth   MusMusculusMolossinus    0    0    0    0    0    1    0    0    0
-## 15   smth     MusMusculusMusculus    0    0    0    0    0    1    0    0    0
-## 16   smth              MusSpretus    0    0    0    0    0    2    0    2    0
-## 17     ss               SusScrofa    5    5   15    0    8   19    4   14    0
-##    trav trbd trbj trbv trdd trdj trdv trgj trgv
-## 1     0    0    0    0    5    3    0    6   15
-## 2     0    0    0    0    0    0    7    2    2
-## 3     0    2    8   19    0    0    0    7    8
-## 4     0    0    0    0    0    0    0    0    0
-## 5    60    3   14   64    3    4    6    4   10
-## 6     0    2   15   58    0    0    0    0    0
-## 7     0    0    0    0    0    0    0    0    0
-## 8     0    0    0    0    0    0    0    0    0
-## 9   145    2   14   23    2    3    7    0   11
-## 10    0    0    0    0    0    0    0    0    0
-## 11    0    0    0    0    0    0    0    0    0
-## 12    0    1    9    0    0    0    0    0    0
-## 13    0    0    0    0    0    0    0    0    0
-## 14    0    0    0    0    0    0    0    0    0
-## 15    0    0    0    0    0    0    0    0    0
-## 16    0    0    0    0    0    0    0    0    0
-## 17    0    0    0    0    0    0    0    0    0</code></pre>
-<p>To compute the distributions of genes, <code>immunarch</code> includes the <code>geneUsage</code> function. It receives a repertoire or a list of repertoires as input and genes and species for which you want to get the statistics. E.g., if you plan to use <code>TRBV</code> genes of <code>Homo Sapiens</code>, you need to use the <code>hs.trbv</code> string in the function, where <code>hs</code> comes from the <code>alias</code> column and <code>trbv</code> is the gene name. Of if you plan to use <code>IGHJ</code> genes of <code>Mus Musculus</code>, you need to use <code>musmus.ighj</code>:</p>
+<pre><code><span class="co">##     alias                 species ighd ighj ighv igij igkj igkv iglj iglv traj</span>
+<span class="co">## 1      bt               BosTaurus   21    4   25    0    1    6    5   26   46</span>
+<span class="co">## 2      cd      CamelusDromedarius    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 3     clf    CanisLupusFamiliaris    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 4      dr              DanioRerio    7    7    0    3    0    0    0    0    0</span>
+<span class="co">## 5      hs             HomoSapiens   30   13  248    0    5   64    7   69   57</span>
+<span class="co">## 6  macmul           MacacaMulatta   24    7   19    0    4   83    5    0    0</span>
+<span class="co">## 7     mmc    MusMusculusCastaneus    0    0    0    0    0    4    0    0    0</span>
+<span class="co">## 8     mmd   MusMusculusDomesticus    0    0    0    0    0    2    0    0    0</span>
+<span class="co">## 9  musmus             MusMusculus   32    8  225    0    8  109    3    5   42</span>
+<span class="co">## 10     oa OrnithorhynchusAnatinus    3   10    0    0    0    0    0    0    0</span>
+<span class="co">## 11     oc    OryctolagusCuniculus   10   11   39    0    8   26    2   20    0</span>
+<span class="co">## 12     om      OncorhynchusMykiss    9    7    6    0    0    0    0    0    0</span>
+<span class="co">## 13     rn        RattusNorvegicus   30    4  113    0    6  132    2    8    0</span>
+<span class="co">## 14   smth   MusMusculusMolossinus    0    0    0    0    0    1    0    0    0</span>
+<span class="co">## 15   smth     MusMusculusMusculus    0    0    0    0    0    1    0    0    0</span>
+<span class="co">## 16   smth              MusSpretus    0    0    0    0    0    2    0    2    0</span>
+<span class="co">## 17     ss               SusScrofa    5    5   15    0    8   19    4   14    0</span>
+<span class="co">##    trav trbd trbj trbv trdd trdj trdv trgj trgv</span>
+<span class="co">## 1     0    0    0    0    5    3    0    6   15</span>
+<span class="co">## 2     0    0    0    0    0    0    7    2    2</span>
+<span class="co">## 3     0    2    8   19    0    0    0    7    8</span>
+<span class="co">## 4     0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 5    60    3   14   64    3    4    6    4   10</span>
+<span class="co">## 6     0    2   15   58    0    0    0    0    0</span>
+<span class="co">## 7     0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 8     0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 9   145    2   14   23    2    3    7    0   11</span>
+<span class="co">## 10    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 11    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 12    0    1    9    0    0    0    0    0    0</span>
+<span class="co">## 13    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 14    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 15    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 16    0    0    0    0    0    0    0    0    0</span>
+<span class="co">## 17    0    0    0    0    0    0    0    0    0</span></code></pre>
+<p>To compute the distribution of genes, <code>immunarch</code> includes the <code>geneUsage</code> function. It receives a repertoire or a list of repertoires as input and genes and species for which you want to get the statistics. E.g., if you plan to use <code>TRBV</code> genes of <code>Homo Sapiens</code>, you need to use the <code>hs.trbv</code> string in the function, where <code>hs</code> comes from the <code>alias</code> column and <code>trbv</code> is the gene name. In case you plan to use <code>IGHJ</code> genes of <code>Mus Musculus</code>, you need to use <code>musmus.ighj</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Next four function calls are equal. "hs" is from the "alias" column.</span>
 <span class="va">imm_gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbv"</span><span class="op">)</span>
@@ -232,21 +232,21 @@
 <span class="co"># imm_gu = geneUsage(immdata$data, "HomoSapiens.TRBV")</span>
 
 <span class="va">imm_gu</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 48 × 13 [39m
-##    Names `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;int&gt; [39m [23m
-##  [38;5;250m 1 [39m TRBV…        24        28         [31mNA [39m        16        29         6    19     4
-##  [38;5;250m 2 [39m TRBV…        42        60         8        29        28        16    25    35
-##  [38;5;250m 3 [39m TRBV…       230       282       135       108       376       215   195   142
-##  [38;5;250m 4 [39m TRBV…        21        14        26        17        17        16    14    10
-##  [38;5;250m 5 [39m TRBV…       183       172       125       161        95       113    94   105
-##  [38;5;250m 6 [39m TRBV…         8        11         5        24         2         7     4    13
-##  [38;5;250m 7 [39m TRBV…       603       459       313       433       333       557   406   606
-##  [38;5;250m 8 [39m TRBV…        37        54         8        38        18        17     7    17
-##  [38;5;250m 9 [39m TRBV…        44        53        45        78        29        43    39    28
-##  [38;5;250m10 [39m TRBV…        65        91        48        73        40        30    23    94
-##  [38;5;246m# … with 38 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;, MS5 &lt;int&gt;, [39m
-##  [38;5;246m#   MS6 &lt;int&gt; [39m</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 48 × 13</span></span>
+<span class="co">##    Names `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> TRBV…        24        28        <span style="color: #BB0000;">NA</span>        16        29         6    19     4</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> TRBV…        42        60         8        29        28        16    25    35</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> TRBV…       230       282       135       108       376       215   195   142</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> TRBV…        21        14        26        17        17        16    14    10</span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> TRBV…       183       172       125       161        95       113    94   105</span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> TRBV…         8        11         5        24         2         7     4    13</span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> TRBV…       603       459       313       433       333       557   406   606</span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> TRBV…        37        54         8        38        18        17     7    17</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> TRBV…        44        53        45        78        29        43    39    28</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> TRBV…        65        91        48        73        40        30    23    94</span>
+<span class="co">## <span style="color: #949494;"># … with 38 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;, MS5 &lt;int&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   MS6 &lt;int&gt;</span></span></code></pre>
 <p>Gene distributions could be computed either using counts of individual clonotypes (<code>.quant = "count"</code>) or not using them (<code>.quant = NA</code>).</p>
 <p>In order to compute allele-level or family-level distributions, change the <code>.type</code> parameter.</p>
 <p>Parameter <code>.norm</code> controls whether <code>immunarch</code> will normalise the data to ensure the sum of all frequencies to be equal 1 or not.</p>
@@ -269,21 +269,21 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_gu</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span>, .plot <span class="op">=</span> <span class="st">"box"</span><span class="op">)</span></code></pre></div>
 <p><img src="v5_gene_usage_files/figure-html/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div id="ambiguity-of-gene-segment-names" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ambiguity-of-gene-segment-names" class="anchor" aria-hidden="true"></a>Ambiguity of gene segment names</h2>
+<div class="section level3">
+<h3 id="ambiguity-of-gene-segment-names">Ambiguity of gene segment names<a class="anchor" aria-label="anchor" href="#ambiguity-of-gene-segment-names"></a>
+</h3>
 <p>Due to the ambiguity of gene alignments for some clonotypes, <code>geneUsage</code> has the following options to deal with ambiguous data:</p>
 <ul>
-<li><p><code>.ambig = "inc"</code> - includes all possible combinations of ambiguous gene alignments from the data. NOTE: ImmunoSEQ formats use non-standart gene segment names, so it is preferable to use this argument value with ImmunoSEQ formats. This argument is ON by default to ease the gene manipulation. Feel free to change it to <code>"exc"</code> in case of other data formats. It is ON by default, we recommend it to leave it that way.</p></li>
+<li><p><code>.ambig = "inc"</code> - includes all possible combinations of ambiguous gene alignments from the data. NOTE: ImmunoSEQ formats use non-standart gene segment names, so it is preferable to use this argument value with ImmunoSEQ formats. This argument is ON by default to ease the gene manipulation. Feel free to change it to <code>"exc"</code> in case of other data formats. It is ON by default, and we recommend to leave it that way.</p></li>
 <li><p><code>.ambig = "exc"</code> - filters out all clonotypes with ambiguous gene alignments.</p></li>
 <li><p><code>.ambig = "wei"</code> - introduces weighted approach (divides by n (<code>1/n</code>) the frequency for each entry of the corresponding gene if there are <code>n</code> genes for a clonotype).</p></li>
 <li><p><code>.ambig = "maj"</code> - chooses only the first gene segment.</p></li>
 </ul>
 </div>
 </div>
-<div id="gene-usage-analysis" class="section level1">
-<h1 class="hasAnchor">
-<a href="#gene-usage-analysis" class="anchor" aria-hidden="true"></a>Gene usage analysis</h1>
+<div class="section level2">
+<h2 id="gene-usage-analysis">Gene usage analysis<a class="anchor" aria-label="anchor" href="#gene-usage-analysis"></a>
+</h2>
 <p>To analyse the gene usage <code>immunarch</code> introduces the <code>geneUsageAnalysis</code> function. The <code>.method</code> parameter controls how the data is going to be preprocessed and analysed. <code>geneUsageAnalysis</code> includes following methods for preprocessing:</p>
 <ul>
 <li><p>“js” - Jensen-Shannon Divergence.</p></li>
@@ -325,7 +325,7 @@
 <code class="sourceCode R"><span class="va">imm_cl_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span><span class="op">(</span><span class="va">imm_gu</span>, <span class="st">"js+pca+kmeans"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">imm_cl_mds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span><span class="op">(</span><span class="va">imm_gu</span>, <span class="st">"js+mds+kmeans"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">imm_cl_tsne</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsageAnalysis.html">geneUsageAnalysis</a></span><span class="op">(</span><span class="va">imm_gu</span>, <span class="st">"js+tsne+kmeans"</span>, .perp <span class="op">=</span> <span class="fl">.01</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
-<pre><code>## Perplexity should be lower than K!</code></pre>
+<pre><code><span class="co">## Perplexity should be lower than K!</span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_cl_pca</span>, .plot <span class="op">=</span> <span class="st">"clust"</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_cl_mds</span>, .plot <span class="op">=</span> <span class="st">"clust"</span><span class="op">)</span>
@@ -338,9 +338,9 @@
 <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_cl_pca2</span><span class="op">)</span></code></pre></div>
 <p><img src="v5_gene_usage_files/figure-html/unnamed-chunk-9-1.png" width="768" style="display: block; margin: auto;"></p>
 </div>
-<div id="spectratyping" class="section level1">
-<h1 class="hasAnchor">
-<a href="#spectratyping" class="anchor" aria-hidden="true"></a>Spectratyping</h1>
+<div class="section level2">
+<h2 id="spectratyping">Spectratyping<a class="anchor" aria-label="anchor" href="#spectratyping"></a>
+</h2>
 <p>Spectratype is a useful way to represent distributions of genes per sequence length. Parameter <code>.quant</code> controls the quantity that used to compute proportions of genes - either by clonotype (<code>id</code>) or by number of clones per clonotype (<code>count</code>). Parameter <code>.col</code> controls which column to choose, e.g., “nt” for lengths of CDR3 nucleotide sequences only (without grouping by gene segments), “aa+v” for lengths of CDR3 amino acid sequences (grouped by V gene segments).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="fu"><a href="../../reference/spectratype.html">spectratype</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, .quant <span class="op">=</span> <span class="st">"id"</span>, .col <span class="op">=</span> <span class="st">"nt"</span><span class="op">)</span><span class="op">)</span>
@@ -363,12 +363,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

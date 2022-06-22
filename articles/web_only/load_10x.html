@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="load_10x_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Loading 10x Genomics Data</h1>
@@ -169,7 +169,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/load_10x.Rmd" class="external-link"><code>vignettes/web_only/load_10x.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/load_10x.Rmd" class="external-link"><code>vignettes/web_only/load_10x.Rmd</code></a></small>
       <div class="hidden name"><code>load_10x.Rmd</code></div>
 
     </div>
@@ -181,9 +181,9 @@
 %\VignetteIndexEntry{Loading 10x Genomics Data}
 %\VignettePackage{immunarch}
 -->
-<div id="intro-to-10x-genomics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#intro-to-10x-genomics" class="anchor" aria-hidden="true"></a>Intro to 10x Genomics</h1>
+<div class="section level2">
+<h2 id="intro-to-10x-genomics">Intro to 10x Genomics<a class="anchor" aria-label="anchor" href="#intro-to-10x-genomics"></a>
+</h2>
 <p>10x Genomics has various pipelines for single cell and spatial views of biological systems, including single cell immune profiling. The 10x Genomics Chromium Single Cell Immune Profiling Solution enables simultaneous analysis of the following:</p>
 <ul>
 <li>V(D)J transcripts and clonotypes for T and B cells.</li>
@@ -195,94 +195,94 @@
 <p><code>cellranger vdj</code> takes FASTQ files from cellranger mkfastq for V(D)J libraries and performs sequence assembly and paired clonotype calling. It uses the Chromium cellular barcodes and UMIs to assemble V(D)J transcripts per cell. Clonotypes and CDR3 sequences are output as a .vloupe file which can be loaded into Loupe V(D)J Browser.</p>
 <p><code>cellranger count</code> takes FASTQ files for 5’ Gene Expression and/or Feature Barcode (cell surface protein or antigen) libraries and performs alignment, filtering, barcode counting, and UMI counting. It uses the Chromium cellular barcodes to generate feature-barcode matrices, determine clusters, and perform gene expression analysis. The cellranger count pipeline outputs a .cloupe file which can be loaded into Loupe Browser for interactive visualization, clustering, and differential expression analysis.</p>
 </div>
-<div id="cell-ranger-data-pipeline" class="section level1">
-<h1 class="hasAnchor">
-<a href="#cell-ranger-data-pipeline" class="anchor" aria-hidden="true"></a>Cell Ranger Data Pipeline</h1>
-<p>Follow the instructions <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger" class="external-link">here</a> to use Cellranger on your data. Note that Cellranger is only supported by Linux operating systems currently. The <code>cellranger count</code> and <code>cellranger vdj</code> methods will be particularly useful.</p>
-<p>You can find sample data of full runs to download <a href="https://www.10xgenomics.com/resources/datasets?menu%5Bproducts.name%5D=Single+Cell+Immune+Profiling" class="external-link">here</a>. In this tutorial, I used <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/3.0.0/vdj_v1_mm_c57bl6_pbmc_t" class="external-link">this</a> single cell mouse data. If you are only using <code>immunarch</code> you can download only the .csv files.</p>
+<div class="section level2">
+<h2 id="cell-ranger-data-pipeline">Cell Ranger Data Pipeline<a class="anchor" aria-label="anchor" href="#cell-ranger-data-pipeline"></a>
+</h2>
+<p>Follow the instructions <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger" class="external-link">here</a> to use Cellranger on your data. Note that Cellranger is currently only supported by Linux operating systems. The <code>cellranger count</code> and <code>cellranger vdj</code> methods will be particularly useful.</p>
+<p>You can find sample data of full runs to download <a href="https://www.10xgenomics.com/resources/datasets?menu%5Bproducts.name%5D=Single+Cell+Immune+Profiling" class="external-link">here</a>. In this tutorial, we use <a href="https://support.10xgenomics.com/single-cell-vdj/datasets/3.0.0/vdj_v1_mm_c57bl6_pbmc_t" class="external-link">this</a> single cell mouse data. If you are using <code>immunarch</code> you can download only the .csv files.</p>
 </div>
-<div id="prepare-10x-data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#prepare-10x-data" class="anchor" aria-hidden="true"></a>Prepare 10x Data</h1>
+<div class="section level2">
+<h2 id="prepare-10x-data">Prepare 10x Data<a class="anchor" aria-label="anchor" href="#prepare-10x-data"></a>
+</h2>
 <p>Upon processing the data, you will have a lot of output files. You should use the <code>filtered contigs</code> csv files because they contain barcode information.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>.</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_filtered_contig_annotations.csv <span class="ot">&lt;-</span><span class="sc">-</span> This contains the count data we want<span class="sc">!</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_consensus_annotations.csv</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_clonotypes.csv</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_all_contig_annotations.csv</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_matrix.h5</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_bam.bam.bai</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_molecule_info.h5</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_raw_feature_bc_matrix.tar.gz</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>├── vdj_v1_mm_c57bl6_pbmc_t_analysis.tar.gz</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>.</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_filtered_contig_annotations.csv &lt;-<span class="op">-</span><span class="st"> </span>This contains the count data we want<span class="op">!</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_consensus_annotations.csv</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_clonotypes.csv</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_all_contig_annotations.csv</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_matrix.h5</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_bam.bam.bai</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_molecule_info.h5</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_raw_feature_bc_matrix.tar.gz</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>├── vdj_v1_mm_c57bl6_pbmc_t_analysis.tar.gz</span></code></pre></div>
 </div>
-<div id="load-into-immunarch" class="section level1">
-<h1 class="hasAnchor">
-<a href="#load-into-immunarch" class="anchor" aria-hidden="true"></a>Load into Immunarch</h1>
+<div class="section level2">
+<h2 id="load-into-immunarch">Load into Immunarch<a class="anchor" aria-label="anchor" href="#load-into-immunarch"></a>
+</h2>
 <p>Run the code below in your R environment to load the data into Immunarch’s format. You can run it on the entire folder with the Cellranger output files. <code>repLoad</code> will ignore the file formats that are unsupported.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1.1) Load the package into R:</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(immunarch)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1.2) Replace with the path to your processed 10x data or to the clonotypes file</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> file_path <span class="ot">=</span> <span class="st">"~/path/to/your/cellranger/data/"</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1.3) Load 10x data with repLoad</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> immdata_10x <span class="ot">&lt;-</span> <span class="fu">repLoad</span>(file_path)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="sc">==</span> Step <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span><span class="sc">:</span> loading repertoire files... <span class="sc">==</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Processing <span class="st">"/filepath/C57BL_mice_igenrichment"</span> ...</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="sc">--</span> Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_all_contig_annotations.csv"</span> <span class="sc">--</span> 10x (filt.contigs)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  [<span class="sc">!</span>] Removed <span class="dv">2917</span> clonotypes with no nucleotide and amino acid CDR3 sequence.</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="sc">--</span> Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_clonotypes.csv"</span> <span class="sc">--</span> unsupported format, skipping</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="sc">--</span> Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_consensus_annotations.csv"</span> <span class="sc">--</span> 10x (consensus)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="sc">--</span> Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_filtered_contig_annotations.csv"</span> <span class="sc">--</span> 10x (filt.contigs)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  [<span class="sc">!</span>] Removed <span class="dv">1198</span> clonotypes with no nucleotide and amino acid CDR3 sequence.</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="sc">==</span> Step <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span><span class="sc">:</span> checking metadata files and merging... <span class="sc">==</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>Processing <span class="st">"&lt;initial&gt;"</span> ...</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="sc">--</span> Metadata file not found; creating a dummy metadata...</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="sc">==</span> Step <span class="dv">3</span><span class="sc">/</span><span class="dv">3</span><span class="sc">:</span> splitting data by barcodes and chains... <span class="sc">==</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>Done<span class="sc">!</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># 1.1) Load the package into R:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(immunarch)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co"># 1.2) Replace with the path to your processed 10x data or to the clonotypes file</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>file_path =<span class="st"> "~/path/to/your/cellranger/data/"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="co"># 1.3) Load 10x data with repLoad</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>immdata_10x &lt;-<span class="st"> </span><span class="kw">repLoad</span>(file_path)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a><span class="op">==</span><span class="st"> </span>Step <span class="dv">1</span><span class="op">/</span><span class="dv">3</span><span class="op">:</span><span class="st"> </span>loading repertoire files... <span class="op">==</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>Processing <span class="st">"/filepath/C57BL_mice_igenrichment"</span> ...</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  <span class="op">--</span><span class="st"> </span>Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_all_contig_annotations.csv"</span> <span class="op">--</span><span class="st"> </span>10x (filt.contigs)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  [<span class="op">!</span>] Removed <span class="dv">2917</span> clonotypes with no nucleotide and amino acid CDR3 sequence.</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>  <span class="op">--</span><span class="st"> </span>Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_clonotypes.csv"</span> <span class="op">--</span><span class="st"> </span>unsupported format, skipping</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>  <span class="op">--</span><span class="st"> </span>Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_consensus_annotations.csv"</span> <span class="op">--</span><span class="st"> </span>10x (consensus)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>  <span class="op">--</span><span class="st"> </span>Parsing <span class="st">"/filepath/vdj_v1_mm_c57bl6_pbmc_t_filtered_contig_annotations.csv"</span> <span class="op">--</span><span class="st"> </span>10x (filt.contigs)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>  [<span class="op">!</span>] Removed <span class="dv">1198</span> clonotypes with no nucleotide and amino acid CDR3 sequence.</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a><span class="op">==</span><span class="st"> </span>Step <span class="dv">2</span><span class="op">/</span><span class="dv">3</span><span class="op">:</span><span class="st"> </span>checking metadata files and merging... <span class="op">==</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>Processing <span class="st">"&lt;initial&gt;"</span> ...</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>  <span class="op">--</span><span class="st"> </span>Metadata file not found; creating a dummy metadata...</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a><span class="op">==</span><span class="st"> </span>Step <span class="dv">3</span><span class="op">/</span><span class="dv">3</span><span class="op">:</span><span class="st"> </span>splitting data by barcodes and chains... <span class="op">==</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a>Done<span class="op">!</span></span></code></pre></div>
 <p>Now let’s take a look at the data! Your output should look something like below.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> immdata_10x</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>data<span class="sc">$</span>vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRA</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A tibble: 710 x 17</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>   Clones Proportion CDR3.nt      CDR3.aa  V.name  D.name J.name V.end D.start D.end J.start VJ.ins VD.ins DJ.ins chain ClonotypeID  ConsensusID</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>        <span class="er">&lt;</span>chr<span class="sc">&gt;</span>    <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>  <span class="er">&lt;</span>chr<span class="sc">&gt;</span>  <span class="er">&lt;</span>int<span class="sc">&gt;</span>   <span class="er">&lt;</span>int<span class="sc">&gt;</span> <span class="er">&lt;</span>int<span class="sc">&gt;</span>   <span class="er">&lt;</span>int<span class="sc">&gt;</span>  <span class="er">&lt;</span>int<span class="sc">&gt;</span>  <span class="er">&lt;</span>int<span class="sc">&gt;</span>  <span class="er">&lt;</span>int<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>        <span class="er">&lt;</span>chr<span class="sc">&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a> <span class="dv">1</span>     <span class="dv">55</span>    <span class="fl">0.00414</span> TGTGCTATGGC… CAMATGG… TRAV13… None   TRAJ56    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype306 clonotype30…</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a> <span class="dv">2</span>     <span class="dv">55</span>    <span class="fl">0.00414</span> TGTGCAGCTAG… CAASGNT… TRAV7<span class="dv">-4</span> None   TRAJ27    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype338 clonotype33…</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a> <span class="dv">3</span>     <span class="dv">53</span>    <span class="fl">0.00399</span> TGTGCAGCAAG… CAARDSG… TRAV14… None   TRAJ11    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype617 clonotype61…</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a> <span class="dv">4</span>     <span class="dv">45</span>    <span class="fl">0.00339</span> TGCGCAGTCAG… CAVSNNT… TRAV3<span class="dv">-3</span> None   TRAJ27    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype435 clonotype43…</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a> <span class="dv">5</span>     <span class="dv">43</span>    <span class="fl">0.00324</span> TGTGCAGTCAG… CAVSNMG… TRAV7D… None   TRAJ9     <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype401 clonotype40…</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a> <span class="dv">6</span>     <span class="dv">42</span>    <span class="fl">0.00316</span> TGTGCAGCAAG… CAASPNY… TRAV14… None   TRAJ21    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype5   clonotype5_…</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a> <span class="dv">7</span>     <span class="dv">37</span>    <span class="fl">0.00279</span> TGTGCAGTGAG… CAVSSGG… TRAV7D… None   TRAJ6     <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype453 clonotype45…</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a> <span class="dv">8</span>     <span class="dv">35</span>    <span class="fl">0.00264</span> TGTGCAGCAAG… CAASATS… TRAV14… None   TRAJ22    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype809 clonotype80…</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a> <span class="dv">9</span>     <span class="dv">32</span>    <span class="fl">0.00241</span> TGTGCAGCAAG… CAASPNY… TRAV14… None   TRAJ21    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype150 clonotype15…</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span>     <span class="dv">32</span>    <span class="fl">0.00241</span> TGTGCTCTGGG… CALGDEA… TRAV6<span class="sc">-</span>… None   TRAJ30    <span class="cn">NA</span>      <span class="cn">NA</span>    <span class="cn">NA</span>      <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span>     <span class="cn">NA</span> TRA   clonotype393 clonotype39…</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># … with 700 more rows</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>meta</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                                                       Sample Chain                                                Source</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations_Multi Multi vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>   vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations_TRA   TRA vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>   vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations_TRB   TRB vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>    vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRA   TRA  vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>    vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRB   TRB  vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>immdata_10x</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="op">$</span>data<span class="op">$</span>vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRA</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="co"># A tibble: 710 x 17</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>   Clones Proportion CDR3.nt      CDR3.aa  V.name  D.name J.name V.end D.start D.end J.start VJ.ins VD.ins DJ.ins chain ClonotypeID  ConsensusID</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    <span class="op">&lt;</span>dbl<span class="op">&gt;</span><span class="st">      </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">        </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">    </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">        </span><span class="er">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="st"> </span><span class="dv">1</span>     <span class="dv">55</span>    <span class="fl">0.00414</span> TGTGCTATGGC… CAMATGG… TRAV13… None   TRAJ56    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype306 clonotype30…</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a> <span class="dv">2</span>     <span class="dv">55</span>    <span class="fl">0.00414</span> TGTGCAGCTAG… CAASGNT… TRAV7<span class="dv">-4</span> None   TRAJ27    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype338 clonotype33…</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a> <span class="dv">3</span>     <span class="dv">53</span>    <span class="fl">0.00399</span> TGTGCAGCAAG… CAARDSG… TRAV14… None   TRAJ11    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype617 clonotype61…</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a> <span class="dv">4</span>     <span class="dv">45</span>    <span class="fl">0.00339</span> TGCGCAGTCAG… CAVSNNT… TRAV3<span class="dv">-3</span> None   TRAJ27    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype435 clonotype43…</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a> <span class="dv">5</span>     <span class="dv">43</span>    <span class="fl">0.00324</span> TGTGCAGTCAG… CAVSNMG… TRAV7D… None   TRAJ9     <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype401 clonotype40…</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a> <span class="dv">6</span>     <span class="dv">42</span>    <span class="fl">0.00316</span> TGTGCAGCAAG… CAASPNY… TRAV14… None   TRAJ21    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype5   clonotype5_…</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a> <span class="dv">7</span>     <span class="dv">37</span>    <span class="fl">0.00279</span> TGTGCAGTGAG… CAVSSGG… TRAV7D… None   TRAJ6     <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype453 clonotype45…</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a> <span class="dv">8</span>     <span class="dv">35</span>    <span class="fl">0.00264</span> TGTGCAGCAAG… CAASATS… TRAV14… None   TRAJ22    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype809 clonotype80…</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a> <span class="dv">9</span>     <span class="dv">32</span>    <span class="fl">0.00241</span> TGTGCAGCAAG… CAASPNY… TRAV14… None   TRAJ21    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype150 clonotype15…</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a><span class="dv">10</span>     <span class="dv">32</span>    <span class="fl">0.00241</span> TGTGCTCTGGG… CALGDEA… TRAV6<span class="op">-</span>… None   TRAJ30    <span class="ot">NA</span>      <span class="ot">NA</span>    <span class="ot">NA</span>      <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span>     <span class="ot">NA</span> TRA   clonotype393 clonotype39…</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a><span class="co"># … with 700 more rows</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a><span class="op">$</span>meta</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a>                                                       Sample Chain                                                Source</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a><span class="dv">1</span> vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations_Multi Multi vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a><span class="dv">2</span>   vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations_TRA   TRA vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true"></a><span class="dv">3</span>   vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations_TRB   TRB vdj_v1_mm_c57bl6_splenocytes_t_all_contig_annotations</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true"></a><span class="dv">5</span>    vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRA   TRA  vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true"></a><span class="dv">6</span>    vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRB   TRB  vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations</span></code></pre></div>
 <p>Congrats! Now your data is ready for exploration. Follow the steps <a href="https://immunarch.com/articles/v3_basic_analysis.html">here</a> to learn more about how to explore your dataset.</p>
-<div id="note-on-barcodes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#note-on-barcodes" class="anchor" aria-hidden="true"></a>Note on barcodes</h2>
-<p>Another important note is that some of the contigs files lack a column for barcodes - a unique identified of a cell.</p>
+<div class="section level3">
+<h3 id="note-on-barcodes">Note on barcodes<a class="anchor" aria-label="anchor" href="#note-on-barcodes"></a>
+</h3>
+<p>Another important note is that some of the contigs files lack a column for barcodes – a unique identifier of any cell.</p>
 <p>These files can be useful for analysis of single chain data (only alpha, or beta TCRs), but in order to analyze paired-chain data and fully utilize the full power of single-cell technologies, you should upload the file with barcodes to the Immunarch.</p>
 </div>
 </div>
-<div id="paired-chain-data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#paired-chain-data" class="anchor" aria-hidden="true"></a>Paired-chain data</h1>
+<div class="section level2">
+<h2 id="paired-chain-data">Paired-chain data<a class="anchor" aria-label="anchor" href="#paired-chain-data"></a>
+</h2>
 <p>Do you have single-cell data? Immunarch can now parse both single-chain and paired-chain single-cell data. Try out these features <a href="https://immunarch.com/articles/web_only/v21_singlecell.html">here</a>.</p>
 </div>
   </div>
@@ -299,12 +299,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

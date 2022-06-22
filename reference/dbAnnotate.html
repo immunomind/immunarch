@@ -25,13 +25,13 @@ For more details see the tutorial https://immunarch.com/articles/web_only/v11_db
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -99,19 +99,19 @@ For more details see the tutorial https://immunarch.com/articles/web_only/v11_db
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/covid19">COVID-19</a>
+  <a href="https://github.com/immunomind/covid19" class="external-link">COVID-19</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://immunomind.io">ImmunoMind</a>
+  <a href="https://immunomind.io" class="external-link">ImmunoMind</a>
 </li>
 <li>
-  <a href="http://twitter.com/immunomind">
+  <a href="http://twitter.com/immunomind" class="external-link">
     <span class="fa fa-lg fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/immunomind/immunarch">
+  <a href="https://github.com/immunomind/immunarch" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -131,7 +131,7 @@ For more details see the tutorial https://immunarch.com/articles/web_only/v11_db
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Annotate clonotypes in immune repertoires using clonotype databases such as VDJDB and MCPAS</h1>
-    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/annotation.R"><code>R/annotation.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/R/annotation.R" class="external-link"><code>R/annotation.R</code></a></small>
     <div class="hidden name"><code>dbAnnotate.Rd</code></div>
     </div>
 
@@ -141,35 +141,41 @@ Before using this function, you need to download database files first.
 For more details see the tutorial <a href="https://immunarch.com/articles/web_only/v11_db.html">https://immunarch.com/articles/web_only/v11_db.html</a>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">dbAnnotate</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.db</span>, <span class="va">.data.col</span>, <span class="va">.db.col</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dbAnnotate</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.db</span>, <span class="va">.data.col</span>, <span class="va">.db.col</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>.data</th>
-      <td><p>The data to process. It can be a <a href="https://rdrr.io/r/base/data.frame.html">data.frame</a>, a
-<a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a>, or a list of these objects.</p>
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>.data</dt>
+<dd><p>The data to process. It can be a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>, a
+<a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format.
 <a href="immunr_data_format.html">immunarch_data_format</a></p>
 <p>Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html">copy_to</a> or a list
+DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
-<p>Note: each connection must represent a separate repertoire.</p></td>
-    </tr><tr><th>.db</th>
-      <td><p>A data frame or a data table with an immune receptor database. See <a href="dbLoad.html">dbLoad</a> on how to load databases into R.</p></td>
-    </tr><tr><th>.data.col</th>
-      <td><p>Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., `"CDR3.aa"` or `c("CDR3.aa", "V.name")`.</p></td>
-    </tr><tr><th>.db.col</th>
-      <td><p>Character vector. Vector of columns in the database to use for clonotype search. The order must match the order of ".data.col".
+<p>Note: each connection must represent a separate repertoire.</p></dd>
+<dt>.db</dt>
+<dd><p>A data frame or a data table with an immune receptor database. See <a href="dbLoad.html">dbLoad</a> on how to load databases into R.</p></dd>
+<dt>.data.col</dt>
+<dd><p>Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., `"CDR3.aa"` or `c("CDR3.aa", "V.name")`.</p></dd>
+<dt>.db.col</dt>
+<dd><p>Character vector. Vector of columns in the database to use for clonotype search. The order must match the order of ".data.col".
 E.g., if ".data.col" is `c("CDR3.aa", "V.name")`, then ".db.col" must have the exact order of columns. i.e., the first column must correspond
-to CDR3 amino acid sequences, and the second column must correspond to V gene segment names.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+to CDR3 amino acid sequences, and the second column must correspond to V gene segment names.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>Data frame with input sequences and counts or proportions for each of the input repertoire.</p>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#' # Example file path</span></span>
-<span class="r-in"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Load the database with human-only TRB-only receptors for all known antigens</span></span>
 <span class="r-in"><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu"><a href="dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span>
@@ -178,6 +184,7 @@ to CDR3 amino acid sequences, and the second column must correspond to V gene se
 <span class="r-in"><span class="va">res</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 14 cols): CDR3.aa,Samples,A2-i129,A2-i131,A2-i133,A2-i132...</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -190,7 +197,7 @@ to CDR3 amino acid sequences, and the second column must correspond to V gene se
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

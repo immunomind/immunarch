@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="repFilter_v3_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data Filtering</h1>
@@ -169,7 +169,7 @@
             
             <h4 data-toc-skip class="date"><a href="mailto:support@immunomind.io" class="email">support@immunomind.io</a></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/vignettes/web_only/repFilter_v3.Rmd" class="external-link"><code>vignettes/web_only/repFilter_v3.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/HEAD/vignettes/web_only/repFilter_v3.Rmd" class="external-link"><code>vignettes/web_only/repFilter_v3.Rmd</code></a></small>
       <div class="hidden name"><code>repFilter_v3.Rmd</code></div>
 
     </div>
@@ -181,13 +181,13 @@
 %\VignetteIndexEntry{Gene usage analysis}
 %\VignettePackage{immunarch}
 -->
-<div id="data-filtering" class="section level1">
-<h1 class="hasAnchor">
-<a href="#data-filtering" class="anchor" aria-hidden="true"></a>Data filtering</h1>
-<p>In many research cases, you could want to filter your data by metadata, clonotypes parameters or genes, so for this purpose, you can use the <code>repFilter</code> function.</p>
-<div id="methods-for-filtering-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#methods-for-filtering-data" class="anchor" aria-hidden="true"></a>Methods for filtering data</h2>
+<div class="section level2">
+<h2 id="data-filtering">Data filtering<a class="anchor" aria-label="anchor" href="#data-filtering"></a>
+</h2>
+<p>In many research cases, you would want to filter your data by metadata, clonotypes parameters or genes, so for this purpose, you can use the <code>repFilter</code> function.</p>
+<div class="section level3">
+<h3 id="methods-for-filtering-data">Methods for filtering data<a class="anchor" aria-label="anchor" href="#methods-for-filtering-data"></a>
+</h3>
 <p><code>repFilter</code> has 3 parameters: <code>.method</code>, <code>.query</code> and <code>.match</code>.</p>
 <p>Due to the ambiguity of ways to extract required data, <code>repFilter</code> has the following methods:</p>
 <ul>
@@ -216,295 +216,294 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#look at the metadata</span>
 <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 12 × 6 [39m
-##    Sample  ID    Sex     Age Status Lane 
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m 1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m 2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m 3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m 4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m 5 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m 6 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m 7 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m 8 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m 9 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m10 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m11 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m12 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 12 × 6</span></span>
+<span class="co">##    Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#look at samples name in data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192" "MS1"    
-##  [8] "MS2"     "MS3"     "MS4"     "MS5"     "MS6"</code></pre>
+<pre><code><span class="co">##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192" "MS1"    </span>
+<span class="co">##  [8] "MS2"     "MS3"     "MS4"     "MS5"     "MS6"</span></code></pre>
 </div>
-<div id="how-to-write-conditions-for-filtering" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-write-conditions-for-filtering" class="anchor" aria-hidden="true"></a>How to write conditions for filtering</h2>
-<div id="method-by-meta" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-by-meta" class="anchor" aria-hidden="true"></a>Method <code>by.meta</code>
+<div class="section level3">
+<h3 id="how-to-write-conditions-for-filtering">How to write conditions for filtering<a class="anchor" aria-label="anchor" href="#how-to-write-conditions-for-filtering"></a>
 </h3>
-<div id="example-1" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-1" class="anchor" aria-hidden="true"></a>Example 1</h4>
+<div class="section level4">
+<h4 id="method-by-meta">Method <code>by.meta</code><a class="anchor" aria-label="anchor" href="#method-by-meta"></a>
+</h4>
+<div class="section level5">
+<h5 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
+</h5>
 <p>Use <code>include</code> and <code>exclude</code> options to select a subset of samples or repertoires that match given filter criterion. These options accept strings.</p>
 <p>Let’s filter your data by metadata <code>immdata</code> datasets when <em>Status</em> is <em>C</em> and look at new meta data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 6 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m5 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m6 [39m A4-i192 C9    F        24 C      B</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 6 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> A4-i192 C9    F        24 C      B</span></code></pre>
 <p>Note that we filter both metadata and data:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># filtered data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Status <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192"</code></pre>
+<pre><code><span class="co">## [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192"</span></code></pre>
 <p>Filter out samples where <em>Lane</em> is not A:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 8 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m2 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m3 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m4 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m5 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m6 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m7 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m8 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 8 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">7</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">8</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A4-i191" "A4-i192" "MS1"     "MS2"     "MS3"     "MS4"     "MS5"    
-## [8] "MS6"</code></pre>
+<pre><code><span class="co">## [1] "A4-i191" "A4-i192" "MS1"     "MS2"     "MS3"     "MS4"     "MS5"    </span>
+<span class="co">## [8] "MS6"</span></code></pre>
 <p>Filter for samples where <em>Lane</em> is <em>B</em> or <em>C</em>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 8 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m2 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m3 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m4 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m5 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m6 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m7 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m8 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 8 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">7</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">8</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A4-i191" "A4-i192" "MS1"     "MS2"     "MS3"     "MS4"     "MS5"    
-## [8] "MS6"</code></pre>
+<pre><code><span class="co">## [1] "A4-i191" "A4-i192" "MS1"     "MS2"     "MS3"     "MS4"     "MS5"    </span>
+<span class="co">## [8] "MS6"</span></code></pre>
 <p>Filter out samples where <em>Lane</em> is not <em>A</em> and not <em>C</em>:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 2 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m2 [39m A4-i192 C9    F        24 C      B</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i192 C9    F        24 C      B</span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A4-i191" "A4-i192"</code></pre>
+<pre><code><span class="co">## [1] "A4-i191" "A4-i192"</span></code></pre>
 </div>
-<div id="example-2" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-2" class="anchor" aria-hidden="true"></a>Example 2</h4>
+<div class="section level5">
+<h5 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
+</h5>
 <p>Use <code>interval</code>, <code>lessthan</code>(from minus infinity to your value) or <code>morethan</code>(from your value to plus infinity) to define interval values in the filter statement. These options accept float. <code>lessthan</code> and <code>morethan</code> do not include borders and <code>interval</code> includes the left border and excludes the right border.</p>
 <p>Filter for samples where <em>Age</em> is lower than <em>23</em>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">lessthan</a></span><span class="op">(</span><span class="fl">23</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 10 × 6 [39m
-##    Sample  ID    Sex     Age Status Lane 
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m 1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m 2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m 3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m 4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m 5 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m 6 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m 7 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m 8 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m 9 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m10 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 10 × 6</span></span>
+<span class="co">##    Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">lessthan</a></span><span class="op">(</span><span class="fl">23</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "MS1"     "MS3"    
-##  [8] "MS4"     "MS5"     "MS6"</code></pre>
+<pre><code><span class="co">##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "MS1"     "MS3"    </span>
+<span class="co">##  [8] "MS4"     "MS5"     "MS6"</span></code></pre>
 <p>Filter for samples where <em>Age</em> is upper than <em>15</em>:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 4 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m2 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m3 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m4 [39m MS2     MS2   M        30 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> MS2     MS2   M        30 MS     C</span></code></pre>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A2-i133" "A4-i191" "A4-i192" "MS2"</code></pre>
+<pre><code><span class="co">## [1] "A2-i133" "A4-i191" "A4-i192" "MS2"</span></code></pre>
 <p>Filter for samples where <em>Age</em> is between <em>15</em> and <em>23</em>:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">interval</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">23</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 4 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m2 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m3 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m4 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">interval</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">23</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A2-i133" "A4-i191" "MS5"     "MS6"</code></pre>
+<pre><code><span class="co">## [1] "A2-i133" "A4-i191" "MS5"     "MS6"</span></code></pre>
 <p>You can also use <strong>multiple conditions</strong>. In this case, the function returns values that matches both of this conditions (logical AND operator)</p>
 <p>Filter for samples where <em>Age</em> is between <em>15</em> and <em>23</em> and <em>Lane</em> is <em>B</em> :</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">interval</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">23</span><span class="op">)</span>, Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'B'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 1 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A4-i191 C8    F        22 C      B</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A4-i191 C8    F        22 C      B</span></code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">interval</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">23</span><span class="op">)</span>, Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'B'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A4-i191"</code></pre>
+<pre><code><span class="co">## [1] "A4-i191"</span></code></pre>
 <p>Filter for samples where <em>Age</em> is between <em>15</em> and <em>23</em> and <em>Lane</em> is <em>A</em> or <em>B</em>:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">interval</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">23</span><span class="op">)</span>, Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 2 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m2 [39m A4-i191 C8    F        22 C      B</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i191 C8    F        22 C      B</span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">interval</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">23</span><span class="op">)</span>, Lane <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A2-i133" "A4-i191"</code></pre>
+<pre><code><span class="co">## [1] "A2-i133" "A4-i191"</span></code></pre>
 </div>
 </div>
-<div id="method-by-repertoire-short-alias-is-by-rep" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-by-repertoire-short-alias-is-by-rep" class="anchor" aria-hidden="true"></a>Method <code>by.repertoire</code> (short alias is <code>by.rep</code>)</h3>
-<div id="example-3" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-3" class="anchor" aria-hidden="true"></a>Example 3</h4>
-<p>Filter for repertoires containing more than 60000 clonotypes:</p>
+<div class="section level4">
+<h4 id="method-by-repertoire-short-alias-is-by-rep">Method <code>by.repertoire</code> (short alias is <code>by.rep</code>)<a class="anchor" aria-label="anchor" href="#method-by-repertoire-short-alias-is-by-rep"></a>
+</h4>
+<div class="section level5">
+<h5 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
+</h5>
+<p>Filter for repertoires containing more than 6000 clonotypes:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.repertoire"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">6000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 8 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m5 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m6 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m7 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m8 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 8 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">7</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">8</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.rep"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">6000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span> <span class="co"># Works both with by.rep and by.repertoire</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 8 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m5 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m6 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m7 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m8 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 8 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">7</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">8</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <p>Be careful, filtering <code>by.repertoire</code> or <code>by.rep</code> could also change a number of repertoires(samples) in your data:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.repertoire"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">6000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "MS2"     "MS3"     "MS4"    
-## [8] "MS6"</code></pre>
+<pre><code><span class="co">## [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "MS2"     "MS3"     "MS4"    </span>
+<span class="co">## [8] "MS6"</span></code></pre>
 <p>Filter for repertoires containing less than 6000 clonotypes:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.repertoire"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">lessthan</a></span><span class="op">(</span><span class="fl">6000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 4 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m2 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m3 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m4 [39m MS5     MS5   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> MS5     MS5   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.rep"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">lessthan</a></span><span class="op">(</span><span class="fl">6000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span> <span class="co"># Works both with by.rep and by.repertoire</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 4 × 6 [39m
-##   Sample  ID    Sex     Age Status Lane 
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m1 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m2 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m3 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m4 [39m MS5     MS5   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="co">##   Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> MS5     MS5   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.repertoire"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_clonotypes <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">lessthan</a></span><span class="op">(</span><span class="fl">6000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "A4-i191" "A4-i192" "MS1"     "MS5"</code></pre>
+<pre><code><span class="co">## [1] "A4-i191" "A4-i192" "MS1"     "MS5"</span></code></pre>
 </div>
 </div>
-<div id="method-by-clonotype-short-alias-isby-cl" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-by-clonotype-short-alias-isby-cl" class="anchor" aria-hidden="true"></a>Method <code>by.clonotype</code> (short alias is<code>by.cl</code>)</h3>
-<div id="example-4" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-4" class="anchor" aria-hidden="true"></a>Example 4</h4>
+<div class="section level4">
+<h4 id="method-by-clonotype-short-alias-isby-cl">Method <code>by.clonotype</code> (short alias is<code>by.cl</code>)<a class="anchor" aria-label="anchor" href="#method-by-clonotype-short-alias-isby-cl"></a>
+</h4>
+<div class="section level5">
+<h5 id="example-4">Example 4<a class="anchor" aria-label="anchor" href="#example-4"></a>
+</h5>
 <p>Filter out all noncoding clonotypes from <code>immdata</code>. As you see, <code>immdata</code> dataset doesn’t contain any noncoding clonotypes:</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.clonotype"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CDR3.aa <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"partial"</span>, <span class="st">"out_of_frame"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 12 × 6 [39m
-##    Sample  ID    Sex     Age Status Lane 
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m 1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m 2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m 3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m 4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m 5 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m 6 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m 7 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m 8 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m 9 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m10 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m11 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m12 [39m MS6     MS6   F        15 MS     C</code></pre>
-<p>Note that filtering <code>by.clonotype</code> or <code>by.cl</code> works within repertoire(sample). Repertoire(sample) could be removed from your data only in case if all clonotypes in sample do not satisfy the condition:</p>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 12 × 6</span></span>
+<span class="co">##    Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C</span></code></pre>
+<p>Note that filtering <code>by.clonotype</code> or <code>by.cl</code> works within repertoire(sample). Repertoire(sample) could be removed from your data only in case if all clonotypes in sample do not meet the condition:</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.clonotype"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CDR3.aa <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"partial"</span>, <span class="st">"out_of_frame"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192" "MS1"    
-##  [8] "MS2"     "MS3"     "MS4"     "MS5"     "MS6"</code></pre>
+<pre><code><span class="co">##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192" "MS1"    </span>
+<span class="co">##  [8] "MS2"     "MS3"     "MS4"     "MS5"     "MS6"</span></code></pre>
 <p>Filter out clonotypes that have only one clone:</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.clonotype"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Clones <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 12 × 6 [39m
-##    Sample  ID    Sex     Age Status Lane 
-##     [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m  [3m [38;5;246m&lt;dbl&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m   [3m [38;5;246m&lt;chr&gt; [39m [23m
-##  [38;5;250m 1 [39m A2-i129 C1    M        11 C      A    
-##  [38;5;250m 2 [39m A2-i131 C2    M         9 C      A    
-##  [38;5;250m 3 [39m A2-i133 C4    M        16 C      A    
-##  [38;5;250m 4 [39m A2-i132 C3    F         6 C      A    
-##  [38;5;250m 5 [39m A4-i191 C8    F        22 C      B    
-##  [38;5;250m 6 [39m A4-i192 C9    F        24 C      B    
-##  [38;5;250m 7 [39m MS1     MS1   M        12 MS     C    
-##  [38;5;250m 8 [39m MS2     MS2   M        30 MS     C    
-##  [38;5;250m 9 [39m MS3     MS3   M         8 MS     C    
-##  [38;5;250m10 [39m MS4     MS4   F        14 MS     C    
-##  [38;5;250m11 [39m MS5     MS5   F        15 MS     C    
-##  [38;5;250m12 [39m MS6     MS6   F        15 MS     C</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 12 × 6</span></span>
+<span class="co">##    Sample  ID    Sex     Age Status Lane </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C    </span>
+<span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C</span></code></pre>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.clonotype"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Clones <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">morethan</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192" "MS1"    
-##  [8] "MS2"     "MS3"     "MS4"     "MS5"     "MS6"</code></pre>
+<pre><code><span class="co">##  [1] "A2-i129" "A2-i131" "A2-i133" "A2-i132" "A4-i191" "A4-i192" "MS1"    </span>
+<span class="co">##  [8] "MS2"     "MS3"     "MS4"     "MS5"     "MS6"</span></code></pre>
 </div>
-<div id="example-5" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-5" class="anchor" aria-hidden="true"></a>Example 5</h4>
-<p>In method <code>by.clonotype</code> or <code>by.cl</code>, there is an extra argument <code>.match</code>. The <code>.match</code> argument can has the following values: - <code>exact</code> - looks for exact match in gene names - <code>substring</code>- looks for substring in gene names - <code>startswith</code> - looks for gene names starting with the same pattern</p>
+<div class="section level5">
+<h5 id="example-5">Example 5<a class="anchor" aria-label="anchor" href="#example-5"></a>
+</h5>
+<p>In method <code>by.clonotype</code> or <code>by.cl</code>, there is an extra argument <code>.match</code>. The <code>.match</code> argument can has the following values: - <code>exact</code> - looks for exact match in gene names - <code>substring</code>- looks for substring in gene names - <code>startswith</code> - looks for gene names starting with the chosen pattern</p>
 <p>Filter out all clonotypes within samples with V gene ‘TRBV1’ or ‘TRGV11’</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">immdata</span>, .method <span class="op">=</span> <span class="st">"by.clonotype"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>V.name <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"TRBV1"</span>, <span class="st">"TRGV11"</span><span class="op">)</span><span class="op">)</span>, .match<span class="op">=</span><span class="st">"exact"</span><span class="op">)</span></code></pre></div>
@@ -517,9 +516,9 @@
 </div>
 </div>
 </div>
-<div id="using-repfilter-function-for-single-cell-repertoire-data-analysis" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-repfilter-function-for-single-cell-repertoire-data-analysis" class="anchor" aria-hidden="true"></a>Using <code>repFilter</code> function for single-cell repertoire data analysis</h2>
+<div class="section level3">
+<h3 id="using-repfilter-function-for-single-cell-repertoire-data-analysis">Using <code>repFilter</code> function for single-cell repertoire data analysis<a class="anchor" aria-label="anchor" href="#using-repfilter-function-for-single-cell-repertoire-data-analysis"></a>
+</h3>
 <p>We will use <code>scdata</code> datasets from <strong>Immunarch</strong> library. Load them by executing the following command:</p>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">scdata</span><span class="op">)</span></code></pre></div>
@@ -527,27 +526,27 @@
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#look at the metadata</span>
 <span class="va">scdata</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 1 × 1 [39m
-##   Sample
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m 
-##  [38;5;250m1 [39m flu</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span>
+<span class="co">##   Sample</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> flu</span></code></pre>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#look at samples name in data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">scdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "flu"</code></pre>
-<p><code>repFiter</code> can also work with single-cell data containing not only <code>meta</code> and ’data`, but also extra information, for example, about clusters:</p>
+<pre><code><span class="co">## [1] "flu"</span></code></pre>
+<p><code>repFiter</code> can also work with single-cell data containing not only <code>meta</code> and ’data`, but also extra information, e.g. about clusters:</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata</span>, .method <span class="op">=</span> <span class="st">"by.clonotype"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CDR3.aa <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">exclude</a></span><span class="op">(</span><span class="st">"partial"</span>, <span class="st">"out_of_frame"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Create a new dataset with cluster-specific immune repertoires (for more information see <em>Single-cell</em> tutorials):</p>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_clusters.html">select_clusters</a></span><span class="op">(</span><span class="va">scdata</span>, <span class="va">scdata</span><span class="op">$</span><span class="va">bc_cluster</span>, <span class="st">"Cluster"</span><span class="op">)</span>
 <span class="va">scdata_cl</span><span class="op">$</span><span class="va">meta</span></code></pre></div>
-<pre><code>##  [38;5;246m# A tibble: 3 × 3 [39m
-##   Sample     Cluster.source Cluster
-##    [3m [38;5;246m&lt;chr&gt; [39m [23m       [3m [38;5;246m&lt;chr&gt; [39m [23m           [3m [38;5;246m&lt;chr&gt; [39m [23m  
-##  [38;5;250m1 [39m flu_Activ  flu            Activ  
-##  [38;5;250m2 [39m flu_Memory flu            Memory 
-##  [38;5;250m3 [39m flu_Naive  flu            Naive</code></pre>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="co">##   Sample     Cluster.source Cluster</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> flu_Activ  flu            Activ  </span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> flu_Memory flu            Memory </span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> flu_Naive  flu            Naive</span></code></pre>
 <p>And compare the number of clonotypes between clusters:</p>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -556,21 +555,21 @@
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sc_active</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_cl</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cluster <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'Activ'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span>, .norm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">sc_active</span><span class="op">)</span></code></pre></div>
-<pre><code>## Using Names as id variables</code></pre>
+<pre><code><span class="co">## Using Names as id variables</span></code></pre>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span></code></pre></div>
 <p><img src="repFilter_v3_files/figure-html/geneUsage-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sc_memory</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_cl</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cluster <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'Memory'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span>, .norm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">sc_memory</span><span class="op">)</span></code></pre></div>
-<pre><code>## Using Names as id variables</code></pre>
+<pre><code><span class="co">## Using Names as id variables</span></code></pre>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p2</span></code></pre></div>
 <p><img src="repFilter_v3_files/figure-html/geneUsage-2.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sc_naive</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_cl</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cluster <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'Naive'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span>, .norm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">sc_naive</span><span class="op">)</span></code></pre></div>
-<pre><code>## Using Names as id variables</code></pre>
+<pre><code><span class="co">## Using Names as id variables</span></code></pre>
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p3</span></code></pre></div>
 <p><img src="repFilter_v3_files/figure-html/geneUsage-3.png" width="1152" style="display: block; margin: auto;"></p>
@@ -580,19 +579,19 @@
 <span class="va">scdata_active</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_active</span>, .method <span class="op">=</span> <span class="st">"by.cl"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>J.name <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'IGHJ4'</span><span class="op">)</span><span class="op">)</span>, .match <span class="op">=</span> <span class="st">'substring'</span><span class="op">)</span>
 <span class="va">sc_active</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">scdata_active</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span>, .norm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">sc_active</span><span class="op">)</span></code></pre></div>
-<pre><code>## Using Names as id variables</code></pre>
+<pre><code><span class="co">## Using Names as id variables</span></code></pre>
 <div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_memory</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_cl</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cluster <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'Memory'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">scdata_memory</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_memory</span>, .method <span class="op">=</span> <span class="st">"by.cl"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>J.name <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'IGHJ4'</span><span class="op">)</span><span class="op">)</span>, .match <span class="op">=</span> <span class="st">'substring'</span><span class="op">)</span>
 <span class="va">sc_memory</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">scdata_memory</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span>, .norm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">sc_memory</span><span class="op">)</span></code></pre></div>
-<pre><code>## Using Names as id variables</code></pre>
+<pre><code><span class="co">## Using Names as id variables</span></code></pre>
 <div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scdata_naive</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_cl</span>, .method <span class="op">=</span> <span class="st">"by.meta"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cluster <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'Naive'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">scdata_naive</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repFilter.html">repFilter</a></span><span class="op">(</span><span class="va">scdata_naive</span>, .method <span class="op">=</span> <span class="st">"by.cl"</span>, .query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>J.name <span class="op">=</span> <span class="fu"><a href="../../reference/repFilter.html">include</a></span><span class="op">(</span><span class="st">'IGHJ4'</span><span class="op">)</span><span class="op">)</span>, .match <span class="op">=</span> <span class="st">'substring'</span><span class="op">)</span>
 <span class="va">sc_naive</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">scdata_naive</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hs.trbj"</span>, .norm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">sc_naive</span><span class="op">)</span></code></pre></div>
-<pre><code>## Using Names as id variables</code></pre>
+<pre><code><span class="co">## Using Names as id variables</span></code></pre>
 <div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span></code></pre></div>
 <p><img src="repFilter_v3_files/figure-html/IGHV3-1.png" width="1152" style="display: block; margin: auto;"></p>
@@ -643,12 +642,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
