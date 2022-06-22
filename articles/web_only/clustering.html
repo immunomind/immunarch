@@ -49,7 +49,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><script src="clustering_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Clustering</h1>
@@ -230,7 +230,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">distBCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span> <span class="va">BCRdata</span>, .col <span class="op">=</span> <span class="st">'CDR3.aa'</span>, .methods <span class="op">=</span> <span class="st">"cls"</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p>Another way is to write your own function for calculating distance. For example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>distBCR &lt;-<span class="st"> </span><span class="kw">seqDist</span>(BCRdata, <span class="dt">.col =</span> <span class="st">'CDR3.aa'</span>, <span class="dt">.methods =</span> {user<span class="op">-</span><span class="cf">function</span>}, <span class="dt">.group_by_seqLength =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>distBCR <span class="ot">&lt;-</span> <span class="fu">seqDist</span>(BCRdata, <span class="at">.col =</span> <span class="st">'CDR3.aa'</span>, <span class="at">.methods =</span> {user<span class="sc">-</span><span class="cf">function</span>}, <span class="at">.group_by_seqLength =</span> F)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>

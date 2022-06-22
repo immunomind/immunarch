@@ -49,7 +49,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><script src="v8_tracking_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tracking clonotypes across time points in <code>immunarch</code>
@@ -290,18 +290,18 @@
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 12 × 7</span></span>
 <span class="co">##    Sample  ID    Sex     Age Status Lane  Timepoint</span>
 <span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A             3</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A             2</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A             8</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A             9</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B             7</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B             6</span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A             5</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A             8</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A             4</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A             6</span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B            11</span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B             3</span>
 <span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C             1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C            12</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C             4</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C            10</span>
-<span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C            11</span>
-<span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C             5</span></code></pre>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C             9</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C             7</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C             2</span>
+<span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C            12</span>
+<span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C            10</span></code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html" class="external-link">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></code></pre></div>
@@ -312,8 +312,8 @@
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></code></pre></div>
-<pre><code><span class="co">##  [1] "MS1"     "A2-i131" "A2-i129" "MS3"     "MS6"     "A4-i192" "A4-i191"</span>
-<span class="co">##  [8] "A2-i133" "A2-i132" "MS4"     "MS5"     "MS2"</span></code></pre>
+<pre><code><span class="co">##  [1] "MS1"     "MS4"     "A4-i192" "A2-i133" "A2-i129" "A2-i132" "MS3"    </span>
+<span class="co">##  [8] "A2-i131" "MS2"     "MS6"     "A4-i191" "MS5"</span></code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></code></pre></div>

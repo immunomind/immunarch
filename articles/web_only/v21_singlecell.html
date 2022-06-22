@@ -49,7 +49,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><script src="v21_singlecell_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Single-cell and paired chain data: scTCRseq and scBCRseq exploration</h1>
@@ -196,10 +196,10 @@
 <p>To read paired chain data with <code>immunarch</code> use the <code>repLoad</code> function with <code>.mode = "paired"</code>. Currently we support 10X Genomics only.</p>
 </blockquote>
 <blockquote>
-<p>To create subset immune repertoires with specific barcodes use the <code>select_barcodes</code> function. Output of <code>Seurat::Idents()</code> as a barcode vector works.</p>
+<p>To create subset immune repertoires with specific barcodes use the <code>select_barcodes</code> function. Output of <code><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html" class="external-link">Seurat::Idents()</a></code> as a barcode vector works.</p>
 </blockquote>
 <blockquote>
-<p>To create cluster-specific and patient-specific datasets using barcodes from the output of <code>Seurat::Idents()</code> use the <code>select_clusters</code> function.</p>
+<p>To create cluster-specific and patient-specific datasets using barcodes from the output of <code><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html" class="external-link">Seurat::Idents()</a></code> use the <code>select_clusters</code> function.</p>
 </blockquote>
 </div>
 <div class="section level2">
@@ -222,7 +222,7 @@
 <pre><code><span class="co">## </span>
 <span class="co">## == Step 1/3: loading repertoire files... ==</span></code></pre>
 <pre><code><span class="co">## Processing "&lt;initial&gt;" ...</span></code></pre>
-<pre><code><span class="co">##   -- [1/1] Parsing "/tmp/RtmpHbHDQZ/temp_libpath3267c347584f1b/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</span></code></pre>
+<pre><code><span class="co">##   -- [1/1] Parsing "/tmp/Rtmpzg01tU/temp_libpath237d47d7272f3/immunarch/extdata/sc/flu.csv.gz" -- 10x (filt.contigs)</span></code></pre>
 <pre><code><span class="co">## Warning: The following named parsers don't match the column names:</span>
 <span class="co">## sample,barcode,is_cell,contig_id,high_confidence,length,chain,v_gene,d_gene,j_gene,c_gene,full_length,productive,cdr3,cdr3_nt,reads,umis,raw_clonotype_id,raw_consensus_id</span></code></pre>
 <pre><code><span class="co">## </span>
