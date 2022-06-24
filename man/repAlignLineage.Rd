@@ -31,8 +31,8 @@ column, which is added by repGermline() function.}
 
 \item{.verbose_output}{If TRUE, all output dataframe columns will be included (see documentation about this
 function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
-increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
-will be included in the output.}
+increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() and
+repSomaticHypermutation() calculation will be included in the output.}
 
 \item{.nofail}{Will return NA instead of stopping if Clustal W is not installed.
 Used to avoid raising errors in examples on computers where Clustal W is not installed.}
@@ -49,9 +49,11 @@ The dataframe has these columns:
   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
 * J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 region in this
   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
-* Sequences (included if .verbose_output=TRUE): nested dataframe containing all sequences for this combination
+* Sequences: nested dataframe containing all sequences for this combination
   of cluster and germline; it has columns
-  Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
+  Sequence, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
+  and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
+  all values taken from the input dataframe
 }
 \description{
 Aligns all sequences incliding germline within each clonal lineage within each cluster

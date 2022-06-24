@@ -45,6 +45,9 @@
 #' * Trunk.Length: mean trunk length, representing the distance between the most recent
 #'   common ancestor and germline sequence as a measure of the maturity of a lineage
 #' * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
+#' * Sequences: nested dataframe containing all sequences for this combination of cluster
+#'   and germline; it contains regions from original sequences, saved for
+#'   repSomaticHypermutation() calculation
 #'
 #' @examples
 #'
@@ -62,7 +65,7 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
-  ), .nofail, is.na(.data))) {
+  ), .nofail, identical(.data, NA))) {
     return(NA)
   }
 
@@ -76,7 +79,7 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
 }
 
 process_dataframe <- function(df, .threads, sample_name = NA) {
-  for (column in c("Cluster", "Germline", "Alignment")) {
+  for (column in c("Cluster", "Germline", "Alignment", "Sequences")) {
     if (!(column %in% colnames(df))) {
       stop(
         "Unrecognized input dataframe format for repClonalFamily: missing \"",
@@ -100,7 +103,7 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
     )
   }
 
-  df <- df[c("Cluster", "Germline", "Alignment")]
+  df <- df[c("Cluster", "Germline", "Alignment", "Sequences")]
   clusters_list <- split(df, seq(nrow(df)))
 
   results <- parallel::mclapply(
@@ -116,8 +119,9 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
 process_cluster <- function(cluster_row) {
   cluster_name <- cluster_row[["Cluster"]]
   cluster_germline <- cluster_row[["Germline"]]
-  # alignment should be extracted from 1-element list because of Alignment column format
+  # alignment and sequences should be extracted from 1-element lists because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
+  sequences <- cluster_row[["Sequences"]][[1]]
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
@@ -153,7 +157,8 @@ process_cluster <- function(cluster_row) {
     Germline.Output = germline,
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
-    Tree = tree
+    Tree = tree,
+    Sequences = sequences
   ))
 }
 
@@ -167,9 +172,12 @@ convert_nested_to_df <- function(nested_results_list) {
   tree <- nested_results_list %>%
     lapply(magrittr::extract2, "Tree") %>%
     tibble(Tree = .)
+  sequences <- nested_results_list %>%
+    lapply(magrittr::extract2, "Sequences") %>%
+    tibble(Sequences = .)
   df <- nested_results_list %>%
-    lapply(rlist::list.remove, "Tree") %>%
+    lapply(rlist::list.remove, c("Tree", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
-    cbind(tree)
+    cbind(tree, sequences)
   return(df)
 }

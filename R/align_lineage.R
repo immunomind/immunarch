@@ -44,8 +44,8 @@
 #'
 #' @param .verbose_output If TRUE, all output dataframe columns will be included (see documentation about this
 #' function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
-#' increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
-#' will be included in the output.
+#' increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() and
+#' repSomaticHypermutation() calculation will be included in the output.
 #'
 #' @param .nofail Will return NA instead of stopping if Clustal W is not installed.
 #' Used to avoid raising errors in examples on computers where Clustal W is not installed.
@@ -63,9 +63,11 @@
 #'   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
 #' * J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 region in this
 #'   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
-#' * Sequences (included if .verbose_output=TRUE): nested dataframe containing all sequences for this combination
+#' * Sequences: nested dataframe containing all sequences for this combination
 #'   of cluster and germline; it has columns
-#'   Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
+#'   Sequence, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
+#'   and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
+#'   all values taken from the input dataframe
 #'
 #' @examples
 #'
@@ -142,7 +144,7 @@ align_single_df <- function(data, .min_lineage_sequences, .align_threads, .verbo
     mc.cores = .align_threads
   )
 
-  return(convert_results_to_df(results, alignments, .verbose_output))
+  return(convert_results_to_df(results, alignments))
 }
 
 # this function accepts dataframe subset containing rows only for current lineage
@@ -163,9 +165,13 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
     lineage_subset[["Sequence"]], lineage_subset[["J.start"]], lineage_subset[["CDR3.end"]]
   )
 
+  sequences_columns <- c(
+    "Sequence", "CDR1.nt", "CDR2.nt", "CDR3.nt", "FR1.nt", "FR2.nt", "FR3.nt", "FR4.nt"
+  )
   if (.verbose_output) {
-    sequences <- lineage_subset[c("Sequence", "V.end", "J.start", "CDR3.start", "CDR3.end")]
+    sequences_columns %<>% c("V.end", "J.start", "CDR3.start", "CDR3.end")
   }
+  sequences <- lineage_subset[sequences_columns]
 
   germline_parts <- strsplit(germline_seq, "N")[[1]]
   germline_v_len <- stringr::str_length(germline_parts[1])
@@ -197,7 +203,8 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
     return(list(
       Cluster = cluster_name,
       Germline = germline_seq,
-      Alignment = alignment
+      Alignment = alignment,
+      Sequences = sequences
     ))
   }
 }
@@ -221,20 +228,17 @@ trim_seq <- function(seq, v_len, v_min, j_len, j_min) {
   stringr::str_sub(seq, v_len - v_min + 1, -(j_len - j_min + 1))
 }
 
-convert_results_to_df <- function(nested_results_list, nested_alignments_list, .verbose_output) {
+convert_results_to_df <- function(nested_results_list, nested_alignments_list) {
   alignments <- nested_alignments_list %>%
     lapply(magrittr::extract2, "Alignment") %>%
     tibble(Alignment = .)
+  sequences <- nested_results_list %>%
+    lapply(magrittr::extract2, "Sequences") %>%
+    tibble(Sequences = .)
   df <- nested_results_list %>%
     lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
-    cbind(alignments)
-  if (.verbose_output) {
-    sequences <- nested_results_list %>%
-      lapply(magrittr::extract2, "Sequences") %>%
-      tibble(Sequences = .)
-    df %<>% cbind(sequences)
-  }
+    cbind(alignments, sequences)
   return(df)
 }
 
