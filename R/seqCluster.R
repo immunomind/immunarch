@@ -1,5 +1,7 @@
 #' Function for assigning clusters based on sequences similarity
 #'
+#' @concept seq_cluster
+#'
 #' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl
 #' @importFrom magrittr %>% %<>%
 #' @importFrom reshape2 melt

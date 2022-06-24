@@ -23,7 +23,7 @@ output:
 
 
 
-  ```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 

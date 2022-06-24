@@ -85,7 +85,7 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #'
 #' @importFrom dplyr as_tibble
 #'
-#' @concept kmers
+#' @concept k-mers
 #'
 #' @aliases split_to_kmers kmer_profile
 #'

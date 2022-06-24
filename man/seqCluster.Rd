@@ -36,3 +36,4 @@ input_data <- lapply(immdata$data[1:2], head, 500)
 dist_result <- seqDist(input_data)
 cluster_result <- seqCluster(input_data, dist_result, .fixed_threshold = 1)
 }
+\concept{seq_cluster}
