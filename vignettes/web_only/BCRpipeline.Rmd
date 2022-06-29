@@ -106,7 +106,6 @@ In Immunarch, `repGermline()` function generates germline for each sequence:
 ```{r example 3, results = 'hide'}
 #generate germline
 bcrdata$data %>%
-    top(5) %>%
     repGermline(.threads = 1)
 ```
 
