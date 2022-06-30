@@ -200,7 +200,7 @@ mk_hist <- function(clust_dt, graph_name) {
 
 # compare plots
 mk_hist(dt_perc_similarity, '.perc_similarity=0.75') + mk_hist(dt_fixed_threshold, '.fixed_threshold=2') +
-  mk_hist(dt_nt_similarity, '.dt_nt_similarity=10')
+  mk_hist(dt_nt_similarity, '.nt_similarity=10')
 ```
 
 # Other ways to identify B cell clones
