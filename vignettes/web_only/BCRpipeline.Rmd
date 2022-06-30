@@ -139,7 +139,7 @@ If  `.ref_only_first = FALSE`, you will get several different germlines:
 ```{r example 5}
 bcrdata$data %>%
     top(1) %>%
-    repGermline(.ref_only_first = F, .threads = 1) %>% .$full_clones %>% .$Germline.sequence
+    repGermline(.ref_only_first = FALSE, .threads = 1) %>% .$full_clones %>% .$Germline.sequence
 ```
 
 # Aligning sequences within a clonal lineage
