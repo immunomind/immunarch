@@ -155,7 +155,7 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.
 
-```{r example 9, warning=FALSE}
+```{r example 9, warning = FALSE}
 #clustering TCR 
 clustTCR <- seqCluster(TCRdata, distTCR, .fixed_threshold = 2) 
 
