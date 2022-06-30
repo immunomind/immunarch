@@ -189,7 +189,7 @@ Comparing cluster size distributions is a good way to analyse quality of cluster
 
 ```{r }
 #write small function for the visualization of cluster size destribution
-mk_hist <- function(clust_dt, graph_name){
+mk_hist <- function(clust_dt, graph_name) {
   return(ggplot(clust_dt, aes(x=cluster_size)) + geom_histogram( binwidth=1, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
            ggtitle(graph_name) +
            theme_bw() +
