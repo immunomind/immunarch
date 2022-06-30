@@ -196,7 +196,7 @@ Align sequences in a cluster can be visualized using standard functions:
 align_dt$full_clones$Cluster[[1]]
 
 # Alignment of sequences from the first cluster
-image(align_dt$full_clones$Alignment[[1]], grid = T)
+image(align_dt$full_clones$Alignment[[1]], grid = TRUE)
 ```
 
 # Phylogenetic analysis
