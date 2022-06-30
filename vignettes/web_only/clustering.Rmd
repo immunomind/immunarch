@@ -140,7 +140,7 @@ In general, the number of clusters you get depends on threshold you defined prev
 
 Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same [V.name](http://V.name), [J.name](http://J.name), and CDR3 length — but also have more than 90 percent match in their CDR3.
 
-```{r example 8, warning=FALSE}
+```{r example 8, warning = FALSE}
 #clustering TCR 
 clustTCR <- seqCluster(TCRdata, distTCR, .perc_similarity = 0.75)
 
