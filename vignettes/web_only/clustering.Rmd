@@ -170,7 +170,7 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 If you want to guarantee that the matches in the sequences are at a set proximity, specify a distance threshold 
 
-```{r example 10, warning=FALSE}
+```{r example 10, warning = FALSE}
 #clustering TCR 
 clustTCR <- seqCluster(TCRdata, distTCR, .nt_similarity = 10) 
 
