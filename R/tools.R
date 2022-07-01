@@ -482,8 +482,15 @@ as_numeric_or_fail <- function(.string) {
   return(result)
 }
 
+has_no_data <- function(.data) {
+  any(sapply(list(NA, NULL, NaN), identical, .data))
+}
+
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
 apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .validate = TRUE, ...) {
+  if (has_no_data(.data)) {
+    stop("Expected non-empty data; found: ", .data)
+  }
   if (inherits(.data, "list")) {
     if (.validate) {
       .validate_repertoires_data(.data)
