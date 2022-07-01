@@ -37,8 +37,11 @@ shm_process_dataframe <- function(df, sample_name = NA) {
 }
 
 shm_process_clonotype_row <- function(row, sample_name) {
-  j_gene_germline <- NA
   v_gene_germline <- NA
+  j_gene_germline <- NA
+  v_gene_clonotype <- paste0(
+    row[["FR1.nt"]], row[["CDR1.nt"]], row[["FR2.nt"]], row[["CDR2.nt"]], row[["FR3.nt"]]
+  )
   j_gene_clonotype <- row[["FR4.nt"]]
   return(row)
 }
