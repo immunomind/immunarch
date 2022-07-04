@@ -125,7 +125,7 @@ bcrdata$data %>%
 `.species` - Specifies species from which reference V and J are taken.
 Available species: "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius", "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus", "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus", "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus", "SusScrofa".
 
-`.min_nuc_outside_cdr3` — filters out reads with low numbers of nucleotides from V or J gene outside of CDR3 region
+`.min_nuc_outside_cdr3` — this parameter sets how many nucleotides should have V or J chain outside of CDR3 to be considered good for further alignment. Reads with too short chains are filtered out
 
 `.align_j_gene` - if the germline sequence does not assemble correctly in the region of the J gene, then set this parameter to True. This will slow down the algorithm, but the assembly of the germline sequence will be more accurate.
 
