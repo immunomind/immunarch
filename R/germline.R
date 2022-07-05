@@ -21,7 +21,7 @@
 #' @usage
 #'
 #' repGermline(.data,
-#' .species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
+#' .species, .align_j_gene, .min_nuc_outside_cdr3, .threads)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -45,10 +45,6 @@
 #' @param .min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
 #' outside of CDR3 to be considered good for further alignment.
 #'
-#' @param .ref_only_first This parameter, if TRUE, means to take only first sequence from reference
-#' for each allele name; if FALSE, all sequences will be taken, and the output table will
-#' increase in size as a result.
-#'
 #' @param .threads Number of threads to use.
 #'
 #' @return
@@ -68,7 +64,6 @@ repGermline <- function(.data,
                         .species = "HomoSapiens",
                         .align_j_gene = FALSE,
                         .min_nuc_outside_cdr3 = 5,
-                        .ref_only_first = TRUE,
                         .threads = parallel::detectCores()) {
   if (.align_j_gene) {
     require_system_package("clustalw", error_message = paste0(
@@ -84,9 +79,6 @@ repGermline <- function(.data,
   reference <- genesegments_env$GENE_SEGMENTS %>% filter(species == .species)
   rm(genesegments_env)
   reference <- reference[c("sequence", "allele_id")]
-  if (.ref_only_first) {
-    reference <- reference[!duplicated(reference$allele_id), ]
-  }
 
   .data %<>%
     apply_to_sample_or_list(
