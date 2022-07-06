@@ -38,9 +38,13 @@ outside of CDR3 to be considered good for further alignment.}
 \item{.threads}{Number of threads to use.}
 }
 \value{
-Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
-V.sequence, J.sequence (with V and J reference sequences),
-Germline.sequence (with combined germline sequence)
+Data with added columns:
+* V.first.allele, J.first.allele (first alleles of V and J genes),
+* V.ref.nt, J.ref.nt (V and J reference sequences),
+* V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
+  trimmed parts that are from CDR3),
+* CDR3.germline.length (length of CDR3 in the germline),
+* Germline.sequence (combined germline sequence)
 }
 \description{
 Creates germlines for clonal lineages

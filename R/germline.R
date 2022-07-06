@@ -10,7 +10,7 @@
 #' @aliases repGermline
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed str_extract_all str_extract boundary str_c
-#' @importFrom purrr imap
+#' @importFrom purrr imap map_dfr
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom dplyr filter rowwise
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
@@ -49,9 +49,13 @@
 #'
 #' @return
 #'
-#' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
-#' V.sequence, J.sequence (with V and J reference sequences),
-#' Germline.sequence (with combined germline sequence)
+#' Data with added columns:
+#' * V.first.allele, J.first.allele (first alleles of V and J genes),
+#' * V.ref.nt, J.ref.nt (V and J reference sequences),
+#' * V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
+#'   trimmed parts that are from CDR3),
+#' * CDR3.germline.length (length of CDR3 in the germline),
+#' * Germline.sequence (combined germline sequence)
 #'
 #' @examples
 #'
@@ -126,11 +130,12 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
     envir = environment()
   )
 
-  data[["Germline.sequence"]] <- parApply(cluster, data, 1, function(row) {
+  # rowwise parallel calculation of new columns that are added to data
+  data <- parApply(cluster, data, 1, function(row) {
     generate_germline_sequence(
       seq = row[["Sequence"]],
-      v_ref = row[["V.sequence"]],
-      j_ref = row[["J.sequence"]],
+      v_ref = row[["V.ref.nt"]],
+      j_ref = row[["J.ref.nt"]],
       v_end = str_length(row[["CDR1.nt"]]) + str_length(row[["CDR2.nt"]])
         + str_length(row[["FR1.nt"]]) + str_length(row[["FR2.nt"]])
         + str_length(row[["FR3.nt"]]),
@@ -142,7 +147,9 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
       align_j_gene = align_j_gene,
       sample_name = sample_name
     )
-  })
+  }) %>%
+    map_dfr(~.) %>%
+    cbind(data, .)
 
   stopCluster(cluster)
   return(data)
@@ -167,9 +174,9 @@ generate_germline_sequence <- function(seq,
       "contain unexpected NA or empty strings! Found values:\n",
       "Sequence = \"",
       seq,
-      "\",\nV.sequence = \"",
+      "\",\nV.ref.nt = \"",
       v_ref,
-      "\",\nJ.sequence = \"",
+      "\",\nJ.ref.nt = \"",
       j_ref,
       "\",\nCalculated_V_end = ",
       v_end,
@@ -207,12 +214,19 @@ generate_germline_sequence <- function(seq,
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()
-    return(germline)
+
+    # return values for new calculated columns
+    return(list(
+      V.germline.nt = v_part,
+      J.germline.nt = j_part,
+      CDR3.germline.length = cdr3_length,
+      Germline.sequence = germline
+    ))
   }
 }
 
 merge_reference_sequences <- function(data, reference, chain_letter, species, sample_name) {
-  chain_seq_colname <- paste0(chain_letter, ".sequence")
+  chain_seq_colname <- paste0(chain_letter, ".ref.nt")
   chain_allele_colname <- paste0(chain_letter, ".first.allele")
   colnames(reference) <- c(chain_seq_colname, chain_allele_colname)
 
