@@ -37,6 +37,9 @@
 #' The dataframe has these columns:
 #' * Cluster: cluster name
 #' * Germline.Input: germline sequence, like it was in the input; not trimmed and not aligned
+#' * V.germline.nt: input germline V gene sequence
+#' * J.germline.nt: input germline J gene sequence
+#' * CDR3.germline.length: length of CDR3 in input germline
 #' * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
 #'   it contains difference of germline from the common ancestor; "." characters mean
 #'   matching letters. It's usually shorter than Germline.Input, because germline and
@@ -47,7 +50,7 @@
 #' * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
 #' * Sequences: nested dataframe containing all sequences for this combination of cluster
 #'   and germline; it contains regions from original sequences, saved for
-#'   repSomaticHypermutation() calculation
+#'   repSomaticHypermutation() calculation, and also data needed for visualizations
 #'
 #' @examples
 #'
@@ -79,7 +82,11 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
 }
 
 process_dataframe <- function(df, .threads, sample_name = NA) {
-  for (column in c("Cluster", "Germline", "Alignment", "Sequences")) {
+  required_columns <- c(
+    "Cluster", "Germline", "V.germline.nt", "J.germline.nt", "CDR3.germline.length",
+    "Alignment", "Sequences"
+  )
+  for (column in required_columns) {
     if (!(column %in% colnames(df))) {
       stop(
         "Unrecognized input dataframe format for repClonalFamily: missing \"",
@@ -103,7 +110,7 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
     )
   }
 
-  df <- df[c("Cluster", "Germline", "Alignment", "Sequences")]
+  df <- df[required_columns]
   clusters_list <- split(df, seq(nrow(df)))
 
   results <- parallel::mclapply(
@@ -117,8 +124,6 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
 }
 
 process_cluster <- function(cluster_row) {
-  cluster_name <- cluster_row[["Cluster"]]
-  cluster_germline <- cluster_row[["Germline"]]
   # alignment and sequences should be extracted from 1-element lists because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
   sequences <- cluster_row[["Sequences"]][[1]]
@@ -138,13 +143,13 @@ process_cluster <- function(cluster_row) {
   outfile_path <- file.path(temp_dir, "outfile")
   outfile_lines <- scan(outfile_path, what = "", sep = "\n", quiet = TRUE)
   common_ancestor <- outfile_lines[grepl("         1   ", outfile_lines)]
-  germline <- outfile_lines[grepl("1   germline", outfile_lines)]
+  germline <- outfile_lines[grepl("1   Germline", outfile_lines)]
 
   common_ancestor %<>%
     stringr::str_match(" +1 +(.+) *") %>%
     join_to_string()
   germline %<>%
-    stringr::str_match(" +1 +germline\\s+[a-z]* *(.+) *") %>%
+    stringr::str_match(" +1 +Germline\\s+[a-z]* *(.+) *") %>%
     join_to_string()
   trunk_length <- nchar(germline) - stringr::str_count(germline, stringr::fixed("."))
 
@@ -152,8 +157,11 @@ process_cluster <- function(cluster_row) {
 
   # return row of output dataframe as named list
   return(list(
-    Cluster = cluster_name,
-    Germline.Input = cluster_germline,
+    Cluster = cluster_row[["Cluster"]],
+    Germline.Input = cluster_row[["Germline"]],
+    V.germline.nt = cluster_row[["V.germline.nt"]],
+    J.germline.nt = cluster_row[["J.germline.nt"]],
+    CDR3.germline.length = cluster_row[["CDR3.germline.length"]],
     Germline.Output = germline,
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
@@ -179,5 +187,7 @@ convert_nested_to_df <- function(nested_results_list) {
     lapply(rlist::list.remove, c("Tree", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
     cbind(tree, sequences)
+  df[["CDR3.germline.length"]] %<>% as.integer()
+  df[["Trunk.Length"]] %<>% as.integer()
   return(df)
 }

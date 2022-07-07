@@ -42,6 +42,9 @@ Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
+* V.germline.nt: germline V gene sequence
+* J.germline.nt: germline J gene sequence
+* CDR3.germline.length: length of CDR3 in germline
 * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
   (.min_lineage_sequences is below the threshold); TRUE if it was aligned
 * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
@@ -51,7 +54,7 @@ The dataframe has these columns:
   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
 * Sequences: nested dataframe containing all sequences for this combination
   of cluster and germline; it has columns
-  Sequence, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
+  Sequence, Clone.ID, Clones, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
   and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
   all values taken from the input dataframe
 }
