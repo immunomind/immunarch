@@ -139,16 +139,17 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
       v_end = str_length(row[["CDR1.nt"]]) + str_length(row[["CDR2.nt"]])
         + str_length(row[["FR1.nt"]]) + str_length(row[["FR2.nt"]])
         + str_length(row[["FR3.nt"]]),
-      cdr3_start = row[["CDR3.start"]],
-      cdr3_end = row[["CDR3.end"]],
-      j_start = row[["J.start"]],
-      j3_del = row[["J3.Deletions"]],
+      cdr3_start = as.integer(row[["CDR3.start"]]),
+      cdr3_end = as.integer(row[["CDR3.end"]]),
+      j_start = as.integer(row[["J.start"]]),
+      j3_del = as.integer(row[["J3.Deletions"]]),
       fr4_seq = row[["FR4.nt"]],
       align_j_gene = align_j_gene,
       sample_name = sample_name
     )
   }) %>%
     map_dfr(~.) %>%
+    germline_handle_warnings() %>%
     cbind(data, .)
 
   stopCluster(cluster)
@@ -168,7 +169,8 @@ generate_germline_sequence <- function(seq,
                                        sample_name) {
   if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del, fr4_seq))) ||
     (seq == "")) {
-    warning(
+    # warnings cannot be displayed from parApply; save them and display after finish
+    warn <- paste0(
       "Some of mandatory fields in a row ",
       optional_sample("from sample ", sample_name, " "),
       "contain unexpected NA or empty strings! Found values:\n",
@@ -192,11 +194,14 @@ generate_germline_sequence <- function(seq,
       fr4_seq,
       "\".\nThe row will be dropped!"
     )
-    return(NA)
+    return(list(
+      V.germline.nt = NA,
+      J.germline.nt = NA,
+      CDR3.germline.length = NA,
+      Germline.sequence = NA,
+      Warning = warn
+    ))
   } else {
-    cdr3_start %<>% as.numeric()
-    cdr3_end %<>% as.numeric()
-    j3_del %<>% as.numeric()
     cdr3_length <- cdr3_end - cdr3_start
 
     # trim intersection of V and CDR3 from reference V gene
@@ -220,7 +225,8 @@ generate_germline_sequence <- function(seq,
       V.germline.nt = v_part,
       J.germline.nt = j_part,
       CDR3.germline.length = cdr3_length,
-      Germline.sequence = germline
+      Germline.sequence = germline,
+      Warning = NA
     ))
   }
 }
@@ -390,4 +396,14 @@ align_and_find_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
   } else {
     return(num_deletions + 1)
   }
+}
+
+germline_handle_warnings <- function(df) {
+  warnings <- df$Warning
+  warnings <- warnings[!is.na(warnings)]
+  for (warn in warnings) {
+    warning(warn)
+  }
+  df$Warning <- NULL
+  return(df)
 }

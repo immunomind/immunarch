@@ -191,11 +191,13 @@
       }
     }
 
-    for (col_i in seq_along(IMMCOL$order)) {
-      colname <- IMMCOL$order[col_i]
-      if (colname %in% colnames(.data)) {
-        if (!has_class(.data[[colname]], IMMCOL$type[col_i])) {
-          .data[[colname]] <- as(.data[[colname]], IMMCOL$type[col_i])
+    for (immcol in c(IMMCOL, IMMCOL_EXT)) {
+      for (col_i in seq_along(immcol$order)) {
+        colname <- immcol$order[col_i]
+        if (colname %in% colnames(.data)) {
+          if (!has_class(.data[[colname]], immcol$type[col_i])) {
+            .data[[colname]] <- as(.data[[colname]], immcol$type[col_i])
+          }
         }
       }
     }
