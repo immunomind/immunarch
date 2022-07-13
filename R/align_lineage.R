@@ -204,11 +204,13 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
     lineage_subset[["J.lengths"]],
     j_min_len
   )
-  alignment <- convert_to_dnabin(
-    germline_trimmed,
-    clonotypes_trimmed,
-    lineage_subset[["Clone.ID"]]
-  )
+
+  clonotypes_names <- sapply(lineage_subset[["Clone.ID"]], function(id) {
+    paste0("ID ", id)
+  })
+  all_sequences_list <- c(list(germline_trimmed), as.list(clonotypes_trimmed))
+  names(all_sequences_list) <- c("Germline", clonotypes_names)
+  alignment <- convert_seq_list_to_dnabin(all_sequences_list)
 
   if (.verbose_output) {
     return(list(
@@ -234,24 +236,6 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
       Sequences = sequences
     ))
   }
-}
-
-convert_to_dnabin <- function(germline_seq, clonotypes, ids) {
-  clonotypes_names <- sapply(ids, function(id) {
-    paste0("ID ", id)
-  })
-  all_sequences_list <- c(list(germline_seq), as.list(clonotypes))
-  names(all_sequences_list) <- c("Germline", clonotypes_names)
-  dnabin <- all_sequences_list %>%
-    lapply(
-      function(sequence) {
-        sequence %>%
-          stringr::str_extract_all(stringr::boundary("character")) %>%
-          unlist()
-      }
-    ) %>%
-    ape::as.DNAbin()
-  return(dnabin)
 }
 
 # trim V/J tails in sequence to the specified lenghts v_min, j_min

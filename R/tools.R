@@ -621,6 +621,19 @@ j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
   stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
 }
 
+convert_seq_list_to_dnabin <- function(seq_list) {
+  dnabin <- seq_list %>%
+    lapply(
+      function(sequence) {
+        sequence %>%
+          stringr::str_extract_all(stringr::boundary("character")) %>%
+          unlist()
+      }
+    ) %>%
+    ape::as.DNAbin()
+  return(dnabin)
+}
+
 quiet <- function(procedure) {
   procedure %>%
     capture.output() %>%

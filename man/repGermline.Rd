@@ -54,6 +54,7 @@ Creates germlines for clonal lineages
 data(bcrdata)
 
 bcrdata$data \%>\%
-  repGermline(.threads = 2)
+  top(5) \%>\%
+  repGermline(.threads = 1)
 }
 \concept{germline}

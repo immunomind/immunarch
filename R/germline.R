@@ -62,7 +62,8 @@
 #' data(bcrdata)
 #'
 #' bcrdata$data %>%
-#'   repGermline(.threads = 2)
+#'   top(5) %>%
+#'   repGermline(.threads = 1)
 #' @export repGermline
 repGermline <- function(.data,
                         .species = "HomoSapiens",
