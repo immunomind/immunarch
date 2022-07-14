@@ -109,7 +109,7 @@ shm_process_clonotype_row <- function(row) {
   insertions <- 0
   deletions <- 0
   for (gene in c("V", "J")) {
-    names(alignments[[gene]]) <- c("Germline", paste0("ID ", row[["Clone.ID"]]))
+    names(alignments[[gene]]) <- c("Germline", paste0("ID_", row[["Clone.ID"]]))
     dnabin <- convert_seq_list_to_dnabin(alignments[[gene]])
 
     # align gene from germline and gene from clonotype

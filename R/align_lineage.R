@@ -206,7 +206,7 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
   )
 
   clonotypes_names <- sapply(lineage_subset[["Clone.ID"]], function(id) {
-    paste0("ID ", id)
+    paste0("ID_", id)
   })
   all_sequences_list <- c(list(germline_trimmed), as.list(clonotypes_trimmed))
   names(all_sequences_list) <- c("Germline", clonotypes_names)

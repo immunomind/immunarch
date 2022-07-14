@@ -127,6 +127,7 @@ process_cluster <- function(cluster_row) {
   # alignment and sequences should be extracted from 1-element lists because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
   sequences <- cluster_row[["Sequences"]][[1]]
+  cdr3_germline_length <- cluster_row[["CDR3.germline.length"]]
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
@@ -146,12 +147,12 @@ process_cluster <- function(cluster_row) {
   germline <- outfile_lines[grepl("1   Germline", outfile_lines)]
 
   common_ancestor %<>%
-    stringr::str_match(" +1 +(.+) *") %>%
+    str_match(" +1 +(.+) *") %>%
     join_to_string()
   germline %<>%
-    stringr::str_match(" +1 +Germline\\s+[a-z]* *(.+) *") %>%
+    str_match(" +1 +Germline\\s+[a-z]* *(.+) *") %>%
     join_to_string()
-  trunk_length <- nchar(germline) - stringr::str_count(germline, stringr::fixed("."))
+  trunk_length <- nchar(germline) - cdr3_germline_length - str_count(germline, fixed("."))
 
   unlink(temp_dir, recursive = TRUE)
 
@@ -161,7 +162,7 @@ process_cluster <- function(cluster_row) {
     Germline.Input = cluster_row[["Germline"]],
     V.germline.nt = cluster_row[["V.germline.nt"]],
     J.germline.nt = cluster_row[["J.germline.nt"]],
-    CDR3.germline.length = cluster_row[["CDR3.germline.length"]],
+    CDR3.germline.length = cdr3_germline_length,
     Germline.Output = germline,
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
