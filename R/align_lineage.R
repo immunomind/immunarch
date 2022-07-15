@@ -15,7 +15,7 @@
 #' @importFrom rlist list.remove
 #' @importFrom utils str
 #' @importFrom ape as.DNAbin clustal
-#' @importFrom doParallel registerDoParallel
+#' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom parallel mclapply
 
 #' @description Aligns all sequences incliding germline within each clonal lineage within each cluster
@@ -56,6 +56,9 @@
 #' The dataframe has these columns:
 #' * Cluster: cluster name
 #' * Germline: germline sequence
+#' * V.germline.nt: germline V gene sequence
+#' * J.germline.nt: germline J gene sequence
+#' * CDR3.germline.length: length of CDR3 in germline
 #' * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
 #'   (.min_lineage_sequences is below the threshold); TRUE if it was aligned
 #' * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
@@ -65,7 +68,7 @@
 #'   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
 #' * Sequences: nested dataframe containing all sequences for this combination
 #'   of cluster and germline; it has columns
-#'   Sequence, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
+#'   Sequence, Clone.ID, Clones, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
 #'   and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
 #'   all values taken from the input dataframe
 #'
@@ -98,14 +101,22 @@ repAlignLineage <- function(.data,
     apply_to_sample_or_list(
       align_single_df,
       .min_lineage_sequences = .min_lineage_sequences,
+      .parallel_prepare = .prepare_threads > 1,
       .align_threads = .align_threads,
       .verbose_output = .verbose_output
     )
+  doParallel::stopImplicitCluster()
   return(.data)
 }
 
-align_single_df <- function(data, .min_lineage_sequences, .align_threads, .verbose_output) {
-  for (required_column in c("Cluster", "Germline.sequence")) {
+align_single_df <- function(data,
+                            .min_lineage_sequences,
+                            .parallel_prepare,
+                            .align_threads,
+                            .verbose_output) {
+  for (required_column in c(
+    "Cluster", "Germline.sequence", "V.germline.nt", "J.germline.nt", "CDR3.germline.length"
+  )) {
     if (!(required_column %in% colnames(data))) {
       stop(
         "Found dataframe without required column ",
@@ -122,7 +133,7 @@ align_single_df <- function(data, .min_lineage_sequences, .align_threads, .verbo
       .fun = prepare_results_row,
       .min_lineage_sequences = .min_lineage_sequences,
       .verbose_output = .verbose_output,
-      .parallel = TRUE
+      .parallel = .parallel_prepare
     ) %>%
     `[`(!is.na(.)) %>%
     unname()
@@ -152,6 +163,9 @@ align_single_df <- function(data, .min_lineage_sequences, .align_threads, .verbo
 prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose_output) {
   cluster_name <- lineage_subset[[1, "Cluster"]]
   germline_seq <- lineage_subset[[1, "Germline.sequence"]]
+  germline_v <- lineage_subset[[1, "V.germline.nt"]]
+  germline_j <- lineage_subset[[1, "J.germline.nt"]]
+  germline_cdr3_len <- lineage_subset[[1, "CDR3.germline.length"]]
   aligned <- nrow(lineage_subset) >= .min_lineage_sequences
 
   if (!aligned & !.verbose_output) {
@@ -166,12 +180,15 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
   )
 
   sequences_columns <- c(
-    "Sequence", "CDR1.nt", "CDR2.nt", "CDR3.nt", "FR1.nt", "FR2.nt", "FR3.nt", "FR4.nt"
+    "Sequence", "Clone.ID", "Clones",
+    "CDR1.nt", "CDR2.nt", "CDR3.nt", "FR1.nt", "FR2.nt", "FR3.nt", "FR4.nt"
   )
   if (.verbose_output) {
     sequences_columns %<>% c("V.end", "J.start", "CDR3.start", "CDR3.end")
   }
   sequences <- lineage_subset[sequences_columns]
+  sequences[["Clone.ID"]] %<>% as.integer()
+  sequences[["Clones"]] %<>% as.integer()
 
   germline_parts <- strsplit(germline_seq, "N")[[1]]
   germline_v_len <- stringr::str_length(germline_parts[1])
@@ -187,12 +204,21 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
     lineage_subset[["J.lengths"]],
     j_min_len
   )
-  alignment <- convert_to_dnabin(germline_trimmed, clonotypes_trimmed)
+
+  clonotypes_names <- sapply(lineage_subset[["Clone.ID"]], function(id) {
+    paste0("ID ", id)
+  })
+  all_sequences_list <- c(list(germline_trimmed), as.list(clonotypes_trimmed))
+  names(all_sequences_list) <- c("Germline", clonotypes_names)
+  alignment <- convert_seq_list_to_dnabin(all_sequences_list)
 
   if (.verbose_output) {
     return(list(
       Cluster = cluster_name,
       Germline = germline_seq,
+      V.germline.nt = germline_v,
+      J.germline.nt = germline_j,
+      CDR3.germline.length = germline_cdr3_len,
       Aligned = aligned,
       Alignment = alignment,
       V.length = v_min_len,
@@ -203,24 +229,13 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
     return(list(
       Cluster = cluster_name,
       Germline = germline_seq,
+      V.germline.nt = germline_v,
+      J.germline.nt = germline_j,
+      CDR3.germline.length = germline_cdr3_len,
       Alignment = alignment,
       Sequences = sequences
     ))
   }
-}
-
-convert_to_dnabin <- function(germline_seq, clonotypes) {
-  all_sequences_list <- c(list(germline = germline_seq), as.list(clonotypes))
-  dnabin <- all_sequences_list %>%
-    lapply(
-      function(sequence) {
-        sequence %>%
-          stringr::str_extract_all(stringr::boundary("character")) %>%
-          unlist()
-      }
-    ) %>%
-    ape::as.DNAbin()
-  return(dnabin)
 }
 
 # trim V/J tails in sequence to the specified lenghts v_min, j_min
@@ -239,6 +254,7 @@ convert_results_to_df <- function(nested_results_list, nested_alignments_list) {
     lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
     cbind(alignments, sequences)
+  df[["CDR3.germline.length"]] %<>% as.integer()
   return(df)
 }
 

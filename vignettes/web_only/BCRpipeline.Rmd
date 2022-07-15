@@ -129,19 +129,6 @@ Available species: "HomoSapiens" (default), "MusMusculus", "BosTaurus", "Camelus
 
 `.align_j_gene` - if the germline sequence does not assemble correctly in the region of the J gene, then set this parameter to True. This will slow down the algorithm, but the assembly of the germline sequence will be more accurate.
 
-`.ref_only_first`
-
-- if `TRUE`, only the first sequence from reference for each allele name will be used in the analysis;
-- if `FALSE`, all allele variants will be analyzed, and the output table will increase in size as a result.
-
-If  `.ref_only_first = FALSE`, you will get several different germlines:
-
-```{r example 5}
-bcrdata$data %>%
-    top(1) %>%
-    repGermline(.ref_only_first = FALSE, .threads = 1) %>% .$full_clones %>% .$Germline.sequence
-```
-
 # Aligning sequences within a clonal lineage
 
 After building clonal lineage and germline, we can start analyzing the degree of mutation and maturity of each clonal lineage. This allows us to find cells with a large number of mutated clones. The phylogenetic analysis will find mutations that influence the affinity of BCRs. Aligning the sequence is the first step toward sequence phylogenetic analysis.

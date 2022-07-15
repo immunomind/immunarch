@@ -401,6 +401,7 @@ parse_mitcr <- function(.filename, .mode) {
 
 parse_mixcr <- function(.filename, .mode) {
   .filename <- .filename
+  .id <- "cloneid"
   .count <- "clonecount"
   .sep <- "\t"
   .vd.insertions <- "VD.insertions"
@@ -707,7 +708,8 @@ parse_mixcr <- function(.filename, .mode) {
     nuc_headers[[".nuc.seq.fr2"]], aa_headers[[".aa.seq.fr2"]],
     nuc_headers[[".nuc.seq.fr3"]], aa_headers[[".aa.seq.fr3"]],
     nuc_headers[[".nuc.seq.fr4"]], aa_headers[[".aa.seq.fr4"]],
-    pos_extra_headers[["v3del"]], pos_extra_headers[["j3del"]]
+    pos_extra_headers[["v3del"]], pos_extra_headers[["j3del"]],
+    .id
   )
   df_ext_column_names <- IMMCOL_EXT$order
 

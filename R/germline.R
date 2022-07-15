@@ -10,7 +10,7 @@
 #' @aliases repGermline
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed str_extract_all str_extract boundary str_c
-#' @importFrom purrr imap
+#' @importFrom purrr imap map_dfr
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom dplyr filter rowwise
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
@@ -21,7 +21,7 @@
 #' @usage
 #'
 #' repGermline(.data,
-#' .species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
+#' .species, .align_j_gene, .min_nuc_outside_cdr3, .threads)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -45,30 +45,30 @@
 #' @param .min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
 #' outside of CDR3 to be considered good for further alignment.
 #'
-#' @param .ref_only_first This parameter, if TRUE, means to take only first sequence from reference
-#' for each allele name; if FALSE, all sequences will be taken, and the output table will
-#' increase in size as a result.
-#'
 #' @param .threads Number of threads to use.
 #'
 #' @return
 #'
-#' Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
-#' V.sequence, J.sequence (with V and J reference sequences),
-#' Germline.sequence (with combined germline sequence)
+#' Data with added columns:
+#' * V.first.allele, J.first.allele (first alleles of V and J genes),
+#' * V.ref.nt, J.ref.nt (V and J reference sequences),
+#' * V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
+#'   trimmed parts that are from CDR3),
+#' * CDR3.germline.length (length of CDR3 in the germline),
+#' * Germline.sequence (combined germline sequence)
 #'
 #' @examples
 #'
 #' data(bcrdata)
 #'
 #' bcrdata$data %>%
-#'   repGermline(.threads = 2)
+#'   top(5) %>%
+#'   repGermline(.threads = 1)
 #' @export repGermline
 repGermline <- function(.data,
                         .species = "HomoSapiens",
                         .align_j_gene = FALSE,
                         .min_nuc_outside_cdr3 = 5,
-                        .ref_only_first = TRUE,
                         .threads = parallel::detectCores()) {
   if (.align_j_gene) {
     require_system_package("clustalw", error_message = paste0(
@@ -84,9 +84,6 @@ repGermline <- function(.data,
   reference <- genesegments_env$GENE_SEGMENTS %>% filter(species == .species)
   rm(genesegments_env)
   reference <- reference[c("sequence", "allele_id")]
-  if (.ref_only_first) {
-    reference <- reference[!duplicated(reference$allele_id), ]
-  }
 
   .data %<>%
     apply_to_sample_or_list(
@@ -134,23 +131,27 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
     envir = environment()
   )
 
-  data[["Germline.sequence"]] <- parApply(cluster, data, 1, function(row) {
+  # rowwise parallel calculation of new columns that are added to data
+  data <- parApply(cluster, data, 1, function(row) {
     generate_germline_sequence(
       seq = row[["Sequence"]],
-      v_ref = row[["V.sequence"]],
-      j_ref = row[["J.sequence"]],
+      v_ref = row[["V.ref.nt"]],
+      j_ref = row[["J.ref.nt"]],
       v_end = str_length(row[["CDR1.nt"]]) + str_length(row[["CDR2.nt"]])
         + str_length(row[["FR1.nt"]]) + str_length(row[["FR2.nt"]])
         + str_length(row[["FR3.nt"]]),
-      cdr3_start = row[["CDR3.start"]],
-      cdr3_end = row[["CDR3.end"]],
-      j_start = row[["J.start"]],
-      j3_del = row[["J3.Deletions"]],
+      cdr3_start = as.integer(row[["CDR3.start"]]),
+      cdr3_end = as.integer(row[["CDR3.end"]]),
+      j_start = as.integer(row[["J.start"]]),
+      j3_del = as.integer(row[["J3.Deletions"]]),
       fr4_seq = row[["FR4.nt"]],
       align_j_gene = align_j_gene,
       sample_name = sample_name
     )
-  })
+  }) %>%
+    map_dfr(~.) %>%
+    germline_handle_warnings() %>%
+    cbind(data, .)
 
   stopCluster(cluster)
   return(data)
@@ -169,15 +170,16 @@ generate_germline_sequence <- function(seq,
                                        sample_name) {
   if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del, fr4_seq))) ||
     (seq == "")) {
-    warning(
+    # warnings cannot be displayed from parApply; save them and display after finish
+    warn <- paste0(
       "Some of mandatory fields in a row ",
       optional_sample("from sample ", sample_name, " "),
       "contain unexpected NA or empty strings! Found values:\n",
       "Sequence = \"",
       seq,
-      "\",\nV.sequence = \"",
+      "\",\nV.ref.nt = \"",
       v_ref,
-      "\",\nJ.sequence = \"",
+      "\",\nJ.ref.nt = \"",
       j_ref,
       "\",\nCalculated_V_end = ",
       v_end,
@@ -193,11 +195,14 @@ generate_germline_sequence <- function(seq,
       fr4_seq,
       "\".\nThe row will be dropped!"
     )
-    return(NA)
+    return(list(
+      V.germline.nt = NA,
+      J.germline.nt = NA,
+      CDR3.germline.length = NA,
+      Germline.sequence = NA,
+      Warning = warn
+    ))
   } else {
-    cdr3_start %<>% as.numeric()
-    cdr3_end %<>% as.numeric()
-    j3_del %<>% as.numeric()
     cdr3_length <- cdr3_end - cdr3_start
 
     # trim intersection of V and CDR3 from reference V gene
@@ -215,12 +220,20 @@ generate_germline_sequence <- function(seq,
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()
-    return(germline)
+
+    # return values for new calculated columns
+    return(list(
+      V.germline.nt = v_part,
+      J.germline.nt = j_part,
+      CDR3.germline.length = cdr3_length,
+      Germline.sequence = germline,
+      Warning = NA
+    ))
   }
 }
 
 merge_reference_sequences <- function(data, reference, chain_letter, species, sample_name) {
-  chain_seq_colname <- paste0(chain_letter, ".sequence")
+  chain_seq_colname <- paste0(chain_letter, ".ref.nt")
   chain_allele_colname <- paste0(chain_letter, ".first.allele")
   colnames(reference) <- c(chain_seq_colname, chain_allele_colname)
 
@@ -384,4 +397,14 @@ align_and_find_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
   } else {
     return(num_deletions + 1)
   }
+}
+
+germline_handle_warnings <- function(df) {
+  warnings <- df$Warning
+  warnings <- warnings[!is.na(warnings)]
+  for (warn in warnings) {
+    warning(warn)
+  }
+  df$Warning <- NULL
+  return(df)
 }

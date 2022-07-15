@@ -14,7 +14,7 @@ Authors@R: c(
     person("Victor", "Greiff", , role = "ctb"),
     person("ImmunoMind", role = c("cph", "fnd"))
     )
-Contact us: support@immunomind.io
+Contact: support@immunomind.io
 Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
     T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)

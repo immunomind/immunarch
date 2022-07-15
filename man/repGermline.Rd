@@ -10,7 +10,7 @@ after VDJ recombination, before B-cell maturation and hypermutation process. Ger
 for assessing the degree of mutation and maturity of the repertoire.}
 \usage{
 repGermline(.data,
-.species, .align_j_gene, .min_nuc_outside_cdr3, .ref_only_first, .threads)
+.species, .align_j_gene, .min_nuc_outside_cdr3, .threads)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -35,16 +35,16 @@ to detect the correct starting point, but it significantly reduces performance.}
 \item{.min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
 outside of CDR3 to be considered good for further alignment.}
 
-\item{.ref_only_first}{This parameter, if TRUE, means to take only first sequence from reference
-for each allele name; if FALSE, all sequences will be taken, and the output table will
-increase in size as a result.}
-
 \item{.threads}{Number of threads to use.}
 }
 \value{
-Data with added columns V.first.allele, J.first.allele (with first alleles of V and J genes),
-V.sequence, J.sequence (with V and J reference sequences),
-Germline.sequence (with combined germline sequence)
+Data with added columns:
+* V.first.allele, J.first.allele (first alleles of V and J genes),
+* V.ref.nt, J.ref.nt (V and J reference sequences),
+* V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
+  trimmed parts that are from CDR3),
+* CDR3.germline.length (length of CDR3 in the germline),
+* Germline.sequence (combined germline sequence)
 }
 \description{
 Creates germlines for clonal lineages
@@ -54,6 +54,7 @@ Creates germlines for clonal lineages
 data(bcrdata)
 
 bcrdata$data \%>\%
-  repGermline(.threads = 2)
+  top(5) \%>\%
+  repGermline(.threads = 1)
 }
 \concept{germline}

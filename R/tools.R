@@ -482,8 +482,15 @@ as_numeric_or_fail <- function(.string) {
   return(result)
 }
 
+has_no_data <- function(.data) {
+  any(sapply(list(NA, NULL, NaN), identical, .data))
+}
+
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
 apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .validate = TRUE, ...) {
+  if (has_no_data(.data)) {
+    stop("Expected non-empty data; found: ", .data)
+  }
   if (inherits(.data, "list")) {
     if (.validate) {
       .validate_repertoires_data(.data)
@@ -612,6 +619,19 @@ v_len_outside_cdr3 <- function(v_end, cdr3_start) {
 # calculate J gene part length outside of CDR3; works with vectors acquired from dataframe columns
 j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
   stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
+}
+
+convert_seq_list_to_dnabin <- function(seq_list) {
+  dnabin <- seq_list %>%
+    lapply(
+      function(sequence) {
+        sequence %>%
+          stringr::str_extract_all(stringr::boundary("character")) %>%
+          unlist()
+      }
+    ) %>%
+    ape::as.DNAbin()
+  return(dnabin)
 }
 
 quiet <- function(procedure) {
