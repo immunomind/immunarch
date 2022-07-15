@@ -8,7 +8,7 @@
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
-#' @importFrom stringr str_match str_count fixed
+#' @importFrom stringr str_match str_count fixed str_extract_all
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
@@ -48,6 +48,7 @@
 #' * Trunk.Length: mean trunk length, representing the distance between the most recent
 #'   common ancestor and germline sequence as a measure of the maturity of a lineage
 #' * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
+#' * TreeStats: nested dataframe containing data about tree nodes, needed for visualization
 #' * Sequences: nested dataframe containing all sequences for this combination of cluster
 #'   and germline; it contains regions from original sequences, saved for
 #'   repSomaticHypermutation() calculation, and also data needed for visualizations
@@ -131,7 +132,8 @@ process_cluster <- function(cluster_row) {
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
-  # bugfix for phylip: it shows "Unexpected end-of-file" for too short sequence labels
+  # workaround for phylip: it shows "Unexpected end-of-file" for too short sequence labels;
+  # these \t are also used to read outfile as table
   rownames(alignment) %<>% paste0("\t")
   phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
   system(
@@ -141,17 +143,67 @@ process_cluster <- function(cluster_row) {
     quiet()
 
   tree <- ape::read.tree(file.path(temp_dir, "outtree"))
-  outfile_path <- file.path(temp_dir, "outfile")
-  outfile_lines <- scan(outfile_path, what = "", sep = "\n", quiet = TRUE)
-  common_ancestor <- outfile_lines[grepl("         1   ", outfile_lines)]
-  germline <- outfile_lines[grepl("1   Germline", outfile_lines)]
 
-  common_ancestor %<>%
-    str_match(" +1 +(.+) *") %>%
-    join_to_string()
-  germline %<>%
-    str_match(" +1 +Germline\\s+[a-z]* *(.+) *") %>%
-    join_to_string()
+  outfile_path <- file.path(temp_dir, "outfile")
+  outfile_table <- read.table(outfile_path,
+    sep = "\t", header = FALSE, na.strings = "", stringsAsFactors = FALSE,
+    fill = TRUE, blank.lines.skip = TRUE
+  )
+  outfile_rows <- split(outfile_table, seq(nrow(outfile_table)))
+  rm(outfile_table)
+  header_line_1_idx <- which(grepl("From    To", outfile_rows, fixed = TRUE))[1]
+  # remove start of file, keep only lines with sequences
+  outfile_rows <- outfile_rows[-seq(1, header_line_1_idx + 1)]
+
+  # iterate over rows, assemble sequences, fill table values
+  tree_stats <- data.frame(matrix(
+    ncol = 5, nrow = 0,
+    dimnames = list(NULL, c("Name", "Type", "Clones", "Ancestor", "Sequence"))
+  ))
+  for (row in outfile_rows) {
+    clones <- 1 # for all sequences except clonotypes
+    col1_strings <- str_extract_all(row[[1]], "[[^\\s]]+")[[1]]
+    if (is.na(row[[2]])) {
+      ancestor <- NA
+      seq_name <- col1_strings[1]
+      if (seq_name == "Germline") {
+        seq_type <- "Germline"
+      } else {
+        seq_type <- "CommonAncestor"
+      }
+      seq <- paste(col1_strings[-1], collapse = "")
+    } else {
+      col2_strings <- str_extract_all(row[[2]], "[[^\\s]]+")[[1]]
+      ancestor <- col1_strings[1]
+      seq_name <- col1_strings[2]
+      seq <- paste(col2_strings[-1], collapse = "")
+      if (seq_name == "Germline") {
+        seq_type <- "Germline"
+      } else if (startsWith(seq_name, "ID_")) {
+        seq_type <- "Clonotype"
+        # find clones value by sequence ID
+        clones <- sequences[
+          which(sequences["Clone.ID"] == as.integer(substring(seq_name, 4))),
+        ][["Clones"]]
+      } else if (ancestor == "Germline") {
+        seq_type <- "CommonAncestor"
+      } else {
+        seq_type <- "Presumable"
+      }
+    }
+
+    # add sequence to table if it's new, otherwise append nucleotides to the end
+    existing_row <- tree_stats[which(seq_stats["Name"] == seq_name)]
+    if (nrow(existing_row == 0)) {
+      tree_stats[nrow(seq_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, seq)
+    } else {
+      existing_row[["Sequence"]] %<>% paste0(seq)
+    }
+  }
+
+  common_ancestor <- tree_stats[which(seq_stats["Type"] == "CommonAncestor")][1][["Sequence"]]
+  germline <- tree_stats[which(seq_stats["Type"] == "Germline")][1][["Sequence"]]
+
   trunk_length <- nchar(germline) - cdr3_germline_length - str_count(germline, fixed("."))
 
   unlink(temp_dir, recursive = TRUE)
@@ -167,27 +219,25 @@ process_cluster <- function(cluster_row) {
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
     Tree = tree,
-    Sequences = sequences
+    TreeStats = tree_stats,
+    Sequences = sequences,
   ))
-}
-
-join_to_string <- function(matching_results) {
-  matching_results[, 2] %>%
-    paste(collapse = "") %>%
-    stringi::stri_replace_all_fixed(" ", "")
 }
 
 convert_nested_to_df <- function(nested_results_list) {
   tree <- nested_results_list %>%
     lapply(magrittr::extract2, "Tree") %>%
     tibble(Tree = .)
+  tree_stats <- nested_results_list %>%
+    lapply(magrittr::extract2, "TreeStats") %>%
+    tibble(TreeStats = .)
   sequences <- nested_results_list %>%
     lapply(magrittr::extract2, "Sequences") %>%
     tibble(Sequences = .)
   df <- nested_results_list %>%
-    lapply(rlist::list.remove, c("Tree", "Sequences")) %>%
+    lapply(rlist::list.remove, c("Tree", "TreeStats", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
-    cbind(tree, sequences)
+    cbind(tree, tree_stats, sequences)
   df[["CDR3.germline.length"]] %<>% as.integer()
   df[["Trunk.Length"]] %<>% as.integer()
   return(df)

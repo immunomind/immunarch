@@ -121,8 +121,8 @@ shm_process_clonotype_row <- function(row) {
     clonotype <- alignment[2, ]
     substitutions <- substitutions +
       sum((germline != clonotype) & (germline != "-") & (clonotype != "-"))
-    insertions <- insertions + sum(germline == '-')
-    deletions <- deletions + sum(clonotype == '-')
+    insertions <- insertions + sum(germline == "-")
+    deletions <- deletions + sum(clonotype == "-")
   }
 
   # using list(NA) as workaround for "Assigned data must be compatible with existing data":
