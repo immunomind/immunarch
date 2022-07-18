@@ -193,16 +193,15 @@ process_cluster <- function(cluster_row) {
     }
 
     # add sequence to table if it's new, otherwise append nucleotides to the end
-    existing_row <- tree_stats[which(seq_stats["Name"] == seq_name)]
-    if (nrow(existing_row == 0)) {
-      tree_stats[nrow(seq_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, seq)
+    if (nrow(tree_stats[which(tree_stats["Name"] == seq_name), ]) == 0) {
+      tree_stats[nrow(tree_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, seq)
     } else {
-      existing_row[["Sequence"]] %<>% paste0(seq)
+      tree_stats[which(tree_stats["Name"] == seq_name), ][["Sequence"]] %<>% paste0(seq)
     }
   }
 
-  common_ancestor <- tree_stats[which(seq_stats["Type"] == "CommonAncestor")][1][["Sequence"]]
-  germline <- tree_stats[which(seq_stats["Type"] == "Germline")][1][["Sequence"]]
+  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, ][["Sequence"]]
+  germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, ][["Sequence"]]
 
   trunk_length <- nchar(germline) - cdr3_germline_length - str_count(germline, fixed("."))
 
@@ -220,7 +219,7 @@ process_cluster <- function(cluster_row) {
     Trunk.Length = trunk_length,
     Tree = tree,
     TreeStats = tree_stats,
-    Sequences = sequences,
+    Sequences = sequences
   ))
 }
 
