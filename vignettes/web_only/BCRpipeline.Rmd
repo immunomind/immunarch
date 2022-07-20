@@ -44,9 +44,15 @@ The pipeline involves five steps:
 
     This step involves preparation for phylogenetic and somatic hypermutation analysis.
 
+
 5. **Phylogenetic analysis.**
 
-    This final step provides phylogeny reconstruction and trunk length calculation (by running the PHYLIP package).
+    This step provides phylogeny reconstruction and trunk length calculation (by running the PHYLIP package).
+    
+
+6. **Somatic hypermutation analysis.**
+
+    At this step, clonotype and germline sequences are compared to count the number of mutations.
 
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -233,14 +239,81 @@ bcr$full_clones$Cluster %>% unique()
 We have found mismatches between a germline and an ancestor sequence. Dots represent nucleotides matches between the sequences, letters represent mismatches between the sequences:
 
 ```{r example 12}
+# the example of common ancestor sequence
+bcr$full_clones$Common.Ancestor[1]
+
+# the example of mismatches between a germline and an ancestor sequence
 bcr$full_clones$Germline.Output[1]
 ```
 
 We have calculated a trunk length for each cluster:
 
 ```{r example 13}
-bcr$full_clones$Trunk.Length
+bcr$full_clones[ , c('Cluster', 'Trunk.Length') ]
 ```
+
+# Somatic hypermutation analysis
+
+Somatic hypermutation analysis is extremely useful for BCRs. The somatic hypermutation rate allows us to estimate the maturation of repertoire and figure out what kind of mutation contributes to the emergence of high-affinity antibodies.
+
+In Immunarch, `repSomaticHypermutation()` function is designed for hypermutation analysis:
+
+```{r example 14, , warning = FALSE}
+bcr_data <- bcrdata$data
+
+shm_data <- bcr_data %>%
+  seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
+  repGermline(.threads = 2) %>%
+  repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
+  repClonalFamily(.threads = 2, .nofail = TRUE) %>%
+  repSomaticHypermutation(.threads = 2, .nofail = TRUE)
+```
+The function `repSomaticHypermutation()` takes germline V,  germline J sequences and clonotype V and clonotypes J sequences and alignes germline and clonotype sequences to calculate mutations.
+
+Examples of germline and clonotype sequences:
+
+```{r example 15}
+# the example of germline V sequence
+shm_data$full_clones$V.germline.nt[1]
+
+# the example of germline J sequence
+shm_data$full_clones$J.germline.nt[1]
+
+# the example of clonotype V sequence
+cols <- c('FR1.nt', 'CDR1.nt', 'FR2.nt', 'CDR2.nt', 'FR3.nt')
+apply(shm_data$full_clones[1,][ , cols ] , 1 , paste , collapse = "" )[[1]]
+
+# the example of clonotype J sequence
+shm_data$full_clones$FR4.nt[1]
+```
+The example of alignment between germline and clonotype V sequences:`
+
+```{r example 16}
+image(shm_data$full_clones$Germline.Alignment.V[[1]], grid = TRUE)
+```
+
+The example of alignment between germline and clonotype J sequences:`
+
+```{r example 17}
+image(shm_data$full_clones$Germline.Alignment.J[[1]], grid = TRUE)
+```
+
+The number of mutations for each clonotype sequence:
+
+```{r example 18}
+cols <- c('Clone.ID', 'Substitutions', 'Insertions', 'Deletions', 'Mutations')
+shm_data$full_clones[ , cols ]
+```
+
+Then you could easily estimate mutation rate:
+
+```{r example 19}
+# estimate mutation rate 
+shm_data$full_clones %>% 
+  mutate(Mutation.Rate = Mutations/(nchar(Common.Ancestor)-CDR3.germline.length)) %>% 
+  select(Clone.ID, Mutation.Rate)
+```
+
 # References
 
 1. [https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-015-0243-2](https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-015-0243-2)
