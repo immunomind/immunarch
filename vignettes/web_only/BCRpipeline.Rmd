@@ -310,7 +310,7 @@ Then you could easily estimate mutation rate:
 ```{r example 19}
 # estimate mutation rate 
 shm_data$full_clones %>% 
-  mutate(Mutation.Rate = Mutations/(nchar(Common.Ancestor)-CDR3.germline.length)) %>% 
+  mutate(Mutation.Rate = Mutations / (nchar(Common.Ancestor) - CDR3.germline.length)) %>% 
   select(Clone.ID, Mutation.Rate)
 ```
 
