@@ -157,6 +157,10 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #'
 #' - Diversity estimations (from \link{repDiversity}) - see \link{vis.immunr_chao1}.
 #'
+#' BCR analysis:
+#'
+#' - Clonal tree (from \link{repClonalFamily}) - see \link{vis.clonal_family} and \link{vis.clonal_family_tree}.
+#'
 #' Advanced analysis:
 #'
 #' - Repertoire dynamics (from \link{trackClonotypes}) - see \link{vis.immunr_dynamics};
@@ -2955,13 +2959,82 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
     theme_pubr(legend = "right") + rotate_x_text(90) + theme_cleveland2()
 }
 
+#' Visualise clonal family tree: wrapper for calling on the entire repClonalFamily output
+#'
+#' @concept phylip
+#'
+#' @param .data Clonal families from 1 or multiple samples: \code{\link{repClonalFamily}} output.
+#'
+#' @return
+#' A ggraph object.
+#'
+#' @examples
+#' data(bcrdata)
+#' bcr_data <- bcrdata$data
+#'
+#' clonal_family <- bcr_data %>%
+#'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
+#'   repGermline(.threads = 2) %>%
+#'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
+#'   repClonalFamily(.threads = 2, .nofail = TRUE) %>%
+#'   vis()
+#' @export
+vis.clonal_family <- function(.data, ...) {
+  if (inherits(.data, "clonal_family_df")) {
+    if (nrow(.data) > 1) {
+      warning(
+        "Warning! Data has more than 1 cluster!\n",
+        "Clonal tree will be drawn for the 1st cluster.\n",
+        "To draw a tree for a specific cluster, use:\n",
+        "vis(data[[\"TreeStats\"]][[cluster_number]])"
+      )
+    }
+    df <- .data
+  } else {
+    if ((length(.data) > 1) | (nrow(.data[[1]]) > 1)) {
+      warning(
+        "Warning! Data has more than 1 cluster!\n",
+        "Clonal tree will be drawn for the 1st cluster in the 1st sample.\n",
+        "To draw a tree for a specific cluster, use:\n",
+        "vis(data[[\"sample_name\"]][[\"TreeStats\"]][[cluster_number]])"
+      )
+    }
+    df <- .data[[1]]
+  }
+  vis(df[["TreeStats"]][[1]])
+}
 
+#' Visualise clonal family tree
+#'
+#' @concept phylip
+#'
+#' @param .data Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link{repClonalFamily}} output.
+#'
+#' @return
+#' A ggraph object.
+#'
+#' @examples
+#' data(bcrdata)
+#' bcr_data <- bcrdata$data
+#'
+#' clonal_family <- bcr_data %>%
+#'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
+#'   repGermline(.threads = 2) %>%
+#'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
+#'   repClonalFamily(.threads = 2, .nofail = TRUE)
+#'
+#' vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+#' @export
+vis.clonal_family_tree <- function(.data, ...) {
+  links_df <- .data[c("Ancestor", "Name")] %>%
+    drop_na("Ancestor")
+  names(links_df) <- c("from", "to")
+  vertices_df <- .data[c("Name", "Type", "Clones")]
+  names(vertices_df)[1] <- "name"
 
-# vis.immunr_mutation_network <- function (.data) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
-
-
-# vis.immunr_cdr_prop <- function (.data, .by = NA, .meta = NA, .plot = c("box", "hist")) {
-#   stop(IMMUNR_ERROR_NOT_IMPL)
-# }
+  graph_from_data_frame(links_df, vertices = vertices_df) %>%
+    ggraph("igraph", algorithm = "tree") +
+    geom_edge_diagonal() +
+    geom_node_point(aes(color = Type, size = Clones)) +
+    theme_graph()
+}

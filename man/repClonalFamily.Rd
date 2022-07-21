@@ -32,6 +32,7 @@ The dataframe has these columns:
 * Trunk.Length: mean trunk length, representing the distance between the most recent
   common ancestor and germline sequence as a measure of the maturity of a lineage
 * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
+* TreeStats: nested dataframe containing data about tree nodes, needed for visualization
 * Sequences: nested dataframe containing all sequences for this combination of cluster
   and germline; it contains regions from original sequences, saved for
   repSomaticHypermutation() calculation, and also data needed for visualizations

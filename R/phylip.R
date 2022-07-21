@@ -73,12 +73,14 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
     return(NA)
   }
 
-  results <- .data %>% apply_to_sample_or_list(
-    process_dataframe,
-    .with_names = TRUE,
-    .validate = FALSE,
-    .threads = .threads
-  )
+  results <- .data %>%
+    apply_to_sample_or_list(
+      process_dataframe,
+      .with_names = TRUE,
+      .validate = FALSE,
+      .threads = .threads
+    ) %>%
+    add_class("clonal_family")
   return(results)
 }
 
@@ -159,7 +161,8 @@ process_cluster <- function(cluster_row) {
   tree_stats <- data.frame(matrix(
     ncol = 5, nrow = 0,
     dimnames = list(NULL, c("Name", "Type", "Clones", "Ancestor", "Sequence"))
-  ))
+  )) %>%
+    add_class("clonal_family_tree")
   for (row in outfile_rows) {
     clones <- 1 # for all sequences except clonotypes
     col1_strings <- str_extract_all(row[[1]], "[[^\\s]]+")[[1]]
@@ -239,5 +242,6 @@ convert_nested_to_df <- function(nested_results_list) {
     cbind(tree, tree_stats, sequences)
   df[["CDR3.germline.length"]] %<>% as.integer()
   df[["Trunk.Length"]] %<>% as.integer()
+  df %<>% add_class("clonal_family_df")
   return(df)
 }
