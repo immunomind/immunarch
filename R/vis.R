@@ -115,6 +115,9 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @import ggplot2
 #' @importFrom factoextra fviz_cluster fviz_dend fviz_pca_ind
 #' @importFrom grDevices colorRampPalette
+#' @importFrom tidyr drop_na
+#' @importFrom igraph graph_from_data_frame
+#' @importFrom ggraph ggraph geom_edge_diagonal geom_node_point theme_graph
 #'
 #' @description Output from every function in immunarch can be visualised with a
 #' single function - \code{vis}. The \code{vis} automatically detects
