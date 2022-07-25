@@ -1,8 +1,4 @@
-#' This function aligns all sequences (incliding germline) that belong to one clonal lineage and one cluster.
-#' After clustering and building the clonal lineage and germline, the next step is to analyze the degree of mutation
-#' and maturity of each clonal lineage. This allows for finding high mature cells and cells with a large
-#' number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
-#' Making alignment of the sequence is the first step towards sequence analysis including BCR.
+#' Aligns all sequences incliding germline within each clonal lineage within each cluster
 #'
 #' @concept align_lineage
 #'
@@ -18,7 +14,12 @@
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom parallel mclapply
 
-#' @description Aligns all sequences incliding germline within each clonal lineage within each cluster
+#' @description This function aligns all sequences (incliding germline) that belong to one clonal
+#' lineage and one cluster. After clustering and building the clonal lineage and germline, the next
+#' step is to analyze the degree of mutation and maturity of each clonal lineage. This allows for
+#' finding high mature cells and cells with a large number of offspring. The phylogenetic analysis
+#' will find mutations that increase the affinity of BCR. Making alignment of the sequence
+#' is the first step towards sequence analysis including BCR.
 #'
 #' @usage
 #'

@@ -2,8 +2,7 @@
 % Please edit documentation in R/phylip.R
 \name{repClonalFamily}
 \alias{repClonalFamily}
-\title{This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
-maximum parsimony methods.}
+\title{Builds a phylogenetic tree using the sequences of a clonal lineage}
 \usage{
 repClonalFamily(.data, .threads, .nofail)
 }
@@ -38,7 +37,8 @@ The dataframe has these columns:
   repSomaticHypermutation() calculation, and also data needed for visualizations
 }
 \description{
-This function builds a phylogenetic tree using the sequences of a clonal lineage
+This function uses the PHYLIP package to make phylogenetic analysis.
+For making trees it uses maximum parsimony methods.
 }
 \examples{
 

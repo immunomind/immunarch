@@ -2,11 +2,7 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
-\title{This function aligns all sequences (incliding germline) that belong to one clonal lineage and one cluster.
-After clustering and building the clonal lineage and germline, the next step is to analyze the degree of mutation
-and maturity of each clonal lineage. This allows for finding high mature cells and cells with a large
-number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
-Making alignment of the sequence is the first step towards sequence analysis including BCR.}
+\title{Aligns all sequences incliding germline within each clonal lineage within each cluster}
 \usage{
 repAlignLineage(.data,
 .min_lineage_sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
@@ -59,7 +55,12 @@ The dataframe has these columns:
   all values taken from the input dataframe
 }
 \description{
-Aligns all sequences incliding germline within each clonal lineage within each cluster
+This function aligns all sequences (incliding germline) that belong to one clonal
+lineage and one cluster. After clustering and building the clonal lineage and germline, the next
+step is to analyze the degree of mutation and maturity of each clonal lineage. This allows for
+finding high mature cells and cells with a large number of offspring. The phylogenetic analysis
+will find mutations that increase the affinity of BCR. Making alignment of the sequence
+is the first step towards sequence analysis including BCR.
 }
 \examples{
 

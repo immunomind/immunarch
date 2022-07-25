@@ -1,5 +1,4 @@
-#' This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
-#' maximum parsimony methods.
+#' Builds a phylogenetic tree using the sequences of a clonal lineage
 #'
 #' @concept phylip
 #'
@@ -17,7 +16,8 @@
 #' @importFrom uuid UUIDgenerate
 #' @importFrom data.table fread
 
-#' @description This function builds a phylogenetic tree using the sequences of a clonal lineage
+#' @description This function uses the PHYLIP package to make phylogenetic analysis.
+#' For making trees it uses maximum parsimony methods.
 #'
 #' @usage
 #'

@@ -1,9 +1,4 @@
-#' This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
-#' that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
-#' Each clonal lineage has its own germline sequence that represents the ancestral sequence
-#' for each BCR in clonal lineage. In other words, germline sequence is a sequence of B-cells immediately
-#' after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
-#' for assessing the degree of mutation and maturity of the repertoire.
+#' Creates germlines for clonal lineages
 #'
 #' @concept germline
 #'
@@ -16,7 +11,13 @@
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
 #' @importFrom ape as.DNAbin clustal
 #'
-#' @description Creates germlines for clonal lineages
+#' @description This function creates germlines for clonal lineages. B cell clonal lineage
+#' represents a set of B cells that presumably have a common origin (arising from the same VDJ
+#' rearrangement event) and a common ancestor. Each clonal lineage has its own germline sequence
+#' that represents the ancestral sequence for each BCR in clonal lineage. In other words,
+#' germline sequence is a sequence of B-cells immediately after VDJ recombination, before
+#' B-cell maturation and hypermutation process. Germline sequence is useful for assessing
+#' the degree of mutation and maturity of the repertoire.
 #'
 #' @usage
 #'

@@ -1,4 +1,4 @@
-#' This function calculates number of mutations against the germline for each clonotype.
+#' Calculates number of mutations against the germline for each clonotype
 #'
 #' @concept somatic_hypermutation
 #'
@@ -11,9 +11,9 @@
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom ape as.DNAbin clustal
 #'
-#' @description Aligns V and J genes from the germline in each cluster with corresponding genes
-#' in each clonotype, saves the alignments for purpose of visualization, and calculates
-#' number of mutations for each clonotype
+#' @description This function aligns V and J genes from the germline in each cluster
+#' with corresponding genes in each clonotype, saves the alignments for purpose of visualization,
+#' and calculates number of mutations for each clonotype.
 #'
 #' @usage
 #'

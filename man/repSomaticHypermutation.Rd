@@ -2,7 +2,7 @@
 % Please edit documentation in R/somatic_hypermutation.R
 \name{repSomaticHypermutation}
 \alias{repSomaticHypermutation}
-\title{This function calculates number of mutations against the germline for each clonotype.}
+\title{Calculates number of mutations against the germline for each clonotype}
 \usage{
 repSomaticHypermutation(.data, .threads, .nofail)
 }
@@ -31,9 +31,9 @@ New columns are added:
 * Mutations: contains total number of mutations in the alignment (summary for V and J)
 }
 \description{
-Aligns V and J genes from the germline in each cluster with corresponding genes
-in each clonotype, saves the alignments for purpose of visualization, and calculates
-number of mutations for each clonotype
+This function aligns V and J genes from the germline in each cluster
+with corresponding genes in each clonotype, saves the alignments for purpose of visualization,
+and calculates number of mutations for each clonotype.
 }
 \examples{
 
