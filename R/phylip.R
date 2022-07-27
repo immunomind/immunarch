@@ -167,32 +167,34 @@ process_cluster <- function(cluster_row) {
     clones <- 1 # for all sequences except clonotypes
     col1_strings <- str_extract_all(row[[1]], "[[^\\s]]+")[[1]]
     if (is.na(row[[2]])) {
-      ancestor <- NA
-      seq_name <- col1_strings[1]
-      if (seq_name == "Germline") {
-        seq_type <- "Germline"
+      # many whitespaces on start of the row mean that Ancestor is NA
+      if (str_count(row[[1]], "\\G ") > 1) {
+        ancestor <- NA
+        seq_name <- col1_strings[1]
+        seq <- paste(col1_strings[-1], collapse = "")
       } else {
-        seq_type <- "CommonAncestor"
+        ancestor <- col1_strings[1]
+        seq_name <- col1_strings[2]
+        seq <- paste(col1_strings[-c(1, 2)], collapse = "")
       }
-      seq <- paste(col1_strings[-1], collapse = "")
     } else {
       col2_strings <- str_extract_all(row[[2]], "[[^\\s]]+")[[1]]
       ancestor <- col1_strings[1]
       seq_name <- col1_strings[2]
       seq <- paste(col2_strings[-1], collapse = "")
-      if (seq_name == "Germline") {
-        seq_type <- "Germline"
-      } else if (startsWith(seq_name, "ID_")) {
-        seq_type <- "Clonotype"
-        # find clones value by sequence ID
-        clones <- sequences[
-          which(sequences["Clone.ID"] == as.integer(substring(seq_name, 4))),
-        ][["Clones"]]
-      } else if (ancestor == "Germline") {
-        seq_type <- "CommonAncestor"
-      } else {
-        seq_type <- "Presumable"
-      }
+    }
+    if (seq_name == "Germline") {
+      seq_type <- "Germline"
+    } else if (startsWith(seq_name, "ID_")) {
+      seq_type <- "Clonotype"
+      # find clones value by sequence ID
+      clones <- sequences[
+        which(sequences["Clone.ID"] == as.integer(substring(seq_name, 4))),
+      ][["Clones"]]
+    } else if (identical(ancestor, "Germline")) {
+      seq_type <- "CommonAncestor"
+    } else {
+      seq_type <- "Presumable"
     }
 
     # add sequence to table if it's new, otherwise append nucleotides to the end
@@ -201,6 +203,12 @@ process_cluster <- function(cluster_row) {
     } else {
       tree_stats[which(tree_stats["Name"] == seq_name), ][["Sequence"]] %<>% paste0(seq)
     }
+  }
+
+  names <- tree_stats[["Name"]]
+  ancestors <- tree_stats[["Ancestor"]]
+  for (missing_name in ancestors[!ancestors %in% names]) {
+    tree_stats["Ancestor"][tree_stats["Ancestor"] == missing_name] <- NA
   }
 
   common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, ][["Sequence"]]
