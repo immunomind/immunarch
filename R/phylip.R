@@ -130,6 +130,7 @@ process_cluster <- function(cluster_row) {
   # alignment and sequences should be extracted from 1-element lists because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
   sequences <- cluster_row[["Sequences"]][[1]]
+  cluster_name <- cluster_row[["Cluster"]]
   cdr3_germline_length <- cluster_row[["CDR3.germline.length"]]
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
@@ -183,6 +184,7 @@ process_cluster <- function(cluster_row) {
       seq_name <- col1_strings[2]
       seq <- paste(col2_strings[-1], collapse = "")
     }
+
     if (seq_name == "Germline") {
       seq_type <- "Germline"
     } else if (startsWith(seq_name, "ID_")) {
@@ -213,14 +215,37 @@ process_cluster <- function(cluster_row) {
 
   common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, ][["Sequence"]]
   germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, ][["Sequence"]]
-
   trunk_length <- nchar(germline) - cdr3_germline_length - str_count(germline, fixed("."))
+
+  # force germline to be root if phylip had set "1" as its ancestor
+  germline_ancestor <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, ][["Ancestor"]]
+  if (!is.na(germline_ancestor)) {
+    ancestor_of_ancestor <-
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, ][["Ancestor"]]
+    if (is.na(ancestor_of_ancestor)) {
+      tree_stats[which(tree_stats["Name"] == "Germline"), ][1, ][["Ancestor"]] <- NA
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, ][["Ancestor"]] <- "Germline"
+    } else {
+      warning(
+        "Germline's ancestor is ",
+        germline_ancestor,
+        ", and its' ancestor is ",
+        ancestor_of_ancestor,
+        ": tree of cluster ",
+        cluster_name,
+        " can't be corrected!"
+      )
+    }
+  }
+
+  # calculate distances of all sequences from germline
+  # TODO
 
   unlink(temp_dir, recursive = TRUE)
 
   # return row of output dataframe as named list
   return(list(
-    Cluster = cluster_row[["Cluster"]],
+    Cluster = cluster_name,
     Germline.Input = cluster_row[["Germline"]],
     V.germline.nt = cluster_row[["V.germline.nt"]],
     J.germline.nt = cluster_row[["J.germline.nt"]],
@@ -252,4 +277,30 @@ convert_nested_to_df <- function(nested_results_list) {
   df[["Trunk.Length"]] %<>% as.integer()
   df %<>% add_class("clonal_family_df")
   return(df)
+}
+
+# seq2 can contain '.' dots that mean nucleotides same as in seq1
+aa_distance <- function(seq1, seq2, frame_start = 1) {
+  l <- length(seq1)
+  if (length(seq2) != l) {
+    stop(
+      "aa_distance() called with 2 strings of different length:\n",
+      "seq1=\"", seq1, "\", seq2=\"", seq2, "\""
+    )
+  }
+  seq1 <- substring(seq1, frame_start)
+  seq2 <- substring(seq2, frame_start)
+  seq1_chars <- strsplit(seq1, "")[[1]]
+  seq2_chars <- strsplit(seq2, "")[[1]]
+  for (i in 1:l) {
+    if (seq2_chars[i] == ".") {
+      seq2_chars[i] <- seq1_chars[i]
+    }
+  }
+  seq2 <- paste(seq2_chars, collapse = "")
+  seq1_aa <- bunch_translate(seq1)
+  seq2_aa <- bunch_translate(seq2)
+  seq1_aa_chars <- strsplit(seq1_aa, "")[[1]]
+  seq2_aa_chars <- strsplit(seq2_aa, "")[[1]]
+  return(length(setdiff(seq1_aa_chars, seq2_aa_chars)))
 }
