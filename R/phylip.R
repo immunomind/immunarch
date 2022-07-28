@@ -7,7 +7,7 @@
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
-#' @importFrom stringr str_match str_count fixed str_extract_all
+#' @importFrom stringr str_match str_count fixed str_extract_all str_length
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
@@ -192,7 +192,8 @@ process_cluster <- function(cluster_row) {
       # find clones value by sequence ID
       clones <- sequences[
         which(sequences["Clone.ID"] == as.integer(substring(seq_name, 4))),
-      ][["Clones"]]
+        "Clones"
+      ]
     } else if (identical(ancestor, "Germline")) {
       seq_type <- "CommonAncestor"
     } else {
@@ -203,7 +204,7 @@ process_cluster <- function(cluster_row) {
     if (nrow(tree_stats[which(tree_stats["Name"] == seq_name), ]) == 0) {
       tree_stats[nrow(tree_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, seq)
     } else {
-      tree_stats[which(tree_stats["Name"] == seq_name), ][["Sequence"]] %<>% paste0(seq)
+      tree_stats[which(tree_stats["Name"] == seq_name), "Sequence"] %<>% paste0(seq)
     }
   }
 
@@ -213,18 +214,31 @@ process_cluster <- function(cluster_row) {
     tree_stats["Ancestor"][tree_stats["Ancestor"] == missing_name] <- NA
   }
 
-  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, ][["Sequence"]]
-  germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, ][["Sequence"]]
-  trunk_length <- nchar(germline) - cdr3_germline_length - str_count(germline, fixed("."))
+  germline_raw <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
+  trunk_length <-
+    nchar(germline_raw) - cdr3_germline_length - str_count(germline_raw, fixed("."))
+
+  # replace points with letters in all sequences
+  full_seq <- tree_stats[1, "Sequence"]
+  for (row in 2:nrow(tree_stats)) {
+    for (i in 1:str_length(full_seq)) {
+      if (identical(substr(tree_stats[row, "Sequence"], i, i), ".")) {
+        substr(tree_stats[row, "Sequence"], i, i) <- substr(full_seq, i, i)
+      }
+    }
+  }
+
+  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
+  germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
 
   # force germline to be root if phylip had set "1" as its ancestor
-  germline_ancestor <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, ][["Ancestor"]]
+  germline_ancestor <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Ancestor"]
   if (!is.na(germline_ancestor)) {
     ancestor_of_ancestor <-
-      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, ][["Ancestor"]]
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Ancestor"]
     if (is.na(ancestor_of_ancestor)) {
-      tree_stats[which(tree_stats["Name"] == "Germline"), ][1, ][["Ancestor"]] <- NA
-      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, ][["Ancestor"]] <- "Germline"
+      tree_stats[which(tree_stats["Name"] == "Germline"), ][1, "Ancestor"] <- NA
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Ancestor"] <- "Germline"
     } else {
       warning(
         "Germline's ancestor is ",
@@ -239,7 +253,16 @@ process_cluster <- function(cluster_row) {
   }
 
   # calculate distances of all sequences from germline
-  # TODO
+  germline_chars <- strsplit(germline, "")[[1]]
+  for (row in 1:nrow(tree_stats)) {
+    if (tree_stats[row, "Type"] == "Germline") {
+      tree_stats[row, "DistanceNT"] <- 0
+    } else {
+      seq_chars <- strsplit(tree_stats[row, "Sequence"], "")[[1]]
+      tree_stats[row, "DistanceNT"] <- count(germline_chars != seq_chars)
+    }
+  }
+  tree_stats[["DistanceNT"]] %<>% as.integer()
 
   unlink(temp_dir, recursive = TRUE)
 
