@@ -204,6 +204,7 @@ matrixdiagcopy <- function(.mat) {
 #'
 #' @param .seq Vector or list of strings.
 #' @param .two.way Logical. If TRUE (default) then translate from the both ends (like MIXCR).
+#' @param .ignore.n Logical. If FALSE (default) then return NA for sequences that have N, else parse triplets with N as ~
 #'
 #' @return
 #' Character vector of translated input sequences.
@@ -212,9 +213,11 @@ matrixdiagcopy <- function(.mat) {
 #' data(immdata)
 #' head(bunch_translate(immdata$data[[1]]$CDR3.nt))
 #' @export
-bunch_translate <- function(.seq, .two.way = TRUE) {
+bunch_translate <- function(.seq, .two.way = TRUE, .ignore.n = FALSE) {
   .seq <- toupper(.seq)
-  .seq[grepl("N", .seq)] <- NA
+  if (!.ignore.n) {
+    .seq[grepl("N", .seq)] <- NA
+  }
 
   sapply(.seq, function(y) {
     if (!is.na(y)) {
@@ -233,7 +236,9 @@ bunch_translate <- function(.seq, .two.way = TRUE) {
       } else {
         y <- substring(y, seq(1, nchar(y) - 2, 3), seq(3, nchar(y), 3))
       }
-      paste0(AA_TABLE[unlist(strsplit(gsub("(...)", "\\1_", y), "_"))], collapse = "")
+      aa <- AA_TABLE[unlist(strsplit(gsub("(...)", "\\1_", y), "_"))]
+      aa %<>% replace(is.na(aa), "~")
+      paste0(aa, collapse = "")
     } else {
       NA
     }
