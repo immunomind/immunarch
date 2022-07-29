@@ -23,6 +23,8 @@ The dataframe has these columns:
 * V.germline.nt: input germline V gene sequence
 * J.germline.nt: input germline J gene sequence
 * CDR3.germline.length: length of CDR3 in input germline
+* V.length: length of V gene after trimming on repAlignLineage() step
+* J.length: length of j gene after trimming on repAlignLineage() step
 * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
   it contains difference of germline from the common ancestor; "." characters mean
   matching letters. It's usually shorter than Germline.Input, because germline and

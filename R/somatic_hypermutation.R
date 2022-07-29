@@ -84,7 +84,7 @@ shm_process_dataframe <- function(df, .parallel) {
   )
   # fix column types after dataframe rebuilding
   for (column in c(
-    "Clone.ID", "Clones", "CDR3.germline.length", "Trunk.Length",
+    "Clone.ID", "Clones", "CDR3.germline.length", "V.length", "J.length", "Trunk.Length",
     "Substitutions", "Insertions", "Deletions", "Mutations"
   )) {
     df[[column]] %<>% as.integer()

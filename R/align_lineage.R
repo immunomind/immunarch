@@ -63,9 +63,9 @@
 #' * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
 #'   (.min_lineage_sequences is below the threshold); TRUE if it was aligned
 #' * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
-#' * V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 region in this
+#' * V.length: shortest length of V gene part outside of CDR3 region in this
 #'   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
-#' * J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 region in this
+#' * J.length: shortest length of J gene part outside of CDR3 region in this
 #'   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
 #' * Sequences: nested dataframe containing all sequences for this combination
 #'   of cluster and germline; it has columns
@@ -191,9 +191,8 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
   sequences[["Clone.ID"]] %<>% as.integer()
   sequences[["Clones"]] %<>% as.integer()
 
-  germline_parts <- strsplit(germline_seq, "N")[[1]]
-  germline_v_len <- stringr::str_length(germline_parts[1])
-  germline_j_len <- stringr::str_length(tail(germline_parts, 1))
+  germline_v_len <- str_length(germline_v)
+  germline_j_len <- str_length(germline_j)
   v_min_len <- min(lineage_subset[["V.lengths"]], germline_v_len)
   j_min_len <- min(lineage_subset[["J.lengths"]], germline_j_len)
 
@@ -234,6 +233,8 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
       J.germline.nt = germline_j,
       CDR3.germline.length = germline_cdr3_len,
       Alignment = alignment,
+      V.length = v_min_len,
+      J.length = j_min_len,
       Sequences = sequences
     ))
   }
@@ -241,7 +242,7 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
 
 # trim V/J tails in sequence to the specified lenghts v_min, j_min
 trim_seq <- function(seq, v_len, v_min, j_len, j_min) {
-  stringr::str_sub(seq, v_len - v_min + 1, -(j_len - j_min + 1))
+  str_sub(seq, v_len - v_min + 1, -(j_len - j_min + 1))
 }
 
 convert_results_to_df <- function(nested_results_list, nested_alignments_list) {
@@ -255,7 +256,10 @@ convert_results_to_df <- function(nested_results_list, nested_alignments_list) {
     lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
     cbind(alignments, sequences)
-  df[["CDR3.germline.length"]] %<>% as.integer()
+  # fix column types after dataframe rebuilding
+  for (column in c("CDR3.germline.length", "V.length", "J.length")) {
+    df[[column]] %<>% as.integer()
+  }
   return(df)
 }
 

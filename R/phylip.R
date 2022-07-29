@@ -7,7 +7,7 @@
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
-#' @importFrom stringr str_match str_count fixed str_extract_all str_length
+#' @importFrom stringr str_match str_count fixed str_extract_all str_length str_sub
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
@@ -40,6 +40,8 @@
 #' * V.germline.nt: input germline V gene sequence
 #' * J.germline.nt: input germline J gene sequence
 #' * CDR3.germline.length: length of CDR3 in input germline
+#' * V.length: length of V gene after trimming on repAlignLineage() step
+#' * J.length: length of j gene after trimming on repAlignLineage() step
 #' * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
 #'   it contains difference of germline from the common ancestor; "." characters mean
 #'   matching letters. It's usually shorter than Germline.Input, because germline and
@@ -87,7 +89,7 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
 process_dataframe <- function(df, .threads, sample_name = NA) {
   required_columns <- c(
     "Cluster", "Germline", "V.germline.nt", "J.germline.nt", "CDR3.germline.length",
-    "Alignment", "Sequences"
+    "V.length", "J.length", "Alignment", "Sequences"
   )
   for (column in required_columns) {
     if (!(column %in% colnames(df))) {
@@ -132,6 +134,11 @@ process_cluster <- function(cluster_row) {
   sequences <- cluster_row[["Sequences"]][[1]]
   cluster_name <- cluster_row[["Cluster"]]
   cdr3_germline_length <- cluster_row[["CDR3.germline.length"]]
+  v_trimmed_length <- cluster_row[["V.length"]]
+  j_trimmed_length <- cluster_row[["J.length"]]
+
+  # position of starting nucleotide for translation of sequences to amino acids
+  aa_frame_start <- (str_length(cluster_row[["V.germline.nt"]]) - v_trimmed_length) %% 3 + 1
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
@@ -160,8 +167,10 @@ process_cluster <- function(cluster_row) {
 
   # iterate over rows, assemble sequences, fill table values
   tree_stats <- data.frame(matrix(
-    ncol = 5, nrow = 0,
-    dimnames = list(NULL, c("Name", "Type", "Clones", "Ancestor", "Sequence"))
+    ncol = 7, nrow = 0,
+    dimnames = list(NULL, c(
+      "Name", "Type", "Clones", "Ancestor", "DistanceNT", "DistanceAA", "Sequence"
+    ))
   )) %>%
     add_class("clonal_family_tree")
   for (row in outfile_rows) {
@@ -202,7 +211,7 @@ process_cluster <- function(cluster_row) {
 
     # add sequence to table if it's new, otherwise append nucleotides to the end
     if (nrow(tree_stats[which(tree_stats["Name"] == seq_name), ]) == 0) {
-      tree_stats[nrow(tree_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, seq)
+      tree_stats[nrow(tree_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, 0, 0, seq)
     } else {
       tree_stats[which(tree_stats["Name"] == seq_name), "Sequence"] %<>% paste0(seq)
     }
@@ -214,10 +223,6 @@ process_cluster <- function(cluster_row) {
     tree_stats["Ancestor"][tree_stats["Ancestor"] == missing_name] <- NA
   }
 
-  germline_raw <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
-  trunk_length <-
-    nchar(germline_raw) - cdr3_germline_length - str_count(germline_raw, fixed("."))
-
   # replace points with letters in all sequences
   full_seq <- tree_stats[1, "Sequence"]
   for (row in 2:nrow(tree_stats)) {
@@ -228,8 +233,8 @@ process_cluster <- function(cluster_row) {
     }
   }
 
-  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
   germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
+  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
 
   # force germline to be root if phylip had set "1" as its ancestor
   germline_ancestor <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Ancestor"]
@@ -253,16 +258,31 @@ process_cluster <- function(cluster_row) {
   }
 
   # calculate distances of all sequences from germline
-  germline_chars <- strsplit(germline, "")[[1]]
+  germline_v <- str_sub(germline, 1, v_trimmed_length)
+  germline_j <- str_sub(germline, -j_trimmed_length)
+  germline_nt_chars <- strsplit(paste0(germline_v, germline_j), "")[[1]]
+  # AA germline contains CDR3 filled with N, so it should be substracted from counted distance
+  germline_aa <- bunch_translate(substring(germline, aa_frame_start),
+    .two.way = FALSE, .ignore.n = TRUE
+  )
+  germline_aa_chars <- strsplit(germline_aa, "")[[1]]
+  cdr3_aa_length <- cdr3_germline_length %/% 3
   for (row in 1:nrow(tree_stats)) {
-    if (tree_stats[row, "Type"] == "Germline") {
-      tree_stats[row, "DistanceNT"] <- 0
-    } else {
-      seq_chars <- strsplit(tree_stats[row, "Sequence"], "")[[1]]
-      tree_stats[row, "DistanceNT"] <- count(germline_chars != seq_chars)
+    if (tree_stats[row, "Type"] != "Germline") {
+      seq <- tree_stats[row, "Sequence"]
+      seq_v <- str_sub(seq, 1, v_trimmed_length)
+      seq_j <- str_sub(seq, -j_trimmed_length)
+      seq_nt_chars <- strsplit(paste0(seq_v, seq_j), "")[[1]]
+      tree_stats[row, "DistanceNT"] <- count(germline_nt_chars != seq_nt_chars)
+      seq_aa <- bunch_translate(substring(seq, aa_frame_start),
+        .two.way = FALSE, .ignore.n = TRUE
+      )
+      seq_aa_chars <- strsplit(seq_aa, "")[[1]]
+      tree_stats[row, "DistanceAA"] <- count(germline_aa_chars != seq_aa_chars) - cdr3_aa_length
     }
   }
-  tree_stats[["DistanceNT"]] %<>% as.integer()
+
+  trunk_length <- tree_stats[which(tree_stats["Ancestor"] == "Germline"), ][1, "DistanceNT"]
 
   unlink(temp_dir, recursive = TRUE)
 
@@ -273,6 +293,8 @@ process_cluster <- function(cluster_row) {
     V.germline.nt = cluster_row[["V.germline.nt"]],
     J.germline.nt = cluster_row[["J.germline.nt"]],
     CDR3.germline.length = cdr3_germline_length,
+    V.length = v_trimmed_length,
+    J.length = j_trimmed_length,
     Germline.Output = germline,
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
@@ -296,34 +318,10 @@ convert_nested_to_df <- function(nested_results_list) {
     lapply(rlist::list.remove, c("Tree", "TreeStats", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
     cbind(tree, tree_stats, sequences)
-  df[["CDR3.germline.length"]] %<>% as.integer()
-  df[["Trunk.Length"]] %<>% as.integer()
+  # fix column types after dataframe rebuilding
+  for (column in c("CDR3.germline.length", "V.length", "J.length", "Trunk.Length")) {
+    df[[column]] %<>% as.integer()
+  }
   df %<>% add_class("clonal_family_df")
   return(df)
-}
-
-# seq2 can contain '.' dots that mean nucleotides same as in seq1
-aa_distance <- function(seq1, seq2, frame_start = 1) {
-  l <- length(seq1)
-  if (length(seq2) != l) {
-    stop(
-      "aa_distance() called with 2 strings of different length:\n",
-      "seq1=\"", seq1, "\", seq2=\"", seq2, "\""
-    )
-  }
-  seq1 <- substring(seq1, frame_start)
-  seq2 <- substring(seq2, frame_start)
-  seq1_chars <- strsplit(seq1, "")[[1]]
-  seq2_chars <- strsplit(seq2, "")[[1]]
-  for (i in 1:l) {
-    if (seq2_chars[i] == ".") {
-      seq2_chars[i] <- seq1_chars[i]
-    }
-  }
-  seq2 <- paste(seq2_chars, collapse = "")
-  seq1_aa <- bunch_translate(seq1)
-  seq2_aa <- bunch_translate(seq2)
-  seq1_aa_chars <- strsplit(seq1_aa, "")[[1]]
-  seq2_aa_chars <- strsplit(seq2_aa, "")[[1]]
-  return(length(setdiff(seq1_aa_chars, seq2_aa_chars)))
 }
