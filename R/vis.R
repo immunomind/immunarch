@@ -117,7 +117,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @importFrom grDevices colorRampPalette
 #' @importFrom tidyr drop_na
 #' @importFrom igraph graph_from_data_frame
-#' @importFrom ggraph ggraph geom_edge_diagonal geom_node_point theme_graph
+#' @importFrom ggraph ggraph geom_edge_diagonal geom_node_text geom_node_point theme_graph
 #'
 #' @description Output from every function in immunarch can be visualised with a
 #' single function - \code{vis}. The \code{vis} automatically detects
@@ -3004,7 +3004,7 @@ vis.clonal_family <- function(.data, ...) {
     }
     df <- .data[[1]]
   }
-  vis(df[["TreeStats"]][[1]])
+  vis(df[["TreeStats"]][[1]], ...)
 }
 
 #' Visualise clonal family tree
@@ -3012,6 +3012,7 @@ vis.clonal_family <- function(.data, ...) {
 #' @concept phylip
 #'
 #' @param .data Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link{repClonalFamily}} output.
+#' @param .show.node.labels If set to TRUE, sequence labels will be displayed near tree nodes (default is FALSE).
 #'
 #' @return
 #' A ggraph object.
@@ -3028,16 +3029,22 @@ vis.clonal_family <- function(.data, ...) {
 #'
 #' vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
 #' @export
-vis.clonal_family_tree <- function(.data, ...) {
+vis.clonal_family_tree <- function(.data, .show.node.labels = FALSE, ...) {
   links_df <- .data[c("Ancestor", "Name")] %>%
     drop_na("Ancestor")
   names(links_df) <- c("from", "to")
   vertices_df <- .data[c("Name", "Type", "Clones")]
   names(vertices_df)[1] <- "name"
 
-  graph_from_data_frame(links_df, vertices = vertices_df) %>%
+  tree_graph <- graph_from_data_frame(links_df, vertices = vertices_df) %>%
     ggraph("igraph", algorithm = "tree") +
     geom_edge_diagonal() +
     geom_node_point(aes(color = Type, size = Clones)) +
     theme_graph()
+  if (.show.node.labels) {
+    tree_graph <- tree_graph +
+      geom_node_text(aes(label = name))
+  }
+
+  return(tree_graph)
 }

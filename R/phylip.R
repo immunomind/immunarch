@@ -217,12 +217,6 @@ process_cluster <- function(cluster_row) {
     }
   }
 
-  names <- tree_stats[["Name"]]
-  ancestors <- tree_stats[["Ancestor"]]
-  for (missing_name in ancestors[!ancestors %in% names]) {
-    tree_stats["Ancestor"][tree_stats["Ancestor"] == missing_name] <- NA
-  }
-
   # replace points with letters in all sequences
   full_seq <- tree_stats[1, "Sequence"]
   for (row in 2:nrow(tree_stats)) {
@@ -233,9 +227,6 @@ process_cluster <- function(cluster_row) {
     }
   }
 
-  germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
-  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
-
   # force germline to be root if phylip had set "1" as its ancestor
   germline_ancestor <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Ancestor"]
   if (!is.na(germline_ancestor)) {
@@ -243,6 +234,7 @@ process_cluster <- function(cluster_row) {
       tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Ancestor"]
     if (is.na(ancestor_of_ancestor)) {
       tree_stats[which(tree_stats["Name"] == "Germline"), ][1, "Ancestor"] <- NA
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Type"] <- "CommonAncestor"
       tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Ancestor"] <- "Germline"
     } else {
       warning(
@@ -256,6 +248,26 @@ process_cluster <- function(cluster_row) {
       )
     }
   }
+
+  # remove ancestors that are not in names
+  names <- tree_stats[["Name"]]
+  ancestors <- tree_stats[["Ancestor"]]
+  for (missing_name in ancestors[!ancestors %in% names]) {
+    tree_stats["Ancestor"][tree_stats["Ancestor"] == missing_name] <- NA
+  }
+  # rename CommonAncestor and Presumable nodes, both in Name and Ancestor columns
+  renamed_rows <- tree_stats[which(tree_stats[["Type"]] %in% c("CommonAncestor", "Presumable")), ]
+  old_names <- renamed_rows[["Name"]]
+  new_names <- list(paste0(renamed_rows[["Type"]], "_", renamed_rows[["Name"]]))
+  names(new_names) <- old_names
+  for (column in c("Name", "Ancestor")) {
+    for (row in which(tree_stats[[column]] %in% old_names)) {
+      tree_stats[[row, column]] <- new_names[[tree_stats[[row, column]]]]
+    }
+  }
+
+  germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
+  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
 
   # calculate distances of all sequences from germline
   germline_v <- str_sub(germline, 1, v_trimmed_length)
