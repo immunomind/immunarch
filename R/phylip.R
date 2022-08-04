@@ -148,7 +148,7 @@ process_cluster <- function(cluster_row) {
   phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
   system(
     paste0("sh -c \"cd ", temp_dir, "; phylip dnapars infile\""),
-    input = (c("V", 1, 5, "Y"))
+    input = (c("V", 1, 5, ".", "Y"))
   ) %>%
     quiet(capture_output = TRUE)
 
@@ -177,15 +177,19 @@ process_cluster <- function(cluster_row) {
     clones <- 1 # for all sequences except clonotypes
     col1_strings <- str_extract_all(row[[1]], "[[^\\s]]+")[[1]]
     if (is.na(row[[2]])) {
-      # many whitespaces on start of the row mean that Ancestor is NA
-      if (str_count(row[[1]], "\\G ") > 1) {
+      # if second element is not a number, then ancestor is NA
+      if (is.na(quiet(as.numeric(col1_strings[2])))) {
         ancestor <- NA
         seq_name <- col1_strings[1]
         seq <- paste(col1_strings[-1], collapse = "")
       } else {
         ancestor <- col1_strings[1]
         seq_name <- col1_strings[2]
-        seq <- paste(col1_strings[-c(1, 2)], collapse = "")
+        col1_strings <- col1_strings[-c(1, 2)]
+        if (col1_strings[1] %in% c("yes", "no", "maybe")) {
+          col1_strings <- col1_strings[-1]
+        }
+        seq <- paste(col1_strings, collapse = "")
       }
     } else {
       col2_strings <- str_extract_all(row[[2]], "[[^\\s]]+")[[1]]
@@ -214,16 +218,6 @@ process_cluster <- function(cluster_row) {
       tree_stats[nrow(tree_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, 0, 0, seq)
     } else {
       tree_stats[which(tree_stats["Name"] == seq_name), "Sequence"] %<>% paste0(seq)
-    }
-  }
-
-  # replace points with letters in all sequences
-  full_seq <- tree_stats[1, "Sequence"]
-  for (row in 2:nrow(tree_stats)) {
-    for (i in 1:str_length(full_seq)) {
-      if (identical(substr(tree_stats[row, "Sequence"], i, i), ".")) {
-        substr(tree_stats[row, "Sequence"], i, i) <- substr(full_seq, i, i)
-      }
     }
   }
 
@@ -258,7 +252,7 @@ process_cluster <- function(cluster_row) {
   # rename CommonAncestor and Presumable nodes, both in Name and Ancestor columns
   renamed_rows <- tree_stats[which(tree_stats[["Type"]] %in% c("CommonAncestor", "Presumable")), ]
   old_names <- renamed_rows[["Name"]]
-  new_names <- list(paste0(renamed_rows[["Type"]], "_", renamed_rows[["Name"]]))
+  new_names <- as.list(paste0(renamed_rows[["Type"]], "_", renamed_rows[["Name"]]))
   names(new_names) <- old_names
   for (column in c("Name", "Ancestor")) {
     for (row in which(tree_stats[[column]] %in% old_names)) {
@@ -279,7 +273,7 @@ process_cluster <- function(cluster_row) {
   )
   germline_aa_chars <- strsplit(germline_aa, "")[[1]]
   cdr3_aa_length <- cdr3_germline_length %/% 3
-  for (row in 1:nrow(tree_stats)) {
+  for (row in seq_len(nrow(tree_stats))) {
     if (tree_stats[row, "Type"] != "Germline") {
       seq <- tree_stats[row, "Sequence"]
       seq_v <- str_sub(seq, 1, v_trimmed_length)
@@ -292,6 +286,10 @@ process_cluster <- function(cluster_row) {
       seq_aa_chars <- strsplit(seq_aa, "")[[1]]
       tree_stats[row, "DistanceAA"] <- count(germline_aa_chars != seq_aa_chars) - cdr3_aa_length
     }
+  }
+
+  for (column in c("Clones", "DistanceNT", "DistanceAA")) {
+    tree_stats[[column]] %<>% as.integer()
   }
 
   trunk_length <- tree_stats[which(tree_stats["Ancestor"] == "Germline"), ][1, "DistanceNT"]
