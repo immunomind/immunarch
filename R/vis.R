@@ -117,7 +117,8 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @importFrom grDevices colorRampPalette
 #' @importFrom tidyr drop_na
 #' @importFrom igraph graph_from_data_frame
-#' @importFrom ggraph ggraph geom_edge_diagonal geom_node_text geom_node_point theme_graph
+#' @importFrom ggraph ggraph geom_edge_link label_rect geom_node_text geom_node_point theme_graph
+#' @importFrom grid arrow unit
 #'
 #' @description Output from every function in immunarch can be visualised with a
 #' single function - \code{vis}. The \code{vis} automatically detects
@@ -3037,13 +3038,13 @@ vis.clonal_family_tree <- function(.data, .show.node.labels = FALSE, ...) {
   names(vertices_df)[1] <- "name"
 
   tree_graph <- graph_from_data_frame(links_df, vertices = vertices_df) %>%
-    ggraph("igraph", algorithm = "tree") +
+    ggraph("tree") +
     geom_edge_diagonal() +
     geom_node_point(aes(color = Type, size = Clones)) +
     theme_graph()
   if (.show.node.labels) {
     tree_graph <- tree_graph +
-      geom_node_text(aes(label = name))
+      geom_node_text(aes(label = name), check_overlap = TRUE)
   }
 
   return(tree_graph)
