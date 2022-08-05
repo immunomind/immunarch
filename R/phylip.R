@@ -279,11 +279,25 @@ process_cluster <- function(cluster_row) {
       seq_v <- str_sub(seq, 1, v_trimmed_length)
       seq_j <- str_sub(seq, -j_trimmed_length)
       seq_nt_chars <- strsplit(paste0(seq_v, seq_j), "")[[1]]
+      if (length(germline_nt_chars) != length(seq_nt_chars)) {
+        warning(
+          "Germline and sequence lengths are different; ",
+          "something is wrong in repClonalFamily calculation!\n",
+          "germline_nt_chars = ", germline_nt_chars, "\nseq_nt_chars = ", seq_nt_chars
+        )
+      }
       tree_stats[row, "DistanceNT"] <- count(germline_nt_chars != seq_nt_chars)
       seq_aa <- bunch_translate(substring(seq, aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
       seq_aa_chars <- strsplit(seq_aa, "")[[1]]
+      if (length(germline_aa_chars) != length(seq_aa_chars)) {
+        warning(
+          "Germline and sequence lengths are different; ",
+          "something is wrong in repClonalFamily calculation!\n",
+          "germline_aa_chars = ", germline_aa_chars, "\nseq_aa_chars = ", seq_aa_chars
+        )
+      }
       tree_stats[row, "DistanceAA"] <- count(germline_aa_chars != seq_aa_chars) - cdr3_aa_length
     }
   }
