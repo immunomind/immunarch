@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{.data}{Clonal families from 1 or multiple samples: \code{\link{repClonalFamily}} output.}
+
+\item{...}{Not used here.}
 }
 \value{
 A ggraph object.

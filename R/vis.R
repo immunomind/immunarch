@@ -117,8 +117,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @importFrom grDevices colorRampPalette
 #' @importFrom tidyr drop_na
 #' @importFrom igraph graph_from_data_frame
-#' @importFrom ggraph ggraph geom_edge_link label_rect geom_node_text geom_node_point theme_graph
-#' @importFrom grid arrow unit
+#' @importFrom ggraph ggraph geom_edge_diagonal geom_node_point theme_graph
 #'
 #' @description Output from every function in immunarch can be visualised with a
 #' single function - \code{vis}. The \code{vis} automatically detects
@@ -2968,6 +2967,7 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #' @concept phylip
 #'
 #' @param .data Clonal families from 1 or multiple samples: \code{\link{repClonalFamily}} output.
+#' @param ... Not used here.
 #'
 #' @return
 #' A ggraph object.
@@ -3013,7 +3013,7 @@ vis.clonal_family <- function(.data, ...) {
 #' @concept phylip
 #'
 #' @param .data Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link{repClonalFamily}} output.
-#' @param .show.node.labels If set to TRUE, sequence labels will be displayed near tree nodes (default is FALSE).
+#' @param ... Not used here.
 #'
 #' @return
 #' A ggraph object.
@@ -3030,7 +3030,7 @@ vis.clonal_family <- function(.data, ...) {
 #'
 #' vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
 #' @export
-vis.clonal_family_tree <- function(.data, .show.node.labels = FALSE, ...) {
+vis.clonal_family_tree <- function(.data, ...) {
   links_df <- .data[c("Ancestor", "Name")] %>%
     drop_na("Ancestor")
   names(links_df) <- c("from", "to")
@@ -3038,14 +3038,10 @@ vis.clonal_family_tree <- function(.data, .show.node.labels = FALSE, ...) {
   names(vertices_df)[1] <- "name"
 
   tree_graph <- graph_from_data_frame(links_df, vertices = vertices_df) %>%
-    ggraph("tree") +
-    geom_edge_diagonal() +
+    ggraph("dendrogram") +
+    geom_edge_elbow() +
     geom_node_point(aes(color = Type, size = Clones)) +
     theme_graph()
-  if (.show.node.labels) {
-    tree_graph <- tree_graph +
-      geom_node_text(aes(label = name), check_overlap = TRUE)
-  }
 
   return(tree_graph)
 }

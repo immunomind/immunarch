@@ -4,12 +4,12 @@
 \alias{vis.clonal_family_tree}
 \title{Visualise clonal family tree}
 \usage{
-\method{vis}{clonal_family_tree}(.data, .show.node.labels = FALSE, ...)
+\method{vis}{clonal_family_tree}(.data, ...)
 }
 \arguments{
 \item{.data}{Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link{repClonalFamily}} output.}
 
-\item{.show.node.labels}{If set to TRUE, sequence labels will be displayed near tree nodes (default is FALSE).}
+\item{...}{Not used here.}
 }
 \value{
 A ggraph object.
