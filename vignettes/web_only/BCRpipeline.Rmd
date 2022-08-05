@@ -52,7 +52,7 @@ The pipeline involves five steps:
 
 6. **Somatic hypermutation analysis.**
 
-    At this step, clonotype and germline sequences are compared to count the number of mutations.
+    At this step, we compare clonotype and germline sequences to detect and count the number of mutations in clonotype sequence.
 
 
 ```{r setup, include=FALSE, echo=FALSE}
