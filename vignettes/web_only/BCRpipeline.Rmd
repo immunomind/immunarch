@@ -254,7 +254,7 @@ bcr$full_clones[ , c('Cluster', 'Trunk.Length') ]
 
 # Somatic hypermutation analysis
 
-Somatic hypermutation analysis is extremely useful for BCRs. The somatic hypermutation rate allows us to estimate the maturation of repertoire and figure out what kind of mutation contributes to the emergence of high-affinity antibodies.
+The rate of somatic hypermutation allows us to estimate repertoire maturation and detect the type of mutation contributing to the emergence of high affinity antibodies. This makes somatic hypermutation analysis a valuable asset for B-cell repertoire analysis.
 
 In Immunarch, `repSomaticHypermutation()` function is designed for hypermutation analysis:
 
@@ -268,7 +268,8 @@ shm_data <- bcr_data %>%
   repClonalFamily(.threads = 2, .nofail = TRUE) %>%
   repSomaticHypermutation(.threads = 2, .nofail = TRUE)
 ```
-The function `repSomaticHypermutation()` takes germline V,  germline J sequences and clonotype V and clonotypes J sequences and alignes germline and clonotype sequences to calculate mutations.
+
+The function repSomaticHypermutation() takes V and J germline sequences and V and J clonotype sequences as an input. Then the function aligns germline and clonotype sequences to detect and calculate occurring mutations.
 
 Examples of germline and clonotype sequences:
 
@@ -286,13 +287,14 @@ apply(shm_data$full_clones[1,][ , cols ] , 1 , paste , collapse = "" )[[1]]
 # the example of clonotype J sequence
 shm_data$full_clones$FR4.nt[1]
 ```
-The example of alignment between germline and clonotype V sequences:`
+
+Example: aligning germline and clonotype V sequences:
 
 ```{r example 16}
 image(shm_data$full_clones$Germline.Alignment.V[[1]], grid = TRUE)
 ```
 
-The example of alignment between germline and clonotype J sequences:`
+Example: aligning germline and clonotype J sequences:
 
 ```{r example 17}
 image(shm_data$full_clones$Germline.Alignment.J[[1]], grid = TRUE)
@@ -305,7 +307,7 @@ cols <- c('Clone.ID', 'Substitutions', 'Insertions', 'Deletions', 'Mutations')
 shm_data$full_clones[ , cols ]
 ```
 
-Then you could easily estimate mutation rate:
+Then you could easily estimate the mutation rate:
 
 ```{r example 19}
 # estimate mutation rate 
