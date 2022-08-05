@@ -205,7 +205,11 @@
 </li>
 <li>
 <p><strong>Phylogenetic analysis.</strong></p>
-<p>This final step provides phylogeny reconstruction and trunk length calculation (by running the PHYLIP package).</p>
+<p>This step provides phylogeny reconstruction and trunk length calculation (by running the PHYLIP package).</p>
+</li>
+<li>
+<p><strong>Somatic hypermutation analysis.</strong></p>
+<p>At this step, we compare clonotype and germline sequences to detect and count the number of mutations in clonotype sequence.</p>
 </li>
 </ol>
 </div>
@@ -363,12 +367,91 @@
 <span><span class="co">## [3] "IGHV5-51/IGHJ4_length_60_cluster_1" "IGHV5-51/IGHJ5_length_45_cluster_1"</span></span></code></pre>
 <p>We have found mismatches between a germline and an ancestor sequence. Dots represent nucleotides matches between the sequences, letters represent mismatches between the sequences:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Output</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># the example of common ancestor sequence</span></span>
+<span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Common.Ancestor</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "CCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCCATTACAGTGGGAGCACCAACTACAACCCCTCCCTCAAGAGTCGAGTCACCATGTCAGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGTTGACCTCTGTGACCGCTGCGGACACGGCCGTGTATTTCTGTGCGAGAGGCGCCGGGGACTACRSCACTCCCTTTGACTACTGGGGCCAGGGAACCCTGGTCACCGTCTCCTCAG"</span></span></code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the example of mismatches between a germline and an ancestor sequence</span></span>
+<span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Output</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "....................................T....................................................A....................................C...G................................A.NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN.....A........................."</span></span></code></pre>
 <p>We have calculated a trunk length for each cluster:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Trunk.Length</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 6 7 6 6</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">[</span> , <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cluster'</span>, <span class="st">'Trunk.Length'</span><span class="op">)</span> <span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">##                              Cluster Trunk.Length</span></span>
+<span><span class="co">## 1 IGHV4-61/IGHJ4_length_45_cluster_1            6</span></span>
+<span><span class="co">## 2 IGHV4-61/IGHJ4_length_63_cluster_1            7</span></span>
+<span><span class="co">## 3 IGHV5-51/IGHJ4_length_60_cluster_1            6</span></span>
+<span><span class="co">## 4 IGHV5-51/IGHJ5_length_45_cluster_1            6</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="somatic-hypermutation-analysis">Somatic hypermutation analysis<a class="anchor" aria-label="anchor" href="#somatic-hypermutation-analysis"></a>
+</h2>
+<p>The rate of somatic hypermutation allows us to estimate repertoire maturation and detect the type of mutation contributing to the emergence of high affinity antibodies. This makes somatic hypermutation analysis a valuable asset for B-cell repertoire analysis.</p>
+<p>In Immunarch, <code><a href="../../reference/repSomaticHypermutation.html">repSomaticHypermutation()</a></code> function is designed for hypermutation analysis:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bcr_data</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span></span>
+<span></span>
+<span><span class="va">shm_data</span> <span class="op">&lt;-</span> <span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">bcr_data</span><span class="op">)</span>, .fixed_threshold <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">2</span>, .align_threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/repClonalFamily.html">repClonalFamily</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/repSomaticHypermutation.html">repSomaticHypermutation</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The function repSomaticHypermutation() takes V and J germline sequences and V and J clonotype sequences as an input. Then the function aligns germline and clonotype sequences to detect and calculate occurring mutations.</p>
+<p>Examples of germline and clonotype sequences:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the example of germline V sequence</span></span>
+<span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">V.germline.nt</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "CAGGTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCGTCAGCAGTGGTAGTTACTACTGGAGCTGGATCCGGCAGCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCTATTACAGTGGGAGCACCAACTACAACCCCTCCCTCAAGAGTCGAGTCACCATATCAGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCTGCGGACACGGCCGTGTATTAC"</span></span></code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the example of germline J sequence</span></span>
+<span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">J.germline.nt</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "GGCCAAGGAACCCTGGTCACCGTCTCCTCAG"</span></span></code></pre>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the example of clonotype V sequence</span></span>
+<span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'FR1.nt'</span>, <span class="st">'CDR1.nt'</span>, <span class="st">'FR2.nt'</span>, <span class="st">'CDR2.nt'</span>, <span class="st">'FR3.nt'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">[</span> , <span class="va">cols</span> <span class="op">]</span> , <span class="fl">1</span> , <span class="va">paste</span> , collapse <span class="op">=</span> <span class="st">""</span> <span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "caggtgcagctgcaggagtcgggcccaggactggtgaagccttcggagaccctgtccctcacctgcactgtctctggtggctccgtcagcagtggtggttactactggagctggatccggcagCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATGTCCATCACAGTGGGAGCACCAATTACAATCCCTCCCTCAAGCGTCGAGTCACCATGTCAGTAGACACGGCCAGGAAGCAGTTGTCCCTGAAATTGACCTCTGTGACCGCTGCGGACACGGCCGTGTATTTC"</span></span></code></pre>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the example of clonotype J sequence</span></span>
+<span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">FR4.nt</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "GGCCAGGGAGCCCTGGTCACCGTCTCCTCAG"</span></span></code></pre>
+<p>Example: aligning germline and clonotype V sequences:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Alignment.V</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="BCRpipeline_files/figure-html/example%2016-1.png" width="1152" style="display: block; margin: auto;"></p>
+<p>Example: aligning germline and clonotype J sequences:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Alignment.J</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="BCRpipeline_files/figure-html/example%2017-1.png" width="1152" style="display: block; margin: auto;"></p>
+<p>The number of mutations for each clonotype sequence:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Clone.ID'</span>, <span class="st">'Substitutions'</span>, <span class="st">'Insertions'</span>, <span class="st">'Deletions'</span>, <span class="st">'Mutations'</span><span class="op">)</span></span>
+<span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">[</span> , <span class="va">cols</span> <span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">##   Clone.ID Substitutions Insertions Deletions Mutations</span></span>
+<span><span class="co">## 1       42            18          0         0        18</span></span>
+<span><span class="co">## 2      643            16          0         0        16</span></span>
+<span><span class="co">## 3      119             8          0         0         8</span></span>
+<span><span class="co">## 4      123            13          0         0        13</span></span>
+<span><span class="co">## 5      416             6          0         0         6</span></span>
+<span><span class="co">## 6      792             8          0         0         8</span></span>
+<span><span class="co">## 7      283            18          0         0        18</span></span>
+<span><span class="co">## 8      987            15          0         0        15</span></span></code></pre>
+<p>Then you could easily estimate the mutation rate:</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># estimate mutation rate </span></span>
+<span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Mutation.Rate <span class="op">=</span> <span class="va">Mutations</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">Common.Ancestor</span><span class="op">)</span> <span class="op">-</span> <span class="va">CDR3.germline.length</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Clone.ID</span>, <span class="va">Mutation.Rate</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   Clone.ID Mutation.Rate</span></span>
+<span><span class="co">## 1       42    0.09183673</span></span>
+<span><span class="co">## 2      643    0.08163265</span></span>
+<span><span class="co">## 3      119    0.04494382</span></span>
+<span><span class="co">## 4      123    0.07303371</span></span>
+<span><span class="co">## 5      416    0.03314917</span></span>
+<span><span class="co">## 6      792    0.04419890</span></span>
+<span><span class="co">## 7      283    0.09183673</span></span>
+<span><span class="co">## 8      987    0.07653061</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

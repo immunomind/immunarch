@@ -290,18 +290,18 @@
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 12 × 7</span></span></span>
 <span><span class="co">##    Sample  ID    Sex     Age Status Lane  Timepoint</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A             5</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A             8</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A            10</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A2-i129 C1    M        11 C      A             9</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A2-i131 C2    M         9 C      A             3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A2-i133 C4    M        16 C      A             2</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 4</span> A2-i132 C3    F         6 C      A             4</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B             6</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B             7</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C             2</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C             3</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C            12</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C            11</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C             9</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C             1</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> A4-i191 C8    F        22 C      B            12</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> A4-i192 C9    F        24 C      B            11</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> MS1     MS1   M        12 MS     C            10</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> MS2     MS2   M        30 MS     C             1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> MS3     MS3   M         8 MS     C             8</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> MS4     MS4   F        14 MS     C             7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> MS5     MS5   F        15 MS     C             5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> MS6     MS6   F        15 MS     C             6</span></span></code></pre>
 <p>Next, we create a vector with samples in the right order, according to the “Timepoint” column (from smallest to greatest):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></span></code></pre></div>
@@ -312,8 +312,8 @@
 <p>Samples, sorted by the timepoints:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "MS6"     "MS1"     "MS2"     "A2-i132" "A2-i129" "A4-i191" "A4-i192"</span></span>
-<span><span class="co">##  [8] "A2-i131" "MS5"     "A2-i133" "MS4"     "MS3"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "MS2"     "A2-i133" "A2-i131" "A2-i132" "MS5"     "MS6"     "MS4"    </span></span>
+<span><span class="co">##  [8] "MS3"     "A2-i129" "MS1"     "A4-i192" "A4-i191"</span></span></code></pre>
 <p>And finally, we visualise the data:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></span></code></pre></div>
