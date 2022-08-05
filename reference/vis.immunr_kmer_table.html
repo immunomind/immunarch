@@ -138,32 +138,43 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for immunr_kmer_table</span>
-<span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .head <span class="op">=</span> <span class="fl">100</span>,
-  .position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stack"</span>, <span class="st">"dodge"</span>, <span class="st">"fill"</span><span class="op">)</span>,
-  .log <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for immunr_kmer_table</span></span>
+<span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .head <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  .position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stack"</span>, <span class="st">"dodge"</span>, <span class="st">"fill"</span><span class="op">)</span>,</span>
+<span>  .log <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Data frame with two columns "Kmers" and "Count" or a list with such data frames. See Examples.</p></dd>
+
+
 <dt>.head</dt>
 <dd><p>Number of the most frequent kmers to choose for plotting from each data frame.</p></dd>
+
+
 <dt>.position</dt>
 <dd><p>Character vector of length 1. Position of bars for each kmers. Value for the <code>ggplot2</code> argument <code>position</code>.</p></dd>
+
+
 <dt>.log</dt>
 <dd><p>Logical. If TRUE then plot log-scaled plots.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not used here.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -172,15 +183,15 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load necessary data and package.</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Get 5-mers.</span></span>
-<span class="r-in"><span class="va">imm.km</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Plots for kmer proportions in each data frame in immdata.</span></span>
-<span class="r-in"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm.km</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm.km</span>, .position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span>
-<span class="r-plt"><img src="vis.immunr_kmer_table-1.png" alt="" width="700" height="433"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load necessary data and package.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Get 5-mers.</span></span></span>
+<span class="r-in"><span><span class="va">imm.km</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Plots for kmer proportions in each data frame in immdata.</span></span></span>
+<span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm.km</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm.km</span>, .position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></span>
+<span class="r-plt img"><img src="vis.immunr_kmer_table-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -195,7 +206,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -138,17 +138,21 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">split_to_kmers</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.k</span><span class="op">)</span>
-
-<span class="fu">kmer_profile</span><span class="op">(</span><span class="va">.data</span>, .method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"freq"</span>, <span class="st">"prob"</span>, <span class="st">"wei"</span>, <span class="st">"self"</span><span class="op">)</span>, .remove.stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">split_to_kmers</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.k</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">kmer_profile</span><span class="op">(</span><span class="va">.data</span>, .method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"freq"</span>, <span class="st">"prob"</span>, <span class="st">"wei"</span>, <span class="st">"self"</span><span class="op">)</span>, .remove.stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Character vector or the output from <code>getKmers</code>.</p></dd>
+
+
 <dt>.k</dt>
 <dd><p>Integer. Size of k-mers.</p></dd>
+
+
 <dt>.method</dt>
 <dd><p>Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 a matrix with occurences of each amino acid in each position.</p>
@@ -157,26 +161,33 @@ each amino acid in each position. This is a traditional representation of sequen
 <p>If "wei" then returns a position weight matrix (PWM) - a matrix with log likelihoods of PPM elements.</p>
 <p>If "self" then returns a matrix with self-information of elements in PWM.</p>
 <p>For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.</p></dd>
+
+
 <dt>.remove.stop</dt>
 <dd><p>Logical. If TRUE (by default) remove stop codons.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>split_to_kmers</code> - Data frame with two columns (k-mers and their counts).
-<code>kmer_profile</code> - a matrix with per-position amino acid statistics.</p>
+    
+
+<p><code>split_to_kmers</code> - Data frame with two columns (k-mers and their counts).</p>
+
+
+<p><code>kmer_profile</code> - a matrix with per-position amino acid statistics.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">kmer_profile</span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">kmer_profile</span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Warning: removed 5 non-amino acid symbol(s): A</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Please make sure your data doesn't have them in the future.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 5 rows containing missing values (geom_point).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 5 rows containing missing values (geom_label_repel).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>ggrepel: 20 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span>
-<span class="r-plt"><img src="split_to_kmers-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="split_to_kmers-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -191,7 +202,7 @@ each amino acid in each position. This is a traditional representation of sequen
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -142,7 +142,7 @@ For more details see the tutorial <a href="https://immunarch.com/articles/web_on
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dbAnnotate</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.db</span>, <span class="va">.data.col</span>, <span class="va">.db.col</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dbAnnotate</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.db</span>, <span class="va">.data.col</span>, <span class="va">.db.col</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -156,32 +156,41 @@ For more details see the tutorial <a href="https://immunarch.com/articles/web_on
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
+
+
 <dt>.db</dt>
 <dd><p>A data frame or a data table with an immune receptor database. See <a href="dbLoad.html">dbLoad</a> on how to load databases into R.</p></dd>
+
+
 <dt>.data.col</dt>
 <dd><p>Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., `"CDR3.aa"` or `c("CDR3.aa", "V.name")`.</p></dd>
+
+
 <dt>.db.col</dt>
 <dd><p>Character vector. Vector of columns in the database to use for clonotype search. The order must match the order of ".data.col".
 E.g., if ".data.col" is `c("CDR3.aa", "V.name")`, then ".db.col" must have the exact order of columns. i.e., the first column must correspond
 to CDR3 amino acid sequences, and the second column must correspond to V gene segment names.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Data frame with input sequences and counts or proportions for each of the input repertoire.</p>
+    
+
+<p>Data frame with input sequences and counts or proportions for each of the input repertoire.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#' # Example file path</span></span>
-<span class="r-in"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Load the database with human-only TRB-only receptors for all known antigens</span></span>
-<span class="r-in"><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu"><a href="dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">dbAnnotate</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">db</span>, <span class="st">"CDR3.aa"</span>, <span class="st">"cdr3"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#' # Example file path</span></span></span>
+<span class="r-in"><span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Load the database with human-only TRB-only receptors for all known antigens</span></span></span>
+<span class="r-in"><span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu"><a href="dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">dbAnnotate</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">db</span>, <span class="st">"CDR3.aa"</span>, <span class="st">"cdr3"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 14 cols): CDR3.aa,Samples,A2-i129,A2-i131,A2-i133,A2-i132...</span>
 </code></pre></div>
     </div>
@@ -197,7 +206,7 @@ to CDR3 amino acid sequences, and the second column must correspond to V gene se
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

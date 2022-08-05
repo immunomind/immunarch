@@ -156,16 +156,16 @@ respectively).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">repOverlapAnalysis</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .method <span class="op">=</span> <span class="op">(</span><span class="st">"hclust"</span><span class="op">)</span>,
-  .scale <span class="op">=</span> <span class="va">default_scale_fun</span>,
-  .raw <span class="op">=</span> <span class="cn">TRUE</span>,
-  .perp <span class="op">=</span> <span class="fl">1</span>,
-  .theta <span class="op">=</span> <span class="fl">0.1</span>,
-  .eps <span class="op">=</span> <span class="fl">0.01</span>,
-  .k <span class="op">=</span> <span class="fl">2</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">repOverlapAnalysis</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .method <span class="op">=</span> <span class="op">(</span><span class="st">"hclust"</span><span class="op">)</span>,</span>
+<span>  .scale <span class="op">=</span> <span class="va">default_scale_fun</span>,</span>
+<span>  .raw <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .perp <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  .theta <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  .eps <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  .k <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -173,35 +173,52 @@ respectively).</p>
     <dl><dt>.data</dt>
 <dd><p>Any distance matrix between pairs of repertoires. You can also pass your
 output from <code><a href="repOverlap.html">repOverlap</a></code>.</p></dd>
+
+
 <dt>.method</dt>
 <dd><p>A string that defines the type of analysis to perform.</p></dd>
+
+
 <dt>.scale</dt>
 <dd><p>A function to scale the data before passing it to the MDS algorithm.</p></dd>
+
+
 <dt>.raw</dt>
 <dd><p>A logical value. Set TRUE if you want to receive raw output of clustering
 or dimensionality reduction function of choice. Set FALSE if you want to receive
 processed output that can be subjected to visualisation with <code><a href="vis.html">vis</a></code> function.</p></dd>
+
+
 <dt>.perp</dt>
 <dd><p>A numerical value, t-SNE parameter, see <code><a href="immunr_pca.html">immunr_tsne</a></code>.</p></dd>
+
+
 <dt>.theta</dt>
 <dd><p>A numerical value, t-SNE parameter, see <code><a href="immunr_pca.html">immunr_tsne</a></code>.</p></dd>
+
+
 <dt>.eps</dt>
 <dd><p>A numerical value, DBscan epsylon parameter, see <code><a href="immunr_hclust.html">immunr_dbscan</a></code>.</p></dd>
+
+
 <dt>.k</dt>
 <dd><p>The number of clusters to create, passed as <code>k</code> to <a href="https://rdrr.io/pkg/factoextra/man/hcut.html" class="external-link">hcut</a> or as <code>centers</code> to <a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Depends on the last element in the <code>.method</code> string. See <a href="immunr_pca.html">immunr_tsne</a> for more info.</p>
+    
+
+<p>Depends on the last element in the <code>.method</code> string. See <a href="immunr_pca.html">immunr_tsne</a> for more info.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">repOverlapAnalysis</span><span class="op">(</span><span class="va">ov</span>, <span class="st">"mds+hclust"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">repOverlapAnalysis</span><span class="op">(</span><span class="va">ov</span>, <span class="st">"mds+hclust"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
-<span class="r-plt"><img src="repOverlapAnalysis-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="repOverlapAnalysis-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -216,7 +233,7 @@ processed output that can be subjected to visualisation with <code><a href="vis.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

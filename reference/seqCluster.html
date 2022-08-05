@@ -138,7 +138,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">seqCluster</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.dist</span>, <span class="va">.perc_similarity</span>, <span class="va">.nt_similarity</span>, <span class="va">.fixed_threshold</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">seqCluster</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.dist</span>, <span class="va">.perc_similarity</span>, <span class="va">.nt_similarity</span>, <span class="va">.fixed_threshold</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -147,30 +147,41 @@
 <dd><p>The data which was used to caluculate .dist object. Can be <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>,
 <a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>, or a list of these objects.</p>
 <p>Every object must have columns in the immunarch compatible format <a href="immunr_data_format.html">immunarch_data_format</a></p></dd>
+
+
 <dt>.dist</dt>
 <dd><p>List of distance objects produced with <a href="seqDist.html">seqDist</a> function.</p></dd>
+
+
 <dt>.perc_similarity</dt>
 <dd><p>Numeric value between 0 and 1 specifying the maximum acceptable weight of an edge in a graph.
 This threshold depends on the length of sequences.</p></dd>
+
+
 <dt>.nt_similarity</dt>
 <dd><p>Numeric between 0-sequence length specifying
 the threshold of allowing a 1 in n nucleotides mismatch in sequencies.</p></dd>
+
+
 <dt>.fixed_threshold</dt>
 <dd><p>Numeric specifying the threshold on the maximum weight of an edge in a graph.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Immdata data format object. Same as .data, but with extra 'Cluster' column with clusters assigned.</p>
+    
+
+<p>Immdata data format object. Same as .data, but with extra 'Cluster' column with clusters assigned.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># In this example, we will use only 2 samples with 500 clonotypes in each for time saving</span></span>
-<span class="r-in"><span class="va">input_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">head</span>, <span class="fl">500</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dist_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">input_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cluster_result</span> <span class="op">&lt;-</span> <span class="fu">seqCluster</span><span class="op">(</span><span class="va">input_data</span>, <span class="va">dist_result</span>, .fixed_threshold <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># In this example, we will use only 2 samples with 500 clonotypes in each for time saving</span></span></span>
+<span class="r-in"><span><span class="va">input_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">head</span>, <span class="fl">500</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dist_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">input_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cluster_result</span> <span class="op">&lt;-</span> <span class="fu">seqCluster</span><span class="op">(</span><span class="va">input_data</span>, <span class="va">dist_result</span>, .fixed_threshold <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -185,7 +196,7 @@ the threshold of allowing a 1 in n nucleotides mismatch in sequencies.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -138,18 +138,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for immunr_mds</span>
-<span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .by <span class="op">=</span> <span class="cn">NA</span>,
-  .meta <span class="op">=</span> <span class="cn">NA</span>,
-  .point <span class="op">=</span> <span class="cn">TRUE</span>,
-  .text <span class="op">=</span> <span class="cn">TRUE</span>,
-  .ellipse <span class="op">=</span> <span class="cn">TRUE</span>,
-  .point.size <span class="op">=</span> <span class="fl">2</span>,
-  .text.size <span class="op">=</span> <span class="fl">4</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for immunr_mds</span></span>
+<span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .by <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .meta <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .point <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .text <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .ellipse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .point.size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  .text.size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -157,6 +157,8 @@
     <dl><dt>.data</dt>
 <dd><p>Output from analysis functions such as <a href="geneUsageAnalysis.html">geneUsageAnalysis</a> or
 <a href="immunr_pca.html">immunr_pca</a>, <a href="immunr_pca.html">immunr_mds</a> or <a href="immunr_pca.html">immunr_tsne</a>.</p></dd>
+
+
 <dt>.by</dt>
 <dd><p>Pass NA if you want to plot samples without grouping.</p>
 <p>You can pass a character vector with one or several column names from ".meta"
@@ -165,25 +167,42 @@ to group your data before plotting. In this case you should provide ".meta".</p>
 your data, each value should correspond to a sample's property. It will be used
 to group data based on the values provided. Note that in this case you should
 pass NA to ".meta".</p></dd>
+
+
 <dt>.meta</dt>
 <dd><p>A metadata object. An R dataframe with sample names and their properties,
 such as age, serostatus or hla.</p></dd>
+
+
 <dt>.point</dt>
 <dd><p>Logical. If TRUE then plot points corresponding to objects.</p></dd>
+
+
 <dt>.text</dt>
 <dd><p>Logical. If TRUE then plot sample names.</p></dd>
+
+
 <dt>.ellipse</dt>
 <dd><p>Logical. If TRUE then plot ellipses around clusters of grouped samples.</p></dd>
+
+
 <dt>.point.size</dt>
 <dd><p>Numeric. A size of points to plot.</p></dd>
+
+
 <dt>.text.size</dt>
 <dd><p>Numeric. A size of sample names' labels.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not used here.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -195,10 +214,10 @@ such as age, serostatus or hla.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">ov</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis.immunr_mds-1.png" alt="" width="700" height="433"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">ov</span>, <span class="st">"mds"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis.immunr_mds-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -213,7 +232,7 @@ such as age, serostatus or hla.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

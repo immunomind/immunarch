@@ -138,49 +138,56 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for immunr_public_repertoire</span>
-<span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">.data</span>, .plot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"freq"</span>, <span class="st">"clonotypes"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for immunr_public_repertoire</span></span>
+<span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">.data</span>, .plot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"freq"</span>, <span class="st">"clonotypes"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Public repertoire, an output from <a href="pubRep.html">pubRep</a>.</p></dd>
+
+
 <dt>.plot</dt>
 <dd><p>A string specifying the plot type:</p>
 <p>- "freq" for visualisation of the distribution of occurrences of clonotypes
 and their frequencies using <a href="vis_public_frequencies.html">vis_public_frequencies</a>.</p>
 <p>- "clonotypes" for visualisation of public clonotype frequenciy correlations between pairs of
 samples using <a href="vis_public_clonotypes.html">vis_public_clonotypes</a></p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further arguments passed <a href="vis_public_frequencies.html">vis_public_frequencies</a> or <a href="vis_public_clonotypes.html">vis_public_clonotypes</a>,
 depending on the ".plot" argument.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">300</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">300</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 38488 rows containing non-finite values (stat_boxplot).</span>
-<span class="r-plt"><img src="vis.immunr_public_repertoire-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis.immunr_public_repertoire-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Warning! Visualising 3524 points. Too many points may take a while to visualise depending on your hardware. We highly recommend you to use other types: "mean" or "boxplot"</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 38488 rows containing missing values (geom_point).</span>
-<span class="r-plt"><img src="vis.immunr_public_repertoire-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"clonotypes"</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis.immunr_public_repertoire-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"clonotypes"</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Groups with fewer than two data points have been dropped.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Groups with fewer than two data points have been dropped.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt"><img src="vis.immunr_public_repertoire-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis.immunr_public_repertoire-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -195,7 +202,7 @@ depending on the ".plot" argument.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

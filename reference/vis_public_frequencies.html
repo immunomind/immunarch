@@ -138,18 +138,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_public_frequencies</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .by <span class="op">=</span> <span class="cn">NA</span>,
-  .meta <span class="op">=</span> <span class="cn">NA</span>,
-  .type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"boxplot"</span>, <span class="st">"none"</span>, <span class="st">"mean"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vis_public_frequencies</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .by <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .meta <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"boxplot"</span>, <span class="st">"none"</span>, <span class="st">"mean"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Public repertoire - an output from the <a href="pubRep.html">pubRep</a> function.</p></dd>
+
+
 <dt>.by</dt>
 <dd><p>Pass NA if you want to plot samples without grouping.</p>
 <p>You can pass a character vector with one or several column names from ".meta"
@@ -158,35 +160,42 @@ to group your data before plotting. In this case you should provide ".meta".</p>
 your data, each value should correspond to a sample's property. It will be used
 to group data based on the values provided. Note that in this case you should
 pass NA to ".meta".</p></dd>
+
+
 <dt>.meta</dt>
 <dd><p>A metadata object. An R dataframe with sample names and their properties,
 such as age, serostatus or hla.</p></dd>
+
+
 <dt>.type</dt>
 <dd><p>Character. Either "boxplot" for plotting distributions of frequencies,
 "none" for plotting everything, or "mean" for plotting average values only.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">500</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">500</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="pubRep.html">pubRep</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 64256 rows containing non-finite values (stat_boxplot).</span>
-<span class="r-plt"><img src="vis_public_frequencies-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis_public_frequencies-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Warning! Visualising 5884 points. Too many points may take a while to visualise depending on your hardware. We highly recommend you to use other types: "mean" or "boxplot"</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 64256 rows containing missing values (geom_point).</span>
-<span class="r-plt"><img src="vis_public_frequencies-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_public_frequencies-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis_public_frequencies-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .type <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis_public_frequencies-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"freq"</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 64256 rows containing non-finite values (stat_boxplot).</span>
-<span class="r-plt"><img src="vis_public_frequencies-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis_public_frequencies-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -201,7 +210,7 @@ such as age, serostatus or hla.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

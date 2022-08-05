@@ -186,90 +186,90 @@
 </h2>
 <p>Counting k-mer occurrences in <code>immunarch</code> is rather straightforward. All you need to do is to run the <code><a href="../../reference/getKmers.html">getKmers()</a></code> function on your data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span>
-<span class="va">kmers</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4,405 × 2</span></span>
-<span class="co">##    Kmer  Count</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> AAA       6</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> AAD       5</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> AAE       9</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> AAF       2</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> AAG      37</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> AAI       2</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> AAK       5</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> AAL       4</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> AAM       1</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> AAN      13</span>
-<span class="co">## <span style="color: #949494;"># … with 4,395 more rows</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">kmers</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4,405 × 2</span></span></span>
+<span><span class="co">##    Kmer  Count</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> AAA       6</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> AAD       5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> AAE       9</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> AAF       2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> AAG      37</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> AAI       2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> AAK       5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> AAL       4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> AAM       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> AAN      13</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 4,395 more rows</span></span></span></code></pre>
 <p>It is also possible to compute occurrences of k-mers in a batch of immune repertoires. In order to do that, you just need to provide a list of immune repertoires to the function. NA means that there is no such kmer found in a sample, specified by the column name.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="va">kmers</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 172,926 × 13</span></span>
-<span class="co">##    Kmer  `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> AAAAG        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> AAAAL        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> AAAAW        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>         1    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> AAADE        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> AAADN        <span style="color: #BB0000;">NA</span>         1        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> AAADT        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> AAAEA        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> AAAEN        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>         1        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> AAAET        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> AAAFE        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>         1        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
-<span class="co">## <span style="color: #949494;"># … with 172,916 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   MS5 &lt;int&gt;, MS6 &lt;int&gt;</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">kmers</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 172,926 × 13</span></span></span>
+<span><span class="co">##    Kmer  `A2-i129` `A2-i131` `A2-i133` `A2-i132` `A4-i191` `A4-i192`   MS1   MS2</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> AAAAG        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>     1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> AAAAL        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> AAAAW        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>         1    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> AAADE        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> AAADN        <span style="color: #BB0000;">NA</span>         1        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> AAADT        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> AAAEA        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> AAAEN        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>         1        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> AAAET        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> AAAFE        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>         1        <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 172,916 more rows, and 4 more variables: MS3 &lt;int&gt;, MS4 &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   MS5 &lt;int&gt;, MS6 &lt;int&gt;</span></span></span></code></pre>
 <p>Note that by default <code><a href="../../reference/getKmers.html">getKmers()</a></code> filter out all non-coding sequences before counting the k-mer statistics. You can use both coding and non-coding sequences by setting the <code>.coding</code> argument to FALSE:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span>, .coding <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-<span class="va">kmers</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4,645 × 2</span></span>
-<span class="co">##    Kmer  Count</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> **G       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> *~G       4</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> *~L       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> *AA       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> *D~       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> *EE       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> *G~       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> *GG       1</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> *GP       1</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> *HL       1</span>
-<span class="co">## <span style="color: #949494;"># … with 4,635 more rows</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">3</span>, .coding <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="va">kmers</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4,645 × 2</span></span></span>
+<span><span class="co">##    Kmer  Count</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> **G       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> *~G       4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> *~L       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> *AA       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> *D~       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> *EE       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> *G~       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> *GG       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> *GP       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> *HL       1</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 4,635 more rows</span></span></span></code></pre>
 <div class="section level3">
 <h3 id="kmer-statistics-visualisation">Kmer statistics visualisation<a class="anchor" aria-label="anchor" href="#kmer-statistics-visualisation"></a>
 </h3>
 <p>To visualise your k-mer statistics, the <code><a href="../../reference/vis.html">vis()</a></code> function comes to help:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>The <code><a href="../../reference/vis.html">vis()</a></code> function for k-mers has a number of arguments to manipulate the plot. First, the <code>.head</code> argument specifies the number of the most abundant k-mers to visualise.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">30</span><span class="op">)</span>
-
-<span class="op">(</span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span><span class="op">)</span> <span class="op">/</span> <span class="va">p3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span><span class="op">)</span> <span class="op">/</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Second, there are three options to choose from for positions of bars: “stack”, “dodge” and “fill”, adjusted by providing the correposnding option to the <code>.position</code> argument:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span>
-<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span>
-
-<span class="op">(</span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span><span class="op">)</span> <span class="op">/</span> <span class="va">p3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span><span class="op">)</span> <span class="op">/</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Option “stack” stacks all the bars on top of each other so you can see the full distribution of k-mers. Option “fill” stack all bars on top of each other as well, but normalises it in such a way that you can see distribution of counts per k-mer, i.e., you can clearly see which repertoire has more k-mer counts than others for a specific k-mer. Option “dodge” groups k-mer bars of different samples so that you can clearly see which samples has more k-mer occurrences overall.</p>
 <p>Additional argument is <code>.log</code> needed if your distribution of k-mer counts is vastly imbalanced for some of repertoires. It permits to use the log-transformation of y-axis so you can see differences in orders of magnitude in k-mer counts.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"stack"</span>, .log <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kmers</span>, .head <span class="op">=</span> <span class="fl">10</span>, .position <span class="op">=</span> <span class="st">"stack"</span>, .log <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -285,32 +285,32 @@
 </ul>
 <p>To compute and visualise sequence motifs, first you need to compute k-mer statistics for one of the input immune repertoires, and then apply the <code><a href="../../reference/split_to_kmers.html">kmer_profile()</a></code> function to compute sequence motif matrices:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    [,1]  [,2]  [,3] [,4] [,5]</span>
-<span class="co">## A  8955  8976  3791 3246 3159</span>
-<span class="co">## C  6469    26    27   18   10</span>
-<span class="co">## D  2129  2131  2131 2130 2085</span>
-<span class="co">## E  3315  5868  5872 5870 5720</span>
-<span class="co">## F   688   691   691 2600 9029</span>
-<span class="co">## G  9194  9603  9603 9566 9326</span>
-<span class="co">## H   405   405   405  680  659</span>
-<span class="co">## I   750  1020  1107  896  852</span>
-<span class="co">## K   721  1099  1100 1100 1044</span>
-<span class="co">## L  3073  3078  4108 4097 4033</span>
-<span class="co">## M   241   245   246  246  226</span>
-<span class="co">## N  2421  2423  2424 2419 2355</span>
-<span class="co">## P  2285  2564  2564 2559 2509</span>
-<span class="co">## Q  2459  2466  7087 7086 7051</span>
-<span class="co">## R  3487  3502  3504 3496 2917</span>
-<span class="co">## S 14021 14029 13082 8128 3462</span>
-<span class="co">## T  3408  5669  5671 6024 5797</span>
-<span class="co">## V  1703  1927  1927 1561 1508</span>
-<span class="co">## W   485   486   487  450  439</span>
-<span class="co">## Y  2060  2061  2442 6097 6088</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_kmer_profile_pfm" "matrix"                 </span>
-<span class="co">## [3] "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    [,1]  [,2]  [,3] [,4] [,5]</span></span>
+<span><span class="co">## A  8955  8976  3791 3246 3159</span></span>
+<span><span class="co">## C  6469    26    27   18   10</span></span>
+<span><span class="co">## D  2129  2131  2131 2130 2085</span></span>
+<span><span class="co">## E  3315  5868  5872 5870 5720</span></span>
+<span><span class="co">## F   688   691   691 2600 9029</span></span>
+<span><span class="co">## G  9194  9603  9603 9566 9326</span></span>
+<span><span class="co">## H   405   405   405  680  659</span></span>
+<span><span class="co">## I   750  1020  1107  896  852</span></span>
+<span><span class="co">## K   721  1099  1100 1100 1044</span></span>
+<span><span class="co">## L  3073  3078  4108 4097 4033</span></span>
+<span><span class="co">## M   241   245   246  246  226</span></span>
+<span><span class="co">## N  2421  2423  2424 2419 2355</span></span>
+<span><span class="co">## P  2285  2564  2564 2559 2509</span></span>
+<span><span class="co">## Q  2459  2466  7087 7086 7051</span></span>
+<span><span class="co">## R  3487  3502  3504 3496 2917</span></span>
+<span><span class="co">## S 14021 14029 13082 8128 3462</span></span>
+<span><span class="co">## T  3408  5669  5671 6024 5797</span></span>
+<span><span class="co">## V  1703  1927  1927 1561 1508</span></span>
+<span><span class="co">## W   485   486   487  450  439</span></span>
+<span><span class="co">## Y  2060  2061  2442 6097 6088</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_kmer_profile_pfm" "matrix"                 </span></span>
+<span><span class="co">## [3] "array"</span></span></code></pre>
 <p>Currently we do not support sequence motifs analysis for more than one sample, but we are working on including it into our following release. In order to compute and visualise sequence motif matrices for all of your samples you need to process them one by one, which can be easily done in for-loops or via the <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> function.</p>
 <p>Argument <code>.method</code> specifies which matrix to compute:</p>
 <ul>
@@ -324,121 +324,121 @@
 <code>.method = "self"</code> - self-information matrix.</li>
 </ul>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"freq"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    [,1]  [,2]  [,3] [,4] [,5]</span>
-<span class="co">## A  8955  8976  3791 3246 3159</span>
-<span class="co">## C  6469    26    27   18   10</span>
-<span class="co">## D  2129  2131  2131 2130 2085</span>
-<span class="co">## E  3315  5868  5872 5870 5720</span>
-<span class="co">## F   688   691   691 2600 9029</span>
-<span class="co">## G  9194  9603  9603 9566 9326</span>
-<span class="co">## H   405   405   405  680  659</span>
-<span class="co">## I   750  1020  1107  896  852</span>
-<span class="co">## K   721  1099  1100 1100 1044</span>
-<span class="co">## L  3073  3078  4108 4097 4033</span>
-<span class="co">## M   241   245   246  246  226</span>
-<span class="co">## N  2421  2423  2424 2419 2355</span>
-<span class="co">## P  2285  2564  2564 2559 2509</span>
-<span class="co">## Q  2459  2466  7087 7086 7051</span>
-<span class="co">## R  3487  3502  3504 3496 2917</span>
-<span class="co">## S 14021 14029 13082 8128 3462</span>
-<span class="co">## T  3408  5669  5671 6024 5797</span>
-<span class="co">## V  1703  1927  1927 1561 1508</span>
-<span class="co">## W   485   486   487  450  439</span>
-<span class="co">## Y  2060  2061  2442 6097 6088</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_kmer_profile_pfm" "matrix"                 </span>
-<span class="co">## [3] "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"freq"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    [,1]  [,2]  [,3] [,4] [,5]</span></span>
+<span><span class="co">## A  8955  8976  3791 3246 3159</span></span>
+<span><span class="co">## C  6469    26    27   18   10</span></span>
+<span><span class="co">## D  2129  2131  2131 2130 2085</span></span>
+<span><span class="co">## E  3315  5868  5872 5870 5720</span></span>
+<span><span class="co">## F   688   691   691 2600 9029</span></span>
+<span><span class="co">## G  9194  9603  9603 9566 9326</span></span>
+<span><span class="co">## H   405   405   405  680  659</span></span>
+<span><span class="co">## I   750  1020  1107  896  852</span></span>
+<span><span class="co">## K   721  1099  1100 1100 1044</span></span>
+<span><span class="co">## L  3073  3078  4108 4097 4033</span></span>
+<span><span class="co">## M   241   245   246  246  226</span></span>
+<span><span class="co">## N  2421  2423  2424 2419 2355</span></span>
+<span><span class="co">## P  2285  2564  2564 2559 2509</span></span>
+<span><span class="co">## Q  2459  2466  7087 7086 7051</span></span>
+<span><span class="co">## R  3487  3502  3504 3496 2917</span></span>
+<span><span class="co">## S 14021 14029 13082 8128 3462</span></span>
+<span><span class="co">## T  3408  5669  5671 6024 5797</span></span>
+<span><span class="co">## V  1703  1927  1927 1561 1508</span></span>
+<span><span class="co">## W   485   486   487  450  439</span></span>
+<span><span class="co">## Y  2060  2061  2442 6097 6088</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_kmer_profile_pfm" "matrix"                 </span></span>
+<span><span class="co">## [3] "array"</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"prob"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##          [,1]         [,2]         [,3]         [,4]         [,5]</span>
-<span class="co">## A 0.131172274 0.1314798811 0.0555303286 0.0475472030 0.0462728325</span>
-<span class="co">## C 0.094757503 0.0003808464 0.0003954943 0.0002636629 0.0001464794</span>
-<span class="co">## D 0.031185458 0.0312147534 0.0312147534 0.0312001055 0.0305409483</span>
-<span class="co">## E 0.048557911 0.0859540934 0.0860126851 0.0859833892 0.0837861987</span>
-<span class="co">## F 0.010077781 0.0101217244 0.0101217244 0.0380846358 0.1322562217</span>
-<span class="co">## G 0.134673131 0.1406641375 0.1406641375 0.1401221638 0.1366066590</span>
-<span class="co">## H 0.005932414 0.0059324144 0.0059324144 0.0099605970 0.0096529904</span>
-<span class="co">## I 0.010985953 0.0149408956 0.0162152661 0.0131245514 0.0124800422</span>
-<span class="co">## K 0.010561162 0.0160980826 0.0161127305 0.0161127305 0.0152924461</span>
-<span class="co">## L 0.045013110 0.0450863496 0.0601737245 0.0600125972 0.0590751293</span>
-<span class="co">## M 0.003530153 0.0035887445 0.0036033925 0.0036033925 0.0033104337</span>
-<span class="co">## N 0.035462655 0.0354919510 0.0355065989 0.0354333592 0.0344958913</span>
-<span class="co">## P 0.033470536 0.0375573101 0.0375573101 0.0374840704 0.0367516735</span>
-<span class="co">## Q 0.036019277 0.0361218122 0.1038099284 0.1037952804 0.1032826026</span>
-<span class="co">## R 0.051077356 0.0512970748 0.0513263707 0.0512091872 0.0427280318</span>
-<span class="co">## S 0.205378722 0.2054959059 0.1916243097 0.1190584306 0.0507111573</span>
-<span class="co">## T 0.049920169 0.0830391539 0.0830684498 0.0882391715 0.0849140899</span>
-<span class="co">## V 0.024945436 0.0282265743 0.0282265743 0.0228654294 0.0220890888</span>
-<span class="co">## W 0.007104249 0.0071188973 0.0071335452 0.0065915716 0.0064304443</span>
-<span class="co">## Y 0.030174750 0.0301893978 0.0357702618 0.0893084709 0.0891766395</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_kmer_profile_ppm" "matrix"                 </span>
-<span class="co">## [3] "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"prob"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##          [,1]         [,2]         [,3]         [,4]         [,5]</span></span>
+<span><span class="co">## A 0.131172274 0.1314798811 0.0555303286 0.0475472030 0.0462728325</span></span>
+<span><span class="co">## C 0.094757503 0.0003808464 0.0003954943 0.0002636629 0.0001464794</span></span>
+<span><span class="co">## D 0.031185458 0.0312147534 0.0312147534 0.0312001055 0.0305409483</span></span>
+<span><span class="co">## E 0.048557911 0.0859540934 0.0860126851 0.0859833892 0.0837861987</span></span>
+<span><span class="co">## F 0.010077781 0.0101217244 0.0101217244 0.0380846358 0.1322562217</span></span>
+<span><span class="co">## G 0.134673131 0.1406641375 0.1406641375 0.1401221638 0.1366066590</span></span>
+<span><span class="co">## H 0.005932414 0.0059324144 0.0059324144 0.0099605970 0.0096529904</span></span>
+<span><span class="co">## I 0.010985953 0.0149408956 0.0162152661 0.0131245514 0.0124800422</span></span>
+<span><span class="co">## K 0.010561162 0.0160980826 0.0161127305 0.0161127305 0.0152924461</span></span>
+<span><span class="co">## L 0.045013110 0.0450863496 0.0601737245 0.0600125972 0.0590751293</span></span>
+<span><span class="co">## M 0.003530153 0.0035887445 0.0036033925 0.0036033925 0.0033104337</span></span>
+<span><span class="co">## N 0.035462655 0.0354919510 0.0355065989 0.0354333592 0.0344958913</span></span>
+<span><span class="co">## P 0.033470536 0.0375573101 0.0375573101 0.0374840704 0.0367516735</span></span>
+<span><span class="co">## Q 0.036019277 0.0361218122 0.1038099284 0.1037952804 0.1032826026</span></span>
+<span><span class="co">## R 0.051077356 0.0512970748 0.0513263707 0.0512091872 0.0427280318</span></span>
+<span><span class="co">## S 0.205378722 0.2054959059 0.1916243097 0.1190584306 0.0507111573</span></span>
+<span><span class="co">## T 0.049920169 0.0830391539 0.0830684498 0.0882391715 0.0849140899</span></span>
+<span><span class="co">## V 0.024945436 0.0282265743 0.0282265743 0.0228654294 0.0220890888</span></span>
+<span><span class="co">## W 0.007104249 0.0071188973 0.0071335452 0.0065915716 0.0064304443</span></span>
+<span><span class="co">## Y 0.030174750 0.0301893978 0.0357702618 0.0893084709 0.0891766395</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_kmer_profile_ppm" "matrix"                 </span></span>
+<span><span class="co">## [3] "array"</span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"wei"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##       [,1]      [,2]      [,3]       [,4]      [,5]</span>
-<span class="co">## A 8.806550 8.8099289 7.5664346  7.3425192  7.303324</span>
-<span class="co">## C 8.337399 0.3785116 0.4329594 -0.1520031 -1.000000</span>
-<span class="co">## D 6.734032 6.7353868 6.7353868  6.7347096  6.703904</span>
-<span class="co">## E 7.372865 8.1967251 8.1977082  8.1972167  8.159871</span>
-<span class="co">## F 5.104337 5.1106138 5.1106138  7.0223678  8.818422</span>
-<span class="co">## G 8.844549 8.9073414 8.9073414  8.9017720  8.865115</span>
-<span class="co">## H 4.339850 4.3398500 4.3398500  5.0874628  5.042207</span>
-<span class="co">## I 5.228819 5.6724253 5.7905114  5.4854268  5.412782</span>
-<span class="co">## K 5.171927 5.7800476 5.7813597  5.7813597  5.705978</span>
-<span class="co">## L 7.263504 7.2658494 7.6822924  7.6784241  7.655710</span>
-<span class="co">## M 3.590961 3.6147098 3.6205864  3.6205864  3.498251</span>
-<span class="co">## N 6.919459 6.9206506 6.9212459  6.9182670  6.879583</span>
-<span class="co">## P 6.836050 7.0022525 7.0022525  6.9994363  6.970969</span>
-<span class="co">## Q 6.941928 6.9460290 8.4690312  8.4688277  8.461684</span>
-<span class="co">## R 7.445843 7.4520353 7.4528590  7.4495614  7.188342</span>
-<span class="co">## S 9.453374 9.4541965 9.3533674  8.6667566  7.435462</span>
-<span class="co">## T 7.412782 8.1469505 8.1474593  8.2345780  8.179163</span>
-<span class="co">## V 6.411935 6.5902128 6.5902128  6.2863267  6.236493</span>
-<span class="co">## W 4.599913 4.6028844 4.6058499  4.4918531  4.456149</span>
-<span class="co">## Y 6.686501 6.6872007 6.9319194  8.2519557  8.249825</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_kmer_profile_pwm" "matrix"                 </span>
-<span class="co">## [3] "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"wei"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##       [,1]      [,2]      [,3]       [,4]      [,5]</span></span>
+<span><span class="co">## A 8.806550 8.8099289 7.5664346  7.3425192  7.303324</span></span>
+<span><span class="co">## C 8.337399 0.3785116 0.4329594 -0.1520031 -1.000000</span></span>
+<span><span class="co">## D 6.734032 6.7353868 6.7353868  6.7347096  6.703904</span></span>
+<span><span class="co">## E 7.372865 8.1967251 8.1977082  8.1972167  8.159871</span></span>
+<span><span class="co">## F 5.104337 5.1106138 5.1106138  7.0223678  8.818422</span></span>
+<span><span class="co">## G 8.844549 8.9073414 8.9073414  8.9017720  8.865115</span></span>
+<span><span class="co">## H 4.339850 4.3398500 4.3398500  5.0874628  5.042207</span></span>
+<span><span class="co">## I 5.228819 5.6724253 5.7905114  5.4854268  5.412782</span></span>
+<span><span class="co">## K 5.171927 5.7800476 5.7813597  5.7813597  5.705978</span></span>
+<span><span class="co">## L 7.263504 7.2658494 7.6822924  7.6784241  7.655710</span></span>
+<span><span class="co">## M 3.590961 3.6147098 3.6205864  3.6205864  3.498251</span></span>
+<span><span class="co">## N 6.919459 6.9206506 6.9212459  6.9182670  6.879583</span></span>
+<span><span class="co">## P 6.836050 7.0022525 7.0022525  6.9994363  6.970969</span></span>
+<span><span class="co">## Q 6.941928 6.9460290 8.4690312  8.4688277  8.461684</span></span>
+<span><span class="co">## R 7.445843 7.4520353 7.4528590  7.4495614  7.188342</span></span>
+<span><span class="co">## S 9.453374 9.4541965 9.3533674  8.6667566  7.435462</span></span>
+<span><span class="co">## T 7.412782 8.1469505 8.1474593  8.2345780  8.179163</span></span>
+<span><span class="co">## V 6.411935 6.5902128 6.5902128  6.2863267  6.236493</span></span>
+<span><span class="co">## W 4.599913 4.6028844 4.6058499  4.4918531  4.456149</span></span>
+<span><span class="co">## Y 6.686501 6.6872007 6.9319194  8.2519557  8.249825</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_kmer_profile_pwm" "matrix"                 </span></span>
+<span><span class="co">## [3] "array"</span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"self"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##         [,1]        [,2]        [,3]        [,4]       [,5]</span>
-<span class="co">## A 0.38439580 0.384852924 0.231593692 0.208945980 0.20515943</span>
-<span class="co">## C 0.32213912 0.004325845 0.004470689 0.003134693 0.00186571</span>
-<span class="co">## D 0.15602031 0.156124588 0.156124588 0.156072452 0.15371599</span>
-<span class="co">## E 0.21191400 0.304302404 0.304425277 0.304363847 0.29971526</span>
-<span class="co">## F 0.06684268 0.067070605 0.067070605 0.179555617 0.38600202</span>
-<span class="co">## G 0.38953746 0.398033587 0.398033587 0.397280373 0.39232070</span>
-<span class="co">## H 0.04388305 0.043883048 0.043883048 0.066233509 0.06462492</span>
-<span class="co">## I 0.07149874 0.090610399 0.096424136 0.082049289 0.07892670</span>
-<span class="co">## K 0.06933496 0.095895752 0.095961867 0.095961867 0.09222931</span>
-<span class="co">## L 0.20136664 0.201588530 0.243987757 0.243566576 0.24110364</span>
-<span class="co">## M 0.02875681 0.029148878 0.029246677 0.029246677 0.02727388</span>
-<span class="co">## N 0.17084331 0.170942166 0.170991579 0.170744427 0.16756143</span>
-<span class="co">## P 0.16403791 0.177824941 0.177824941 0.177583728 0.17516018</span>
-<span class="co">## Q 0.17271556 0.173059094 0.339249150 0.339222412 0.33828469</span>
-<span class="co">## R 0.21918174 0.219806921 0.219890176 0.219557010 0.19435586</span>
-<span class="co">## S 0.46901135 0.469109844 0.456764807 0.365540136 0.21813673</span>
-<span class="co">## T 0.21586646 0.298115914 0.298178816 0.309052134 0.30211178</span>
-<span class="co">## V 0.13283645 0.145276593 0.145276593 0.124632326 0.12150152</span>
-<span class="co">## W 0.05070375 0.050787142 0.050870488 0.047757003 0.04681920</span>
-<span class="co">## Y 0.15239801 0.152450850 0.171879524 0.311245305 0.31097592</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_kmer_profile_self" "matrix"                  </span>
-<span class="co">## [3] "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"self"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##         [,1]        [,2]        [,3]        [,4]       [,5]</span></span>
+<span><span class="co">## A 0.38439580 0.384852924 0.231593692 0.208945980 0.20515943</span></span>
+<span><span class="co">## C 0.32213912 0.004325845 0.004470689 0.003134693 0.00186571</span></span>
+<span><span class="co">## D 0.15602031 0.156124588 0.156124588 0.156072452 0.15371599</span></span>
+<span><span class="co">## E 0.21191400 0.304302404 0.304425277 0.304363847 0.29971526</span></span>
+<span><span class="co">## F 0.06684268 0.067070605 0.067070605 0.179555617 0.38600202</span></span>
+<span><span class="co">## G 0.38953746 0.398033587 0.398033587 0.397280373 0.39232070</span></span>
+<span><span class="co">## H 0.04388305 0.043883048 0.043883048 0.066233509 0.06462492</span></span>
+<span><span class="co">## I 0.07149874 0.090610399 0.096424136 0.082049289 0.07892670</span></span>
+<span><span class="co">## K 0.06933496 0.095895752 0.095961867 0.095961867 0.09222931</span></span>
+<span><span class="co">## L 0.20136664 0.201588530 0.243987757 0.243566576 0.24110364</span></span>
+<span><span class="co">## M 0.02875681 0.029148878 0.029246677 0.029246677 0.02727388</span></span>
+<span><span class="co">## N 0.17084331 0.170942166 0.170991579 0.170744427 0.16756143</span></span>
+<span><span class="co">## P 0.16403791 0.177824941 0.177824941 0.177583728 0.17516018</span></span>
+<span><span class="co">## Q 0.17271556 0.173059094 0.339249150 0.339222412 0.33828469</span></span>
+<span><span class="co">## R 0.21918174 0.219806921 0.219890176 0.219557010 0.19435586</span></span>
+<span><span class="co">## S 0.46901135 0.469109844 0.456764807 0.365540136 0.21813673</span></span>
+<span><span class="co">## T 0.21586646 0.298115914 0.298178816 0.309052134 0.30211178</span></span>
+<span><span class="co">## V 0.13283645 0.145276593 0.145276593 0.124632326 0.12150152</span></span>
+<span><span class="co">## W 0.05070375 0.050787142 0.050870488 0.047757003 0.04681920</span></span>
+<span><span class="co">## Y 0.15239801 0.152450850 0.171879524 0.311245305 0.31097592</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_kmer_profile_self" "matrix"                  </span></span>
+<span><span class="co">## [3] "array"</span></span></code></pre>
 <div class="section level3">
 <h3 id="sequence-motif-visualisation">Sequence motif visualisation<a class="anchor" aria-label="anchor" href="#sequence-motif-visualisation"></a>
 </h3>
 <p>Visualisation of sequence motif matrices is done by <code><a href="../../reference/vis.html">vis()</a></code>. There are two types of plots to choose from - sequence logo and “text logo”. The argument <code>.plot</code> regulates the type of plot: <code>.plot = "seq"</code> for sequence logo plots and <code>.plot = "text"</code> (by default) for “text logo” plots.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"self"</span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kp</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kp</span>, .plot <span class="op">=</span> <span class="st">"seq"</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
-<pre><code><span class="co">## Warning: ggrepel: 13 unlabeled data points (too many overlaps). Consider</span>
-<span class="co">## increasing max.overlaps</span></code></pre>
+<code class="sourceCode R"><span><span class="va">kp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"self"</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kp</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">kp</span>, .plot <span class="op">=</span> <span class="st">"seq"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: ggrepel: 13 unlabeled data points (too many overlaps). Consider</span></span>
+<span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="v9_kmers_files/figure-html/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -466,7 +466,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

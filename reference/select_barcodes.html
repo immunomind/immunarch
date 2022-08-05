@@ -146,7 +146,7 @@ and proportions are changed accordingly to the filtered barcodes.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">select_barcodes</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.barcodes</span>, .force.list <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">select_barcodes</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.barcodes</span>, .force.list <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -160,15 +160,22 @@ and proportions are changed accordingly to the filtered barcodes.</p>
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
+
+
 <dt>.barcodes</dt>
 <dd><p>Either a character vector with barcodes or a named character/factor vector with
 barcodes as names and cluster IDs a vector elements. The output of Seurat's <code>Idents</code> function works.</p></dd>
+
+
 <dt>.force.list</dt>
 <dd><p>Logical. If TRUE then always returns a list, even if the result is one data frame.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
+    
+
+<p>An immune repertoire (if ".barcodes" is a barcode vector) or a list of immune repertoires
 (if ".barcodes" is named vector or an output from Seurat::Idents()). Each element is an immune repertoire
 with clonotype barcodes corresponding to the input barcodes. The output list names are cluster names
 in the ".barcode" argument (Seurat::Idents() case only).</p>
@@ -180,16 +187,16 @@ in the ".barcode" argument (Seurat::Idents() case only).</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Create a fake single-cell data</span></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">df</span><span class="op">$</span><span class="va">Barcode</span> <span class="op">&lt;-</span> <span class="st">"AAAAACCCCC"</span></span>
-<span class="r-in"><span class="va">df</span><span class="op">$</span><span class="va">Barcode</span><span class="op">[</span><span class="fl">51</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"GGGGGCCCCC"</span></span>
-<span class="r-in"><span class="va">barcodes</span> <span class="op">&lt;-</span> <span class="st">"AAAAACCCCC"</span></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">select_barcodes</span><span class="op">(</span><span class="va">df</span>, <span class="va">barcodes</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Create a fake single-cell data</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">Barcode</span> <span class="op">&lt;-</span> <span class="st">"AAAAACCCCC"</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">Barcode</span><span class="op">[</span><span class="fl">51</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"GGGGGCCCCC"</span></span></span>
+<span class="r-in"><span><span class="va">barcodes</span> <span class="op">&lt;-</span> <span class="st">"AAAAACCCCC"</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">select_barcodes</span><span class="op">(</span><span class="va">df</span>, <span class="va">barcodes</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -204,7 +211,7 @@ in the ".barcode" argument (Seurat::Idents() case only).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

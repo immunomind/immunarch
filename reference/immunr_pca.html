@@ -150,39 +150,58 @@ methods are:</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">immunr_pca</span><span class="op">(</span><span class="va">.data</span>, .scale <span class="op">=</span> <span class="va">default_scale_fun</span>, .raw <span class="op">=</span> <span class="cn">TRUE</span>, .orig <span class="op">=</span> <span class="cn">FALSE</span>, .dist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">immunr_mds</span><span class="op">(</span><span class="va">.data</span>, .scale <span class="op">=</span> <span class="va">default_scale_fun</span>, .raw <span class="op">=</span> <span class="cn">TRUE</span>, .orig <span class="op">=</span> <span class="cn">FALSE</span>, .dist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="fu">immunr_tsne</span><span class="op">(</span><span class="va">.data</span>, .perp <span class="op">=</span> <span class="fl">1</span>, .dist <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">immunr_pca</span><span class="op">(</span><span class="va">.data</span>, .scale <span class="op">=</span> <span class="va">default_scale_fun</span>, .raw <span class="op">=</span> <span class="cn">TRUE</span>, .orig <span class="op">=</span> <span class="cn">FALSE</span>, .dist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">immunr_mds</span><span class="op">(</span><span class="va">.data</span>, .scale <span class="op">=</span> <span class="va">default_scale_fun</span>, .raw <span class="op">=</span> <span class="cn">TRUE</span>, .orig <span class="op">=</span> <span class="cn">FALSE</span>, .dist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">immunr_tsne</span><span class="op">(</span><span class="va">.data</span>, .perp <span class="op">=</span> <span class="fl">1</span>, .dist <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A matrix or a data frame with features, distance matrix or output from <a href="repOverlapAnalysis.html">repOverlapAnalysis</a> or <a href="geneUsageAnalysis.html">geneUsageAnalysis</a> functions.</p></dd>
+
+
 <dt>.scale</dt>
 <dd><p>A function to apply to your data before passing it to any of
 dimensionality reduction algorithms. There is no scaling by default.</p></dd>
+
+
 <dt>.raw</dt>
 <dd><p>If TRUE then returns the non-processed output from dimensionality reduction
 algorithms. Pass FALSE if you want to visualise results.</p></dd>
+
+
 <dt>.orig</dt>
 <dd><p>If TRUE then returns the original result from algorithms. Pass FALSE
 if you want to visualise results.</p></dd>
+
+
 <dt>.dist</dt>
 <dd><p>If TRUE then assumes that ".data" is a distance matrix.</p></dd>
+
+
 <dt>.perp</dt>
 <dd><p>The perplexity parameter for <a href="https://rdrr.io/pkg/Rtsne/man/Rtsne.html" class="external-link">Rtsne</a>. Sepcifies the number
 of neighbours each data point must have in the resulting plot.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other parameters passed to <a href="https://rdrr.io/pkg/Rtsne/man/Rtsne.html" class="external-link">Rtsne</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>immunr_pca</code> - an output from <a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a>.
-<code>immunr_mds</code> - an output from isoMDS.
-<code>immunr_tsne</code> - an output from Rtsne.</p>
+    
+
+<p><code>immunr_pca</code> - an output from <a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a>.</p>
+
+
+<p><code>immunr_mds</code> - an output from isoMDS.</p>
+
+
+<p><code>immunr_tsne</code> - an output from Rtsne.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -191,11 +210,11 @@ of neighbours each data point must have in the resulting plot.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gu</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span class="r-in"><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">gu</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">immunr_pca</span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gu</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">gu</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">immunr_pca</span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Standard deviations (1, .., p=12):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 3.631709e+00 3.196007e+00 2.328286e+00 2.069586e+00 1.827896e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 1.740118e+00 1.568858e+00 1.493067e+00 1.305664e+00 1.128147e+00</span>
@@ -349,7 +368,7 @@ of neighbours each data point must have in the resulting plot.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [46,]  0.007849834  0.197019115</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [47,]  0.154027098 -0.234045862</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [48,]  0.069562806  0.129115627</span>
-<span class="r-in"><span class="fu">immunr_mds</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">immunr_mds</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Standard deviations (1, .., p=4):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 0 0 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -367,7 +386,7 @@ of neighbours each data point must have in the resulting plot.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MS4      344.35982 -113.71333</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MS5      -67.39896  114.26628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MS6      544.07239  354.83764</span>
-<span class="r-in"><span class="fu">immunr_tsne</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">immunr_tsne</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              DimI     DimII</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]   15.314316 148.72060</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  -97.179830 -89.20496</span>
@@ -397,7 +416,7 @@ of neighbours each data point must have in the resulting plot.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

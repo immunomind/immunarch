@@ -150,41 +150,52 @@ filtering by species, chain types (i.e., locus) and pathology (i.e., antigen spe
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dbLoad</span><span class="op">(</span><span class="va">.path</span>, <span class="va">.db</span>, .species <span class="op">=</span> <span class="cn">NA</span>, .chain <span class="op">=</span> <span class="cn">NA</span>, .pathology <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dbLoad</span><span class="op">(</span><span class="va">.path</span>, <span class="va">.db</span>, .species <span class="op">=</span> <span class="cn">NA</span>, .chain <span class="op">=</span> <span class="cn">NA</span>, .pathology <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.path</dt>
 <dd><p>Character. A path to the database file, e.g., "/Users/researcher/Downloads/McPAS-TCR.csv".</p></dd>
+
+
 <dt>.db</dt>
 <dd><p>Character. A database type: either "vdjdb", "vdjdb-search", "mcpas" or "tbadb".</p>
 <p>"vdjdb" for VDJDB; "vdjdb-search" for search table obtained from the web interface of VDJDB;
 "mcpas" for McPAS-TCR; "tbadb" for PIRD TBAdb.</p></dd>
+
+
 <dt>.species</dt>
 <dd><p>Character. A string or a vector of strings specifying which species need to be in the database, e.g., "HomoSapiens".
 Pass NA (by default) to load all available species.</p></dd>
+
+
 <dt>.chain</dt>
 <dd><p>Character. A string or a vector of strings specifying which chains need to be in the database, e.g., "TRB".
 Pass NA (by default) to load all available chains.</p></dd>
+
+
 <dt>.pathology</dt>
 <dd><p>Character. A string or a vector of strings specifying which disease, virus, bacteria or any condition
 needs to be in the database, e.g., "CMV".
 Pass NA (by default) to load all available conditions.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Data frame with the input database records.</p>
+    
+
+<p>Data frame with the input database records.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example file path</span></span>
-<span class="r-in"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Load the database with human-only TRB-only receptors for all known antigens</span></span>
-<span class="r-in"><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">dbLoad</span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">db</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example file path</span></span></span>
+<span class="r-in"><span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/db/vdjdb.example.txt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Load the database with human-only TRB-only receptors for all known antigens</span></span></span>
+<span class="r-in"><span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">dbLoad</span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">db</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 19</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -216,7 +227,7 @@ Pass NA (by default) to load all available conditions.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

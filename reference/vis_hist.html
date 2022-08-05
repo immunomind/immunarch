@@ -138,28 +138,30 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_hist</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .by <span class="op">=</span> <span class="cn">NA</span>,
-  .meta <span class="op">=</span> <span class="cn">NA</span>,
-  .title <span class="op">=</span> <span class="st">"Gene usage"</span>,
-  .ncol <span class="op">=</span> <span class="cn">NA</span>,
-  .points <span class="op">=</span> <span class="cn">TRUE</span>,
-  .test <span class="op">=</span> <span class="cn">TRUE</span>,
-  .coord.flip <span class="op">=</span> <span class="cn">FALSE</span>,
-  .grid <span class="op">=</span> <span class="cn">FALSE</span>,
-  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gene"</span>, <span class="cn">NA</span><span class="op">)</span>,
-  .melt <span class="op">=</span> <span class="cn">TRUE</span>,
-  .legend <span class="op">=</span> <span class="cn">NA</span>,
-  .add.layer <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vis_hist</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .by <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .meta <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .title <span class="op">=</span> <span class="st">"Gene usage"</span>,</span>
+<span>  .ncol <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .points <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .test <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .coord.flip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .grid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gene"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  .melt <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .legend <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .add.layer <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Input matrix or data frame.</p></dd>
+
+
 <dt>.by</dt>
 <dd><p>Pass NA if you want to plot samples without grouping.</p>
 <p>You can pass a character vector with one or several column names from ".meta"
@@ -168,40 +170,67 @@ to group your data before plotting. In this case you should provide ".meta".</p>
 your data, each value should correspond to a sample's property. It will be used
 to group data based on the values provided. Note that in this case you should
 pass NA to ".meta".</p></dd>
+
+
 <dt>.meta</dt>
 <dd><p>A metadata object. An R dataframe with sample names and their properties,
 such as age, serostatus or hla.</p></dd>
+
+
 <dt>.title</dt>
 <dd><p>The text for the title of the plot.</p></dd>
+
+
 <dt>.ncol</dt>
 <dd><p>A number of columns to display. Provide NA (by default) if you want the function
 to automatically detect the optimal number of columns.</p></dd>
+
+
 <dt>.points</dt>
 <dd><p>A logical value defining whether points will be visualised or not.</p></dd>
+
+
 <dt>.test</dt>
 <dd><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></dd>
+
+
 <dt>.coord.flip</dt>
 <dd><p>If TRUE then swap x- and y-axes.</p></dd>
+
+
 <dt>.grid</dt>
 <dd><p>If TRUE then plot separate visualisations for each sample.</p></dd>
+
+
 <dt>.labs</dt>
 <dd><p>A character vector of length two with names for x-axis and y-axis, respectively.</p></dd>
+
+
 <dt>.melt</dt>
 <dd><p>If TRUE then apply <a href="https://Rdatatable.gitlab.io/data.table/reference/melt.data.table.html" class="external-link">melt</a> to the ".data" before plotting.
 In this case ".data" is supposed to be a data frame with the first character column reserved
 for names of genes and other numeric columns reserved to counts or frequencies of genes.
 Each numeric column should be associated with a specific repertoire sample.</p></dd>
+
+
 <dt>.legend</dt>
 <dd><p>If TRUE then plots the legend. If FALSE removes the legend from the plot.
 If NA automatically detects the best way to display legend.</p></dd>
+
+
 <dt>.add.layer</dt>
 <dd><p>Addditional ggplot2 layers, that added to each plot in the output plot or grid of plots.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Is not used here.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -221,24 +250,24 @@ You can execute the command <code><a href="https://rdrr.io/r/stats/p.adjust.html
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">imm_gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm_gu</span>,</span>
-<span class="r-in">  .plot <span class="op">=</span> <span class="st">"hist"</span>, .add.layer <span class="op">=</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">75</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">imm_gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm_gu</span>,</span></span>
+<span class="r-in"><span>  .plot <span class="op">=</span> <span class="st">"hist"</span>, .add.layer <span class="op">=</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">75</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using Names as id variables</span>
-<span class="r-plt"><img src="vis_hist-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="va">imm_gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm_gu</span>,</span>
-<span class="r-in">  .plot <span class="op">=</span> <span class="st">"hist"</span>, .grid <span class="op">=</span> <span class="cn">TRUE</span>, .add.layer <span class="op">=</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">75</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis_hist-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="va">imm_gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm_gu</span>,</span></span>
+<span class="r-in"><span>  .plot <span class="op">=</span> <span class="st">"hist"</span>, .grid <span class="op">=</span> <span class="cn">TRUE</span>, .add.layer <span class="op">=</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">75</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using Names as id variables</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (position_stack).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (position_stack).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (position_stack).</span>
-<span class="r-plt"><img src="vis_hist-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis_hist-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -253,7 +282,7 @@ You can execute the command <code><a href="https://rdrr.io/r/stats/p.adjust.html
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

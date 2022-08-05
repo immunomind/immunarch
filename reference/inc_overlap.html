@@ -138,16 +138,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">inc_overlap</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">.fun</span>,
-  .step <span class="op">=</span> <span class="fl">1000</span>,
-  .n.steps <span class="op">=</span> <span class="fl">10</span>,
-  .downsample <span class="op">=</span> <span class="cn">FALSE</span>,
-  .bootstrap <span class="op">=</span> <span class="cn">NA</span>,
-  .verbose.inc <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inc_overlap</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">.fun</span>,</span>
+<span>  .step <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  .n.steps <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  .downsample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .bootstrap <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .verbose.inc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -161,36 +161,53 @@
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
+
+
 <dt>.fun</dt>
 <dd><p>Function to compute overlaps. e.g., <code>morisita_index</code>.</p></dd>
+
+
 <dt>.step</dt>
 <dd><p>Either an integer or a numeric vector.</p>
 <p>In the first case, the integer defines the step of incremental overlap.</p>
 <p>In the second case, the vector encodes all repertoire sampling depths.</p></dd>
+
+
 <dt>.n.steps</dt>
 <dd><p>Integer. Number of steps if <code>.step</code> is a single integer.
 Skipped if ".step" is a numeric vector.</p></dd>
+
+
 <dt>.downsample</dt>
 <dd><p>If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
 top N clonotypes.</p></dd>
+
+
 <dt>.bootstrap</dt>
 <dd><p>Set NA to turn off any bootstrapping, set a number to perform bootstrapping with this number of tries.</p></dd>
+
+
 <dt>.verbose.inc</dt>
 <dd><p>Logical. If TRUE then shows the output from the computation process.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments passed to <code>.fun</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>List with overlap matrices.</p>
+    
+
+<p>List with overlap matrices.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"inc+overlap"</span>, .step <span class="op">=</span> <span class="fl">100</span>, .verbose.inc <span class="op">=</span> <span class="cn">FALSE</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">ov</span><span class="op">)</span></span>
-<span class="r-plt"><img src="inc_overlap-1.png" alt="" width="700" height="433"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"inc+overlap"</span>, .step <span class="op">=</span> <span class="fl">100</span>, .verbose.inc <span class="op">=</span> <span class="cn">FALSE</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">ov</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="inc_overlap-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -205,7 +222,7 @@ top N clonotypes.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

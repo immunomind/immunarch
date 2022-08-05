@@ -193,45 +193,45 @@
 </ul>
 <p>The <code>.col</code> parameter regulates what sequences and gene segments to choose. For example, if you want to estimate diversity on the nucleotide level, you need to supply <code>.col = "nt"</code>, in case you want to estimate the diversity on the amino acid level - <code>.col = "aa"</code>. If you want to estimate diversity of the amino acid CDR3 sequences coupled with V gene segments, you need to provide <code>.col = "aa+v"</code>. By default <code>.col = "aa"</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Compute statistics and visualise them</span>
-<span class="co"># Chao1 diversity measure</span>
-<span class="va">div_chao</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"chao1"</span><span class="op">)</span>
-
-<span class="co"># Hill numbers</span>
-<span class="va">div_hill</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hill"</span><span class="op">)</span>
-
-<span class="co"># D50</span>
-<span class="va">div_d50</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"d50"</span><span class="op">)</span>
-
-<span class="co"># Ecological diversity measure</span>
-<span class="va">div_div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"div"</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_chao</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_chao</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_hill</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-
-<span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_d50</span><span class="op">)</span>
-<span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_d50</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="va">p6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_div</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Compute statistics and visualise them</span></span>
+<span><span class="co"># Chao1 diversity measure</span></span>
+<span><span class="va">div_chao</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"chao1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Hill numbers</span></span>
+<span><span class="va">div_hill</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"hill"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># D50</span></span>
+<span><span class="va">div_d50</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"d50"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ecological diversity measure</span></span>
+<span><span class="va">div_div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"div"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_chao</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_chao</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_hill</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_d50</span><span class="op">)</span></span>
+<span><span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_d50</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span><span class="va">p6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">div_div</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="v6_diversity_files/figure-html/diversity-1.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p3</span> <span class="op">+</span> <span class="va">p6</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p3</span> <span class="op">+</span> <span class="va">p6</span></span></code></pre></div>
 <p><img src="v6_diversity_files/figure-html/diversity-2.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p4</span> <span class="op">+</span> <span class="va">p4</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p4</span> <span class="op">+</span> <span class="va">p4</span></span></code></pre></div>
 <p><img src="v6_diversity_files/figure-html/diversity-3.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">imm_raref</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"raref"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_raref</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_raref</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">imm_raref</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"raref"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_raref</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_raref</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="v6_diversity_files/figure-html/unnamed-chunk-1-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"raref"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span>.log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"raref"</span>, .verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span>.log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v6_diversity_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;"></p>
   </div>
 
@@ -250,7 +250,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

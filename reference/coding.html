@@ -148,13 +148,13 @@ Note: the function will remove all clonotypes sequences with NAs in the CDR3 ami
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">coding</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span>
-
-<span class="fu">noncoding</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span>
-
-<span class="fu">inframes</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span>
-
-<span class="fu">outofframes</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">coding</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">noncoding</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inframes</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">outofframes</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -168,17 +168,20 @@ Note: the function will remove all clonotypes sequences with NAs in the CDR3 ami
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Filtered data frame.</p>
+    
+
+<p>Filtered data frame.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">immdata_cod</span> <span class="op">&lt;-</span> <span class="fu">coding</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">immdata_cod1</span> <span class="op">&lt;-</span> <span class="fu">coding</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">immdata_cod</span> <span class="op">&lt;-</span> <span class="fu">coding</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">immdata_cod1</span> <span class="op">&lt;-</span> <span class="fu">coding</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -193,7 +196,7 @@ of these objects. They are supported with the same limitations as basic objects.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

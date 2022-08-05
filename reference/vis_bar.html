@@ -138,33 +138,35 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_bar</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .by <span class="op">=</span> <span class="cn">NA</span>,
-  .meta <span class="op">=</span> <span class="cn">NA</span>,
-  .errorbars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>,
-  .errorbars.off <span class="op">=</span> <span class="cn">FALSE</span>,
-  .stack <span class="op">=</span> <span class="cn">FALSE</span>,
-  .points <span class="op">=</span> <span class="cn">TRUE</span>,
-  .test <span class="op">=</span> <span class="cn">TRUE</span>,
-  .signif.label.size <span class="op">=</span> <span class="fl">3.5</span>,
-  .errorbar.width <span class="op">=</span> <span class="fl">0.2</span>,
-  .defgroupby <span class="op">=</span> <span class="st">"Sample"</span>,
-  .grouping.var <span class="op">=</span> <span class="st">"Group"</span>,
-  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span>,
-  .title <span class="op">=</span> <span class="st">"Barplot (.title argument)"</span>,
-  .subtitle <span class="op">=</span> <span class="st">"Subtitle (.subtitle argument)"</span>,
-  .legend <span class="op">=</span> <span class="cn">NA</span>,
-  .leg.title <span class="op">=</span> <span class="st">"Legend (.leg.title argument)"</span>,
-  .legend.pos <span class="op">=</span> <span class="st">"right"</span>,
-  .rotate_x <span class="op">=</span> <span class="fl">90</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vis_bar</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .by <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .meta <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .errorbars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>,</span>
+<span>  .errorbars.off <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .stack <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .points <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .test <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .signif.label.size <span class="op">=</span> <span class="fl">3.5</span>,</span>
+<span>  .errorbar.width <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  .defgroupby <span class="op">=</span> <span class="st">"Sample"</span>,</span>
+<span>  .grouping.var <span class="op">=</span> <span class="st">"Group"</span>,</span>
+<span>  .labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span>,</span>
+<span>  .title <span class="op">=</span> <span class="st">"Barplot (.title argument)"</span>,</span>
+<span>  .subtitle <span class="op">=</span> <span class="st">"Subtitle (.subtitle argument)"</span>,</span>
+<span>  .legend <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .leg.title <span class="op">=</span> <span class="st">"Legend (.leg.title argument)"</span>,</span>
+<span>  .legend.pos <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>  .rotate_x <span class="op">=</span> <span class="fl">90</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Data to visualise.</p></dd>
+
+
 <dt>.by</dt>
 <dd><p>Pass NA if you want to plot samples without grouping.</p>
 <p>You can pass a character vector with one or several column names from ".meta"
@@ -173,53 +175,90 @@ to group your data before plotting. In this case you should provide ".meta".</p>
 your data, each value should correspond to a sample's property. It will be used
 to group data based on the values provided. Note that in this case you should
 pass NA to ".meta".</p></dd>
+
+
 <dt>.meta</dt>
 <dd><p>A metadata object. An R dataframe with sample names and their properties,
 such as age, serostatus or hla.</p></dd>
+
+
 <dt>.errorbars</dt>
 <dd><p>A numeric vector of length two with quantiles for error bars
 on sectors. Disabled if ".errorbars.off" is TRUE.</p></dd>
+
+
 <dt>.errorbars.off</dt>
 <dd><p>If TRUE then plot CI bars for distances between each group.
 Disabled if no group passed to the ".by" argument.</p></dd>
+
+
 <dt>.stack</dt>
 <dd><p>If TRUE and .errorbars.off is TRUE then plot stacked bar plots for each Group or Sample</p></dd>
+
+
 <dt>.points</dt>
 <dd><p>A logical value defining whether points will be visualised or not.</p></dd>
+
+
 <dt>.test</dt>
 <dd><p>A logical vector whether statistical tests should be applied. See "Details" for more information.</p></dd>
+
+
 <dt>.signif.label.size</dt>
 <dd><p>An integer value defining the size of text for p-value.</p></dd>
+
+
 <dt>.errorbar.width</dt>
 <dd><p>Numeric. Width for error bars.</p></dd>
+
+
 <dt>.defgroupby</dt>
 <dd><p>A name for the column with sample names.</p></dd>
+
+
 <dt>.grouping.var</dt>
 <dd><p>A name for the column to group by.</p></dd>
+
+
 <dt>.labs</dt>
 <dd><p>A character vector of length two specifying names for x-axis and y-axis.</p></dd>
+
+
 <dt>.title</dt>
 <dd><p>The text for the plot's title.</p></dd>
+
+
 <dt>.subtitle</dt>
 <dd><p>The text for the plot's subtitle.</p></dd>
+
+
 <dt>.legend</dt>
 <dd><p>If TRUE then displays a legend, otherwise removes legend from the plot.</p></dd>
+
+
 <dt>.leg.title</dt>
 <dd><p>The text for the plots's legend. Provide NULL to remove the legend's title completely.</p></dd>
+
+
 <dt>.legend.pos</dt>
 <dd><p>Positions of the legend: either "top", "bottom", "left" or "right".</p></dd>
+
+
 <dt>.rotate_x</dt>
 <dd><p>How much the x tick text should be rotated? In angles.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">vis_bar</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_bar-1.png" alt="" width="700" height="433"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">vis_bar</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis_bar-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -234,7 +273,7 @@ Disabled if no group passed to the ".by" argument.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

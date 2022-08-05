@@ -138,20 +138,24 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for immunr_gene_usage</span>
-<span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">.data</span>, .plot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hist"</span>, <span class="st">"box"</span>, <span class="st">"heatmap"</span>, <span class="st">"heatmap2"</span>, <span class="st">"circos"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for immunr_gene_usage</span></span>
+<span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">.data</span>, .plot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hist"</span>, <span class="st">"box"</span>, <span class="st">"heatmap"</span>, <span class="st">"heatmap2"</span>, <span class="st">"circos"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Output from the <a href="geneUsage.html">geneUsage</a> function.</p></dd>
+
+
 <dt>.plot</dt>
 <dd><p>String specifying the plot type:</p>
 <p>- "hist" for histograms using <a href="vis_hist.html">vis_hist</a>;</p>
 <p>- "heatmap" for heatmaps using <a href="vis_heatmap.html">vis_heatmap</a>;</p>
 <p>- "heatmap2" for heatmaps using <a href="vis_heatmap2.html">vis_heatmap2</a>;</p>
 <p>- "circos" for circos plots using <a href="vis_circos.html">vis_circos</a>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments passed to corresponding functions depending on the plot type:</p>
 <p>- "hist" - passes arguments to <a href="vis_hist.html">vis_hist</a>;</p>
@@ -159,10 +163,13 @@
 <p>- "heatmap" - passes arguments to <a href="vis_heatmap.html">vis_heatmap</a>;</p>
 <p>- "heatmap2" - passes arguments to <a href="vis_heatmap2.html">vis_heatmap2</a> and <a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a> from the "pheatmap" package;</p>
 <p>- "circos" - passes arguments to <a href="vis_circos.html">vis_circos</a> and chordDiagram from the "circlize" package.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object, pheatmap or circlize object.</p>
+    
+
+<p>A ggplot2 object, pheatmap or circlize object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -171,26 +178,26 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using Names as id variables</span>
-<span class="r-plt"><img src="vis.immunr_gene_usage-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis.immunr_gene_usage-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using Names as id variables</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 15 rows containing non-finite values (stat_compare_means).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 15 rows containing missing values (geom_point).</span>
-<span class="r-plt"><img src="vis.immunr_gene_usage-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span>, <span class="st">"box"</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis.immunr_gene_usage-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">gu</span>, <span class="st">"box"</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using Names as id variables</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 15 rows containing non-finite values (stat_boxplot).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 15 rows containing non-finite values (stat_compare_means).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 15 rows containing missing values (geom_point).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 rows containing missing values (geom_text).</span>
-<span class="r-plt"><img src="vis.immunr_gene_usage-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis.immunr_gene_usage-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -205,7 +212,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

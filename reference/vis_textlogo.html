@@ -146,29 +146,40 @@ with clear differences in their occurrences.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_textlogo</span><span class="op">(</span><span class="va">.data</span>, .replace.zero.with.na <span class="op">=</span> <span class="cn">TRUE</span>, .width <span class="op">=</span> <span class="fl">0.1</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">vis_seqlogo</span><span class="op">(</span><span class="va">.data</span>, .scheme <span class="op">=</span> <span class="st">"chemistry"</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vis_textlogo</span><span class="op">(</span><span class="va">.data</span>, .replace.zero.with.na <span class="op">=</span> <span class="cn">TRUE</span>, .width <span class="op">=</span> <span class="fl">0.1</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">vis_seqlogo</span><span class="op">(</span><span class="va">.data</span>, .scheme <span class="op">=</span> <span class="st">"chemistry"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Output from the <code>kmer.profile</code> function.</p></dd>
+
+
 <dt>.replace.zero.with.na</dt>
 <dd><p>if TRUE then replace all zeros with NAs, therefore letters with
 zero frequency wont appear at the plot.</p></dd>
+
+
 <dt>.width</dt>
 <dd><p>Width for jitter, i.e., how much points will scatter around the verical line. Pass 0 (zero)
 to plot points on the straight vertical line for each position.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not used here.</p></dd>
+
+
 <dt>.scheme</dt>
 <dd><p>Character. An argumentt passed to geom_logo specifying how to colour symbols.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -177,28 +188,28 @@ to plot points on the straight vertical line for each position.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ppm</span> <span class="op">&lt;-</span> <span class="fu"><a href="split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"prob"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ppm</span> <span class="op">&lt;-</span> <span class="fu"><a href="split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="st">"prob"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Warning: removed 5 non-amino acid symbol(s): A</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Please make sure your data doesn't have them in the future.</span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">ppm</span>, .plot <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">ppm</span>, .plot <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 5 rows containing missing values (geom_point).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 5 rows containing missing values (geom_label_repel).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>ggrepel: 21 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span>
-<span class="r-plt"><img src="vis_textlogo-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">ppm</span>, .plot <span class="op">=</span> <span class="st">"seq"</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_textlogo-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CASLL"</span>, <span class="st">"CASSQ"</span>, <span class="st">"CASGL"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="vis_textlogo-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">ppm</span>, .plot <span class="op">=</span> <span class="st">"seq"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis_textlogo-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CASLL"</span>, <span class="st">"CASSQ"</span>, <span class="st">"CASGL"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Warning: removed 1 non-amino acid symbol(s): A</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Please make sure your data doesn't have them in the future.</span>
-<span class="r-in"><span class="fu">vis_textlogo</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">vis_textlogo</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 93 rows containing missing values (geom_point).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 93 rows containing missing values (geom_label_repel).</span>
-<span class="r-plt"><img src="vis_textlogo-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">vis_seqlogo</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis_textlogo-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis_textlogo-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">vis_seqlogo</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis_textlogo-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -213,7 +224,7 @@ to plot points on the straight vertical line for each position.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

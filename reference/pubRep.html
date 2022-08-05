@@ -138,15 +138,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pubRep</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .col <span class="op">=</span> <span class="st">"aa+v"</span>,
-  .quant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"count"</span>, <span class="st">"prop"</span><span class="op">)</span>,
-  .coding <span class="op">=</span> <span class="cn">TRUE</span>,
-  .min.samples <span class="op">=</span> <span class="fl">1</span>,
-  .max.samples <span class="op">=</span> <span class="cn">NA</span>,
-  .verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pubRep</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .col <span class="op">=</span> <span class="st">"aa+v"</span>,</span>
+<span>  .quant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"count"</span>, <span class="st">"prop"</span><span class="op">)</span>,</span>
+<span>  .coding <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .min.samples <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  .max.samples <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  .verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -160,42 +160,63 @@
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
+
+
 <dt>.col</dt>
 <dd><p>A string that specifies the column(s) to be processed. Outputs one of the
 following strings, separated by the plus sign: "nt" for nucleotide sequences,
 "aa" for amino acid sequences, "v" for V gene segments, "j" for J gene segments. E.g.,
 pass "aa+v" to compute overlaps on CDR3 amino acid sequences paired with V gene segments, i.e.,
 in this case a unique clonotype is a pair of CDR3 amino acid and V gene segment.</p></dd>
+
+
 <dt>.quant</dt>
 <dd><p>A string that specifies the column to be processed. Set "count" to see
 public clonotype sharing with the number of clones, set "prop" to see proportions.</p></dd>
+
+
 <dt>.coding</dt>
 <dd><p>Logical. If TRUE then preprocesses the data to filter out non-coding sequences.</p></dd>
+
+
 <dt>.min.samples</dt>
 <dd><p>Integer. A minimal number of samples a clonotype must have to be included
 in the public repertoire table.</p></dd>
+
+
 <dt>.max.samples</dt>
 <dd><p>Integer. A maxminal number of samples a clonotype must have to be included
 in the public repertoire table. Set NA (by default) to have the maximal amount of samples.</p></dd>
+
+
 <dt>.verbose</dt>
 <dd><p>Logical. If TRUE then outputs the progress.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Data table with columns for:
-- Clonotypes (e.g., CDR3 sequence, or two columns for CDR3 sequence and V gene)
-- Incidence of clonotypes
-- Per-sample proportions or counts</p>
+    
+
+<p>Data table with columns for:</p>
+
+
+<p>- Clonotypes (e.g., CDR3 sequence, or two columns for CDR3 sequence and V gene)</p>
+
+
+<p>- Incidence of clonotypes</p>
+
+
+<p>- Per-sample proportions or counts</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Subset the data to make the example faster to run</span></span>
-<span class="r-in"><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">2000</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu">pubRep</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"clonotypes"</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Subset the data to make the example faster to run</span></span></span>
+<span class="r-in"><span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="va">head</span>, <span class="fl">2000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu">pubRep</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">pr</span>, <span class="st">"clonotypes"</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
-<span class="r-plt"><img src="pubRep-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="pubRep-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -210,7 +231,7 @@ in the public repertoire table. Set NA (by default) to have the maximal amount o
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

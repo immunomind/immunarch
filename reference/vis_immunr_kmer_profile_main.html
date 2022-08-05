@@ -138,35 +138,42 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis_immunr_kmer_profile_main</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.plot</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vis_immunr_kmer_profile_main</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.plot</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Kmer data, an output from <a href="split_to_kmers.html">kmer_profile</a>.</p></dd>
+
+
 <dt>.plot</dt>
 <dd><p>String specifying the plot type:</p>
 <p>- "seqlogo" for traditional sequence logo plots using <a href="vis_textlogo.html">vis_seqlogo</a>;</p>
 <p>- "textlogo" for modified approach to sequence logo plots via text labels using <a href="vis_textlogo.html">vis_textlogo</a>;</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments passed to <a href="vis_textlogo.html">vis_textlogo</a> or <a href="vis_textlogo.html">vis_seqlogo</a>, depending
 on the ".plot" argument.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="st">"seqlogo"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="split_to_kmers.html">kmer_profile</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="st">"seqlogo"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Warning: removed 5 non-amino acid symbol(s): A</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Please make sure your data doesn't have them in the future.</span>
-<span class="r-plt"><img src="vis_immunr_kmer_profile_main-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis_immunr_kmer_profile_main-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -181,7 +188,7 @@ on the ".plot" argument.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -187,14 +187,14 @@
 <p>For each task in this section <code>immunarch</code> includes separate functions that are generally self-explanatory and are written in CamelCase.</p>
 <p>Note: all functions in immunarch require that the input immune repertoire data list have names. If you use the <code>repLoad</code> function, you will have no issues. If you compose your list by hand, you must name elements in the list, e.g.:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">your_data</span> <span class="co"># Your list with repertoires without names</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span>
-<span class="co"># Output: NULL</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span>
-<span class="co"># Output: Sample1 Sample2 ... Sample10</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">your_data</span> <span class="co"># Your list with repertoires without names</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span></span>
+<span><span class="co"># Output: NULL</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">your_data</span><span class="op">)</span></span>
+<span><span class="co"># Output: Sample1 Sample2 ... Sample10</span></span></code></pre></div>
 <p>Basic analysis functions are:</p>
 <ul>
 <li><p><code>repExplore</code> - computes basic statistics, such as number of clones or distributions of lengths and counts. To explore them you need to pass the statistics, e.g. <code>count</code>, to the <code>.method</code>.</p></li>
@@ -216,31 +216,31 @@
 <li>You can pass <code>.by</code> as a character vector with one or several column names from the metadata table to group your data before plotting. In this case you should also provide the <code>.meta</code> argument with the metadata table.</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">exp_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">exp_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/eda-by-meta-1.png" width="960" style="display: block; margin: auto;"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>You can pass <code>.by</code> as a character vector that matches the number of samples in your data, each value should correspond to a sample’s property. It will be used to group data based on the values provided. Note that in this case you should pass NA to <code>.meta</code>.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">exp_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span>
-<span class="va">by_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span><span class="op">)</span>
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="va">by_vec</span><span class="op">)</span>
-<span class="va">p</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">exp_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span></span>
+<span><span class="va">by_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span>, <span class="st">"MS"</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="va">by_vec</span><span class="op">)</span></span>
+<span><span class="va">p</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/eda-by-only-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Once data is grouped, the statistical tests for comparing means of groups will be performed, unless <code>.test = F</code> is supplied. In case there are only two groups, the <a href="https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test" class="external-link">Wilcoxon rank sum test</a> is performed (R function <code>wilcox.test</code> with an argument <code>exact = F</code>) for testing if there is a difference in mean rank values between two groups. In case there more than two groups, the <a href="https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance" class="external-link">Kruskal-Wallis test</a> is performed (R function <code>kruskal.test</code>), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution. A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample. Adjusted for multiple comparisons P-values are plotted on the top of groups. P-value adjusting is done using the <a href="https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method" class="external-link">Holm method</a> (also known as Holm-Bonferroni correction). You can execute the command <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">?p.adjust</a></code> in the R console to see more.</p>
 <p>Plots generated by the <code>vis</code> function as well as any ggplot2-based plots can be passed to <code>fixVis</code>—built-in software tool for making publication-ready plots:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># 1. Analyse</span>
-<span class="va">exp_len</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"len"</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span>
-
-<span class="co"># 2. Visualise</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_len</span><span class="op">)</span>
-
-<span class="co"># 3. Fix and make publication-ready results</span>
-<span class="fu"><a href="../../reference/fixVis.html">fixVis</a></span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># 1. Analyse</span></span>
+<span><span class="va">exp_len</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"len"</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2. Visualise</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_len</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3. Fix and make publication-ready results</span></span>
+<span><span class="fu"><a href="../../reference/fixVis.html">fixVis</a></span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></span></code></pre></div>
 <p>See the <code>fixVis</code> tutorial <a href="https://immunarch.com/articles/web_only/v7_fixvis.html">here</a>.</p>
 </div>
 <div class="section level3">
@@ -248,29 +248,29 @@
 </h3>
 <p>For the basic exploratory analysis such as comparing of number of reads / UMIs per repertoire or distribution use the function <code>repExplore</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">exp_len</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"len"</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span>
-<span class="va">exp_cnt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span>
-<span class="va">exp_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span>
-
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_len</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_cnt</span><span class="op">)</span>
-<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span><span class="op">)</span>
-
-<span class="va">p1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">exp_len</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"len"</span>, .col <span class="op">=</span> <span class="st">"aa"</span><span class="op">)</span></span>
+<span><span class="va">exp_cnt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span></span>
+<span><span class="va">exp_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repExplore.html">repExplore</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_len</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_cnt</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/eda-1-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/eda-2-1.png" width="1344" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># You can group samples by their metainformation</span>
-<span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_len</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_cnt</span>, .by <span class="op">=</span> <span class="st">"Sex"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="va">p6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-
-<span class="va">p4</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># You can group samples by their metainformation</span></span>
+<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_len</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span><span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_cnt</span>, .by <span class="op">=</span> <span class="st">"Sex"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span><span class="va">p6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">exp_vol</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p4</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/eda-3-1.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p5</span> <span class="op">+</span> <span class="va">p6</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p5</span> <span class="op">+</span> <span class="va">p6</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/eda-4-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
@@ -278,104 +278,104 @@
 </h3>
 <p>One of the ways to estimate the diversity of samples is to evaluate clonality. <code>repClonality</code> measures the amount of the most or the least frequent clonotypes. There are several methods to assess clonality, let us take a view of them. The <code>clonal.prop</code> method computes the proportion of repertoire occupied by the pools of cell clones:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">imm_pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"clonal.prop"</span><span class="op">)</span>
-<span class="va">imm_pr</span></code></pre></div>
-<pre><code><span class="co">##         Clones Percentage Clonal.count.prop</span>
-<span class="co">## A2-i129     18       10.0      0.0027556644</span>
-<span class="co">## A2-i131     28       10.0      0.0042728521</span>
-<span class="co">## A2-i133      9       10.3      0.0014077898</span>
-<span class="co">## A2-i132    113       10.0      0.0164987589</span>
-<span class="co">## A4-i191      4       11.5      0.0007773028</span>
-<span class="co">## A4-i192      8       10.4      0.0013738623</span>
-<span class="co">## MS1          2       10.1      0.0003700278</span>
-<span class="co">## MS2         66       10.0      0.0092372288</span>
-<span class="co">## MS3          2       10.6      0.0003095496</span>
-<span class="co">## MS4        176       10.0      0.0236336780</span>
-<span class="co">## MS5          3       13.2      0.0005303164</span>
-<span class="co">## MS6        150       10.0      0.0202456472</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_clonal_prop" "matrix"             "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">imm_pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"clonal.prop"</span><span class="op">)</span></span>
+<span><span class="va">imm_pr</span></span></code></pre></div>
+<pre><code><span><span class="co">##         Clones Percentage Clonal.count.prop</span></span>
+<span><span class="co">## A2-i129     18       10.0      0.0027556644</span></span>
+<span><span class="co">## A2-i131     28       10.0      0.0042728521</span></span>
+<span><span class="co">## A2-i133      9       10.3      0.0014077898</span></span>
+<span><span class="co">## A2-i132    113       10.0      0.0164987589</span></span>
+<span><span class="co">## A4-i191      4       11.5      0.0007773028</span></span>
+<span><span class="co">## A4-i192      8       10.4      0.0013738623</span></span>
+<span><span class="co">## MS1          2       10.1      0.0003700278</span></span>
+<span><span class="co">## MS2         66       10.0      0.0092372288</span></span>
+<span><span class="co">## MS3          2       10.6      0.0003095496</span></span>
+<span><span class="co">## MS4        176       10.0      0.0236336780</span></span>
+<span><span class="co">## MS5          3       13.2      0.0005303164</span></span>
+<span><span class="co">## MS6        150       10.0      0.0202456472</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_clonal_prop" "matrix"             "array"</span></span></code></pre>
 <p>The <code>top</code> method considers the most abundant cell clonotypes:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">imm_top</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"top"</span>, .head <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">3000</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">)</span>
-<span class="va">imm_top</span></code></pre></div>
-<pre><code><span class="co">##                 10        100      1000      3000 10000</span>
-<span class="co">## A2-i129 0.08011765 0.17282353 0.3491765 0.5844706     1</span>
-<span class="co">## A2-i131 0.06670588 0.15647059 0.3467059 0.5820000     1</span>
-<span class="co">## A2-i133 0.10505882 0.18294118 0.3655294 0.6008235     1</span>
-<span class="co">## A2-i132 0.02388235 0.09423529 0.3118824 0.5471765     1</span>
-<span class="co">## A4-i191 0.17176471 0.32047059 0.5122353 0.7475294     1</span>
-<span class="co">## A4-i192 0.11541176 0.22141176 0.4325882 0.6678824     1</span>
-<span class="co">## MS1     0.19164706 0.30894118 0.4817647 0.7170588     1</span>
-<span class="co">## MS2     0.04458824 0.11470588 0.2770588 0.5123529     1</span>
-<span class="co">## MS3     0.16482353 0.23011765 0.3575294 0.5928235     1</span>
-<span class="co">## MS4     0.02329412 0.07517647 0.2415294 0.4768235     1</span>
-<span class="co">## MS5     0.20611765 0.29188235 0.4521176 0.6874118     1</span>
-<span class="co">## MS6     0.02835294 0.08235294 0.2460000 0.4812941     1</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_top_prop" "matrix"          "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">imm_top</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"top"</span>, .head <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">3000</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">imm_top</span></span></code></pre></div>
+<pre><code><span><span class="co">##                 10        100      1000      3000 10000</span></span>
+<span><span class="co">## A2-i129 0.08011765 0.17282353 0.3491765 0.5844706     1</span></span>
+<span><span class="co">## A2-i131 0.06670588 0.15647059 0.3467059 0.5820000     1</span></span>
+<span><span class="co">## A2-i133 0.10505882 0.18294118 0.3655294 0.6008235     1</span></span>
+<span><span class="co">## A2-i132 0.02388235 0.09423529 0.3118824 0.5471765     1</span></span>
+<span><span class="co">## A4-i191 0.17176471 0.32047059 0.5122353 0.7475294     1</span></span>
+<span><span class="co">## A4-i192 0.11541176 0.22141176 0.4325882 0.6678824     1</span></span>
+<span><span class="co">## MS1     0.19164706 0.30894118 0.4817647 0.7170588     1</span></span>
+<span><span class="co">## MS2     0.04458824 0.11470588 0.2770588 0.5123529     1</span></span>
+<span><span class="co">## MS3     0.16482353 0.23011765 0.3575294 0.5928235     1</span></span>
+<span><span class="co">## MS4     0.02329412 0.07517647 0.2415294 0.4768235     1</span></span>
+<span><span class="co">## MS5     0.20611765 0.29188235 0.4521176 0.6874118     1</span></span>
+<span><span class="co">## MS6     0.02835294 0.08235294 0.2460000 0.4812941     1</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_top_prop" "matrix"          "array"</span></span></code></pre>
 <p>While the <code>rare</code> method deals with the least prolific clonotypes:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">imm_rare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"rare"</span><span class="op">)</span>
-<span class="va">imm_rare</span></code></pre></div>
-<pre><code><span class="co">##                 1         3        10        30       100 MAX</span>
-<span class="co">## A2-i129 0.6991765 0.8215294 0.8710588 0.9267059 0.9604706   1</span>
-<span class="co">## A2-i131 0.6969412 0.8243529 0.8995294 0.9436471 0.9869412   1</span>
-<span class="co">## A2-i133 0.6800000 0.8100000 0.8690588 0.8974118 0.9357647   1</span>
-<span class="co">## A2-i132 0.7088235 0.8831765 0.9643529 0.9951765 1.0000000   1</span>
-<span class="co">## A4-i191 0.5355294 0.6484706 0.7189412 0.7707059 0.8697647   1</span>
-<span class="co">## A4-i192 0.5976471 0.7487059 0.8342353 0.8675294 0.9156471   1</span>
-<span class="co">## MS1     0.5780000 0.6692941 0.7438824 0.7929412 0.8571765   1</span>
-<span class="co">## MS2     0.7788235 0.8891765 0.9322353 0.9718824 1.0000000   1</span>
-<span class="co">## MS3     0.7272941 0.7825882 0.8071765 0.8385882 0.8652941   1</span>
-<span class="co">## MS4     0.8109412 0.9343529 0.9725882 1.0000000 1.0000000   1</span>
-<span class="co">## MS5     0.6112941 0.7001176 0.7575294 0.7809412 0.8284706   1</span>
-<span class="co">## MS6     0.8107059 0.9208235 0.9703529 0.9897647 1.0000000   1</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_rare_prop" "matrix"           "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">imm_rare</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"rare"</span><span class="op">)</span></span>
+<span><span class="va">imm_rare</span></span></code></pre></div>
+<pre><code><span><span class="co">##                 1         3        10        30       100 MAX</span></span>
+<span><span class="co">## A2-i129 0.6991765 0.8215294 0.8710588 0.9267059 0.9604706   1</span></span>
+<span><span class="co">## A2-i131 0.6969412 0.8243529 0.8995294 0.9436471 0.9869412   1</span></span>
+<span><span class="co">## A2-i133 0.6800000 0.8100000 0.8690588 0.8974118 0.9357647   1</span></span>
+<span><span class="co">## A2-i132 0.7088235 0.8831765 0.9643529 0.9951765 1.0000000   1</span></span>
+<span><span class="co">## A4-i191 0.5355294 0.6484706 0.7189412 0.7707059 0.8697647   1</span></span>
+<span><span class="co">## A4-i192 0.5976471 0.7487059 0.8342353 0.8675294 0.9156471   1</span></span>
+<span><span class="co">## MS1     0.5780000 0.6692941 0.7438824 0.7929412 0.8571765   1</span></span>
+<span><span class="co">## MS2     0.7788235 0.8891765 0.9322353 0.9718824 1.0000000   1</span></span>
+<span><span class="co">## MS3     0.7272941 0.7825882 0.8071765 0.8385882 0.8652941   1</span></span>
+<span><span class="co">## MS4     0.8109412 0.9343529 0.9725882 1.0000000 1.0000000   1</span></span>
+<span><span class="co">## MS5     0.6112941 0.7001176 0.7575294 0.7809412 0.8284706   1</span></span>
+<span><span class="co">## MS6     0.8107059 0.9208235 0.9703529 0.9897647 1.0000000   1</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_rare_prop" "matrix"           "array"</span></span></code></pre>
 <p>Finally, the <code>homeo</code> method assesses the clonal space homeostasis, i.e., the proportion of the repertoire occupied by the clones of a given size:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">imm_hom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>,
-  .method <span class="op">=</span> <span class="st">"homeo"</span>,
-  .clone.types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Small <span class="op">=</span> <span class="fl">.0001</span>, Medium <span class="op">=</span> <span class="fl">.001</span>, Large <span class="op">=</span> <span class="fl">.01</span>, Hyperexpanded <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="va">imm_hom</span></code></pre></div>
-<pre><code><span class="co">##         Small (0 &lt; X &lt;= 1e-04) Medium (1e-04 &lt; X &lt;= 0.001)</span>
-<span class="co">## A2-i129                      0                   0.8634118</span>
-<span class="co">## A2-i131                      0                   0.8858824</span>
-<span class="co">## A2-i133                      0                   0.8597647</span>
-<span class="co">## A2-i132                      0                   0.9542353</span>
-<span class="co">## A4-i191                      0                   0.7135294</span>
-<span class="co">## A4-i192                      0                   0.8183529</span>
-<span class="co">## MS1                          0                   0.7248235</span>
-<span class="co">## MS2                          0                   0.9244706</span>
-<span class="co">## MS3                          0                   0.8061176</span>
-<span class="co">## MS4                          0                   0.9683529</span>
-<span class="co">## MS5                          0                   0.7520000</span>
-<span class="co">## MS6                          0                   0.9625882</span>
-<span class="co">##         Large (0.001 &lt; X &lt;= 0.01) Hyperexpanded (0.01 &lt; X &lt;= 1)</span>
-<span class="co">## A2-i129                0.09705882                    0.03952941</span>
-<span class="co">## A2-i131                0.09011765                    0.02400000</span>
-<span class="co">## A2-i133                0.07600000                    0.06423529</span>
-<span class="co">## A2-i132                0.04576471                    0.00000000</span>
-<span class="co">## A4-i191                0.15623529                    0.13023529</span>
-<span class="co">## A4-i192                0.08611765                    0.09552941</span>
-<span class="co">## MS1                    0.12082353                    0.15435294</span>
-<span class="co">## MS2                    0.06411765                    0.01141176</span>
-<span class="co">## MS3                    0.05917647                    0.13470588</span>
-<span class="co">## MS4                    0.03164706                    0.00000000</span>
-<span class="co">## MS5                    0.07647059                    0.17152941</span>
-<span class="co">## MS6                    0.03741176                    0.00000000</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "immunr_homeo" "matrix"       "array"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">imm_hom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repClonality.html">repClonality</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>,</span>
+<span>  .method <span class="op">=</span> <span class="st">"homeo"</span>,</span>
+<span>  .clone.types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Small <span class="op">=</span> <span class="fl">.0001</span>, Medium <span class="op">=</span> <span class="fl">.001</span>, Large <span class="op">=</span> <span class="fl">.01</span>, Hyperexpanded <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">imm_hom</span></span></code></pre></div>
+<pre><code><span><span class="co">##         Small (0 &lt; X &lt;= 1e-04) Medium (1e-04 &lt; X &lt;= 0.001)</span></span>
+<span><span class="co">## A2-i129                      0                   0.8634118</span></span>
+<span><span class="co">## A2-i131                      0                   0.8858824</span></span>
+<span><span class="co">## A2-i133                      0                   0.8597647</span></span>
+<span><span class="co">## A2-i132                      0                   0.9542353</span></span>
+<span><span class="co">## A4-i191                      0                   0.7135294</span></span>
+<span><span class="co">## A4-i192                      0                   0.8183529</span></span>
+<span><span class="co">## MS1                          0                   0.7248235</span></span>
+<span><span class="co">## MS2                          0                   0.9244706</span></span>
+<span><span class="co">## MS3                          0                   0.8061176</span></span>
+<span><span class="co">## MS4                          0                   0.9683529</span></span>
+<span><span class="co">## MS5                          0                   0.7520000</span></span>
+<span><span class="co">## MS6                          0                   0.9625882</span></span>
+<span><span class="co">##         Large (0.001 &lt; X &lt;= 0.01) Hyperexpanded (0.01 &lt; X &lt;= 1)</span></span>
+<span><span class="co">## A2-i129                0.09705882                    0.03952941</span></span>
+<span><span class="co">## A2-i131                0.09011765                    0.02400000</span></span>
+<span><span class="co">## A2-i133                0.07600000                    0.06423529</span></span>
+<span><span class="co">## A2-i132                0.04576471                    0.00000000</span></span>
+<span><span class="co">## A4-i191                0.15623529                    0.13023529</span></span>
+<span><span class="co">## A4-i192                0.08611765                    0.09552941</span></span>
+<span><span class="co">## MS1                    0.12082353                    0.15435294</span></span>
+<span><span class="co">## MS2                    0.06411765                    0.01141176</span></span>
+<span><span class="co">## MS3                    0.05917647                    0.13470588</span></span>
+<span><span class="co">## MS4                    0.03164706                    0.00000000</span></span>
+<span><span class="co">## MS5                    0.07647059                    0.17152941</span></span>
+<span><span class="co">## MS6                    0.03741176                    0.00000000</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "immunr_homeo" "matrix"       "array"</span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_top</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_top</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_top</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_top</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/clonality-hom-vis-1-1.png" width="1056" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_rare</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_rare</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_rare</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_rare</span>, .by <span class="op">=</span> <span class="st">"Status"</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/clonality-hom-vis-1-2.png" width="1056" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_hom</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_hom</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_hom</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">imm_hom</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Status"</span>, <span class="st">"Sex"</span><span class="op">)</span>, .meta <span class="op">=</span> <span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v3_basic_analysis_files/figure-html/clonality-hom-vis-1-3.png" width="1056" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -398,7 +398,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

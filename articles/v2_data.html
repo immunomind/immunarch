@@ -213,56 +213,56 @@
 <p><strong>Working with your files</strong></p>
 <p>If you have your files, you should just specify a path to your file or to a folder with files. Then load data using <code>repLoad</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#path argument is a path to the folder with your file or files including the metadata file.</span>
-<span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#path argument is a path to the folder with your file or files including the metadata file.</span></span>
+<span><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Working with sample files</strong></p>
 <p>You could find a folder with example files <a href="https://github.com/immunomind/immunarch/releases/tag/0.6.7" class="external-link">here</a> (download and extract test_data.zip or test_data.tar.gz) and use it to test data loading without your own files.</p>
 <p>If you are not familiar with the file paths, you can download our mock data to your working directory. You can obtain working directory with <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code> command</p>
 <p>You could also download all files to the <code>'example'</code> folder in your working directory and load all of them by passing folder name to repLoad function in quotation marks:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="st">'example'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="st">'example'</span><span class="op">)</span></span></code></pre></div>
 <p>The example data is already downloaded with <code>immunarch</code> package. You can load all sample files using the following command:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#path to the folder with example data</span>
-<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
-<span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#path to the folder with example data</span></span>
+<span><span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span></span>
+<span><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span></span></code></pre></div>
 <p>In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it “metadata.txt”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># For instance you have a following structure in your folder:</span>
-<span class="co"># &gt;_ ls</span>
-<span class="co"># immunoseq1.txt</span>
-<span class="co"># immunoseq2.txt</span>
-<span class="co"># immunoseq3.txt</span>
-<span class="co"># metadata.txt</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># For instance you have a following structure in your folder:</span></span>
+<span><span class="co"># &gt;_ ls</span></span>
+<span><span class="co"># immunoseq1.txt</span></span>
+<span><span class="co"># immunoseq2.txt</span></span>
+<span><span class="co"># immunoseq3.txt</span></span>
+<span><span class="co"># metadata.txt</span></span></code></pre></div>
 <p>With the metadata <code>repLoad</code> will create a list in the environment with 2 elements, namely <code>data</code> and <code>meta</code>. All the data will be accessible simply from <code>immdata$data</code>.</p>
 <p>Otherwise <code>repLoad</code> will create a dummy metadata file with only sample names.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># To load the whole folder with every file in it type:</span>
-<span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span>
-<span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># In order to do that your folder must contain metadata file named</span>
-<span class="co"># "metadata.txt".</span>
-
-<span class="co"># In R, when you load your data:</span>
-<span class="co"># &gt; immdata &lt;- repLoad("path/to/your/folder/")</span>
-<span class="co"># &gt; names(immdata)</span>
-<span class="co"># [1] "data" "meta"</span>
-
-<span class="co"># Suppose you do not have "metadata.txt":</span>
-<span class="co"># &gt; immdata &lt;- repLoad("path/to/your/folder/")</span>
-<span class="co"># &gt; names(immdata)</span>
-<span class="co"># [1] "data" "meta"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># To load the whole folder with every file in it type:</span></span>
+<span><span class="va">file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/io/"</span><span class="op">)</span></span>
+<span><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># In order to do that your folder must contain metadata file named</span></span>
+<span><span class="co"># "metadata.txt".</span></span>
+<span></span>
+<span><span class="co"># In R, when you load your data:</span></span>
+<span><span class="co"># &gt; immdata &lt;- repLoad("path/to/your/folder/")</span></span>
+<span><span class="co"># &gt; names(immdata)</span></span>
+<span><span class="co"># [1] "data" "meta"</span></span>
+<span></span>
+<span><span class="co"># Suppose you do not have "metadata.txt":</span></span>
+<span><span class="co"># &gt; immdata &lt;- repLoad("path/to/your/folder/")</span></span>
+<span><span class="co"># &gt; names(immdata)</span></span>
+<span><span class="co"># [1] "data" "meta"</span></span></code></pre></div>
 <p>Dummy metadata data frame looks like this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span><span class="op">)</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 3 × 1</span></span>
-<span class="co">##   Sample    </span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> immunoseq1</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> immunoseq2</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> immunoseq3</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"immunoseq1"</span>, <span class="st">"immunoseq2"</span>, <span class="st">"immunoseq3"</span><span class="op">)</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 1</span></span></span>
+<span><span class="co">##   Sample    </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> immunoseq1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> immunoseq2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> immunoseq3</span></span></code></pre>
 <p>The metadata file “metadata.txt” has to be a table with first column named “Sample” and any number of additional columns with any names. The first column should contain the base names of files without extensions in your folder.</p>
 <table class="table">
 <thead><tr class="header">
@@ -295,33 +295,33 @@
 <p>In order to import data from the external databases you have to connect to this database and then load the data. Make sure that the table format in your database matches the <code>immunarch</code>’s format.</p>
 <p>To illustrate the use of external database, here is an example demonstrating data loading to the local MonetDB database:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Your list of repertoires in immunarch's format</span>
-<span class="va">DATA</span>
-<span class="co"># Metadata data frame</span>
-<span class="va">META</span>
-
-<span class="co"># Create a temporary directory</span>
-<span class="va">dbdir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span>
-<span class="va">con</span> <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">MonetDBLite</span><span class="op">(</span><span class="op">)</span>, embedded <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span>
-
-<span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html" class="external-link">dbWriteTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">DATA</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="co"># Create a source in the temporary directory with MonetDB</span>
-<span class="va">ms</span> <span class="op">=</span> <span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">src_monetdblite</span><span class="op">(</span>dbdir <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span>
-<span class="va">res_db</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Load the data from MonetDB to dplyr tables</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">res_db</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">tbl</a></span><span class="op">(</span><span class="va">ms</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="co"># Your data is ready to use</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">res_db</span>, meta <span class="op">=</span> <span class="va">META</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Your list of repertoires in immunarch's format</span></span>
+<span><span class="va">DATA</span></span>
+<span><span class="co"># Metadata data frame</span></span>
+<span><span class="va">META</span></span>
+<span></span>
+<span><span class="co"># Create a temporary directory</span></span>
+<span><span class="va">dbdir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a DBI connection to MonetDB in the temporary directory.</span></span>
+<span><span class="va">con</span> <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">MonetDBLite</span><span class="op">(</span><span class="op">)</span>, embedded <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Write each repertoire to MonetDB. Each table has corresponding name from the DATA</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html" class="external-link">dbWriteTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">DATA</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Create a source in the temporary directory with MonetDB</span></span>
+<span><span class="va">ms</span> <span class="op">=</span> <span class="fu">MonetDBLite</span><span class="fu">::</span><span class="fu">src_monetdblite</span><span class="op">(</span>dbdir <span class="op">=</span> <span class="va">dbdir</span><span class="op">)</span></span>
+<span><span class="va">res_db</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load the data from MonetDB to dplyr tables</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">res_db</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">tbl</a></span><span class="op">(</span><span class="va">ms</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">DATA</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Your data is ready to use</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">res_db</span>, meta <span class="op">=</span> <span class="va">META</span><span class="op">)</span></span></code></pre></div>
 <p><code>immunarch</code> is compatible with the following sources:</p>
 <ul>
 <li><p>R data frames (for most applications)</p></li>
@@ -339,79 +339,79 @@
 </h3>
 <p>The function returns the most abundant clonotypes for the given repertoire:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/top.html">top</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 10 × 15</span></span>
-<span class="co">##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
-<span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span>    173    0.020<span style="text-decoration: underline;">4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span>    163    0.019<span style="text-decoration: underline;">2</span>  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span>     66    0.007<span style="text-decoration: underline;">76</span> TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span>     54    0.006<span style="text-decoration: underline;">35</span> TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span>     48    0.005<span style="text-decoration: underline;">65</span> TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span>     48    0.005<span style="text-decoration: underline;">65</span> TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span>     40    0.004<span style="text-decoration: underline;">71</span> TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span>     31    0.003<span style="text-decoration: underline;">65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span>     30    0.003<span style="text-decoration: underline;">53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span>     28    0.003<span style="text-decoration: underline;">29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25</span>
-<span class="co">## <span style="color: #949494;"># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/top.html">top</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 15</span></span></span>
+<span><span class="co">##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span></span>
+<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>    173    0.020<span style="text-decoration: underline;">4</span>  TGCGCCAGC… CASSQE… TRBV4… TRBD1  TRBJ2…    16      18    26</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>    163    0.019<span style="text-decoration: underline;">2</span>  TGCGCCAGC… CASSYR… TRBV4… TRBD1  TRBJ2…    11      13    18</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>     66    0.007<span style="text-decoration: underline;">76</span> TGTGCCACC… CATSTN… TRBV15 TRBD1  TRBJ2…    11      16    22</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>     54    0.006<span style="text-decoration: underline;">35</span> TGTGCCACC… CATSIG… TRBV15 TRBD2  TRBJ2…    11      19    25</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>     48    0.005<span style="text-decoration: underline;">65</span> TGTGCCAGC… CASSPW… TRBV27 TRBD1  TRBJ1…    11      16    23</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>     48    0.005<span style="text-decoration: underline;">65</span> TGCGCCAGC… CASQGD… TRBV4… TRBD1  TRBJ1…     8      13    19</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>     40    0.004<span style="text-decoration: underline;">71</span> TGCGCCAGC… CASSQD… TRBV4… TRBD1  TRBJ2…    16      21    26</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>     31    0.003<span style="text-decoration: underline;">65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>     30    0.003<span style="text-decoration: underline;">53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>     28    0.003<span style="text-decoration: underline;">29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="filter-functional-non-functional-in-frame-out-of-frame-clonotypes">Filter functional / non-functional / in-frame / out-of-frame clonotypes<a class="anchor" aria-label="anchor" href="#filter-functional-non-functional-in-frame-out-of-frame-clonotypes"></a>
 </h3>
 <p>Conveniently, functions are vectorised over the list of data frames; and <code>coding(immdata$data)</code> in the example below returns a list of data frames with coding sequences:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/coding.html">coding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/coding.html">coding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>The next one operates in a similar fashion:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/coding.html">noncoding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/coding.html">noncoding</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Now, the computation of the number of filtered sequences is rather straightforward:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">inframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">inframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>And for the out-of-frame clonotypes:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">outofframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/coding.html">outofframes</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-subset-of-clonotypes-with-a-specific-v-gene">Get subset of clonotypes with a specific V gene<a class="anchor" aria-label="anchor" href="#get-subset-of-clonotypes-with-a-specific-v-gene"></a>
 </h3>
 <p>It is simple to subset data frame according to labels in the specified index. In this example the resulting data frame contains only records with ‘TRBV10-1’ V gene:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">V.name</span> <span class="op">==</span> <span class="st">'TRBV10-1'</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 24 × 15</span></span>
-<span class="co">##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span>
-<span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span>      2   0.000<span style="text-decoration: underline;">235</span> TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span>      2   0.000<span style="text-decoration: underline;">235</span> TGCGCCAGC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCACC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSEV… TRBV1… TRBD1  TRBJ2…    14      19    24</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSEG… TRBV1… TRBD2  TRBJ2…    13      19    27</span>
-<span class="co">## <span style="color: #949494;"># … with 14 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">V.name</span> <span class="op">==</span> <span class="st">'TRBV10-1'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 24 × 15</span></span></span>
+<span><span class="co">##    Clones Proportion CDR3.nt    CDR3.aa V.name D.name J.name V.end D.start D.end</span></span>
+<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>      2   0.000<span style="text-decoration: underline;">235</span> TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    25</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>      2   0.000<span style="text-decoration: underline;">235</span> TGCGCCAGC… CASSDG… TRBV1… TRBD1  TRBJ2…    13      15    22</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSGD… TRBV1… TRBD2  TRBJ2…     8      10    15</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCACC… CATLRS… TRBV1… TRBD1  TRBJ2…     6       7     9</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      20    22</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSES… TRBV1… TRBD2  TRBJ2…    16      17    21</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASRAS… TRBV1… TRBD2  TRBJ2…    10      13    21</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSEV… TRBV1… TRBD1  TRBJ2…    14      19    24</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSEG… TRBV1… TRBD2  TRBJ2…    13      19    27</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 14 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="downsampling">Downsampling<a class="anchor" aria-label="anchor" href="#downsampling"></a>
 </h2>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 </span>
-<span class="co">##      99      93      96     100      86      98      84     100      86      99 </span>
-<span class="co">##     MS5     MS6 </span>
-<span class="co">##      84      95</span></code></pre>
+<code class="sourceCode R"><span><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 </span></span>
+<span><span class="co">##      98      98      95     100      90      95      91      98      91     100 </span></span>
+<span><span class="co">##     MS5     MS6 </span></span>
+<span><span class="co">##      87      99</span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 </span>
-<span class="co">##      10      10      10      10      10      10      10      10      10      10 </span>
-<span class="co">##     MS5     MS6 </span>
-<span class="co">##      10      10</span></code></pre>
+<code class="sourceCode R"><span><span class="va">ds</span> <span class="op">=</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 </span></span>
+<span><span class="co">##      10      10      10      10      10      10      10      10      10      10 </span></span>
+<span><span class="co">##     MS5     MS6 </span></span>
+<span><span class="co">##      10      10</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="immunarch-data-format">Immunarch data format<a class="anchor" aria-label="anchor" href="#immunarch-data-format"></a>
@@ -470,7 +470,7 @@ With these functions you can write the subset of your repertoires to new tables 
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

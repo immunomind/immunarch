@@ -142,12 +142,12 @@ and sequence length distribution across the input dataset.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">repExplore</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  .method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"volume"</span>, <span class="st">"count"</span>, <span class="st">"len"</span>, <span class="st">"clones"</span><span class="op">)</span>,
-  .col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nt"</span>, <span class="st">"aa"</span><span class="op">)</span>,
-  .coding <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">repExplore</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  .method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"volume"</span>, <span class="st">"count"</span>, <span class="st">"len"</span>, <span class="st">"clones"</span><span class="op">)</span>,</span>
+<span>  .col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nt"</span>, <span class="st">"aa"</span><span class="op">)</span>,</span>
+<span>  .coding <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -161,6 +161,8 @@ and sequence length distribution across the input dataset.</p>
 DBI database connections, Apache Spark DataFrame from <a href="https://dplyr.tidyverse.org/reference/copy_to.html" class="external-link">copy_to</a> or a list
 of these objects. They are supported with the same limitations as basic objects.</p>
 <p>Note: each connection must represent a separate repertoire.</p></dd>
+
+
 <dt>.method</dt>
 <dd><p>A string that specifies the method of analysis. It can be
 either "volume", "count", "len" or "clones".</p>
@@ -172,17 +174,26 @@ clonotype abundances, i.e., how frequent receptors with different abundances are
 CDR3 sequence lengths.</p>
 <p>When .method is set to "clones" the repExplore returns the number of clones (i.e., cells)
 per input repertoire.</p></dd>
+
+
 <dt>.col</dt>
 <dd><p>A string that specifies the column to be processed. Pass "nt" for
 nucleotide sequence or "aa" for amino acid sequence.</p></dd>
+
+
 <dt>.coding</dt>
 <dd><p>If <code>TRUE</code>, then only coding sequences will be analysed.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If input data is a single immune repertoire, then the function returns a numeric vector
-with exploratory analysis statistics.
-Otherwise, it returns a numeric matrix with exploratory analysis statistics for all input repertoires.</p>
+    
+
+<p>If input data is a single immune repertoire, then the function returns a numeric vector
+with exploratory analysis statistics.</p>
+
+
+<p>Otherwise, it returns a numeric matrix with exploratory analysis statistics for all input repertoires.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -191,17 +202,17 @@ Otherwise, it returns a numeric matrix with exploratory analysis statistics for 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Calculate statistics and generate a visual output with vis()</span></span>
-<span class="r-in"><span class="fu">repExplore</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-plt"><img src="repExplore-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">repExplore</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-plt"><img src="repExplore-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">repExplore</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"len"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-plt"><img src="repExplore-3.png" alt="" width="700" height="433"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate statistics and generate a visual output with vis()</span></span></span>
+<span class="r-in"><span><span class="fu">repExplore</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="repExplore-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">repExplore</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="repExplore-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">repExplore</span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, .method <span class="op">=</span> <span class="st">"len"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="repExplore-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -216,7 +227,7 @@ Otherwise, it returns a numeric matrix with exploratory analysis statistics for 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -148,19 +148,24 @@ See "Details" for the list of available visualisations.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vis</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vis</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>Pass the output from any immunarch analysis tool to <code>vis()</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Any other arguments, see the "Details" section for specific visualisation functions.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2, pheatmap or circlize object.</p>
+    
+
+<p>A ggplot2, pheatmap or circlize object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -196,23 +201,23 @@ See "Details" for the list of available visualisations.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load the test data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Compute and visualise:</span></span>
-<span class="r-in"><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">vis</span><span class="op">(</span><span class="va">ov</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">vis</span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load the test data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Compute and visualise:</span></span></span>
+<span class="r-in"><span><span class="va">ov</span> <span class="op">&lt;-</span> <span class="fu"><a href="repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vis</span><span class="op">(</span><span class="va">ov</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gu</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneUsage.html">geneUsage</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vis</span><span class="op">(</span><span class="va">gu</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using Names as id variables</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 15 rows containing missing values (geom_bar).</span>
-<span class="r-plt"><img src="vis-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dv</span> <span class="op">&lt;-</span> <span class="fu"><a href="repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">vis</span><span class="op">(</span><span class="va">dv</span><span class="op">)</span></span>
-<span class="r-plt"><img src="vis-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="vis-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dv</span> <span class="op">&lt;-</span> <span class="fu"><a href="repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vis</span><span class="op">(</span><span class="va">dv</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vis-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -227,7 +232,7 @@ See "Details" for the list of available visualisations.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
