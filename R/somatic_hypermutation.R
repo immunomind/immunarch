@@ -50,10 +50,10 @@
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline(.threads = 2) %>%
+#'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
-#'   repClonalFamily(.threads = 2, .nofail = TRUE) %>%
-#'   repSomaticHypermutation(.threads = 2, .nofail = TRUE)
+#'   repClonalFamily(.threads = 1, .nofail = TRUE) %>%
+#'   repSomaticHypermutation(.threads = 1, .nofail = TRUE)
 #' @export repSomaticHypermutation
 repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
   if (!require_system_package("clustalw", error_message = paste0(

@@ -23,9 +23,9 @@ bcr_data <- bcrdata$data
 
 clonal_family <- bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
-  repGermline(.threads = 2) \%>\%
+  repGermline(.threads = 1) \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
-  repClonalFamily(.threads = 2, .nofail = TRUE)
+  repClonalFamily(.threads = 1, .nofail = TRUE)
 
 vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
 }

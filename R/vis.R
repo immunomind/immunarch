@@ -2978,9 +2978,9 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #'
 #' clonal_family <- bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline(.threads = 2) %>%
+#'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
-#'   repClonalFamily(.threads = 2, .nofail = TRUE) %>%
+#'   repClonalFamily(.threads = 1, .nofail = TRUE) %>%
 #'   vis()
 #' @export
 vis.clonal_family <- function(.data, ...) {
@@ -3024,9 +3024,9 @@ vis.clonal_family <- function(.data, ...) {
 #'
 #' clonal_family <- bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline(.threads = 2) %>%
+#'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
-#'   repClonalFamily(.threads = 2, .nofail = TRUE)
+#'   repClonalFamily(.threads = 1, .nofail = TRUE)
 #'
 #' vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
 #' @export
@@ -3041,7 +3041,7 @@ vis.clonal_family_tree <- function(.data, ...) {
     ggraph("tree") +
     geom_edge_diagonal() +
     geom_node_point(aes(color = Type, size = Clones)) +
-    theme_graph()
+    theme_graph(base_family = "sans")
 
   return(tree_graph)
 }

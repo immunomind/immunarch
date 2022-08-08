@@ -69,7 +69,7 @@ bcr_data <- bcrdata$data
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
-  repGermline(.threads = 2) \%>\%
+  repGermline(.threads = 1) \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 }
 \concept{align_lineage}
