@@ -3038,8 +3038,8 @@ vis.clonal_family_tree <- function(.data, ...) {
   names(vertices_df)[1] <- "name"
 
   tree_graph <- graph_from_data_frame(links_df, vertices = vertices_df) %>%
-    ggraph("dendrogram") +
-    geom_edge_elbow() +
+    ggraph("tree") +
+    geom_edge_diagonal() +
     geom_node_point(aes(color = Type, size = Clones)) +
     theme_graph()
 

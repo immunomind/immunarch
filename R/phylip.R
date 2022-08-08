@@ -286,7 +286,7 @@ process_cluster <- function(cluster_row) {
           "germline_nt_chars = ", germline_nt_chars, "\nseq_nt_chars = ", seq_nt_chars
         )
       }
-      tree_stats[row, "DistanceNT"] <- count(germline_nt_chars != seq_nt_chars)
+      tree_stats[row, "DistanceNT"] <- sum(germline_nt_chars != seq_nt_chars)
       seq_aa <- bunch_translate(substring(seq, aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
@@ -298,7 +298,7 @@ process_cluster <- function(cluster_row) {
           "germline_aa_chars = ", germline_aa_chars, "\nseq_aa_chars = ", seq_aa_chars
         )
       }
-      tree_stats[row, "DistanceAA"] <- count(germline_aa_chars != seq_aa_chars) - cdr3_aa_length
+      tree_stats[row, "DistanceAA"] <- sum(germline_aa_chars != seq_aa_chars) - cdr3_aa_length
     }
   }
 
