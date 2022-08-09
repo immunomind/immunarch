@@ -137,8 +137,10 @@ process_cluster <- function(cluster_row) {
   v_trimmed_length <- cluster_row[["V.length"]]
   j_trimmed_length <- cluster_row[["J.length"]]
 
-  # position of starting nucleotide for translation of sequences to amino acids
-  aa_frame_start <- (str_length(cluster_row[["V.germline.nt"]]) - v_trimmed_length) %% 3 + 1
+  # positions of starting nucleotide for translation of sequences to amino acids
+  v_full_length <- str_length(cluster_row[["V.germline.nt"]])
+  v_aa_frame_start <- (v_full_length - v_trimmed_length) %% 3 + 1
+  j_aa_frame_start <- (v_full_length + cdr3_germline_length) %% 3 + 1
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
@@ -267,12 +269,14 @@ process_cluster <- function(cluster_row) {
   germline_v <- str_sub(germline, 1, v_trimmed_length)
   germline_j <- str_sub(germline, -j_trimmed_length)
   germline_nt_chars <- strsplit(paste0(germline_v, germline_j), "")[[1]]
-  # AA germline contains CDR3 filled with N, so it should be substracted from counted distance
-  germline_aa <- bunch_translate(substring(germline, aa_frame_start),
+
+  germline_v_aa <- bunch_translate(substring(germline_v, v_aa_frame_start),
     .two.way = FALSE, .ignore.n = TRUE
   )
-  germline_aa_chars <- strsplit(germline_aa, "")[[1]]
-  cdr3_aa_length <- cdr3_germline_length %/% 3
+  germline_j_aa <- bunch_translate(substring(germline_j, j_aa_frame_start),
+    .two.way = FALSE, .ignore.n = TRUE
+  )
+  germline_aa_chars <- strsplit(paste0(germline_v_aa, germline_j_aa), "")[[1]]
   for (row in seq_len(nrow(tree_stats))) {
     if (tree_stats[row, "Type"] != "Germline") {
       seq <- tree_stats[row, "Sequence"]
@@ -287,10 +291,13 @@ process_cluster <- function(cluster_row) {
         )
       }
       tree_stats[row, "DistanceNT"] <- sum(germline_nt_chars != seq_nt_chars)
-      seq_aa <- bunch_translate(substring(seq, aa_frame_start),
+      seq_v_aa <- bunch_translate(substring(seq_v, v_aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
-      seq_aa_chars <- strsplit(seq_aa, "")[[1]]
+      seq_j_aa <- bunch_translate(substring(seq_j, j_aa_frame_start),
+        .two.way = FALSE, .ignore.n = TRUE
+      )
+      seq_aa_chars <- strsplit(paste0(seq_v_aa, seq_j_aa), "")[[1]]
       if (length(germline_aa_chars) != length(seq_aa_chars)) {
         warning(
           "Germline and sequence lengths are different; ",
@@ -298,7 +305,7 @@ process_cluster <- function(cluster_row) {
           "germline_aa_chars = ", germline_aa_chars, "\nseq_aa_chars = ", seq_aa_chars
         )
       }
-      tree_stats[row, "DistanceAA"] <- sum(germline_aa_chars != seq_aa_chars) - cdr3_aa_length
+      tree_stats[row, "DistanceAA"] <- sum(germline_aa_chars != seq_aa_chars)
     }
   }
 
