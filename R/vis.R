@@ -3028,7 +3028,11 @@ vis.clonal_family <- function(.data, ...) {
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
 #'   repClonalFamily(.threads = 1, .nofail = TRUE)
 #'
-#' vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+#' # This condition can be omitted; it prevents the example from crashing
+#' # when ClustalW or PHYLIP are not installed
+#' if (!("step_failure_ignored" %in% class(clonal_family))) {
+#'   vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+#' }
 #' @export
 vis.clonal_family_tree <- function(.data, ...) {
   links_df <- .data[c("Ancestor", "Name")] %>%
@@ -3044,4 +3048,18 @@ vis.clonal_family_tree <- function(.data, ...) {
     theme_graph(base_family = "sans")
 
   return(tree_graph)
+}
+
+#' Handler for .nofail argument of pipeline steps that prevents examples from crashing
+#' on computers where certain dependencies are not installed
+#'
+#' @param .data Not used here.
+#' @param ... Not used here.
+#'
+#' @return
+#' An empty object with "step_failure_ignored" class.
+#'
+#' @export
+vis.step_failure_ignored <- function(.data, ...) {
+  return(get_empty_object_with_class("step_failure_ignored"))
 }

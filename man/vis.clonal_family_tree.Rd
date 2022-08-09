@@ -27,6 +27,10 @@ clonal_family <- bcr_data \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
   repClonalFamily(.threads = 1, .nofail = TRUE)
 
-vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+# This condition can be omitted; it prevents the example from crashing
+# when ClustalW or PHYLIP are not installed
+if (!("step_failure_ignored" \%in\% class(clonal_family))) {
+  vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+}
 }
 \concept{phylip}

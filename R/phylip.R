@@ -71,8 +71,8 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
-  ), .nofail, identical(.data, NA))) {
-    return(NA)
+  ), .nofail, has_class(.data, "step_failure_ignored"))) {
+    return(get_empty_object_with_class("step_failure_ignored"))
   }
 
   results <- .data %>%

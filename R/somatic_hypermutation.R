@@ -60,8 +60,8 @@ repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .
     "repSomaticHypermutation requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
-  ), .nofail, identical(.data, NA))) {
-    return(NA)
+  ), .nofail, has_class(.data, "step_failure_ignored"))) {
+    return(get_empty_object_with_class("step_failure_ignored"))
   }
 
   doParallel::registerDoParallel(cores = .threads)

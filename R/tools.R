@@ -85,7 +85,6 @@ add_class <- function(.obj, .class) {
   .obj
 }
 
-
 #' Check for the specific class
 #'
 #' @concept utility_private
@@ -108,6 +107,9 @@ has_class <- function(.data, .class) {
   .class %in% class(.data)
 }
 
+get_empty_object_with_class <- function(.class) {
+  add_class(NA, .class)
+}
 
 #' Set and update progress bars
 #'

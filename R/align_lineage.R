@@ -94,7 +94,7 @@ repAlignLineage <- function(.data,
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
   ), .nofail)) {
-    return(NA)
+    return(get_empty_object_with_class("step_failure_ignored"))
   }
 
   doParallel::registerDoParallel(cores = .prepare_threads)
