@@ -1,4 +1,4 @@
-#' This function calculates number of mutations against the germline for each clonotype.
+#' Calculates number of mutations against the germline for each clonotype
 #'
 #' @concept somatic_hypermutation
 #'
@@ -11,9 +11,9 @@
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom ape as.DNAbin clustal
 #'
-#' @description Aligns V and J genes from the germline in each cluster with corresponding genes
-#' in each clonotype, saves the alignments for purpose of visualization, and calculates
-#' number of mutations for each clonotype
+#' @description This function aligns V and J genes from the germline in each cluster
+#' with corresponding genes in each clonotype, saves the alignments for purpose of visualization,
+#' and calculates number of mutations for each clonotype.
 #'
 #' @usage
 #'
@@ -50,18 +50,18 @@
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline(.threads = 2) %>%
+#'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
-#'   repClonalFamily(.threads = 2, .nofail = TRUE) %>%
-#'   repSomaticHypermutation(.threads = 2, .nofail = TRUE)
+#'   repClonalFamily(.threads = 1, .nofail = TRUE) %>%
+#'   repSomaticHypermutation(.threads = 1, .nofail = TRUE)
 #' @export repSomaticHypermutation
 repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
   if (!require_system_package("clustalw", error_message = paste0(
     "repSomaticHypermutation requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
-  ), .nofail, identical(.data, NA))) {
-    return(NA)
+  ), .nofail, has_class(.data, "step_failure_ignored"))) {
+    return(get_empty_object_with_class("step_failure_ignored"))
   }
 
   doParallel::registerDoParallel(cores = .threads)
@@ -84,7 +84,7 @@ shm_process_dataframe <- function(df, .parallel) {
   )
   # fix column types after dataframe rebuilding
   for (column in c(
-    "Clone.ID", "Clones", "CDR3.germline.length", "Trunk.Length",
+    "Clone.ID", "Clones", "CDR3.germline.length", "V.length", "J.length", "Trunk.Length",
     "Substitutions", "Insertions", "Deletions", "Mutations"
   )) {
     df[[column]] %<>% as.integer()

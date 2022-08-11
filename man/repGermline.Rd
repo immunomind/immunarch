@@ -2,12 +2,7 @@
 % Please edit documentation in R/germline.R
 \name{repGermline}
 \alias{repGermline}
-\title{This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
-that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
-Each clonal lineage has its own germline sequence that represents the ancestral sequence
-for each BCR in clonal lineage. In other words, germline sequence is a sequence of B-cells immediately
-after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
-for assessing the degree of mutation and maturity of the repertoire.}
+\title{Creates germlines for clonal lineages}
 \usage{
 repGermline(.data,
 .species, .align_j_gene, .min_nuc_outside_cdr3, .threads)
@@ -47,7 +42,13 @@ Data with added columns:
 * Germline.sequence (combined germline sequence)
 }
 \description{
-Creates germlines for clonal lineages
+This function creates germlines for clonal lineages. B cell clonal lineage
+represents a set of B cells that presumably have a common origin (arising from the same VDJ
+rearrangement event) and a common ancestor. Each clonal lineage has its own germline sequence
+that represents the ancestral sequence for each BCR in clonal lineage. In other words,
+germline sequence is a sequence of B-cells immediately after VDJ recombination, before
+B-cell maturation and hypermutation process. Germline sequence is useful for assessing
+the degree of mutation and maturity of the repertoire.
 }
 \examples{
 
