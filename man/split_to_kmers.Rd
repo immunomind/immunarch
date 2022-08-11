@@ -12,7 +12,7 @@ kmer_profile(.data, .method = c("freq", "prob", "wei", "self"), .remove.stop = T
 \arguments{
 \item{.data}{Character vector or the output from \code{getKmers}.}
 
-\item{.k}{Integer. Size of kmers.}
+\item{.k}{Integer. Size of k-mers.}
 
 \item{.method}{Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 a matrix with occurences of each amino acid in each position.
@@ -29,7 +29,7 @@ For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.}
 \item{.remove.stop}{Logical. If TRUE (by default) remove stop codons.}
 }
 \value{
-\code{split_to_kmers} - Data frame with two columns (kmers and their counts).
+\code{split_to_kmers} - Data frame with two columns (k-mers and their counts).
 
 \code{kmer_profile} - a matrix with per-position amino acid statistics.
 }
@@ -41,4 +41,4 @@ data(immdata)
 kmers <- getKmers(immdata$data[[1]], 5)
 kmer_profile(kmers) \%>\% vis()
 }
-\concept{kmers}
+\concept{k-mers}

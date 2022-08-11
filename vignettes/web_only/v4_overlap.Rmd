@@ -44,7 +44,7 @@ Repertoire overlap is the most common approach to measure repertoire similarity.
 
 - overlap coefficient (`.method = "overlap"`) - a normalised measure of overlap similarity. It is defined as the size of the intersection divided by the smaller of the size of the two sets.
 
-- Jaccard index (`.method = "jaccard"`) - it measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets.
+- Jaccard index (`.method = "jaccard"`) - measures the similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets.
 
 - Tversky index (`.method = "tversky"`) - an asymmetric similarity measure on sets that compares a variant to a prototype. If using default arguments, it's similar to Dice's coefficient.
 
@@ -54,7 +54,7 @@ Repertoire overlap is the most common approach to measure repertoire similarity.
 
 - incremental overlap - overlaps of the N most abundant clonotypes with incrementally growing N (`.method = "inc+METHOD"`, e.g., `"inc+public"` or `"inc+morisita"`).
 
-The function that includes described methods is `repOverlap`. Again the output is easily visualised when passed to `vis()` function that does all the work:
+The function that includes described methods is `repOverlap`. Again, the output is easily visualised when passed to `vis()` function that does all the work:
 
 ```{r overlap, message=F, warning=FALSE, fig.width=12, fig.height=7}
 imm_ov1 <- repOverlap(immdata$data, .method = "public", .verbose = F)

@@ -1,9 +1,9 @@
-#' Calculate the kmer statistics of immune repertoires
+#' Calculate the k-mer statistics of immune repertoires
 #'
 #' @importFrom data.table data.table
 #' @importFrom dplyr as_tibble
 #'
-#' @concept kmers
+#' @concept k-mers
 #'
 #' @aliases getKmers get.kmers makeKmerTable
 #'
@@ -19,13 +19,13 @@
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .k Integer. Length of kmers.
+#' @param .k Integer. Length of k-mers.
 #' @param .col Character. Which column to use, pass "aa" (by default) for CDR3 amino acid sequence,
 #' pass "nt" for CDR3 nucleotide sequences.
 #' @param .coding Logical. If TRUE (by default) then removes all non-coding sequences from input data first.
 #'
 #' @return
-#' Data frame with two columns (kmers and their counts).
+#' Data frame with two columns (k-mers and their counts).
 #'
 #' @examples
 #' data(immdata)
@@ -85,7 +85,7 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #'
 #' @importFrom dplyr as_tibble
 #'
-#' @concept kmers
+#' @concept k-mers
 #'
 #' @aliases split_to_kmers kmer_profile
 #'
@@ -95,7 +95,7 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #' kmer_profile(.data, .method = c("freq", "prob", "wei", "self"), .remove.stop = TRUE)
 #'
 #' @param .data Character vector or the output from \code{getKmers}.
-#' @param .k Integer. Size of kmers.
+#' @param .k Integer. Size of k-mers.
 #' @param .method Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 #' a matrix with occurences of each amino acid in each position.
 #'
@@ -110,7 +110,7 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #' @param .remove.stop Logical. If TRUE (by default) remove stop codons.
 #'
 #' @return
-#' \code{split_to_kmers} - Data frame with two columns (kmers and their counts).
+#' \code{split_to_kmers} - Data frame with two columns (k-mers and their counts).
 #'
 #' \code{kmer_profile} - a matrix with per-position amino acid statistics.
 #'
@@ -144,7 +144,7 @@ kmer_profile <- function(.data, .method = c("freq", "prob", "wei", "self"), .rem
     seq_vec <- .data$Kmer
     cnt_vec <- .data$Count
   } else if (length(table(nchar(.data))) > 1) {
-    stop("Not all kmers in the input data have the same length.")
+    stop("Not all k-mers in the input data have the same length.")
   } else {
     seq_vec <- .data
     cnt_vec <- rep.int(1, length(.data))

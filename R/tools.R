@@ -85,7 +85,6 @@ add_class <- function(.obj, .class) {
   .obj
 }
 
-
 #' Check for the specific class
 #'
 #' @concept utility_private
@@ -108,6 +107,9 @@ has_class <- function(.data, .class) {
   .class %in% class(.data)
 }
 
+get_empty_object_with_class <- function(.class) {
+  add_class(NA, .class)
+}
 
 #' Set and update progress bars
 #'
@@ -204,6 +206,7 @@ matrixdiagcopy <- function(.mat) {
 #'
 #' @param .seq Vector or list of strings.
 #' @param .two.way Logical. If TRUE (default) then translate from the both ends (like MIXCR).
+#' @param .ignore.n Logical. If FALSE (default) then return NA for sequences that have N, else parse triplets with N as ~
 #'
 #' @return
 #' Character vector of translated input sequences.
@@ -212,9 +215,11 @@ matrixdiagcopy <- function(.mat) {
 #' data(immdata)
 #' head(bunch_translate(immdata$data[[1]]$CDR3.nt))
 #' @export
-bunch_translate <- function(.seq, .two.way = TRUE) {
+bunch_translate <- function(.seq, .two.way = TRUE, .ignore.n = FALSE) {
   .seq <- toupper(.seq)
-  .seq[grepl("N", .seq)] <- NA
+  if (!.ignore.n) {
+    .seq[grepl("N", .seq)] <- NA
+  }
 
   sapply(.seq, function(y) {
     if (!is.na(y)) {
@@ -233,7 +238,9 @@ bunch_translate <- function(.seq, .two.way = TRUE) {
       } else {
         y <- substring(y, seq(1, nchar(y) - 2, 3), seq(3, nchar(y), 3))
       }
-      paste0(AA_TABLE[unlist(strsplit(gsub("(...)", "\\1_", y), "_"))], collapse = "")
+      aa <- AA_TABLE[unlist(strsplit(gsub("(...)", "\\1_", y), "_"))]
+      aa %<>% replace(is.na(aa), "~")
+      paste0(aa, collapse = "")
     } else {
       NA
     }
@@ -482,8 +489,15 @@ as_numeric_or_fail <- function(.string) {
   return(result)
 }
 
+has_no_data <- function(.data) {
+  any(sapply(list(NA, NULL, NaN), identical, .data))
+}
+
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
 apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .validate = TRUE, ...) {
+  if (has_no_data(.data)) {
+    stop("Expected non-empty data; found: ", .data)
+  }
   if (inherits(.data, "list")) {
     if (.validate) {
       .validate_repertoires_data(.data)
@@ -614,9 +628,31 @@ j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
   stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
 }
 
-quiet <- function(procedure) {
-  procedure %>%
-    capture.output() %>%
-    invisible() %>%
-    suppressMessages()
+convert_seq_list_to_dnabin <- function(seq_list) {
+  dnabin <- seq_list %>%
+    lapply(
+      function(sequence) {
+        sequence %>%
+          stringr::str_extract_all(stringr::boundary("character")) %>%
+          unlist()
+      }
+    ) %>%
+    ape::as.DNAbin()
+  return(dnabin)
+}
+
+# capture_output() suppresses stdout, but also drops returned value
+quiet <- function(procedure, capture_output = FALSE) {
+  if (capture_output) {
+    procedure %>%
+      capture.output() %>%
+      invisible() %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  } else {
+    procedure %>%
+      invisible() %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  }
 }

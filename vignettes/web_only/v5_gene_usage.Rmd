@@ -46,7 +46,7 @@ data(immdata)
 gene_stats()
 ```
 
-To compute the distributions of genes, `immunarch` includes the `geneUsage` function. It receives a repertoire or a list of repertoires as input and genes and species for which you want to get the statistics. E.g., if you plan to use `TRBV` genes of `Homo Sapiens`, you need to use the `hs.trbv` string in the function, where `hs` comes from the `alias` column and `trbv` is the gene name. Of if you plan to use `IGHJ` genes of `Mus Musculus`, you need to use `musmus.ighj`:
+To compute the distribution of genes, `immunarch` includes the `geneUsage` function. It receives a repertoire or a list of repertoires as input and genes and species for which you want to get the statistics. E.g., if you plan to use `TRBV` genes of `Homo Sapiens`, you need to use the `hs.trbv` string in the function, where `hs` comes from the `alias` column and `trbv` is the gene name. In case you plan to use `IGHJ` genes of `Mus Musculus`, you need to use `musmus.ighj`:
 
 ```{r}
 # Next four function calls are equal. "hs" is from the "alias" column.
@@ -93,7 +93,7 @@ vis(imm_gu, .by = "Status", .meta = immdata$meta, .plot = "box")
 ## Ambiguity of gene segment names
 Due to the ambiguity of gene alignments for some clonotypes, `geneUsage` has the following options to deal with ambiguous data:
 
-- `.ambig = "inc"` - includes all possible combinations of ambiguous gene alignments from the data. NOTE: ImmunoSEQ formats use non-standart gene segment names, so it is preferable to use this argument value with ImmunoSEQ formats. This argument is ON by default to ease the gene manipulation. Feel free to change it to `"exc"` in case of other data formats. It is ON by default, we recommend it to leave it that way.
+- `.ambig = "inc"` - includes all possible combinations of ambiguous gene alignments from the data. NOTE: ImmunoSEQ formats use non-standart gene segment names, so it is preferable to use this argument value with ImmunoSEQ formats. This argument is ON by default to ease the gene manipulation. Feel free to change it to `"exc"` in case of other data formats. It is ON by default, and we recommend to leave it that way.
 
 - `.ambig = "exc"` - filters out all clonotypes with ambiguous gene alignments.
 

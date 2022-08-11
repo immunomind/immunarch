@@ -41,15 +41,15 @@ data(scdata)
 
 > This is a vignette dedicated to provide an overview on how to work with single-cell paired chain data in `immunarch`
 
-> Single-cell support is currently in the development version. In order to access it, you need to install the latest development version of the package  by executing the following command:
+> Single-cell support is currently in the development version. In order to access it, you need to install the latest development version of the package by executing the following command:
 
 ```r
 install.packages("devtools"); devtools::install_github("immunomind/immunarch", ref="dev")
 ```
 
-> To read paired chain data into `immunarch` use the `repLoad` function with `.mode = "paired"`. Currently we support 10X Genomics only.
+> To read paired chain data with `immunarch` use the `repLoad` function with `.mode = "paired"`. Currently we support 10X Genomics only.
 
-> To subset immune repertoires by specific barcodes use the `select_barcodes` function. Output of `Seurat::Idents()` as a barcode vector works.
+> To create subset immune repertoires with specific barcodes use the `select_barcodes` function. Output of `Seurat::Idents()` as a barcode vector works.
 
 > To create cluster-specific and patient-specific datasets using barcodes from the output of `Seurat::Idents()` use the `select_clusters` function.
 

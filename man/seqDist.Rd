@@ -62,3 +62,4 @@ f <- function(x, y) {
 
 seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 }
+\concept{distance}

@@ -1,5 +1,4 @@
-#' This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
-#' maximum parsimony methods.
+#' Builds a phylogenetic tree using the sequences of a clonal lineage
 #'
 #' @concept phylip
 #'
@@ -8,7 +7,7 @@
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
-#' @importFrom stringr str_match str_count fixed
+#' @importFrom stringr str_match str_count fixed str_extract_all str_length str_sub
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
@@ -17,7 +16,8 @@
 #' @importFrom uuid UUIDgenerate
 #' @importFrom data.table fread
 
-#' @description This function builds a phylogenetic tree using the sequences of a clonal lineage
+#' @description This function uses the PHYLIP package to make phylogenetic analysis.
+#' For making trees it uses maximum parsimony methods.
 #'
 #' @usage
 #'
@@ -37,6 +37,11 @@
 #' The dataframe has these columns:
 #' * Cluster: cluster name
 #' * Germline.Input: germline sequence, like it was in the input; not trimmed and not aligned
+#' * V.germline.nt: input germline V gene sequence
+#' * J.germline.nt: input germline J gene sequence
+#' * CDR3.germline.length: length of CDR3 in input germline
+#' * V.length: length of V gene after trimming on repAlignLineage() step
+#' * J.length: length of j gene after trimming on repAlignLineage() step
 #' * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
 #'   it contains difference of germline from the common ancestor; "." characters mean
 #'   matching letters. It's usually shorter than Germline.Input, because germline and
@@ -45,6 +50,10 @@
 #' * Trunk.Length: mean trunk length, representing the distance between the most recent
 #'   common ancestor and germline sequence as a measure of the maturity of a lineage
 #' * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
+#' * TreeStats: nested dataframe containing data about tree nodes, needed for visualization
+#' * Sequences: nested dataframe containing all sequences for this combination of cluster
+#'   and germline; it contains regions from original sequences, saved for
+#'   repSomaticHypermutation() calculation, and also data needed for visualizations
 #'
 #' @examples
 #'
@@ -53,30 +62,36 @@
 #'
 #' bcr_data %>%
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-#'   repGermline() %>%
+#'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
-#'   repClonalFamily(.threads = 2, .nofail = TRUE)
+#'   repClonalFamily(.threads = 1, .nofail = TRUE)
 #' @export repClonalFamily
 repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
   if (!require_system_package("phylip", error_message = paste0(
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
-  ), .nofail, is.na(.data))) {
-    return(NA)
+  ), .nofail, has_class(.data, "step_failure_ignored"))) {
+    return(get_empty_object_with_class("step_failure_ignored"))
   }
 
-  results <- .data %>% apply_to_sample_or_list(
-    process_dataframe,
-    .with_names = TRUE,
-    .validate = FALSE,
-    .threads = .threads
-  )
+  results <- .data %>%
+    apply_to_sample_or_list(
+      process_dataframe,
+      .with_names = TRUE,
+      .validate = FALSE,
+      .threads = .threads
+    ) %>%
+    add_class("clonal_family")
   return(results)
 }
 
 process_dataframe <- function(df, .threads, sample_name = NA) {
-  for (column in c("Cluster", "Germline", "Alignment")) {
+  required_columns <- c(
+    "Cluster", "Germline", "V.germline.nt", "J.germline.nt", "CDR3.germline.length",
+    "V.length", "J.length", "Alignment", "Sequences"
+  )
+  for (column in required_columns) {
     if (!(column %in% colnames(df))) {
       stop(
         "Unrecognized input dataframe format for repClonalFamily: missing \"",
@@ -100,7 +115,7 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
     )
   }
 
-  df <- df[c("Cluster", "Germline", "Alignment")]
+  df <- df[required_columns]
   clusters_list <- split(df, seq(nrow(df)))
 
   results <- parallel::mclapply(
@@ -114,62 +129,230 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
 }
 
 process_cluster <- function(cluster_row) {
-  cluster_name <- cluster_row[["Cluster"]]
-  cluster_germline <- cluster_row[["Germline"]]
-  # alignment should be extracted from 1-element list because of Alignment column format
+  # alignment and sequences should be extracted from 1-element lists because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
+  sequences <- cluster_row[["Sequences"]][[1]]
+  cluster_name <- cluster_row[["Cluster"]]
+  cdr3_germline_length <- cluster_row[["CDR3.germline.length"]]
+  v_trimmed_length <- cluster_row[["V.length"]]
+  j_trimmed_length <- cluster_row[["J.length"]]
+
+  # positions of starting nucleotide for translation of sequences to amino acids
+  v_full_length <- str_length(cluster_row[["V.germline.nt"]])
+  v_aa_frame_start <- (v_full_length - v_trimmed_length) %% 3 + 1
+  j_aa_frame_start <- (v_full_length + cdr3_germline_length) %% 3 + 1
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
-  # bugfix for phylip: it shows "Unexpected end-of-file" for too short sequence labels
+  # workaround for phylip: it shows "Unexpected end-of-file" for too short sequence labels;
+  # these \t are also used to read outfile as table
   rownames(alignment) %<>% paste0("\t")
   phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
   system(
     paste0("sh -c \"cd ", temp_dir, "; phylip dnapars infile\""),
-    input = (c("V", 1, 5, "Y"))
+    input = (c("V", 1, 5, ".", "Y"))
   ) %>%
-    quiet()
+    quiet(capture_output = TRUE)
 
   tree <- ape::read.tree(file.path(temp_dir, "outtree"))
-  outfile_path <- file.path(temp_dir, "outfile")
-  outfile_lines <- scan(outfile_path, what = "", sep = "\n", quiet = TRUE)
-  common_ancestor <- outfile_lines[grepl("         1   ", outfile_lines)]
-  germline <- outfile_lines[grepl("1   germline", outfile_lines)]
 
-  common_ancestor %<>%
-    stringr::str_match(" +1 +(.+) *") %>%
-    join_to_string()
-  germline %<>%
-    stringr::str_match(" +1 +germline\\s+[a-z]* *(.+) *") %>%
-    join_to_string()
-  trunk_length <- nchar(germline) - stringr::str_count(germline, stringr::fixed("."))
+  outfile_path <- file.path(temp_dir, "outfile")
+  outfile_table <- read.table(outfile_path,
+    sep = "\t", header = FALSE, na.strings = "", stringsAsFactors = FALSE,
+    fill = TRUE, blank.lines.skip = TRUE
+  )
+  outfile_rows <- split(outfile_table, seq(nrow(outfile_table)))
+  rm(outfile_table)
+  header_line_1_idx <- which(grepl("From    To", outfile_rows, fixed = TRUE))[1]
+  # remove start of file, keep only lines with sequences
+  outfile_rows <- outfile_rows[-seq(1, header_line_1_idx + 1)]
+
+  # iterate over rows, assemble sequences, fill table values
+  tree_stats <- data.frame(matrix(
+    ncol = 7, nrow = 0,
+    dimnames = list(NULL, c(
+      "Name", "Type", "Clones", "Ancestor", "DistanceNT", "DistanceAA", "Sequence"
+    ))
+  )) %>%
+    add_class("clonal_family_tree")
+  for (row in outfile_rows) {
+    clones <- 1 # for all sequences except clonotypes
+    col1_strings <- str_extract_all(row[[1]], "[[^\\s]]+")[[1]]
+    if (is.na(row[[2]])) {
+      # if second element is not a number, then ancestor is NA
+      if (is.na(quiet(as.numeric(col1_strings[2])))) {
+        ancestor <- NA
+        seq_name <- col1_strings[1]
+        seq <- paste(col1_strings[-1], collapse = "")
+      } else {
+        ancestor <- col1_strings[1]
+        seq_name <- col1_strings[2]
+        col1_strings <- col1_strings[-c(1, 2)]
+        if (col1_strings[1] %in% c("yes", "no", "maybe")) {
+          col1_strings <- col1_strings[-1]
+        }
+        seq <- paste(col1_strings, collapse = "")
+      }
+    } else {
+      col2_strings <- str_extract_all(row[[2]], "[[^\\s]]+")[[1]]
+      ancestor <- col1_strings[1]
+      seq_name <- col1_strings[2]
+      seq <- paste(col2_strings[-1], collapse = "")
+    }
+
+    if (seq_name == "Germline") {
+      seq_type <- "Germline"
+    } else if (startsWith(seq_name, "ID_")) {
+      seq_type <- "Clonotype"
+      # find clones value by sequence ID
+      clones <- sequences[
+        which(sequences["Clone.ID"] == as.integer(substring(seq_name, 4))),
+        "Clones"
+      ]
+    } else if (identical(ancestor, "Germline")) {
+      seq_type <- "CommonAncestor"
+    } else {
+      seq_type <- "Presumable"
+    }
+
+    # add sequence to table if it's new, otherwise append nucleotides to the end
+    if (nrow(tree_stats[which(tree_stats["Name"] == seq_name), ]) == 0) {
+      tree_stats[nrow(tree_stats) + 1, ] <- c(seq_name, seq_type, clones, ancestor, 0, 0, seq)
+    } else {
+      tree_stats[which(tree_stats["Name"] == seq_name), "Sequence"] %<>% paste0(seq)
+    }
+  }
+
+  # force germline to be root if phylip had set "1" as its ancestor
+  germline_ancestor <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Ancestor"]
+  if (!is.na(germline_ancestor)) {
+    ancestor_of_ancestor <-
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Ancestor"]
+    if (is.na(ancestor_of_ancestor)) {
+      tree_stats[which(tree_stats["Name"] == "Germline"), ][1, "Ancestor"] <- NA
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Type"] <- "CommonAncestor"
+      tree_stats[which(tree_stats["Name"] == germline_ancestor), ][1, "Ancestor"] <- "Germline"
+    } else {
+      warning(
+        "Germline's ancestor is ",
+        germline_ancestor,
+        ", and its' ancestor is ",
+        ancestor_of_ancestor,
+        ": tree of cluster ",
+        cluster_name,
+        " can't be corrected!"
+      )
+    }
+  }
+
+  # remove ancestors that are not in names
+  names <- tree_stats[["Name"]]
+  ancestors <- tree_stats[["Ancestor"]]
+  for (missing_name in ancestors[!ancestors %in% names]) {
+    tree_stats["Ancestor"][tree_stats["Ancestor"] == missing_name] <- NA
+  }
+  # rename CommonAncestor and Presumable nodes, both in Name and Ancestor columns
+  renamed_rows <- tree_stats[which(tree_stats[["Type"]] %in% c("CommonAncestor", "Presumable")), ]
+  old_names <- renamed_rows[["Name"]]
+  new_names <- as.list(paste0(renamed_rows[["Type"]], "_", renamed_rows[["Name"]]))
+  names(new_names) <- old_names
+  for (column in c("Name", "Ancestor")) {
+    for (row in which(tree_stats[[column]] %in% old_names)) {
+      tree_stats[[row, column]] <- new_names[[tree_stats[[row, column]]]]
+    }
+  }
+
+  germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
+  common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
+
+  # calculate distances of all sequences from germline
+  germline_v <- str_sub(germline, 1, v_trimmed_length)
+  germline_j <- str_sub(germline, -j_trimmed_length)
+  germline_nt_chars <- strsplit(paste0(germline_v, germline_j), "")[[1]]
+
+  germline_v_aa <- bunch_translate(substring(germline_v, v_aa_frame_start),
+    .two.way = FALSE, .ignore.n = TRUE
+  )
+  germline_j_aa <- bunch_translate(substring(germline_j, j_aa_frame_start),
+    .two.way = FALSE, .ignore.n = TRUE
+  )
+  germline_aa_chars <- strsplit(paste0(germline_v_aa, germline_j_aa), "")[[1]]
+  for (row in seq_len(nrow(tree_stats))) {
+    if (tree_stats[row, "Type"] != "Germline") {
+      seq <- tree_stats[row, "Sequence"]
+      seq_v <- str_sub(seq, 1, v_trimmed_length)
+      seq_j <- str_sub(seq, -j_trimmed_length)
+      seq_nt_chars <- strsplit(paste0(seq_v, seq_j), "")[[1]]
+      if (length(germline_nt_chars) != length(seq_nt_chars)) {
+        warning(
+          "Germline and sequence lengths are different; ",
+          "something is wrong in repClonalFamily calculation!\n",
+          "germline_nt_chars = ", germline_nt_chars, "\nseq_nt_chars = ", seq_nt_chars
+        )
+      }
+      tree_stats[row, "DistanceNT"] <- sum(germline_nt_chars != seq_nt_chars)
+      seq_v_aa <- bunch_translate(substring(seq_v, v_aa_frame_start),
+        .two.way = FALSE, .ignore.n = TRUE
+      )
+      seq_j_aa <- bunch_translate(substring(seq_j, j_aa_frame_start),
+        .two.way = FALSE, .ignore.n = TRUE
+      )
+      seq_aa_chars <- strsplit(paste0(seq_v_aa, seq_j_aa), "")[[1]]
+      if (length(germline_aa_chars) != length(seq_aa_chars)) {
+        warning(
+          "Germline and sequence lengths are different; ",
+          "something is wrong in repClonalFamily calculation!\n",
+          "germline_aa_chars = ", germline_aa_chars, "\nseq_aa_chars = ", seq_aa_chars
+        )
+      }
+      tree_stats[row, "DistanceAA"] <- sum(germline_aa_chars != seq_aa_chars)
+    }
+  }
+
+  for (column in c("Clones", "DistanceNT", "DistanceAA")) {
+    tree_stats[[column]] %<>% as.integer()
+  }
+
+  trunk_length <- tree_stats[which(tree_stats["Ancestor"] == "Germline"), ][1, "DistanceNT"]
 
   unlink(temp_dir, recursive = TRUE)
 
   # return row of output dataframe as named list
   return(list(
     Cluster = cluster_name,
-    Germline.Input = cluster_germline,
+    Germline.Input = cluster_row[["Germline"]],
+    V.germline.nt = cluster_row[["V.germline.nt"]],
+    J.germline.nt = cluster_row[["J.germline.nt"]],
+    CDR3.germline.length = cdr3_germline_length,
+    V.length = v_trimmed_length,
+    J.length = j_trimmed_length,
     Germline.Output = germline,
     Common.Ancestor = common_ancestor,
     Trunk.Length = trunk_length,
-    Tree = tree
+    Tree = tree,
+    TreeStats = tree_stats,
+    Sequences = sequences
   ))
-}
-
-join_to_string <- function(matching_results) {
-  matching_results[, 2] %>%
-    paste(collapse = "") %>%
-    stringi::stri_replace_all_fixed(" ", "")
 }
 
 convert_nested_to_df <- function(nested_results_list) {
   tree <- nested_results_list %>%
     lapply(magrittr::extract2, "Tree") %>%
     tibble(Tree = .)
+  tree_stats <- nested_results_list %>%
+    lapply(magrittr::extract2, "TreeStats") %>%
+    tibble(TreeStats = .)
+  sequences <- nested_results_list %>%
+    lapply(magrittr::extract2, "Sequences") %>%
+    tibble(Sequences = .)
   df <- nested_results_list %>%
-    lapply(rlist::list.remove, "Tree") %>%
+    lapply(rlist::list.remove, c("Tree", "TreeStats", "Sequences")) %>%
     purrr::map_dfr(~.) %>%
-    cbind(tree)
+    cbind(tree, tree_stats, sequences)
+  # fix column types after dataframe rebuilding
+  for (column in c("CDR3.germline.length", "V.length", "J.length", "Trunk.Length")) {
+    df[[column]] %<>% as.integer()
+  }
+  df %<>% add_class("clonal_family_df")
   return(df)
 }

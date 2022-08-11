@@ -2,8 +2,7 @@
 % Please edit documentation in R/phylip.R
 \name{repClonalFamily}
 \alias{repClonalFamily}
-\title{This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
-maximum parsimony methods.}
+\title{Builds a phylogenetic tree using the sequences of a clonal lineage}
 \usage{
 repClonalFamily(.data, .threads, .nofail)
 }
@@ -21,6 +20,11 @@ Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
 * Germline.Input: germline sequence, like it was in the input; not trimmed and not aligned
+* V.germline.nt: input germline V gene sequence
+* J.germline.nt: input germline J gene sequence
+* CDR3.germline.length: length of CDR3 in input germline
+* V.length: length of V gene after trimming on repAlignLineage() step
+* J.length: length of j gene after trimming on repAlignLineage() step
 * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
   it contains difference of germline from the common ancestor; "." characters mean
   matching letters. It's usually shorter than Germline.Input, because germline and
@@ -29,9 +33,14 @@ The dataframe has these columns:
 * Trunk.Length: mean trunk length, representing the distance between the most recent
   common ancestor and germline sequence as a measure of the maturity of a lineage
 * Tree: output tree in "phylo" format, loaded from by PHYLIP dnapars function output
+* TreeStats: nested dataframe containing data about tree nodes, needed for visualization
+* Sequences: nested dataframe containing all sequences for this combination of cluster
+  and germline; it contains regions from original sequences, saved for
+  repSomaticHypermutation() calculation, and also data needed for visualizations
 }
 \description{
-This function builds a phylogenetic tree using the sequences of a clonal lineage
+This function uses the PHYLIP package to make phylogenetic analysis.
+For making trees it uses maximum parsimony methods.
 }
 \examples{
 
@@ -40,8 +49,8 @@ bcr_data <- bcrdata$data
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
-  repGermline() \%>\%
+  repGermline(.threads = 1) \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
-  repClonalFamily(.threads = 2, .nofail = TRUE)
+  repClonalFamily(.threads = 1, .nofail = TRUE)
 }
 \concept{phylip}

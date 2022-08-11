@@ -98,13 +98,15 @@ IMMCOL_EXT$fr4nt <- "FR4.nt"
 IMMCOL_EXT$fr4aa <- "FR4.aa"
 IMMCOL_EXT$v3del <- "V3.Deletions"
 IMMCOL_EXT$j3del <- "J3.Deletions"
+IMMCOL_EXT$id <- "Clone.ID"
 IMMCOL_EXT$order <- c(
   IMMCOL_EXT$bestv, IMMCOL_EXT$bestj, IMMCOL_EXT$cdr3s, IMMCOL_EXT$cdr3e,
   IMMCOL_EXT$c, IMMCOL_EXT$cs, IMMCOL_EXT$ce,
   IMMCOL_EXT$cdr1nt, IMMCOL_EXT$cdr1aa, IMMCOL_EXT$cdr2nt, IMMCOL_EXT$cdr2aa,
   IMMCOL_EXT$fr1nt, IMMCOL_EXT$fr1aa, IMMCOL_EXT$fr2nt, IMMCOL_EXT$fr2aa,
   IMMCOL_EXT$fr3nt, IMMCOL_EXT$fr3aa, IMMCOL_EXT$fr4nt, IMMCOL_EXT$fr4aa,
-  IMMCOL_EXT$v3del, IMMCOL_EXT$j3del
+  IMMCOL_EXT$v3del, IMMCOL_EXT$j3del,
+  IMMCOL_EXT$id
 )
 IMMCOL_EXT$type <- c(
   "character", "character", "integer", "integer",
@@ -112,7 +114,8 @@ IMMCOL_EXT$type <- c(
   "character", "character", "character", "character",
   "character", "character", "character", "character",
   "character", "character", "character", "character",
-  "integer", "integer"
+  "integer", "integer",
+  "integer"
 )
 
 # Additional information

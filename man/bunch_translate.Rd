@@ -5,12 +5,14 @@
 \alias{translate_bunch}
 \title{Nucleotide to amino acid sequence translation}
 \usage{
-bunch_translate(.seq, .two.way = TRUE)
+bunch_translate(.seq, .two.way = TRUE, .ignore.n = FALSE)
 }
 \arguments{
 \item{.seq}{Vector or list of strings.}
 
 \item{.two.way}{Logical. If TRUE (default) then translate from the both ends (like MIXCR).}
+
+\item{.ignore.n}{Logical. If FALSE (default) then return NA for sequences that have N, else parse triplets with N as ~}
 }
 \value{
 Character vector of translated input sequences.

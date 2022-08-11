@@ -53,6 +53,10 @@ Diversity estimation:
 
 - Diversity estimations (from \link{repDiversity}) - see \link{vis.immunr_chao1}.
 
+BCR analysis:
+
+- Clonal tree (from \link{repClonalFamily}) - see \link{vis.clonal_family} and \link{vis.clonal_family_tree}.
+
 Advanced analysis:
 
 - Repertoire dynamics (from \link{trackClonotypes}) - see \link{vis.immunr_dynamics};

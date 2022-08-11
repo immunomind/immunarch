@@ -42,13 +42,13 @@ data(immdata)
 # Input / output
 The package provides several IO functions:
 
-- `repLoad` - to load the repertoires, having compatible format.
+- `repLoad` - loads the repertoires having compatible format.
 
-- `repSave` - to save changes and to write the repertoire data to a file in a specific format (`immunarch`, VDJtools).
+- `repSave` - saves changes and writes the repertoire data to a file in a specific format (`immunarch`, VDJtools).
 
 `repLoad` detects the input file format automatically. `immunarch` currently support the following immune repertoire data formats:
 
-- `"immunarch"` - current software tool, in case you forgot it :)
+- `"immunarch"` - current software tool, in case you forgot :)
 
 - `"immunoseq"` - https://www.immunoseq.com
 
@@ -78,7 +78,7 @@ The package provides several IO functions:
 
 - `"vidjil"` - http://www.vidjil.org/
 
-Please contact us if there are more file formats you want to be supported.
+Please contact us if there are more file formats you want supported.
 
 For parsing IgBLAST results process the data with MigMap first.
 
@@ -90,7 +90,7 @@ You can load the data from a single file, a list of repertoire file paths, or fr
 If you have your files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
 
 ```{r, eval=F}
-#path argument is a path to the folder with your file or files including metadata file also(if you have one).
+#path argument is a path to the folder with your file or files including the metadata file.
 immdata <- repLoad(path)
 ```
 
@@ -99,16 +99,16 @@ immdata <- repLoad(path)
 
 You could find a folder with example files [here](https://github.com/immunomind/immunarch/releases/tag/0.6.7) (download and extract test_data.zip or test_data.tar.gz) and use it to test data loading without your own files.
 
-If you are not familiar with file paths, you can download example data to your working directory.
-You can obtain you working directory with `getwd()` command
+If you are not familiar with the file paths, you can download our mock data to your working directory.
+You can obtain working directory with `getwd()` command
 
-You could also download all files to the `'example'` folder in your working directory and load all of them by passing folder name to repLoad function in a quotes:
+You could also download all files to the `'example'` folder in your working directory and load all of them by passing folder name to repLoad function in quotation marks:
 
 ```{r, eval=F}
 immdata <- repLoad('example')
 ```
 
-Also, example data are already downloaded with `immunarch` package. You can load all sample files using the following command:
+The example data is already downloaded with `immunarch` package. You can load all sample files using the following command:
 
 ```{r, eval=F}
 #path to the folder with example data
@@ -116,7 +116,7 @@ file_path = paste0(system.file(package="immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 ```
 
-In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it exactly "metadata.txt".
+In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it "metadata.txt".
 
 ```{r, eval=F}
 # For instance you have a following structure in your folder:
@@ -138,7 +138,7 @@ immdata <- repLoad(file_path)
 print(names(immdata))
 
 # In order to do that your folder must contain metadata file named
-# exactly "metadata.txt".
+# "metadata.txt".
 
 # In R, when you load your data:
 # > immdata <- repLoad("path/to/your/folder/")
@@ -152,13 +152,13 @@ print(names(immdata))
 
 ```
 
-Dummy metadata data frame look like this:
+Dummy metadata data frame looks like this:
 
 ```{r}
 as_tibble(data.frame(Sample = c("immunoseq1", "immunoseq2", "immunoseq3"), stringsAsFactors = F))
 ```
 
-The metadata file "metadata.txt" has to be tab delimited file with first column named "Sample" and any number of additional columns with arbitrary names. The first column should contain base names of files without extensions in your folder.
+The metadata file "metadata.txt" has to be a table with first column named "Sample" and any number of additional columns with any names. The first column should contain the base names of files without extensions in your folder.
 
 | **Sample** |**Sex**|**Age**|**Status**|
 |:----------:|:-----:|:-----:|:--------:|
@@ -166,7 +166,7 @@ The metadata file "metadata.txt" has to be tab delimited file with first column 
 |immunoseq\_2|M      |2      |C         |
 |immunoseq\_3|F      |3      |A         |
 
-In order to import data from the external databases you have to create a connection to this database and then load the data. Make sure that the table format in your database matches the `immunarch`'s format.
+In order to import data from the external databases you have to connect to this database and then load the data. Make sure that the table format in your database matches the `immunarch`'s format.
 
 To illustrate the use of external database, here is an example demonstrating data loading to the local MonetDB database:
 ```{r, eval=F}
@@ -200,15 +200,15 @@ list(data = res_db, meta = META)
 ```
 
 
-`immunarch` is compatible with following sources:
+`immunarch` is compatible with the following sources:
 
-- R data frames (for common applications)
+- R data frames (for most applications)
 
-- R data tables (for speed, although requires lots of RAM)
+- R data tables (for faster calculations, although they require a lot of RAM)
 
-- MonetDB-like databases that support both DBI and dplyr (best choice, although you have to be a bit familiar with dplyr)
+- MonetDB-like databases that support both DBI and dplyr (an optimal choice, although you have to be familiar with dplyr)
 
-- Apache Spark (if you are expierienced and comfortable with it)
+- Apache Spark (if you have experience with it)
 
 # Basic data manipulations with dplyr and immunarch
 You can find the introduction to `dplyr` here: https://CRAN.R-project.org/package=dplyr/vignettes/dplyr.html
@@ -228,7 +228,7 @@ The next one operates in a similar fashion:
 ```{r, eval=FALSE}
 noncoding(immdata$data[[1]])
 ```
-Now, the computation of the number of filtered sequences is straightforward:
+Now, the computation of the number of filtered sequences is rather straightforward:
 ```{r, eval=FALSE}
 nrow(inframes(immdata$data[[1]]))
 ```
@@ -238,7 +238,7 @@ nrow(outofframes(immdata$data[[1]]))
 ```
 
 ## Get subset of clonotypes with a specific V gene
-It is simple to subset data frame according to labels in the specified index. In the example the resulting data frame contains only records with 'TRBV10-1' V gene:
+It is simple to subset data frame according to labels in the specified index. In this example the resulting data frame contains only records with 'TRBV10-1' V gene:
 ```{r}
 filter(immdata$data[[1]], V.name == 'TRBV10-1')
 ```

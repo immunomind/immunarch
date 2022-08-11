@@ -23,7 +23,7 @@ output:
 
 
 
-  ```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -40,4 +40,4 @@ data(immdata)
 
 # Get in contact with us
 
-Can not find an important feature? Have a question or found a bug? Contact us at support@immunomind.io
+Cannot find an important feature? Have a question or found a bug? Contact us at support@immunomind.io

@@ -19,7 +19,7 @@ authors:
     href: https://www.linkedin.com/in/aleksandr-popov-634878105/
   Ivan Balashov:
     href: https://www.linkedin.com/in/ivan-balashov/
-  Maria Volobueva:
+  Maria Samokhina:
     href: https://www.linkedin.com/in/maria-volobueva-b0856a223/
 articles:
 - title: All tutorials
@@ -41,6 +41,8 @@ articles:
   - '`web_only/community`'
   - '`web_only/repFilter_v3`'
   - '`web_only/v10_prop`'
+  - '`web_only/BCRpipeline`'
+  - '`web_only/clustering`'
 navbar:
   structure:
     left: [articles, reference, covid19]
@@ -93,6 +95,12 @@ navbar:
       - text: Preparing to publication
       - text: Make your plots publication-ready with fixVis
         href: articles/web_only/v7_fixvis.html
+      - text: '---'
+      - text: BCR analysis
+      - text: BCR pipeline
+        href: articles/web_only/BCRpipeline.html
+      - text: Clustering
+        href: articles/web_only/clustering.html
     twitter:
       icon: fa-lg fa-twitter
       href: http://twitter.com/immunomind
@@ -117,6 +125,16 @@ reference:
 - subtitle: Preprocessing
   contents:
   - has_concept("preprocessing")
+- title: BCR data
+- subtitle: Clustering
+  contents:
+  - has_concept("distance")
+  - has_concept("seq_cluster")
+- subtitle: BCR pipeline
+  contents:
+  - has_concept("germline")
+  - has_concept("align_lineage")
+  - has_concept("phylip")
 - title: Basic immune repertoire statistics
 - subtitle: Exploratory data analysis
   contents:
@@ -151,7 +169,7 @@ reference:
 - title: Advanced immune repertoire analysis
 - subtitle: Kmers analysis
   contents:
-  - has_concept("kmers")
+  - has_concept("k-mers")
 - subtitle: Post-analysis
   desc: Advanced methods for post-analysis of gene usage, overlap and other statistics.
   contents:

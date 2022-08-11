@@ -2,11 +2,7 @@
 % Please edit documentation in R/align_lineage.R
 \name{repAlignLineage}
 \alias{repAlignLineage}
-\title{This function aligns all sequences (incliding germline) that belong to one clonal lineage and one cluster.
-After clustering and building the clonal lineage and germline, the next step is to analyze the degree of mutation
-and maturity of each clonal lineage. This allows for finding high mature cells and cells with a large
-number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
-Making alignment of the sequence is the first step towards sequence analysis including BCR.}
+\title{Aligns all sequences incliding germline within each clonal lineage within each cluster}
 \usage{
 repAlignLineage(.data,
 .min_lineage_sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
@@ -26,13 +22,13 @@ Please note that high number can cause heavy memory usage!}
 \item{.align_threads}{Number of threads for lineage alignment.
 
 It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
-must contain 'Cluster' column, which is added by seqCluster() function, and 'Sequence.germline'
+must contain 'Cluster' column, which is added by seqCluster() function, and 'Germline.sequence'
 column, which is added by repGermline() function.}
 
 \item{.verbose_output}{If TRUE, all output dataframe columns will be included (see documentation about this
 function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
-increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() calculation
-will be included in the output.}
+increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() and
+repSomaticHypermutation() calculation will be included in the output.}
 
 \item{.nofail}{Will return NA instead of stopping if Clustal W is not installed.
 Used to avoid raising errors in examples on computers where Clustal W is not installed.}
@@ -42,19 +38,29 @@ Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
+* V.germline.nt: germline V gene sequence
+* J.germline.nt: germline J gene sequence
+* CDR3.germline.length: length of CDR3 in germline
 * Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
   (.min_lineage_sequences is below the threshold); TRUE if it was aligned
 * Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
-* V.length (included if .verbose_output=TRUE): shortest length of V gene part outside of CDR3 region in this
+* V.length: shortest length of V gene part outside of CDR3 region in this
   group of sequences; longer V genes (including germline) are trimmed to this length before alignment
-* J.length (included if .verbose_output=TRUE): shortest length of J gene part outside of CDR3 region in this
+* J.length: shortest length of J gene part outside of CDR3 region in this
   group of sequences; longer J genes (including germline) are trimmed to this length before alignment
-* Sequences (included if .verbose_output=TRUE): nested dataframe containing all sequences for this combination
+* Sequences: nested dataframe containing all sequences for this combination
   of cluster and germline; it has columns
-  Sequence, V.end, J.start, CDR3.start, CDR3.end; all values taken from the input dataframe
+  Sequence, Clone.ID, Clones, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
+  and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
+  all values taken from the input dataframe
 }
 \description{
-Aligns all sequences incliding germline within each clonal lineage within each cluster
+This function aligns all sequences (incliding germline) that belong to one clonal
+lineage and one cluster. After clustering and building the clonal lineage and germline, the next
+step is to analyze the degree of mutation and maturity of each clonal lineage. This allows for
+finding high mature cells and cells with a large number of offspring. The phylogenetic analysis
+will find mutations that increase the affinity of BCR. Making alignment of the sequence
+is the first step towards sequence analysis including BCR.
 }
 \examples{
 
@@ -63,7 +69,7 @@ bcr_data <- bcrdata$data
 
 bcr_data \%>\%
   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) \%>\%
-  repGermline() \%>\%
+  repGermline(.threads = 1) \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
 }
 \concept{align_lineage}
