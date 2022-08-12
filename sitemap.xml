@@ -247,6 +247,12 @@
     <loc>https://immunarch.com/reference/trackClonotypes.html</loc>
   </url>
   <url>
+    <loc>https://immunarch.com/reference/vis.clonal_family.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/vis.clonal_family_tree.html</loc>
+  </url>
+  <url>
     <loc>https://immunarch.com/reference/vis.html</loc>
   </url>
   <url>
@@ -287,6 +293,9 @@
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis.immunr_public_statistics.html</loc>
+  </url>
+  <url>
+    <loc>https://immunarch.com/reference/vis.step_failure_ignored.html</loc>
   </url>
   <url>
     <loc>https://immunarch.com/reference/vis_bar.html</loc>

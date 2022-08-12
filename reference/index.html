@@ -210,29 +210,27 @@
       </tr></tbody><tbody><tr><td>
           <p><code><a href="repGermline.html">repGermline()</a></code> </p>
         </td>
-        <td><p>This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
-that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
-Each clonal lineage has its own germline sequence that represents the ancestral sequence
-for each BCR in clonal lineage. In other words, germline sequence is a sequence of B-cells immediately
-after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
-for assessing the degree of mutation and maturity of the repertoire.</p></td>
+        <td><p>Creates germlines for clonal lineages</p></td>
       </tr><tr><td>
           <p><code><a href="repAlignLineage.html">repAlignLineage()</a></code> </p>
         </td>
-        <td><p>This function aligns all sequences (incliding germline) that belong to one clonal lineage and one cluster.
-After clustering and building the clonal lineage and germline, the next step is to analyze the degree of mutation
-and maturity of each clonal lineage. This allows for finding high mature cells and cells with a large
-number of offspring. The phylogenetic analysis will find mutations that increase the affinity of BCR.
-Making alignment of the sequence is the first step towards sequence analysis including BCR.</p></td>
+        <td><p>Aligns all sequences incliding germline within each clonal lineage within each cluster</p></td>
       </tr><tr><td>
           <p><code><a href="repClonalFamily.html">repClonalFamily()</a></code> </p>
         </td>
-        <td><p>This function uses the PHYLIP package to make phylogenetic analysis. For making trees it uses
-maximum parsimony methods.</p></td>
+        <td><p>Builds a phylogenetic tree using the sequences of a clonal lineage</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.clonal_family.html">vis(<i>&lt;clonal_family&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise clonal family tree: wrapper for calling on the entire repClonalFamily output</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.clonal_family_tree.html">vis(<i>&lt;clonal_family_tree&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise clonal family tree</p></td>
       </tr><tr><td>
           <p><code><a href="repSomaticHypermutation.html">repSomaticHypermutation()</a></code> </p>
         </td>
-        <td><p>This function calculates number of mutations against the germline for each clonotype.</p></td>
+        <td><p>Calculates number of mutations against the germline for each clonotype</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="basic-immune-repertoire-statistics">Basic immune repertoire statistics <a href="#basic-immune-repertoire-statistics" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -442,6 +440,14 @@ maximum parsimony methods.</p></td>
         </td>
         <td><p>One function to visualise them all</p></td>
       </tr><tr><td>
+          <p><code><a href="vis.clonal_family.html">vis(<i>&lt;clonal_family&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise clonal family tree: wrapper for calling on the entire repClonalFamily output</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.clonal_family_tree.html">vis(<i>&lt;clonal_family_tree&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Visualise clonal family tree</p></td>
+      </tr><tr><td>
           <p><code><a href="vis.immunr_chao1.html">vis(<i>&lt;immunr_chao1&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise diversity.</p></td>
@@ -493,6 +499,11 @@ maximum parsimony methods.</p></td>
           <p><code><a href="vis.immunr_public_statistics.html">vis(<i>&lt;immunr_public_statistics&gt;</i>)</a></code> </p>
         </td>
         <td><p>Visualise sharing of clonotypes among samples</p></td>
+      </tr><tr><td>
+          <p><code><a href="vis.step_failure_ignored.html">vis(<i>&lt;step_failure_ignored&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Handler for .nofail argument of pipeline steps that prevents examples from crashing
+on computers where certain dependencies are not installed</p></td>
       </tr><tr><td>
           <p><code><a href="vis_bar.html">vis_bar()</a></code> </p>
         </td>
