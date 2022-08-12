@@ -171,7 +171,7 @@ bcr_data <- bcrdata$data
 align_dt <- bcr_data %>%
   seqCluster(seqDist(bcr_data, .col = 'CDR3.nt', .group_by_seqLength = TRUE), 
              .perc_similarity = 0.6) %>%
-  repGermline(.threads = 2) %>%
+  repGermline(.threads = 1) %>%
   repAlignLineage(.min_lineage_sequences = 6, .align_threads = 2, .nofail = TRUE)
 ```
 
@@ -231,12 +231,12 @@ For each cluster tree is represented as table (The default number of clones for 
 bcr[["full_clones"]][["TreeStats"]][[1]]
 ```
 
-You could recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:
+You can recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:
 
 ```{r example 10.3, results = 'hide'}
 #take sequence where number of AA mutations is not 0
 f <- bcr[["full_clones"]][["TreeStats"]][[1]]
-#rename this leaves
+#rename these leaves
 f[f$DistanceAA != 0, ]['Type'] = 'mutationAA'
 #new tree
 vis(f)
