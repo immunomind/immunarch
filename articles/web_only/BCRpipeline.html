@@ -303,7 +303,7 @@
 <span><span class="va">align_dt</span> <span class="op">&lt;-</span> <span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">bcr_data</span>, .col <span class="op">=</span> <span class="st">'CDR3.nt'</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
 <span>             .perc_similarity <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../../reference/repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">6</span>, .align_threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in merge_reference_sequences(., reference, "V", species, sample_name): Alleles IGHV4-55*01 from sample full_clones not found in the reference and will be dropped!</span></span>
 <span><span class="co">## Probably, species argument is wrong (current value: HomoSapiens) or the data contains non-BCR genes.</span></span></code></pre>
@@ -360,11 +360,11 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#example fot first tree</span></span>
 <span><span class="va">bcr</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<p>You could recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:</p>
+<p>You can recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#take sequence where number of AA mutations is not 0</span></span>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="va">bcr</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#rename this leaves</span></span>
+<span><span class="co">#rename these leaves</span></span>
 <span><span class="va">f</span><span class="op">[</span><span class="va">f</span><span class="op">$</span><span class="va">DistanceAA</span> <span class="op">!=</span> <span class="fl">0</span>, <span class="op">]</span><span class="op">[</span><span class="st">'Type'</span><span class="op">]</span> <span class="op">=</span> <span class="st">'mutationAA'</span></span>
 <span><span class="co">#new tree</span></span>
 <span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></code></pre></div>
