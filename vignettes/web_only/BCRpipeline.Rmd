@@ -167,10 +167,12 @@ The function has several parameters:
 
 ```{r example 8, results = 'hide'}
 # take clusters that contain at least 1 sequence
+bcr_data <- bcrdata$data
 align_dt <- bcr_data %>%
-  seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-  repGermline(.threads = 1) %>%
-  repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2)
+  seqCluster(seqDist(bcr_data, .col = 'CDR3.nt', .group_by_seqLength = TRUE), 
+             .perc_similarity = 0.6) %>%
+  repGermline(.threads = 2) %>%
+  repAlignLineage(.min_lineage_sequences = 6, .align_threads = 2, .nofail = TRUE)
 ```
 
 - `.prepare_threads` — the number of threads to prepare results table. A high number can cause memory overload!
@@ -217,17 +219,27 @@ sudo apt-get install -y phylip
 repClonalFamily usage example:
 
 ```{r example 10, results = 'hide'}
-library(ape)
-bcr <- bcr_data %>%
-  seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-  repGermline(.threads = 1) %>%
-  repAlignLineage(.min_lineage_sequences = 2) %>%
-  repClonalFamily(.threads = 2)
-
+bcr <-  align_dt %>%
+  repClonalFamily(.threads = 2, .nofail = TRUE)
 #plot visualization of the first tree
-plot(bcr$full_clones$Tree[[1]])
-tiplabels()
-nodelabels()
+vis(bcr[["full_clones"]][["TreeStats"]][[1]])
+```
+For each cluster tree is represented as table (The default number of clones for CommonAncestor, Germline, Presumable is 1):
+
+```{r example 10.1, results = 'hide'}
+#example fot first tree
+bcr[["full_clones"]][["TreeStats"]][[1]]
+```
+
+You could recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:
+
+```{r example 10.3, results = 'hide'}
+#take sequence where number of AA mutations is not 0
+f <- bcr[["full_clones"]][["TreeStats"]][[1]]
+#rename this leaves
+f[f$DistanceAA != 0, ]['Type'] = 'mutationAA'
+#new tree
+vis(f)
 ```
 
 We have found 4 clusters:
@@ -252,6 +264,13 @@ We have calculated a trunk length for each cluster:
 bcr$full_clones[ , c('Cluster', 'Trunk.Length') ]
 ```
 
+Also trunk length specified in "TreeStats" table in column "DistanceNT".
+
+```{r example 10.2, results = 'hide'}
+#example fot first tree
+bcr[["full_clones"]][["TreeStats"]][[1]][1, ]
+```
+
 # Somatic hypermutation analysis
 
 The rate of somatic hypermutation allows us to estimate repertoire maturation and detect the type of mutation contributing to the emergence of high affinity antibodies. This makes somatic hypermutation analysis a valuable asset for B-cell repertoire analysis.
@@ -261,12 +280,7 @@ In Immunarch, `repSomaticHypermutation()` function is designed for hypermutation
 ```{r example 14, , warning = FALSE}
 bcr_data <- bcrdata$data
 
-shm_data <- bcr_data %>%
-  seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
-  repGermline(.threads = 2) %>%
-  repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
-  repClonalFamily(.threads = 2, .nofail = TRUE) %>%
-  repSomaticHypermutation(.threads = 2, .nofail = TRUE)
+shm_data <- bcr %>% repSomaticHypermutation(.threads = 2, .nofail = TRUE)
 ```
 
 The function repSomaticHypermutation() takes V and J germline sequences and V and J clonotype sequences as an input. Then the function aligns germline and clonotype sequences to detect and calculate occurring mutations.
@@ -291,13 +305,13 @@ shm_data$full_clones$FR4.nt[1]
 Example: aligning germline and clonotype V sequences:
 
 ```{r example 16}
-image(shm_data$full_clones$Germline.Alignment.V[[1]], grid = TRUE)
+image(shm_data$full_clones$Germline.Alignment.V[[3]], grid = TRUE)
 ```
 
 Example: aligning germline and clonotype J sequences:
 
 ```{r example 17}
-image(shm_data$full_clones$Germline.Alignment.J[[1]], grid = TRUE)
+image(shm_data$full_clones$Germline.Alignment.J[[3]], grid = TRUE)
 ```
 
 The number of mutations for each clonotype sequence:
