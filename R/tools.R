@@ -85,7 +85,6 @@ add_class <- function(.obj, .class) {
   .obj
 }
 
-
 #' Check for the specific class
 #'
 #' @concept utility_private
@@ -108,6 +107,9 @@ has_class <- function(.data, .class) {
   .class %in% class(.data)
 }
 
+get_empty_object_with_class <- function(.class) {
+  add_class(NA, .class)
+}
 
 #' Set and update progress bars
 #'
@@ -204,6 +206,7 @@ matrixdiagcopy <- function(.mat) {
 #'
 #' @param .seq Vector or list of strings.
 #' @param .two.way Logical. If TRUE (default) then translate from the both ends (like MIXCR).
+#' @param .ignore.n Logical. If FALSE (default) then return NA for sequences that have N, else parse triplets with N as ~
 #'
 #' @return
 #' Character vector of translated input sequences.
@@ -212,9 +215,11 @@ matrixdiagcopy <- function(.mat) {
 #' data(immdata)
 #' head(bunch_translate(immdata$data[[1]]$CDR3.nt))
 #' @export
-bunch_translate <- function(.seq, .two.way = TRUE) {
+bunch_translate <- function(.seq, .two.way = TRUE, .ignore.n = FALSE) {
   .seq <- toupper(.seq)
-  .seq[grepl("N", .seq)] <- NA
+  if (!.ignore.n) {
+    .seq[grepl("N", .seq)] <- NA
+  }
 
   sapply(.seq, function(y) {
     if (!is.na(y)) {
@@ -233,7 +238,9 @@ bunch_translate <- function(.seq, .two.way = TRUE) {
       } else {
         y <- substring(y, seq(1, nchar(y) - 2, 3), seq(3, nchar(y), 3))
       }
-      paste0(AA_TABLE[unlist(strsplit(gsub("(...)", "\\1_", y), "_"))], collapse = "")
+      aa <- AA_TABLE[unlist(strsplit(gsub("(...)", "\\1_", y), "_"))]
+      aa %<>% replace(is.na(aa), "~")
+      paste0(aa, collapse = "")
     } else {
       NA
     }
@@ -634,9 +641,18 @@ convert_seq_list_to_dnabin <- function(seq_list) {
   return(dnabin)
 }
 
-quiet <- function(procedure) {
-  procedure %>%
-    capture.output() %>%
-    invisible() %>%
-    suppressMessages()
+# capture_output() suppresses stdout, but also drops returned value
+quiet <- function(procedure, capture_output = FALSE) {
+  if (capture_output) {
+    procedure %>%
+      capture.output() %>%
+      invisible() %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  } else {
+    procedure %>%
+      invisible() %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  }
 }

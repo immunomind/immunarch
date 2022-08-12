@@ -65,7 +65,8 @@ Imports:
     glue,
     phangorn,
     uuid,
-    stringi
+    stringi,
+    ggraph
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),

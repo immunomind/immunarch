@@ -1,9 +1,4 @@
-#' This function creates germlines for clonal lineages. B cell clonal lineage represents a set of B cells
-#' that presumably have a common origin (arising from the same VDJ rearrangement event) and a common ancestor.
-#' Each clonal lineage has its own germline sequence that represents the ancestral sequence
-#' for each BCR in clonal lineage. In other words, germline sequence is a sequence of B-cells immediately
-#' after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful
-#' for assessing the degree of mutation and maturity of the repertoire.
+#' Creates germlines for clonal lineages
 #'
 #' @concept germline
 #'
@@ -16,7 +11,13 @@
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
 #' @importFrom ape as.DNAbin clustal
 #'
-#' @description Creates germlines for clonal lineages
+#' @description This function creates germlines for clonal lineages. B cell clonal lineage
+#' represents a set of B cells that presumably have a common origin (arising from the same VDJ
+#' rearrangement event) and a common ancestor. Each clonal lineage has its own germline sequence
+#' that represents the ancestral sequence for each BCR in clonal lineage. In other words,
+#' germline sequence is a sequence of B-cells immediately after VDJ recombination, before
+#' B-cell maturation and hypermutation process. Germline sequence is useful for assessing
+#' the degree of mutation and maturity of the repertoire.
 #'
 #' @usage
 #'
@@ -137,14 +138,16 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
       seq = row[["Sequence"]],
       v_ref = row[["V.ref.nt"]],
       j_ref = row[["J.ref.nt"]],
-      v_end = str_length(row[["CDR1.nt"]]) + str_length(row[["CDR2.nt"]])
-        + str_length(row[["FR1.nt"]]) + str_length(row[["FR2.nt"]])
-        + str_length(row[["FR3.nt"]]),
+      cdr1_nt = row[["CDR1.nt"]],
+      cdr2_nt = row[["CDR2.nt"]],
+      fr1_nt = row[["FR1.nt"]],
+      fr2_nt = row[["FR2.nt"]],
+      fr3_nt = row[["FR3.nt"]],
+      fr4_nt = row[["FR4.nt"]],
       cdr3_start = as.integer(row[["CDR3.start"]]),
       cdr3_end = as.integer(row[["CDR3.end"]]),
       j_start = as.integer(row[["J.start"]]),
       j3_del = as.integer(row[["J3.Deletions"]]),
-      fr4_seq = row[["FR4.nt"]],
       align_j_gene = align_j_gene,
       sample_name = sample_name
     )
@@ -157,33 +160,39 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
   return(data)
 }
 
-generate_germline_sequence <- function(seq,
-                                       v_ref,
-                                       j_ref,
-                                       v_end,
-                                       cdr3_start,
-                                       cdr3_end,
-                                       j_start,
-                                       j3_del,
-                                       fr4_seq,
-                                       align_j_gene,
-                                       sample_name) {
-  if (any(is.na(c(seq, v_ref, j_ref, v_end, cdr3_start, cdr3_end, j_start, j3_del, fr4_seq))) ||
+generate_germline_sequence <- function(seq, v_ref, j_ref, cdr1_nt, cdr2_nt,
+                                       fr1_nt, fr2_nt, fr3_nt, fr4_nt,
+                                       cdr3_start, cdr3_end, j_start, j3_del,
+                                       align_j_gene, sample_name) {
+  if (any(is.na(c(
+    seq, v_ref, j_ref, cdr1_nt, cdr2_nt, fr1_nt, fr2_nt, fr3_nt, fr4_nt,
+    cdr3_start, cdr3_end, j_start, j3_del
+  ))) ||
     (seq == "")) {
     # warnings cannot be displayed from parApply; save them and display after finish
     warn <- paste0(
       "Some of mandatory fields in a row ",
       optional_sample("from sample ", sample_name, " "),
       "contain unexpected NA or empty strings! Found values:\n",
-      "Sequence = \"",
+      "Sequence = ",
       seq,
-      "\",\nV.ref.nt = \"",
+      ",\nV.ref.nt = ",
       v_ref,
-      "\",\nJ.ref.nt = \"",
+      ",\nJ.ref.nt = ",
       j_ref,
-      "\",\nCalculated_V_end = ",
-      v_end,
-      ", CDR3.start = ",
+      ",\nCDR1.nt = ",
+      cdr1_nt,
+      ",\nCDR2.nt = ",
+      cdr2_nt,
+      ",\nFR1.nt = ",
+      fr1_nt,
+      ",\nFR2.nt = ",
+      fr2_nt,
+      ",\nFR3.nt = ",
+      fr3_nt,
+      ",\nFR4.nt = ",
+      fr4_nt,
+      ",\nCDR3.start = ",
       cdr3_start,
       ", CDR3.end = ",
       cdr3_end,
@@ -191,9 +200,7 @@ generate_germline_sequence <- function(seq,
       j_start,
       ", J3.Deletions = ",
       j3_del,
-      ",\nFR4.nt = \"",
-      fr4_seq,
-      "\".\nThe row will be dropped!"
+      ".\nThe row will be dropped!"
     )
     return(list(
       V.germline.nt = NA,
@@ -203,6 +210,8 @@ generate_germline_sequence <- function(seq,
       Warning = warn
     ))
   } else {
+    v_end <- str_length(cdr1_nt) + str_length(cdr2_nt) +
+      str_length(fr1_nt) + str_length(fr2_nt) + str_length(fr3_nt)
     cdr3_length <- cdr3_end - cdr3_start
 
     # trim intersection of V and CDR3 from reference V gene
@@ -212,7 +221,7 @@ generate_germline_sequence <- function(seq,
 
     # trim intersection of J and CDR3 from reference J gene
     if (align_j_gene) {
-      calculated_j_start <- align_and_find_j_start(j_ref, fr4_seq)
+      calculated_j_start <- align_and_find_j_start(j_ref, fr4_nt)
     } else {
       calculated_j_start <- max(0, cdr3_end - j_start - j3_del + 1)
     }
@@ -402,6 +411,7 @@ align_and_find_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
 germline_handle_warnings <- function(df) {
   warnings <- df$Warning
   warnings <- warnings[!is.na(warnings)]
+  options(warning.length = 5000L)
   for (warn in warnings) {
     warning(warn)
   }
