@@ -265,47 +265,48 @@ process_cluster <- function(cluster_row) {
   germline <- tree_stats[which(tree_stats["Type"] == "Germline"), ][1, "Sequence"]
   common_ancestor <- tree_stats[which(tree_stats["Type"] == "CommonAncestor"), ][1, "Sequence"]
 
-  # calculate distances of all sequences from germline
-  germline_v <- str_sub(germline, 1, v_trimmed_length)
-  germline_j <- str_sub(germline, -j_trimmed_length)
-  germline_nt_chars <- strsplit(paste0(germline_v, germline_j), "")[[1]]
-
-  germline_v_aa <- bunch_translate(substring(germline_v, v_aa_frame_start),
-    .two.way = FALSE, .ignore.n = TRUE
-  )
-  germline_j_aa <- bunch_translate(substring(germline_j, j_aa_frame_start),
-    .two.way = FALSE, .ignore.n = TRUE
-  )
-  germline_aa_chars <- strsplit(paste0(germline_v_aa, germline_j_aa), "")[[1]]
+  # calculate distances of all sequences from their ancestors
   for (row in seq_len(nrow(tree_stats))) {
-    if (tree_stats[row, "Type"] != "Germline") {
+    if (!has_no_data(tree_stats[row, "Ancestor"])) {
       seq <- tree_stats[row, "Sequence"]
+      ancestor <- tree_stats[row, "Ancestor"]
       seq_v <- str_sub(seq, 1, v_trimmed_length)
       seq_j <- str_sub(seq, -j_trimmed_length)
+      ancestor_v <- str_sub(ancestor, 1, v_trimmed_length)
+      ancestor_j <- str_sub(ancestor, -j_trimmed_length)
       seq_nt_chars <- strsplit(paste0(seq_v, seq_j), "")[[1]]
-      if (length(germline_nt_chars) != length(seq_nt_chars)) {
+      ancestor_nt_chars <- strsplit(paste0(ancestor_v, ancestor_j), "")[[1]]
+      if (length(seq_nt_chars) != length(ancestor_nt_chars)) {
         warning(
-          "Germline and sequence lengths are different; ",
+          "Sequence and ancestor lengths are different; ",
           "something is wrong in repClonalFamily calculation!\n",
-          "germline_nt_chars = ", germline_nt_chars, "\nseq_nt_chars = ", seq_nt_chars
+          "seq_nt_chars = ", seq_nt_chars, "\nancestor_nt_chars = ", ancestor_nt_chars
         )
       }
-      tree_stats[row, "DistanceNT"] <- sum(germline_nt_chars != seq_nt_chars)
+      tree_stats[row, "DistanceNT"] <- sum(seq_nt_chars != ancestor_nt_chars)
+
       seq_v_aa <- bunch_translate(substring(seq_v, v_aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
       seq_j_aa <- bunch_translate(substring(seq_j, j_aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
+      ancestor_v_aa <- bunch_translate(substring(ancestor_v, v_aa_frame_start),
+        .two.way = FALSE, .ignore.n = TRUE
+      )
+      ancestor_j_aa <- bunch_translate(substring(ancestor_j, j_aa_frame_start),
+        .two.way = FALSE, .ignore.n = TRUE
+      )
       seq_aa_chars <- strsplit(paste0(seq_v_aa, seq_j_aa), "")[[1]]
-      if (length(germline_aa_chars) != length(seq_aa_chars)) {
+      ancestor_aa_chars <- strsplit(paste0(ancestor_v_aa, ancestor_j_aa), "")[[1]]
+      if (length(seq_aa_chars) != length(ancestor_aa_chars)) {
         warning(
-          "Germline and sequence lengths are different; ",
+          "Sequence and ancestor lengths are different; ",
           "something is wrong in repClonalFamily calculation!\n",
-          "germline_aa_chars = ", germline_aa_chars, "\nseq_aa_chars = ", seq_aa_chars
+          "seq_aa_chars = ", seq_aa_chars, "\ancestor_aa_chars = ", ancestor_aa_chars
         )
       }
-      tree_stats[row, "DistanceAA"] <- sum(germline_aa_chars != seq_aa_chars)
+      tree_stats[row, "DistanceAA"] <- sum(seq_aa_chars != ancestor_aa_chars)
     }
   }
 
