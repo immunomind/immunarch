@@ -80,7 +80,7 @@ fixVis <- function(.plot = NA) {
     do.call(tabPanel, objs)
   }
 
-  if (is.na(.plot)) {
+  if (has_no_data(.plot)) {
     diamonds <- ggplot2::diamonds
     .plot <- qplot(x = carat, y = price, fill = cut, shape = cut, color = color, size = clarity, data = diamonds[sample.int(nrow(diamonds), 5000), ]) + theme_classic()
   }
