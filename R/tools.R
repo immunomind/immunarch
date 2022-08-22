@@ -490,7 +490,7 @@ as_numeric_or_fail <- function(.string) {
 }
 
 has_no_data <- function(.data) {
-  any(sapply(list(NA, NULL, NaN), identical, .data))
+  any(sapply(list(NA, NULL, NaN), identical, .data)) | all(is.na(.data))
 }
 
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples

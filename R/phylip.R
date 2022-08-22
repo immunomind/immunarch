@@ -269,7 +269,8 @@ process_cluster <- function(cluster_row) {
   for (row in seq_len(nrow(tree_stats))) {
     if (!has_no_data(tree_stats[row, "Ancestor"])) {
       seq <- tree_stats[row, "Sequence"]
-      ancestor <- tree_stats[row, "Ancestor"]
+      ancestor_name <- tree_stats[row, "Ancestor"]
+      ancestor <- tree_stats[which(tree_stats["Name"] == ancestor_name), ][1, "Sequence"]
       seq_v <- str_sub(seq, 1, v_trimmed_length)
       seq_j <- str_sub(seq, -j_trimmed_length)
       ancestor_v <- str_sub(ancestor, 1, v_trimmed_length)
@@ -303,7 +304,7 @@ process_cluster <- function(cluster_row) {
         warning(
           "Sequence and ancestor lengths are different; ",
           "something is wrong in repClonalFamily calculation!\n",
-          "seq_aa_chars = ", seq_aa_chars, "\ancestor_aa_chars = ", ancestor_aa_chars
+          "seq_aa_chars = ", seq_aa_chars, "\nancestor_aa_chars = ", ancestor_aa_chars
         )
       }
       tree_stats[row, "DistanceAA"] <- sum(seq_aa_chars != ancestor_aa_chars)
