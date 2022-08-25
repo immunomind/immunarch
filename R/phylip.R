@@ -89,7 +89,7 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
 process_dataframe <- function(df, .threads, sample_name = NA) {
   required_columns <- c(
     "Cluster", "Germline", "V.germline.nt", "J.germline.nt", "CDR3.germline.length",
-    "V.length", "J.length", "Alignment", "Sequences"
+    "V.length", "J.length", "Alignment", "Sequences", "AA.frame.starts"
   )
   for (column in required_columns) {
     if (!(column %in% colnames(df))) {
@@ -129,18 +129,18 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
 }
 
 process_cluster <- function(cluster_row) {
-  # alignment and sequences should be extracted from 1-element lists because of these columns format
+  # alignment, sequences and aa_frame_starts should be extracted from 1-element lists
+  # because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
   sequences <- cluster_row[["Sequences"]][[1]]
+  v_aa_frame_starts <- cluster_row[["AA.frame.starts"]][[1]]
   cluster_name <- cluster_row[["Cluster"]]
   cdr3_germline_length <- cluster_row[["CDR3.germline.length"]]
   v_trimmed_length <- cluster_row[["V.length"]]
   j_trimmed_length <- cluster_row[["J.length"]]
 
-  # positions of starting nucleotide for translation of sequences to amino acids
-  v_full_length <- str_length(cluster_row[["V.germline.nt"]])
-  v_aa_frame_start <- (v_full_length - v_trimmed_length) %% 3 + 1
-  j_aa_frame_start <- (v_full_length + cdr3_germline_length) %% 3 + 1
+  # positions of J gene starting nucleotide for translation of sequences to amino acids
+  j_aa_frame_start <- (str_length(cluster_row[["V.germline.nt"]]) + cdr3_germline_length) %% 3 + 1
 
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
   dir.create(temp_dir)
@@ -286,13 +286,18 @@ process_cluster <- function(cluster_row) {
       }
       tree_stats[row, "DistanceNT"] <- sum(seq_nt_chars != ancestor_nt_chars)
 
-      seq_v_aa <- bunch_translate(substring(seq_v, v_aa_frame_start),
+      seq_v_aa_frame_start <- get_v_aa_frame_start(v_aa_frame_starts, tree_stats[row, "Name"])
+      seq_v_aa <- bunch_translate(substring(seq_v, seq_v_aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
       seq_j_aa <- bunch_translate(substring(seq_j, j_aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
-      ancestor_v_aa <- bunch_translate(substring(ancestor_v, v_aa_frame_start),
+      ancestor_v_aa_frame_start <- get_v_aa_frame_start(
+        v_aa_frame_starts,
+        tree_stats[row, "Ancestor"]
+      )
+      ancestor_v_aa <- bunch_translate(substring(ancestor_v, ancestor_v_aa_frame_start),
         .two.way = FALSE, .ignore.n = TRUE
       )
       ancestor_j_aa <- bunch_translate(substring(ancestor_j, j_aa_frame_start),
@@ -308,6 +313,31 @@ process_cluster <- function(cluster_row) {
         )
       }
       tree_stats[row, "DistanceAA"] <- sum(seq_aa_chars != ancestor_aa_chars)
+
+      if (grepl("*", paste0(seq_v_aa, seq_j_aa), fixed = TRUE)) {
+        warning(
+          "Wrong translation from NT to AA found in repClonalFamily:\n",
+          "seq_name = ", tree_stats[row, "Name"], "\n",
+          "seq_v_nt = ", seq_v, "\n",
+          "seq_v_aa = ", seq_v_aa, "\n",
+          "seq_v_aa_frame_start = ", seq_v_aa_frame_start, "\n",
+          "seq_j_nt = ", seq_j, "\n",
+          "seq_j_aa = ", seq_j_aa, "\n",
+          "j_aa_frame_start = ", j_aa_frame_start, "\n"
+        )
+      }
+      if (grepl("*", paste0(ancestor_v_aa, ancestor_j_aa), fixed = TRUE)) {
+        warning(
+          "Wrong translation from NT to AA found in repClonalFamily:\n",
+          "ancestor_name = ", tree_stats[row, "Ancestor"], "\n",
+          "ancestor_v_nt = ", ancestor_v, "\n",
+          "ancestor_v_aa = ", ancestor_v_aa, "\n",
+          "ancestor_v_aa_frame_start = ", ancestor_v_aa_frame_start, "\n",
+          "ancestor_j_nt = ", ancestor_j, "\n",
+          "ancestor_j_aa = ", ancestor_j_aa, "\n",
+          "j_aa_frame_start = ", j_aa_frame_start, "\n"
+        )
+      }
     }
   }
 
@@ -335,6 +365,14 @@ process_cluster <- function(cluster_row) {
     TreeStats = tree_stats,
     Sequences = sequences
   ))
+}
+
+get_v_aa_frame_start <- function(v_aa_frame_starts, seq_name) {
+  if (seq_name %in% names(v_aa_frame_starts)) {
+    return(v_aa_frame_starts[[seq_name]])
+  } else {
+    return(v_aa_frame_starts[["Germline"]])
+  }
 }
 
 convert_nested_to_df <- function(nested_results_list) {

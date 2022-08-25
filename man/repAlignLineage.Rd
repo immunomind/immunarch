@@ -53,6 +53,8 @@ The dataframe has these columns:
   Sequence, Clone.ID, Clones, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
   and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
   all values taken from the input dataframe
+* AA.frame.starts: start positions for amino acid translation for germline and all sequences
+  after trimming (possible values: 1, 2 and 3)
 }
 \description{
 This function aligns all sequences (incliding germline) that belong to one clonal

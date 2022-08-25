@@ -72,6 +72,8 @@
 #'   Sequence, Clone.ID, Clones, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
 #'   and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
 #'   all values taken from the input dataframe
+#' * AA.frame.starts: start positions for amino acid translation for germline and all sequences
+#'   after trimming (possible values: 1, 2 and 3)
 #'
 #' @examples
 #'
@@ -95,6 +97,12 @@ repAlignLineage <- function(.data,
     "or install it with your system package manager (such as apt or dnf)."
   ), .nofail)) {
     return(get_empty_object_with_class("step_failure_ignored"))
+  }
+  if (.min_lineage_sequences < 2) {
+    warning(
+      ".min_lineage_sequences is set to less than 2; ",
+      "results will not be valid to build trees with repClonalLineage()!"
+    )
   }
 
   doParallel::registerDoParallel(cores = .prepare_threads)
@@ -212,6 +220,12 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
   names(all_sequences_list) <- c("Germline", clonotypes_names)
   alignment <- convert_seq_list_to_dnabin(all_sequences_list)
 
+  # calculate amino acid frame starts for all trimmed sequences including germline
+  germline_aa_start <- (germline_v_len - v_min_len) %% 3 + 1
+  clonotypes_aa_starts <- (lineage_subset[["V.lengths"]] - v_min_len) %% 3 + 1
+  all_sequences_aa_starts <- c(list(germline_aa_start), as.list(clonotypes_aa_starts))
+  names(all_sequences_aa_starts) <- names(all_sequences_list)
+
   if (.verbose_output) {
     return(list(
       Cluster = cluster_name,
@@ -223,7 +237,8 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
       Alignment = alignment,
       V.length = v_min_len,
       J.length = j_min_len,
-      Sequences = sequences
+      Sequences = sequences,
+      AA.frame.starts = all_sequences_aa_starts
     ))
   } else {
     return(list(
@@ -235,7 +250,8 @@ prepare_results_row <- function(lineage_subset, .min_lineage_sequences, .verbose
       Alignment = alignment,
       V.length = v_min_len,
       J.length = j_min_len,
-      Sequences = sequences
+      Sequences = sequences,
+      AA.frame.starts = all_sequences_aa_starts
     ))
   }
 }
@@ -252,10 +268,13 @@ convert_results_to_df <- function(nested_results_list, nested_alignments_list) {
   sequences <- nested_results_list %>%
     lapply(magrittr::extract2, "Sequences") %>%
     tibble(Sequences = .)
+  frame_starts <- nested_results_list %>%
+    lapply(magrittr::extract2, "AA.frame.starts") %>%
+    tibble(AA.frame.starts = .)
   df <- nested_results_list %>%
-    lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
+    lapply(rlist::list.remove, c("Alignment", "Sequences", "AA.frame.starts")) %>%
     purrr::map_dfr(~.) %>%
-    cbind(alignments, sequences)
+    cbind(alignments, sequences, frame_starts)
   # fix column types after dataframe rebuilding
   for (column in c("CDR3.germline.length", "V.length", "J.length")) {
     df[[column]] %<>% as.integer()
