@@ -45,6 +45,7 @@
 
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
   matching_col <- attr(.dist, "col")
+  grouping_cols <- attr(.dist, "group_by")
   if (length(.data) != length(.dist)) {
     stop(".data and .dist lengths do not match!")
   }
@@ -111,6 +112,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       map_df(~.x)
     res <- rbind(result_single, result_multi)
     colnames(res) <- c(matching_col, "Cluster")
+    res[grouping_cols]<-str_split(str_split(res[['Cluster']],pattern = '_',simplify=T)[,1],pattern = '/',simplify = T)
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
