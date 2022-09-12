@@ -112,7 +112,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       map_df(~.x)
     res <- rbind(result_single, result_multi)
     colnames(res) <- c(matching_col, "Cluster")
-    res[grouping_cols] <- str_split(str_split(res[["Cluster"]], pattern = "_", simplify = TRUE)[, 1], pattern = "/", simplify = TRUE)[,1:length(grouping_cols)]
+    res[grouping_cols] <- str_split(str_split(res[["Cluster"]], pattern = "_", simplify = TRUE)[, 1], pattern = "/", simplify = TRUE)[, 1:length(grouping_cols)]
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
