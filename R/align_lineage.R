@@ -105,16 +105,21 @@ repAlignLineage <- function(.data,
     )
   }
 
-  doParallel::registerDoParallel(cores = .prepare_threads)
+  parallel_prepare <- .prepare_threads > 1
+  if (parallel_prepare) {
+    doParallel::registerDoParallel(cores = .prepare_threads)
+  }
   .data %<>%
     apply_to_sample_or_list(
       align_single_df,
       .min_lineage_sequences = .min_lineage_sequences,
-      .parallel_prepare = .prepare_threads > 1,
+      .parallel_prepare = parallel_prepare,
       .align_threads = .align_threads,
       .verbose_output = .verbose_output
     )
-  doParallel::stopImplicitCluster()
+  if (parallel_prepare) {
+    doParallel::stopImplicitCluster()
+  }
   return(.data)
 }
 
@@ -157,7 +162,7 @@ align_single_df <- function(data,
   } else {
     alignments <- lapply(results, "[", "Alignment")
   }
-  alignments %<>% parallel::mclapply(
+  alignments %<>% par_or_normal_lapply(
     align_sequences,
     .verbose_output = .verbose_output,
     mc.preschedule = TRUE,

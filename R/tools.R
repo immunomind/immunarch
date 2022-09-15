@@ -665,3 +665,12 @@ par_or_normal_apply <- function(cluster, ...) {
     return(parApply(cluster, ...))
   }
 }
+
+# call normal or parallel lapply, depending on mc.cores
+par_or_normal_lapply <- function(mc.preschedule, mc.cores, ...) {
+  if (mc.cores == 1) {
+    return(lapply(...))
+  } else {
+    return(mclapply(..., mc.preschedule = mc.preschedule, mc.cores = mc.cores))
+  }
+}
