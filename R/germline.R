@@ -127,13 +127,17 @@ germline_single_df <- function(data,
 }
 
 calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_name) {
-  cluster <- makeCluster(threads)
-  clusterExport(cluster, c("generate_germline_sequence", "align_and_find_j_start", "sample_name"),
-    envir = environment()
-  )
+  if (threads == 1) {
+    cluster <- NA
+  } else {
+    cluster <- makeCluster(threads)
+    clusterExport(cluster, c("generate_germline_sequence", "align_and_find_j_start", "sample_name"),
+      envir = environment()
+    )
+  }
 
   # rowwise parallel calculation of new columns that are added to data
-  data <- parApply(cluster, data, 1, function(row) {
+  data <- par_or_normal_apply(cluster, data, 1, function(row) {
     generate_germline_sequence(
       seq = row[["Sequence"]],
       v_ref = row[["V.ref.nt"]],
@@ -156,7 +160,9 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
     germline_handle_warnings() %>%
     cbind(data, .)
 
-  stopCluster(cluster)
+  if (!has_no_data(cluster)) {
+    stopCluster(cluster)
+  }
   return(data)
 }
 

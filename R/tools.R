@@ -656,3 +656,12 @@ quiet <- function(procedure, capture_output = FALSE) {
       suppressWarnings()
   }
 }
+
+# call normal or parallel apply, depending on existence of parallelization cluster
+par_or_normal_apply <- function(cluster, ...) {
+  if (has_no_data(cluster)) {
+    return(apply(...))
+  } else {
+    return(parApply(cluster, ...))
+  }
+}
