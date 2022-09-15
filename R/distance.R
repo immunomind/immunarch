@@ -126,9 +126,8 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
       if (!gr_by_is_na) {
         group_by_values <- map(res_data, ~ .x %>%
           group_keys() %>%
-          select_if(is.character) %>%
-          unite("values", sep = "/"))
-        result <- map2(result, group_by_values, ~ map2(.x, .y$values, function(x, y) set_attr(x, "group_values", y)))
+          select_if(is.character))
+        result <- map2(result, group_by_values, ~ map2(.x, pmap(.y,c), function(x, y) set_attr(x, "group_values", y)))
       }
     }
   }
