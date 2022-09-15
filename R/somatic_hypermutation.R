@@ -64,13 +64,18 @@ repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .
     return(get_empty_object_with_class("step_failure_ignored"))
   }
 
-  doParallel::registerDoParallel(cores = .threads)
+  parallel <- threads > 1
+  if (parallel) {
+    doParallel::registerDoParallel(cores = .threads)
+  }
   results <- .data %>% apply_to_sample_or_list(
     shm_process_dataframe,
-    .parallel = .threads > 1,
+    .parallel = parallel,
     .validate = FALSE
   )
-  doParallel::stopImplicitCluster()
+  if (parallel) {
+    doParallel::stopImplicitCluster()
+  }
   return(results)
 }
 

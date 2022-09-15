@@ -118,7 +118,7 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
   df <- df[required_columns]
   clusters_list <- split(df, seq(nrow(df)))
 
-  results <- parallel::mclapply(
+  results <- par_or_normal_lapply(
     clusters_list,
     process_cluster,
     mc.preschedule = FALSE,
