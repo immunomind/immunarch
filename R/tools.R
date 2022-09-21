@@ -603,11 +603,16 @@ optional_sample <- function(prefix, sample_name, suffix) {
   }
 }
 
-require_system_package <- function(package, error_message, .nofail = FALSE, .prev_failed = FALSE) {
+# executable_names can contain 1 name or vector of multiple options how it can be named
+require_system_package <- function(executable_names,
+                                   error_message,
+                                   .nofail = FALSE,
+                                   .prev_failed = FALSE) {
   if (.nofail & .prev_failed) {
     return(FALSE)
   }
-  if (Sys.which(package) == "") {
+  package_not_exist <- all(unlist(purrr::map(Sys.which(executable_names), identical, "")))
+  if (package_not_exist) {
     if (.nofail) {
       cat(error_message)
       return(FALSE)
