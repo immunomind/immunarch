@@ -92,18 +92,26 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     protocluster_names <- map(dist_list, ~ attr(.x, "group_values"))
     protocluster_names %<>% map2_chr(., seq_labels, ~ ifelse(is.null(.x), .y, .x))
     # ^if no grouping variables in data, sequences are IDs for clusters
-    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag]))
+    result_single <- data.frame(
+      Sequence = unlist(seq_labels[singleseq_flag]),
+      Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag])
+    )
     multiseq_dist <- dist_list[!singleseq_flag]
-    mat_dist <- map2(multiseq_dist, threshold[!singleseq_flag], ~ as.matrix(.x) %>% apply(., 1, function(x, t) {
-      ifelse(x > t, NA, x)
-    }, .y))
+    mat_dist <- map2(multiseq_dist, threshold[!singleseq_flag], ~ as.matrix(.x) %>%
+      apply(., 1, function(x, t) {
+        ifelse(x > t, NA, x)
+      }, .y))
     seq_clusters <- map(mat_dist, ~ melt(.x, na.rm = TRUE) %>%
       graph_from_data_frame() %>%
       clusters() %>%
       .$membership %>%
       melt())
     result_multi <- seq_clusters %>%
-      map2(., seq_length[!singleseq_flag], ~ .x %>% mutate(length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]), yes = .x[1], no = glue("range_{min(.x)}:{max(.x)}"))))) %>%
+      map2(., seq_length[!singleseq_flag], ~ .x %>%
+        mutate(length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]),
+          yes = .x[1],
+          no = glue("range_{min(.x)}:{max(.x)}")
+        )))) %>%
       map2(., protocluster_names[!singleseq_flag], ~ rownames_to_column(.x, var = "Sequence") %>%
         group_by(value, length_value) %>%
         mutate(Cluster = paste0(.y, "_length_", length_value, "_cluster_", cur_group_id())) %>%
@@ -112,7 +120,11 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       map_df(~.x)
     res <- rbind(result_single, result_multi)
     colnames(res) <- c(matching_col, "Cluster")
-    res[grouping_cols] <- str_split(str_split(res[["Cluster"]], pattern = "_", simplify = TRUE)[, 1], pattern = "/", simplify = TRUE)[, 1:length(grouping_cols)]
+    res[grouping_cols] <- str_split(str_split(res[["Cluster"]],
+      pattern = "_", simplify = TRUE
+    )[, 1],
+    pattern = "/", simplify = TRUE
+    )[, seq_along(grouping_cols)]
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
