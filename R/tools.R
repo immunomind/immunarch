@@ -568,25 +568,15 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
   return(.data)
 }
 
-add_column_with_first_gene <- function(.data, .original_colname, .target_colname, .with_allele = FALSE) {
+add_column_with_first_gene <- function(.data, .original_colname, .target_colname) {
   if (validate_columns(.data, .original_colname, .target_colname)) {
     .data[[.target_colname]] <- .data[[.original_colname]] %>% sapply(
       function(genes_string) {
-        if (.with_allele) {
-          genes_string %<>%
-            # first allele is substring until first ',' or '(' in string taken from column with gene names
-            strsplit(",|\\(") %>%
-            unlist() %>%
-            magrittr::extract2(1) %>%
-            # MiXCR uses *00 for unknown alleles; replace *00 to *01 to find them in reference
-            stringr::str_replace(stringr::fixed("*00"), "*01")
-        } else {
-          genes_string %<>%
-            # first gene is substring until first ',', '(' or '*'
-            strsplit(",|\\(|\\*") %>%
-            unlist() %>%
-            magrittr::extract2(1)
-        }
+        genes_string %<>%
+          # first gene is substring until first ',', '(' or '*'
+          strsplit(",|\\(|\\*") %>%
+          unlist() %>%
+          magrittr::extract2(1)
         return(genes_string)
       }
     )

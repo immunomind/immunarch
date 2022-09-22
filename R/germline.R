@@ -21,8 +21,7 @@
 #'
 #' @usage
 #'
-#' repGermline(.data,
-#' .species, .align_j_gene, .min_nuc_outside_cdr3, .threads)
+#' repGermline(.data, .species, .min_nuc_outside_cdr3, .threads)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
 #' or a list of these objects.
@@ -36,13 +35,6 @@
 #' "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 #' "SusScrofa".
 #'
-#' @param .align_j_gene MiXCR provides the number of J indels only for 1 allele of J gene
-#' in the output file, and a germline can contain another allele. Therefore, calculation of
-#' J gene start in reference based on numbers from input file can be sometimes incorrect.
-#' As result, J gene in the germline will be trimmed in the start or will contain some
-#' nucleotides from CDR3. Setting this parameter to TRUE enables precise alignment of J genes
-#' to detect the correct starting point, but it significantly reduces performance.
-#'
 #' @param .min_nuc_outside_cdr3 This parameter sets how many nucleotides should have V or J chain
 #' outside of CDR3 to be considered good for further alignment.
 #'
@@ -51,12 +43,12 @@
 #' @return
 #'
 #' Data with added columns:
-#' * V.first.allele, J.first.allele (first alleles of V and J genes),
-#' * V.ref.nt, J.ref.nt (V and J reference sequences),
-#' * V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
-#'   trimmed parts that are from CDR3),
+#' * V.allele, J.allele (chosen alleles of V and J genes),
+#' * V.germline.nt, J.germline.nt, V.germline.aa, J.germline.aa (V and J germline sequences;
+#'   they are references with trimmed parts that are from CDR3),
+#' * V.aa, J.aa (V and J sequences from original clonotype, converted to amino acids)
 #' * CDR3.germline.length (length of CDR3 in the germline),
-#' * Germline.sequence (combined germline sequence)
+#' * Germline.sequence (combined germline nucleotide sequence)
 #'
 #' @examples
 #'
@@ -64,21 +56,12 @@
 #'
 #' bcrdata$data %>%
 #'   top(5) %>%
-#'   repGermline(.threads = 1)
+#'   repGermline()
 #' @export repGermline
 repGermline <- function(.data,
                         .species = "HomoSapiens",
-                        .align_j_gene = FALSE,
                         .min_nuc_outside_cdr3 = 5,
-                        .threads = parallel::detectCores()) {
-  if (.align_j_gene) {
-    require_system_package(c("clustalw", "clustalw2"), error_message = paste0(
-      "repGermline with .align_j_gene = TRUE requires Clustal W app to be installed!\n",
-      "Please download it from here: http://www.clustal.org/download/current/\n",
-      "or install it with your system package manager (such as apt or dnf)."
-    ))
-  }
-
+                        .threads = 1) {
   # prepare reference sequences for all alleles
   genesegments_env <- new.env()
   data("genesegments", envir = genesegments_env)
@@ -92,7 +75,6 @@ repGermline <- function(.data,
       .with_names = TRUE,
       reference = reference,
       species = .species,
-      align_j_gene = .align_j_gene,
       min_nuc_outside_cdr3 = .min_nuc_outside_cdr3,
       threads = .threads
     )
@@ -102,23 +84,14 @@ repGermline <- function(.data,
 germline_single_df <- function(data,
                                reference,
                                species,
-                               align_j_gene,
                                min_nuc_outside_cdr3,
                                threads,
                                sample_name = NA) {
   data %<>%
-    validate_genes_edges(sample_name) %>%
-    add_column_with_first_gene(
-      "V.name",
-      "V.first.allele",
-      .with_allele = TRUE
-    ) %>%
+    validate_mandatory_columns(sample_name) %>%
+    add_allele_column(reference["allele_id"], "V") %>%
     merge_reference_sequences(reference, "V", species, sample_name) %>%
-    add_column_with_first_gene(
-      "J.name",
-      "J.first.allele",
-      .with_allele = TRUE
-    ) %>%
+    add_allele_column(reference["allele_id"], "J") %>%
     merge_reference_sequences(reference, "J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     calculate_germlines_parallel(align_j_gene, threads, sample_name) %>%
@@ -247,9 +220,37 @@ generate_germline_sequence <- function(seq, v_ref, j_ref, cdr1_nt, cdr2_nt,
   }
 }
 
+add_allele_column <- function(.data, .reference_allele_ids, .gene) {
+  raw_genes_colname <- paste0(.gene, ".name")
+  target_colname <- paste0(.gene, ".allele")
+  if (validate_columns(.data, raw_genes_colname, target_colname)) {
+    .data[[target_colname]] <- .data[[raw_genes_colname]] %>% sapply(
+      function(genes_string) {
+        first_allele <- genes_string %>%
+          # first allele is substring until first ',' or '(' in string taken from column with gene names
+          strsplit(",|\\(") %>%
+          unlist() %>%
+          magrittr::extract2(1)
+        # MiXCR uses *00 for unknown alleles; drop it to find first matching allele in reference
+        name_to_search <- str_replace(first_allele, fixed("*00"), "")
+        first_matching_allele <- .reference_allele_ids[which(startsWith(
+          .reference_allele_ids,
+          name_to_search
+        ))][1]
+        if (has_no_data(first_matching_allele)) {
+          return(first_allele)
+        } else {
+          return(first_matching_allele)
+        }
+      }
+    )
+  }
+  return(.data)
+}
+
 merge_reference_sequences <- function(data, reference, chain_letter, species, sample_name) {
   chain_seq_colname <- paste0(chain_letter, ".ref.nt")
-  chain_allele_colname <- paste0(chain_letter, ".first.allele")
+  chain_allele_colname <- paste0(chain_letter, ".allele")
   colnames(reference) <- c(chain_seq_colname, chain_allele_colname)
 
   # check for alleles in data that don't exist in the reference
@@ -281,7 +282,7 @@ merge_reference_sequences <- function(data, reference, chain_letter, species, sa
   return(data)
 }
 
-validate_genes_edges <- function(data, sample_name) {
+validate_mandatory_columns <- function(data, sample_name) {
   if (nrow(data) == 0) {
     stop(
       "Sample ",
@@ -289,7 +290,9 @@ validate_genes_edges <- function(data, sample_name) {
       "dataframe is empty!"
     )
   }
-  for (column in c("V.end", "J.start")) {
+  old_length <- nrow(data)
+  mandatory_columns <- c("FR1.nt", "CDR1.nt", "FR2.nt", "CDR2.nt", "FR3.nt", "CDR3.nt", "FR4.nt")
+  for (column in mandatory_columns) {
     if (!(column %in% colnames(data))) {
       stop(
         "Missing mandatory ",
@@ -301,16 +304,14 @@ validate_genes_edges <- function(data, sample_name) {
     }
     if (all(is.na(data[, column]))) {
       stop(
-        "No data in mandatory ",
-        column,
-        " column",
+        "Dropped all rows when filtering out NAs from mandatory columns ",
+        paste(mandatory_columns, collapse = ", "),
         optional_sample(" in sample ", sample_name, ""),
         "!"
       )
     }
+    data %<>% filter(!is.na(get(column)))
   }
-  old_length <- nrow(data)
-  data %<>% filter(!is.na(get("V.end")) & !is.na(get("J.start")))
   dropped_num <- old_length - nrow(data)
   if (dropped_num > 0) {
     warning(
@@ -318,14 +319,9 @@ validate_genes_edges <- function(data, sample_name) {
       " rows from ",
       old_length,
       optional_sample(" in sample ", sample_name, ""),
-      " were dropped because of missing values in mandatory columns V.end and J.start!"
-    )
-  }
-  if (nrow(data) == 0) {
-    stop(
-      "Sample ",
-      optional_sample("", sample_name, " "),
-      "dataframe is empty after dropping missing values!"
+      " were dropped because of missing values in mandatory columns ",
+      paste(mandatory_columns, collapse = ", "),
+      "!"
     )
   }
   return(data)
