@@ -73,7 +73,6 @@ immunr_hclust <- function(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "co
 }
 
 immunr_kmeans <- function(.data, .k = 2, .k.max = as.integer(sqrt(nrow(.data))) + 1, .method = c("silhouette", "gap_stat")) {
-  # res = list(kmeans = add_class(kmeans(as.dist(.data), .k), "immunr_kmeans"),
   res <- list(
     kmeans = add_class(kmeans(.data, .k), "immunr_kmeans"),
     nbclust = add_class(fviz_nbclust(.data, kmeans, k.max = .k.max, .method[1]), "immunr_nbclust"),

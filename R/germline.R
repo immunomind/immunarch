@@ -72,7 +72,7 @@ repGermline <- function(.data,
                         .min_nuc_outside_cdr3 = 5,
                         .threads = parallel::detectCores()) {
   if (.align_j_gene) {
-    require_system_package("clustalw", error_message = paste0(
+    require_system_package(c("clustalw", "clustalw2"), error_message = paste0(
       "repGermline with .align_j_gene = TRUE requires Clustal W app to be installed!\n",
       "Please download it from here: http://www.clustal.org/download/current/\n",
       "or install it with your system package manager (such as apt or dnf)."

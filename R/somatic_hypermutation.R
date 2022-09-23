@@ -56,7 +56,7 @@
 #'   repSomaticHypermutation(.threads = 1, .nofail = TRUE)
 #' @export repSomaticHypermutation
 repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
-  if (!require_system_package("clustalw", error_message = paste0(
+  if (!require_system_package(c("clustalw", "clustalw2"), error_message = paste0(
     "repSomaticHypermutation requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
