@@ -251,7 +251,6 @@ translate_bunch <- bunch_translate
 
 
 check_group_names <- function(.meta, .by) {
-  names_to_check <- c()
   if (is.null(.by)) {
     names_to_check <- .by
   } else {
@@ -304,7 +303,6 @@ process_metadata_arguments <- function(.data, .by, .meta = NA, .data.sample.col 
   if (!is.na(.by)[1]) {
     if (!is.na(.meta)[1]) {
       data_groups <- group_from_metadata(.by, .meta)
-      # group_name = .by
       group_name <- paste0(.by, collapse = "; ")
       is_grouped <- TRUE
       data_group_names <- .meta[[.meta.sample.col]]
@@ -330,7 +328,6 @@ process_metadata_arguments <- function(.data, .by, .meta = NA, .data.sample.col 
   }
   names(data_groups) <- data_group_names
   group_vec <- data_groups[.data[[.data.sample.col]]]
-  # group_column = stringr::str_sort(data_groups[.data[[.data.sample.col]]], numeric = TRUE)
   group_vec_sorted <- stringr::str_sort(group_vec, numeric = TRUE)
   group_column <- factor(group_vec, levels = unique(group_vec_sorted))
 
@@ -611,16 +608,6 @@ require_system_package <- function(executable_names,
     }
   }
   return(TRUE)
-}
-
-# calculate V gene part length outside of CDR3; works with vectors acquired from dataframe columns
-v_len_outside_cdr3 <- function(v_end, cdr3_start) {
-  pmin(v_end, as.numeric(cdr3_start))
-}
-
-# calculate J gene part length outside of CDR3; works with vectors acquired from dataframe columns
-j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
-  stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
 }
 
 convert_seq_list_to_dnabin <- function(seq_list) {

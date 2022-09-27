@@ -43,10 +43,9 @@
 #' @return
 #'
 #' Data with added columns:
+#' * Sequence (FR1+CDR1+FR2+CDR2+FR3+CDR3+FR4 in nucleotides; column will be replaced if exists)
 #' * V.allele, J.allele (chosen alleles of V and J genes),
-#' * V.germline.nt, J.germline.nt, V.germline.aa, J.germline.aa (V and J germline sequences;
-#'   they are references with trimmed parts that are from CDR3),
-#' * V.aa, J.aa (V and J sequences from original clonotype, converted to amino acids)
+#' * V.aa, J.aa (V and J sequences from original clonotype, outside CDR3, converted to amino acids)
 #' * CDR3.germline.length (length of CDR3 in the germline),
 #' * Germline.sequence (combined germline nucleotide sequence)
 #'
@@ -94,12 +93,12 @@ germline_single_df <- function(data,
     add_allele_column(reference["allele_id"], "J") %>%
     merge_reference_sequences(reference, "J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
-    calculate_germlines_parallel(align_j_gene, threads, sample_name) %>%
+    calculate_germlines_parallel(threads, sample_name) %>%
     filter(!is.na(get("Germline.sequence")))
   return(data)
 }
 
-calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_name) {
+calculate_germlines_parallel <- function(data, threads, sample_name) {
   if (threads == 1) {
     cluster <- NA
   } else {
@@ -111,27 +110,11 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
 
   # rowwise parallel calculation of new columns that are added to data
   data <- par_or_normal_apply(cluster, data, 1, function(row) {
-    generate_germline_sequence(
-      seq = row[["Sequence"]],
-      v_ref = row[["V.ref.nt"]],
-      j_ref = row[["J.ref.nt"]],
-      cdr1_nt = row[["CDR1.nt"]],
-      cdr2_nt = row[["CDR2.nt"]],
-      fr1_nt = row[["FR1.nt"]],
-      fr2_nt = row[["FR2.nt"]],
-      fr3_nt = row[["FR3.nt"]],
-      fr4_nt = row[["FR4.nt"]],
-      cdr3_start = as.integer(row[["CDR3.start"]]),
-      cdr3_end = as.integer(row[["CDR3.end"]]),
-      j_start = as.integer(row[["J.start"]]),
-      j3_del = as.integer(row[["J3.Deletions"]]),
-      align_j_gene = align_j_gene,
-      sample_name = sample_name
-    )
+    calculate_new_columns(row, sample_name)
   }) %>%
     map_dfr(~.) %>%
     germline_handle_warnings() %>%
-    cbind(data, .)
+    merge_germline_results(data)
 
   if (!has_no_data(cluster)) {
     stopCluster(cluster)
@@ -139,81 +122,85 @@ calculate_germlines_parallel <- function(data, align_j_gene, threads, sample_nam
   return(data)
 }
 
-generate_germline_sequence <- function(seq, v_ref, j_ref, cdr1_nt, cdr2_nt,
-                                       fr1_nt, fr2_nt, fr3_nt, fr4_nt,
-                                       cdr3_start, cdr3_end, j_start, j3_del,
-                                       align_j_gene, sample_name) {
+calculate_new_columns <- function(row, sample_name) {
+  v_ref <- row[["V.ref.nt"]]
+  j_ref <- row[["J.ref.nt"]]
+  cdr1_nt <- row[["CDR1.nt"]]
+  cdr2_nt <- row[["CDR2.nt"]]
+  cdr3_nt <- row[["CDR3.nt"]]
+  fr1_nt <- row[["FR1.nt"]]
+  fr2_nt <- row[["FR2.nt"]]
+  fr3_nt <- row[["FR3.nt"]]
+  fr4_nt <- row[["FR4.nt"]]
+
   if (any(is.na(c(
-    seq, v_ref, j_ref, cdr1_nt, cdr2_nt, fr1_nt, fr2_nt, fr3_nt, fr4_nt,
-    cdr3_start, cdr3_end, j_start, j3_del
-  ))) ||
-    (seq == "")) {
+    v_ref, j_ref, cdr1_nt, cdr2_nt, fr1_nt, fr2_nt, fr3_nt, cdr3_nt, fr4_nt
+  )))) {
     # warnings cannot be displayed from parApply; save them and display after finish
     warn <- paste0(
       "Some of mandatory fields in a row ",
       optional_sample("from sample ", sample_name, " "),
-      "contain unexpected NA or empty strings! Found values:\n",
-      "Sequence = ",
-      seq,
-      ",\nV.ref.nt = ",
+      "contain unexpected NAs! Found values:\n",
+      "V.ref.nt = ",
       v_ref,
-      ",\nJ.ref.nt = ",
+      "\nJ.ref.nt = ",
       j_ref,
-      ",\nCDR1.nt = ",
+      "\nCDR1.nt = ",
       cdr1_nt,
-      ",\nCDR2.nt = ",
+      "\nCDR2.nt = ",
       cdr2_nt,
-      ",\nFR1.nt = ",
+      "\nCDR3.nt = ",
+      cdr3_nt,
+      "\nFR1.nt = ",
       fr1_nt,
-      ",\nFR2.nt = ",
+      "\nFR2.nt = ",
       fr2_nt,
-      ",\nFR3.nt = ",
+      "\nFR3.nt = ",
       fr3_nt,
-      ",\nFR4.nt = ",
+      "\nFR4.nt = ",
       fr4_nt,
-      ",\nCDR3.start = ",
-      cdr3_start,
-      ", CDR3.end = ",
-      cdr3_end,
-      ", J.start = ",
-      j_start,
-      ", J3.Deletions = ",
-      j3_del,
-      ".\nThe row will be dropped!"
+      "\nThe row will be dropped!"
     )
     return(list(
-      V.germline.nt = NA,
-      J.germline.nt = NA,
-      CDR3.germline.length = NA,
+      Sequence = NA,
+      V.aa = NA,
+      J.aa = NA,
+      CDR3.length = NA,
       Germline.sequence = NA,
       Warning = warn
     ))
   } else {
-    v_end <- str_length(cdr1_nt) + str_length(cdr2_nt) +
-      str_length(fr1_nt) + str_length(fr2_nt) + str_length(fr3_nt)
-    cdr3_length <- cdr3_end - cdr3_start
+    seq <- paste0(fr1_nt, cdr1_nt, fr2_nt, cdr2_nt, fr3_nt, cdr3_nt, fr4_nt) %>% toupper()
+    cdr1_aa <- ifelse(has_no_data(row[["CDR1.aa"]]), bunch_translate(cdr1_nt), row[["CDR1.aa"]])
+    cdr2_aa <- ifelse(has_no_data(row[["CDR2.aa"]]), bunch_translate(cdr2_nt), row[["CDR2.aa"]])
+    fr1_aa <- ifelse(has_no_data(row[["FR1.aa"]]), bunch_translate(fr1_nt), row[["FR1.aa"]])
+    fr2_aa <- ifelse(has_no_data(row[["FR2.aa"]]), bunch_translate(fr2_nt), row[["FR2.aa"]])
+    fr3_aa <- ifelse(has_no_data(row[["FR3.aa"]]), bunch_translate(fr3_nt), row[["FR3.aa"]])
+    fr4_aa <- ifelse(has_no_data(row[["FR4.aa"]]), bunch_translate(fr4_nt), row[["FR4.aa"]])
+    v_aa <- paste0(fr1_aa, cdr1_aa, fr2_aa, cdr2_aa, fr3_aa)
+    j_aa <- fr4_aa
 
     # trim intersection of V and CDR3 from reference V gene
-    v_part <- str_sub(v_ref, 1, v_end)
+    v_length <- str_length(cdr1_nt) + str_length(cdr2_nt) +
+      str_length(fr1_nt) + str_length(fr2_nt) + str_length(fr3_nt)
+    v_part <- str_sub(v_ref, 1, v_length)
 
+    cdr3_length <- str_length(cdr3_nt)
     cdr3_part <- paste(rep("n", cdr3_length), collapse = "")
 
     # trim intersection of J and CDR3 from reference J gene
-    if (align_j_gene) {
-      calculated_j_start <- align_and_find_j_start(j_ref, fr4_nt)
-    } else {
-      calculated_j_start <- max(0, cdr3_end - j_start - j3_del + 1)
-    }
-    j_part <- str_sub(j_ref, calculated_j_start)
+    j_length <- str_length(fr4_nt)
+    j_part <- str_sub(j_ref, str_length(j_ref) - j_length + 1, str_length(j_ref))
 
     germline <- paste0(v_part, cdr3_part, j_part) %>%
       toupper()
 
     # return values for new calculated columns
     return(list(
-      V.germline.nt = v_part,
-      J.germline.nt = j_part,
-      CDR3.germline.length = cdr3_length,
+      Sequence = seq,
+      V.aa = v_aa,
+      J.aa = j_aa,
+      CDR3.length = cdr3_length,
       Germline.sequence = germline,
       Warning = NA
     ))
@@ -226,11 +213,8 @@ add_allele_column <- function(.data, .reference_allele_ids, .gene) {
   if (validate_columns(.data, raw_genes_colname, target_colname)) {
     .data[[target_colname]] <- .data[[raw_genes_colname]] %>% sapply(
       function(genes_string) {
-        first_allele <- genes_string %>%
-          # first allele is substring until first ',' or '(' in string taken from column with gene names
-          strsplit(",|\\(") %>%
-          unlist() %>%
-          magrittr::extract2(1)
+        # first allele is substring until first ',' or '(' in string taken from column with gene names
+        first_allele <- strsplit(genes_string, ",|\\(")[[1]][1]
         # MiXCR uses *00 for unknown alleles; drop it to find first matching allele in reference
         name_to_search <- str_replace(first_allele, fixed("*00"), "")
         first_matching_allele <- .reference_allele_ids[which(startsWith(
@@ -330,21 +314,14 @@ validate_mandatory_columns <- function(data, sample_name) {
 validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
   old_length_v <- nrow(data)
   data %<>% filter(
-    v_len_outside_cdr3(
-      get("V.end"),
-      get("CDR3.start")
-    ) >= min_nuc_outside_cdr3
+    str_length(get("FR1.nt")) + str_length(get("CDR1.nt")) + str_length(get("FR2.nt"))
+      + str_length(get("CDR2.nt")) + str_length(get("FR3.nt"))
+    >= min_nuc_outside_cdr3
   )
   dropped_v <- old_length_v - nrow(data)
   old_length_j <- nrow(data)
   if (nrow(data) > 0) {
-    data %<>% filter(
-      j_len_outside_cdr3(
-        get("Sequence"),
-        get("J.start"),
-        get("CDR3.end")
-      ) >= min_nuc_outside_cdr3
-    )
+    data %<>% filter(str_length(get("FR4.nt")) >= min_nuc_outside_cdr3)
   }
   dropped_j <- old_length_j - nrow(data)
 
@@ -375,39 +352,11 @@ validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
   return(data)
 }
 
-# align reference J gene and FR4 segment from clonotype to find start of J gene outside of CDR3
-align_and_find_j_start <- function(j_ref, fr4_seq, max_len_diff = 10) {
-  # max_len_diff is needed to prevent alignment of sequences that are very different in length;
-  # we are only interested in the left side of alignment
-  j_len <- str_length(j_ref)
-  fr4_len <- str_length(fr4_seq)
-  min_len <- min(j_len, fr4_len)
-  max_len <- max(j_len, fr4_len)
-  trim_len <- min(min_len + max_len_diff, max_len)
-  j_trimmed <- str_sub(j_ref, 1, trim_len)
-  fr4_trimmed <- str_sub(fr4_seq, 1, trim_len)
-
-  # alignment will contain vector of 2 aligned strings where deletions are "-" characters
-  alignment <- list(J = j_trimmed, FR4 = fr4_trimmed) %>%
-    lapply(
-      function(sequence) {
-        sequence %>%
-          str_extract_all(boundary("character")) %>%
-          unlist()
-      }
-    ) %>%
-    ape::as.DNAbin() %>%
-    ape::clustal() %>%
-    as.character() %>%
-    apply(1, paste, collapse = "") %>%
-    lapply(toupper)
-
-  num_deletions <- str_length(stringr::str_extract(alignment[["FR4"]], pattern = "^(-+)"))
-  if (is.na(num_deletions) | (str_length(alignment[["J"]]) <= num_deletions)) {
-    return(1)
-  } else {
-    return(num_deletions + 1)
-  }
+merge_germline_results <- function(new_columns, data) {
+  data %<>%
+    subset(select = -c("Sequence", "V.ref.nt", "J.ref.nt")) %>%
+    cbind(new_columns)
+  return(data)
 }
 
 germline_handle_warnings <- function(df) {
