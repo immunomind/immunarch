@@ -2,7 +2,7 @@
 #'
 #' @concept seq_cluster
 #'
-#' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl
+#' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl pmap
 #' @importFrom magrittr %>% %<>%
 #' @importFrom reshape2 melt
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join
@@ -88,10 +88,13 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     singleseq_flag <- map_lgl(seq_labels, ~ length(.x) == 1)
     seq_length <- map(seq_labels, ~ nchar(.x))
     threshold <- map(seq_length, ~ .x %>% threshold_fun())
-    protocluster_names <- map(dist_list, ~ attr(.x, "group_values"))
+    group_values <- map_dfr(dist_list, ~ attr(.x, "group_values"))
+    protocluster_names <- group_values %>%
+      unite(col = grouping_cols, sep = "/") %>%
+      pull(grouping_cols)
     protocluster_names %<>% map2_chr(., seq_labels, ~ ifelse(is.null(.x), .y, .x))
     # ^if no grouping variables in data, sequences are IDs for clusters
-    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag]))
+    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag])) %>% cbind(group_values[singleseq_flag, ])
     multiseq_dist <- dist_list[!singleseq_flag]
     mat_dist <- map2(multiseq_dist, threshold[!singleseq_flag], ~ as.matrix(.x) %>% apply(., 1, function(x, t) {
       ifelse(x > t, NA, x)
@@ -100,7 +103,8 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       graph_from_data_frame() %>%
       clusters() %>%
       .$membership %>%
-      melt())
+      melt() %>%
+      suppressWarnings())
     result_multi <- seq_clusters %>%
       map2(., seq_length[!singleseq_flag], ~ .x %>% mutate(length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]), yes = .x[1], no = glue("range_{min(.x)}:{max(.x)}"))))) %>%
       map2(., protocluster_names[!singleseq_flag], ~ rownames_to_column(.x, var = "Sequence") %>%
@@ -108,9 +112,9 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
         mutate(Cluster = paste0(.y, "_length_", length_value, "_cluster_", cur_group_id())) %>%
         ungroup() %>%
         select(Sequence, Cluster)) %>%
-      map_df(~.x)
+      map2_df(., pmap(group_values, data.frame)[!singleseq_flag], ~ cbind(.x, .y))
     res <- rbind(result_single, result_multi)
-    colnames(res) <- c(matching_col, "Cluster")
+    colnames(res) <- c(matching_col, "Cluster", grouping_cols)
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
