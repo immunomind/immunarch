@@ -44,6 +44,7 @@
 #' @export seqCluster
 
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
+  grouping_cols <- attr(.dist, "group_by")
   matching_col <- attr(.dist, "col")
   if (length(.data) != length(.dist)) {
     stop(".data and .dist lengths do not match!")
@@ -89,12 +90,16 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     seq_length <- map(seq_labels, ~ nchar(.x))
     threshold <- map(seq_length, ~ .x %>% threshold_fun())
     group_values <- map_dfr(dist_list, ~ attr(.x, "group_values"))
-    protocluster_names <- group_values %>%
-      unite(col = grouping_cols, sep = "/") %>%
-      pull(grouping_cols)
-    protocluster_names %<>% map2_chr(., seq_labels, ~ ifelse(is.null(.x), .y, .x))
+    if (all(is.na(grouping_cols))) {
+      protocluster_names <- map_chr(seq_labels, 1)
+      result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag], "_cluster_1"))
+    } else {
+      protocluster_names <- group_values %>%
+        unite(col = grouping_cols, sep = "/") %>%
+        pull(grouping_cols)
+      result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag])) %>% cbind(group_values[singleseq_flag, ])
+    }
     # ^if no grouping variables in data, sequences are IDs for clusters
-    result_single <- data.frame(Sequence = unlist(seq_labels[singleseq_flag]), Cluster = paste0(protocluster_names[singleseq_flag], "_length_", seq_length[singleseq_flag])) %>% cbind(group_values[singleseq_flag, ])
     multiseq_dist <- dist_list[!singleseq_flag]
     mat_dist <- map2(multiseq_dist, threshold[!singleseq_flag], ~ as.matrix(.x) %>% apply(., 1, function(x, t) {
       ifelse(x > t, NA, x)
@@ -112,9 +117,12 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
         mutate(Cluster = paste0(.y, "_length_", length_value, "_cluster_", cur_group_id())) %>%
         ungroup() %>%
         select(Sequence, Cluster)) %>%
-      map2_df(., pmap(group_values, data.frame)[!singleseq_flag], ~ cbind(.x, .y))
+      map_df(., ~.x)
+    if (!all(is.na(grouping_cols))) {
+      result_multi %<>% map2_df(., pmap(group_values, data.frame)[!singleseq_flag], ~ cbind(.x, .y))
+    }
     res <- rbind(result_single, result_multi)
-    colnames(res) <- c(matching_col, "Cluster", grouping_cols)
+    colnames(res) <- na.omit(c(matching_col, "Cluster", grouping_cols))
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
