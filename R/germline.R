@@ -46,7 +46,7 @@
 #' * Sequence (FR1+CDR1+FR2+CDR2+FR3+CDR3+FR4 in nucleotides; column will be replaced if exists)
 #' * V.allele, J.allele (chosen alleles of V and J genes),
 #' * V.aa, J.aa (V and J sequences from original clonotype, outside CDR3, converted to amino acids)
-#' * CDR3.germline.length (length of CDR3 in the germline),
+#' * CDR3.length (length of CDR3),
 #' * Germline.sequence (combined germline nucleotide sequence)
 #'
 #' @examples
@@ -88,9 +88,9 @@ germline_single_df <- function(data,
                                sample_name = NA) {
   data %<>%
     validate_mandatory_columns(sample_name) %>%
-    add_allele_column(reference["allele_id"], "V") %>%
+    add_allele_column(reference[["allele_id"]], "V") %>%
     merge_reference_sequences(reference, "V", species, sample_name) %>%
-    add_allele_column(reference["allele_id"], "J") %>%
+    add_allele_column(reference[["allele_id"]], "J") %>%
     merge_reference_sequences(reference, "J", species, sample_name) %>%
     validate_chains_length(min_nuc_outside_cdr3, sample_name) %>%
     calculate_germlines_parallel(threads, sample_name) %>%
@@ -222,7 +222,7 @@ add_allele_column <- function(.data, .reference_allele_ids, .gene) {
           name_to_search
         ))][1]
         if (has_no_data(first_matching_allele)) {
-          return(first_allele)
+          return(name_to_search)
         } else {
           return(first_matching_allele)
         }
@@ -243,7 +243,7 @@ merge_reference_sequences <- function(data, reference, chain_letter, species, sa
   missing_alleles <- alleles_in_data[!(alleles_in_data %in% alleles_in_ref)]
   if (length(missing_alleles) > 0) {
     warning(
-      "Alleles ",
+      "Genes or alleles ",
       paste(missing_alleles, collapse = ", "),
       " ",
       optional_sample("from sample ", sample_name, " "),
@@ -354,7 +354,7 @@ validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
 
 merge_germline_results <- function(new_columns, data) {
   data %<>%
-    subset(select = -c("Sequence", "V.ref.nt", "J.ref.nt")) %>%
+    subset(select = -c(get("Sequence"), get("V.ref.nt"), get("J.ref.nt"))) %>%
     cbind(new_columns)
   return(data)
 }
