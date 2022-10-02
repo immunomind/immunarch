@@ -2,7 +2,7 @@
 #'
 #' @concept seq_cluster
 #'
-#' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl pmap
+#' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl pmap map2_df
 #' @importFrom magrittr %>% %<>%
 #' @importFrom reshape2 melt
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join
@@ -116,13 +116,20 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
         group_by(value, length_value) %>%
         mutate(Cluster = paste0(.y, "_length_", length_value, "_cluster_", cur_group_id())) %>%
         ungroup() %>%
-        select(Sequence, Cluster)) %>%
-      map_df(., ~.x)
+        select(Sequence, Cluster))
     if (!all(is.na(grouping_cols))) {
       result_multi %<>% map2_df(., pmap(group_values, data.frame)[!singleseq_flag], ~ cbind(.x, .y))
+      res <- rbind(result_single, result_multi)
+      res[grouping_cols] <- str_split(str_split(res[["Cluster"]],
+                                                pattern = "_", simplify = TRUE
+      )[, 1],
+      pattern = "/", simplify = TRUE
+      )[, seq_along(grouping_cols)]
+    } else{
+      result_multi %<>% map_df(., ~.x)
+      res <- rbind(result_single, result_multi)
+      colnames(res) <- c(matching_col, "Cluster")
     }
-    res <- rbind(result_single, result_multi)
-    colnames(res) <- na.omit(c(matching_col, "Cluster", grouping_cols))
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
@@ -130,6 +137,6 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     warning("Number of sequence provided in .data and .dist are not matching!")
   }
   # supress messages because join spams about joining by matching_col is done
-  result_data <- map2(.data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
+  result_data <- map2(.data, clusters, ~ left_join(.x, .y, by = grouping_cols) %>% suppressMessages())
   return(result_data)
 }
