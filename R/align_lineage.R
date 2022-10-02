@@ -89,7 +89,7 @@ repAlignLineage <- function(.data,
                             .align_threads = 4,
                             .verbose_output = FALSE,
                             .nofail = FALSE) {
-  if (!require_system_package("clustalw", error_message = paste0(
+  if (!require_system_package(c("clustalw", "clustalw2"), error_message = paste0(
     "repAlignLineage requires Clustal W app to be installed!\n",
     "Please download it from here: http://www.clustal.org/download/current/\n",
     "or install it with your system package manager (such as apt or dnf)."
