@@ -43,10 +43,9 @@
 #' @return
 #'
 #' Data with added columns:
-#' * Sequence (FR1+CDR1+FR2+CDR2+FR3+CDR3+FR4 in nucleotides; column will be replaced if exists)
+#' * Sequence (FR1+CDR1+FR2+CDR2+FR3+CDR3+FR4 in nucleotides; the column will be replaced if exists)
 #' * V.allele, J.allele (chosen alleles of V and J genes),
 #' * V.aa, J.aa (V and J sequences from original clonotype, outside CDR3, converted to amino acids)
-#' * CDR3.length (length of CDR3),
 #' * Germline.sequence (combined germline nucleotide sequence)
 #'
 #' @examples
@@ -165,7 +164,6 @@ calculate_new_columns <- function(row, sample_name) {
       Sequence = NA,
       V.aa = NA,
       J.aa = NA,
-      CDR3.length = NA,
       Germline.sequence = NA,
       Warning = warn
     ))
@@ -185,8 +183,7 @@ calculate_new_columns <- function(row, sample_name) {
       str_length(fr1_nt) + str_length(fr2_nt) + str_length(fr3_nt)
     v_part <- str_sub(v_ref, 1, v_length)
 
-    cdr3_length <- str_length(cdr3_nt)
-    cdr3_part <- paste(rep("n", cdr3_length), collapse = "")
+    cdr3_part <- paste(rep("n", str_length(cdr3_nt)), collapse = "")
 
     # trim intersection of J and CDR3 from reference J gene
     j_length <- str_length(fr4_nt)
@@ -200,7 +197,6 @@ calculate_new_columns <- function(row, sample_name) {
       Sequence = seq,
       V.aa = v_aa,
       J.aa = j_aa,
-      CDR3.length = cdr3_length,
       Germline.sequence = germline,
       Warning = NA
     ))
