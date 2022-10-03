@@ -354,7 +354,7 @@ validate_chains_length <- function(data, min_nuc_outside_cdr3, sample_name) {
 
 merge_germline_results <- function(new_columns, data) {
   data %<>%
-    subset(select = -c(get("Sequence"), get("V.ref.nt"), get("J.ref.nt"))) %>%
+    dplyr::select(-any_of(c("Sequence", "V.ref.nt", "J.ref.nt"))) %>%
     cbind(new_columns)
   return(data)
 }
