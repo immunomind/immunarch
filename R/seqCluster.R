@@ -153,6 +153,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       res <- rbind(result_single, result_multi)
       colnames(res) <- c(matching_col, "Cluster")
     }
+    colnames(res)[1] <- matching_col
     return(res)
   }
   clusters <- map(.dist, ~ graph_clustering(.x, threshold_fun = .threshold_fun))
@@ -160,6 +161,6 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     warning("Number of sequence provided in .data and .dist are not matching!")
   }
   # supress messages because join spams about joining by matching_col is done
-  result_data <- map2(.data, clusters, ~ left_join(.x, .y, by = grouping_cols) %>% suppressMessages())
+  result_data <- map2(.data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
   return(result_data)
 }
