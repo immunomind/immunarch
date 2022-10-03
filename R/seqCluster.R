@@ -46,7 +46,6 @@
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
   grouping_cols <- attr(.dist, "group_by")
   matching_col <- attr(.dist, "col")
-  grouping_cols <- attr(.dist, "group_by")
   if (length(.data) != length(.dist)) {
     stop(".data and .dist lengths do not match!")
   }
