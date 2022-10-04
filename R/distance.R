@@ -68,24 +68,9 @@
 #' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...) {
+seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...) {
   .validate_repertoires_data(.data)
   gr_by_is_na <- all(is.na(.group_by))
-  # prepare columns with 1st V and J genes if they are used, but not yet calculated
-  if ("V.first" %in% .group_by) {
-    .data %<>% apply_to_sample_or_list(
-      add_column_with_first_gene,
-      .original_colname = "V.name",
-      .target_colname = "V.first"
-    )
-  }
-  if ("J.first" %in% .group_by) {
-    .data %<>% apply_to_sample_or_list(
-      add_column_with_first_gene,
-      .original_colname = "J.name",
-      .target_colname = "J.first"
-    )
-  }
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
   first_sample <- .data[[1]]
