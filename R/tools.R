@@ -524,7 +524,7 @@ apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .vali
 }
 
 # return TRUE if target column doesn't exist, otherwise FALSE; stop if original column doesn't exist
-validate_columns <- function(.data, .original_colname, .target_colname) {
+validate_columns <- function(.data, .original_colname, .target_colname = NA) {
   if (!(.original_colname %in% colnames(.data))) {
     stop(
       "Trying to get data from missing column ",
@@ -533,8 +533,13 @@ validate_columns <- function(.data, .original_colname, .target_colname) {
       colnames(.data)
     )
   }
-  # FALSE return value means that the column was previously added and no need to add it again
-  return(!(.target_colname %in% colnames(.data)))
+  if (is.na(.target_colname)) {
+    # skip target check if target column is not specified
+    return(TRUE)
+  } else {
+    # FALSE return value means that the column was previously added and no need to add it again
+    return(!(.target_colname %in% colnames(.data)))
+  }
 }
 
 # get genes from original column, remove alleles and write to target column
@@ -565,19 +570,19 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
   return(.data)
 }
 
-add_column_with_first_gene <- function(.data, .original_colname, .target_colname) {
-  if (validate_columns(.data, .original_colname, .target_colname)) {
-    .data[[.target_colname]] <- .data[[.original_colname]] %>% sapply(
-      function(genes_string) {
-        genes_string %<>%
-          # first gene is substring until first ',', '(' or '*'
-          strsplit(",|\\(|\\*") %>%
-          unlist() %>%
-          magrittr::extract2(1)
-        return(genes_string)
+add_column_with_first_gene <- function(.data, .original_colname, .target_colname = NA) {
+  .data %<>% apply_to_sample_or_list(.validate = FALSE, .function = function(df) {
+    if (validate_columns(df, .original_colname, .target_colname)) {
+      if (is.na(.target_colname)) {
+        .target_colname <- .original_colname
       }
-    )
-  }
+      df[[.target_colname]] <- df[[.original_colname]] %>% sapply(function(genes_string) {
+        # first gene is substring until first ',', '(' or '*'
+        unlist(strsplit(genes_string, ",|\\(|\\*"))[1]
+      })
+    }
+    return(df)
+  })
   return(.data)
 }
 
