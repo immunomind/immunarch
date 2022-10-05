@@ -46,13 +46,14 @@
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
   grouping_cols <- attr(.dist, "group_by")
   matching_col <- attr(.dist, "col")
+  trimmed <- attr(.dist, "trimmed")
   if (length(.data) != length(.dist)) {
     stop(".data and .dist lengths do not match!")
   }
   if (all(!(names(.data) %in% names(.dist)))) {
     stop(".data and .dist names do not match!")
   } else {
-    .dist <- .dist[order(match(names(.dist), names(.data)))]
+    .dist <- .dist[order(match(names(.dist), names(.data)))] # This one cause removing of all attributes except names!
   }
   if (!(matching_col %in% colnames(.data[[1]]))) {
     stop("There is no ", matching_col, " in .data!")
@@ -160,6 +161,14 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     warning("Number of sequence provided in .data and .dist are not matching!")
   }
   # supress messages because join spams about joining by matching_col is done
-  result_data <- map2(.data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
+  temp_data <- .data
+  if (trimmed) {
+    for (colname in grouping_cols) {
+      temp_data <- add_column_with_first_gene(temp_data, colname)
+    }
+  }
+  joined_data <- map2(temp_data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
+  clusters_cols <- map(joined_data, "Cluster")
+  result_data <- map2(.data, clusters_cols, ~ cbind(.x, "Cluster" = .y))
   return(result_data)
 }
