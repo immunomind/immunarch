@@ -179,8 +179,7 @@ calculate_new_columns <- function(row, sample_name) {
     j_aa <- fr4_aa
 
     # trim intersection of V and CDR3 from reference V gene
-    v_length <- str_length(cdr1_nt) + str_length(cdr2_nt) +
-      str_length(fr1_nt) + str_length(fr2_nt) + str_length(fr3_nt)
+    v_length <- str_length(paste0(fr1_nt, cdr1_nt, fr2_nt, cdr2_nt, fr3_nt))
     v_part <- str_sub(v_ref, 1, v_length)
 
     cdr3_part <- paste(rep("n", str_length(cdr3_nt)), collapse = "")
