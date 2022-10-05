@@ -28,6 +28,8 @@
 #'
 #' @param .group_by_seqLength If TRUE  - adds grouping by sequence length of .col argument
 #'
+#' @param .trim_genes If TRUE   - use only general gene values (e.g. "IGHV1-18") of .group_by columns for clustering; if FALSE - can cause very small clusters in case of high resolution genotyping
+#'
 #' @param ... Extra arguments for user-defined function.
 #'
 #' The default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
@@ -68,9 +70,14 @@
 #' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, ...) {
+seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, trim_genes = TRUE, ...) {
   .validate_repertoires_data(.data)
   gr_by_is_na <- all(is.na(.group_by))
+  if (trim_genes) {
+    for (colname in .group_by) {
+      .data <- add_column_with_first_gene(.data, colname)
+    }
+  }
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
   first_sample <- .data[[1]]
@@ -119,5 +126,6 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
   attributes(result)[["col"]] <- .col
   attributes(result)[["group_by"]] <- .group_by
   attributes(result)[["group_by_length"]] <- .group_by_seqLength
+  attributes(result)[["trimmed"]] <- trim_genes
   return(result)
 }
