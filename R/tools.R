@@ -570,6 +570,7 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
   return(.data)
 }
 
+# if .target_colname is not set, it will overwrite the original column
 add_column_with_first_gene <- function(.data, .original_colname, .target_colname = NA) {
   .data %<>% apply_to_sample_or_list(.validate = FALSE, .function = function(df) {
     if (validate_columns(df, .original_colname, .target_colname)) {
