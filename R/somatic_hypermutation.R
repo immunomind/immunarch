@@ -64,7 +64,7 @@ repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .
     return(get_empty_object_with_class("step_failure_ignored"))
   }
 
-  parallel <- threads > 1
+  parallel <- .threads > 1
   if (parallel) {
     doParallel::registerDoParallel(cores = .threads)
   }
@@ -89,8 +89,7 @@ shm_process_dataframe <- function(df, .parallel) {
   )
   # fix column types after dataframe rebuilding
   for (column in c(
-    "Clone.ID", "Clones", "CDR3.germline.length", "V.length", "J.length", "Trunk.Length",
-    "Substitutions", "Insertions", "Deletions", "Mutations"
+    "Clone.ID", "Clones", "Trunk.Length", "Substitutions", "Insertions", "Deletions", "Mutations"
   )) {
     df[[column]] %<>% as.integer()
   }
@@ -98,12 +97,13 @@ shm_process_dataframe <- function(df, .parallel) {
 }
 
 shm_process_clonotype_row <- function(row) {
-  v_gene_germline <- row[["V.germline.nt"]]
-  j_gene_germline <- row[["J.germline.nt"]]
   v_gene_clonotype <- paste0(
     row[["FR1.nt"]], row[["CDR1.nt"]], row[["FR2.nt"]], row[["CDR2.nt"]], row[["FR3.nt"]]
   )
   j_gene_clonotype <- row[["FR4.nt"]]
+  germline <- row[["Germline.Input"]]
+  v_gene_germline <- str_sub(germline, 1, str_length(v_gene_clonotype))
+  j_gene_germline <- str_sub(germline, -str_length(j_gene_clonotype))
 
   alignments <- list(
     V = list(v_gene_germline, v_gene_clonotype),
