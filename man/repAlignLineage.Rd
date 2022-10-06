@@ -4,8 +4,7 @@
 \alias{repAlignLineage}
 \title{Aligns all sequences incliding germline within each clonal lineage within each cluster}
 \usage{
-repAlignLineage(.data,
-.min_lineage_sequences, .prepare_threads, .align_threads, .verbose_output, .nofail)
+repAlignLineage(.data, .min_lineage_sequences, .prepare_threads, .align_threads, .nofail)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -13,8 +12,7 @@ or a list of these objects.}
 
 \item{.min_lineage_sequences}{If number of sequences in the same clonal lineage and the same
 cluster (not including germline) is lower than this threshold, this group of sequences
-will not be aligned and will not be used in next steps of BCR pipeline
-(will be saved in output table only if .verbose_output parameter is set to TRUE).}
+will be filtered out from the dataframe; so only large enough lineages will be included.}
 
 \item{.prepare_threads}{Number of threads to prepare results table.
 Please note that high number can cause heavy memory usage!}
@@ -25,11 +23,6 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 must contain 'Cluster' column, which is added by seqCluster() function, and 'Germline.sequence'
 column, which is added by repGermline() function.}
 
-\item{.verbose_output}{If TRUE, all output dataframe columns will be included (see documentation about this
-function return), and unaligned clusters will be included in the output. Setting this to TRUE significantly
-increases memory usage. If FALSE, only aligned clusters and columns required for repClonalFamily() and
-repSomaticHypermutation() calculation will be included in the output.}
-
 \item{.nofail}{Will return NA instead of stopping if Clustal W is not installed.
 Used to avoid raising errors in examples on computers where Clustal W is not installed.}
 }
@@ -38,23 +31,13 @@ Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
 * Germline: germline sequence
-* V.germline.nt: germline V gene sequence
-* J.germline.nt: germline J gene sequence
-* CDR3.germline.length: length of CDR3 in germline
-* Aligned (included if .verbose_output=TRUE): FALSE if this group of sequences was not aligned with lineage
-  (.min_lineage_sequences is below the threshold); TRUE if it was aligned
-* Alignment: DNAbin object with alignment or DNAbin object with unaligned sequences (if Aligned=FALSE)
-* V.length: shortest length of V gene part outside of CDR3 region in this
-  group of sequences; longer V genes (including germline) are trimmed to this length before alignment
-* J.length: shortest length of J gene part outside of CDR3 region in this
-  group of sequences; longer J genes (including germline) are trimmed to this length before alignment
+* Alignment: DNAbin object with alignment
 * Sequences: nested dataframe containing all sequences for this combination
   of cluster and germline; it has columns
-  Sequence, Clone.ID, Clones, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt
-  and, if .verbose_output=TRUE, also V.end, J.start, CDR3.start, CDR3.end;
-  all values taken from the input dataframe
-* AA.frame.starts: start positions for amino acid translation for germline and all sequences
-  after trimming (possible values: 1, 2 and 3)
+  * Sequence, CDR1.nt, CDR2.nt, CDR3.nt, FR1.nt, FR2.nt, FR3.nt, FR4.nt, V.allele, J.allele,
+    V.aa, J.aa: all values taken from the input dataframe
+  * Clone.ID: taken from the input dataframe, or created (filled with row numbers) if missing
+  * Clones: taken from the input dataframe, or created (filled with '1' values) if missing
 }
 \description{
 This function aligns all sequences (incliding germline) that belong to one clonal

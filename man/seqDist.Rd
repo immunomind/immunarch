@@ -33,6 +33,8 @@ Other possible values are:
 \code{'lcs'} for longest common substring is defined as the longest string can be obtained by pairing characters from a and b while keeping the order of characters intact.
 
 In case of user-defined function, it should take x and y parameters as input and return \link{dist} object.}
+
+\item{.trim_genes}{If TRUE   - use only general gene values (e.g. "IGHV1-18") of .group_by columns for clustering; if FALSE - can cause very small clusters in case of high resolution genotyping}
 }
 \value{
 Named list of list with \link{dist} objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.

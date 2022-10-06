@@ -4,8 +4,7 @@
 \alias{repGermline}
 \title{Creates germlines for clonal lineages}
 \usage{
-repGermline(.data,
-.species, .align_j_gene, .min_nuc_outside_cdr3, .threads)
+repGermline(.data, .species, .min_nuc_outside_cdr3, .threads)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
@@ -20,13 +19,6 @@ It must have columns in the immunarch compatible format \link{immunarch_data_for
 "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus",
 "SusScrofa".}
 
-\item{.align_j_gene}{MiXCR provides the number of J indels only for 1 allele of J gene
-in the output file, and a germline can contain another allele. Therefore, calculation of
-J gene start in reference based on numbers from input file can be sometimes incorrect.
-As result, J gene in the germline will be trimmed in the start or will contain some
-nucleotides from CDR3. Setting this parameter to TRUE enables precise alignment of J genes
-to detect the correct starting point, but it significantly reduces performance.}
-
 \item{.min_nuc_outside_cdr3}{This parameter sets how many nucleotides should have V or J chain
 outside of CDR3 to be considered good for further alignment.}
 
@@ -34,12 +26,10 @@ outside of CDR3 to be considered good for further alignment.}
 }
 \value{
 Data with added columns:
-* V.first.allele, J.first.allele (first alleles of V and J genes),
-* V.ref.nt, J.ref.nt (V and J reference sequences),
-* V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
-  trimmed parts that are from CDR3),
-* CDR3.germline.length (length of CDR3 in the germline),
-* Germline.sequence (combined germline sequence)
+* Sequence (FR1+CDR1+FR2+CDR2+FR3+CDR3+FR4 in nucleotides; the column will be replaced if exists)
+* V.allele, J.allele (chosen alleles of V and J genes),
+* V.aa, J.aa (V and J sequences from original clonotype, outside CDR3, converted to amino acids)
+* Germline.sequence (combined germline nucleotide sequence)
 }
 \description{
 This function creates germlines for clonal lineages. B cell clonal lineage
@@ -56,6 +46,6 @@ data(bcrdata)
 
 bcrdata$data \%>\%
   top(5) \%>\%
-  repGermline(.threads = 1)
+  repGermline()
 }
 \concept{germline}
