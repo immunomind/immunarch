@@ -5,7 +5,7 @@
 \title{Function for computing distance for sequences}
 \usage{
 seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
- .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...)
+ .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, .trim_genes = TRUE, ...)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
@@ -21,6 +21,8 @@ Every object must have columns in the immunarch compatible format \link{immunarc
 
 \item{.group_by_seqLength}{If TRUE  - adds grouping by sequence length of .col argument}
 
+\item{.trim_genes}{If TRUE   - use only general gene values (e.g. "IGHV1-18") of .group_by columns for clustering; if FALSE - can cause very small clusters in case of high resolution genotyping}
+
 \item{...}{Extra arguments for user-defined function.
 
 The default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
@@ -33,8 +35,6 @@ Other possible values are:
 \code{'lcs'} for longest common substring is defined as the longest string can be obtained by pairing characters from a and b while keeping the order of characters intact.
 
 In case of user-defined function, it should take x and y parameters as input and return \link{dist} object.}
-
-\item{.trim_genes}{If TRUE   - use only general gene values (e.g. "IGHV1-18") of .group_by columns for clustering; if FALSE - can cause very small clusters in case of high resolution genotyping}
 }
 \value{
 Named list of list with \link{dist} objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.

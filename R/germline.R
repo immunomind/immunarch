@@ -8,6 +8,7 @@
 #' @importFrom purrr imap map_dfr
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom dplyr filter rowwise
+#' @importFrom tidyselect any_of
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
 #' @importFrom ape as.DNAbin clustal
 #'
