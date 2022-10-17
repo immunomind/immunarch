@@ -13,7 +13,7 @@
 #' @usage
 #'
 #' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
-#'  .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...)
+#'  .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, .trim_genes = TRUE, ...)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
@@ -70,10 +70,15 @@
 #' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, trim_genes = TRUE, ...) {
+seqDist <- function(.data,
+                    .col = "CDR3.nt",
+                    .method = "hamming",
+                    .group_by = c("V.name", "J.name"),
+                    .group_by_seqLength = TRUE,
+                    .trim_genes = TRUE, ...) {
   .validate_repertoires_data(.data)
   gr_by_is_na <- all(is.na(.group_by))
-  if (trim_genes) {
+  if (.trim_genes) {
     for (colname in .group_by) {
       .data <- add_column_with_first_gene(.data, colname)
     }
@@ -126,6 +131,6 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
   attributes(result)[["col"]] <- .col
   attributes(result)[["group_by"]] <- .group_by
   attributes(result)[["group_by_length"]] <- .group_by_seqLength
-  attributes(result)[["trimmed"]] <- trim_genes
+  attributes(result)[["trimmed"]] <- .trim_genes
   return(result)
 }
