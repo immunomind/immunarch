@@ -13,7 +13,7 @@
 #' @usage
 #'
 #' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
-#'  .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...)
+#'  .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, .trim_genes = TRUE, ...)
 #'
 #' @param .data The data to be processed. Can be \link{data.frame},
 #' \link{data.table}, or a list of these objects.
@@ -27,6 +27,8 @@
 #' @param .group_by Character vector of column names to group sequence by. The default value is c("V.first", "J.first"). Columns "V.first" and "J.first" containing first genes without allele suffixes are calculated automatically from "V.name" and "J.name" if absent in the data. Pass NA for no grouping options.
 #'
 #' @param .group_by_seqLength If TRUE  - adds grouping by sequence length of .col argument
+#'
+#' @param .trim_genes If TRUE   - use only general gene values (e.g. "IGHV1-18") of .group_by columns for clustering; if FALSE - can cause very small clusters in case of high resolution genotyping
 #'
 #' @param ... Extra arguments for user-defined function.
 #'
@@ -68,23 +70,18 @@
 #' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
 #' @export seqDist
 
-seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c("V.first", "J.first"), .group_by_seqLength = TRUE, ...) {
+seqDist <- function(.data,
+                    .col = "CDR3.nt",
+                    .method = "hamming",
+                    .group_by = c("V.name", "J.name"),
+                    .group_by_seqLength = TRUE,
+                    .trim_genes = TRUE, ...) {
   .validate_repertoires_data(.data)
   gr_by_is_na <- all(is.na(.group_by))
-  # prepare columns with 1st V and J genes if they are used, but not yet calculated
-  if ("V.first" %in% .group_by) {
-    .data %<>% apply_to_sample_or_list(
-      add_column_with_first_gene,
-      .original_colname = "V.name",
-      .target_colname = "V.first"
-    )
-  }
-  if ("J.first" %in% .group_by) {
-    .data %<>% apply_to_sample_or_list(
-      add_column_with_first_gene,
-      .original_colname = "J.name",
-      .target_colname = "J.first"
-    )
+  if (.trim_genes) {
+    for (colname in .group_by) {
+      .data <- add_column_with_first_gene(.data, colname)
+    }
   }
   # Since seqDist works with any columns of string type, classic .col values are not suported
   if (.col %in% c("aa", "nt", "v", "j", "aa+v")) stop("Please, provide full column name")
@@ -126,14 +123,14 @@ seqDist <- function(.data, .col = "CDR3.nt", .method = "hamming", .group_by = c(
       if (!gr_by_is_na) {
         group_by_values <- map(res_data, ~ .x %>%
           group_keys() %>%
-          select_if(is.character) %>%
-          unite("values", sep = "/"))
-        result <- map2(result, group_by_values, ~ map2(.x, .y$values, function(x, y) set_attr(x, "group_values", y)))
+          select_if(is.character))
+        result <- map2(result, group_by_values, ~ map2(.x, pmap(.y, c), function(x, y) set_attr(x, "group_values", y)))
       }
     }
   }
   attributes(result)[["col"]] <- .col
   attributes(result)[["group_by"]] <- .group_by
   attributes(result)[["group_by_length"]] <- .group_by_seqLength
+  attributes(result)[["trimmed"]] <- .trim_genes
   return(result)
 }

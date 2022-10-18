@@ -30,7 +30,7 @@ Some of its features include:
 - Extracting repertoire data even from regular RNA-Seq
 - Successfully analysing full-length antibody data
 
-Find more info about MiXCR at <a href="https://milaboratory.com/software/mixcr/">here</a>
+Find more info about MiXCR at <a href="https://mixcr.readthedocs.io/en/master/">here</a>
 
 # Prepare MiXCR Data
 Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data. **Important Note:** Currently supports MiXCR version 3 and above.
@@ -251,4 +251,4 @@ $meta
 3 analysis.clonotypes.IGH_3 F         3 A
 ```
 
-Congrats! Now your data is ready for exploration. Follow the steps [here](https://immunarch.com/articles/v3_basic_analysis.html) to learn more about how to explore your dataset.
+Congrats! Now your data is ready for exploration. Follow the steps [here](https://immunarch.com/articles/web_only/v3_basic_analysis.html) to learn more about how to explore your dataset.

@@ -135,6 +135,7 @@ reference:
   - has_concept("germline")
   - has_concept("align_lineage")
   - has_concept("phylip")
+  - has_concept("somatic_hypermutation")
 - title: Basic immune repertoire statistics
 - subtitle: Exploratory data analysis
   contents:

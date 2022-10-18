@@ -251,7 +251,6 @@ translate_bunch <- bunch_translate
 
 
 check_group_names <- function(.meta, .by) {
-  names_to_check <- c()
   if (is.null(.by)) {
     names_to_check <- .by
   } else {
@@ -304,7 +303,6 @@ process_metadata_arguments <- function(.data, .by, .meta = NA, .data.sample.col 
   if (!is.na(.by)[1]) {
     if (!is.na(.meta)[1]) {
       data_groups <- group_from_metadata(.by, .meta)
-      # group_name = .by
       group_name <- paste0(.by, collapse = "; ")
       is_grouped <- TRUE
       data_group_names <- .meta[[.meta.sample.col]]
@@ -330,7 +328,6 @@ process_metadata_arguments <- function(.data, .by, .meta = NA, .data.sample.col 
   }
   names(data_groups) <- data_group_names
   group_vec <- data_groups[.data[[.data.sample.col]]]
-  # group_column = stringr::str_sort(data_groups[.data[[.data.sample.col]]], numeric = TRUE)
   group_vec_sorted <- stringr::str_sort(group_vec, numeric = TRUE)
   group_column <- factor(group_vec, levels = unique(group_vec_sorted))
 
@@ -490,7 +487,7 @@ as_numeric_or_fail <- function(.string) {
 }
 
 has_no_data <- function(.data) {
-  any(sapply(list(NA, NULL, NaN), identical, .data))
+  any(sapply(list(NA, NULL, NaN), identical, .data)) | all(is.na(.data))
 }
 
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
@@ -527,7 +524,7 @@ apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .vali
 }
 
 # return TRUE if target column doesn't exist, otherwise FALSE; stop if original column doesn't exist
-validate_columns <- function(.data, .original_colname, .target_colname) {
+validate_columns <- function(.data, .original_colname, .target_colname = NA) {
   if (!(.original_colname %in% colnames(.data))) {
     stop(
       "Trying to get data from missing column ",
@@ -536,8 +533,13 @@ validate_columns <- function(.data, .original_colname, .target_colname) {
       colnames(.data)
     )
   }
-  # FALSE return value means that the column was previously added and no need to add it again
-  return(!(.target_colname %in% colnames(.data)))
+  if (is.na(.target_colname)) {
+    # skip target check if target column is not specified
+    return(TRUE)
+  } else {
+    # FALSE return value means that the column was previously added and no need to add it again
+    return(!(.target_colname %in% colnames(.data)))
+  }
 }
 
 # get genes from original column, remove alleles and write to target column
@@ -568,29 +570,20 @@ add_column_without_alleles <- function(.data, .original_colname, .target_colname
   return(.data)
 }
 
-add_column_with_first_gene <- function(.data, .original_colname, .target_colname, .with_allele = FALSE) {
-  if (validate_columns(.data, .original_colname, .target_colname)) {
-    .data[[.target_colname]] <- .data[[.original_colname]] %>% sapply(
-      function(genes_string) {
-        if (.with_allele) {
-          genes_string %<>%
-            # first allele is substring until first ',' or '(' in string taken from column with gene names
-            strsplit(",|\\(") %>%
-            unlist() %>%
-            magrittr::extract2(1) %>%
-            # MiXCR uses *00 for unknown alleles; replace *00 to *01 to find them in reference
-            stringr::str_replace(stringr::fixed("*00"), "*01")
-        } else {
-          genes_string %<>%
-            # first gene is substring until first ',', '(' or '*'
-            strsplit(",|\\(|\\*") %>%
-            unlist() %>%
-            magrittr::extract2(1)
-        }
-        return(genes_string)
+# if .target_colname is not set, it will overwrite the original column
+add_column_with_first_gene <- function(.data, .original_colname, .target_colname = NA) {
+  .data %<>% apply_to_sample_or_list(.validate = FALSE, .function = function(df) {
+    if (validate_columns(df, .original_colname, .target_colname)) {
+      if (is.na(.target_colname)) {
+        .target_colname <- .original_colname
       }
-    )
-  }
+      df[[.target_colname]] <- df[[.original_colname]] %>% sapply(function(genes_string) {
+        # first gene is substring until first ',', '(' or '*'
+        unlist(strsplit(genes_string, ",|\\(|\\*"))[1]
+      })
+    }
+    return(df)
+  })
   return(.data)
 }
 
@@ -603,11 +596,16 @@ optional_sample <- function(prefix, sample_name, suffix) {
   }
 }
 
-require_system_package <- function(package, error_message, .nofail = FALSE, .prev_failed = FALSE) {
+# executable_names can contain 1 name or vector of multiple options how it can be named
+require_system_package <- function(executable_names,
+                                   error_message,
+                                   .nofail = FALSE,
+                                   .prev_failed = FALSE) {
   if (.nofail & .prev_failed) {
     return(FALSE)
   }
-  if (Sys.which(package) == "") {
+  package_not_exist <- all(unlist(purrr::map(Sys.which(executable_names), identical, "")))
+  if (package_not_exist) {
     if (.nofail) {
       cat(error_message)
       return(FALSE)
@@ -616,16 +614,6 @@ require_system_package <- function(package, error_message, .nofail = FALSE, .pre
     }
   }
   return(TRUE)
-}
-
-# calculate V gene part length outside of CDR3; works with vectors acquired from dataframe columns
-v_len_outside_cdr3 <- function(v_end, cdr3_start) {
-  pmin(v_end, as.numeric(cdr3_start))
-}
-
-# calculate J gene part length outside of CDR3; works with vectors acquired from dataframe columns
-j_len_outside_cdr3 <- function(seq, j_start, cdr3_end) {
-  stringr::str_length(seq) - pmax(j_start, as.numeric(cdr3_end))
 }
 
 convert_seq_list_to_dnabin <- function(seq_list) {
@@ -654,5 +642,23 @@ quiet <- function(procedure, capture_output = FALSE) {
       invisible() %>%
       suppressMessages() %>%
       suppressWarnings()
+  }
+}
+
+# call normal or parallel apply, depending on existence of parallelization cluster
+par_or_normal_apply <- function(cluster, ...) {
+  if (has_no_data(cluster)) {
+    return(apply(...))
+  } else {
+    return(parApply(cluster, ...))
+  }
+}
+
+# call normal or parallel lapply, depending on mc.cores
+par_or_normal_lapply <- function(mc.preschedule, mc.cores, ...) {
+  if (mc.cores == 1) {
+    return(lapply(...))
+  } else {
+    return(mclapply(..., mc.preschedule = mc.preschedule, mc.cores = mc.cores))
   }
 }

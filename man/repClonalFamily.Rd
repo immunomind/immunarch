@@ -7,8 +7,7 @@
 repClonalFamily(.data, .threads, .nofail)
 }
 \arguments{
-\item{.data}{The data to be processed. Can be output of repAlignLineage() with normal
-or verbose output; variants with one sample and list of samples are both supported.}
+\item{.data}{The data to be processed, output of repAlignLineage() function.}
 
 \item{.threads}{Number of threads to use.}
 
@@ -19,16 +18,10 @@ Used to avoid raising errors in examples on computers where PHYLIP is not instal
 Dataframe or list of dataframes (if input is a list with multiple samples).
 The dataframe has these columns:
 * Cluster: cluster name
-* Germline.Input: germline sequence, like it was in the input; not trimmed and not aligned
-* V.germline.nt: input germline V gene sequence
-* J.germline.nt: input germline J gene sequence
-* CDR3.germline.length: length of CDR3 in input germline
-* V.length: length of V gene after trimming on repAlignLineage() step
-* J.length: length of j gene after trimming on repAlignLineage() step
+* Germline.Input: germline sequence, like it was in the input; not aligned
 * Germline.Output: germline sequence, parsed from PHYLIP dnapars function output;
   it contains difference of germline from the common ancestor; "." characters mean
-  matching letters. It's usually shorter than Germline.Input, because germline and
-  clonotype sequences were trimmed to the same length before alignment.
+  matching letters
 * Common.Ancestor: common ancestor sequence, parsed from PHYLIP dnapars function output
 * Trunk.Length: mean trunk length, representing the distance between the most recent
   common ancestor and germline sequence as a measure of the maturity of a lineage
