@@ -60,7 +60,7 @@
 #'   repClonalFamily(.threads = 1, .nofail = TRUE)
 #' @export repClonalFamily
 repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
-  if (!require_system_package("phylip", error_message = paste0(
+  if (!require_system_package(c("phylip", "dnapars"), error_message = paste0(
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
@@ -127,8 +127,9 @@ process_cluster <- function(cluster_row) {
   # these \t are also used to read outfile as table
   rownames(alignment) %<>% paste0("\t")
   phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
+  dnapars <- if (Sys.which("phylip") == "") "dnapars" else "phylip dnapars"
   system(
-    paste0("sh -c \"cd ", temp_dir, "; phylip dnapars infile\""),
+    paste0("sh -c \"cd ", temp_dir, "; ", dnapars, " infile\""),
     input = (c("V", 1, 5, ".", "Y"))
   ) %>%
     quiet(capture_output = TRUE)
