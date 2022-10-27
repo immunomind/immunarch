@@ -122,6 +122,7 @@ process_cluster <- function(cluster_row) {
   cluster_name <- cluster_row[["Cluster"]]
 
   fsep <- if (.Platform$OS.type == "windows") "\\" else "/"
+  shell <- if (.Platform$OS.type == "windows") "powershell /c " else "sh -c "
   temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE), fsep = fsep)
   dir.create(temp_dir)
   # workaround for phylip: it shows "Unexpected end-of-file" for too short sequence labels;
@@ -130,7 +131,7 @@ process_cluster <- function(cluster_row) {
   phangorn::write.phyDat(alignment, file.path(temp_dir, "infile", fsep = fsep))
   dnapars <- if (Sys.which("phylip") == "") "dnapars" else "phylip dnapars"
   system(
-    paste0("sh -c \"cd ", temp_dir, "; ", dnapars, " infile\""),
+    paste0(shell, "\"cd ", temp_dir, "; ", dnapars, " infile\""),
     input = (c("V", 1, 5, ".", "Y"))
   ) %>%
     quiet(capture_output = TRUE)
