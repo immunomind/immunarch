@@ -121,12 +121,13 @@ process_cluster <- function(cluster_row) {
   sequences <- cluster_row[["Sequences"]][[1]]
   cluster_name <- cluster_row[["Cluster"]]
 
-  temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
+  fsep <- if (.Platform$OS.type == "windows") "\\" else "/"
+  temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE), fsep = fsep)
   dir.create(temp_dir)
   # workaround for phylip: it shows "Unexpected end-of-file" for too short sequence labels;
   # these \t are also used to read outfile as table
   rownames(alignment) %<>% paste0("\t")
-  phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
+  phangorn::write.phyDat(alignment, file.path(temp_dir, "infile", fsep = fsep))
   dnapars <- if (Sys.which("phylip") == "") "dnapars" else "phylip dnapars"
   system(
     paste0("sh -c \"cd ", temp_dir, "; ", dnapars, " infile\""),
@@ -134,9 +135,9 @@ process_cluster <- function(cluster_row) {
   ) %>%
     quiet(capture_output = TRUE)
 
-  tree <- ape::read.tree(file.path(temp_dir, "outtree"))
+  tree <- ape::read.tree(file.path(temp_dir, "outtree", fsep = fsep))
 
-  outfile_path <- file.path(temp_dir, "outfile")
+  outfile_path <- file.path(temp_dir, "outfile", fsep = fsep)
   outfile_table <- read.table(outfile_path,
     sep = "\t", header = FALSE, na.strings = "", stringsAsFactors = FALSE,
     fill = TRUE, blank.lines.skip = TRUE
