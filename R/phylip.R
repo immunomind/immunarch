@@ -60,7 +60,7 @@
 #'   repClonalFamily(.threads = 1, .nofail = TRUE)
 #' @export repClonalFamily
 repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
-  if (!require_system_package("phylip", error_message = paste0(
+  if (!require_system_package(c("phylip", "dnapars"), error_message = paste0(
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
     "https://evolution.genetics.washington.edu/phylip/install.html"
@@ -121,21 +121,24 @@ process_cluster <- function(cluster_row) {
   sequences <- cluster_row[["Sequences"]][[1]]
   cluster_name <- cluster_row[["Cluster"]]
 
-  temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE))
+  fsep <- if (.Platform$OS.type == "windows") "\\" else "/"
+  shell <- if (.Platform$OS.type == "windows") "powershell /c " else "sh -c "
+  temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE), fsep = fsep)
   dir.create(temp_dir)
   # workaround for phylip: it shows "Unexpected end-of-file" for too short sequence labels;
   # these \t are also used to read outfile as table
   rownames(alignment) %<>% paste0("\t")
-  phangorn::write.phyDat(alignment, file.path(temp_dir, "infile"))
+  phangorn::write.phyDat(alignment, file.path(temp_dir, "infile", fsep = fsep))
+  dnapars <- if (Sys.which("phylip") == "") "dnapars" else "phylip dnapars"
   system(
-    paste0("sh -c \"cd ", temp_dir, "; phylip dnapars infile\""),
+    paste0(shell, "\"cd ", temp_dir, "; ", dnapars, " infile\""),
     input = (c("V", 1, 5, ".", "Y"))
   ) %>%
     quiet(capture_output = TRUE)
 
-  tree <- ape::read.tree(file.path(temp_dir, "outtree"))
+  tree <- ape::read.tree(file.path(temp_dir, "outtree", fsep = fsep))
 
-  outfile_path <- file.path(temp_dir, "outfile")
+  outfile_path <- file.path(temp_dir, "outfile", fsep = fsep)
   outfile_table <- read.table(outfile_path,
     sep = "\t", header = FALSE, na.strings = "", stringsAsFactors = FALSE,
     fill = TRUE, blank.lines.skip = TRUE
