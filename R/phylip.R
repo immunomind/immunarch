@@ -21,9 +21,17 @@
 #'
 #' @usage
 #'
-#' repClonalFamily(.data, .threads, .nofail)
+#' repClonalFamily(.data, .vis_groups, .threads, .nofail)
 #'
 #' @param .data The data to be processed, output of repAlignLineage() function.
+#'
+#' @param .vis_groups Groups for visualization, used to annotate specific clones on chart
+#' and display them in different colors. This is a named list, where names are for the chart legend,
+#' and list items are clone IDs that belong to the groups. It's not necessary to assign groups to
+#' all clonotypes; unassigned ones will be displayed on the chart as "Clonotype" category.
+#' It's also possible to assign multiple clonotypes to the same group by providing nested lists
+#' or vectors of clone IDs instead of single clone IDs.
+#' Example: .vis_groups = list(A = 817, B = 201, C = list(303, 42))
 #'
 #' @param .threads Number of threads to use.
 #'
@@ -59,7 +67,10 @@
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
 #'   repClonalFamily(.threads = 1, .nofail = TRUE)
 #' @export repClonalFamily
-repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
+repClonalFamily <- function(.data,
+                            .vis_groups = NA,
+                            .threads = parallel::detectCores(),
+                            .nofail = FALSE) {
   if (!require_system_package(c("phylip", "dnapars"), error_message = paste0(
     "repLineagePhylogeny requires PHYLIP app to be installed!\n",
     "Please install it as described here:\n",
@@ -68,18 +79,34 @@ repClonalFamily <- function(.data, .threads = parallel::detectCores(), .nofail =
     return(get_empty_object_with_class("step_failure_ignored"))
   }
 
+  if (has_no_data(.vis_groups)) {
+    vis_groups <- NA
+  } else {
+    # switch keys and values of vis_groups and extract nested lists of clone IDs
+    vis_groups <- list()
+    for (i in seq_along(.vis_groups)) {
+      group_name <- names(.vis_groups)[i]
+      for (clone_id in unlist(.vis_groups[[i]])) {
+        vis_groups_element <- group_name
+        names(vis_groups_element) <- clone_id
+        vis_groups %<>% append(vis_groups_element)
+      }
+    }
+  }
+
   results <- .data %>%
     apply_to_sample_or_list(
       process_dataframe,
       .with_names = TRUE,
       .validate = FALSE,
+      vis_groups = vis_groups,
       .threads = .threads
     ) %>%
     add_class("clonal_family")
   return(results)
 }
 
-process_dataframe <- function(df, .threads, sample_name = NA) {
+process_dataframe <- function(df, vis_groups, .threads, sample_name = NA) {
   required_columns <- c("Cluster", "Germline", "Alignment", "Sequences")
   for (column in required_columns) {
     if (!(column %in% colnames(df))) {
@@ -108,13 +135,14 @@ process_dataframe <- function(df, .threads, sample_name = NA) {
     clusters_list,
     process_cluster,
     mc.preschedule = FALSE,
-    mc.cores = .threads
+    mc.cores = .threads,
+    vis_groups = vis_groups
   ) %>%
     convert_nested_to_df()
   return(results)
 }
 
-process_cluster <- function(cluster_row) {
+process_cluster <- function(cluster_row, vis_groups) {
   # alignment, sequences and aa_frame_starts should be extracted from 1-element lists
   # because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]
@@ -292,6 +320,16 @@ process_cluster <- function(cluster_row) {
         )
       }
       tree_stats[row, "DistanceAA"] <- sum(seq_aa_chars != ancestor_aa_chars)
+    }
+
+    # assign visualization group for current sequence if specified
+    if (!has_no_data(vis_groups)) {
+      if (tree_stats[row, "Type"] == "Clonotype") {
+        seq_id <- substring(tree_stats[row, "Name"], 4)
+        if (seq_id %in% names(vis_groups)) {
+          tree_stats[row, "Type"] <- vis_groups[[seq_id]]
+        }
+      }
     }
   }
 
