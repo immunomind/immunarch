@@ -59,6 +59,8 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @param .coding A logical value. Set TRUE to get coding-only clonotypes (by defaul). Set FALSE to get all clonotypes.
 #'
+#' @param ... Extra arguments for parsing functions
+#'
 #' @details
 #' The metadata has to be a tab delimited file with first column named "Sample".
 #' It can have any number of additional columns with arbitrary names.
@@ -135,14 +137,14 @@ if (getRversion() >= "2.15.1") {
 #' # > names(immdata)
 #' # [1] "data" "meta"
 #' @export repLoad
-repLoad <- function(.path, .mode = "paired", .coding = TRUE) {
+repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
   exclude_extensions <- c(
     "so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca"
   )
 
   # Process a repertoire file: detect format and load the data
   # Return: a named list with a repertoire data frame and it's name
-  .read_repertoire <- function(.path, .mode, .coding) {
+  .read_repertoire <- function(.path, .mode, .coding, ...) {
     parse_res <- list()
     cur_format <- .detect_format(.path)
 
@@ -176,7 +178,7 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE) {
       if (suppressWarnings(is.na(parse_fun))) {
         message("unknown format, skipping")
       } else {
-        parse_res <- parse_fun(.path, .mode)
+        parse_res <- parse_fun(.path, .mode, ...)
 
         if (is.null(parse_res)) {
           message("  [!] Warning: zero clonotypes found, skipping")
@@ -233,7 +235,7 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE) {
         } else if (stringr::str_detect(.filepath, "barcode")) {
           # TODO: add the barcode processing subroutine to split by samples
         } else {
-          repertoire <- .read_repertoire(.filepath, .mode, .coding)
+          repertoire <- .read_repertoire(.filepath, .mode, .coding, ...)
           if (length(repertoire) != 0) {
             parsed_batch <- c(parsed_batch, repertoire)
           }

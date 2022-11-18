@@ -399,10 +399,10 @@ parse_mitcr <- function(.filename, .mode) {
   )
 }
 
-parse_mixcr <- function(.filename, .mode) {
+parse_mixcr <- function(.filename, .mode, .count = c("clonecount", "readcount")) {
   .filename <- .filename
   .id <- "cloneid"
-  .count <- "clonecount"
+  .count %<>% tolower()
   .sep <- "\t"
   .vd.insertions <- "VD.insertions"
   .dj.insertions <- "DJ.insertions"
@@ -677,7 +677,7 @@ parse_mixcr <- function(.filename, .mode) {
     df[[pos_extra_headers[["j3del"]]]] <- sapply(df[["refpoints"]], get_ref_point_position, 18)
   }
 
-  if (!(.count %in% table.colnames)) {
+  if (!any(.count %in% table.colnames)) {
     warn_msg <- c("  [!] Warning: can't find a column with clonal counts. Setting all clonal counts to 1.")
     warn_msg <- c(warn_msg, "\n      Did you apply repLoad to MiXCR file *_alignments.txt?")
     warn_msg <- c(warn_msg, " If so please consider moving all *.clonotypes.*.txt MiXCR files to")
@@ -685,8 +685,13 @@ parse_mixcr <- function(.filename, .mode) {
     warn_msg <- c(warn_msg, "\n      Note: The *_alignments.txt file IS NOT a repertoire file suitable for any analysis.")
     message(warn_msg)
 
+    .count <- .count[1]
     df[[.count]] <- 1
+  } else if (length(.count) > 1) {
+    # if multiple column name options specified for .count, keep only the first valid
+    .count <- .count[.count %in% table.colnames][1]
   }
+
   .freq <- "Proportion"
   df$Proportion <- df[[.count]] / sum(df[[.count]], na.rm = TRUE)
 

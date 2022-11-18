@@ -4,7 +4,7 @@
 \alias{repLoad}
 \title{Load immune repertoire files into the R workspace}
 \usage{
-repLoad(.path, .mode = "paired", .coding = TRUE)
+repLoad(.path, .mode = "paired", .coding = TRUE, ...)
 }
 \arguments{
 \item{.path}{A character string specifying the path to the input data.
@@ -33,6 +33,8 @@ Currently "single" works for every format, and "paired" works only for 10X Genom
 By default, 10X Genomics data will be loaded as paired chain data, and other files will be loaded as single chain data.}
 
 \item{.coding}{A logical value. Set TRUE to get coding-only clonotypes (by defaul). Set FALSE to get all clonotypes.}
+
+\item{...}{Extra arguments for parsing functions}
 }
 \value{
 A list with two named elements:
