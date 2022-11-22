@@ -9,7 +9,6 @@
 #' @importFrom plyr dlply .
 #' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
-#' @importFrom utils str
 #' @importFrom ape as.DNAbin clustal
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom parallel mclapply
@@ -117,7 +116,7 @@ align_single_df <- function(data,
         "Found dataframe without required column ",
         required_column,
         ";\nexisting columns: ",
-        utils::str(colnames(data))
+        toString(colnames(data))
       )
     }
   }
