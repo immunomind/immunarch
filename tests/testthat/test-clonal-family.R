@@ -110,6 +110,6 @@ for (i in seq_along(negative_test_cases)) {
   # Act, Assert
   test_that(
     test_name,
-    expect_error(do.call(repAlignLineage, args))
+    expect_error(do.call(repClonalFamily, args))
   )
 }
