@@ -1057,7 +1057,7 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
   setDT(df)
 
   if (.mode == "paired") {
-    df <- df %>%
+    df %<>%
       lazy_dt() %>%
       group_by(barcode, raw_clonotype_id) %>%
       summarise(
@@ -1076,13 +1076,21 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
       as.data.table()
   }
 
-  df <- df %>%
+  df %<>%
     lazy_dt() %>%
-    group_by(CDR3.nt, V.name, J.name) %>%
+    mutate(
+      CDR3.nt.sorted = sort_string(get("CDR3.nt"), IMMCOL_ADD$scsep),
+      V.name.sorted = sort_string(get("V.name"), IMMCOL_ADD$scsep),
+      J.name.sorted = sort_string(get("J.name"), IMMCOL_ADD$scsep)
+    ) %>%
+    group_by(CDR3.nt.sorted, V.name.sorted, J.name.sorted) %>%
     summarise(
       Clones = length(unique(get("barcode"))),
+      CDR3.nt = first(get("CDR3.nt")),
       CDR3.aa = first(get("CDR3.aa")),
+      V.name = first(get("V.name")),
       D.name = first(get("D.name")),
+      J.name = first(get("J.name")),
       chain = first(get("chain")),
       barcode = paste0(unique(get("barcode")), collapse = IMMCOL_ADD$scsep),
       raw_clonotype_id = gsub(
@@ -1092,7 +1100,10 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
       contig_id = paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep),
       c_gene = first(get("c_gene"))
     ) %>%
-    as.data.table()
+    as.data.table() %>%
+    subset(
+      select = -c(get("CDR3.nt.sorted"), get("V.name.sorted"), get("J.name.sorted"))
+    )
 
   df$V.end <- NA
   df$J.start <- NA

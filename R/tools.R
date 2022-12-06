@@ -486,6 +486,10 @@ as_numeric_or_fail <- function(.string) {
   return(result)
 }
 
+sort_string <- function(.string, .delim) {
+  map_chr(strsplit(.string, .delim), ~ paste(sort(.x), collapse = .delim))
+}
+
 has_no_data <- function(.data) {
   any(sapply(list(NA, NULL, NaN), identical, .data)) | all(is.na(.data))
 }
