@@ -1044,8 +1044,12 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
     .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
     .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-    .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
-    .add = c("chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene")
+    .skip = 0, .sep = ",",
+    .add = c(
+      "chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene",
+      "cdr1", "cdr1_aa", "cdr2", "cdr2_aa", "cdr3", "cdr3_aa",
+      "fwr1", "fwr1_aa", "fwr2", "fwr2_aa", "fwr3", "fwr3_aa", "fwr4", "fwr4_aa"
+    )
   )
 
   # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
