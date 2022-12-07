@@ -964,19 +964,26 @@ parse_airr <- function(.filename, .mode) {
     .as_tsv() %>%
     airr::read_rearrangement()
 
-  df <- df %>%
+  df %<>%
     select(
       sequence, v_call, d_call, j_call, junction, junction_aa,
       contains("v_germline_end"), contains("d_germline_start"), contains("d_germline_end"),
       contains("j_germline_start"), contains("np1_length"), contains("np2_length"),
-      contains("duplicate_count")
+      contains("duplicate_count"),
+      cdr1, cdr2, cdr1_aa, cdr2_aa, fwr1, fwr2, fwr3, fwr4, fwr1_aa, fwr2_aa, fwr3_aa, fwr4_aa
     )
 
   namekey <- c(
     duplicate_count = IMMCOL$count, junction = IMMCOL$cdr3nt, junction_aa = IMMCOL$cdr3aa,
     v_call = IMMCOL$v, d_call = IMMCOL$d, j_call = IMMCOL$j, v_germline_end = IMMCOL$ve,
     d_germline_start = IMMCOL$ds, d_germline_end = IMMCOL$de, j_germline_start = IMMCOL$js,
-    np1_length = "unidins", np2_length = IMMCOL$dnj, sequence = IMMCOL$seq
+    np1_length = "unidins", np2_length = IMMCOL$dnj, sequence = IMMCOL$seq,
+    cdr1 = IMMCOL_EXT$cdr1nt, cdr2 = IMMCOL_EXT$cdr2nt,
+    cdr1_aa = IMMCOL_EXT$cdr1aa, cdr2_aa = IMMCOL_EXT$cdr2aa,
+    fwr1 = IMMCOL_EXT$fr1nt, fwr2 = IMMCOL_EXT$fr2nt,
+    fwr3 = IMMCOL_EXT$fr3nt, fwr4 = IMMCOL_EXT$fr4nt,
+    fwr1_aa = IMMCOL_EXT$fr1aa, fwr2_aa = IMMCOL_EXT$fr2aa,
+    fwr3_aa = IMMCOL_EXT$fr3aa, fwr4_aa = IMMCOL_EXT$fr4aa
   )
 
   names(df) <- namekey[names(df)]
@@ -998,13 +1005,15 @@ parse_airr <- function(.filename, .mode) {
     }
   }
 
-  for (column in IMMCOL$order) {
+  order <- c(IMMCOL$order, IMMCOL_EXT$order[IMMCOL_EXT$order %in% namekey])
+
+  for (column in order) {
     if (!(column %in% colnames(df))) {
       df[column] <- NA
     }
   }
 
-  df <- df[IMMCOL$order]
+  df <- df[order]
   total <- sum(df$Clones)
   df[IMMCOL$prop] <- df[IMMCOL$count] / total
   df[IMMCOL$seq] <- stringr::str_remove_all(df[[IMMCOL$seq]], "N")
