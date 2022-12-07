@@ -1047,10 +1047,23 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
     .skip = 0, .sep = ",",
     .add = c(
       "chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene",
-      "cdr1", "cdr1_aa", "cdr2", "cdr2_aa", "cdr3", "cdr3_aa",
-      "fwr1", "fwr1_aa", "fwr2", "fwr2_aa", "fwr3", "fwr3_aa", "fwr4", "fwr4_aa"
+      "cdr1_nt", "cdr1", "cdr2_nt", "cdr2",
+      "fwr1_nt", "fwr1", "fwr2_nt", "fwr2", "fwr3_nt", "fwr3", "fwr4_nt", "fwr4"
     )
   )
+
+  setnames(df, "cdr1_nt", IMMCOL_EXT$cdr1nt)
+  setnames(df, "cdr2_nt", IMMCOL_EXT$cdr2nt)
+  setnames(df, "cdr1", IMMCOL_EXT$cdr1aa)
+  setnames(df, "cdr2", IMMCOL_EXT$cdr2aa)
+  setnames(df, "fwr1_nt", IMMCOL_EXT$fr1nt)
+  setnames(df, "fwr2_nt", IMMCOL_EXT$fr2nt)
+  setnames(df, "fwr3_nt", IMMCOL_EXT$fr3nt)
+  setnames(df, "fwr4_nt", IMMCOL_EXT$fr4nt)
+  setnames(df, "fwr1", IMMCOL_EXT$fr1aa)
+  setnames(df, "fwr2", IMMCOL_EXT$fr2aa)
+  setnames(df, "fwr3", IMMCOL_EXT$fr3aa)
+  setnames(df, "fwr4", IMMCOL_EXT$fr4aa)
 
   # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
   df <- df[order(df$chain), ]
@@ -1061,8 +1074,20 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
       lazy_dt() %>%
       group_by(barcode, raw_clonotype_id) %>%
       summarise(
+        CDR1.nt = paste0(get("CDR1.nt"), collapse = IMMCOL_ADD$scsep),
+        CDR1.aa = paste0(get("CDR1.aa"), collapse = IMMCOL_ADD$scsep),
+        CDR2.nt = paste0(get("CDR2.nt"), collapse = IMMCOL_ADD$scsep),
+        CDR2.aa = paste0(get("CDR2.aa"), collapse = IMMCOL_ADD$scsep),
         CDR3.nt = paste0(get("CDR3.nt"), collapse = IMMCOL_ADD$scsep),
         CDR3.aa = paste0(get("CDR3.aa"), collapse = IMMCOL_ADD$scsep),
+        FR1.nt = paste0(get("FR1.nt"), collapse = IMMCOL_ADD$scsep),
+        FR1.aa = paste0(get("FR1.aa"), collapse = IMMCOL_ADD$scsep),
+        FR2.nt = paste0(get("FR2.nt"), collapse = IMMCOL_ADD$scsep),
+        FR2.aa = paste0(get("FR2.aa"), collapse = IMMCOL_ADD$scsep),
+        FR3.nt = paste0(get("FR3.nt"), collapse = IMMCOL_ADD$scsep),
+        FR3.aa = paste0(get("FR3.aa"), collapse = IMMCOL_ADD$scsep),
+        FR4.nt = paste0(get("FR4.nt"), collapse = IMMCOL_ADD$scsep),
+        FR4.aa = paste0(get("FR4.aa"), collapse = IMMCOL_ADD$scsep),
         V.name = paste0(get("V.name"), collapse = IMMCOL_ADD$scsep),
         J.name = paste0(get("J.name"), collapse = IMMCOL_ADD$scsep),
         D.name = paste0(get("D.name"), collapse = IMMCOL_ADD$scsep),
@@ -1098,7 +1123,19 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
         paste0(unique(get("raw_clonotype_id")), collapse = IMMCOL_ADD$scsep)
       ),
       contig_id = paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep),
-      c_gene = first(get("c_gene"))
+      c_gene = first(get("c_gene")),
+      CDR1.nt = first(get(IMMCOL_EXT$cdr1nt)),
+      CDR2.nt = first(get(IMMCOL_EXT$cdr2nt)),
+      CDR1.aa = first(get(IMMCOL_EXT$cdr1aa)),
+      CDR2.aa = first(get(IMMCOL_EXT$cdr2aa)),
+      FR1.nt = first(get(IMMCOL_EXT$fr1nt)),
+      FR2.nt = first(get(IMMCOL_EXT$fr2nt)),
+      FR3.nt = first(get(IMMCOL_EXT$fr3nt)),
+      FR4.nt = first(get(IMMCOL_EXT$fr4nt)),
+      FR1.aa = first(get(IMMCOL_EXT$fr1aa)),
+      FR2.aa = first(get(IMMCOL_EXT$fr2aa)),
+      FR3.aa = first(get(IMMCOL_EXT$fr3aa)),
+      FR4.aa = first(get(IMMCOL_EXT$fr4aa))
     ) %>%
     as.data.table() %>%
     subset(
