@@ -44,11 +44,9 @@ The pipeline involves five steps:
 
     This step involves preparation for phylogenetic and somatic hypermutation analysis.
 
-
 5. **Phylogenetic analysis.**
 
     This step provides phylogeny reconstruction and trunk length calculation (by running the PHYLIP package).
-    
 
 6. **Somatic hypermutation analysis.**
 
@@ -131,9 +129,9 @@ bcrdata$data %>%
 `.species` - Specifies species from which reference V and J are taken.
 Available species: "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius", "CanisLupusFamiliaris", "DanioRerio", "MacacaMulatta", "MusMusculusDomesticus", "MusMusculusCastaneus", "MusMusculusMolossinus", "MusMusculusMusculus", "MusSpretus", "OncorhynchusMykiss", "OrnithorhynchusAnatinus", "OryctolagusCuniculus", "RattusNorvegicus", "SusScrofa".
 
-`.min_nuc_outside_cdr3` — this parameter sets how many nucleotides should have V or J chain outside of CDR3 to be considered good for further alignment. Reads with too short chains are filtered out
+`.min_nuc_outside_cdr3` - This parameter sets how many nucleotides should have V or J chain outside of CDR3 to be considered good for further alignment. Reads with too short chains are filtered out.
 
-`.align_j_gene` - if the germline sequence does not assemble correctly in the region of the J gene, then set this parameter to True. This will slow down the algorithm, but the assembly of the germline sequence will be more accurate.
+`.threads` - The number of threads to use.
 
 # Aligning sequences within a clonal lineage
 
@@ -169,7 +167,7 @@ The function has several parameters:
 # take clusters that contain at least 1 sequence
 bcr_data <- bcrdata$data
 align_dt <- bcr_data %>%
-  seqCluster(seqDist(bcr_data, .col = 'CDR3.nt', .group_by_seqLength = TRUE), 
+  seqCluster(seqDist(bcr_data, .col = 'CDR3.nt', .group_by_seqLength = TRUE),
              .perc_similarity = 0.6) %>%
   repGermline(.threads = 1) %>%
   repAlignLineage(.min_lineage_sequences = 6, .align_threads = 2, .nofail = TRUE)
@@ -219,7 +217,7 @@ sudo apt-get install -y phylip
 repClonalFamily usage example:
 
 ```{r example 10, results = 'hide'}
-bcr <-  align_dt %>%
+bcr <- align_dt %>%
   repClonalFamily(.threads = 2, .nofail = TRUE)
 #plot visualization of the first tree
 vis(bcr[["full_clones"]][["TreeStats"]][[1]])
@@ -240,6 +238,24 @@ f <- bcr[["full_clones"]][["TreeStats"]][[1]]
 f[f$DistanceAA != 0, ]['Type'] = 'mutationAA'
 #new tree
 vis(f)
+```
+
+Another way to recolor leaves is to use `.vis_groups` parameter for repClonalFamily. It allows to assign group names for specific clone IDs, or lists of clone IDs:
+
+```{r example 10.4, results = 'hide'}
+#get all clone IDs from align_dt
+clone_ids <- unnest(align_dt[["full_clones"]], "Sequences")[["Clone.ID"]]
+#run repClonalFamily with assigning some of these clones to differently named and colored groups
+bcr_with_groups <- align_dt %>%
+  repClonalFamily(.vis_groups = list(
+                    Group1 = clone_ids[1],
+                    Group2 = clone_ids[3],
+                    Group3 = list(clone_ids[5], clone_ids[2]),
+                    Group4 = c(clone_ids[7], clone_ids[4])
+                   ), .threads = 2, .nofail = TRUE
+                 )
+#display the first tree from repClonalFamily results
+vis(bcr_with_groups[["full_clones"]][["TreeStats"]][[1]])
 ```
 
 We have found 4 clusters:
@@ -324,9 +340,9 @@ shm_data$full_clones[ , cols ]
 Then you could easily estimate the mutation rate:
 
 ```{r example 19}
-# estimate mutation rate 
-shm_data$full_clones %>% 
-  mutate(Mutation.Rate = Mutations / (nchar(Common.Ancestor) - CDR3.germline.length)) %>% 
+# estimate mutation rate
+shm_data$full_clones %>%
+  mutate(Mutation.Rate = Mutations / (nchar(Common.Ancestor) - CDR3.germline.length)) %>%
   select(Clone.ID, Mutation.Rate)
 ```
 
