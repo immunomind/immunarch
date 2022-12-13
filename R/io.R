@@ -20,7 +20,7 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom jsonlite read_json
 #' @importFrom stringr str_split str_detect str_replace_all str_trim
 #' @importFrom methods as
-#' @importFrom dplyr contains first
+#' @importFrom dplyr contains first select_ group_by_at one_of
 #' @importFrom utils read.table
 #' @importFrom data.table setDF
 #'

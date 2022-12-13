@@ -494,6 +494,11 @@ has_no_data <- function(.data) {
   any(sapply(list(NA, NULL, NaN), identical, .data)) | all(is.na(.data))
 }
 
+# variant of group_by that takes column names as strings
+group_by_colnames <- function(.data, ...) {
+  group_by_at(.data, vars(one_of(...)))
+}
+
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples
 apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .validate = TRUE, ...) {
   if (has_no_data(.data)) {

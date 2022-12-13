@@ -834,8 +834,6 @@ parse_tcr <- function(.filename, .mode) {
 }
 
 parse_vdjtools <- function(.filename, .mode) {
-  skip <- 0
-
   # Check for different VDJtools outputs
   f <- file(.filename, "r")
   l <- readLines(f, 1)
@@ -965,12 +963,14 @@ parse_airr <- function(.filename, .mode) {
     airr::read_rearrangement()
 
   df %<>%
-    select(
-      sequence, v_call, d_call, j_call, junction, junction_aa,
-      contains("v_germline_end"), contains("d_germline_start"), contains("d_germline_end"),
-      contains("j_germline_start"), contains("np1_length"), contains("np2_length"),
-      contains("duplicate_count"),
-      cdr1, cdr2, cdr1_aa, cdr2_aa, fwr1, fwr2, fwr3, fwr4, fwr1_aa, fwr2_aa, fwr3_aa, fwr4_aa
+    select_(
+      "sequence", "v_call", "d_call", "j_call", "junction", "junction_aa",
+      ~contains("v_germline_end"), ~contains("d_germline_start"),
+      ~contains("d_germline_end"), ~contains("j_germline_start"),
+      ~contains("np1_length"), ~contains("np2_length"),
+      ~contains("duplicate_count"),
+      "cdr1", "cdr2", "cdr1_aa", "cdr2_aa", "fwr1", "fwr2", "fwr3", "fwr4",
+      "fwr1_aa", "fwr2_aa", "fwr3_aa", "fwr4_aa"
     )
 
   namekey <- c(
@@ -1081,7 +1081,7 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
   if (.mode == "paired") {
     df %<>%
       lazy_dt() %>%
-      group_by(barcode, raw_clonotype_id) %>%
+      group_by_colnames("barcode", "raw_clonotype_id") %>%
       summarise(
         CDR1.nt = paste0(get("CDR1.nt"), collapse = IMMCOL_ADD$scsep),
         CDR1.aa = paste0(get("CDR1.aa"), collapse = IMMCOL_ADD$scsep),
@@ -1117,7 +1117,7 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
       V.name.sorted = sort_string(get("V.name"), IMMCOL_ADD$scsep),
       J.name.sorted = sort_string(get("J.name"), IMMCOL_ADD$scsep)
     ) %>%
-    group_by(CDR3.nt.sorted, V.name.sorted, J.name.sorted) %>%
+    group_by_colnames("CDR3.nt.sorted", "V.name.sorted", "J.name.sorted") %>%
     summarise(
       Clones = length(unique(get("barcode"))),
       CDR3.nt = first(get("CDR3.nt")),
