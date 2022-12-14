@@ -84,6 +84,6 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 LazyData: true
 LazyDataCompression: xz

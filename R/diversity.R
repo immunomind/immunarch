@@ -14,6 +14,7 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom dplyr mutate group_by_at pull
 #' @importFrom stats qnorm
 #' @importFrom rlang sym
+#' @importFrom tidyselect all_of
 #'
 #' @description
 #' This is a utility function to estimate the diversity of species or objects in the given distribution.

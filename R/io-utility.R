@@ -76,7 +76,7 @@
 
 
 .make_names <- function(.char) {
-  if (is.na(.char[1])) {
+  if (has_no_data(.char)) {
     NA
   } else {
     tolower(.char)
@@ -136,8 +136,8 @@
     .vend, .jstart, .dstart, .dend,
     .vd.insertions, .dj.insertions, .total.insertions
   ))
-  if (!is.na(.add[1])) {
-    swlist <- c(swlist, rep(col_guess(), length(.add)))
+  if (!has_no_data(.add)) {
+    swlist <- c(swlist, rep(list(col_guess()), length(.add)))
     names(swlist)[tail(seq_along(swlist), length(.add))] <- .add
   }
 

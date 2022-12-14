@@ -834,8 +834,6 @@ parse_tcr <- function(.filename, .mode) {
 }
 
 parse_vdjtools <- function(.filename, .mode) {
-  skip <- 0
-
   # Check for different VDJtools outputs
   f <- file(.filename, "r")
   l <- readLines(f, 1)
@@ -964,19 +962,28 @@ parse_airr <- function(.filename, .mode) {
     .as_tsv() %>%
     airr::read_rearrangement()
 
-  df <- df %>%
-    select(
-      sequence, v_call, d_call, j_call, junction, junction_aa,
-      contains("v_germline_end"), contains("d_germline_start"), contains("d_germline_end"),
-      contains("j_germline_start"), contains("np1_length"), contains("np2_length"),
-      contains("duplicate_count")
+  df %<>%
+    select_(
+      "sequence", "v_call", "d_call", "j_call", "junction", "junction_aa",
+      ~contains("v_germline_end"), ~contains("d_germline_start"),
+      ~contains("d_germline_end"), ~contains("j_germline_start"),
+      ~contains("np1_length"), ~contains("np2_length"),
+      ~contains("duplicate_count"),
+      "cdr1", "cdr2", "cdr1_aa", "cdr2_aa", "fwr1", "fwr2", "fwr3", "fwr4",
+      "fwr1_aa", "fwr2_aa", "fwr3_aa", "fwr4_aa"
     )
 
   namekey <- c(
     duplicate_count = IMMCOL$count, junction = IMMCOL$cdr3nt, junction_aa = IMMCOL$cdr3aa,
     v_call = IMMCOL$v, d_call = IMMCOL$d, j_call = IMMCOL$j, v_germline_end = IMMCOL$ve,
     d_germline_start = IMMCOL$ds, d_germline_end = IMMCOL$de, j_germline_start = IMMCOL$js,
-    np1_length = "unidins", np2_length = IMMCOL$dnj, sequence = IMMCOL$seq
+    np1_length = "unidins", np2_length = IMMCOL$dnj, sequence = IMMCOL$seq,
+    cdr1 = IMMCOL_EXT$cdr1nt, cdr2 = IMMCOL_EXT$cdr2nt,
+    cdr1_aa = IMMCOL_EXT$cdr1aa, cdr2_aa = IMMCOL_EXT$cdr2aa,
+    fwr1 = IMMCOL_EXT$fr1nt, fwr2 = IMMCOL_EXT$fr2nt,
+    fwr3 = IMMCOL_EXT$fr3nt, fwr4 = IMMCOL_EXT$fr4nt,
+    fwr1_aa = IMMCOL_EXT$fr1aa, fwr2_aa = IMMCOL_EXT$fr2aa,
+    fwr3_aa = IMMCOL_EXT$fr3aa, fwr4_aa = IMMCOL_EXT$fr4aa
   )
 
   names(df) <- namekey[names(df)]
@@ -998,13 +1005,15 @@ parse_airr <- function(.filename, .mode) {
     }
   }
 
-  for (column in IMMCOL$order) {
+  order <- c(IMMCOL$order, IMMCOL_EXT$order[IMMCOL_EXT$order %in% namekey])
+
+  for (column in order) {
     if (!(column %in% colnames(df))) {
       df[column] <- NA
     }
   }
 
-  df <- df[IMMCOL$order]
+  df <- df[order]
   total <- sum(df$Clones)
   df[IMMCOL$prop] <- df[IMMCOL$count] / total
   df[IMMCOL$seq] <- stringr::str_remove_all(df[[IMMCOL$seq]], "N")
@@ -1044,9 +1053,26 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
     .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
     .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
     .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-    .skip = 0, .sep = ",", # .add = c("chain", "raw_clonotype_id", "raw_consensus_id", "barcode", "contig_id")
-    .add = c("chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene")
+    .skip = 0, .sep = ",",
+    .add = c(
+      "chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene",
+      "cdr1_nt", "cdr1", "cdr2_nt", "cdr2",
+      "fwr1_nt", "fwr1", "fwr2_nt", "fwr2", "fwr3_nt", "fwr3", "fwr4_nt", "fwr4"
+    )
   )
+
+  setnames(df, "cdr1_nt", IMMCOL_EXT$cdr1nt)
+  setnames(df, "cdr2_nt", IMMCOL_EXT$cdr2nt)
+  setnames(df, "cdr1", IMMCOL_EXT$cdr1aa)
+  setnames(df, "cdr2", IMMCOL_EXT$cdr2aa)
+  setnames(df, "fwr1_nt", IMMCOL_EXT$fr1nt)
+  setnames(df, "fwr2_nt", IMMCOL_EXT$fr2nt)
+  setnames(df, "fwr3_nt", IMMCOL_EXT$fr3nt)
+  setnames(df, "fwr4_nt", IMMCOL_EXT$fr4nt)
+  setnames(df, "fwr1", IMMCOL_EXT$fr1aa)
+  setnames(df, "fwr2", IMMCOL_EXT$fr2aa)
+  setnames(df, "fwr3", IMMCOL_EXT$fr3aa)
+  setnames(df, "fwr4", IMMCOL_EXT$fr4aa)
 
   # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
   df <- df[order(df$chain), ]
@@ -1055,10 +1081,22 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
   if (.mode == "paired") {
     df %<>%
       lazy_dt() %>%
-      group_by(barcode, raw_clonotype_id) %>%
+      group_by_colnames("barcode", "raw_clonotype_id") %>%
       summarise(
+        CDR1.nt = paste0(get("CDR1.nt"), collapse = IMMCOL_ADD$scsep),
+        CDR1.aa = paste0(get("CDR1.aa"), collapse = IMMCOL_ADD$scsep),
+        CDR2.nt = paste0(get("CDR2.nt"), collapse = IMMCOL_ADD$scsep),
+        CDR2.aa = paste0(get("CDR2.aa"), collapse = IMMCOL_ADD$scsep),
         CDR3.nt = paste0(get("CDR3.nt"), collapse = IMMCOL_ADD$scsep),
         CDR3.aa = paste0(get("CDR3.aa"), collapse = IMMCOL_ADD$scsep),
+        FR1.nt = paste0(get("FR1.nt"), collapse = IMMCOL_ADD$scsep),
+        FR1.aa = paste0(get("FR1.aa"), collapse = IMMCOL_ADD$scsep),
+        FR2.nt = paste0(get("FR2.nt"), collapse = IMMCOL_ADD$scsep),
+        FR2.aa = paste0(get("FR2.aa"), collapse = IMMCOL_ADD$scsep),
+        FR3.nt = paste0(get("FR3.nt"), collapse = IMMCOL_ADD$scsep),
+        FR3.aa = paste0(get("FR3.aa"), collapse = IMMCOL_ADD$scsep),
+        FR4.nt = paste0(get("FR4.nt"), collapse = IMMCOL_ADD$scsep),
+        FR4.aa = paste0(get("FR4.aa"), collapse = IMMCOL_ADD$scsep),
         V.name = paste0(get("V.name"), collapse = IMMCOL_ADD$scsep),
         J.name = paste0(get("J.name"), collapse = IMMCOL_ADD$scsep),
         D.name = paste0(get("D.name"), collapse = IMMCOL_ADD$scsep),
@@ -1079,7 +1117,7 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
       V.name.sorted = sort_string(get("V.name"), IMMCOL_ADD$scsep),
       J.name.sorted = sort_string(get("J.name"), IMMCOL_ADD$scsep)
     ) %>%
-    group_by(CDR3.nt.sorted, V.name.sorted, J.name.sorted) %>%
+    group_by_colnames("CDR3.nt.sorted", "V.name.sorted", "J.name.sorted") %>%
     summarise(
       Clones = length(unique(get("barcode"))),
       CDR3.nt = first(get("CDR3.nt")),
@@ -1094,7 +1132,19 @@ parse_10x_filt_contigs <- function(.filename, .mode) {
         paste0(unique(get("raw_clonotype_id")), collapse = IMMCOL_ADD$scsep)
       ),
       contig_id = paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep),
-      c_gene = first(get("c_gene"))
+      c_gene = first(get("c_gene")),
+      CDR1.nt = first(get(IMMCOL_EXT$cdr1nt)),
+      CDR2.nt = first(get(IMMCOL_EXT$cdr2nt)),
+      CDR1.aa = first(get(IMMCOL_EXT$cdr1aa)),
+      CDR2.aa = first(get(IMMCOL_EXT$cdr2aa)),
+      FR1.nt = first(get(IMMCOL_EXT$fr1nt)),
+      FR2.nt = first(get(IMMCOL_EXT$fr2nt)),
+      FR3.nt = first(get(IMMCOL_EXT$fr3nt)),
+      FR4.nt = first(get(IMMCOL_EXT$fr4nt)),
+      FR1.aa = first(get(IMMCOL_EXT$fr1aa)),
+      FR2.aa = first(get(IMMCOL_EXT$fr2aa)),
+      FR3.aa = first(get(IMMCOL_EXT$fr3aa)),
+      FR4.aa = first(get(IMMCOL_EXT$fr4aa))
     ) %>%
     as.data.table() %>%
     subset(
