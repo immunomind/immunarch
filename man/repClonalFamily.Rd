@@ -4,10 +4,18 @@
 \alias{repClonalFamily}
 \title{Builds a phylogenetic tree using the sequences of a clonal lineage}
 \usage{
-repClonalFamily(.data, .threads, .nofail)
+repClonalFamily(.data, .vis_groups, .threads, .nofail)
 }
 \arguments{
 \item{.data}{The data to be processed, output of repAlignLineage() function.}
+
+\item{.vis_groups}{Groups for visualization, used to annotate specific clones on chart
+and display them in different colors. This is a named list, where names are for the chart legend,
+and list items are clone IDs that belong to the groups. It's not necessary to assign groups to
+all clonotypes; unassigned ones will be displayed on the chart as "Clonotype" category.
+It's also possible to assign multiple clonotypes to the same group by providing nested lists
+or vectors of clone IDs instead of single clone IDs.
+Example: .vis_groups = list(A = 817, B = 201, C = list(303, 42))}
 
 \item{.threads}{Number of threads to use.}
 

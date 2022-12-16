@@ -14,6 +14,7 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom dplyr mutate group_by_at pull
 #' @importFrom stats qnorm
 #' @importFrom rlang sym
+#' @importFrom tidyselect all_of
 #'
 #' @description
 #' This is a utility function to estimate the diversity of species or objects in the given distribution.
@@ -188,7 +189,6 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
       .data <- list(Sample = .data)
     }
 
-
     .col <- process_col_argument(.col) # ToDo: refactor this and the next branches
 
     vec <- lapply(.data, function(x) {
@@ -196,7 +196,7 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
         x <- x %>% lazy_dt()
       }
       x %>%
-        select(.col, IMMCOL$count) %>%
+        select(all_of(.col), IMMCOL$count) %>%
         group_by_at(vars(.col)) %>%
         summarise(Div.count = sum(!!sym(IMMCOL$count))) %>%
         pull(Div.count)
@@ -350,20 +350,20 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
   if (is.na(.step)) {
     .step <- min(sapply(.data, function(x) sum(as.numeric(x)))) %/% 50.
   }
+  .step <- max(1, .step)
 
   if (is.na(.extrapolation)) {
     .extrapolation <- max(sapply(.data, function(x) sum(as.numeric(x)))) * 20
   }
 
   .alpha <- function(n, Xi, m) {
-    k <- Xi
     return((1 - m / n)^Xi)
   }
 
   if (.verbose) {
     pb <- set_pb(sum(sapply(seq_along(.data), function(i) {
       bc.vec <- .data[[i]]
-      bc.sum <- sum(.data[[i]])
+      bc.sum <- sum(bc.vec)
       sizes <- seq(.step, bc.sum, .step)
       if (sizes[length(sizes)] != bc.sum) {
         sizes <- c(sizes, bc.sum)
@@ -381,9 +381,7 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
     }
     n <- sum(bc.vec)
     sizes <- seq(.step, n, .step)
-    # if (sizes[length(sizes)] != n) {
-    #   sizes <- c(sizes, n)
-    # }
+
     counts <- table(bc.vec)
     muc.res <- t(sapply(sizes, function(sz) {
       freqs <- as.numeric(names(counts))
@@ -413,7 +411,6 @@ rarefaction <- function(.data, .step = NA, .quantile = c(.025, .975),
     }))
 
     if (.extrapolation > 0) {
-      # sizes <- seq(sum(.data[[i]]), .extrapolation + max(sapply(.data, function (x) sum(x))), .step)
       sizes <- seq(
         tail(seq(.step, sum(.data[[i]]), .step), 1) + .step,
         .extrapolation,
