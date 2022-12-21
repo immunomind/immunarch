@@ -153,8 +153,10 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
     .vend, .dstart, .dend, .jstart,
     .total.insertions, .vd.insertions, .dj.insertions
   )
-  if (!is.na(.add[1])) {
+  if (!has_no_data(.add)) {
     vec_names <- c(vec_names, .add)
+    # add missing columns
+    df %<>% add_empty_columns(.add[!(.add %in% colnames(df))])
   }
 
   df <- df[, vec_names]

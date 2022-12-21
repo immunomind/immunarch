@@ -30,10 +30,10 @@ Some of its features include:
 - Extracting repertoire data even from regular RNA-Seq
 - Successfully analysing full-length antibody data
 
-Find more info about MiXCR at <a href="https://mixcr.readthedocs.io/en/master/">here</a>
+Find more info about MiXCR at <a href="https://docs.milaboratories.com/mixcr/about/">here</a>
 
 # Prepare MiXCR Data
-Follow these instructions <a href="https://mixcr.readthedocs.io/en/master/install.html">here</a> to install MiXCR and get started with processing data. **Important Note:** Currently supports MiXCR version 3 and above.
+Follow these instructions <a href="https://docs.milaboratories.com/mixcr/getting-started/installation/">here</a> to install MiXCR and get started with processing data. **Important Note:** Currently supports MiXCR version 3 and above.
 
 MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz, paired-end fastq and fastq.gz. In this tutorial we use the real IGH data from <a href="https://github.com/milaboratory/mixcr/blob/develop/doc/paper/paperAttachments.md">here</a>.
 
