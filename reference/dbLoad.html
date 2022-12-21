@@ -29,13 +29,13 @@ TBAdb from PIRD - https://db.cngb.org/pird/"><!-- mathjax --><script src="https:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -197,22 +197,22 @@ Pass NA (by default) to load all available conditions.</p></dd>
 <span class="r-in"><span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">dbLoad</span><span class="op">(</span><span class="va">file_path</span>, <span class="st">"vdjdb"</span>, <span class="st">"HomoSapiens"</span>, <span class="st">"TRB"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">db</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 19</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> TRB   CASSQD… HomoSa… RLRAEAQVK       EBNA3A       EBV                  <span style="text-decoration: underline;">19</span>268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> TRB   CSASIL… HomoSa… KLGGALQAK       IE1          CMV                   <span style="text-decoration: underline;">8</span>584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TRB   CASSYF… HomoSa… KLGGALQAK       IE1          CMV                   <span style="text-decoration: underline;">3</span>445</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> TRB   CASSLW… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">19</span>396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TRB   CASSLT… HomoSa… NLVPMVATV       pp65         CMV                      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TRB   CASTAK… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">10</span>972</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TRB   CASSGA… HomoSa… KLGGALQAK       IE1          CMV                   <span style="text-decoration: underline;">6</span>231</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> TRB   CASSLI… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">12</span>587</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TRB   CATSSS… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">13</span>267</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;, v.end &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Pathology &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    gene  cdr3        species antig…¹ antig…² antig…³ compl…⁴ v.segm j.segm v.end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> TRB   CASSQDRGPA… HomoSa… RLRAEA… EBNA3A  EBV       <span style="text-decoration: underline;">19</span>268 TRBV4… TRBJ2…     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> TRB   CSASILGLAG… HomoSa… KLGGAL… IE1     CMV        <span style="text-decoration: underline;">8</span>584 TRBV2… TRBJ2…     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TRB   CASSYFSATN… HomoSa… KLGGAL… IE1     CMV        <span style="text-decoration: underline;">3</span>445 TRBV6… TRBJ2…     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TRB   CASSAFPCRE… HomoSa… NLVPMV… pp65    CMV           0 TRBV6… TRBJ2…     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> TRB   CASSLWTTNY… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">19</span>396 TRBV1… TRBJ1…     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TRB   CASSLTTESG… HomoSa… NLVPMV… pp65    CMV           0 TRBV7… TRBJ2…     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TRB   CASTAKQDFQ… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">10</span>972 TRBV1… TRBJ2…     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TRB   CASSGAGAGY… HomoSa… KLGGAL… IE1     CMV        <span style="text-decoration: underline;">6</span>231 TRBV6… TRBJ2…     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> TRB   CASSLIIGVS… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">12</span>587 TRBV1… TRBJ1…     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TRB   CATSSSGVQE… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">13</span>267 TRBV15 TRBJ2…     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 9 more variables: j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mhc.class &lt;chr&gt;, reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Chain &lt;chr&gt;, Pathology &lt;chr&gt;, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​antigen.epitope, ²​antigen.gene, ³​antigen.species, ⁴​complex.id</span></span>
 </code></pre></div>
     </div>
   </div>

@@ -29,13 +29,13 @@ the degree of mutation and maturity of the repertoire."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -150,8 +150,7 @@ the degree of mutation and maturity of the repertoire.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">repGermline</span><span class="op">(</span><span class="va">.data</span>,</span>
-<span><span class="va">.species</span>, <span class="va">.align_j_gene</span>, <span class="va">.min_nuc_outside_cdr3</span>, <span class="va">.threads</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">repGermline</span><span class="op">(</span><span class="va">.data</span>, <span class="va">.species</span>, <span class="va">.min_nuc_outside_cdr3</span>, <span class="va">.threads</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -171,15 +170,6 @@ or a list of these objects.</p>
 "SusScrofa".</p></dd>
 
 
-<dt>.align_j_gene</dt>
-<dd><p>MiXCR provides the number of J indels only for 1 allele of J gene
-in the output file, and a germline can contain another allele. Therefore, calculation of
-J gene start in reference based on numbers from input file can be sometimes incorrect.
-As result, J gene in the germline will be trimmed in the start or will contain some
-nucleotides from CDR3. Setting this parameter to TRUE enables precise alignment of J genes
-to detect the correct starting point, but it significantly reduces performance.</p></dd>
-
-
 <dt>.min_nuc_outside_cdr3</dt>
 <dd><p>This parameter sets how many nucleotides should have V or J chain
 outside of CDR3 to be considered good for further alignment.</p></dd>
@@ -194,12 +184,10 @@ outside of CDR3 to be considered good for further alignment.</p></dd>
     
 
 <p>Data with added columns:
-* V.first.allele, J.first.allele (first alleles of V and J genes),
-* V.ref.nt, J.ref.nt (V and J reference sequences),
-* V.germline.nt, J.germline.nt (V and J germline sequences; they are references with
-  trimmed parts that are from CDR3),
-* CDR3.germline.length (length of CDR3 in the germline),
-* Germline.sequence (combined germline sequence)</p>
+* Sequence (FR1+CDR1+FR2+CDR2+FR3+CDR3+FR4 in nucleotides; the column will be replaced if exists)
+* V.allele, J.allele (chosen alleles of V and J genes),
+* V.aa, J.aa (V and J sequences from original clonotype, outside CDR3, converted to amino acids)
+* Germline.sequence (combined germline nucleotide sequence)</p>
     </div>
 
     <div id="ref-examples">
@@ -209,14 +197,14 @@ outside of CDR3 to be considered good for further alignment.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="top.html">top</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">repGermline</span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">repGermline</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $full_clones</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   J.first.allele V.first.allele Clones   Proportion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       IGHJ4*01     IGHV1-8*01   3576 0.0003287193</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       IGHJ4*01    IGHV4-39*01  14773 0.0013579896</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       IGHJ4*01    IGHV4-39*01   3712 0.0003412210</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       IGHJ4*01     IGHV6-1*01   3543 0.0003256859</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       IGHJ6*01    IGHV4-59*01   4758 0.0004373732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   J.allele    V.allele Clones   Proportion</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 IGHJ4*01  IGHV1-8*01   3576 0.0003287193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 IGHJ4*01 IGHV4-39*01  14773 0.0013579896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 IGHJ4*01 IGHV4-39*01   3712 0.0003412210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 IGHJ4*01  IGHV6-1*01   3543 0.0003256859</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 IGHJ6*01 IGHV4-59*01   4758 0.0004373732</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 CDR3.nt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 TGTGCGAGACGGGCCGAAACCAATGGCTGGAACGGTTTTGGTGCCGACAAGTATTACTTTGACTTCTGG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                               TGTGCGAGAACGGATAGTGTTGGCTATTATCCGTACTTT</span>
@@ -241,24 +229,12 @@ outside of CDR3 to be considered good for further alignment.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                      IGHJ4*00(381)   174     191   198     198     NA     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                   IGHJ4*00(387, 8)   166     171   180     194     NA     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                   IGHJ6*00(336, 1)   125     141   152     152     NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   DJ.ins</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                 Sequence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 GGGTGGATGAACCCTAACACTGGTAACTCAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGTGATACTTCCATAAGCACAGCCCACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTGCGAGACGGGCCGAAACCAATGGCTGGAACGGTTTTGGTGCCGACAAGTATTACTTTGACTTCTGGGGGCAGGGAACCCTGGTCACCGTCTCCTCAGGTAAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 CGGCAGCCCCCAGGGAAGGGGCTGGAGTGGGTTGCGAGTATCTATCATAGTGGGACCACCTACTACAACCCGTCCCTCACGAGCCGAGTCACCATATCAGTAGACACGTCCAAGAATCAATTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACTCGGCCGTGTATTATTGTGCGAGAACGGATAGTGTTGGCTATTATCCGTACTTTGGACAGGGAACCCTGGTCACCGTCTCCTCAGGTAAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 CCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGCATCTATCACAGTGGGAATACCTACTATAACCCGTCCCTCAAGAGTCGAGTCTCCATCTCACTTGACACGTCCAAGAACCACTTCTCCCTGGAGCTGACCTCTGTGACCGCCGCAGACACGGCCGTCTATTACTGTGCGAGAGTAAAATTAGCCGGCCGCGGTGGTTTTGACTACTGGGGCCTGGGAACCCTGGTCACCGTCTCCTCAGGTAAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  TTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTGTCTGTGAAAAGTCGAATAACCGTCACCCCAGACACATCCAAGAACCAGTTCTCCCTGCATCTGAACTCTGTGACTCCCGAGGACACGGCTGTCTATTACTGTGCAAGAGAGTTCCCGTATTATGTGAGCAGTGACAGTTACCTTGACTACTGGGGCCAGGGAGCCCTGGTCACCGTCTCCTCAGGTAAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                CACCAGCTACAACCCCTCCCTCAAGAGTCGAGTCACCATGTCGGTGGACACGTCCAAGAGCCAGTTCTCCCTGAAGTTGACCTCTGTGACCGCTGCGGACACGGCCGTGTATTACTGTGCGCGAGGAGAAGACGCGTTCTTTTACTACGGTTTGGACGTCTGGGGCCAAGGGATCACGGTCACCGTCTCCTCAGGTAAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   CDR3.start CDR3.end        C.name C.start C.end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        141      210 IGHD*00(0, 5)      NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        171      210 IGHD*00(0, 4)      NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        165      210 IGHD*00(0, 4)      NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        155      209 IGHD*00(0, 5)      NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        115      163 IGHD*00(0, 4)      NA    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   DJ.ins CDR3.start CDR3.end        C.name C.start C.end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     NA        141      210 IGHD*00(0, 5)      NA    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     NA        171      210 IGHD*00(0, 4)      NA    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     NA        165      210 IGHD*00(0, 4)      NA    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     NA        155      209 IGHD*00(0, 5)      NA    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     NA        115      163 IGHD*00(0, 4)      NA    NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          CDR1.nt    CDR1.aa                     CDR2.nt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       ggatacaccttcaccagttatgat   GYTFTSYD    ATGAACCCTAACACTGGTAACTCA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 ggtggctccatcagcagtagtagttactac GGSISSSSYY       ATCTATCATAGTGGGACCACC</span>
@@ -307,30 +283,24 @@ outside of CDR3 to be considered good for further alignment.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 GLGTLV~SPSPQ           -2           -5      901</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 GQGALV~SPSPQ            0           -2      896</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 GQGITV~SPSPQ           -1          -21      458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                            V.ref.nt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTCTCCTGCAAGGCTTCTGGATACACCTTCACCAGTTATGATATCAACTGGGTGCGACAGGCCACTGGACAAGGGCTTGAGTGGATGGGATGGATGAACCCTAACAGTGGTAACACAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGGAACACCTCCATAAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTGCGAGAGG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACTGTGCGAGACA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACTGTGCGAGACA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 CAGGTACAGCTGCAGCAGTCAGGTCCAGGACTGGTGAAGCCCTCGCAGACCCTCTCACTCACCTGTGCCATCTCCGGGGACAGTGTCTCTAGCAACAGTGCTGCTTGGAACTGGATCAGGCAGTCCCCATCGAGAGGCCTTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTATCTGTGAAAAGTCGAATAACCATCAACCCAGACACATCCAAGAACCAGTTCTCCCTGCAGCTGAACTCTGTGACTCCCGAGGACACGGCTGTGTATTACTGTGCAAGAGA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             CAGGTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGTAGTTACTACTGGAGCTGGATCCGGCAGCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCTATTACAGTGGGAGCACCAACTACAACCCCTCCCTCAAGAGTCGAGTCACCATATCAGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCTGCGGACACGGCCGTGTATTACTGTGCGAGAGA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                          J.ref.nt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                ACTACTTTGACTACTGGGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 ATTACTACTACTACTACGGTATGGACGTCTGGGGGCAAGGGACCACGGTCACCGTCTCCTCAG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                            V.germline.nt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTCTCCTGCAAGGCTTCTGGATACACCTTCACCAGTTATGATATCAACTGGGTGCGACAGGCCACTGGACAAGGGCTTGAGTGGATGGGATGGATGAACCCTAACAGTGGTAACACAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGGAACACCTCCATAAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTAC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTAC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTAC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 CAGGTACAGCTGCAGCAGTCAGGTCCAGGACTGGTGAAGCCCTCGCAGACCCTCTCACTCACCTGTGCCATCTCCGGGGACAGTGTCTCTAGCAACAGTGCTGCTTGGAACTGGATCAGGCAGTCCCCATCGAGAGGCCTTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTATCTGTGAAAAGTCGAATAACCATCAACCCAGACACATCCAAGAACCAGTTCTCCCTGCAGCTGAACTCTGTGACTCCCGAGGACACGGCTGTGTATTAC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             CAGGTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGTAGTTACTACTGGAGCTGGATCCGGCAGCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCTATTACAGTGGGAGCACCAACTACAACCCCTCCCTCAAGAGTCGAGTCACCATATCAGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCTGCGGACACGGCCGTGTATTAC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     J.germline.nt CDR3.germline.length</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 GGCCAAGGAACCCTGGTCACCGTCTCCTCAG                   69</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 GGCCAAGGAACCCTGGTCACCGTCTCCTCAG                   39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 GGCCAAGGAACCCTGGTCACCGTCTCCTCAG                   45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 GGCCAAGGAACCCTGGTCACCGTCTCCTCAG                   54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 GGGCAAGGGACCACGGTCACCGTCTCCTCAG                   48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                            Sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTCTCCTGCAAGGCTTCTGGATACACCTTCACCAGTTATGATATCAACTGGGTGCGACAGGCCACTGGACAAGGGCTTGAGTGGATGGGGTGGATGAACCCTAACACTGGTAACTCAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGTGATACTTCCATAAGCACAGCCCACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTGCGAGACGGGCCGAAACCAATGGCTGGAACGGTTTTGGTGCCGACAAGTATTACTTTGACTTCTGGGGGCAGGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                            CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGGCAGCCCCCAGGGAAGGGGCTGGAGTGGGTTGCGAGTATCTATCATAGTGGGACCACCTACTACAACCCGTCCCTCACGAGCCGAGTCACCATATCAGTAGACACGTCCAAGAATCAATTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACTCGGCCGTGTATTATTGTGCGAGAACGGATAGTGTTGGCTATTATCCGTACTTTGGACAGGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                      CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGCATCTATCACAGTGGGAATACCTACTATAACCCGTCCCTCAAGAGTCGAGTCTCCATCTCACTTGACACGTCCAAGAACCACTTCTCCCTGGAGCTGACCTCTGTGACCGCCGCAGACACGGCCGTCTATTACTGTGCGAGAGTAAAATTAGCCGGCCGCGGTGGTTTTGACTACTGGGGCCTGGGAACCCTGGTCACCGTCTCCTCAG</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       CAGGTACAGCTGCAGCAGTCAGGTCCAGGACTGGTGAAGCCCTCGCAGACCCTCTCACTCACCTGTGCCATCTCCGGGGACAGTGTCTCTAGCAACAGTGCTGCTTGGAACTGGATCAGGCAGTCCCCATCGAGAGGCCTTGAGTGGCTGGGAAGGACATACTACAGGTCCAAGTGGTATAATGATTATGCAGTGTCTGTGAAAAGTCGAATAACCGTCACCCCAGACACATCCAAGAACCAGTTCTCCCTGCATCTGAACTCTGTGACTCCCGAGGACACGGCTGTCTATTACTGTGCAAGAGAGTTCCCGTATTATGTGAGCAGTGACAGTTACCTTGACTACTGGGGCCAGGGAGCCCTGGTCACCGTCTCCTCAG</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                         CAGGTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGTAGTTACTACTGGAGCTGGATCCGGCAGCCCCCAGGGAAGGGACTGGAGTGGATTGGGTATATCTATTACAGTGGGAGCACCAGCTACAACCCCTCCCTCAAGAGTCGAGTCACCATGTCGGTGGACACGTCCAAGAGCCAGTTCTCCCTGAAGTTGACCTCTGTGACCGCTGCGGACACGGCCGTGTATTACTGTGCGCGAGGAGAAGACGCGTTCTTTTACTACGGTTTGGACGTCTGGGGCCAAGGGATCACGGTCACCGTCTCCTCAG</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                 V.aa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    QVQLVQSGAEVKKPGASVKVSCKASGYTFTSYDINWVRQATGQGLEWMGWMNPNTGNSGYAQKFQGRVTMTSDTSISTAHMELSSLRSEDTAVYY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   QLQLQESGPGLVKPSETLSLTCTVSGGSISSSSYYWGWIRQPPGKGLEWVASIYHSGTTYYNPSLTSRVTISVDTSKNQFSLKLSSVTAADSAVYY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   QLQLQESGPGLVKPSETLSLTCTVSGGSISSSSYYWGWIRQPPGKGLEWIGSIYHSGNTYYNPSLKSRVSISLDTSKNHFSLELTSVTAADTAVYY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 QVQLQQSGPGLVKPSQTLSLTCAISGDSVSSNSAAWNWIRQSPSRGLEWLGRTYYRSKWYNDYAVSVKSRITVTPDTSKNQFSLHLNSVTPEDTAVYY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     QVQLQESGPGLVKPSETLSLTCTVSGGSISSYYWSWIRQPPGKGLEWIGYIYYSGSTSYNPSLKSRVTMSVDTSKSQFSLKLTSVTAADTAVYY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           J.aa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 GQGTLV~SPSPQ</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 GQGTLV~SPSPQ</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 GLGTLV~SPSPQ</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 GQGALV~SPSPQ</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 GQGITV~SPSPQ</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                   Germline.sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCCTCAGTGAAGGTCTCCTGCAAGGCTTCTGGATACACCTTCACCAGTTATGATATCAACTGGGTGCGACAGGCCACTGGACAAGGGCTTGAGTGGATGGGATGGATGAACCCTAACAGTGGTAACACAGGCTATGCACAGAAGTTCCAGGGCAGAGTCACCATGACCAGGAACACCTCCATAAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                            CAGCTGCAGCTGCAGGAGTCGGGCCCAGGACTGGTGAAGCCTTCGGAGACCCTGTCCCTCACCTGCACTGTCTCTGGTGGCTCCATCAGCAGTAGTAGTTACTACTGGGGCTGGATCCGCCAGCCCCCAGGGAAGGGGCTGGAGTGGATTGGGAGTATCTATTATAGTGGGAGCACCTACTACAACCCGTCCCTCAAGAGTCGAGTCACCATATCCGTAGACACGTCCAAGAACCAGTTCTCCCTGAAGCTGAGCTCTGTGACCGCCGCAGACACGGCTGTGTATTACNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGCCAAGGAACCCTGGTCACCGTCTCCTCAG</span>

@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v11_db_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Annotate clonotypes using immune receptor databases</h1>
@@ -258,43 +258,43 @@
 <code class="sourceCode R"><span><span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span><span class="op">)</span></span>
 <span><span class="va">vdjdb</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 61,049 × 19</span></span></span>
-<span><span class="co">##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TRB   CASSTS… Macaca… STPESANL        Tat          SIV                0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TRB   CASSQD… HomoSa… RLRAEAQVK       EBNA3A       EBV                1.93<span style="color: #949494;">e</span> 4</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TRB   CASSMS… Macaca… TTPESANL        Tat          SIV                0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TRA   CASNTG… HomoSa… GILGFVFTL       M            InfluenzaA         0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TRB   CASSLG… MusMus… HGIRNASFI       M45          MCMV               2.24<span style="color: #949494;">e</span>24</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TRB   CSASIL… HomoSa… KLGGALQAK       IE1          CMV                8.58<span style="color: #949494;">e</span> 3</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TRA   CAVLLE… HomoSa… GILGFVFTL       M            InfluenzaA         0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TRB   CASSYF… HomoSa… KLGGALQAK       IE1          CMV                3.44<span style="color: #949494;">e</span> 3</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TRB   CASTGD… MusMus… SSYRRPVGI       PB1          InfluenzaA         2.28<span style="color: #949494;">e</span> 4</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 61,039 more rows, and 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   v.end &lt;dbl&gt;, j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Pathology &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">##    gene  cdr3        species antig…¹ antig…² antig…³ compl…⁴ v.segm j.segm v.end</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TRB   CASSTSRLSN… Macaca… STPESA… Tat     SIV     0   <span style="color: #949494;"> </span>   TRBV1… TRBJ1…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TRB   CASSQDRGPA… HomoSa… RLRAEA… EBNA3A  EBV     1.93<span style="color: #949494;">e</span> 4 TRBV4… TRBJ2…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TRB   CASSMSRSSN… Macaca… TTPESA… Tat     SIV     0   <span style="color: #949494;"> </span>   TRBV14 TRBJ1…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TRA   CASNTGTASK… HomoSa… GILGFV… M       Influe… 0   <span style="color: #949494;"> </span>   TRAV24 TRAJ44     2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TRB   CASSLGSQNT… MusMus… HGIRNA… M45     MCMV    2.24<span style="color: #949494;">e</span>24 TRBV1… TRBJ2…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TRB   CSASILGLAG… HomoSa… KLGGAL… IE1     CMV     8.58<span style="color: #949494;">e</span> 3 TRBV2… TRBJ2…     3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TRA   CAVLLEYGNK… HomoSa… GILGFV… M       Influe… 0   <span style="color: #949494;"> </span>   TRAV1… TRAJ47     3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TRB   CASSYFSATN… HomoSa… KLGGAL… IE1     CMV     3.44<span style="color: #949494;">e</span> 3 TRBV6… TRBJ2…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TRB   CASTGDSNER… MusMus… SSYRRP… PB1     Influe… 2.28<span style="color: #949494;">e</span> 4 TRBV1… TRBJ1…     3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> TRB   CASSAFPCRE… HomoSa… NLVPMV… pp65    CMV     0   <span style="color: #949494;"> </span>   TRBV6… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 61,039 more rows, 9 more variables: j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;, reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Species &lt;chr&gt;, Chain &lt;chr&gt;, Pathology &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ¹​antigen.epitope, ²​antigen.gene, ³​antigen.species, ⁴​complex.id</span></span></span></code></pre>
 <p>To load VDJDB and filter out information you need to provide <code>.species</code>, <code>.chain</code> and <code>.pathology</code> arguments:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vdjdb</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz"</span>, <span class="st">"vdjdb"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span></span>
 <span><span class="va">vdjdb</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 18,039 × 19</span></span></span>
-<span><span class="co">##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TRB   CSASIL… HomoSa… KLGGALQAK       IE1          CMV                   <span style="text-decoration: underline;">8</span>584</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TRB   CASSYF… HomoSa… KLGGALQAK       IE1          CMV                   <span style="text-decoration: underline;">3</span>445</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TRB   CASSLW… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">19</span>396</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TRB   CASSLT… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TRB   CASTAK… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">10</span>972</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TRB   CASSGA… HomoSa… KLGGALQAK       IE1          CMV                   <span style="text-decoration: underline;">6</span>231</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TRB   CASSLI… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">12</span>587</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TRB   CATSSS… HomoSa… KLGGALQAK       IE1          CMV                  <span style="text-decoration: underline;">13</span>267</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> TRB   CASSLG… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 18,029 more rows, and 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   v.end &lt;dbl&gt;, j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Pathology &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">##    gene  cdr3        species antig…¹ antig…² antig…³ compl…⁴ v.segm j.segm v.end</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TRB   CSASILGLAG… HomoSa… KLGGAL… IE1     CMV        <span style="text-decoration: underline;">8</span>584 TRBV2… TRBJ2…     3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TRB   CASSYFSATN… HomoSa… KLGGAL… IE1     CMV        <span style="text-decoration: underline;">3</span>445 TRBV6… TRBJ2…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TRB   CASSAFPCRE… HomoSa… NLVPMV… pp65    CMV           0 TRBV6… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TRB   CASSLWTTNY… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">19</span>396 TRBV1… TRBJ1…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TRB   CASSLTTESG… HomoSa… NLVPMV… pp65    CMV           0 TRBV7… TRBJ2…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TRB   CASTAKQDFQ… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">10</span>972 TRBV1… TRBJ2…     3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TRB   CASSGAGAGY… HomoSa… KLGGAL… IE1     CMV        <span style="text-decoration: underline;">6</span>231 TRBV6… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TRB   CASSLIIGVS… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">12</span>587 TRBV1… TRBJ1…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TRB   CATSSSGVQE… HomoSa… KLGGAL… IE1     CMV       <span style="text-decoration: underline;">13</span>267 TRBV15 TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> TRB   CASSLGTLEE… HomoSa… NLVPMV… pp65    CMV           0 TRBV6… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 18,029 more rows, 9 more variables: j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;, reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Species &lt;chr&gt;, Chain &lt;chr&gt;, Pathology &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ¹​antigen.epitope, ²​antigen.gene, ³​antigen.species, ⁴​complex.id</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="vdjdb-search-tables">VDJDB search tables<a class="anchor" aria-label="anchor" href="#vdjdb-search-tables"></a>
@@ -303,22 +303,22 @@
 <code class="sourceCode R"><span><span class="va">vdjdb_st</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz"</span>, <span class="st">"vdjdb-search"</span>, .species <span class="op">=</span> <span class="st">"HomoSapiens"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"CMV"</span><span class="op">)</span></span>
 <span><span class="va">vdjdb_st</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4,999 × 19</span></span></span>
-<span><span class="co">##    complex.id Gene  CDR3         V     J     Species `MHC A` `MHC B` `MHC class`</span></span>
-<span><span class="co">##         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>          0 TRB   CASSVDGTGGA… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>          0 TRB   CAWSWGDSTNS… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>          0 TRB   CASSLVGGTGS… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>          0 TRB   CASSLLMATNE… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>          0 TRB   CASSYRANYEQ… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>          0 TRB   CASSQAVASGG… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>          0 TRB   CASVTGSTDTQ… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>          0 TRB   CASSDGTAYEQ… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>          0 TRB   CASSLARNQPQ… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>          0 TRB   CASGGADMKTE… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI       </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 4,989 more rows, and 10 more variables: Epitope &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   `Epitope gene` &lt;chr&gt;, `Epitope species` &lt;chr&gt;, Reference &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Method &lt;chr&gt;, Meta &lt;chr&gt;, CDR3fix &lt;chr&gt;, Score &lt;dbl&gt;, Chain &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Pathology &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">##    complex.id Gene  CDR3     V     J     Species `MHC A` `MHC B` MHC c…¹ Epitope</span></span>
+<span><span class="co">##         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>          0 TRB   CASSVDG… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI    YILEET…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>          0 TRB   CAWSWGD… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI    YILEET…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>          0 TRB   CASSLVG… TRBV… TRBJ… HomoSa… HLA-A*… B2M     MHCI    YILEET…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>          0 TRB   CASSLLM… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    ELKRKM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>          0 TRB   CASSYRA… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    ELKRKM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>          0 TRB   CASSQAV… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    ELKRKM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>          0 TRB   CASVTGS… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    ELKRKM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>          0 TRB   CASSDGT… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    ELKRKM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>          0 TRB   CASSLAR… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    CVETMC…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>          0 TRB   CASGGAD… TRBV… TRBJ… HomoSa… HLA-B*… B2M     MHCI    CVETMC…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 4,989 more rows, 9 more variables: `Epitope gene` &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Epitope species` &lt;chr&gt;, Reference &lt;chr&gt;, Method &lt;chr&gt;, Meta &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   CDR3fix &lt;chr&gt;, Score &lt;dbl&gt;, Chain &lt;chr&gt;, Pathology &lt;chr&gt;, and abbreviated</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   variable name ¹​`MHC class`</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="mcpas-tcr-1">McPAS-TCR<a class="anchor" aria-label="anchor" href="#mcpas-tcr-1"></a>
@@ -327,25 +327,25 @@
 <code class="sourceCode R"><span><span class="va">mcpas</span> <span class="op">=</span> <span class="fu"><a href="../../reference/dbLoad.html">dbLoad</a></span><span class="op">(</span><span class="st">"https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz"</span>, <span class="st">"mcpas"</span>, .species <span class="op">=</span> <span class="st">"Human"</span>, .chain <span class="op">=</span> <span class="st">"TRB"</span>, .pathology <span class="op">=</span> <span class="st">"Cytomegalovirus (CMV)"</span><span class="op">)</span></span>
 <span><span class="va">mcpas</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,723 × 29</span></span></span>
-<span><span class="co">##    CDR3.alpha.aa CDR3.beta.aa      Species Category  Pathology  Pathology.Mesh.…</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> <span style="color: #BB0000;">NA</span>            CASLAPGTTNEKLF    Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>            CASLQAGANEQF      Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>            CASLSGGGEQF       Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>            CASLVASGQETQYF    Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> <span style="color: #BB0000;">NA</span>            CASSHRDSGNTIYF    Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>            CASSSANYGYTF      Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> <span style="color: #BB0000;">NA</span>            CATSDPLTASYEQF    Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> CARNTGNQF     CACSLRSQGTDTQYF   Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> CAGNTGNQFYFG  CASSAWDRSSGANVLTF Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> CAYPYNNNDMRF  CASSELGGAGTGELF   Human   Pathogens Cytomegal… D003586         </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 2,713 more rows, and 23 more variables:</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Additional.study.details &lt;chr&gt;, Antigen.identification.method &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   NGS &lt;chr&gt;, Antigen.protein &lt;chr&gt;, Protein.ID &lt;chr&gt;, Epitope.peptide &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Epitope.ID &lt;chr&gt;, MHC &lt;chr&gt;, Tissue &lt;chr&gt;, T.Cell.Type &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   T.cell.characteristics &lt;chr&gt;, CDR3.alpha.nt &lt;chr&gt;, TRAV &lt;chr&gt;, TRAJ &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   TRBV &lt;chr&gt;, TRBD &lt;chr&gt;, TRBJ &lt;chr&gt;, Reconstructed.J.annotation &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   CDR3.beta.nt &lt;chr&gt;, Mouse.strain &lt;chr&gt;, PubMed.ID &lt;dbl&gt;, Remarks &lt;chr&gt;, …</span></span></span></code></pre>
+<span><span class="co">##    CDR3.…¹ CDR3.…² Species Categ…³ Patho…⁴ Patho…⁵ Addit…⁶ Antig…⁷ NGS   Antig…⁸</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> <span style="color: #BB0000;">NA</span>      CASLAP… Human   Pathog… Cytome… D003586 <span style="color: #BB0000;">NA</span>            1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>      CASLQA… Human   Pathog… Cytome… D003586 <span style="color: #BB0000;">NA</span>            1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>      CASLSG… Human   Pathog… Cytome… D003586 <span style="color: #BB0000;">NA</span>            1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>      CASLVA… Human   Pathog… Cytome… D003586 <span style="color: #BB0000;">NA</span>            1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> <span style="color: #BB0000;">NA</span>      CASSHR… Human   Pathog… Cytome… D003586 CMV           1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>      CASSSA… Human   Pathog… Cytome… D003586 CMV           1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> <span style="color: #BB0000;">NA</span>      CATSDP… Human   Pathog… Cytome… D003586 CMV           1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> CARNTG… CACSLR… Human   Pathog… Cytome… D003586 CMV           1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> CAGNTG… CASSAW… Human   Pathog… Cytome… D003586 Reumat…       1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> CAYPYN… CASSEL… Human   Pathog… Cytome… D003586 CMV           1 No    pp65   </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 2,713 more rows, 19 more variables: Protein.ID &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Epitope.peptide &lt;chr&gt;, Epitope.ID &lt;chr&gt;, MHC &lt;chr&gt;, Tissue &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   T.Cell.Type &lt;chr&gt;, T.cell.characteristics &lt;chr&gt;, CDR3.alpha.nt &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   TRAV &lt;chr&gt;, TRAJ &lt;chr&gt;, TRBV &lt;chr&gt;, TRBD &lt;chr&gt;, TRBJ &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Reconstructed.J.annotation &lt;chr&gt;, CDR3.beta.nt &lt;chr&gt;, Mouse.strain &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   PubMed.ID &lt;dbl&gt;, Remarks &lt;chr&gt;, Chain &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ¹​CDR3.alpha.aa, ²​CDR3.beta.aa, ³​Category, ⁴​Pathology, ⁵​Pathology.Mesh.ID, …</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="tbadb">TBAdb<a class="anchor" aria-label="anchor" href="#tbadb"></a>
@@ -464,22 +464,22 @@
 <span><span class="va">vdjdb</span> <span class="op">=</span> <span class="va">vdjdb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">antigen.epitope</span> <span class="op">==</span> <span class="st">"NLVPMVATV"</span><span class="op">)</span></span>
 <span><span class="va">vdjdb</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4,496 × 19</span></span></span>
-<span><span class="co">##    gene  cdr3    species antigen.epitope antigen.gene antigen.species complex.id</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TRB   CASSAF… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TRB   CASSLT… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TRB   CASSLG… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TRB   CASSLD… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TRB   CSADGL… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TRB   CASSFR… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TRB   CASSFG… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TRB   CASSYG… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TRB   CSVEAY… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> TRB   CASSSG… HomoSa… NLVPMVATV       pp65         CMV                      0</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 4,486 more rows, and 12 more variables: v.segm &lt;chr&gt;, j.segm &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   v.end &lt;dbl&gt;, j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;, mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;, Species &lt;chr&gt;, Chain &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Pathology &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">##    gene  cdr3        species antig…¹ antig…² antig…³ compl…⁴ v.segm j.segm v.end</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TRB   CASSAFPCRE… HomoSa… NLVPMV… pp65    CMV           0 TRBV6… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TRB   CASSLTTESG… HomoSa… NLVPMV… pp65    CMV           0 TRBV7… TRBJ2…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TRB   CASSLGTLEE… HomoSa… NLVPMV… pp65    CMV           0 TRBV6… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TRB   CASSLDSLNT… HomoSa… NLVPMV… pp65    CMV           0 TRBV5… TRBJ1…     5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TRB   CSADGLPISS… HomoSa… NLVPMV… pp65    CMV           0 TRBV2… TRBJ2…     2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TRB   CASSFRQGAF… HomoSa… NLVPMV… pp65    CMV           0 TRBV7… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TRB   CASSFGPRAG… HomoSa… NLVPMV… pp65    CMV           0 TRBV7… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TRB   CASSYGTGKD… HomoSa… NLVPMV… pp65    CMV           0 TRBV7… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TRB   CSVEAYATDY… HomoSa… NLVPMV… pp65    CMV           0 TRBV2… TRBJ1…     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> TRB   CASSSGLISF… HomoSa… NLVPMV… pp65    CMV           0 TRBV5… TRBJ2…     4</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 4,486 more rows, 9 more variables: j.start &lt;dbl&gt;, mhc.a &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   mhc.b &lt;chr&gt;, mhc.class &lt;chr&gt;, reference.id &lt;chr&gt;, vdjdb.score &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Species &lt;chr&gt;, Chain &lt;chr&gt;, Pathology &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ¹​antigen.epitope, ²​antigen.gene, ³​antigen.species, ⁴​complex.id</span></span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check if everything is OK and there is no other epitopes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">vdjdb</span><span class="op">$</span><span class="va">antigen.epitope</span><span class="op">)</span></span></code></pre></div>

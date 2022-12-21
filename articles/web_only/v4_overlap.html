@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="v4_overlap_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Repertoire overlap and public clonotypes</h1>
@@ -250,18 +250,18 @@ warning("TODO")
 <code class="sourceCode R"><span><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></span>
 <span><span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##               DimI      DimII</span></span>
-<span><span class="co">## A2-i129   70.38459   58.97613</span></span>
-<span><span class="co">## A2-i131  110.54482 -290.06614</span></span>
-<span><span class="co">## A2-i133  -43.82199   48.33251</span></span>
-<span><span class="co">## A2-i132 -136.26217   46.97332</span></span>
-<span><span class="co">## A4-i191  -93.62640  112.94984</span></span>
-<span><span class="co">## A4-i192   41.05285   16.44851</span></span>
-<span><span class="co">## MS1       92.71964   18.66990</span></span>
-<span><span class="co">## MS2     -111.06691   66.03547</span></span>
-<span><span class="co">## MS3       63.65165   39.73049</span></span>
-<span><span class="co">## MS4      -97.60649   81.58552</span></span>
-<span><span class="co">## MS5       91.28411 -290.93060</span></span>
-<span><span class="co">## MS6       12.74629   91.29504</span></span>
+<span><span class="co">## A2-i129  17.067797   38.67879</span></span>
+<span><span class="co">## A2-i131  43.154396 -199.43665</span></span>
+<span><span class="co">## A2-i133 -45.519136   44.04397</span></span>
+<span><span class="co">## A2-i132 -23.895692   59.21284</span></span>
+<span><span class="co">## A4-i191 -29.550595   33.78492</span></span>
+<span><span class="co">## A4-i192  28.428022   29.40114</span></span>
+<span><span class="co">## MS1      12.909619   23.27030</span></span>
+<span><span class="co">## MS2     -25.140847   49.30824</span></span>
+<span><span class="co">## MS3      17.728733   32.43588</span></span>
+<span><span class="co">## MS4     -28.762807   43.80092</span></span>
+<span><span class="co">## MS5      37.193787 -199.79022</span></span>
+<span><span class="co">## MS6      -3.613277   45.28988</span></span>
 <span><span class="co">## attr(,"class")</span></span>
 <span><span class="co">## [1] "immunr_tsne" "matrix"      "array"</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -292,19 +292,19 @@ warning("TODO")
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># "tsne" - t-Stochastic Neighbor Embedding</span></span>
 <span><span class="fu"><a href="../../reference/repOverlapAnalysis.html">repOverlapAnalysis</a></span><span class="op">(</span><span class="va">imm_ov1</span>, <span class="st">"tsne"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                DimI      DimII</span></span>
-<span><span class="co">## A2-i129   -5.305477  -37.43846</span></span>
-<span><span class="co">## A2-i131  274.779200 -292.65370</span></span>
-<span><span class="co">## A2-i133  -14.075846   38.29146</span></span>
-<span><span class="co">## A2-i132  -96.198030  118.65035</span></span>
-<span><span class="co">## A4-i191  -37.279125  182.28853</span></span>
-<span><span class="co">## A4-i192  -61.883983  -45.17148</span></span>
-<span><span class="co">## MS1      -28.570690  -88.57819</span></span>
-<span><span class="co">## MS2      -65.103850  133.62756</span></span>
-<span><span class="co">## MS3      -26.840462  -47.50085</span></span>
-<span><span class="co">## MS4      -44.543856  146.92722</span></span>
-<span><span class="co">## MS5      268.942408 -270.57046</span></span>
-<span><span class="co">## MS6     -163.920290  162.12801</span></span>
+<pre><code><span><span class="co">##                DimI       DimII</span></span>
+<span><span class="co">## A2-i129   35.296854   21.783908</span></span>
+<span><span class="co">## A2-i131 -105.566749 -156.365560</span></span>
+<span><span class="co">## A2-i133   28.562102   39.950078</span></span>
+<span><span class="co">## A2-i132   -4.442940   42.016654</span></span>
+<span><span class="co">## A4-i191   11.923872   56.394836</span></span>
+<span><span class="co">## A4-i192   45.223743   12.595242</span></span>
+<span><span class="co">## MS1       30.667203    8.131903</span></span>
+<span><span class="co">## MS2        4.518880   43.870774</span></span>
+<span><span class="co">## MS3       35.796516   16.165718</span></span>
+<span><span class="co">## MS4        8.906664   47.831603</span></span>
+<span><span class="co">## MS5     -100.997856 -159.281613</span></span>
+<span><span class="co">## MS6       10.111712   26.906458</span></span>
 <span><span class="co">## attr(,"class")</span></span>
 <span><span class="co">## [1] "immunr_tsne" "matrix"      "array"</span></span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

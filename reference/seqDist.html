@@ -23,13 +23,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -139,7 +139,7 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">seqDist</span><span class="op">(</span><span class="va">.data</span>, .col <span class="op">=</span> <span class="st">'CDR3.nt'</span>, .method <span class="op">=</span> <span class="st">'hamming'</span>,</span>
-<span> .group_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"V.first"</span>, <span class="st">"J.first"</span><span class="op">)</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span> .group_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"V.name"</span>, <span class="st">"J.name"</span><span class="op">)</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">TRUE</span>, .trim_genes <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -164,6 +164,10 @@
 
 <dt>.group_by_seqLength</dt>
 <dd><p>If TRUE  - adds grouping by sequence length of .col argument</p></dd>
+
+
+<dt>.trim_genes</dt>
+<dd><p>If TRUE   - use only general gene values (e.g. "IGHV1-18") of .group_by columns for clustering; if FALSE - can cause very small clusters in case of high resolution genotyping</p></dd>
 
 
 <dt>...</dt>
@@ -258,8 +262,10 @@ If a and b have different number of characters the distance is Inf.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"col")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CDR3.nt"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"group_by")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "V.first" "J.first"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "V.name" "J.name"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"group_by_length")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"trimmed")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Here we define a custom distance function</span></span></span>
@@ -340,9 +346,11 @@ If a and b have different number of characters the distance is Inf.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"col")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CDR3.nt"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"group_by")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "V.first" "J.first"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "V.name" "J.name"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"group_by_length")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"trimmed")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
   </div>

@@ -42,14 +42,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">immunarch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Start Here
      
     <span class="caret"></span>
@@ -159,7 +159,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="clustering_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Clustering</h1>
@@ -230,7 +230,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">distBCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqDist.html">seqDist</a></span><span class="op">(</span> <span class="va">BCRdata</span>, .col <span class="op">=</span> <span class="st">'CDR3.aa'</span>, .methods <span class="op">=</span> <span class="st">"cls"</span>, .group_by_seqLength <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p>Another way is to write your own function for calculating distance. For example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">distBCR &lt;-<span class="st"> </span><span class="kw">seqDist</span>(BCRdata, <span class="dt">.col =</span> <span class="st">'CDR3.aa'</span>, <span class="dt">.methods =</span> {user<span class="op">-</span><span class="cf">function</span>}, <span class="dt">.group_by_seqLength =</span> F)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>distBCR &lt;-<span class="st"> </span><span class="kw">seqDist</span>(BCRdata, <span class="dt">.col =</span> <span class="st">'CDR3.aa'</span>, <span class="dt">.methods =</span> {user<span class="op">-</span><span class="cf">function</span>}, <span class="dt">.group_by_seqLength =</span> F)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
@@ -255,9 +255,9 @@
 <ol style="list-style-type: decimal">
 <li><em>Percentage similarity</em></li>
 </ol>
-<p>Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same <a href="http://V.name" class="external-link">V.name</a>, <a href="http://J.name" class="external-link">J.name</a>, and CDR3 length — but also have more than 90 percent match in their CDR3.</p>
+<p>Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same V.name, J.name, and CDR3 length — but also have more than 90 percent match in their CDR3.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#clustering TCR </span></span>
+<code class="sourceCode R"><span><span class="co">#clustering TCR</span></span>
 <span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .perc_similarity <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#count cluster size</span></span>
@@ -271,8 +271,8 @@
 </ol>
 <p>Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#clustering TCR </span></span>
-<span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .fixed_threshold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="co">#clustering TCR</span></span>
+<span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .fixed_threshold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#count cluster size</span></span>
 <span><span class="va">dt_fixed_threshold</span> <span class="op">&lt;-</span> <span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Cluster</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cluster_size <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -285,8 +285,8 @@
 </ol>
 <p>If you want to guarantee that the matches in the sequences are at a set proximity, specify a distance threshold</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#clustering TCR </span></span>
-<span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .nt_similarity <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="co">#clustering TCR</span></span>
+<span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .nt_similarity <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#count cluster size</span></span>
 <span><span class="va">dt_nt_similarity</span> <span class="op">&lt;-</span> <span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Cluster</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cluster_size <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -340,27 +340,32 @@
 <span><span class="va">bcr</span><span class="op">$</span><span class="va">sequence_alignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span> <span class="va">bcr</span><span class="op">[</span> , <span class="va">cols</span> <span class="op">]</span> , <span class="fl">1</span> , <span class="va">paste</span> , collapse <span class="op">=</span> <span class="st">""</span> <span class="op">)</span></span></code></pre></div>
 <p>Rename columns in <code>scoper</code> format:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ExampleDb</span> <span class="op">&lt;-</span> <span class="va">bcr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">J.first.allele</span>, <span class="va">V.first.allele</span>, <span class="va">CDR3.nt</span>, <span class="va">Germline.sequence</span>, <span class="va">sequence_alignment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>junction <span class="op">=</span> <span class="va">CDR3.nt</span>, v_call <span class="op">=</span> <span class="va">V.first.allele</span>, j_call <span class="op">=</span> <span class="va">J.first.allele</span>, germline_alignment_d_mask <span class="op">=</span> <span class="va">Germline.sequence</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ExampleDb</span> <span class="op">&lt;-</span> <span class="va">bcr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">J.allele</span>, <span class="va">V.allele</span>, <span class="va">CDR3.nt</span>, <span class="va">Germline.sequence</span>, <span class="va">sequence_alignment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>junction <span class="op">=</span> <span class="va">CDR3.nt</span>, v_call <span class="op">=</span> <span class="va">V.allele</span>, j_call <span class="op">=</span> <span class="va">J.allele</span>, germline_alignment_d_mask <span class="op">=</span> <span class="va">Germline.sequence</span><span class="op">)</span></span></code></pre></div>
 <p>Cluster using <code>scoper</code> method:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scoper/man/hierarchicalClones.html" class="external-link">hierarchicalClones</a></span><span class="op">(</span><span class="va">ExampleDb</span>, threshold<span class="op">=</span><span class="fl">0.15</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Running defineClonesScoper in bulk mode</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Running defineClonesScoper in bulk mode and only keep heavy chains</span></span></code></pre>
+<pre><code><span><span class="co">## ... identifying heavy chains with getLocus(v_call).</span></span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, binwidth<span class="op">=</span><span class="fl">0.02</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(density)` instead.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">scoper</span> package.</span></span>
+<span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://bitbucket.org/kleinstein/scoper/issues&gt;</span>.</span></span></code></pre>
 <p><img src="clustering_files/figure-html/example%2014-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Note that the column ‘clone_id’ in <code>scoper</code> format has the same meaning as the ‘Cluster’ column in <code>immunarch</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Rows: 609</span></span>
+<pre><code><span><span class="co">## Rows: 612</span></span>
 <span><span class="co">## Columns: 7</span></span>
 <span><span class="co">## $ vjl_group       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…</span></span>
-<span><span class="co">## $ sequence_count  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 5, 3, 1, 2, …</span></span>
+<span><span class="co">## $ sequence_count  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 2, 3, 3, 4, 1, 1, 1, 1, 1, 2, 1, 1, 1, …</span></span>
 <span><span class="co">## $ v_call          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IGHV1-18*01", "IGHV1-24*01", "IGHV4-30-2*01", "IGHV4-…</span></span>
-<span><span class="co">## $ j_call          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IGHJ2*01", "IGHJ3*01", "IGHJ6*01", "IGHJ6*01", "IGHJ6…</span></span>
-<span><span class="co">## $ junction_length <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 69, 51, 51, 54, 63, 66, 69, 57, 69, 30, 36, 39, 42, 45…</span></span>
-<span><span class="co">## $ clone_count     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 5, 3, 1, 2, …</span></span>
-<span><span class="co">## $ clone_id        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1", "199", "370", "567", "751", "913", "947", "964", …</span></span></code></pre>
+<span><span class="co">## $ j_call          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IGHJ2*01", "IGHJ3*01", "IGHJ1*01", "IGHJ3*01", "IGHJ3…</span></span>
+<span><span class="co">## $ junction_length <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 69, 51, 60, 39, 57, 39, 42, 45, 48, 51, 54, 57, 66, 39…</span></span>
+<span><span class="co">## $ clone_count     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 2, 3, 3, 4, 1, 1, 1, 1, 1, 2, 1, 1, 1, …</span></span>
+<span><span class="co">## $ clone_id        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1", "174", "359", "561", "744", "902,903", "936,937,9…</span></span></code></pre>
 </div>
   </div>
 
