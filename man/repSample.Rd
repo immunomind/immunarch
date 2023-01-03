@@ -24,7 +24,7 @@ of these objects. They are supported with the same limitations as basic objects.
 
 Note: each connection must represent a separate repertoire.}
 
-\item{.method}{Character. Name of a sampling method. See "Description" for more details. Default value is "downsample"
+\item{.method}{Character. Name of a sampling method. See "Details" for more details. Default value is "downsample"
 that downsamples the repertoires to the number of clones (i.e., reads / UMIs) that the smallest repertoire has, if user
 doesn't set any value to the ".n" argument.}
 
