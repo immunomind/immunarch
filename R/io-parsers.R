@@ -964,13 +964,18 @@ parse_airr <- function(.filename, .mode) {
     .as_tsv() %>%
     airr::read_rearrangement()
 
+  bcr_pipeline_columns <- c(
+    "cdr1", "cdr2", "cdr1_aa", "cdr2_aa", "fwr1", "fwr2", "fwr3", "fwr4",
+    "fwr1_aa", "fwr2_aa", "fwr3_aa", "fwr4_aa"
+  )
   df %<>%
-    select_(
+    add_empty_columns(bcr_pipeline_columns[!(bcr_pipeline_columns %in% colnames(df))]) %>%
+    select(
       "sequence", "v_call", "d_call", "j_call", "junction", "junction_aa",
-      ~contains("v_germline_end"), ~contains("d_germline_start"),
-      ~contains("d_germline_end"), ~contains("j_germline_start"),
-      ~contains("np1_length"), ~contains("np2_length"),
-      ~contains("duplicate_count"),
+      contains("v_germline_end"), contains("d_germline_start"),
+      contains("d_germline_end"), contains("j_germline_start"),
+      contains("np1_length"), contains("np2_length"),
+      contains("duplicate_count"),
       "cdr1", "cdr2", "cdr1_aa", "cdr2_aa", "fwr1", "fwr2", "fwr3", "fwr4",
       "fwr1_aa", "fwr2_aa", "fwr3_aa", "fwr4_aa"
     )
