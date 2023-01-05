@@ -402,7 +402,7 @@ parse_mitcr <- function(.filename, .mode) {
 }
 
 parse_mixcr <- function(.filename, .mode, .count = c("clonecount", "readcount")) {
-  .filename <- .filename
+  .filename %<>% .as_tsv()
   .id <- "cloneid"
   .count %<>% tolower()
   .sep <- "\t"
@@ -727,6 +727,11 @@ parse_mixcr <- function(.filename, .mode, .count = c("clonecount", "readcount"))
       df_columns <- c(df_columns, loaded_header)
       df_column_names <- c(df_column_names, df_ext_column_names[i])
     }
+  }
+
+  # fill cloneid column if it not exists
+  if (!(.id %in% colnames(df))) {
+    df %<>% mutate("{.id}" := row_number())
   }
 
   df <- df[, make.names(df_columns)]
