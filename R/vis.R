@@ -2234,7 +2234,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #'
 #' @concept diversity
 #'
-#' @aliases vis.immunr_chao1 vis.immunr_dxx vis.immunr_rarefaction vis.immunr_div vis.immunr_ginisimp vis.immunr_invsimp vis.immunr_hill
+#' @aliases vis.immunr_chao1 vis.immunr_dxx vis.immunr_rarefaction vis.immunr_div vis.immunr_gini vis.immunr_ginisimp vis.immunr_invsimp vis.immunr_hill
 #' @description An utility function to visualise the output from \code{\link{repDiversity}}.
 #'
 #' @importFrom reshape2 melt
@@ -2365,6 +2365,24 @@ vis.immunr_div <- function(.data, .by = NA, .meta = NA,
     .labs = c(NA, "Effective number of clonotypes"),
     .title = "True diversity", .subtitle = "Sample diversity estimation using the true diversity index",
     .legend = .legend, .leg.title = NA
+  )
+}
+
+#' @export
+vis.immunr_gini <- function(.data, .by = NA, .meta = NA,
+                            .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
+                            .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
+  # repDiversity(..., .method = "gini") generates a matrix
+  .data = data.frame(Sample = rownames(.data), Value = .data[, 1])
+
+  vis_bar(
+    .data = .data, .by = .by, .meta = .meta,
+    .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
+    .points = .points, .test = .test, .signif.label.size = .signif.label.size,
+    .defgroupby = "Sample", .grouping.var = "Group",
+    .labs = c(NA, "Gini-Simpson index"),
+    .title = "Gini-Simpson index", .subtitle = "Sample diversity estimation using the Gini-Simpson index",
+    .legend = NA, .leg.title = NA
   )
 }
 
