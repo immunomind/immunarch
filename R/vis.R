@@ -2380,8 +2380,8 @@ vis.immunr_gini <- function(.data, .by = NA, .meta = NA,
     .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
     .points = .points, .test = .test, .signif.label.size = .signif.label.size,
     .defgroupby = "Sample", .grouping.var = "Group",
-    .labs = c(NA, "Gini-Simpson index"),
-    .title = "Gini-Simpson index", .subtitle = "Sample diversity estimation using the Gini-Simpson index",
+    .labs = c(NA, "Gini coefficient"),
+    .title = "Gini coefficient", .subtitle = "Sample diversity estimation using the Gini coefficient",
     .legend = NA, .leg.title = NA
   )
 }
