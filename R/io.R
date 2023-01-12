@@ -291,13 +291,13 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
     missed_in_metadata <- setdiff(.metadata$Sample, .rep_names)
     if (length(missed_in_folders) || length(missed_in_metadata)) {
       if (length(missed_in_metadata)) {
-        message("  -- Samples found in the metadata, but not in the folder:\n     ", missed_in_metadata)
+        message("  -- Samples found in the metadata, but not in the folder:\n     ", toString(missed_in_metadata))
         message("  Did you correctly specify all the sample names in the metadata file?")
 
         error_flag <- TRUE
       }
       if (length(missed_in_folders)) {
-        message("  -- Samples found in the folder, but not in the metadata:\n     ", missed_in_folders)
+        message("  -- Samples found in the folder, but not in the metadata:\n     ", toString(missed_in_folders))
         message("  Did you add all the necessary samples to the metadata file with correct names?")
         message("  Creating dummy sample records in the metadata for now...")
 
