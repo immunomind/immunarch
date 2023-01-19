@@ -15,7 +15,6 @@ if (getRversion() >= "2.15.1") {
 
 ##### Utility functions #####
 
-
 .rem_legend <- function(.p) {
   .p + theme(legend.position = "none")
 }
@@ -95,8 +94,31 @@ theme_cleveland2 <- function(rotate = TRUE) {
 }
 
 
-##### The one and only - the ultimate vis() function #####
+##### Default values for various arguments and settings #####
 
+.default.size <- 0.5
+.bracket.size <- 0.5
+.point.size.small <- 1.5
+.point.size.large <- 2
+.point.size.modif <- 1
+.add.point.size <- 1
+.line.size <- 0.75
+.tip.length <- 0.03
+.radj.size <- 3.5
+.signif.label.size <- 3.5
+.label.size.small <- 4
+.label.size.large <- 10
+.errorbars <- c(0.025, 0.975)
+.errorbar.width.small <- 0.2
+.errorbar.width.large <- 0.45
+.default.adjust <- 0.5
+.label.scale <- 1.07
+.jitter.width.small <- 0.05
+.jitter.width.large <- 0.1
+.width.textlogo <- 0.1
+
+
+##### The one and only - the ultimate vis() function #####
 
 #' One function to visualise them all
 #'
@@ -199,7 +221,6 @@ vis <- function(.data, ...) {
 
 
 ##### Overlap & heatmaps, circos plots and polar area plots #####
-
 
 #' Repertoire overlap and gene usage visualisations
 #'
@@ -385,7 +406,7 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
     xlab(.labs[1]) + ylab(.labs[2]) + coord_fixed() +
     theme_linedraw() + theme(
       axis.text.x =
-        element_text(angle = 90, vjust = .5, size = .axis.text.size)
+        element_text(angle = 90, vjust = .default.adjust, size = .axis.text.size)
     ) + theme(
       axis.text.y =
         element_text(size = .axis.text.size)
@@ -494,7 +515,7 @@ vis_circos <- function(.data, .title = NULL, ...) {
 
 # vis_radar <- function(.data, .by = NA, .meta = NA,
 #                       .ncol = NA, .which = NA,
-#                       .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .expand = c(.25, 0),
+#                       .errorbars = .errorbars, .errorbars.off = FALSE, .expand = c(.25, 0),
 #                       .title = NA, .subtitle = NULL,
 #                       .legend = FALSE, .leg.title = NULL, ...) {
 #   stop("vis_radar() is under complety re-working. Please use other functions such as vis_heatmap.
@@ -550,7 +571,7 @@ vis_circos <- function(.data, .title = NULL, ...) {
 #
 #     if (!.errorbars.off) {
 #       p <- p +
-#         geom_errorbar(aes(ymin = Value.min, ymax = Value.max), width = 0.2, position = position_dodge(.9))
+#         geom_errorbar(aes(ymin = Value.min, ymax = Value.max), width = .errorbar.width.small, position = position_dodge(.9))
 #     }
 #
 #     p <- p +
@@ -641,8 +662,8 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
         dplyr::group_by(Sample_subj, Sample, Seq.count, Overlap) %>%
         dplyr::summarise(
           Value = mean(Overlap, na.rm = TRUE),
-          Value.min = quantile(Overlap, 0.025, na.rm = TRUE),
-          Value.max = quantile(Overlap, 0.975, na.rm = TRUE)
+          Value.min = quantile(Overlap, .errorbars[1], na.rm = TRUE),
+          Value.max = quantile(Overlap, .errorbars[2], na.rm = TRUE)
         )
     } else {
       sample_names <- colnames(.data[[1]])
@@ -887,8 +908,8 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #' vis(pr, "clonotypes", 1, 2)
 vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
                                   .title = NA, .ncol = 3,
-                                  .point.size.modif = 1, .cut.axes = TRUE,
-                                  .density = TRUE, .lm = TRUE, .radj.size = 3.5) {
+                                  .point.size.modif = .point.size.modif, .cut.axes = TRUE,
+                                  .density = TRUE, .lm = TRUE, .radj.size = .radj.size) {
   .shared.rep <- .data
 
   mat <- public_matrix(.shared.rep)
@@ -991,7 +1012,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
       adj.R.sq <- summary(lm(Yrep ~ Xrep, df))$adj.
 
       points <- points +
-        geom_smooth(aes(x = Xrep, y = Yrep), method = "lm", data = df, fullrange = TRUE, colour = "grey20", size = .5) +
+        geom_smooth(aes(x = Xrep, y = Yrep), method = "lm", data = df, fullrange = TRUE, colour = "grey20", size = .default.size) +
         geom_text(aes(
           x = max(df_full, na.rm = TRUE) / 4,
           y = min(df_full, na.rm = TRUE),
@@ -1043,7 +1064,6 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 
 
 ##### Gene usage & histogram plot, boxplot #####
-
 
 #' Histograms and boxplots (general case / gene usage)
 #'
@@ -1103,17 +1123,11 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
       .subtitle = NULL, ...
     )
   } else if (.plot == "heatmap") {
-    row.names(.data) <- .data[[1]]
-    .data <- t(as.matrix(.data[2:ncol(.data)]))
-    vis_heatmap(.data, ...)
+    vis_heatmap(transpose_gene_usage(.data), ...)
   } else if (.plot == "heatmap2") {
-    row.names(.data) <- .data[[1]]
-    .data <- t(as.matrix(.data[2:ncol(.data)]))
-    vis_heatmap2(.data, ...)
+    vis_heatmap2(transpose_gene_usage(.data), ...)
   } else if (.plot == "circos") {
-    row.names(.data) <- .data[[1]]
-    .data <- t(as.matrix(.data[2:ncol(.data)]))
-    vis_circos(.data, ...)
+    vis_circos(transpose_gene_usage(.data), ...)
   } else {
     stop("Error: Unknown value of the .plot parameter. Please provide one of the following: 'hist', 'box', 'heatmap', 'heatmap2', 'circos'.")
   }
@@ -1268,8 +1282,9 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 
           ps[[i]] <- vis_bar(
             .data = res[[i]], .by = .by, .meta = .meta,
-            .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = FALSE,
-            .points = .points, .test = .test, .signif.label.size = 3.5, .errorbar.width = 0.45,
+            .errorbars = .errorbars, .errorbars.off = FALSE, .stack = FALSE,
+            .points = .points, .test = .test,
+            .signif.label.size = .signif.label.size, .errorbar.width = .errorbar.width.large,
             .defgroupby = "Sample", .grouping.var = "Gene",
             .labs = .labs, .title = names(res)[i], .subtitle = NULL,
             .legend = FALSE, .leg.title = NA
@@ -1300,8 +1315,9 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 
       p <- vis_bar(
         .data = res, .by = .by, .meta = .meta,
-        .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = FALSE,
-        .points = .points, .test = .test, .signif.label.size = 3.5, .errorbar.width = 0.45,
+        .errorbars = .errorbars, .errorbars.off = FALSE, .stack = FALSE,
+        .points = .points, .test = .test,
+        .signif.label.size = .signif.label.size, .errorbar.width = .errorbar.width.large,
         .defgroupby = "Sample", .grouping.var = "Gene",
         .labs = .labs,
         .title = .title, .subtitle = NULL,
@@ -1362,10 +1378,12 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #' vis_box(data.frame(Sample = sample(c("A", "B", "C"), 100, TRUE), Value = rnorm(100)), .melt = FALSE)
 #' @export
 vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
-                    .points = TRUE, .test = TRUE, .signif.label.size = 3.5, .defgroupby = "Sample", .grouping.var = "Group",
+                    .points = TRUE, .test = TRUE, .signif.label.size = .signif.label.size,
+                    .defgroupby = "Sample", .grouping.var = "Group",
                     .labs = c("X", "Y"), .title = "Boxplot (.title argument)",
                     .subtitle = "Subtitle (.subtitle argument)",
-                    .legend = NA, .leg.title = "Legend (.leg.title argument)", .legend.pos = "right") {
+                    .legend = NA, .leg.title = "Legend (.leg.title argument)",
+                    .legend.pos = "right") {
   if (.melt) {
     res <- reshape2::melt(.data)
     res <- res[1:nrow(res), ]
@@ -1423,7 +1441,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 
     if (.points) {
       p <- p +
-        geom_point(color = "black", position = position_jitterdodge(0.05), size = 1)
+        geom_point(color = "black", position = position_jitterdodge(.jitter.width.small), size = 1)
     }
 
     if (.test) {
@@ -1453,7 +1471,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
         p <- p + geom_signif(
           data = p_df,
           aes(xmin = group1, xmax = group2, annotations = p.adj, y_position = y.coord),
-          manual = TRUE, tip_length = 0.03, size = .5, inherit.aes = FALSE
+          manual = TRUE, tip_length = .tip.length, size = .default.size, inherit.aes = FALSE
         )
       } else {
         # Seems fine...
@@ -1462,8 +1480,8 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 
         p <- p +
           stat_compare_means(aes(label = after_stat(p.adj)),
-            bracket.size = .5, size = .signif.label.size,
-            label.y = max(.data$Value, na.rm = TRUE) * 1.07
+            bracket.size = .bracket.size, size = .signif.label.size,
+            label.y = max(.data$Value, na.rm = TRUE) * .label.scale
           )
       }
     }
@@ -1488,7 +1506,6 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 
 
 ##### Clustering #####
-
 
 #' Visualisation of hierarchical clustering
 #'
@@ -1573,7 +1590,8 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' repOverlapAnalysis(ov, "mds+kmeans") %>% vis()
 #' @export
 vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                              .point.size = 2, .text.size = 10, .plot = c("clust", "best"),
+                              .point.size = .point.size.large, .text.size = .label.size.large,
+                              .plot = c("clust", "best"),
                               ...) {
   p1 <- NULL
   if ("clust" %in% .plot) {
@@ -1605,7 +1623,8 @@ vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 
 #' @export
 vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                              .point.size = 2, .text.size = 10, .plot = c("clust", "best"), ...) {
+                              .point.size = .point.size.large, .text.size = .label.size.large,
+                              .plot = c("clust", "best"), ...) {
   fviz_cluster(.data[[1]],
     data = .data[[2]], main = "DBSCAN clustering", geom = c("point", "text")[c(.point, .text)],
     show.legend.text = FALSE, show.clust.cent = FALSE, repel = TRUE, ellipse = .ellipse, shape = 16,
@@ -1617,7 +1636,6 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 
 
 ##### Dimension reduction #####
-
 
 #' PCA / MDS / tSNE visualisation (mainly overlap / gene usage)
 #'
@@ -1667,7 +1685,7 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' @export
 vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                           .point.size = 2, .text.size = 4, ...) {
+                           .point.size = .point.size.large, .text.size = .label.size.small, ...) {
   if (!.point & !.text) {
     stop("Error: Please provide at least one of the arguments: .point and .text")
   }
@@ -1690,7 +1708,7 @@ vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
 #' @export
 vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                           .point.size = 2, .text.size = 4, ...) {
+                           .point.size = .point.size.large, .text.size = .text.size.small, ...) {
   if (!.point & !.text) {
     stop("Error: Please provide at least one of the arguments: .point and .text")
   }
@@ -1713,7 +1731,7 @@ vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
 #' @export
 vis.immunr_tsne <- function(.data, .by = NA, .meta = NA,
                             .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                            .point.size = 2, .text.size = 4, ...) {
+                            .point.size = .point.size.large, .text.size = .text.size.small, ...) {
   .data <- data.frame(.data)
   colnames(.data) <- c("Dim1", "Dim2")
   .data$Sample <- row.names(.data)
@@ -1741,9 +1759,8 @@ vis.immunr_tsne <- function(.data, .by = NA, .meta = NA,
 
 ##### Clonality analysis #####
 
-
 vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
-                            .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = NA,
+                            .errorbars = .errorbars, .errorbars.off = FALSE, .stack = NA,
                             .grouping.var = NA,
                             .labs = c(NA, "Y"),
                             .title = "Barplot (.title argument)", .subtitle = "Subtitle (.subtitle argument)",
@@ -1877,10 +1894,12 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' # Remove p values and points from the plot
 #' vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
 #' @export
-vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
+vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars,
+                                   .errorbars.off = FALSE, .points = TRUE, .test = TRUE,
+                                   .signif.label.size = .signif.label.size, ...) {
   # ToDo: this and other repClonality and repDiversity functions doesn't work on a single repertoire. Fix it
   perc_value <- round(.data[1, 2][1])
-  .data <- data.frame(Sample = row.names(.data), Value = .data[, 1])
+  .data %<>% matrix_to_df()
 
   p <- vis_bar(
     .data = .data, .by = .by, .meta = .meta,
@@ -1896,7 +1915,7 @@ vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0
 }
 
 #' @export
-vis.immunr_homeo <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = NA, .test = TRUE, .points = TRUE, ...) {
+vis.immunr_homeo <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars, .errorbars.off = FALSE, .stack = NA, .test = TRUE, .points = TRUE, ...) {
   melted <- reshape2::melt(.data)
   colnames(melted) <- c("Sample", "Clone.group", "Value")
 
@@ -1918,7 +1937,7 @@ vis.immunr_homeo <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 
 }
 
 #' @export
-vis.immunr_top_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = NA, .points = TRUE, .test = TRUE, ...) {
+vis.immunr_top_prop <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars, .errorbars.off = FALSE, .stack = NA, .points = TRUE, .test = TRUE, ...) {
   tmp <- .data
   if (is.null(dim(tmp))) {
     tmp <- t(as.matrix(tmp))
@@ -1953,7 +1972,7 @@ vis.immunr_top_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.02
 }
 
 #' @export
-vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = NA, .points = TRUE, .test = TRUE, ...) {
+vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars, .errorbars.off = FALSE, .stack = NA, .points = TRUE, .test = TRUE, ...) {
   tmp <- .data
   if (is.null(dim(tmp))) {
     tmp <- t(as.matrix(tmp))
@@ -2006,7 +2025,6 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 
 ##### Diversity estimation & dodged bar plots #####
 
-
 #' Bar plots
 #'
 #' @concept vis
@@ -2052,8 +2070,11 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 #' @examples
 #' vis_bar(data.frame(Sample = c("A", "B", "C"), Value = c(1, 2, 3)))
 #' @export
-vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = FALSE,
-                    .points = TRUE, .test = TRUE, .signif.label.size = 3.5, .errorbar.width = 0.2, .defgroupby = "Sample", .grouping.var = "Group",
+vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars, .errorbars.off = FALSE,
+                    .stack = FALSE, .points = TRUE, .test = TRUE,
+                    .signif.label.size = .signif.label.size,
+                    .errorbar.width = .errorbar.width.small,
+                    .defgroupby = "Sample", .grouping.var = "Group",
                     .labs = c("X", "Y"), .title = "Barplot (.title argument)",
                     .subtitle = "Subtitle (.subtitle argument)",
                     .legend = NA, .leg.title = "Legend (.leg.title argument)", .legend.pos = "right",
@@ -2142,7 +2163,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 
     if (.points) {
       p <- p +
-        geom_point(color = "black", position = position_jitterdodge(0.05), size = 1)
+        geom_point(color = "black", position = position_jitterdodge(.jitter.width.small), size = 1)
     }
 
     if (.test) {
@@ -2172,7 +2193,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
         p <- p + geom_signif(
           data = p_df,
           aes(xmin = group1, xmax = group2, annotations = p.adj, y_position = y.coord),
-          manual = TRUE, tip_length = 0.03, size = .5, inherit.aes = FALSE
+          manual = TRUE, tip_length = .tip.length, size = .default.size, inherit.aes = FALSE
         )
       } else {
         # Seems fine...
@@ -2181,8 +2202,8 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 
         p <- p +
           stat_compare_means(aes(label = after_stat(p.adj)),
-            bracket.size = .5, size = .signif.label.size,
-            label.y = max(.data$Value, na.rm = TRUE) * 1.07
+            bracket.size = .bracket.size, size = .signif.label.size,
+            label.y = max(.data$Value, na.rm = TRUE) * .label.scale
           )
       }
     }
@@ -2226,7 +2247,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #'
 #' @concept diversity
 #'
-#' @aliases vis.immunr_chao1 vis.immunr_dxx vis.immunr_rarefaction vis.immunr_div vis.immunr_ginisimp vis.immunr_invsimp vis.immunr_hill
+#' @aliases vis.immunr_chao1 vis.immunr_dxx vis.immunr_rarefaction vis.immunr_div vis.immunr_gini vis.immunr_ginisimp vis.immunr_invsimp vis.immunr_hill
 #' @description An utility function to visualise the output from \code{\link{repDiversity}}.
 #'
 #' @importFrom reshape2 melt
@@ -2272,8 +2293,10 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #' dv <- repDiversity(immdata$data, "chao1")
 #' vis(dv)
 #' @export
-vis.immunr_chao1 <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
-  .data <- data.frame(Sample = row.names(.data), Value = .data[, 1])
+vis.immunr_chao1 <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars,
+                             .errorbars.off = FALSE, .points = TRUE, .test = TRUE,
+                             .signif.label.size = .signif.label.size, ...) {
+  .data %<>% matrix_to_df()
 
   vis_bar(
     .data = .data, .by = .by, .meta = .meta,
@@ -2287,8 +2310,10 @@ vis.immunr_chao1 <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 
 }
 
 #' @export
-vis.immunr_hill <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
-                            .points = TRUE, .add.points = TRUE, .point.size = 1.5, .add.point.size = 1, .line.size = 0.75, .leg.title = NA, ...) {
+vis.immunr_hill <- function(.data, .by = NA, .meta = NA, .errorbars = .errorbars,
+                            .errorbars.off = FALSE, .points = TRUE, .add.points = TRUE,
+                            .point.size = .point.size.small, .add.point.size = .add.point.size,
+                            .line.size = .line.size, .leg.title = NA, ...) {
   group_res <- process_metadata_arguments(.data, .by, .meta)
   .data$Group <- group_res$group_column
 
@@ -2310,7 +2335,7 @@ vis.immunr_hill <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0
 
   position_value <- "identity"
   if (group_res$is_grouped) {
-    position_value <- position_jitter(width = 0.1)
+    position_value <- position_jitter(width = .jitter.width.large)
   }
 
   p <- ggplot() +
@@ -2346,58 +2371,81 @@ vis.immunr_hill <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0
 
 #' @export
 vis.immunr_div <- function(.data, .by = NA, .meta = NA,
-                           .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
-                           .points = TRUE, .test = TRUE, .signif.label.size = 3.5,
-                           .legend = NA, ...) {
+                           .errorbars = .errorbars, .errorbars.off = FALSE,
+                           .points = TRUE, .test = TRUE,
+                           .signif.label.size = .signif.label.size, .legend = NA, ...) {
   vis_bar(
     .data = .data, .by = .by, .meta = .meta,
     .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
     .points = .points, .test = .test, .signif.label.size = .signif.label.size,
     .defgroupby = "Sample", .grouping.var = "Group",
     .labs = c(NA, "Effective number of clonotypes"),
-    .title = "True diversity", .subtitle = "Sample diversity estimation using the true diversity index",
+    .title = "True diversity",
+    .subtitle = "Sample diversity estimation using the true diversity index",
     .legend = .legend, .leg.title = NA
   )
 }
 
 #' @export
+vis.immunr_gini <- function(.data, .by = NA, .meta = NA,
+                            .errorbars = .errorbars, .errorbars.off = FALSE,
+                            .points = TRUE, .test = TRUE,
+                            .signif.label.size = .signif.label.size, ...) {
+  .data %<>% matrix_to_df()
+
+  vis_bar(
+    .data = .data, .by = .by, .meta = .meta,
+    .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
+    .points = .points, .test = .test, .signif.label.size = .signif.label.size,
+    .defgroupby = "Sample", .grouping.var = "Group",
+    .labs = c(NA, "Gini coefficient"),
+    .title = "Gini coefficient",
+    .subtitle = "Sample diversity estimation using the Gini coefficient",
+    .legend = NA, .leg.title = NA
+  )
+}
+
+#' @export
 vis.immunr_ginisimp <- function(.data, .by = NA, .meta = NA,
-                                .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
-                                .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
+                                .errorbars = .errorbars, .errorbars.off = FALSE,
+                                .points = TRUE, .test = TRUE,
+                                .signif.label.size = .signif.label.size, ...) {
   vis_bar(
     .data = .data, .by = .by, .meta = .meta,
     .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
     .points = .points, .test = .test, .signif.label.size = .signif.label.size,
     .defgroupby = "Sample", .grouping.var = "Group",
     .labs = c(NA, "Gini-Simpson index"),
-    .title = "Gini-Simpson index", .subtitle = "Sample diversity estimation using the Gini-Simpson index",
+    .title = "Gini-Simpson index",
+    .subtitle = "Sample diversity estimation using the Gini-Simpson index",
     .legend = NA, .leg.title = NA
   )
 }
 
 #' @export
 vis.immunr_invsimp <- function(.data, .by = NA, .meta = NA,
-                               .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
-                               .points = TRUE, .test = TRUE, .signif.label.size = 3.5,
-                               .legend = NA, ...) {
+                               .errorbars = .errorbars, .errorbars.off = FALSE,
+                               .points = TRUE, .test = TRUE,
+                               .signif.label.size = .signif.label.size, .legend = NA, ...) {
   vis_bar(
     .data = .data, .by = .by, .meta = .meta,
     .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
     .points = .points, .test = .test, .signif.label.size = .signif.label.size,
     .defgroupby = "Sample", .grouping.var = "Group",
     .labs = c(NA, "Inverse Simpson index"),
-    .title = "Inverse Simpson index", .subtitle = "Sample diversity estimation using the inverse Simpson index",
+    .title = "Inverse Simpson index",
+    .subtitle = "Sample diversity estimation using the inverse Simpson index",
     .legend = .legend, .leg.title = NA
   )
 }
 
 #' @export
 vis.immunr_dxx <- function(.data, .by = NA, .meta = NA,
-                           .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
-                           .points = TRUE, .test = TRUE, .signif.label.size = 3.5,
-                           .legend = NA, ...) {
+                           .errorbars = .errorbars, .errorbars.off = FALSE,
+                           .points = TRUE, .test = TRUE,
+                           .signif.label.size = .signif.label.size, .legend = NA, ...) {
   perc_value <- round(.data[1, 2][1])
-  .data <- data.frame(Sample = row.names(.data), Value = .data[, 1])
+  .data %<>% matrix_to_df()
 
   vis_bar(
     .data = .data, .by = .by, .meta = .meta,
@@ -2405,7 +2453,8 @@ vis.immunr_dxx <- function(.data, .by = NA, .meta = NA,
     .points = .points, .test = .test, .signif.label.size = .signif.label.size,
     .defgroupby = "Sample", .grouping.var = "Group",
     .labs = c(NA, paste0("D", perc_value)),
-    .title = paste0("D", perc_value, " diversity index"), .subtitle = paste0("Number of clonotypes occupying the ", perc_value, "% of repertoires"),
+    .title = paste0("D", perc_value, " diversity index"),
+    .subtitle = paste0("Number of clonotypes occupying the ", perc_value, "% of repertoires"),
     .legend = .legend, .leg.title = NA
   )
 }
@@ -2480,7 +2529,6 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 
 ##### Exploratory analysis #####
 
-
 #' Visualise results of the exploratory analysis
 #'
 #' @concept explore
@@ -2537,9 +2585,9 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 #' repExplore(immdata$data, "clones") %>% vis()
 #' @export
 vis.immunr_exp_vol <- function(.data, .by = NA, .meta = NA,
-                               .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
+                               .errorbars = .errorbars, .errorbars.off = FALSE,
                                .points = TRUE, .test = TRUE,
-                               .signif.label.size = 3.5, ...) {
+                               .signif.label.size = .signif.label.size, ...) {
   .data <- rename_column(.data, "Volume", "Value")
 
   vis_bar(
@@ -2586,14 +2634,14 @@ vis.immunr_exp_count <- function(.data, .by = NA, .meta = NA, .logx = TRUE, .log
 
 #' @export
 vis.immunr_exp_len <- function(.data, .by = NA, .meta = NA,
-                               .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
+                               .errorbars = .errorbars, .errorbars.off = FALSE,
                                .points = TRUE, .test = TRUE,
-                               .signif.label.size = 3.5, ...) {
+                               .signif.label.size = .signif.label.size, ...) {
   .data <- rename_column(.data, "Count", "Value")
 
   vis_bar(
     .data = .data, .by = .by, .meta = .meta,
-    .errorbars = c(0.025, 0.975), .errorbars.off = .errorbars.off, .stack = FALSE,
+    .errorbars = .errorbars, .errorbars.off = .errorbars.off, .stack = FALSE,
     .points = .points, .test = .test, .signif.label.size = .signif.label.size,
     .defgroupby = "Sample", .grouping.var = "Length",
     .labs = c("CDR3 length", "Clonotypes"),
@@ -2604,9 +2652,9 @@ vis.immunr_exp_len <- function(.data, .by = NA, .meta = NA,
 
 #' @export
 vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
-                                  .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
+                                  .errorbars = .errorbars, .errorbars.off = FALSE,
                                   .points = TRUE, .test = TRUE,
-                                  .signif.label.size = 3.5, ...) {
+                                  .signif.label.size = .signif.label.size, ...) {
   .data <- rename_column(.data, "Clones", "Value")
 
   vis_bar(
@@ -2622,7 +2670,6 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 
 
 ##### Kmer analysis & sequence logo plot #####
-
 
 #' Most frequent kmers visualisation.
 #'
@@ -2740,7 +2787,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' vis_textlogo(d)
 #' vis_seqlogo(d)
 #' @export
-vis_textlogo <- function(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...) {
+vis_textlogo <- function(.data, .replace.zero.with.na = TRUE, .width = .width.textlogo, ...) {
   # ToDo: make different color schemas, for type of aminoacids (polarity, etc), etc
 
   .data <- reshape2::melt(.data)
@@ -2826,7 +2873,6 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 
 
 ##### Other & WIP visualisations #####
-
 
 #' Visualise clonotype dynamics
 #'
