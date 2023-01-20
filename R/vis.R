@@ -1708,7 +1708,7 @@ vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
 #' @export
 vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                           .point.size = .point.size.large, .text.size = .text.size.small, ...) {
+                           .point.size = .point.size.large, .text.size = .label.size.small, ...) {
   if (!.point & !.text) {
     stop("Error: Please provide at least one of the arguments: .point and .text")
   }
@@ -1731,7 +1731,7 @@ vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
 #' @export
 vis.immunr_tsne <- function(.data, .by = NA, .meta = NA,
                             .point = TRUE, .text = TRUE, .ellipse = TRUE,
-                            .point.size = .point.size.large, .text.size = .text.size.small, ...) {
+                            .point.size = .point.size.large, .text.size = .label.size.small, ...) {
   .data <- data.frame(.data)
   colnames(.data) <- c("Dim1", "Dim2")
   .data$Sample <- row.names(.data)
