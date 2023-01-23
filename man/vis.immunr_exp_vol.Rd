@@ -11,11 +11,11 @@
   .data,
   .by = NA,
   .meta = NA,
-  .errorbars = c(0.025, 0.975),
+  .errorbars = .errorbars,
   .errorbars.off = FALSE,
   .points = TRUE,
   .test = TRUE,
-  .signif.label.size = 3.5,
+  .signif.label.size = .signif.label.size,
   ...
 )
 }

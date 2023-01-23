@@ -2750,7 +2750,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' @name vis_textlogo
 #'
 #' @usage
-#' vis_textlogo(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...)
+#' vis_textlogo(.data, .replace.zero.with.na = TRUE, .width = .width.textlogo, ...)
 #'
 #' vis_seqlogo(.data, .scheme = "chemistry", ...)
 #'

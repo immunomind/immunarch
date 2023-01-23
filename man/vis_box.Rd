@@ -11,7 +11,7 @@ vis_box(
   .melt = TRUE,
   .points = TRUE,
   .test = TRUE,
-  .signif.label.size = 3.5,
+  .signif.label.size = .signif.label.size,
   .defgroupby = "Sample",
   .grouping.var = "Group",
   .labs = c("X", "Y"),

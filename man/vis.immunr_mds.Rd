@@ -13,8 +13,8 @@
   .point = TRUE,
   .text = TRUE,
   .ellipse = TRUE,
-  .point.size = 2,
-  .text.size = 4,
+  .point.size = .point.size.large,
+  .text.size = .label.size.small,
   ...
 )
 }

@@ -5,6 +5,7 @@
 \alias{vis.immunr_dxx}
 \alias{vis.immunr_rarefaction}
 \alias{vis.immunr_div}
+\alias{vis.immunr_gini}
 \alias{vis.immunr_ginisimp}
 \alias{vis.immunr_invsimp}
 \alias{vis.immunr_hill}
@@ -14,11 +15,11 @@
   .data,
   .by = NA,
   .meta = NA,
-  .errorbars = c(0.025, 0.975),
+  .errorbars = .errorbars,
   .errorbars.off = FALSE,
   .points = TRUE,
   .test = TRUE,
-  .signif.label.size = 3.5,
+  .signif.label.size = .signif.label.size,
   ...
 )
 }
