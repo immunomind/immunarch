@@ -341,6 +341,19 @@ rename_column <- function(.data, .old, .new) {
 }
 
 
+# .names_map must be a list with old column names as names, and new names as list items
+rename_columns <- function(.data, .names_map) {
+  names(.data) %<>% sapply(function(name) {
+    if (name %in% names(.names_map)) {
+      .names_map[[name]]
+    } else {
+      name
+    }
+  })
+  .data
+}
+
+
 #' Apply function to each pair of data frames from a list.
 #'
 #' @concept utility_public

@@ -66,6 +66,7 @@ NULL
 
 # column names and types for Immunarch Single Cell format
 IMMCOL_SC <- list(
+  Cell.ID = "character",
   Reads = "integer",
   UMIs = "integer",
   FR1.nt = "character",

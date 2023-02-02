@@ -1058,130 +1058,91 @@ parse_10x_consensus <- function(.filename, .mode) {
   df
 }
 
-parse_10x_filt_contigs <- function(.filename, .mode) {
-  df <- parse_repertoire(.filename,
-    .mode = .mode,
-    .nuc.seq = "cdr3_nt", .aa.seq = NA, .count = "umis",
-    .vgenes = "v_gene", .jgenes = "j_gene", .dgenes = "d_gene",
-    .vend = NA, .jstart = NA, .dstart = NA, .dend = NA,
-    .vd.insertions = NA, .dj.insertions = NA, .total.insertions = NA,
-    .skip = 0, .sep = ",",
-    .add = c(
-      "chain", "barcode", "raw_clonotype_id", "contig_id", "c_gene",
-      "cdr1_nt", "cdr1", "cdr2_nt", "cdr2",
-      "fwr1_nt", "fwr1", "fwr2_nt", "fwr2", "fwr3_nt", "fwr3", "fwr4_nt", "fwr4"
-    )
+parse_10x_filt_contigs <- function(.filename, .mode, .cell_id_var = "barcode", .chain_var = "chain",
+                                   .filter_prod = TRUE, .valid_chains = NA,
+                                   .valid_chains_threshold = 0.05) {
+  vars <- list(
+    reads = names(IMMCOL_SC["Reads"]),
+    umis = names(IMMCOL_SC["UMIs"]),
+    fwr1_nt = names(IMMCOL_SC["FR1.nt"]),
+    fwr1 = names(IMMCOL_SC["FR1.aa"]),
+    cdr1_nt = names(IMMCOL_SC["CDR1.nt"]),
+    cdr1 = names(IMMCOL_SC["CDR1.aa"]),
+    fwr2_nt = names(IMMCOL_SC["FR2.nt"]),
+    fwr2 = names(IMMCOL_SC["FR2.aa"]),
+    cdr2_nt = names(IMMCOL_SC["CDR2.nt"]),
+    cdr2 = names(IMMCOL_SC["CDR2.aa"]),
+    fwr3_nt = names(IMMCOL_SC["FR3.nt"]),
+    fwr3 = names(IMMCOL_SC["FR3.aa"]),
+    cdr3_nt = names(IMMCOL_SC["CDR3.nt"]),
+    cdr3 = names(IMMCOL_SC["CDR3.aa"]),
+    fwr4_nt = names(IMMCOL_SC["FR4.nt"]),
+    fwr4 = names(IMMCOL_SC["FR4.aa"]),
+    v_gene = names(IMMCOL_SC["V.name"]),
+    d_gene = names(IMMCOL_SC["D.name"]),
+    j_gene = names(IMMCOL_SC["J.name"]),
+    c_gene = names(IMMCOL_SC["C.name"]),
+    full_length = names(IMMCOL_SC["Full.length"]),
+    is_cell = names(IMMCOL_SC["Is.cell"]),
+    contig_id = names(IMMCOL_SC["Contig.ID"]),
+    productive = names(IMMCOL_SC["Productive"]),
+    raw_consensus_id = names(IMMCOL_SC["Raw.consensus.ID"]),
+    raw_clonotype_id = names(IMMCOL_SC["Raw.clonotype.ID"])
   )
 
-  setnames(df, "cdr1_nt", IMMCOL_EXT$cdr1nt)
-  setnames(df, "cdr2_nt", IMMCOL_EXT$cdr2nt)
-  setnames(df, "cdr1", IMMCOL_EXT$cdr1aa)
-  setnames(df, "cdr2", IMMCOL_EXT$cdr2aa)
-  setnames(df, "fwr1_nt", IMMCOL_EXT$fr1nt)
-  setnames(df, "fwr2_nt", IMMCOL_EXT$fr2nt)
-  setnames(df, "fwr3_nt", IMMCOL_EXT$fr3nt)
-  setnames(df, "fwr4_nt", IMMCOL_EXT$fr4nt)
-  setnames(df, "fwr1", IMMCOL_EXT$fr1aa)
-  setnames(df, "fwr2", IMMCOL_EXT$fr2aa)
-  setnames(df, "fwr3", IMMCOL_EXT$fr3aa)
-  setnames(df, "fwr4", IMMCOL_EXT$fr4aa)
-
-  # Process 10xGenomics filtered contigs files - count barcodes, merge consensues ids, clonotype ids and contig ids
-  df <- df[order(df$chain), ]
-  setDT(df)
-
-  if (.mode == "paired") {
-    df %<>%
-      lazy_dt() %>%
-      group_by_colnames("barcode", "raw_clonotype_id") %>%
-      summarise(
-        CDR1.nt = paste0(get("CDR1.nt"), collapse = IMMCOL_ADD$scsep),
-        CDR1.aa = paste0(get("CDR1.aa"), collapse = IMMCOL_ADD$scsep),
-        CDR2.nt = paste0(get("CDR2.nt"), collapse = IMMCOL_ADD$scsep),
-        CDR2.aa = paste0(get("CDR2.aa"), collapse = IMMCOL_ADD$scsep),
-        CDR3.nt = paste0(get("CDR3.nt"), collapse = IMMCOL_ADD$scsep),
-        CDR3.aa = paste0(get("CDR3.aa"), collapse = IMMCOL_ADD$scsep),
-        FR1.nt = paste0(get("FR1.nt"), collapse = IMMCOL_ADD$scsep),
-        FR1.aa = paste0(get("FR1.aa"), collapse = IMMCOL_ADD$scsep),
-        FR2.nt = paste0(get("FR2.nt"), collapse = IMMCOL_ADD$scsep),
-        FR2.aa = paste0(get("FR2.aa"), collapse = IMMCOL_ADD$scsep),
-        FR3.nt = paste0(get("FR3.nt"), collapse = IMMCOL_ADD$scsep),
-        FR3.aa = paste0(get("FR3.aa"), collapse = IMMCOL_ADD$scsep),
-        FR4.nt = paste0(get("FR4.nt"), collapse = IMMCOL_ADD$scsep),
-        FR4.aa = paste0(get("FR4.aa"), collapse = IMMCOL_ADD$scsep),
-        V.name = paste0(get("V.name"), collapse = IMMCOL_ADD$scsep),
-        J.name = paste0(get("J.name"), collapse = IMMCOL_ADD$scsep),
-        D.name = paste0(get("D.name"), collapse = IMMCOL_ADD$scsep),
-        chain = paste0(get("chain"), collapse = IMMCOL_ADD$scsep),
-        contig_id = gsub(
-          "_contig_", "",
-          paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep)
-        ),
-        c_gene = paste0(get("c_gene"), collapse = IMMCOL_ADD$scsep)
-      ) %>%
-      as.data.table()
+  df <- read_csv(.filename, show_col_types = FALSE)
+  if (nrow(df) == 0) {
+    stop("Input data is empty!")
   }
+  df %<>% group_by(across({
+    .cell_id_var
+  }))
+  if (.filter_prod) {
+    if ("productive" %in% colnames(df)) {
+      df[["productive"]] %<>% as.logical()
+      df %<>% filter(get("productive") == TRUE)
+    } else {
+      warning("Missing productive column in the input data, skipped filtering productive contigs")
+    }
+  }
+  if (nrow(df) == 0) {
+    stop("Data is empty after filtering productive contigs, try to set .filter_prod = FALSE")
+  }
+  if (has_no_data(.valid_chains)) {
+    chains_table <- table(df[[.chain_var]])
+    .valid_chains <- names(chains_table[chains_table / nrow(df) >= .valid_chains_threshold])
+  }
+  df %<>% filter(get(.chain_var) %in% .valid_chains)
+
+  df %<>% mutate(
+    unique_chains = get(.chain_var) %>% unique() %>% length(),
+    is_orphan = get("unique_chains") == 1,
+    all_chains = get("unique_chains") >= length(.valid_chains),
+    multiple_full_clonotypes = get(.chain_var) %>% table() %>% all(. > 1)
+  )
 
   df %<>%
-    lazy_dt() %>%
-    mutate(
-      CDR3.nt.sorted = sort_string(get("CDR3.nt"), IMMCOL_ADD$scsep),
-      V.name.sorted = sort_string(get("V.name"), IMMCOL_ADD$scsep),
-      J.name.sorted = sort_string(get("J.name"), IMMCOL_ADD$scsep)
+    group_by(across({
+      .chain_var
+    }), .add = TRUE) %>%
+    dplyr::slice(which.max(get("umis")))
+  df %<>% as.data.frame() %>%
+    rename_columns(.names_map = vars)
+  imm_sc_colnames <- unlist(unname(vars))
+  df %<>%
+    add_empty_columns(imm_sc_colnames[!(imm_sc_colnames %in% colnames(df))]) %>%
+    select(one_of(c(imm_sc_colnames, .cell_id_var, .chain_var)))
+  df %<>%
+    reshape(
+      direction = "wide", idvar = .cell_id_var, timevar = .chain_var, sep = "*",
+      v.names = imm_sc_colnames
     ) %>%
-    group_by_colnames("CDR3.nt.sorted", "V.name.sorted", "J.name.sorted") %>%
-    summarise(
-      Clones = length(unique(get("barcode"))),
-      CDR3.nt = first(get("CDR3.nt")),
-      CDR3.aa = first(get("CDR3.aa")),
-      V.name = first(get("V.name")),
-      D.name = first(get("D.name")),
-      J.name = first(get("J.name")),
-      chain = first(get("chain")),
-      barcode = paste0(unique(get("barcode")), collapse = IMMCOL_ADD$scsep),
-      raw_clonotype_id = gsub(
-        "clonotype|None", "",
-        paste0(unique(get("raw_clonotype_id")), collapse = IMMCOL_ADD$scsep)
-      ),
-      contig_id = paste0(get("contig_id"), collapse = IMMCOL_ADD$scsep),
-      c_gene = first(get("c_gene")),
-      CDR1.nt = first(get(IMMCOL_EXT$cdr1nt)),
-      CDR2.nt = first(get(IMMCOL_EXT$cdr2nt)),
-      CDR1.aa = first(get(IMMCOL_EXT$cdr1aa)),
-      CDR2.aa = first(get(IMMCOL_EXT$cdr2aa)),
-      FR1.nt = first(get(IMMCOL_EXT$fr1nt)),
-      FR2.nt = first(get(IMMCOL_EXT$fr2nt)),
-      FR3.nt = first(get(IMMCOL_EXT$fr3nt)),
-      FR4.nt = first(get(IMMCOL_EXT$fr4nt)),
-      FR1.aa = first(get(IMMCOL_EXT$fr1aa)),
-      FR2.aa = first(get(IMMCOL_EXT$fr2aa)),
-      FR3.aa = first(get(IMMCOL_EXT$fr3aa)),
-      FR4.aa = first(get(IMMCOL_EXT$fr4aa))
-    ) %>%
-    as.data.table() %>%
-    subset(
-      select = -c(get("CDR3.nt.sorted"), get("V.name.sorted"), get("J.name.sorted"))
-    )
+    rename_column(.cell_id_var, names(IMMCOL_SC["Cell.ID"]))
 
-  df$V.end <- NA
-  df$J.start <- NA
-  df$D.end <- NA
-  df$D.start <- NA
-  df$VD.ins <- NA
-  df$DJ.ins <- NA
-  df$VJ.ins <- NA
-  df$Sequence <- df$CDR3.nt
+  print(colnames(df))
+  print(nrow(df))
 
-  setnames(df, "contig_id", "ContigID")
-  setnames(df, "barcode", "Barcode")
-  setnames(df, "c_gene", IMMCOL_EXT$c)
-
-  df[[IMMCOL$prop]] <- df[[IMMCOL$count]] / sum(df[[IMMCOL$count]])
-  setcolorder(df, IMMCOL$order)
-
-  setDF(df)
-
-  .postprocess(df)
+  return(.postprocess_sc(df))
 }
 
 parse_archer <- function(.filename, .mode) {

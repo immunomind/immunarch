@@ -218,6 +218,14 @@
   .data
 }
 
+.postprocess_sc <- function(.data) {
+  for (colname in colnames(.data)) {
+    if (colname %in% names(IMMCOL_SC)) {
+      .data[[colname]] %<>% as(IMMCOL_SC[[colname]])
+    }
+  }
+}
+
 .as_tsv <- function(.delim_file) {
   df <- readr::read_tsv(.delim_file, comment = "#")
   if (ncol(df) == 1) {
