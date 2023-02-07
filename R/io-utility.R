@@ -224,6 +224,8 @@
       .data[[colname]] %<>% as(IMMCOL_SC[[colname]])
     }
   }
+  .data %<>% add_class("single_cell")
+  return(.data)
 }
 
 .as_tsv <- function(.delim_file) {

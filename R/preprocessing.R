@@ -86,16 +86,21 @@ coding <- function(.data) {
   if (has_class(.data, "list")) {
     lapply(.data, coding)
   } else {
-    # immdata$data[[1]] %>% mutate_(Len = "nchar(CDR3.nt)", Nonc = "CDR3.nt %like% '[*, ~]'") %>% filter((Len %% 3 == 0) & (!Nonc))
-
     dt_flag <- FALSE
     if (has_class(.data, "data.table")) {
       dt_flag <- TRUE
-      .data <- .data %>% lazy_dt()
+      .data %<>% lazy_dt()
+    }
+    if (has_class(.data, "single_cell")) {
+      cdr3_aa_columns <- get_colnames_with(.data, names(IMMCOL_SC["CDR3.aa"]))
+    } else {
+      cdr3_aa_columns <- IMMCOL$cdr3aa
     }
     d <- collect(.data, n = Inf)
-    d <- filter(d, !is.na(d[[IMMCOL$cdr3aa]]))
-    d <- d[grep("[*, ~]", d[[IMMCOL$cdr3aa]], invert = TRUE), ]
+    for (cdr3_aa_column in cdr3_aa_columns) {
+      d %<>% filter(!is.na(d[[cdr3_aa_column]]))
+      d <- d[grep("[*, ~]", d[[cdr3_aa_column]], invert = TRUE), ]
+    }
     if (dt_flag) {
       data.table(d)
     } else {

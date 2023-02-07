@@ -1456,10 +1456,6 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
           manual = TRUE, tip_length = 0.03, size = .5, inherit.aes = FALSE
         )
       } else {
-        # Seems fine...
-        # p_df = compare_means(Value ~ Group, group.by = "Grouping.var", method = "kruskal.test", .data, p.adjust.method = "holm")
-        # print(p_df)
-
         p <- p +
           stat_compare_means(aes(label = after_stat(p.adj)),
             bracket.size = .5, size = .signif.label.size,
@@ -2175,10 +2171,6 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
           manual = TRUE, tip_length = 0.03, size = .5, inherit.aes = FALSE
         )
       } else {
-        # Seems fine...
-        # p_df = compare_means(Value ~ Group, group.by = "Grouping.var", method = "kruskal.test", .data, p.adjust.method = "holm")
-        # print(p_df)
-
         p <- p +
           stat_compare_means(aes(label = after_stat(p.adj)),
             bracket.size = .5, size = .signif.label.size,

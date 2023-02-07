@@ -731,7 +731,7 @@ parse_mixcr <- function(.filename, .mode, .count = c("clonecount", "readcount"))
 
   # fill cloneid column if it not exists
   if (!(.id %in% colnames(df))) {
-    df %<>% mutate("{.id}" := row_number())
+    df %<>% mutate("{.id}" := dplyr::row_number())
   }
 
   df <- df[, make.names(df_columns)]
@@ -1094,7 +1094,7 @@ parse_10x_filt_contigs <- function(.filename, .mode, .cell_id_var = "barcode", .
   if (nrow(df) == 0) {
     stop("Input data is empty!")
   }
-  df %<>% group_by(across({
+  df %<>% group_by(dplyr::across({
     .cell_id_var
   }))
   if (.filter_prod) {
@@ -1122,7 +1122,7 @@ parse_10x_filt_contigs <- function(.filename, .mode, .cell_id_var = "barcode", .
   )
 
   df %<>%
-    group_by(across({
+    group_by(dplyr::across({
       .chain_var
     }), .add = TRUE) %>%
     dplyr::slice(which.max(get("umis")))
@@ -1133,14 +1133,11 @@ parse_10x_filt_contigs <- function(.filename, .mode, .cell_id_var = "barcode", .
     add_empty_columns(imm_sc_colnames[!(imm_sc_colnames %in% colnames(df))]) %>%
     select(one_of(c(imm_sc_colnames, .cell_id_var, .chain_var)))
   df %<>%
-    reshape(
+    stats::reshape(
       direction = "wide", idvar = .cell_id_var, timevar = .chain_var, sep = "*",
       v.names = imm_sc_colnames
     ) %>%
     rename_column(.cell_id_var, names(IMMCOL_SC["Cell.ID"]))
-
-  print(colnames(df))
-  print(nrow(df))
 
   return(.postprocess_sc(df))
 }

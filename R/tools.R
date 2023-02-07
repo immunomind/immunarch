@@ -479,8 +479,6 @@ load_segments <- function(.path, .alias, .gene_df = GENE_SEGMENTS, .filter = NA)
   if (!is.na(.filter)) {
     segm <- segm %>% filter(species == .filter)
   }
-  # print(table(segm$species))
-  # print(segm %>% filter(gene == "trdv", species == "BosTaurus"))
   setnames(segm, "id", "allele_id", skip_absent = TRUE)
   segm$gene <- tolower(paste0(segm$gene, substr(segm$segment, 1, 1)))
   segm$family_id <- return_families(segm$allele_id)
@@ -510,6 +508,11 @@ has_no_data <- function(.data) {
 # variant of group_by that takes column names as strings
 group_by_colnames <- function(.data, ...) {
   group_by_at(.data, vars(one_of(...)))
+}
+
+# gets names of all columns with substring in name
+get_colnames_with <- function(.data, .substring) {
+  colnames(.data)[grepl(.substring, colnames(.data), fixed = TRUE)]
 }
 
 # apply function to .data if it's a single sample or to each sample if .data is a list of samples

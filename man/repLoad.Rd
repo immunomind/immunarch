@@ -34,7 +34,21 @@ By default, 10X Genomics data will be loaded as paired chain data, and other fil
 
 \item{.coding}{A logical value. Set TRUE to get coding-only clonotypes (by defaul). Set FALSE to get all clonotypes.}
 
-\item{...}{Extra arguments for parsing functions}
+\item{...}{Extra arguments for parsing functions. You can add these arguments for specific formats:
+
+MiXCR format:
+
+  .count (default: c("clonecount", "readcount")) - Name of column that will be parsed as counts.
+    If multiple names are specified, first existing in the data will be used.
+
+10x filt.contigs format:
+
+  .cell_id_var (default: "barcode") - Name of column that identifies the cell.
+  .filter_prod (default: TRUE) - Set it to FALSE to skip filtering of productive contigs.
+  .valid_chains (default: NA) - Can be used to manually set valid chains,
+     example: c("TRA", "TRB")
+  .valid_chains_threshold (default: 0.05) - If .valid_chains is NA, chains that present in
+     `chain` column in at least this share of rows are considered valid.}
 }
 \value{
 A list with two named elements:
