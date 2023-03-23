@@ -9,6 +9,7 @@ Authors@R: c(
     person("Aleksandr A.", "Popov", , role = "aut"),
     person("Ivan", "Balashov", , role = "aut"),
     person("Maria", "Samokhina", , role = "aut"),
+    person("Siarhei", "Fiadziushchanka", , role = "aut"),
     person("Anna", "Lorenc", , role = "ctb"),
     person("Daniel J.", "Moore", , role = "ctb"),
     person("Victor", "Greiff", , role = "ctb"),
