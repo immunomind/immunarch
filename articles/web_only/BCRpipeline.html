@@ -246,18 +246,26 @@
 <span></span>
 <span><span class="co">#find clusters</span></span>
 <span><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span>, <span class="va">distBCR</span>, .perc_similarity <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: There was 1 warning in `mutate()`.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> In argument: `length_value = map_chr(.y, ~ifelse(all(.x == .x[1]), yes =</span></span>
+<span><span class="co">##   .x[1], no = glue("range_{min(.x)}:{max(.x)}")))`.</span></span>
+<span><span class="co">## Caused by warning:</span></span>
+<span><span class="co">## <span style="color: #BBBB00;">!</span> Automatic coercion from integer to character was deprecated in purrr 1.0.0.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use an explicit call to `as.character()` within `map_chr()` instead.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">immunarch</span> package.</span></span>
+<span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/immunomind/immunarch/issues&gt;</span>.</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="building-germline">Building germline<a class="anchor" aria-label="anchor" href="#building-germline"></a>
 </h2>
 <p>Each clonal lineage has its own <strong>germline sequence</strong> that represents the ancestral sequence for each BCR in the clonal lineage. In other words, germline sequence is a sequence of B-cells immediately after VDJ recombination, before B-cell maturation and hypermutation process. Germline sequence is useful for assessing the degree of mutation and maturity of the repertoire.</p>
 <p>In Immunarch, <code><a href="../../reference/repGermline.html">repGermline()</a></code> function generates germline for each sequence:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#generate germline</span></span>
 <span><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p>A germline is represented via sequences of V gene - N…N (CDR3 length) - J gene:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#germline example</span></span>
 <span><span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>     <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -278,14 +286,14 @@
 <li>For Ubuntu, check this guide: <a href="https://www.howtoinstall.me/ubuntu/18-04/clustalw/" class="external-link">https://www.howtoinstall.me/ubuntu/18-04/clustalw/</a>
 </li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>sudo apt update</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>sudo apt install clustalw</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>sudo apt update</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>sudo apt install clustalw</span></code></pre></div>
 <ul>
 <li>For Windows, download and run <code>clustalw-x.x-win.msi</code>
 </li>
 </ul>
 <p><code>repAlignLineage</code> usage example:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bcrdata</span><span class="op">)</span></span>
 <span><span class="va">bcr_data</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span></span>
 <span><span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -297,7 +305,7 @@
 <li>
 <code>.min_lineage_sequences</code> — Filters clusters (clonal lineages) with the number of clonotypes lower than the threshold. Aligning clonal lineages with few sequences is of little use.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># take clusters that contain at least 1 sequence</span></span>
 <span><span class="va">bcr_data</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="va">align_dt</span> <span class="op">&lt;-</span> <span class="va">bcr_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -320,11 +328,11 @@
 <li>must contain the ‘Sequence.germline’ column generated by repGermline() function.</li>
 </ul>
 <p>Align sequences in a cluster can be visualized using standard functions:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A name of the first cluster</span></span>
 <span><span class="va">align_dt</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Cluster</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "IGHV1-69/IGHJ6_length_63_cluster_1"</span></span></code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Alignment of sequences from the first cluster</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="va">align_dt</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Alignment</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BCRpipeline_files/figure-html/align%20visualisation-1.png" width="1152" style="display: block; margin: auto;"></p>
@@ -339,8 +347,8 @@
 <ul>
 <li>For Ubuntu, follow the installation guide (<a href="https://zoomadmin.com/HowToInstall/UbuntuPackage/phylip" class="external-link">https://zoomadmin.com/HowToInstall/UbuntuPackage/phylip</a> ):</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>sudo apt<span class="op">-</span>get update <span class="op">-</span>y</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>sudo apt<span class="op">-</span>get install <span class="op">-</span>y phylip</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>sudo apt<span class="op">-</span>get update <span class="op">-</span>y</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>sudo apt<span class="op">-</span>get install <span class="op">-</span>y phylip</span></code></pre></div>
 <ul>
 <li>For Windows:
 <ol style="list-style-type: decimal">
@@ -351,17 +359,17 @@
 </li>
 </ul>
 <p>repClonalFamily usage example:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bcr</span> <span class="op">&lt;-</span> <span class="va">align_dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../../reference/repClonalFamily.html">repClonalFamily</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#plot visualization of the first tree</span></span>
 <span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">bcr</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BCRpipeline_files/figure-html/example%2010-1.png" width="1152" style="display: block; margin: auto;"> For each cluster tree is represented as table (The default number of clones for CommonAncestor, Germline, Presumable is 1):</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#example for the first tree</span></span>
 <span><span class="va">bcr</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p>You can recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#take sequence where number of AA mutations is not 0</span></span>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="va">bcr</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#rename these leaves</span></span>
@@ -370,7 +378,7 @@
 <span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BCRpipeline_files/figure-html/example%2010.3-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Another way to recolor leaves is to use <code>.vis_groups</code> parameter for repClonalFamily. It allows to assign group names for specific clone IDs, or lists of clone IDs:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#get all clone IDs from align_dt</span></span>
 <span><span class="va">clone_ids</span> <span class="op">&lt;-</span> <span class="fu">unnest</span><span class="op">(</span><span class="va">align_dt</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span>, <span class="st">"Sequences"</span><span class="op">)</span><span class="op">[[</span><span class="st">"Clone.ID"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#run repClonalFamily with assigning some of these clones to differently named and colored groups</span></span>
@@ -386,21 +394,21 @@
 <span><span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">bcr_with_groups</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BCRpipeline_files/figure-html/example%2010.4-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>We have found 4 clusters:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Cluster</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "IGHV1-69/IGHJ6_length_63_cluster_1" "IGHV1-69/IGHJ6_length_75_cluster_2"</span></span>
 <span><span class="co">## [3] "IGHV3-23/IGHJ4_length_45_cluster_1" "IGHV3-23/IGHJ4_length_48_cluster_1"</span></span></code></pre>
 <p>We have found mismatches between a germline and an ancestor sequence. Dots represent nucleotides matches between the sequences, letters represent mismatches between the sequences:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the example of common ancestor sequence</span></span>
 <span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Common.Ancestor</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGTCCTCGGTGAAGGTCTCCTGCAAGGCTTCTGGAGGCACCTTCAGCAGCTATGCTATCAGCTGGGTGCGACAGGCCCCTGGACAAGGGCTTGAGTGGATGGGAGGGATCATCCCTATCTTTGGTACAGCAAACTACGCACAGAAGTTCCAGGGCAGAGTCACGATTACCGCGGACAAATCCACGAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTGCGAGAGA-----TTDKGGCAGTGGTTATWCSMWKAACTACTACTACTACGGTATGGACGTCTGGGGCCAAGGGACCACGGTCACCGTCTCCTCAG"</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the example of mismatches between a germline and an ancestor sequence</span></span>
 <span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Output</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "GAGGTCCAGCTGGTACAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCTACAGTGAAAATCTCCTGCAAGGTTTCTGGATACACCTTCACCGACTACTACATGCACTGGGTGCAACAGGCCCCTGGAAAAGGGCTTGAGTGGATGGGACTTGTTGATCCTGAAGATGGTGAAACAATATACGCAGAGAAGTTCCAGGGCAGAGTCACCATAACCGCGGACACGTCTACAGACACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACNNNNNNNNNNN-----NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGGCAAGGGACCACGGTCACCGTCTCCTCAG"</span></span></code></pre>
 <p>We have calculated a trunk length for each cluster:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bcr</span><span class="op">$</span><span class="va">full_clones</span><span class="op">[</span> , <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cluster'</span>, <span class="st">'Trunk.Length'</span><span class="op">)</span> <span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                              Cluster Trunk.Length</span></span>
 <span><span class="co">## 1 IGHV1-69/IGHJ6_length_63_cluster_1           52</span></span>
@@ -408,7 +416,7 @@
 <span><span class="co">## 3 IGHV3-23/IGHJ4_length_45_cluster_1            2</span></span>
 <span><span class="co">## 4 IGHV3-23/IGHJ4_length_48_cluster_1            1</span></span></code></pre>
 <p>Also trunk length specified in “TreeStats” table in column “DistanceNT”.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#example fot first tree</span></span>
 <span><span class="va">bcr</span><span class="op">[[</span><span class="st">"full_clones"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"TreeStats"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span></code></pre></div>
 </div>
@@ -417,13 +425,13 @@
 </h2>
 <p>The rate of somatic hypermutation allows us to estimate repertoire maturation and detect the type of mutation contributing to the emergence of high affinity antibodies. This makes somatic hypermutation analysis a valuable asset for B-cell repertoire analysis.</p>
 <p>In Immunarch, <code><a href="../../reference/repSomaticHypermutation.html">repSomaticHypermutation()</a></code> function is designed for hypermutation analysis:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bcr_data</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span></span>
 <span></span>
 <span><span class="va">shm_data</span> <span class="op">&lt;-</span> <span class="va">bcr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/repSomaticHypermutation.html">repSomaticHypermutation</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The function repSomaticHypermutation() takes V and J germline sequences and V and J clonotype sequences as an input. Then the function aligns germline and clonotype sequences to detect and calculate occurring mutations.</p>
 <p>Examples of germline and clonotype sequences:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">full_clones</span> <span class="op">&lt;-</span> <span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span></span>
 <span><span class="va">v_length</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">full_clones</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"FR1.nt"</span><span class="op">]</span>, <span class="va">full_clones</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"CDR1.nt"</span><span class="op">]</span>,</span>
 <span> <span class="va">full_clones</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"FR2.nt"</span><span class="op">]</span>, <span class="va">full_clones</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"CDR2.nt"</span><span class="op">]</span>, <span class="va">full_clones</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"FR3.nt"</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
@@ -433,28 +441,28 @@
 <span><span class="co"># the example of germline V sequence</span></span>
 <span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Input</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">v_length</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "GAGGTCCAGCTGGTACAGTCTGGGGCTGAGGTGAAGAAGCCTGGGGCTACAGTGAAAATCTCCTGCAAGGTTTCTGGATACACCTTCACCGACTACTACATGCACTGGGTGCAACAGGCCCCTGGAAAAGGGCTTGAGTGGATGGGACTTGTTGATCCTGAAGATGGTGAAACAATATACGCAGAGAAGTTCCAGGGCAGAGTCACCATAACCGCGGACACGTCTACAGACACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACNNNN"</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the example of germline J sequence</span></span>
 <span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Input</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">seq_length</span> <span class="op">-</span> <span class="va">j_length</span>, <span class="va">seq_length</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "NGGGCAAGGGACCACGGTCACCGTCTCCTCAG"</span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the example of clonotype V sequence</span></span>
 <span><span class="va">full_clones</span><span class="op">$</span><span class="va">Sequence</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">v_length</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "CAGGTGCAGCTGGTGCAGTCTGGGGCTGAGGTGAAGAAGCCTGGGTCCTCGGTGAAGGTCTCCTGCAAGGCTTCTGGAGGCACCTTCAGCAGCTATGCTATCAGCTGGGTGCGACAGGCCCCTGGACAAGGGCTTGAGTGGATGGGAGGGATCATCCCTATCTTTGGTACAGCAAACTACGCACAGAAGTTCCAGGGCAGAGTCACGATTACCGCGGACGAATCCACGAGCACAGCCTACATGGAGCTGAGCAGCCTGAGATCTGAGGACACGGCCGTGTATTACTGTG"</span></span></code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the example of clonotype J sequence</span></span>
 <span><span class="va">full_clones</span><span class="op">$</span><span class="va">Sequence</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">seq_length</span> <span class="op">-</span> <span class="va">j_length</span>, <span class="va">seq_length</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "GGGCCAAGGGACCACGGTCACCGTCTCCTCAG"</span></span></code></pre>
 <p>Example: aligning germline and clonotype V sequences:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Alignment.V</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BCRpipeline_files/figure-html/example%2016-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Example: aligning germline and clonotype J sequences:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">$</span><span class="va">Germline.Alignment.J</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BCRpipeline_files/figure-html/example%2017-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>The number of mutations for each clonotype sequence:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Clone.ID'</span>, <span class="st">'Substitutions'</span>, <span class="st">'Insertions'</span>, <span class="st">'Deletions'</span>, <span class="st">'Mutations'</span><span class="op">)</span></span>
 <span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span><span class="op">[</span> , <span class="va">cols</span> <span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Clone.ID Substitutions Insertions Deletions Mutations</span></span>
@@ -491,7 +499,7 @@
 <span><span class="co">## 31      522             4          0         0         4</span></span>
 <span><span class="co">## 32      933            12          0         0        12</span></span></code></pre>
 <p>Then you could easily estimate the mutation rate:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># estimate mutation rate</span></span>
 <span><span class="va">shm_data</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Mutation.Rate <span class="op">=</span> <span class="va">Mutations</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">Sequence</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">CDR3.nt</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -554,12 +562,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, Siarhei Fiadziushchanka, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/sergey-f-709b0415b/" class="external-link">Siarhei Fiadziushchanka</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

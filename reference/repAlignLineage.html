@@ -208,6 +208,14 @@ The dataframe has these columns:
 <span class="r-in"><span>  <span class="fu"><a href="seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="fu"><a href="seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">bcr_data</span><span class="op">)</span>, .fixed_threshold <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="repGermline.html">repGermline</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">repAlignLineage</span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">2</span>, .align_threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `mutate()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `length_value = map_chr(.y, ~ifelse(all(.x == .x[1]), yes =</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   .x[1], no = glue("range_{min(.x)}:{max(.x)}")))`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Automatic coercion from integer to character was deprecated in purrr 1.0.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use an explicit call to `as.character()` within `map_chr()` instead.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">immunarch</span> package.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/immunomind/immunarch/issues&gt;</span>.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Genes or alleles IGHV4-55 from sample full_clones not found in the reference and will be dropped!</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Probably, species argument is wrong (current value: HomoSapiens) or the data contains non-BCR genes.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $full_clones</span>
@@ -242,11 +250,11 @@ The dataframe has these columns:
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, Siarhei Fiadziushchanka, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
+  <p></p><p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/sergey-f-709b0415b/" class="external-link">Siarhei Fiadziushchanka</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

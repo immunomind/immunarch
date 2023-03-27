@@ -245,9 +245,17 @@
 <span></span>
 <span><span class="co">#clustering TCR by CDR3 regions</span></span>
 <span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .perc_similarity <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: There was 1 warning in `mutate()`.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> In argument: `length_value = map_chr(.y, ~ifelse(all(.x == .x[1]), yes =</span></span>
+<span><span class="co">##   .x[1], no = glue("range_{min(.x)}:{max(.x)}")))`.</span></span>
+<span><span class="co">## Caused by warning:</span></span>
+<span><span class="co">## <span style="color: #BBBB00;">!</span> Automatic coercion from integer to character was deprecated in purrr 1.0.0.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use an explicit call to `as.character()` within `map_chr()` instead.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">immunarch</span> package.</span></span>
+<span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/immunomind/immunarch/issues&gt;</span>.</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in seqCluster(TCRdata, distTCR, .perc_similarity = 0.9): Number of</span></span>
 <span><span class="co">## sequence provided in .data and .dist are not matching!</span></span></code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#calculate number of unique clusters in column 'Cluster'</span></span>
 <span><span class="va">clustTCR</span><span class="op">$</span><span class="st">"A2-i129"</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.</span><span class="op">$</span><span class="va">Cluster</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 6379</span></span></code></pre>
@@ -256,7 +264,7 @@
 <li><em>Percentage similarity</em></li>
 </ol>
 <p>Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same V.name, J.name, and CDR3 length — but also have more than 90 percent match in their CDR3.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#clustering TCR</span></span>
 <span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .perc_similarity <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span>
 <span></span>
@@ -270,7 +278,7 @@
 <li><em>Fixed similarity</em></li>
 </ol>
 <p>Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#clustering TCR</span></span>
 <span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .fixed_threshold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
@@ -284,7 +292,7 @@
 <li><em>Similarity for every n letters in the sequence</em></li>
 </ol>
 <p>If you want to guarantee that the matches in the sequences are at a set proximity, specify a distance threshold</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#clustering TCR</span></span>
 <span><span class="va">clustTCR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/seqCluster.html">seqCluster</a></span><span class="op">(</span><span class="va">TCRdata</span>, <span class="va">distTCR</span>, .nt_similarity <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
@@ -300,7 +308,7 @@
 </h2>
 <p>If you made it to this part, then you have successfully clustered your sequences. Congratulations! Now you have a new column <code>“cluster”</code> in your data sheet. You can now generalize the concept of clonotype based on sequence similarity and consider clusters as clonotypes.</p>
 <p>Comparing cluster size distributions is a good way to analyse quality of clustering process and to choose the best parameters for functions:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#write small function for the visualization of cluster size destribution</span></span>
 <span><span class="va">mk_hist</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">clust_dt</span>, <span class="va">graph_name</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">clust_dt</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">cluster_size</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span> binwidth<span class="op">=</span><span class="fl">1</span>, fill<span class="op">=</span><span class="st">"#69b3a2"</span>, color<span class="op">=</span><span class="st">"#e9ecef"</span>, alpha<span class="op">=</span><span class="fl">0.9</span><span class="op">)</span> <span class="op">+</span></span>
@@ -321,41 +329,44 @@
 </h2>
 <p>There are other packages that provide computational framework for identification of B cell clones. One of the most popular is a <code>scoper</code> package (<a href="https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/#introduction" class="external-link">https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/#introduction</a>)</p>
 <p><code>Immunarch</code> enables users to integrate results from <code>scoper</code> package for further analysis:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#load the package into the R environment</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scoper.readthedocs.io" class="external-link">scoper</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## As of v1.0.0 the AIRR Rearrangement schema is now the default file format.</span></span>
 <span><span class="co">## A description of the standard is available at https://docs.airr-community.org.</span></span>
 <span><span class="co">## The legacy Change-O format is supported through arguments to each function</span></span>
 <span><span class="co">## that allow the input column names to be explicitly defined.</span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#generate germline sequence</span></span>
 <span><span class="va">bcr</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">full_clones</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../../reference/top.html">top</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># reduce the dataset to save time on examples</span></span>
 <span>  <span class="fu"><a href="../../reference/repGermline.html">repGermline</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Add columns ‘sequence_alignment’ required by <code>scoper</code> (<a href="https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/" class="external-link uri">https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/</a>):</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#generate `sequence_alignment` column</span></span>
 <span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'FR1.nt'</span>, <span class="st">'CDR1.nt'</span>, <span class="st">'FR2.nt'</span>, <span class="st">'CDR2.nt'</span>, <span class="st">'FR3.nt'</span>, <span class="st">'CDR3.nt'</span>, <span class="st">'FR4.nt'</span><span class="op">)</span></span>
 <span><span class="va">bcr</span><span class="op">$</span><span class="va">sequence_alignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span> <span class="va">bcr</span><span class="op">[</span> , <span class="va">cols</span> <span class="op">]</span> , <span class="fl">1</span> , <span class="va">paste</span> , collapse <span class="op">=</span> <span class="st">""</span> <span class="op">)</span></span></code></pre></div>
 <p>Rename columns in <code>scoper</code> format:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ExampleDb</span> <span class="op">&lt;-</span> <span class="va">bcr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">J.allele</span>, <span class="va">V.allele</span>, <span class="va">CDR3.nt</span>, <span class="va">Germline.sequence</span>, <span class="va">sequence_alignment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>junction <span class="op">=</span> <span class="va">CDR3.nt</span>, v_call <span class="op">=</span> <span class="va">V.allele</span>, j_call <span class="op">=</span> <span class="va">J.allele</span>, germline_alignment_d_mask <span class="op">=</span> <span class="va">Germline.sequence</span><span class="op">)</span></span></code></pre></div>
 <p>Cluster using <code>scoper</code> method:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scoper/man/hierarchicalClones.html" class="external-link">hierarchicalClones</a></span><span class="op">(</span><span class="va">ExampleDb</span>, threshold<span class="op">=</span><span class="fl">0.15</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running defineClonesScoper in bulk mode and only keep heavy chains</span></span></code></pre>
 <pre><code><span><span class="co">## ... identifying heavy chains with getLocus(v_call).</span></span></code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span>, binwidth<span class="op">=</span><span class="fl">0.02</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(density)` instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">scoper</span> package.</span></span>
-<span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://bitbucket.org/kleinstein/scoper/issues&gt;</span>.</span></span></code></pre>
+<span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://bitbucket.org/kleinstein/scoper/issues&gt;</span>.</span></span>
+<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
 <p><img src="clustering_files/figure-html/example%2014-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>Note that the column ‘clone_id’ in <code>scoper</code> format has the same meaning as the ‘Cluster’ column in <code>immunarch</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Rows: 612</span></span>
 <span><span class="co">## Columns: 7</span></span>
@@ -365,7 +376,7 @@
 <span><span class="co">## $ j_call          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IGHJ2*01", "IGHJ3*01", "IGHJ1*01", "IGHJ3*01", "IGHJ3…</span></span>
 <span><span class="co">## $ junction_length <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 69, 51, 60, 39, 57, 39, 42, 45, 48, 51, 54, 57, 66, 39…</span></span>
 <span><span class="co">## $ clone_count     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 2, 3, 3, 4, 1, 1, 1, 1, 1, 2, 1, 1, 1, …</span></span>
-<span><span class="co">## $ clone_id        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1", "174", "359", "561", "744", "902,903", "936,937,9…</span></span></code></pre>
+<span><span class="co">## $ clone_id        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "173", "358", "560", "743", "901", "934,935", "953,954…</span></span></code></pre>
 </div>
   </div>
 
@@ -381,12 +392,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, Siarhei Fiadziushchanka, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/sergey-f-709b0415b/" class="external-link">Siarhei Fiadziushchanka</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

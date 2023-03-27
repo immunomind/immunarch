@@ -220,14 +220,6 @@ in the function output.</p></dd>
 <span class="r-in"><span><span class="co"># Therea are three way to visualise it, regulated by the .plot argument</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .plot <span class="op">=</span> <span class="st">"smooth"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`spread_()` was deprecated in tidyr 1.2.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `spread()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ggalluvial</span> package.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   Please report the issue at</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/corybrunson/ggalluvial/issues&gt;</span>.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `.dots` argument of `group_by()` is deprecated as of dplyr 1.0.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">dplyr</span> package.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/tidyverse/dplyr/issues&gt;</span>.</span>
 <span class="r-plt img"><img src="trackClonotypes-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .plot <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
@@ -243,12 +235,12 @@ in the function output.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Sample  ID    Sex     Age Status Lane  Timepoint</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A2-i129 C1    M        11 C      A             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A2-i129 C1    M        11 C      A             5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> A2-i131 C2    M         9 C      A             6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> A2-i133 C4    M        16 C      A             2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MS1     MS1   M        12 MS     C             5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MS2     MS2   M        30 MS     C             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MS3     MS3   M         8 MS     C             4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> A2-i133 C4    M        16 C      A             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MS1     MS1   M        12 MS     C             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MS2     MS2   M        30 MS     C             4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MS3     MS3   M         8 MS     C             1</span>
 <span class="r-in"><span><span class="co"># Next, we create a vector with samples in the right order,</span></span></span>
 <span class="r-in"><span><span class="co"># according to the "Timepoint" column (from smallest to greatest):</span></span></span>
 <span class="r-in"><span><span class="va">sample_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Timepoint</span><span class="op">)</span></span></span>
@@ -257,7 +249,7 @@ in the function output.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6</span>
 <span class="r-in"><span><span class="co"># Samples, sorted by the timepoints:</span></span></span>
 <span class="r-in"><span><span class="va">immdata</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">Sample</span><span class="op">[</span><span class="va">sample_order</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MS2"     "A2-i133" "A2-i129" "MS3"     "MS1"     "A2-i131"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MS3"     "MS1"     "A2-i133" "MS2"     "A2-i129" "A2-i131"</span>
 <span class="r-in"><span><span class="co"># And finally, we visualise the data:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">tc</span>, .order <span class="op">=</span> <span class="va">sample_order</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>id.vars and measure.vars are internally guessed when both are 'NULL'. All non-numeric/integer/logical type columns are considered id.vars, which in this case are columns [CDR3.aa, V.name, ...]. Consider providing at least one of 'id' or 'measure' vars in future.</span>
@@ -272,11 +264,11 @@ in the function output.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, Siarhei Fiadziushchanka, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
+  <p></p><p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/sergey-f-709b0415b/" class="external-link">Siarhei Fiadziushchanka</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

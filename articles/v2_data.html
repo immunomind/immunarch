@@ -353,8 +353,8 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>     31    0.003<span style="text-decoration: underline;">65</span> TGTGCCAGC… CASSEE… TRBV2  TRBD1  TRBJ1…    15      17    20</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>     30    0.003<span style="text-decoration: underline;">53</span> TGCGCCAGC… CASSQP… TRBV4… TRBD1  TRBJ2…    14      23    28</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>     28    0.003<span style="text-decoration: underline;">29</span> TGTGCCAGC… CASSWV… TRBV6… TRBD1  TRBJ2…    12      20    25</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Sequence &lt;lgl&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="filter-functional-non-functional-in-frame-out-of-frame-clonotypes">Filter functional / non-functional / in-frame / out-of-frame clonotypes<a class="anchor" aria-label="anchor" href="#filter-functional-non-functional-in-frame-out-of-frame-clonotypes"></a>
@@ -391,8 +391,9 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASRRD… TRBV1… TRBD1  TRBJ2…     8      13    19</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSEV… TRBV1… TRBD1  TRBJ2…    14      19    24</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>      1   0.000<span style="text-decoration: underline;">118</span> TGCGCCAGC… CASSEG… TRBV1… TRBD2  TRBJ2…    13      19    27</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 14 more rows, and 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;, Sequence &lt;lgl&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 14 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 5 more variables: J.start &lt;int&gt;, VJ.ins &lt;dbl&gt;, VD.ins &lt;dbl&gt;, DJ.ins &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Sequence &lt;lgl&gt;</span></span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -402,9 +403,9 @@
 <code class="sourceCode R"><span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"downsample"</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## A2-i129 A2-i131 A2-i133 A2-i132 A4-i191 A4-i192     MS1     MS2     MS3     MS4 </span></span>
-<span><span class="co">##      96      97      96      99      86      89      86      98      86     100 </span></span>
+<span><span class="co">##      99      95      95      98      89      95      82     100      94      98 </span></span>
 <span><span class="co">##     MS5     MS6 </span></span>
-<span><span class="co">##      83      99</span></span></code></pre>
+<span><span class="co">##      82     100</span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repSample.html">repSample</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span>, <span class="st">"sample"</span>, .n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">nrow</span><span class="op">)</span></span></code></pre></div>
@@ -465,12 +466,12 @@ With these functions you can write the subset of your repertoires to new tables 
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, Siarhei Fiadziushchanka, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
+<p>Developed by <a href="https://www.linkedin.com/in/vdnaz" class="external-link">Vadim I. Nazarov</a>, <a href="https://www.linkedin.com/in/vasily-tsvetkov-227218ab" class="external-link">Vasily O. Tsvetkov</a>, <a href="https://www.linkedin.com/in/sergey-f-709b0415b/" class="external-link">Siarhei Fiadziushchanka</a>, <a href="https://www.linkedin.com/in/erumynskiy/" class="external-link">Eugene Rumynskiy</a>, <a href="https://www.linkedin.com/in/aleksandr-popov-634878105/" class="external-link">Aleksandr A. Popov</a>, <a href="https://www.linkedin.com/in/ivan-balashov/" class="external-link">Ivan Balashov</a>, <a href="https://www.linkedin.com/in/maria-volobueva-b0856a223/" class="external-link">Maria Samokhina</a>, <a href="https://immunomind.io" class="external-link">ImmunoMind</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
