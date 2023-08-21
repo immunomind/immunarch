@@ -234,17 +234,8 @@ Preprint on BioArxiv is coming soon.
 
 ## License
 
-The package is freely distributed under the AGPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
+The package is freely distributed under the Apache-2.0 license, that allows both academic and commercial usage with no strings attached. You can read more about it [here](https://www.tldrlegal.com/license/apache-license-2-0-apache-2-0).
 
-For commercial or server use, please contact ImmunoMind via [support@immunomind.io](mailto:support@immunomind.io) about solutions for biomarker data science of single-cell immune repertoires.
 
-<!--
-- Package modifications and feature implementations are issued promptly;
-- Use *immunarch* team expertise in your projects;
-- Priority email and call support;
-- 100+ hours of consultations on the TCR & BCR repertoire analysis;
-- Setup a cloud or cluster installation of *immunarch*, including the development of cloud *immunarch*-based software;
-- If you need license other than the current, contact us.
-
-Contact us at support@immunomind.io for more information.
--->
+## Commercial Support
+For commercial-grade support, custom features, server use, or consulting on multi-omics-driven development of immunotherapies, please contact ImmunoMind via [support@immunomind.io](mailto:support@immunomind.io).
