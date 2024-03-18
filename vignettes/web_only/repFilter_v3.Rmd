@@ -75,9 +75,9 @@ data(immdata)
 Look at meta data from `immdata` datasets:
 
 ```{r}
-#look at the metadata
+# look at the metadata
 immdata$meta
-#look at samples name in data
+# look at samples name in data
 names(immdata$data)
 ```
 
@@ -150,15 +150,15 @@ You can also use **multiple conditions**. In this case, the function returns val
 Filter for samples where *Age* is between *15* and *23* and *Lane* is *B* :
 
 ```{r example-2.4}
-repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('B')))$meta
-names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('B')))$data)
+repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include("B")))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include("B")))$data)
 ```
 
 Filter for samples where *Age* is between *15* and *23* and *Lane* is *A* or *B*:
 
 ```{r example-2.5}
-repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('A', 'B')))$meta
-names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include('A', 'B')))$data)
+repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include("A", "B")))$meta
+names(repFilter(immdata, .method = "by.meta", .query = list(Age = interval(15, 23), Lane = include("A", "B")))$data)
 ```
 
 ### Method `by.repertoire` (short alias is `by.rep`)
@@ -219,18 +219,17 @@ In method `by.clonotype` or `by.cl`, there is an extra argument `.match`. The `.
 Filter out all clonotypes within samples with V gene 'TRBV1' or 'TRGV11'
 
 ```{r example-5.1, results = 'hide'}
-repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="exact")
+repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match = "exact")
 ```
 
 Filter out all clonotypes within samples where V gene name contains substrings 'TRBV1' or 'TRGV11'
 ```{r example-5.2, results = 'hide'}
-repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="substring")
-
+repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match = "substring")
 ```
 
 Filter out all clonotypes within samples where V gene name starts with 'TRBV1' or 'TRGV11'
 ```{r example-5.3, results = 'hide'}
-repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match="startswith")
+repFilter(immdata, .method = "by.clonotype", .query = list(V.name = exclude("TRBV1", "TRGV11")), .match = "startswith")
 ```
 
 ## Using `repFilter` function for single-cell repertoire data analysis
@@ -244,9 +243,9 @@ data(scdata)
 Look at meta data from `scdata` datasets:
 
 ```{r scadata}
-#look at the metadata
+# look at the metadata
 scdata$meta
-#look at samples name in data
+# look at samples name in data
 names(scdata$data)
 ```
 
@@ -271,34 +270,33 @@ vis(repExplore(scdata_cl$data, .method = "volume"))
 Compare J gene usage between three clusters:
 
 ```{r geneUsage,  warning=F}
-sc_active <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))$data, "hs.trbj", .norm = T)
+sc_active <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))$data, "hs.trbj", .norm = T)
 p1 <- vis(sc_active)
 p1
 
-sc_memory <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))$data, "hs.trbj", .norm = T)
+sc_memory <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Memory")))$data, "hs.trbj", .norm = T)
 p2 <- vis(sc_memory)
 p2
 
-sc_naive <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))$data, "hs.trbj", .norm = T)
+sc_naive <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Naive")))$data, "hs.trbj", .norm = T)
 p3 <- vis(sc_naive)
 p3
-
 ```
 
 Compare gene usage of IGHJ4 between three clusters:
 ```{r IGHV3, warning=F}
-scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))
-scdata_active <- repFilter(scdata_active, .method = "by.cl", .query = list(J.name = include('IGHJ4')), .match = 'substring')
+scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))
+scdata_active <- repFilter(scdata_active, .method = "by.cl", .query = list(J.name = include("IGHJ4")), .match = "substring")
 sc_active <- geneUsage(scdata_active$data, "hs.trbj", .norm = T)
 p1 <- vis(sc_active)
 
-scdata_memory <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))
-scdata_memory <- repFilter(scdata_memory, .method = "by.cl", .query = list(J.name = include('IGHJ4')), .match = 'substring')
+scdata_memory <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Memory")))
+scdata_memory <- repFilter(scdata_memory, .method = "by.cl", .query = list(J.name = include("IGHJ4")), .match = "substring")
 sc_memory <- geneUsage(scdata_memory$data, "hs.trbj", .norm = T)
 p2 <- vis(sc_memory)
 
-scdata_naive <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))
-scdata_naive <- repFilter(scdata_naive, .method = "by.cl", .query = list(J.name = include('IGHJ4')), .match = 'substring')
+scdata_naive <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Naive")))
+scdata_naive <- repFilter(scdata_naive, .method = "by.cl", .query = list(J.name = include("IGHJ4")), .match = "substring")
 sc_naive <- geneUsage(scdata_naive$data, "hs.trbj", .norm = T)
 p3 <- vis(sc_naive)
 
@@ -307,31 +305,31 @@ p1 + p2 + p3
 
 Look at the coding clonotypes in each cluster. Note that there aren't any noncoding clonotypes in the datasets:
 ```{r ORF, warning=F}
-scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))
+scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))
 scdata_active <- repFilter(scdata_active, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
 exp_vol <- repExplore(scdata_active$data, .method = "volume")
 p1 <- vis(exp_vol)
 
-exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Activ')))$data, .method = "volume")
+exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))$data, .method = "volume")
 p2 <- vis(exp_vol)
-p1+p2
+p1 + p2
 
 
-scdata_memory <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))
+scdata_memory <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Memory")))
 scdata_memory <- repFilter(scdata_memory, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
 exp_vol <- repExplore(scdata_memory$data, .method = "volume")
 p1 <- vis(exp_vol)
 
-exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Memory')))$data, .method = "volume")
+exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Memory")))$data, .method = "volume")
 p2 <- vis(exp_vol)
-p1+p2
+p1 + p2
 
-scdata_naive <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))
+scdata_naive <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Naive")))
 scdata_naive <- repFilter(scdata_naive, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
 exp_vol <- repExplore(scdata_naive$data, .method = "volume")
 p1 <- vis(exp_vol)
 
-exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include('Naive')))$data, .method = "volume")
+exp_vol <- repExplore(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Naive")))$data, .method = "volume")
 p2 <- vis(exp_vol)
-p1+p2
+p1 + p2
 ```

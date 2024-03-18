@@ -40,13 +40,13 @@ MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz,
 You can choose to use the `analyze amplicon` method to process in one go:
 
 ```{r, eval=F}
-> mixcr analyze amplicon --species hs \
-        --starting-material dna \
-        --5-end v-primers \
-        --3-end j-primers \
-        --adapters adapters-present \
-        --receptor-type IGH \
-        input_R1.fastq input_R2.fastq analysis
+mixcr analyze amplicon --species hs \
+      --starting-material dna \
+      --5-end v-primers \
+      --3-end j-primers \
+      --adapters adapters-present \
+      --receptor-type IGH \
+      input_R1.fastq input_R2.fastq analysis
 ```
 
 or execute each step `align`, `assemble`, and `exportClones` individually.

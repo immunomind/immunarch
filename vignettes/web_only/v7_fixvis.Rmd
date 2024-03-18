@@ -39,8 +39,8 @@ Here is an example of how to run FixVis with  `vis` function from `immunarch`. F
 
 ```{r fixvis1, eval=F}
 data(immdata)
-gu = geneUsage(immdata$data)
-p = vis(gu)
+gu <- geneUsage(immdata$data)
+p <- vis(gu)
 fixVis(p)
 ```
 

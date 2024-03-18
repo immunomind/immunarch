@@ -145,5 +145,3 @@ repExplore <- function(.data, .method = c("volume", "count", "len", "clones"), .
 
   res
 }
-
-rep.ex <- repExplore

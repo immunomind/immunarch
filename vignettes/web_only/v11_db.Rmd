@@ -116,27 +116,27 @@ Note that VDJDB data obtained from the web interface differs from VDJDB obtained
 
 The most basic way to load VDJDB to R:
 ```{r eval=T, message=F}
-vdjdb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb")
+vdjdb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb")
 vdjdb
 ```
 
 To load VDJDB and filter out information you need to provide `.species`, `.chain` and `.pathology` arguments:
 ```{r eval=T, message=F}
-vdjdb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
+vdjdb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
 vdjdb
 ```
 
 ### VDJDB search tables
 
 ```{r eval=T, message=F}
-vdjdb_st = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz", "vdjdb-search", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
+vdjdb_st <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz", "vdjdb-search", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
 vdjdb_st
 ```
 
 ### McPAS-TCR
 
 ```{r eval=T, message=F, warning=F}
-mcpas = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz", "mcpas", .species = "Human", .chain = "TRB", .pathology = "Cytomegalovirus (CMV)")
+mcpas <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz", "mcpas", .species = "Human", .chain = "TRB", .pathology = "Cytomegalovirus (CMV)")
 mcpas
 ```
 
@@ -144,7 +144,7 @@ mcpas
 ### TBAdb
 
 ```{r eval=F, message=F, warning=F}
-tbadb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/TBAdb.xlsx", "tbadb", .species = "Homo Sapiens", .chain = c("TRB", "TRA-TRB"), .pathology = "CMV")
+tbadb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/TBAdb.xlsx", "tbadb", .species = "Homo Sapiens", .chain = c("TRB", "TRA-TRB"), .pathology = "CMV")
 tbadb
 ```
 
@@ -174,7 +174,7 @@ dbAnnotate(immdata$data, mcpas, c("CDR3.aa", "V.name"), c("CDR3.beta.aa", "TRBV"
 If you seek to search a database for a specific set of sequences, create a data frame containing them and use it as a database file:
 
 ```{r eval=T}
-local_db = data.frame(Seq = c("CASSDSSGGANEQFF", "CSARLAGGQETQYF"), V = c("TRBV6-4", "TRBV20-1"), stringsAsFactors = F)
+local_db <- data.frame(Seq = c("CASSDSSGGANEQFF", "CSARLAGGQETQYF"), V = c("TRBV6-4", "TRBV20-1"), stringsAsFactors = F)
 
 dbAnnotate(immdata$data, local_db, c("CDR3.aa", "V.name"), c("Seq", "V"))
 ```
@@ -194,7 +194,7 @@ Visualisation with the `vis()` function will be supported in the next major rele
 library(dplyr)
 
 # Load the database with immunarch
-vdjdb = dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
+vdjdb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
 
 # Check which antigen epitopes are presented in the database
 table(vdjdb$antigen.epitope)
@@ -202,7 +202,7 @@ table(vdjdb$antigen.epitope)
 
 ```{r eval=T, message=F}
 # Filter out all non NLVPMVATV epitopes
-vdjdb = vdjdb %>% filter(antigen.epitope == "NLVPMVATV")
+vdjdb <- vdjdb %>% filter(antigen.epitope == "NLVPMVATV")
 vdjdb
 ```
 

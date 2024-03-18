@@ -1,6 +1,6 @@
 ---
 title: "Introduction to `immunarch`"
-author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.com/">immunomind.com</a>'
 date: "support@immunomind.io"
 output:
   html_document:

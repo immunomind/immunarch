@@ -1,6 +1,6 @@
 ---
 title: "Data loading"
-author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.com">immunomind.com</a>'
 date: "support@immunomind.io"
 output:
   html_document:
@@ -50,7 +50,7 @@ The package provides several IO functions:
 
 - `"immunarch"` - current software tool, in case you forgot :)
 
-- `"immunoseq"` - https://www.immunoseq.com
+- `"immunoseq"` - https://www.adaptivebiotech.com/adaptive-immunosequencing/
 
 - `"mitcr"` - https://github.com/milaboratory/mitcr
 
@@ -90,7 +90,7 @@ You can load the data from a single file, a list of repertoire file paths, or fr
 If you have your files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
 
 ```{r, eval=F}
-#path argument is a path to the folder with your file or files including the metadata file.
+# path argument is a path to the folder with your file or files including the metadata file.
 immdata <- repLoad(path)
 ```
 
@@ -105,14 +105,14 @@ You can obtain working directory with `getwd()` command
 You could also download all files to the `'example'` folder in your working directory and load all of them by passing folder name to repLoad function in quotation marks:
 
 ```{r, eval=F}
-immdata <- repLoad('example')
+immdata <- repLoad("example")
 ```
 
 The example data is already downloaded with `immunarch` package. You can load all sample files using the following command:
 
 ```{r, eval=F}
-#path to the folder with example data
-file_path <- paste0(system.file(package="immunarch"), "/extdata/io/")
+# path to the folder with example data
+file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 ```
 
@@ -133,7 +133,7 @@ Otherwise `repLoad` will create a dummy metadata file with only sample names.
 
 ```{r, eval=F}
 # To load the whole folder with every file in it type:
-file_path <- paste0(system.file(package="immunarch"), "/extdata/io/")
+file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
 print(names(immdata))
 
@@ -149,7 +149,6 @@ print(names(immdata))
 # > immdata <- repLoad("path/to/your/folder/")
 # > names(immdata)
 # [1] "data" "meta"
-
 ```
 
 Dummy metadata data frame looks like this:
@@ -183,7 +182,7 @@ con <- DBI::dbConnect(MonetDBLite::MonetDBLite(), embedded = dbdir)
 
 # Write each repertoire to MonetDB. Each table has corresponding name from the DATA
 for (i in seq_along(DATA)) {
-  DBI::dbWriteTable(con, names(DATA)[i], DATA[[i]], overwrite=TRUE)
+  DBI::dbWriteTable(con, names(DATA)[i], DATA[[i]], overwrite = TRUE)
 }
 
 # Create a source in the temporary directory with MonetDB
@@ -240,7 +239,7 @@ nrow(outofframes(immdata$data[[1]]))
 ## Get subset of clonotypes with a specific V gene
 It is simple to subset data frame according to labels in the specified index. In this example the resulting data frame contains only records with 'TRBV10-1' V gene:
 ```{r}
-filter(immdata$data[[1]], V.name == 'TRBV10-1')
+filter(immdata$data[[1]], V.name == "TRBV10-1")
 ```
 
 # Downsampling
