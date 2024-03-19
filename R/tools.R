@@ -596,6 +596,17 @@ add_column_with_first_gene <- function(.data, .original_colname, .target_colname
   return(.data)
 }
 
+# add columns filled with NA
+add_empty_columns <- function(.data, .colnames) {
+  if (length(.colnames) > 0) {
+    new_columns <- rep(list(NA), length(.colnames))
+    names(new_columns) <- .colnames
+    return(do.call(cbind, c(list(.data), new_columns)))
+  } else {
+    return(.data)
+  }
+}
+
 # used to add sample name to error/warning messages when sample name is available
 optional_sample <- function(prefix, sample_name, suffix) {
   if (is.na(sample_name) || (sample_name == "")) {

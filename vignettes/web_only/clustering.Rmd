@@ -28,7 +28,7 @@ In the B-cell repertoire, this step is required for making clonal lineages. B-ce
 
 T cells that are able to recognize identical epitopes were shown to have high similar TCR (Glanville et al. 2017; Dash et al. 2017). Clustering allows for finding high similar TCR in repertoires that are likely to recognize the same antigens.
 
-Clustering analysis involves two steps. The first step requires calculating the distance between sequences. The second step requires clustering the sequences using the information about the distance between them. 
+Clustering analysis involves two steps. The first step requires calculating the distance between sequences. The second step requires clustering the sequences using the information about the distance between them.
 
 Application of clustering enables you to expand the clonotype concept. A **clonotype** is a set of cells that supposedly share a common ancestor or properties. There are a few possible ways to define clonotypes. For example, some researchers define clonotypes as a set of sequences that have the same V gene and same nucleotide CDR3 sequence. Other researchers define clonotypes as cell sets that have the same V gene, the same J gene, and the same amino acid CDR3 sequence. Clustering provides you with a way to create new groups of sequences based on your vision.
 
@@ -70,7 +70,7 @@ distTCR <- seqDist( TCRdata, .col = 'CDR3.nt')
 distBCR <- seqDist( BCRdata, .col = 'Sequence')
 ```
 
-Note that a similar CDR3 region could potentially arise from different VDJ rearrangement events. When running the analysis, group the clonotypes with similar CDR3 sequences by V gene, J gene, and/or sequence length to maximize the probability that similar CDR3 sequences arise from the same event (for BCRs) or recognize the same antigens (for TCRs). Such grouping also speeds up and simplifies the distance calculating process.  
+Note that a similar CDR3 region could potentially arise from different VDJ rearrangement events. When running the analysis, group the clonotypes with similar CDR3 sequences by V gene, J gene, and/or sequence length to maximize the probability that similar CDR3 sequences arise from the same event (for BCRs) or recognize the same antigens (for TCRs). Such grouping also speeds up and simplifies the distance calculating process.
 
 Grouping by V gene is necessary; grouping by J gene or the sequence length is optional. By default, the sequences are grouped by ‘V.name’ column, ‘J. name’ column, and CDR3 length (since the comparison of CDR3 regions for sequences with different V and J genes is not a common case).
 
@@ -84,7 +84,7 @@ distBCR <- seqDist( BCRdata, .group_by = c('V.name'), .group_by_seqLength = T)
 distBCR <- seqDist( BCRdata, .group_by = c('V.name', 'J.name'), .group_by_seqLength = F)
 ```
 
-There are several possible approaches to estimating the distance between the sequences. 
+There are several possible approaches to estimating the distance between the sequences.
 
 The default approach is to use the Hamming distance. When sequences have different lengths the distance between them equals infinity. Use this approach if you want to take into consideration only the point mutations excluding the indels.
 
@@ -138,10 +138,10 @@ In general, the number of clusters you get depends on threshold you defined prev
 
 1) *Percentage similarity*
 
-Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same [V.name](http://V.name), [J.name](http://J.name), and CDR3 length — but also have more than 90 percent match in their CDR3.
+Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same V.name, J.name, and CDR3 length — but also have more than 90 percent match in their CDR3.
 
 ```{r example 8, warning = FALSE}
-#clustering TCR 
+#clustering TCR
 clustTCR <- seqCluster(TCRdata, distTCR, .perc_similarity = 0.75)
 
 #count cluster size
@@ -156,8 +156,8 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.
 
 ```{r example 9, warning = FALSE}
-#clustering TCR 
-clustTCR <- seqCluster(TCRdata, distTCR, .fixed_threshold = 2) 
+#clustering TCR
+clustTCR <- seqCluster(TCRdata, distTCR, .fixed_threshold = 2)
 
 #count cluster size
 dt_fixed_threshold <- clustTCR$"A2-i129" %>% group_by(Cluster) %>% summarise(cluster_size = n())
@@ -168,11 +168,11 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 3) *Similarity for every n letters in the sequence*
 
-If you want to guarantee that the matches in the sequences are at a set proximity, specify a distance threshold 
+If you want to guarantee that the matches in the sequences are at a set proximity, specify a distance threshold
 
 ```{r example 10, warning = FALSE}
-#clustering TCR 
-clustTCR <- seqCluster(TCRdata, distTCR, .nt_similarity = 10) 
+#clustering TCR
+clustTCR <- seqCluster(TCRdata, distTCR, .nt_similarity = 10)
 
 #count cluster size
 dt_nt_similarity <- clustTCR$"A2-i129" %>% group_by(Cluster) %>% summarise(cluster_size = n())
@@ -230,8 +230,8 @@ bcr$sequence_alignment <- apply( bcr[ , cols ] , 1 , paste , collapse = "" )
 Rename columns in `scoper` format:
 
 ```{r example 13}
-ExampleDb <- bcr %>% select(J.first.allele, V.first.allele, CDR3.nt, Germline.sequence, sequence_alignment) %>% 
-  rename(junction = CDR3.nt, v_call = V.first.allele, j_call = J.first.allele, germline_alignment_d_mask = Germline.sequence)
+ExampleDb <- bcr %>% select(J.allele, V.allele, CDR3.nt, Germline.sequence, sequence_alignment) %>%
+  rename(junction = CDR3.nt, v_call = V.allele, j_call = J.allele, germline_alignment_d_mask = Germline.sequence)
 ```
 
 Cluster using `scoper` method:

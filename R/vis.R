@@ -7,7 +7,7 @@ if (getRversion() >= "2.15.1") {
     "Overlap", "head", "Mean", "MeanVal", "MinVal", "MaxVal",
     "Q1", "Q2", "Type", "Length", "Gene", "Freq", "Sequence",
     "AA", "Clones", "Source.gr", "Target.gr", "Samples", "Samples.y",
-    "CDR3.aa", "p.adj", "group1", "group2", "y.coord", "..p.adj..", ".SD",
+    "CDR3.aa", "p.adj", "group1", "group2", "y.coord", ".SD",
     "name", "label", "."
   ))
 }
@@ -47,15 +47,11 @@ if (getRversion() >= "2.15.1") {
 
 
 .tweak_fill <- function(.n) {
-  palette_name <- ""
   if (.n == 1) {
     palette_name <- "Set2"
   } else if (.n == 2) {
     palette_name <- "Set1"
-  }
-  # else if (.n < 4) { palette_name = "YlGnBu" }
-  # else if (.n < 6) {  palette_name = "RdBu" }
-  else if (.n < 12) {
+  } else if (.n < 12) {
     palette_name <- "Spectral"
   } else {
     return(scale_fill_hue())
@@ -65,15 +61,11 @@ if (getRversion() >= "2.15.1") {
 }
 
 .tweak_col <- function(.n) {
-  palette_name <- ""
   if (.n == 1) {
     palette_name <- "Set2"
   } else if (.n == 2) {
     palette_name <- "Set1"
-  }
-  # else if (.n < 4) { palette_name = "YlGnBu" }
-  # else if (.n < 6) {  palette_name = "RdBu" }
-  else if (.n < 12) {
+  } else if (.n < 12) {
     palette_name <- "Spectral"
   } else {
     return(scale_colour_hue())
@@ -1469,7 +1461,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
         # print(p_df)
 
         p <- p +
-          stat_compare_means(aes(label = ..p.adj..),
+          stat_compare_means(aes(label = after_stat(p.adj)),
             bracket.size = .5, size = .signif.label.size,
             label.y = max(.data$Value, na.rm = TRUE) * 1.07
           )
@@ -2188,7 +2180,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
         # print(p_df)
 
         p <- p +
-          stat_compare_means(aes(label = ..p.adj..),
+          stat_compare_means(aes(label = after_stat(p.adj)),
             bracket.size = .5, size = .signif.label.size,
             label.y = max(.data$Value, na.rm = TRUE) * 1.07
           )

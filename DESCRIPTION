@@ -1,10 +1,11 @@
 Package: immunarch
 Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.9.0
+Version: 0.9.1
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "support@immunomind.io", c("aut", "cre")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
+    person("Siarhei", "Fiadziushchanka", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
     person("Aleksandr A.", "Popov", , role = "aut"),
     person("Ivan", "Balashov", , role = "aut"),
@@ -23,7 +24,7 @@ Description: A comprehensive framework for bioinformatics exploratory analysis o
     and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
     databases and clonotype tracking in vaccination and cancer studies. A successor to our
     previously published 'tcR' immunoinformatics package (Nazarov 2015) <doi:10.1186/s12859-015-0613-1>.
-License: AGPL-3
+License: Apache License (== 2.0)
 URL: https://immunarch.com/, https://github.com/immunomind/immunarch
 BugReports: https://github.com/immunomind/immunarch/issues
 Imports:
@@ -84,6 +85,6 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.2
+RoxygenNote: 7.3.1
 LazyData: true
 LazyDataCompression: xz

@@ -1,6 +1,9 @@
 .remove.ext <- function(.str) {
-  # gsub(pattern = '.*/|[.].*$', replacement = '', x = .str)
-  gsub(pattern = ".*/|[.](txt|tsv|csv)$|([.](txt|tsv|csv))?[.](gz|bzip|bzip2|bz2)$", replacement = "", x = .str)
+  .str %<>% str_replace(".*/", "") %>%
+    str_replace(".*\\\\", "") %>%
+    str_replace("(\\.gz|\\.bzip|\\.bzip2|\\.bz2)$", "") %>%
+    str_replace("(\\.txt|\\.tsv|\\.csv)$", "")
+  return(.str)
 }
 
 

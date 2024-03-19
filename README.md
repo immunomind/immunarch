@@ -32,27 +32,9 @@ repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)      # 
 
 ### From Berkeley with devotion
 
-`immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. ImmunoMind improves the design of adoptive T-cell therapies such as CAR-T by precisely identifying T-cell subpopulations and their immune profile. ImmunoMind's tools are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.
+`immunarch` is brought to you by [ImmunoMind](https://immunomind.com) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. ImmunoMind improves the design of adoptive T-cell therapies such as CAR-T by precisely identifying T-cell subpopulations and their immune profile. ImmunoMind's tools are trusted by researchers from top pharma companies and universities, including 10X Genomics, Pfizer, Regeneron, UCSF, MIT, Stanford, John Hopkins School of Medicine and Vanderbilt University.
 
 [![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
-
-
-## Stay connected!
-
-<form action="https://formspree.io/mjveopnl" method="POST">
-<br>
-<div class="group">
-<input type="text" required name="_replyto" style="width:50%">
-<span class="highlight" style="width:50%; height:30%"></span>
-<span class="bar" style="width:50%"></span>
-<label>Leave your email and get the latest immunarch news</label>
-<br>
-<button class="bttn-fill bttn-md bttn-danger" type="submit">Connect!</button>
-</div>
-  
-<input type="text" name="_gotcha" style="display:none" />
-<input type="hidden" name="_next" value="https://immunarch.com"/>
-</form>
 
 ---
 
@@ -118,9 +100,9 @@ You can find the list of releases of `immunarch` here: https://github.com/immuno
 
     + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
   
-    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.immunoseq.com/), [IMGT](https://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr), [MiXCR](https://github.com/milaboratory/mixcr), [MiGEC](https://github.com/mikessh/migec), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://github.com/mikessh/vdjtools), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://www.10xgenomics.com/resources/datasets?menu%5Bproducts.name%5D=Single+Cell+Immune+Profiling), ArcherDX. More coming in the future;
+    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.adaptivebiotech.com/adaptive-immunosequencing/), [IMGT](https://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr), [MiXCR](https://github.com/milaboratory/mixcr), [MiGEC](https://github.com/mikessh/migec), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://github.com/mikessh/vdjtools), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://www.10xgenomics.com/resources/datasets?menu%5Bproducts.name%5D=Single+Cell+Immune+Profiling), ArcherDX. More coming in the future;
 
-    + Works on any data source you are comfortable with: R data frames, data tables from [data.table](https://rdatatable.gitlab.io/data.table/), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
+    + Works on any data source you are comfortable with: R data frames, data tables from [data.table](https://rdatatable.gitlab.io/data.table/), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.posit.co/);
     
     + Tutorial is available [here](https://immunarch.com/articles/v2_data.html).
 
@@ -234,17 +216,9 @@ Preprint on BioArxiv is coming soon.
 
 ## License
 
-The package is freely distributed under the AGPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
+The package is freely distributed under the Apache-2.0 license. You can read more about it [here](https://www.tldrlegal.com/license/apache-license-2-0-apache-2-0).
 
 For commercial or server use, please contact ImmunoMind via [support@immunomind.io](mailto:support@immunomind.io) about solutions for biomarker data science of single-cell immune repertoires.
 
-<!--
-- Package modifications and feature implementations are issued promptly;
-- Use *immunarch* team expertise in your projects;
-- Priority email and call support;
-- 100+ hours of consultations on the TCR & BCR repertoire analysis;
-- Setup a cloud or cluster installation of *immunarch*, including the development of cloud *immunarch*-based software;
-- If you need license other than the current, contact us.
 
-Contact us at support@immunomind.io for more information.
--->
+## Commercial Support

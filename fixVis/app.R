@@ -311,7 +311,6 @@ server <- function(input, output, session) {
   .plot <- qplot(x = carat, y = price, fill = cut, shape = cut, color = color, size = clarity, data = diamonds[sample.int(nrow(diamonds), 5000), ]) + theme_classic()
 
   create_plot <- function(input) {
-
     # TODO: make automatic detection of available themes from ggplot2 and other packages
     choose_theme <- function(theme_label) {
       switch(theme_label,

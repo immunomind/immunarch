@@ -196,12 +196,14 @@ overlap_coef <- function(.x, .y) {
   UseMethod("overlap_coef")
 }
 
+#' @export
 overlap_coef.default <- function(.x, .y) {
   .x <- collect(.x, n = Inf)
   .y <- collect(.y, n = Inf)
   nrow(dplyr::intersect(.x, .y)) / min(nrow(.x), nrow(.y))
 }
 
+#' @export
 overlap_coef.character <- function(.x, .y) {
   length(dplyr::intersect(.x, .y)) / min(length(.x), length(.y))
 }
@@ -211,6 +213,7 @@ jaccard_index <- function(.x, .y) {
   UseMethod("jaccard_index")
 }
 
+#' @export
 jaccard_index.default <- function(.x, .y) {
   .x <- collect(.x, n = Inf)
   .y <- collect(.y, n = Inf)
@@ -218,6 +221,7 @@ jaccard_index.default <- function(.x, .y) {
   intersection / (nrow(.x) + nrow(.y) - intersection)
 }
 
+#' @export
 jaccard_index.character <- function(.x, .y) {
   intersection <- length(dplyr::intersect(.x, .y))
   intersection / (length(.x) + length(.y) - intersection)
@@ -227,6 +231,7 @@ tversky_index <- function(.x, .y, .a = .5, .b = .5) {
   UseMethod("tversky_index")
 }
 
+#' @export
 tversky_index.default <- function(.x, .y, .a = .5, .b = .5) {
   .x <- collect(.x, n = Inf)
   .y <- collect(.y, n = Inf)
@@ -234,6 +239,7 @@ tversky_index.default <- function(.x, .y, .a = .5, .b = .5) {
   intersection / (.a * nrow(dplyr::setdiff(.x, .y)) + .b * nrow(dplyr::setdiff(.y, .x)) + intersection)
 }
 
+#' @export
 tversky_index.character <- function(.x, .y, .a = .5, .b = .5) {
   intersection <- length(dplyr::intersect(.x, .y))
   intersection / (.a * length(dplyr::setdiff(.x, .y)) + .b * length(dplyr::setdiff(.y, .x)) + intersection)
@@ -243,6 +249,7 @@ cosine_sim <- function(.x, .y, .quant) {
   UseMethod("cosine_sim")
 }
 
+#' @export
 cosine_sim.default <- function(.x, .y, .quant) {
   .x <- collect(.x, n = Inf)
   .y <- collect(.y, n = Inf)
@@ -258,6 +265,7 @@ cosine_sim.default <- function(.x, .y, .quant) {
   sum(first_col * second_col) / (sqrt(sum(first_col * first_col)) * sqrt(sum(second_col * second_col)))
 }
 
+#' @export
 cosine_sim.numeric <- function(.x, .y, .quant) {
   df <- rbind(.x, .y)
   sum(.x * .y) / (sqrt(rowSums(df^2))[1] * sqrt(rowSums(df^2))[2])[[1]]

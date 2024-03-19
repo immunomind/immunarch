@@ -143,10 +143,11 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     if (!all(is.na(grouping_cols))) {
       result_multi %<>% map2_df(., pmap(group_values, data.frame)[!singleseq_flag], ~ cbind(.x, .y))
       res <- rbind(result_single, result_multi)
-      res[grouping_cols] <- str_split(str_split(res[["Cluster"]],
-        pattern = "_", simplify = TRUE
-      )[, 1],
-      pattern = "/", simplify = TRUE
+      res[grouping_cols] <- str_split(
+        str_split(res[["Cluster"]],
+          pattern = "_", simplify = TRUE
+        )[, 1],
+        pattern = "/", simplify = TRUE
       )[, seq_along(grouping_cols)]
     } else {
       result_multi %<>% map_df(., ~.x)

@@ -153,8 +153,10 @@ parse_repertoire <- function(.filename, .mode, .nuc.seq, .aa.seq, .count,
     .vend, .dstart, .dend, .jstart,
     .total.insertions, .vd.insertions, .dj.insertions
   )
-  if (!is.na(.add[1])) {
+  if (!has_no_data(.add)) {
     vec_names <- c(vec_names, .add)
+    # add missing columns
+    df %<>% add_empty_columns(.add[!(.add %in% colnames(df))])
   }
 
   df <- df[, vec_names]
@@ -400,7 +402,7 @@ parse_mitcr <- function(.filename, .mode) {
 }
 
 parse_mixcr <- function(.filename, .mode, .count = c("clonecount", "readcount")) {
-  .filename <- .filename
+  .filename %<>% .as_tsv()
   .id <- "cloneid"
   .count %<>% tolower()
   .sep <- "\t"
@@ -727,6 +729,11 @@ parse_mixcr <- function(.filename, .mode, .count = c("clonecount", "readcount"))
     }
   }
 
+  # fill cloneid column if it not exists
+  if (!(.id %in% colnames(df))) {
+    df %<>% mutate("{.id}" := row_number())
+  }
+
   df <- df[, make.names(df_columns)]
   colnames(df) <- df_column_names
 
@@ -962,13 +969,18 @@ parse_airr <- function(.filename, .mode) {
     .as_tsv() %>%
     airr::read_rearrangement()
 
+  bcr_pipeline_columns <- c(
+    "cdr1", "cdr2", "cdr1_aa", "cdr2_aa", "fwr1", "fwr2", "fwr3", "fwr4",
+    "fwr1_aa", "fwr2_aa", "fwr3_aa", "fwr4_aa"
+  )
   df %<>%
-    select_(
+    add_empty_columns(bcr_pipeline_columns[!(bcr_pipeline_columns %in% colnames(df))]) %>%
+    select(
       "sequence", "v_call", "d_call", "j_call", "junction", "junction_aa",
-      ~contains("v_germline_end"), ~contains("d_germline_start"),
-      ~contains("d_germline_end"), ~contains("j_germline_start"),
-      ~contains("np1_length"), ~contains("np2_length"),
-      ~contains("duplicate_count"),
+      contains("v_germline_end"), contains("d_germline_start"),
+      contains("d_germline_end"), contains("j_germline_start"),
+      contains("np1_length"), contains("np2_length"),
+      contains("duplicate_count"),
       "cdr1", "cdr2", "cdr1_aa", "cdr2_aa", "fwr1", "fwr2", "fwr3", "fwr4",
       "fwr1_aa", "fwr2_aa", "fwr3_aa", "fwr4_aa"
     )
