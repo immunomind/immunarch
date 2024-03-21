@@ -10,11 +10,11 @@ vis_public_clonotypes(
   .y.rep = NA,
   .title = NA,
   .ncol = 3,
-  .point.size.modif = 1,
+  .point.size.modif = .point.size.modif,
   .cut.axes = TRUE,
   .density = TRUE,
   .lm = TRUE,
-  .radj.size = 3.5
+  .radj.size = .radj.size
 )
 }
 \arguments{

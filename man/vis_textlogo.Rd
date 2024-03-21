@@ -5,7 +5,7 @@
 \alias{vis_seqlogo}
 \title{Sequence logo plots for amino acid profiles.}
 \usage{
-vis_textlogo(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...)
+vis_textlogo(.data, .replace.zero.with.na = TRUE, .width = .width.textlogo, ...)
 
 vis_seqlogo(.data, .scheme = "chemistry", ...)
 }

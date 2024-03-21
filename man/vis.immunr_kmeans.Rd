@@ -10,8 +10,8 @@
   .point = TRUE,
   .text = TRUE,
   .ellipse = TRUE,
-  .point.size = 2,
-  .text.size = 10,
+  .point.size = .point.size.large,
+  .text.size = .label.size.large,
   .plot = c("clust", "best"),
   ...
 )

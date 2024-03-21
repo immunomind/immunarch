@@ -341,6 +341,18 @@ rename_column <- function(.data, .old, .new) {
 }
 
 
+matrix_to_df <- function(.data) {
+  data.frame(Sample = row.names(.data), Value = .data[, 1])
+}
+
+
+transpose_gene_usage <- function(.data) {
+  row.names(.data) <- .data[[1]]
+  .data <- t(as.matrix(.data[2:ncol(.data)]))
+  .data
+}
+
+
 #' Apply function to each pair of data frames from a list.
 #'
 #' @concept utility_public
