@@ -98,7 +98,7 @@
 #' vis(ov, "heatmap2")
 #' @export repOverlap
 repOverlap <- function(.data,
-                       .method = c("public", "overlap", "jaccard", "tversky", "cosine", "morisita", "inc+public", "inc+morisita"),
+                       .method = c("public", "overlap", "jaccard", "chao_jaccard_abundance_index", "tversky", "cosine", "morisita", "inc+public", "inc+morisita"),
                        .col = "aa",
                        .a = .5,
                        .b = .5,
@@ -225,6 +225,26 @@ jaccard_index.default <- function(.x, .y) {
 jaccard_index.character <- function(.x, .y) {
   intersection <- length(dplyr::intersect(.x, .y))
   intersection / (length(.x) + length(.y) - intersection)
+}
+
+chao_jaccard_abundance_index <- function(.x, .y) {
+  UseMethod("chao_jaccard_abundance_index")
+}
+
+chao_jaccard_abundance_index.default <- function(.x, .y) {
+  .x <- collect(.x, n = Inf)
+  .y <- collect(.y, n = Inf)
+  intersection <- nrow(dplyr::intersect(.x, .y))
+  proportion_of_x_in_y_counting_all_seqs <- intersection / nrow(.y)
+  proportion_of_y_in_x_counting_all_seqs <- intersection / nrow(.x)
+  (proportion_of_x_in_y_counting_all_seqs * proportion_of_y_in_x_counting_all_seqs) / (proportion_of_x_in_y_counting_all_seqs + proportion_of_y_in_x_counting_all_seqs - (proportion_of_x_in_y_counting_all_seqs * proportion_of_y_in_x_counting_all_seqs))
+}
+
+chao_jaccard_abundance_index.character <- function(.x, .y) {
+  intersection <- nrow(dplyr::intersect(.x, .y))
+  proportion_of_x_in_y_counting_all_seqs <- intersection / nrow(.y)
+  proportion_of_y_in_x_counting_all_seqs <- intersection / nrow(.x)
+  (proportion_of_x_in_y_counting_all_seqs * proportion_of_y_in_x_counting_all_seqs) / (proportion_of_x_in_y_counting_all_seqs + proportion_of_y_in_x_counting_all_seqs - (proportion_of_x_in_y_counting_all_seqs * proportion_of_y_in_x_counting_all_seqs))
 }
 
 tversky_index <- function(.x, .y, .a = .5, .b = .5) {
