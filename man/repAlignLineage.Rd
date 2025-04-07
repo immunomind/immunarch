@@ -7,7 +7,7 @@
 repAlignLineage(.data, .min_lineage_sequences, .prepare_threads, .align_threads, .nofail)
 }
 \arguments{
-\item{.data}{The data to be processed. Can be \link{data.frame}, \link{data.table}
+\item{.data}{The data to be processed. Can be \link{data.frame}, [data.table::data.table]
 or a list of these objects.}
 
 \item{.min_lineage_sequences}{If number of sequences in the same clonal lineage and the same

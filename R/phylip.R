@@ -11,7 +11,6 @@
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
-#' @importFrom phangorn write.phyDat
 #' @importFrom ape read.tree
 #' @importFrom uuid UUIDgenerate
 #' @importFrom data.table fread
@@ -143,6 +142,10 @@ process_dataframe <- function(df, vis_groups, .threads, sample_name = NA) {
 }
 
 process_cluster <- function(cluster_row, vis_groups) {
+  if (!requireNamespace("phangorn", quietly = TRUE)) {
+    stop("Package 'phangorn' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   # alignment, sequences and aa_frame_starts should be extracted from 1-element lists
   # because of these columns format
   alignment <- cluster_row[["Alignment"]][[1]]

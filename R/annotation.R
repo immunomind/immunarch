@@ -5,7 +5,6 @@ if (getRversion() >= "2.15.1") {
 
 #' Load clonotype databases such as VDJDB and McPAS into the R workspace
 #'
-#' @importFrom readxl read_xlsx
 #' @importFrom readr read_csv read_tsv
 #'
 #' @concept annotation
@@ -52,8 +51,8 @@ if (getRversion() >= "2.15.1") {
 #' @export
 dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
   .db <- tolower(.db)
-  if (!(.db %in% c("vdjdb", "vdjdb-search", "mcpas", "mcpas-tcr", "pird", "tbadb"))) {
-    stop('Unknown .db argument. Please provide one of the following: "vdjdb", "vdjdb-search", "mcpas" or "tbadb"')
+  if (!(.db %in% c("vdjdb", "vdjdb-search", "mcpas", "mcpas-tcr", "pird"))) {
+    stop('Unknown .db argument. Please provide one of the following: "vdjdb", "vdjdb-search", "mcpas"')
   }
 
   if (.db == "vdjdb") {
@@ -72,23 +71,6 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 
     db_file$Chain <- !is.na(db_file$CDR3.beta.aa)
     db_file$Chain <- "TRB"
-  } else if (.db == "tbadb") {
-    # ToDo: check for conflicting chains, such as TRB and BCR
-    sheet_index <- 1
-    if (is.na(.chain)[1]) {
-      stop("TBAdb requires the .chain argument. Please specify it and try again.")
-    }
-
-    chain_col <- paste0(.chain, collapse = "")
-    if (grepl("TRG", chain_col) || grepl("TRD", chain_col)) {
-      sheet_index <- 2
-    } else if (grepl("IGH", chain_col) || grepl("IGL", chain_col) || grepl("IGK", chain_col)) {
-      sheet_index <- 3
-    }
-    db_file <- read_xlsx(.path, sheet_index)
-
-    db_file$Chain <- db_file$Locus
-    db_file$Pathology <- db_file$Disease.name
   }
 
   if (!is.na(.species)) {
@@ -124,13 +106,14 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 }
 
 
-#' Annotate clonotypes in immune repertoires using clonotype databases such as VDJDB and MCPAS
+#' Annotate clonotypes in immune repertoires using clonotype databases (e.g., VDJDB, McPAS)
 #'
 #' @concept annotation
 #'
-#' @description Annotate clonotypes using immune receptor databases with known condition-associated receptors.
-#' Before using this function, you need to download database files first.
-#' For more details see the tutorial \url{https://immunarch.com/articles/web_only/v11_db.html}.
+#' @description
+#' Annotate clonotypes by matching them to known condition-associated immune receptors in a database.
+#' Before using this function, you must download or load the relevant database files.
+#' For more information, see the [online tutorial](https://immunarch.com/articles/web_only/v11_db.html).
 #'
 #' @param .data The data to process. It can be a \link{data.frame}, a
 #' \link{data.table}, or a list of these objects.
@@ -139,7 +122,7 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #' \link{immunarch_data_format}
 #'
 #' Competent users may provide advanced data representations:
-#' DBI database connections, Apache Spark DataFrame from \link{copy_to} or a list
+#' DBI database connections, or a list
 #' of these objects. They are supported with the same limitations as basic objects.
 #'
 #' Note: each connection must represent a separate repertoire.

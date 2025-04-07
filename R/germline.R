@@ -24,7 +24,7 @@
 #'
 #' repGermline(.data, .species, .min_nuc_outside_cdr3, .threads)
 #'
-#' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
+#' @param .data The data to be processed. Can be \link{data.frame}, [data.table::data.table]
 #' or a list of these objects.
 #'
 #' It must have columns in the immunarch compatible format \link{immunarch_data_format}.

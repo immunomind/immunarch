@@ -24,7 +24,7 @@
 #'
 #' repAlignLineage(.data, .min_lineage_sequences, .prepare_threads, .align_threads, .nofail)
 #'
-#' @param .data The data to be processed. Can be \link{data.frame}, \link{data.table}
+#' @param .data The data to be processed. Can be \link{data.frame}, [data.table::data.table]
 #' or a list of these objects.
 #'
 #' @param .min_lineage_sequences If number of sequences in the same clonal lineage and the same

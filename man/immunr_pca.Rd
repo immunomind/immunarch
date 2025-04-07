@@ -26,17 +26,17 @@ if you want to visualise results.}
 
 \item{.dist}{If TRUE then assumes that ".data" is a distance matrix.}
 
-\item{.perp}{The perplexity parameter for \link[Rtsne]{Rtsne}. Sepcifies the number
-of neighbours each data point must have in the resulting plot.}
+\item{.perp}{The perplexity parameter for \link[Rtsne]{Rtsne}. Specifies the number
+of neighbors each data point must have in the resulting plot.}
 
 \item{...}{Other parameters passed to \link[Rtsne]{Rtsne}.}
 }
 \value{
 \code{immunr_pca} - an output from \link{prcomp}.
 
-\code{immunr_mds} - an output from \link{isoMDS}.
+\code{immunr_mds} - an output from \link[MASS]{isoMDS}.
 
-\code{immunr_tsne} - an output from \link{Rtsne}.
+\code{immunr_tsne} - an output from \\link[Rtsne]{Rtsne}.
 }
 \description{
 Collects a set of principal variables, reducing the number of not important variables

@@ -2,7 +2,7 @@
 % Please edit documentation in R/annotation.R
 \name{dbAnnotate}
 \alias{dbAnnotate}
-\title{Annotate clonotypes in immune repertoires using clonotype databases such as VDJDB and MCPAS}
+\title{Annotate clonotypes in immune repertoires using clonotype databases (e.g., VDJDB, McPAS)}
 \usage{
 dbAnnotate(.data, .db, .data.col, .db.col)
 }
@@ -14,7 +14,7 @@ Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
 
 Competent users may provide advanced data representations:
-DBI database connections, Apache Spark DataFrame from \link{copy_to} or a list
+DBI database connections, or a list
 of these objects. They are supported with the same limitations as basic objects.
 
 Note: each connection must represent a separate repertoire.}
@@ -31,9 +31,9 @@ to CDR3 amino acid sequences, and the second column must correspond to V gene se
 Data frame with input sequences and counts or proportions for each of the input repertoire.
 }
 \description{
-Annotate clonotypes using immune receptor databases with known condition-associated receptors.
-Before using this function, you need to download database files first.
-For more details see the tutorial \url{https://immunarch.com/articles/web_only/v11_db.html}.
+Annotate clonotypes by matching them to known condition-associated immune receptors in a database.
+Before using this function, you must download or load the relevant database files.
+For more information, see the [online tutorial](https://immunarch.com/articles/web_only/v11_db.html).
 }
 \examples{
 data(immdata)

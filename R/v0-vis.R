@@ -12,6 +12,52 @@ if (getRversion() >= "2.15.1") {
   ))
 }
 
+theme_pubr <- function (base_size = 12, base_family = "", border = FALSE, margin = TRUE,
+          legend = c("top", "bottom", "left", "right", "none"), x.text.angle = 0)
+{
+  half_line <- base_size/2
+  if (!is.numeric(legend))
+    legend <- match.arg(legend)
+  if (x.text.angle > 5)
+    xhjust <- 1
+  else xhjust <- NULL
+  if (border) {
+    panel.border <- element_rect(fill = NA, colour = "black",
+                                 size = 0.7)
+    axis.line <- element_blank()
+  }
+  else {
+    panel.border <- element_blank()
+    axis.line = element_line(colour = "black", size = 0.5)
+  }
+  if (margin)
+    plot.margin <- margin(half_line, half_line, half_line,
+                          half_line)
+  else plot.margin <- unit(c(0.5, 0.3, 0.3, 0.3), "mm")
+  .theme <- theme_bw(base_size = base_size, base_family = base_family) %+replace%
+    theme(panel.border = panel.border, panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.line = axis.line,
+          axis.text = element_text(color = "black"), legend.key = element_blank(),
+          strip.background = element_rect(fill = "#F2F2F2",
+                                          colour = "black", size = 0.7), plot.margin = plot.margin,
+          legend.position = legend, complete = TRUE)
+  if (x.text.angle != 0)
+    .theme <- .theme + theme(axis.text.x = element_text(angle = x.text.angle,
+                                                        hjust = xhjust))
+  .theme
+}
+
+
+rotate_x_text <- function (angle = 90, hjust = NULL, vjust = NULL, ...)
+{
+  if (missing(hjust) & angle > 5)
+    hjust <- 1
+  if (missing(vjust) & angle == 90)
+    vjust <- 0.5
+  theme(axis.text.x = element_text(angle = angle, hjust = hjust,
+                                   vjust = vjust, ...))
+}
+
 
 ##### Utility functions #####
 
@@ -105,11 +151,8 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @name vis
 #'
 #' @import ggplot2
-#' @importFrom factoextra fviz_cluster fviz_dend fviz_pca_ind
 #' @importFrom grDevices colorRampPalette
 #' @importFrom tidyr drop_na
-#' @importFrom igraph graph_from_data_frame
-#' @importFrom ggraph ggraph geom_edge_diagonal geom_node_point theme_graph
 #'
 #' @description Output from every function in immunarch can be visualised with a
 #' single function - \code{vis}. The \code{vis} automatically detects
@@ -228,7 +271,7 @@ vis <- function(.data, ...) {
 #'
 #' - "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
 #'
-#' - "circos" - passes arguments to \link{vis_circos} and \link{chordDiagram} from the "circlize" package;
+#' - "circos" - passes arguments to \link{vis_circos} and [circlize::chordDiagram] from the "circlize" package;
 #'
 #' @return
 #' A ggplot2, pheatmap or circlize object.
@@ -465,14 +508,14 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
 #'
 #' @name vis_circos
 #'
-#' @description Visualise matrices with the \link{chordDiagram} function
+#' @description Visualise matrices with the [circlize::chordDiagram] function
 #' from the circlize package.
 #'
 #' @param .data Input matrix.
 #'
 #' @param .title The The text for the title of the plot.
 #'
-#' @param ... Other arguments passed to \link{chordDiagram} from the 'circlize' package.
+#' @param ... Other arguments passed to [circlize::chordDiagram] from the 'circlize' package.
 #'
 #' @return
 #' A circlize object.
@@ -720,15 +763,13 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #'
 #' @concept pubrep
 #'
-#' @importFrom UpSetR upset fromExpression
-#'
 #' @name vis.immunr_public_statistics
 #'
 #' @description Visualise public clonotype frequencies.
 #'
 #' @param .data Public repertoire - an output from the \link{pubRep} function.
 #'
-#' @param ... Other arguments passsed directly to \link{upset}.
+#' @param ... Other arguments passsed directly to [UpSetR::upset].
 #'
 #' @return
 #' A ggplot2 object.
@@ -740,9 +781,14 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #' pubRepStatistics(pr) %>% vis()
 #' @export
 vis.immunr_public_statistics <- function(.data, ...) {
+
+  if (!requireNamespace("UpSetR", quietly = TRUE)) {
+    stop("Package 'UpSetR' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   upsetr_data <- as.list(.data$Count)
   names(upsetr_data) <- .data$Group
-  upset(fromExpression(upsetr_data), ...)
+  UpSetR::upset(UpSetR::fromExpression(upsetr_data), ...)
 }
 
 
@@ -1075,7 +1121,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #'
 #' - "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
 #'
-#' - "circos" - passes arguments to \link{vis_circos} and \link{chordDiagram} from the "circlize" package.
+#' - "circos" - passes arguments to \link{vis_circos} and [circlize::chordDiagram] from the "circlize" package.
 #'
 #' @return
 #' A ggplot2 object, pheatmap or circlize object.
@@ -1158,7 +1204,7 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
 #'
 #' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
 #'
-#' @param .melt If TRUE then apply \link{melt} to the ".data" before plotting.
+#' @param .melt If TRUE then apply [reshape2::melt] to the ".data" before plotting.
 #' In this case ".data" is supposed to be a data frame with the first character column reserved
 #' for names of genes and other numeric columns reserved to counts or frequencies of genes.
 #' Each numeric column should be associated with a specific repertoire sample.
@@ -1338,7 +1384,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #' such as age, serostatus or hla.
 #' @param .title The text for the title of the plot.
 #' @param .labs Character vector of length two with names for x-axis and y-axis, respectively.
-#' @param .melt If TRUE then apply \link{melt} to the ".data" before plotting.
+#' @param .melt If TRUE then apply [reshape2::melt] to the ".data" before plotting.
 #' In this case ".data" is supposed to be a data frame with the first character column reserved
 #' for names of genes and other numeric columns reserved to counts or frequencies of genes.
 #' Each numeric column should be associated with a specific repertoire sample.
@@ -1366,6 +1412,10 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
                     .labs = c("X", "Y"), .title = "Boxplot (.title argument)",
                     .subtitle = "Subtitle (.subtitle argument)",
                     .legend = NA, .leg.title = "Legend (.leg.title argument)", .legend.pos = "right") {
+  if (!requireNamespace("ggpubr", quietly = TRUE)) {
+    stop("Package 'ggpubr' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   if (.melt) {
     res <- reshape2::melt(.data)
     res <- res[1:nrow(res), ]
@@ -1437,7 +1487,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
           }
         }
 
-        p_df <- compare_means(Value ~ Group, .data, comparisons = comparisons, p.adjust.method = "holm")
+        p_df <- ggpubr::compare_means(Value ~ Group, .data, comparisons = comparisons, p.adjust.method = "holm")
 
         y_max <- max(.data$Value)
         p.value.y.coord <- rep(y_max, nrow(p_df))
@@ -1450,18 +1500,18 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
             p.adj = format.pval(p.adj, digits = 1)
           )
 
-        p <- p + geom_signif(
+        p <- p + ggpubr::geom_signif(
           data = p_df,
           aes(xmin = group1, xmax = group2, annotations = p.adj, y_position = y.coord),
           manual = TRUE, tip_length = 0.03, size = .5, inherit.aes = FALSE
         )
       } else {
         # Seems fine...
-        # p_df = compare_means(Value ~ Group, group.by = "Grouping.var", method = "kruskal.test", .data, p.adjust.method = "holm")
+        # p_df = ggpubr::compare_means(Value ~ Group, group.by = "Grouping.var", method = "kruskal.test", .data, p.adjust.method = "holm")
         # print(p_df)
 
         p <- p +
-          stat_compare_means(aes(label = after_stat(p.adj)),
+          ggpubr::stat_compare_means(aes(label = after_stat(p.adj)),
             bracket.size = .5, size = .signif.label.size,
             label.y = max(.data$Value, na.rm = TRUE) * 1.07
           )
@@ -1501,7 +1551,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 #' @aliases vis.immunr_hclust
 #'
 #' @param .data Clustering results from \link{repOverlapAnalysis} or \link{geneUsageAnalysis}.
-#' @param .rect Passed to \link{fviz_dend} - whether to add a rectangle around groups.
+#' @param .rect Passed to [factoextra::fviz_dend] - whether to add a rectangle around groups.
 #' @param .plot A character vector of length one or two specifying which plots to visualise.
 #' If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
 #' If both then plot both.
@@ -1518,9 +1568,13 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 #' repOverlapAnalysis(ov, "mds+hclust") %>% vis()
 #' @export
 vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), ...) {
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   p1 <- NULL
   if ("clust" %in% .plot) {
-    p1 <- fviz_dend(.data[[1]], main = "Hierarchical clustering", rect = .rect)
+    p1 <- factoextra::fviz_dend(.data[[1]], main = "Hierarchical clustering", rect = .rect)
   }
 
   p2 <- NULL
@@ -1552,11 +1606,11 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' @aliases vis.immunr_kmeans vis.immunr_dbscan
 #'
 #' @param .data Clustering results from \link{repOverlapAnalysis} or \link{geneUsageAnalysis}.
-#' @param .point If TRUE then plot sample points. Passed to \link{fviz_cluster}.
-#' @param .text If TRUE then plot text labels. Passed to \link{fviz_cluster}.
-#' @param .ellipse If TRUE then plot ellipses around all samples. Passed to "ellipse" from \link{fviz_cluster}.
-#' @param .point.size Size of points, passed to "pointsize" from \link{fviz_cluster}.
-#' @param .text.size Size of text labels, passed to labelsize from \link{fviz_cluster}.
+#' @param .point If TRUE then plot sample points. Passed to [factoextra::fviz_cluster].
+#' @param .text If TRUE then plot text labels. Passed to [factoextra::fviz_cluster].
+#' @param .ellipse If TRUE then plot ellipses around all samples. Passed to "ellipse" from [factoextra::fviz_cluster].
+#' @param .point.size Size of points, passed to "pointsize" from [factoextra::fviz_cluster].
+#' @param .text.size Size of text labels, passed to labelsize from [factoextra::fviz_cluster].
 #' @param .plot A character vector of length one or two specifying which plots to visualise.
 #' If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
 #' If both then plot both.
@@ -1575,9 +1629,13 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRUE,
                               .point.size = 2, .text.size = 10, .plot = c("clust", "best"),
                               ...) {
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   p1 <- NULL
   if ("clust" %in% .plot) {
-    p1 <- fviz_cluster(.data[[1]],
+    p1 <- factoextra::fviz_cluster(.data[[1]],
       data = .data[[3]], main = "K-means clustering", geom = c("point", "text")[c(.point, .text)],
       show.legend.text = FALSE, show.clust.cent = FALSE, repel = TRUE, ellipse = .ellipse, shape = 16,
       pointsize = .point.size, labelsize = .text.size, label.rectangle = TRUE
@@ -1606,7 +1664,11 @@ vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' @export
 vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRUE,
                               .point.size = 2, .text.size = 10, .plot = c("clust", "best"), ...) {
-  fviz_cluster(.data[[1]],
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
+  factoextra::fviz_cluster(.data[[1]],
     data = .data[[2]], main = "DBSCAN clustering", geom = c("point", "text")[c(.point, .text)],
     show.legend.text = FALSE, show.clust.cent = FALSE, repel = TRUE, ellipse = .ellipse, shape = 16,
     pointsize = .point.size, labelsize = .text.size, label.rectangle = TRUE
@@ -1622,8 +1684,6 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' PCA / MDS / tSNE visualisation (mainly overlap / gene usage)
 #'
 #' @concept post_analysis
-#'
-#' @importFrom ggpubr ggscatter
 #'
 #' @aliases vis.immunr_mds vis.immunr_pca vis.immunr_tsne
 #'
@@ -1668,6 +1728,10 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
                            .point.size = 2, .text.size = 4, ...) {
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   if (!.point & !.text) {
     stop("Error: Please provide at least one of the arguments: .point and .text")
   }
@@ -1677,7 +1741,7 @@ vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
     .ellipse <- FALSE
   }
 
-  fviz_pca_ind(.data,
+  factoextra::fviz_pca_ind(.data,
     habillage = group_res$group_column, geom = c("point", "text")[c(.point, .text)],
     repel = TRUE, addEllipses = .ellipse, mean.point = FALSE, pointshape = 16,
     pointsize = .point.size, labelsize = .text.size, label.rectangle = TRUE, show.legend.text = FALSE
@@ -1691,6 +1755,10 @@ vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
 vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
                            .point.size = 2, .text.size = 4, ...) {
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   if (!.point & !.text) {
     stop("Error: Please provide at least one of the arguments: .point and .text")
   }
@@ -1700,7 +1768,7 @@ vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
     .ellipse <- FALSE
   }
 
-  fviz_pca_ind(.data,
+  factoextra::fviz_pca_ind(.data,
     habillage = group_res$group_column, geom = c("point", "text")[c(.point, .text)],
     repel = TRUE, addEllipses = .ellipse, mean.point = FALSE, pointshape = 16,
     pointsize = .point.size, labelsize = .text.size, label.rectangle = TRUE, show.legend.text = FALSE
@@ -1714,6 +1782,14 @@ vis.immunr_pca <- function(.data, .by = NA, .meta = NA,
 vis.immunr_tsne <- function(.data, .by = NA, .meta = NA,
                             .point = TRUE, .text = TRUE, .ellipse = TRUE,
                             .point.size = 2, .text.size = 4, ...) {
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
+  if (!requireNamespace("ggpubr", quietly = TRUE)) {
+    stop("Package 'ggpubr' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   .data <- data.frame(.data)
   colnames(.data) <- c("Dim1", "Dim2")
   .data$Sample <- row.names(.data)
@@ -1725,7 +1801,7 @@ vis.immunr_tsne <- function(.data, .by = NA, .meta = NA,
     .ellipse <- FALSE
   }
 
-  ggscatter(
+  ggpubr::ggscatter(
     data = .data, x = "Dim1", y = "Dim2", color = "Group", ellipse = .ellipse, size = .point.size,
     point = .point, label = ifelse(.text, "Sample", NULL), repel = TRUE, label.rectangle = TRUE, show.legend.text = FALSE
   ) +
@@ -2011,8 +2087,6 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 #'
 #' @concept vis
 #'
-#' @importFrom ggpubr compare_means geom_signif stat_compare_means theme_pubr rotate_x_text
-#'
 #' @name vis_bar
 #'
 #' @param .data Data to visualise.
@@ -2058,6 +2132,10 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
                     .subtitle = "Subtitle (.subtitle argument)",
                     .legend = NA, .leg.title = "Legend (.leg.title argument)", .legend.pos = "right",
                     .rotate_x = 90) {
+  if (!requireNamespace("ggpubr", quietly = TRUE)) {
+    stop("Package 'ggpubr' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   group_res <- process_metadata_arguments(.data, .by, .meta, .defgroupby)
   group_column <- group_res$name
   .data$Group <- group_res$group_column
@@ -2156,7 +2234,7 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
           }
         }
 
-        p_df <- compare_means(Value ~ Group, .data, comparisons = comparisons, p.adjust.method = "holm")
+        p_df <- ggpubr::compare_means(Value ~ Group, .data, comparisons = comparisons, p.adjust.method = "holm")
 
         y_max <- max(.data$Value)
         p.value.y.coord <- rep(y_max, nrow(p_df))
@@ -2169,18 +2247,18 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
             p.adj = format.pval(p.adj, digits = 1)
           )
 
-        p <- p + geom_signif(
+        p <- p + ggpubr::geom_signif(
           data = p_df,
           aes(xmin = group1, xmax = group2, annotations = p.adj, y_position = y.coord),
           manual = TRUE, tip_length = 0.03, size = .5, inherit.aes = FALSE
         )
       } else {
         # Seems fine...
-        # p_df = compare_means(Value ~ Group, group.by = "Grouping.var", method = "kruskal.test", .data, p.adjust.method = "holm")
+        # p_df = ggpubr::compare_means(Value ~ Group, group.by = "Grouping.var", method = "kruskal.test", .data, p.adjust.method = "holm")
         # print(p_df)
 
         p <- p +
-          stat_compare_means(aes(label = after_stat(p.adj)),
+          ggpubr::stat_compare_means(aes(label = after_stat(p.adj)),
             bracket.size = .5, size = .signif.label.size,
             label.y = max(.data$Value, na.rm = TRUE) * 1.07
           )
@@ -2414,6 +2492,11 @@ vis.immunr_dxx <- function(.data, .by = NA, .meta = NA,
 vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
                                    .mean = TRUE, .errors = TRUE, .log = FALSE,
                                    .labels = TRUE, ...) {
+
+  if (!requireNamespace("ggrepel", quietly = TRUE)) {
+    stop("Package 'ggrepel' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   .muc.res <- .data
 
   group_res <- process_metadata_arguments(.data, .by, .meta)
@@ -2719,7 +2802,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' @param .data Output from the \code{kmer.profile} function.
 #' @param .replace.zero.with.na if TRUE then replace all zeros with NAs, therefore letters with
 #' zero frequency wont appear at the plot.
-#' @param .scheme Character. An argumentt passed to \link{geom_logo} specifying how to colour symbols.
+#' @param .scheme Character. An argument passed to [ggseqlogo::geom_logo] specifying how to colour symbols.
 #' @param .width Width for jitter, i.e., how much points will scatter around the verical line. Pass 0 (zero)
 #' to plot points on the straight vertical line for each position.
 #' @param ... Not used here.
@@ -2742,6 +2825,10 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' @export
 vis_textlogo <- function(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...) {
   # ToDo: make different color schemas, for type of aminoacids (polarity, etc), etc
+
+  if (!requireNamespace("ggrepel", quietly = TRUE)) {
+    stop("Package 'ggrepel' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
 
   .data <- reshape2::melt(.data)
   if (.replace.zero.with.na) {
@@ -2833,7 +2920,6 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #' @concept dynamics
 #'
 #' @importFrom data.table setnames melt.data.table
-#' @importFrom ggalluvial geom_flow geom_stratum
 #'
 #' @name vis.immunr_dynamics
 #'
@@ -2896,6 +2982,11 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #' vis(tc, .order = sample_order)
 #' @export
 vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .order = NA, .log = FALSE, ...) {
+
+  if (!requireNamespace("ggalluvial", quietly = TRUE)) {
+    stop("Package 'ggalluvial' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   .plot <- .plot[1]
   if (!(.plot %in% c("smooth", "area", "line"))) {
     stop("Error: unknown plot identifier \"", .plot, "\". Please provide one of the following: \"smooth\", \"area\" or \"line\".")
@@ -2934,8 +3025,8 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 
   if (.plot == "smooth") {
     p <- p +
-      geom_flow() +
-      geom_stratum()
+      ggalluvial::geom_flow() +
+      ggalluvial::geom_stratum()
   } else if (.plot == "area") {
     p <- p +
       geom_area(aes(group = Clonotype), color = "black")
@@ -3027,17 +3118,24 @@ vis.clonal_family <- function(.data, ...) {
 #' }
 #' @export
 vis.clonal_family_tree <- function(.data, ...) {
+  if (!requireNamespace("ggraph", quietly = TRUE)) {
+    stop("Package 'ggraph' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    stop("Package 'igraph' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   links_df <- .data[c("Ancestor", "Name")] %>%
     drop_na("Ancestor")
   names(links_df) <- c("from", "to")
   vertices_df <- .data[c("Name", "Type", "Clones")]
   names(vertices_df)[1] <- "name"
 
-  tree_graph <- graph_from_data_frame(links_df, vertices = vertices_df) %>%
-    ggraph("tree") +
-    geom_edge_diagonal() +
-    geom_node_point(aes(color = Type, size = Clones)) +
-    theme_graph(base_family = "sans")
+  tree_graph <- igraph::graph_from_data_frame(links_df, vertices = vertices_df) %>%
+    ggraph::ggraph("tree") +
+    ggraph::geom_edge_diagonal() +
+    ggraph::geom_node_point(aes(color = Type, size = Clones)) +
+    ggraph::theme_graph(base_family = "sans")
 
   return(tree_graph)
 }

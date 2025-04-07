@@ -41,8 +41,8 @@ default_scale_fun <- function(x) {
 #' @param .scale A function to apply to your data before passing it to any of
 #' dimensionality reduction algorithms. There is no scaling by default.
 #'
-#' @param .perp The perplexity parameter for \link[Rtsne]{Rtsne}. Sepcifies the number
-#' of neighbours each data point must have in the resulting plot.
+#' @param .perp The perplexity parameter for \link[Rtsne]{Rtsne}. Specifies the number
+#' of neighbors each data point must have in the resulting plot.
 #'
 #' @param .raw If TRUE then returns the non-processed output from dimensionality reduction
 #' algorithms. Pass FALSE if you want to visualise results.
@@ -57,9 +57,9 @@ default_scale_fun <- function(x) {
 #' @return
 #' \code{immunr_pca} - an output from \link{prcomp}.
 #'
-#' \code{immunr_mds} - an output from \link{isoMDS}.
+#' \code{immunr_mds} - an output from \link[MASS]{isoMDS}.
 #'
-#' \code{immunr_tsne} - an output from \link{Rtsne}.
+#' \code{immunr_tsne} - an output from \\link[Rtsne]{Rtsne}.
 #'
 #' @seealso \link{vis.immunr_pca} for visualisations.
 #'

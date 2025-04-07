@@ -6,7 +6,6 @@
 #' @importFrom magrittr %>% %<>%
 #' @importFrom reshape2 melt
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join
-#' @importFrom igraph graph_from_data_frame clusters
 #' @importFrom reshape2 melt
 #' @importFrom tibble rownames_to_column
 #' @importFrom glue glue
@@ -18,7 +17,7 @@
 #' seqCluster(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold)
 #'
 #' @param .data The data which was used to caluculate .dist object. Can be \link{data.frame},
-#' \link{data.table}, or a list of these objects.
+#' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format \link{immunarch_data_format}
 #'
@@ -44,6 +43,10 @@
 #' @export seqCluster
 
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    stop("Package 'igraph' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   grouping_cols <- attr(.dist, "group_by")
   matching_col <- attr(.dist, "col")
   trimmed <- attr(.dist, "trimmed")
@@ -122,8 +125,8 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
         ifelse(x > t, NA, x)
       }, .y))
     seq_clusters <- map(mat_dist, ~ melt(.x, na.rm = TRUE) %>%
-      graph_from_data_frame() %>%
-      clusters() %>%
+      igraph::graph_from_data_frame() %>%
+      igraph::clusters() %>%
       .$membership %>%
       melt() %>%
       suppressWarnings())

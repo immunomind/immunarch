@@ -8,7 +8,7 @@ seqCluster(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold)
 }
 \arguments{
 \item{.data}{The data which was used to caluculate .dist object. Can be \link{data.frame},
-\link{data.table}, or a list of these objects.
+[data.table::data.table], or a list of these objects.
 
 Every object must have columns in the immunarch compatible format \link{immunarch_data_format}}
 

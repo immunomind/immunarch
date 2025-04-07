@@ -1,9 +1,10 @@
 Package: immunarch
 Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.9.1
+Version: 0.9.1.1
 Authors@R: c(
-    person("Vadim I.", "Nazarov", , "support@immunomind.io", c("aut", "cre")),
+    person("Vadim", "Nazarov", "I.", "support@immunomind.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-3659-2709")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Siarhei", "Fiadziushchanka", , role = "aut"),
     person("Eugene", "Rumynskiy", , role = "aut"),
@@ -28,26 +29,18 @@ License: Apache License (== 2.0)
 URL: https://immunarch.com/, https://github.com/immunomind/immunarch
 BugReports: https://github.com/immunomind/immunarch/issues
 Imports:
-    factoextra (>= 1.0.4),
-    fpc,
-    UpSetR (>= 1.4.0),
+    cli,
     pheatmap (>= 1.0.12),
-    ggrepel (>= 0.8.0),
     reshape2 (>= 1.4.2),
     circlize,
     MASS (>= 7.3),
     Rtsne (>= 0.15),
-    readxl (>= 1.3.1),
-    shiny (>= 1.4.0),
-    shinythemes,
     airr,
     ggseqlogo,
-    ggalluvial (>= 0.10.0),
     Rcpp (>= 1.0),
     magrittr,
     methods,
     scales,
-    ggpubr (>= 0.2),
     rlang (>= 0.4),
     plyr,
     purrr,
@@ -58,16 +51,13 @@ Imports:
     tibble,
     tidyselect,
     tidyr,
-    igraph,
     ape,
     doParallel,
     rlist,
     utils,
     glue,
-    phangorn,
     uuid,
-    stringi,
-    ggraph
+    stringi
 Depends:
     R (>= 4.0.0),
     ggplot2 (>= 3.1.0),
@@ -82,9 +72,20 @@ Suggests:
     testthat (>= 2.1.0),
     pkgdown (>= 0.1.0),
     assertthat,
-    rmarkdown
+    rmarkdown,
+    factoextra (>= 1.0.4),
+    fpc,
+    ggpubr (>= 0.2),
+    ggraph,
+    igraph,
+    phangorn,
+    ggalluvial (>= 0.10.0),
+    UpSetR (>= 1.4.0),
+    ggrepel (>= 0.8.0),
+    shiny (>= 1.4.0),
+    shinythemes
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 LazyData: true
 LazyDataCompression: xz

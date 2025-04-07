@@ -4,8 +4,6 @@
 #'
 #' @aliases immunr_hclust immunr_kmeans immunr_dbscan
 #'
-#' @importFrom fpc dbscan
-#' @importFrom factoextra hcut fviz_nbclust
 #' @importFrom stats kmeans as.dist cmdscale dist
 #'
 #' @description Clusters the data with one of the following methods:
@@ -28,27 +26,27 @@
 #'
 #' @param .k The number of clusters to create, defined as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.
 #'
-#' @param .k.max Limits the maximum number of clusters. It is passed as \code{k.max} to \link{fviz_nbclust} for \code{immunr_hclust} and \code{immunr_kmeans}.
+#' @param .k.max Limits the maximum number of clusters. It is passed as \code{k.max} to [factoextra::fviz_nbclust] for \code{immunr_hclust} and \code{immunr_kmeans}.
 #'
 #' @param .eps Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as \code{eps} to \link[fpc]{dbscan}.
 #'
-#' @param .method Passed to \link[factoextra]{hcut} or as \link{fviz_nbclust}.
+#' @param .method Passed to [factoextra::hcut] or as [factoextra::fviz_nbclust].
 #'
-#' In case of \link[factoextra]{hcut} the agglomeration method is going to be used (argument \code{hc_method}).
+#' In case of [factoextra::hcut] the agglomeration method is going to be used (argument \code{hc_method}).
 #'
-#' In case of \link{fviz_nbclust} it is the method to be used for estimating the optimal number of clusters (argument \code{method}).
+#' In case of [factoextra::fviz_nbclust] it is the method to be used for estimating the optimal number of clusters (argument \code{method}).
 #'
 #' @param .dist If TRUE then ".data" is expected to be a distance matrix. If FALSE then the euclidean distance is computed for the input objects.
 #'
 #' @return
-#' \code{immunr_hclust} - list with two elements. The first element is an output from \link{hcut}.
-#' The second element is an output from \link{fviz_nbclust}
+#' \code{immunr_hclust} - list with two elements. The first element is an output from [factoextra::hcut].
+#' The second element is an output from [factoextra::fviz_nbclust]
 #'
 #' \code{immunr_kmeans} - list with three elements. The first element is an output from \link{kmeans}.
-#' The second element is an output from \link{fviz_nbclust}.
+#' The second element is an output from [factoextra::fviz_nbclust].
 #' The third element is the input dataset \code{.data}.
 #'
-#' \code{immunr_dbscan} - list with two elements. The first element is an output from \link{dbscan}.
+#' \code{immunr_dbscan} - list with two elements. The first element is an output from [fpc::dbscan].
 #' The second element is the input dataset \code{.data}.
 #'
 #' @examples
@@ -60,14 +58,22 @@
 #' immunr_kmeans(t(as.matrix(gu[, -1])))
 #' @export immunr_hclust immunr_kmeans immunr_dbscan
 immunr_hclust <- function(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "complete", .dist = TRUE) {
+
+  if (!requireNamespace("fpc", quietly = TRUE)) {
+    stop("Package 'fpc' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+
   if (.dist) {
     dist_mat <- as.dist(.data)
   } else {
     dist_mat <- dist(.data)
   }
   res <- list(
-    hcut = add_class(hcut(dist_mat, k = .k, hc_method = .method), "immunr_hcut"),
-    nbclust = add_class(fviz_nbclust(.data, hcut, k.max = .k.max), "immunr_nbclust")
+    hcut = add_class(factoextra::hcut(dist_mat, k = .k, hc_method = .method), "immunr_hcut"),
+    nbclust = add_class(factoextra::fviz_nbclust(.data, factoextra::hcut, k.max = .k.max), "immunr_nbclust")
   )
   add_class(res, "immunr_hclust")
 }
@@ -75,7 +81,7 @@ immunr_hclust <- function(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "co
 immunr_kmeans <- function(.data, .k = 2, .k.max = as.integer(sqrt(nrow(.data))) + 1, .method = c("silhouette", "gap_stat")) {
   res <- list(
     kmeans = add_class(kmeans(.data, .k), "immunr_kmeans"),
-    nbclust = add_class(fviz_nbclust(.data, kmeans, k.max = .k.max, .method[1]), "immunr_nbclust"),
+    nbclust = add_class(factoextra::fviz_nbclust(.data, kmeans, k.max = .k.max, .method[1]), "immunr_nbclust"),
     data = .data
   )
   add_class(res, "immunr_kmeans")

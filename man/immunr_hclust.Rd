@@ -18,27 +18,27 @@ immunr_dbscan(.data, .eps, .dist = TRUE)
 
 \item{.k}{The number of clusters to create, defined as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.}
 
-\item{.k.max}{Limits the maximum number of clusters. It is passed as \code{k.max} to \link{fviz_nbclust} for \code{immunr_hclust} and \code{immunr_kmeans}.}
+\item{.k.max}{Limits the maximum number of clusters. It is passed as \code{k.max} to [factoextra::fviz_nbclust] for \code{immunr_hclust} and \code{immunr_kmeans}.}
 
-\item{.method}{Passed to \link[factoextra]{hcut} or as \link{fviz_nbclust}.
+\item{.method}{Passed to [factoextra::hcut] or as [factoextra::fviz_nbclust].
 
-In case of \link[factoextra]{hcut} the agglomeration method is going to be used (argument \code{hc_method}).
+In case of [factoextra::hcut] the agglomeration method is going to be used (argument \code{hc_method}).
 
-In case of \link{fviz_nbclust} it is the method to be used for estimating the optimal number of clusters (argument \code{method}).}
+In case of [factoextra::fviz_nbclust] it is the method to be used for estimating the optimal number of clusters (argument \code{method}).}
 
 \item{.dist}{If TRUE then ".data" is expected to be a distance matrix. If FALSE then the euclidean distance is computed for the input objects.}
 
 \item{.eps}{Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as \code{eps} to \link[fpc]{dbscan}.}
 }
 \value{
-\code{immunr_hclust} - list with two elements. The first element is an output from \link{hcut}.
-The second element is an output from \link{fviz_nbclust}
+\code{immunr_hclust} - list with two elements. The first element is an output from [factoextra::hcut].
+The second element is an output from [factoextra::fviz_nbclust]
 
 \code{immunr_kmeans} - list with three elements. The first element is an output from \link{kmeans}.
-The second element is an output from \link{fviz_nbclust}.
+The second element is an output from [factoextra::fviz_nbclust].
 The third element is the input dataset \code{.data}.
 
-\code{immunr_dbscan} - list with two elements. The first element is an output from \link{dbscan}.
+\code{immunr_dbscan} - list with two elements. The first element is an output from [fpc::dbscan].
 The second element is the input dataset \code{.data}.
 }
 \description{

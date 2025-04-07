@@ -10,11 +10,6 @@ if (getRversion() >= "2.15.1") {
 #' @aliases fixVis
 #'
 #' @importFrom graphics plot
-#' @importFrom shiny fluidPage titlePanel sidebarLayout sidebarPanel downloadButton actionButton br
-#' @importFrom shiny tabsetPanel tabPanel textOutput sliderInput checkboxInput selectInput textInput textAreaInput
-#' @importFrom shiny mainPanel uiOutput renderText renderUI renderPlot plotOutput observe updateSliderInput
-#' @importFrom shiny observeEvent downloadHandler splitLayout
-#' @importFrom shinythemes shinytheme
 #'
 #' @description The \code{fixVis} is a built-in software tool for the manipulation
 #' of plots, such as adjusting title text font and size, axes, and more. It is a powerful
@@ -41,43 +36,50 @@ fixVis <- function(.plot = NA) {
 
     objs <- list(title = .name)
 
-    objs <- c(objs, list(br()))
+    objs <- c(objs, list(shiny::br()))
 
     if (.is.title) {
       objs <- c(objs, list(
-        splitLayout(
+        shiny::splitLayout(
           cellWidths = c("60%", "40%"),
-          checkboxInput(.full("remove"), "Remove the legend"),
-          checkboxInput(.full("contin"), "Continuous?")
+          shiny::checkboxInput(.full("remove"), "Remove the legend"),
+          shiny::checkboxInput(.full("contin"), "Continuous?")
         ),
-        sliderInput(.full("ncol"), "Number of columns:",
+        shiny::sliderInput(.full("ncol"), "Number of columns:",
           min = 1, max = 40, value = 1, step = 1
         ),
-        br(),
-        textInput(.full("text"), "Title text:", .name, placeholder = "Samples")
+        shiny::br(),
+        shiny::textInput(.full("text"), "Title text:", .name, placeholder = "Samples")
       ))
     }
 
     objs <- c(objs, list(
-      sliderInput(.full("size"), "Text size:",
+      shiny::sliderInput(.full("size"), "Text size:",
         min = 1, max = 40, value = ifelse(.is.title, 16, 11), step = .5
       ),
-      sliderInput(.full("hjust"), "Text horizontal adjustment:",
+      shiny::sliderInput(.full("hjust"), "Text horizontal adjustment:",
         min = 0, max = 1, value = 0, step = .05
       ),
-      sliderInput(.full("vjust"), "Text vertical adjustment:",
+      shiny::sliderInput(.full("vjust"), "Text vertical adjustment:",
         min = -4, max = 4, value = .5, step = .25
       ),
-      sliderInput(.full("angle"), "Text angle:",
+      shiny::sliderInput(.full("angle"), "Text angle:",
         min = 0, max = 90, value = 0, step = 1
       ),
-      selectInput(
+      shiny::selectInput(
         .full("face"), "Face:",
         list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
       )
     ))
 
-    do.call(tabPanel, objs)
+    do.call(shiny::tabPanel, objs)
+  }
+
+  if (!requireNamespace("shinythemes", quietly = TRUE)) {
+    stop("Package 'shinythemes' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+  }
+  if (!requireNamespace("shiny", quietly = TRUE)) {
+    stop("Package 'shiny' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
   }
 
   if (has_no_data(.plot)) {
@@ -88,28 +90,28 @@ fixVis <- function(.plot = NA) {
   #
   #### UI ####
   #
-  ui <- fluidPage(
-    theme = shinytheme("cosmo"),
-    titlePanel("FixVis: make your plots publication-ready already!"),
-    sidebarLayout(
-      sidebarPanel(
-        downloadButton("save_plot", "Save"),
-        actionButton("console_plot", "Plot to R console"),
-        br(),
-        br(),
-        tabsetPanel(
-          tabPanel(
+  ui <- shiny::fluidPage(
+    theme = shinythemes::shinytheme("cosmo"),
+    shiny::titlePanel("FixVis: make your plots publication-ready already!"),
+    shiny::sidebarLayout(
+      shiny::sidebarPanel(
+        shiny::downloadButton("save_plot", "Save"),
+        shiny::actionButton("console_plot", "Plot to R console"),
+        shiny::br(),
+        shiny::br(),
+        shiny::tabsetPanel(
+          shiny::tabPanel(
             "General",
-            br(),
-            textOutput("save_text"),
-            br(),
-            # textOutput("save_text2"),
-            # br(),
-            sliderInput("plot_width", "Plot width (in):", min = 2, max = 24, value = 8),
-            sliderInput("plot_height", "Plot height (in):", min = 2, max = 20, value = 5),
-            checkboxInput("coord_flip", "Flip coordinates"),
-            # checkboxInput("do_interactive", "Interactive plot"),
-            selectInput("ggplot_theme", "Theme",
+            shiny::br(),
+            shiny::textOutput("save_text"),
+            shiny::br(),
+            # shiny::textOutput("save_text2"),
+            # shiny::br(),
+            shiny::sliderInput("plot_width", "Plot width (in):", min = 2, max = 24, value = 8),
+            shiny::sliderInput("plot_height", "Plot height (in):", min = 2, max = 20, value = 5),
+            shiny::checkboxInput("coord_flip", "Flip coordinates"),
+            # shiny::checkboxInput("do_interactive", "Interactive plot"),
+            shiny::selectInput("ggplot_theme", "Theme",
               selected = "Pubr",
               list(
                 "Linedraw",
@@ -124,60 +126,60 @@ fixVis <- function(.plot = NA) {
               )
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Title & subtitle",
-            br(),
-            tabsetPanel(
-              tabPanel(
+            shiny::br(),
+            shiny::tabsetPanel(
+              shiny::tabPanel(
                 "Title",
-                br(),
-                textInput("title_text", "Title text:", "nice title text", placeholder = "Gene usage"),
-                sliderInput("title_text_size", "Title text size:",
+                shiny::br(),
+                shiny::textInput("title_text", "Title text:", "nice title text", placeholder = "Gene usage"),
+                shiny::sliderInput("title_text_size", "Title text size:",
                   min = 1, max = 40, value = 25, step = .5
                 ),
-                sliderInput("title_text_hjust", "Title text horizontal adjustment:",
+                shiny::sliderInput("title_text_hjust", "Title text horizontal adjustment:",
                   min = 0, max = 1, value = 0, step = .05
                 ),
-                sliderInput("title_text_vjust", "Title text vertical adjustment:",
+                shiny::sliderInput("title_text_vjust", "Title text vertical adjustment:",
                   min = -4, max = 4, value = .5, step = .25
                 ),
-                sliderInput("title_text_angle", "Title text angle:",
+                shiny::sliderInput("title_text_angle", "Title text angle:",
                   min = 0, max = 90, value = 0, step = 1
                 ),
-                selectInput(
+                shiny::selectInput(
                   "title_face", "Face:",
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "Subtitle",
-                br(),
-                textAreaInput("subtitle_text", "Subtitle text:", "nice subtitle text",
+                shiny::br(),
+                shiny::textAreaInput("subtitle_text", "Subtitle text:", "nice subtitle text",
                   placeholder = "Frequency of Variable gene segments presented in the input samples"
                 ),
-                sliderInput("subtitle_text_size", "Subtitle text size:",
+                shiny::sliderInput("subtitle_text_size", "Subtitle text size:",
                   min = 1, max = 40, value = 16, step = .5
                 ),
-                sliderInput("subtitle_text_hjust", "Subtitle text horizontal adjustment:",
+                shiny::sliderInput("subtitle_text_hjust", "Subtitle text horizontal adjustment:",
                   min = 0, max = 1, value = 0, step = .05
                 ),
-                sliderInput("subtitle_text_vjust", "Subtitle text vertical adjustment:",
+                shiny::sliderInput("subtitle_text_vjust", "Subtitle text vertical adjustment:",
                   min = -4, max = 4, value = .5, step = .25
                 ),
-                sliderInput("subtitle_text_angle", "Subtitle text angle:",
+                shiny::sliderInput("subtitle_text_angle", "Subtitle text angle:",
                   min = 0, max = 90, value = 0, step = 1
                 ),
-                selectInput(
+                shiny::selectInput(
                   "subtitle_face", "Face:",
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               )
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Legends",
-            br(),
-            selectInput(
+            shiny::br(),
+            shiny::selectInput(
               "legend_position", "Legend position",
               list(
                 "right",
@@ -186,143 +188,143 @@ fixVis <- function(.plot = NA) {
                 "left"
               )
             ),
-            selectInput(
+            shiny::selectInput(
               "legend_box", "Legend arrangement",
               list(
                 "vertical",
                 "horizontal"
               )
             ),
-            tabsetPanel(
-              tabPanel(
+            shiny::tabsetPanel(
+              shiny::tabPanel(
                 "Color",
-                tabsetPanel(
+                shiny::tabsetPanel(
                   make_legend_tab("col_title", "Title (color)", TRUE),
                   make_legend_tab("col_text", "Labels (color)", FALSE)
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "Fill",
-                tabsetPanel(
+                shiny::tabsetPanel(
                   make_legend_tab("fill_title", "Title (fill)", TRUE),
                   make_legend_tab("fill_text", "Labels (fill)", FALSE)
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "Size",
-                tabsetPanel(
+                shiny::tabsetPanel(
                   make_legend_tab("size_title", "Title (size)", TRUE),
                   make_legend_tab("size_text", "Labels (size)", FALSE)
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "Shape",
-                tabsetPanel(
+                shiny::tabsetPanel(
                   make_legend_tab("shape_title", "Title (shape)", TRUE),
                   make_legend_tab("shape_text", "Labels (shape)", FALSE)
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "Linetype",
-                tabsetPanel(
+                shiny::tabsetPanel(
                   make_legend_tab("linetype_title", "Title (linetype)", TRUE),
                   make_legend_tab("linetype_text", "Labels (linetype)", FALSE)
                 )
               )
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "X axis",
-            br(),
-            tabsetPanel(
-              tabPanel(
+            shiny::br(),
+            shiny::tabsetPanel(
+              shiny::tabPanel(
                 "X title",
-                br(),
-                textInput("x_text", "X axis label:", "x axis text", placeholder = "V genes"),
-                checkboxInput("apply_x2y", "Apply X axis settings to Y axis"),
-                br(),
-                sliderInput("x_title_size", "X axis title text size:",
+                shiny::br(),
+                shiny::textInput("x_text", "X axis label:", "x axis text", placeholder = "V genes"),
+                shiny::checkboxInput("apply_x2y", "Apply X axis settings to Y axis"),
+                shiny::br(),
+                shiny::sliderInput("x_title_size", "X axis title text size:",
                   min = 1, max = 40, value = 16, step = .5
                 ),
-                sliderInput("x_title_hjust", "X axis title text horizontal adjustment:",
+                shiny::sliderInput("x_title_hjust", "X axis title text horizontal adjustment:",
                   min = 0, max = 1, value = 0.5, step = .05
                 ),
-                sliderInput("x_title_vjust", "X axis title text vertical adjustment:",
+                shiny::sliderInput("x_title_vjust", "X axis title text vertical adjustment:",
                   min = -4, max = 4, value = .5, step = .25
                 ),
-                sliderInput("x_title_angle", "X axis title text angle:",
+                shiny::sliderInput("x_title_angle", "X axis title text angle:",
                   min = 0, max = 90, value = 0, step = 1
                 ),
-                selectInput(
+                shiny::selectInput(
                   "x_title_face", "Face:",
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "X ticks",
-                br(),
-                sliderInput("x_text_size", "X axis text size:",
+                shiny::br(),
+                shiny::sliderInput("x_text_size", "X axis text size:",
                   min = 1, max = 40, value = 11, step = .5
                 ),
-                sliderInput("x_text_hjust", "X axis text horizontal adjustment:",
+                shiny::sliderInput("x_text_hjust", "X axis text horizontal adjustment:",
                   min = -2, max = 2, value = .5, step = .1
                 ),
-                sliderInput("x_text_vjust", "X axis text vertical adjustment:",
+                shiny::sliderInput("x_text_vjust", "X axis text vertical adjustment:",
                   min = -4, max = 4, value = .5, step = .25
                 ),
-                sliderInput("x_text_angle", "X axis text angle:",
+                shiny::sliderInput("x_text_angle", "X axis text angle:",
                   min = 0, max = 90, value = 90, step = 1
                 ),
-                selectInput(
+                shiny::selectInput(
                   "x_text_face", "Face:",
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               )
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Y axis",
-            br(),
-            tabsetPanel(
-              tabPanel(
+            shiny::br(),
+            shiny::tabsetPanel(
+              shiny::tabPanel(
                 "Y title",
-                br(),
-                textInput("y_text", "Y axis label:", "y axis text", placeholder = "Gene frequency"),
-                checkboxInput("apply_y2x", "Apply Y axis settings to X axis"),
-                br(),
-                sliderInput("y_title_size", "Y axis title text size:",
+                shiny::br(),
+                shiny::textInput("y_text", "Y axis label:", "y axis text", placeholder = "Gene frequency"),
+                shiny::checkboxInput("apply_y2x", "Apply Y axis settings to X axis"),
+                shiny::br(),
+                shiny::sliderInput("y_title_size", "Y axis title text size:",
                   min = 1, max = 40, value = 16, step = .5
                 ),
-                sliderInput("y_title_hjust", "Y axis title text horizontal adjustment:",
+                shiny::sliderInput("y_title_hjust", "Y axis title text horizontal adjustment:",
                   min = 0, max = 1, value = 0.5, step = .05
                 ),
-                sliderInput("y_title_vjust", "Y axis title text vertical adjustment:",
+                shiny::sliderInput("y_title_vjust", "Y axis title text vertical adjustment:",
                   min = -4, max = 4, value = .5, step = .25
                 ),
-                sliderInput("y_title_angle", "Y axis title text angle:",
+                shiny::sliderInput("y_title_angle", "Y axis title text angle:",
                   min = 0, max = 90, value = 90, step = 1
                 ),
-                selectInput(
+                shiny::selectInput(
                   "y_title_face", "Face:",
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
               ),
-              tabPanel(
+              shiny::tabPanel(
                 "Y ticks",
-                br(),
-                sliderInput("y_text_size", "Y axis text size:",
+                shiny::br(),
+                shiny::sliderInput("y_text_size", "Y axis text size:",
                   min = 1, max = 40, value = 11, step = .5
                 ),
-                sliderInput("y_text_hjust", "Y axis text horizontal adjustment:",
+                shiny::sliderInput("y_text_hjust", "Y axis text horizontal adjustment:",
                   min = -2, max = 2, value = .5, step = .1
                 ),
-                sliderInput("y_text_vjust", "Y axis text vertical adjustment:",
+                shiny::sliderInput("y_text_vjust", "Y axis text vertical adjustment:",
                   min = -4, max = 4, value = .5, step = .25
                 ),
-                sliderInput("y_text_angle", "Y axis text angle:",
+                shiny::sliderInput("y_text_angle", "Y axis text angle:",
                   min = 0, max = 90, value = 0, step = 1
                 ),
-                selectInput(
+                shiny::selectInput(
                   "y_text_face", "Face:",
                   list(Plain = "plain", Bold = "bold", Italic = "italic", "Bold Italic" = "bold.italic")
                 )
@@ -331,8 +333,8 @@ fixVis <- function(.plot = NA) {
           )
         )
       ),
-      mainPanel(
-        uiOutput("main_plot", style = "position:fixed;")
+      shiny::mainPanel(
+        shiny::uiOutput("main_plot", style = "position:fixed;")
       )
     )
   )
@@ -476,40 +478,40 @@ fixVis <- function(.plot = NA) {
       .plot
     }
 
-    output$save_text <- renderText({
+    output$save_text <- shiny::renderText({
       'To save the plot, press the "Save" button above or drag-n-drop
       the plot to your Desktop or into any file manager (Finder, File Explorer, etc.)'
     })
-    output$save_text2 <- renderText({
+    output$save_text2 <- shiny::renderText({
       'Note: saving via the "Save" button will be different from the drag-n-drop method
       due to R\'s peculiar properties.'
     })
 
-    output$main_plot <- renderUI({
+    output$main_plot <- shiny::renderUI({
       # if (input$do_interactive) {
       # output$main_plot_helper = renderPlotly(ggplotly(create_plot(input)))
       # plotlyOutput("main_plot_helper")
       # } else {
-      output$main_plot_helper <- renderPlot(create_plot(input))
-      plotOutput("main_plot_helper", width = input$plot_width * 72, height = input$plot_height * 72)
+      output$main_plot_helper <- shiny::renderPlot(create_plot(input))
+      shiny::plotOutput("main_plot_helper", width = input$plot_width * 72, height = input$plot_height * 72)
       # }
     })
 
     #
     # Assign X settings to Y
     #
-    observe({
+    shiny::observe({
       if (!is.null(input$apply_x2y)) {
         if (input$apply_x2y) {
-          updateSliderInput(session, "y_title_size", value = input$x_title_size)
-          updateSliderInput(session, "y_title_hjust", value = input$x_title_size)
-          updateSliderInput(session, "y_title_vjust", value = input$x_title_size)
-          updateSliderInput(session, "y_title_angle", value = input$x_title_size)
+          shiny::updateSliderInput(session, "y_title_size", value = input$x_title_size)
+          shiny::updateSliderInput(session, "y_title_hjust", value = input$x_title_size)
+          shiny::updateSliderInput(session, "y_title_vjust", value = input$x_title_size)
+          shiny::updateSliderInput(session, "y_title_angle", value = input$x_title_size)
 
-          updateSliderInput(session, "y_text_size", value = input$x_text_size)
-          updateSliderInput(session, "y_text_hjust", value = input$x_text_size)
-          updateSliderInput(session, "y_text_vjust", value = input$x_text_size)
-          updateSliderInput(session, "y_text_angle", value = input$x_text_size)
+          shiny::updateSliderInput(session, "y_text_size", value = input$x_text_size)
+          shiny::updateSliderInput(session, "y_text_hjust", value = input$x_text_size)
+          shiny::updateSliderInput(session, "y_text_vjust", value = input$x_text_size)
+          shiny::updateSliderInput(session, "y_text_angle", value = input$x_text_size)
         }
       }
     })
@@ -517,30 +519,30 @@ fixVis <- function(.plot = NA) {
     #
     # Vice versa: assign Y settings to X
     #
-    observe({
+    shiny::observe({
       if (!is.null(input$apply_y2x)) {
         if (input$apply_y2x) {
-          updateSliderInput(session, "x_title_size", value = input$y_title_size)
-          updateSliderInput(session, "x_title_hjust", value = input$y_title_hjust)
-          updateSliderInput(session, "x_title_vjust", value = input$y_title_vjust)
-          updateSliderInput(session, "x_title_angle", value = input$y_title_angle)
+          shiny::updateSliderInput(session, "x_title_size", value = input$y_title_size)
+          shiny::updateSliderInput(session, "x_title_hjust", value = input$y_title_hjust)
+          shiny::updateSliderInput(session, "x_title_vjust", value = input$y_title_vjust)
+          shiny::updateSliderInput(session, "x_title_angle", value = input$y_title_angle)
 
-          updateSliderInput(session, "x_text_size", value = input$y_text_size)
-          updateSliderInput(session, "x_text_hjust", value = input$y_text_hjust)
-          updateSliderInput(session, "x_text_vjust", value = input$y_text_vjust)
-          updateSliderInput(session, "x_text_angle", value = input$y_text_angle)
+          shiny::updateSliderInput(session, "x_text_size", value = input$y_text_size)
+          shiny::updateSliderInput(session, "x_text_hjust", value = input$y_text_hjust)
+          shiny::updateSliderInput(session, "x_text_vjust", value = input$y_text_vjust)
+          shiny::updateSliderInput(session, "x_text_angle", value = input$y_text_angle)
         }
       }
     })
 
-    observeEvent(input$console_plot, {
+    shiny::observeEvent(input$console_plot, {
       plot(create_plot(input))
     })
 
     #
     # Save plots
     #
-    output$save_plot <- downloadHandler(
+    output$save_plot <- shiny::downloadHandler(
       filename = paste0("plot shiny ", Sys.time(), ".png"),
       content = function(file) {
         ggsave(file, plot = create_plot(input), width = input$plot_width, height = input$plot_height, device = "png")
