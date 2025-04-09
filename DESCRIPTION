@@ -1,9 +1,9 @@
 Package: immunarch
 Type: Package
 Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.9.1.1
+Version: 0.9.2
 Authors@R: c(
-    person("Vadim", "Nazarov", "I.", "support@immunomind.com", role = c("aut", "cre"),
+    person("Vadim I.", "Nazarov", , "support@immunomind.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3659-2709")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Siarhei", "Fiadziushchanka", , role = "aut"),
@@ -16,7 +16,7 @@ Authors@R: c(
     person("Victor", "Greiff", , role = "ctb"),
     person("ImmunoMind", role = c("cph", "fnd"))
     )
-Contact: support@immunomind.io
+Contact: support@immunomind.com
 Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
     T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
     visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)

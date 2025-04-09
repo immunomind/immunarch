@@ -22,3 +22,4 @@
 ^.github$
 ^.RDataFiles$
 ^.idea$
+^cran-comments\.md$

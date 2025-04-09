@@ -1,13 +1,7 @@
-#' @importFrom cli cli_h1 cli_alert_warning cli_par cli_text cli_end cli_alert_info cli_bullets spark_line cli_alert_success
+#' @importFrom cli cli_h1 cli_alert_warning cli_par cli_text cli_end cli_alert_info cli_bullets spark_line cli_alert_success start_app cli_inform
 #' @importFrom stats runif
-.onAttach <- function(libname, pkgname) {
-  # TODO: supress https://github.com/r-lib/cli/issues/589
-  # TODO: remove non-ASCII characters folder-like
-  # TODO: figure out the middle name stuff
-  # TODO: put dependendies in the cran-comments
-
+immunarch_v1_update_apr_2025 <- function() {
   cli::cli_h1("{cli::col_green('immunarch')} {cli::col_yellow('0.9.x')} – Critical Pre-release Notice")
-
 
   cli::cli_alert_warning("Update #1 [Apr 2025] -- Major changes are coming in {cli::col_green('immunarch')} {cli::col_yellow('1.0.0')}!")
   cli::cli_text(cli::col_yellow(cli::spark_line(runif(110, 0, 1))))
@@ -39,8 +33,8 @@
   cli::cli_text(
     "See the dedicated migration guide for migration on what you can do now and how to prepare for the future:"
   )
-  cli::cli_text("├─ run {cli::col_cyan('vignette(\"immunarch_v1_migration\")')}, or")
-  cli::cli_text("└─ visit {cli::col_cyan('https://immunarch.com/articles/immunarch_v1_migration.html')}")
+  cli::cli_text(">> run {cli::col_cyan('vignette(\"immunarch_v1_migration\")')}, or")
+  cli::cli_text(">> visit {cli::col_cyan('https://immunarch.com/articles/immunarch_v1_migration.html')}")
 
   cli::cli_par()
   cli::cli_text()
@@ -53,7 +47,73 @@
   cli::cli_par()
   cli::cli_text()
   cli::cli_alert_info("Questions, comments, ideas? I'm available via:")
-  cli::cli_text("├─ Support email: {cli::col_cyan('support@immunomind.com')}")
-  cli::cli_text("├─ GitHub tickets: {cli::col_cyan('https://github.com/immunomind/immunarch')}")
-  cli::cli_text("└─ LinkedIn: {cli::col_cyan('https://www.linkedin.com/in/vdnaz/')}")
+  cli::cli_text(">> Support email: {cli::col_cyan('support@immunomind.com')}")
+  cli::cli_text(">> GitHub tickets: {cli::col_cyan('https://github.com/immunomind/immunarch')}")
+  cli::cli_text(">> LinkedIn: {cli::col_cyan('https://www.linkedin.com/in/vdnaz/')}")
+}
+
+#' Some description
+immunarch_v1_updates <- c(
+  "Apr 2025" = immunarch_v1_update_apr_2025
+)
+
+#' Get the Latest immunarch Update
+#'
+#' Retrieves an update message for immunarch.
+#'
+#' If `datepoint` is set to `"latest"`, the function returns the most recent update.
+#' Otherwise, specify the update date key (e.g., `"Apr 2025"`) to retrieve that particular update.
+#' If no matching update is found, a warning is issued along with available update keys.
+#'
+#' @param datepoint A string specifying the update date. Use `"latest"` for the most recent update
+#'   or supply a valid date key (e.g., `"Apr 2025"`).
+#'
+#' @return A character string with the update details or a warning if the key is not found.
+#'
+#' @seealso [list_immunarch_news()]
+#'
+#' @export
+get_immunarch_news <- function(datepoint = "latest") {
+  if (datepoint == "latest") {
+    immunarch_v1_updates[[length(immunarch_v1_updates)]]()
+  } else if (datepoint %in% names(immunarch_v1_updates)) {
+    immunarch_v1_updates[[datepoint]]()
+  } else {
+    cli::cli_alert_warning("No {datepoint} date in the list of {cli::col_green('immunarch')} updates. Available update names are: {immunarch:::list_immunarch_news()}")
+  }
+}
+
+#' List Available immunarch Updates
+#'
+#' Returns the list of available update keys for immunarch v1.
+#'
+#' @return A character vector containing all the date keys for the available updates.
+#'
+#' @seealso [get_immunarch_news()]
+#'
+#' @export
+list_immunarch_news <- function() {
+  names(immunarch_v1_updates)
+}
+
+.onAttach <- function(libname, pkgname) {
+  msg <- paste0(
+    "Hi, this is Vadim Nazarov speaking -- author of ",
+    cli::col_green("immunarch"),
+    ".\n",
+    cli::col_green("immunarch"),
+    " is evolving towards its 1.0.0 release. Soon it will be faster, more user-friendly, and ready for its long-awaited publication. Some functions will no longer be supported or will be replaced with new, more powerful methods.\n",
+    "\n -- Please run ",
+    cli::col_cyan("get_immunarch_news()"),
+    " in your R console to read the latest update and learn what has changed, what's new, how to migrate your code, and what changes are planned for the next update.\n",
+    "\n -- Run ",
+    cli::col_cyan("list_immunarch_news()"),
+    " to list all available updates and catch up on any you may have missed. Latest update: ", cli::col_yellow("#1, Apr 2025"), "\n",
+    "\n -- To import the package without this message, run ",
+    cli::col_cyan("suppressPackageStartupMessages(library(\"immunarch\"))"),
+    "\n",
+    "Thank you."
+  )
+
+  cli::cli_inform(msg, class = "packageStartupMessage")
 }

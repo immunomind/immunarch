@@ -11,3 +11,4 @@ docs/*
 .idea/*
 vignettes/web_only/*.html
 immunr.Rproj
+cran-comments.md

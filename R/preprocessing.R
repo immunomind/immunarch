@@ -81,7 +81,7 @@ top <- function(.data, .n = 10) {
 #' data(immdata)
 #' immdata_cod <- coding(immdata$data)
 #' immdata_cod1 <- coding(immdata$data[[1]])
-#' @export coding
+#' @export coding noncoding inframes outofframes
 coding <- function(.data) {
   if (has_class(.data, "list")) {
     lapply(.data, coding)
