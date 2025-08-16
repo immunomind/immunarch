@@ -17,7 +17,7 @@ pubRepStatistics(.data, .by = NA, .meta = NA)
 Data frame with incidence statistics per sample.
 }
 \description{
-Statistics of number of public clonotypes for each possible combinations of repertoires
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 data(immdata)

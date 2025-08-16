@@ -28,6 +28,8 @@ Pass NA (by default) to load all available conditions.}
 Data frame with the input database records.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 The function automatically detects the database format and loads it into R.
 Additionally, the function provides a general query interface to databases that allows
 filtering by species, chain types (i.e., locus) and pathology (i.e., antigen species).

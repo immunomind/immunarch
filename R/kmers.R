@@ -7,11 +7,16 @@
 #'
 #' @aliases getKmers get.kmers makeKmerTable
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections,or a list
@@ -89,12 +94,18 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #'
 #' @aliases split_to_kmers kmer_profile
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
+#'
 #' @usage
 #' split_to_kmers(.data, .k)
 #'
 #' kmer_profile(.data, .method = c("freq", "prob", "wei", "self"), .remove.stop = TRUE)
 #'
-#' @param .data Character vector or the output from \code{getKmers}.
+#' @param .data Character vector or the output from `getKmers`.
 #' @param .k Integer. Size of k-mers.
 #' @param .method Character vector of length one. If "freq" then returns a position frequency matrix (PFM) -
 #' a matrix with occurences of each amino acid in each position.
@@ -110,9 +121,9 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #' @param .remove.stop Logical. If TRUE (by default) remove stop codons.
 #'
 #' @return
-#' \code{split_to_kmers} - Data frame with two columns (k-mers and their counts).
+#' `split_to_kmers` - Data frame with two columns (k-mers and their counts).
 #'
-#' \code{kmer_profile} - a matrix with per-position amino acid statistics.
+#' `kmer_profile` - a matrix with per-position amino acid statistics.
 #'
 #' @examples
 #' data(immdata)
@@ -201,59 +212,3 @@ kmer_profile <- function(.data, .method = c("freq", "prob", "wei", "self"), .rem
     add_class(res, "immunr_kmer_profile_self")
   }
 }
-
-
-#######
-# WIP #
-#######
-# gibbs_sampling <- function (.data, .motif.len = 5, .niter = 500) {
-#   .score <- function (.seq, .i, .prof, .background) {
-#     kmer_aa = strsplit(substr(.seq, seq_i, seq_i + .motif.len - 1), "")[[1]]
-#     prod(sapply(1:.motif.len, function (kmer_pos) {
-#       sc = .prof[kmer_aa[kmer_pos], kmer_pos] / .background[kmer_aa[kmer_pos]]
-#       if (is.nan(sc)) { sc = 0 }
-#       sc
-#     }))
-#   }
-#
-#   cat("Removed", sum(nchar(.data) < .motif.len), "sequences with the length less than the length of motifs.\n")
-#   seq_vec = .data[nchar(.data) >= .motif.len]
-#   background = table(unlist(strsplit(seq_vec, "")))
-#   background = background / sum(background)
-#
-#   # Vector of scores for each position in the each input sequence
-#   score_vec = lapply(seq_vec, function (seq_x) rep(1, nchar(seq_x) - .motif.len + 1) )
-#   start_pos = sapply(nchar(seq_vec), function (max_pos) sample(1:(max_pos - .motif.len + 1), 1))
-#
-#   # In the loop:
-#   pb = set_pb(.niter)
-#   for (iter in 1:.niter) {
-#     # Get random kmers
-#     prev_start_pos = start_pos
-#     start_pos = sapply(nchar(seq_vec), function (max_pos) sample(1:(max_pos - .motif.len + 1), 1))
-#
-#     for (out_kmer_i in sample(1:length(seq_vec), length(seq_vec))) {
-#       max_pos = nchar(seq_vec[out_kmer_i]) - .motif.len + 1
-#       kmers <- substr(seq_vec[-out_kmer_i], start_pos[-out_kmer_i], start_pos[-out_kmer_i] + .motif.len - 1)
-#       prof = kmer_profile(kmers[-out_kmer_i])
-#       for (seq_i in 1:max_pos) {
-#         score_vec[[out_kmer_i]][seq_i] = .score(seq_vec[out_kmer_i], seq_i, prof, background)
-#       }
-#       if (sum(score_vec[[out_kmer_i]]) != 0) {
-#         poses = c(1:max_pos)[!is.na(score_vec[[out_kmer_i]])]
-#         start_pos[out_kmer_i] = sample(c(1:max_pos), 1, prob = score_vec[[out_kmer_i]][poses] / sum(score_vec[[out_kmer_i]][poses]))
-#       }
-#     }
-#
-#     add_pb(pb)
-#
-#     if (sum(prev_start_pos != start_pos) == 0) {
-#       break
-#     }
-#   }
-#   close(pb)
-#
-#   data.frame(Motif = substr(seq_vec, start_pos, start_pos + .motif.len - 1),
-#              Start = start_pos,
-#              Score = sapply(1:length(score_vec), function (i) { score_vec[[i]][start_pos[i]] }), stringsAsFactors = FALSE)
-# }

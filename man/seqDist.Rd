@@ -9,7 +9,7 @@ seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format \link{immunarch_data_format}}
 
@@ -40,6 +40,8 @@ In case of user-defined function, it should take x and y parameters as input and
 Named list of list with \link{dist} objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Computing sequential distances between clonotypes from two repertoires:
 }
 \examples{
@@ -47,7 +49,7 @@ Computing sequential distances between clonotypes from two repertoires:
 data(immdata)
 # Reducing data to save time on examples
 immdata$data <- purrr::map(immdata$data, ~ .x \%>\% head(10))
-# Computing hamming distance for the first two repertoires in \code{'immdata'}
+# Computing hamming distance for the first two repertoires in `'immdata'`
 seqDist(immdata$data[1:2])
 
 # Here we define a custom distance function

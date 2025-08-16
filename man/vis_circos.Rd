@@ -11,13 +11,13 @@ vis_circos(.data, .title = NULL, ...)
 
 \item{.title}{The The text for the title of the plot.}
 
-\item{...}{Other arguments passed to [circlize::chordDiagram] from the 'circlize' package.}
+\item{...}{Other arguments passed to \link[circlize:chordDiagram]{circlize::chordDiagram} from the 'circlize' package.}
 }
 \value{
 A circlize object.
 }
 \description{
-Visualise matrices with the [circlize::chordDiagram] function
+Visualise matrices with the \link[circlize:chordDiagram]{circlize::chordDiagram} function
 from the circlize package.
 }
 \examples{

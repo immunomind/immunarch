@@ -7,6 +7,10 @@
 #' @importFrom magrittr "%>%" "%<>%"
 #' @importFrom tidyselect starts_with
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' @param .data The data to be processed. Must be the list of 2 elements:
 #' a data table and a metadata table.
 #' @param .method Method of filtering. Implemented methods:

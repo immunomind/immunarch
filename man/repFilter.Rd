@@ -27,35 +27,39 @@ Default value: 'by.clonotype'.}
 \item{.query}{Filtering query. It's a named list of filters that will be applied
 to data.
 Possible values for names in this list are dependent on filter methods:
-- by.meta: filters by metadata. Names in the named list are metadata column headers.
-- by.repertoire: filters by the number of clonotypes or total number of clones in sample.
+\itemize{
+\item by.meta: filters by metadata. Names in the named list are metadata column headers.
+\item by.repertoire: filters by the number of clonotypes or total number of clones in sample.
 Possible names in the named list are "n_clonotypes" and "n_clones".
-- by.clonotype: filters by data in all samples. Names in the named list are
+\item by.clonotype: filters by data in all samples. Names in the named list are
 data column headers.
 Elements of the named list for each of the filters are filtering options.
 Possible values for filtering options:
-- include("STR1", "STR2", ...): keeps only rows with matching values.
+\item include("STR1", "STR2", ...): keeps only rows with matching values.
 Available for methods: "by.meta", "by.clonotype".
-- exclude("STR1", "STR2", ...): removes rows with matching values.
+\item exclude("STR1", "STR2", ...): removes rows with matching values.
 Available for methods: "by.meta", "by.clonotype".
-- lessthan(value): keeps rows/samples with numeric values less than specified.
+\item lessthan(value): keeps rows/samples with numeric values less than specified.
 Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-- morethan(value): keeps rows/samples with numeric values more than specified.
+\item morethan(value): keeps rows/samples with numeric values more than specified.
 Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-- interval(from, to): keeps rows/samples with numeric values that fits in this interval.
+\item interval(from, to): keeps rows/samples with numeric values that fits in this interval.
 from is inclusive, to is exclusive.
 Available for methods: "by.meta", "by.repertoire", "by.clonotype".
-Default value: 'list(CDR3.aa = exclude("partial", "out_of_frame"))'.}
+Default value: 'list(CDR3.aa = exclude("partial", "out_of_frame"))'.
+}}
 
 \item{.match}{Matching method for "include" and "exclude" options in query.
 Possible values:
-- exact: matches only the exact specified string;
-- startswith: matches all strings starting with the specified substring;
-- substring: matches all strings containing the specified substring.
-Default value: 'exact'.}
+\itemize{
+\item exact: matches only the exact specified string;
+\item startswith: matches all strings starting with the specified substring;
+\item substring: matches all strings containing the specified substring.
+Default value: 'exact'.
+}}
 }
 \description{
-Main function for data filtering
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 data(immdata)

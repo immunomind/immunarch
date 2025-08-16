@@ -8,9 +8,9 @@
 A list of two elements. The first element ("data") is a list with data frames with clonotype tables.
 The second element ("meta") is a metadata table.
 \describe{
-  \item{data}{List of immune repertoire data frames.}
-  \item{meta}{Metadata}
-  ...
+\item{data}{List of immune repertoire data frames.}
+\item{meta}{Metadata}
+...
 }
 }
 \usage{

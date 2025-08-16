@@ -6,15 +6,19 @@
 #'
 #' @aliases repExplore
 #'
-#' @description The \code{repExplore} function calculates the basic statistics of
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The `repExplore` function calculates the basic statistics of
 #' repertoire: the number of unique immune receptor clonotypes, their relative abundances,
 #' and sequence length distribution across the input dataset.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -40,7 +44,7 @@
 #' @param .col A string that specifies the column to be processed. Pass "nt" for
 #' nucleotide sequence or "aa" for amino acid sequence.
 #'
-#' @param .coding If \code{TRUE}, then only coding sequences will be analysed.
+#' @param .coding If `TRUE`, then only coding sequences will be analysed.
 #'
 #' @return
 #' If input data is a single immune repertoire, then the function returns a numeric vector
@@ -48,7 +52,7 @@
 #'
 #' Otherwise, it returns a numeric matrix with exploratory analysis statistics for all input repertoires.
 #'
-#' @seealso \link{vis.immunr_exp_vol}
+#' @seealso [vis.immunr_exp_vol]
 #'
 #' @examples
 #' data(immdata)

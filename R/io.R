@@ -24,9 +24,13 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom utils read.table
 #' @importFrom data.table setDF
 #'
-#' @description The \code{repLoad} function loads repertoire files
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The `repLoad` function loads repertoire files
 #' into R workspace in the immunarch format where you can immediately use them for
-#' the analysis. \code{repLoad} automatically detects the right format for
+#' the analysis. `repLoad` automatically detects the right format for
 #' your files, so all you need is simply provide the path to your files.
 #'
 #' See "Details" for more information on supported formats. See "Examples" for
@@ -36,15 +40,15 @@ if (getRversion() >= "2.15.1") {
 #' Input data can be one of the following:
 #'
 #' - a single repertoire file.
-#' In this case \code{repLoad} returns an R \link{data.frame};
+#' In this case `repLoad` returns an R [data.frame];
 #'
 #' - a vector of paths to repertoire files.
 #' Same as in the case with no metadata file presented in the next section below;
 #'
 #' - a path to the folder with repertoire files and, if available, metadata file "metadata.txt".
-#' If the metadata file if presented, then the \code{repLoad} returns a list with two elements "data" and "meta".
-#' "data" is an another list with repertoire R \link{data.frame}s. "meta" is a data frame with the metadata.
-#' If the metadata file "metadata.txt" is not presented, then the \code{repLoad} creates a dummy metadata file with
+#' If the metadata file if presented, then the `repLoad` returns a list with two elements "data" and "meta".
+#' "data" is an another list with repertoire R [data.frame]s. "meta" is a data frame with the metadata.
+#' If the metadata file "metadata.txt" is not presented, then the `repLoad` creates a dummy metadata file with
 #' sample names and returns a list with two elements "data" and "meta".
 #' If input data has multiple chains or cell types stored in the same file
 #' (for example, like in 10xGenomics repertoire files), such repertoire files will be splitted to different
@@ -104,8 +108,8 @@ if (getRversion() >= "2.15.1") {
 #'
 #'  - "meta" is a data frame with sample metadata.
 #'
-#' @seealso \link{immunr_data_format} for immunarch data format; \link{repSave} for file saving;
-#' \link{repOverlap}, \link{geneUsage} and \link{repDiversity} for starting with immune repertoires basic statistics.
+#' @seealso [immunr_data_format] for immunarch data format; [repSave] for file saving;
+#' [repOverlap], [geneUsage] and [repDiversity] for starting with immune repertoires basic statistics.
 #'
 #' @examples
 #' # To load the data from a single file (note that you don't need to specify the data format):
@@ -432,11 +436,15 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' @importFrom plyr mapvalues
 #' @importFrom purrr map
 #'
-#' @description The \code{repSave} function is deigned to save your data to the disk
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The `repSave` function is deigned to save your data to the disk
 #' in desirable format. Currently supports "immunarch" and "vdjtools" file formats.
 #'
-#' @param .data An R dataframe, a list of R dataframes or a list with \code{data} and
-#' \code{meta} where first element is a list of dataframes and the latter is a dataframe
+#' @param .data An R dataframe, a list of R dataframes or a list with `data` and
+#' `meta` where first element is a list of dataframes and the latter is a dataframe
 #' with metadata.
 #' @param .path A string with the path to the output directory. It should include file
 #' name if a single dataframe is provided to .data argument.

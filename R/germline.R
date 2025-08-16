@@ -12,7 +12,11 @@
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
 #' @importFrom ape as.DNAbin clustal
 #'
-#' @description This function creates germlines for clonal lineages. B cell clonal lineage
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' This function creates germlines for clonal lineages. B cell clonal lineage
 #' represents a set of B cells that presumably have a common origin (arising from the same VDJ
 #' rearrangement event) and a common ancestor. Each clonal lineage has its own germline sequence
 #' that represents the ancestral sequence for each BCR in clonal lineage. In other words,
@@ -24,10 +28,10 @@
 #'
 #' repGermline(.data, .species, .min_nuc_outside_cdr3, .threads)
 #'
-#' @param .data The data to be processed. Can be \link{data.frame}, [data.table::data.table]
+#' @param .data The data to be processed. Can be [data.frame], [data.table::data.table]
 #' or a list of these objects.
 #'
-#' It must have columns in the immunarch compatible format \link{immunarch_data_format}.
+#' It must have columns in the immunarch compatible format [immunarch_data_format].
 #'
 #' @param .species Species from which the data was acquired. Available options:
 #' "HomoSapiens" (default), "MusMusculus", "BosTaurus", "CamelusDromedarius",

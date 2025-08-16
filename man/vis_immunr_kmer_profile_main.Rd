@@ -10,10 +10,10 @@ vis_immunr_kmer_profile_main(.data, .plot, ...)
 \item{.data}{Kmer data, an output from \link{kmer_profile}.}
 
 \item{.plot}{String specifying the plot type:
-
-- "seqlogo" for traditional sequence logo plots using \link{vis_seqlogo};
-
-- "textlogo" for modified approach to sequence logo plots via text labels using \link{vis_textlogo};}
+\itemize{
+\item "seqlogo" for traditional sequence logo plots using \link{vis_seqlogo};
+\item "textlogo" for modified approach to sequence logo plots via text labels using \link{vis_textlogo};
+}}
 
 \item{...}{Other arguments passed to \link{vis_textlogo} or \link{vis_seqlogo}, depending
 on the ".plot" argument.}

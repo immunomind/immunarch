@@ -22,18 +22,18 @@ such as age, serostatus or hla.}
 
 \item{.by}{Set NA if you want to plot samples without grouping.}
 
-\item{.title}{The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).}
+\item{.title}{The text for the plot's title (same as the "main" argument in \link[pheatmap:pheatmap]{pheatmap}).}
 
-\item{.color}{A vector specifying the colors (same as the "color" argument in \link[pheatmap]{pheatmap}).
+\item{.color}{A vector specifying the colors (same as the "color" argument in \link[pheatmap:pheatmap]{pheatmap}).
 Pass NA to use the default pheatmap colors.}
 
-\item{...}{Other arguments for the \link[pheatmap]{pheatmap} function.}
+\item{...}{Other arguments for the \link[pheatmap:pheatmap]{pheatmap} function.}
 }
 \value{
 A pheatmap object.
 }
 \description{
-Visualise matrices with the functions based on the \link[pheatmap]{pheatmap}
+Visualise matrices with the functions based on the \link[pheatmap:pheatmap]{pheatmap}
 package with minimum amount of arguments.
 }
 \examples{

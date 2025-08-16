@@ -37,6 +37,8 @@ cross_entropy(.alpha, .beta, .base = 2, .do.norm = NA,
 A numeric value.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Compute information-based estimates and distances.
 }
 \examples{

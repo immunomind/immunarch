@@ -6,13 +6,17 @@
 #'
 #' @importFrom stats kmeans as.dist cmdscale dist
 #'
-#' @description Clusters the data with one of the following methods:
+#' @description
 #'
-#' - \code{immunr_hclust} clusters the data using the hierarchical clustering from \link[factoextra]{hcut};
+#' `r lifecycle::badge('deprecated')`
 #'
-#' - \code{immunr_kmeans} clusters the data using the K-means algorithm from \link{kmeans};
+#' Clusters the data with one of the following methods:
 #'
-#' - \code{immunr_dbscan} clusters the data using the DBSCAN algorithm from \link[fpc]{dbscan}.
+#' - `immunr_hclust` clusters the data using the hierarchical clustering from [hcut][factoextra::hcut];
+#'
+#' - `immunr_kmeans` clusters the data using the K-means algorithm from [kmeans];
+#'
+#' - `immunr_dbscan` clusters the data using the DBSCAN algorithm from [dbscan][fpc::dbscan].
 #'
 #' @usage
 #' immunr_hclust(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "complete", .dist = TRUE)
@@ -22,32 +26,32 @@
 #'
 #' immunr_dbscan(.data, .eps, .dist = TRUE)
 #'
-#' @param .data Matrix or data frame with features, distance matrix or output from \link{repOverlapAnalysis} or \link{geneUsageAnalysis} functions.
+#' @param .data Matrix or data frame with features, distance matrix or output from [repOverlapAnalysis] or [geneUsageAnalysis] functions.
 #'
-#' @param .k The number of clusters to create, defined as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.
+#' @param .k The number of clusters to create, defined as `k` to [hcut][factoextra::hcut] or as `centers` to [kmeans].
 #'
-#' @param .k.max Limits the maximum number of clusters. It is passed as \code{k.max} to [factoextra::fviz_nbclust] for \code{immunr_hclust} and \code{immunr_kmeans}.
+#' @param .k.max Limits the maximum number of clusters. It is passed as `k.max` to [factoextra::fviz_nbclust] for `immunr_hclust` and `immunr_kmeans`.
 #'
-#' @param .eps Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as \code{eps} to \link[fpc]{dbscan}.
+#' @param .eps Local radius for expanding clusters, minimal distance between points to expand clusters. Passed as `eps` to [dbscan][fpc::dbscan].
 #'
 #' @param .method Passed to [factoextra::hcut] or as [factoextra::fviz_nbclust].
 #'
-#' In case of [factoextra::hcut] the agglomeration method is going to be used (argument \code{hc_method}).
+#' In case of [factoextra::hcut] the agglomeration method is going to be used (argument `hc_method`).
 #'
-#' In case of [factoextra::fviz_nbclust] it is the method to be used for estimating the optimal number of clusters (argument \code{method}).
+#' In case of [factoextra::fviz_nbclust] it is the method to be used for estimating the optimal number of clusters (argument `method`).
 #'
 #' @param .dist If TRUE then ".data" is expected to be a distance matrix. If FALSE then the euclidean distance is computed for the input objects.
 #'
 #' @return
-#' \code{immunr_hclust} - list with two elements. The first element is an output from [factoextra::hcut].
+#' `immunr_hclust` - list with two elements. The first element is an output from [factoextra::hcut].
 #' The second element is an output from [factoextra::fviz_nbclust]
 #'
-#' \code{immunr_kmeans} - list with three elements. The first element is an output from \link{kmeans}.
+#' `immunr_kmeans` - list with three elements. The first element is an output from [kmeans].
 #' The second element is an output from [factoextra::fviz_nbclust].
-#' The third element is the input dataset \code{.data}.
+#' The third element is the input dataset `.data`.
 #'
-#' \code{immunr_dbscan} - list with two elements. The first element is an output from [fpc::dbscan].
-#' The second element is the input dataset \code{.data}.
+#' `immunr_dbscan` - list with two elements. The first element is an output from [fpc::dbscan].
+#' The second element is the input dataset `.data`.
 #'
 #' @examples
 #' data(immdata)

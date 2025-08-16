@@ -10,26 +10,21 @@
 \item{.data}{Output from the \link{geneUsage} function.}
 
 \item{.plot}{String specifying the plot type:
-
-- "hist" for histograms using \link{vis_hist};
-
-- "heatmap" for heatmaps using \link{vis_heatmap};
-
-- "heatmap2" for heatmaps using \link{vis_heatmap2};
-
-- "circos" for circos plots using \link{vis_circos}.}
+\itemize{
+\item "hist" for histograms using \link{vis_hist};
+\item "heatmap" for heatmaps using \link{vis_heatmap};
+\item "heatmap2" for heatmaps using \link{vis_heatmap2};
+\item "circos" for circos plots using \link{vis_circos}.
+}}
 
 \item{...}{Other arguments passed to corresponding functions depending on the plot type:
-
-- "hist" - passes arguments to \link{vis_hist};
-
-- "box" - passes arguments to \link{vis_box};
-
-- "heatmap" - passes arguments to \link{vis_heatmap};
-
-- "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
-
-- "circos" - passes arguments to \link{vis_circos} and [circlize::chordDiagram] from the "circlize" package.}
+\itemize{
+\item "hist" - passes arguments to \link{vis_hist};
+\item "box" - passes arguments to \link{vis_box};
+\item "heatmap" - passes arguments to \link{vis_heatmap};
+\item "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
+\item "circos" - passes arguments to \link{vis_circos} and \link[circlize:chordDiagram]{circlize::chordDiagram} from the "circlize" package.
+}}
 }
 \value{
 A ggplot2 object, pheatmap or circlize object.

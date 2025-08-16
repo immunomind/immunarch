@@ -10,15 +10,18 @@ if (getRversion() >= "2.15.1") {
 #' @aliases geneUsage get_aliases get_genes
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' An utility function to analyse the immune receptor gene usage
 #' (IGHD, IGHJ, IDHV, IGIJ, IGKJ, IGKV, IGLJ, IGLV, TRAJ, TRAV, TRBD, etc.)
 #' and statistics. For gene details run `gene_stats()`.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections,or a list
@@ -28,7 +31,7 @@ if (getRversion() >= "2.15.1") {
 #' @param .gene A character vector of length one with the name of the gene you want
 #' to analyse of the specific species. If you provide a vector of different length, only the first element
 #' will be used. The string should also contain the species of interest, for example, valid ".gene" arguments
-#' are "hs.trbv", "HomoSapiens.TRBJ" or "macmul.IGHV". For details run \code{gene_stats()}.
+#' are "hs.trbv", "HomoSapiens.TRBJ" or "macmul.IGHV". For details run `gene_stats()`.
 #' @param .quant Selects the column with data to evaluate.
 #' Pass NA if you want to compute gene statistics at the clonotype level without re-weighting.
 #' Pass "count" to use the "Clones" column to weight genes by abundance of their corresponding clonotypes.
@@ -195,7 +198,7 @@ geneUsage <- function(.data, # df, list, MonetDB
 #' @aliases gene_stats
 #'
 #' @return
-#' \code{gene_stats} returns all segment gene statistics
+#' `gene_stats` returns all segment gene statistics
 #'
 #' @examples
 #' gene_stats()

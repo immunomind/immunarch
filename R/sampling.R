@@ -24,11 +24,11 @@
 #' @description
 #' Sample (downsample) repertoires using different approches.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -49,19 +49,19 @@
 #' @return Subsampled immune repertoire or a list of subsampled immune repertoires.
 #'
 #' @details
-#' If \code{.method} is "downsample" then \code{repSample} chooses \code{.n} clones (not clonotypes!) from the input repertoires without any probabilistic simulation,
+#' If `.method` is "downsample" then `repSample` chooses `.n` clones (not clonotypes!) from the input repertoires without any probabilistic simulation,
 #' but exactly computing each choosed clones. Such approach is is more consistent and biologically pleasant than
-#' an output from the function if \code{.method} is "resample".
+#' an output from the function if `.method` is "resample".
 #'
-#' If \code{.method} is "resample" then \code{repSample} uses multinomial distribution to compute the number of occurences for each cloneset.
-#' then it removes zero-number clonotypes and return the resulting data frame. Probabilities for \code{rmultinom} for each cloneset
+#' If `.method` is "resample" then `repSample` uses multinomial distribution to compute the number of occurences for each cloneset.
+#' then it removes zero-number clonotypes and return the resulting data frame. Probabilities for `rmultinom` for each cloneset
 #' is a percentage of this cloneset in the "Proportion" column. It's a some sort of simulation of how clonotypes are chosen from the organisms.
 #'
-#' if \code{.method} is "sample" then \code{repSample} chooses \code{.n} clonotypes (not clones!) randomly. Depending on the
-#' \code{.prob} argument, the function chooses clonotypes either according to their size (if \code{.prob} is TRUE, by default),
-#' or each clonotype has an equal chance to be choosed (if \code{.prob} is FALSE). Note that sampling is done without replacing.
+#' if `.method` is "sample" then `repSample` chooses `.n` clonotypes (not clones!) randomly. Depending on the
+#' `.prob` argument, the function chooses clonotypes either according to their size (if `.prob` is TRUE, by default),
+#' or each clonotype has an equal chance to be choosed (if `.prob` is FALSE). Note that sampling is done without replacing.
 #'
-#' @seealso \link{rmultinom}, \link{clonal_proportion}
+#' @seealso [rmultinom], [clonal_proportion]
 #'
 #' @examples
 #' data(immdata)

@@ -23,7 +23,7 @@
 )
 }
 \arguments{
-\item{.data}{Output from \code{\link{repDiversity}}.}
+\item{.data}{Output from \code{\link[=repDiversity]{repDiversity()}}.}
 
 \item{.by}{Pass NA if you want to plot samples without grouping.
 
@@ -56,16 +56,16 @@ Disabled if no group passed to the ".by" argument.}
 A ggplot2 object.
 }
 \description{
-An utility function to visualise the output from \code{\link{repDiversity}}.
+An utility function to visualise the output from \code{\link[=repDiversity]{repDiversity()}}.
 }
 \details{
 If data is grouped, then statistical tests for comparing means of groups will be performed, unless \code{.test = FALSE} is supplied.
 In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
-(R function \code{\link{wilcox.test}} with an argument \code{exact = FALSE}) for testing if there is a difference in mean rank values between two groups.
-In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
+(R function \code{\link[=wilcox.test]{wilcox.test()}} with an argument \code{exact = FALSE}) for testing if there is a difference in mean rank values between two groups.
+In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal\%E2\%80\%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link[=kruskal.test]{kruskal.test()}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
 A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
 Adjusted for multiple comparisons P-values are plotted on the top of groups.
-P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction).
+P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm\%E2\%80\%93Bonferroni_method) (also known as Holm-Bonferroni correction).
 You can execute the command \code{?p.adjust} in the R console to see more.
 }
 \examples{

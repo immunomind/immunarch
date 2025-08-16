@@ -15,7 +15,11 @@
 #' @importFrom uuid UUIDgenerate
 #' @importFrom data.table fread
 
-#' @description This function uses the PHYLIP package to make phylogenetic analysis.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' This function uses the PHYLIP package to make phylogenetic analysis.
 #' For making trees it uses maximum parsimony methods.
 #'
 #' @usage

@@ -8,14 +8,17 @@
 #' @aliases trackClonotypes
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Tracks the temporal dynamics of clonotypes in repertoires. For example, tracking across multiple
 #' time points after vaccination.
 #'
-#' @param .data The data to process. It can be a \link{data.frame}, a
+#' @param .data The data to process. It can be a [data.frame], a
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -25,8 +28,8 @@
 #'
 #' @param .which An argument that regulates which clonotypes to choose for tracking. There are three options for this argument:
 #'
-#' 1) passes a list with two elements \code{list(X, Y)}, where \code{X} is the name or the index of a target repertoire from ".data", and
-#' \code{Y} is the number of the most abundant clonotypes to take from \code{X}.
+#' 1) passes a list with two elements `list(X, Y)`, where `X` is the name or the index of a target repertoire from ".data", and
+#' `Y` is the number of the most abundant clonotypes to take from `X`.
 #'
 #' 2) passes a character vector of sequences to take from all data frames;
 #'

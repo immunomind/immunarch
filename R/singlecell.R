@@ -9,17 +9,21 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @concept single_cell
 #'
-#' @description Subsets the input immune repertoire by barcodes. Creates a vector of
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Subsets the input immune repertoire by barcodes. Creates a vector of
 #' barcodes to subset or a vector cluster IDs and corresponding barcodes to
 #' get a list of immune repertoires corresponding to cluster IDs.
 #' Columns with clonotype counts
 #' and proportions are changed accordingly to the filtered barcodes.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -28,7 +32,7 @@ if (getRversion() >= "2.15.1") {
 #' Note: each connection must represent a separate repertoire.
 #'
 #' @param .barcodes Either a character vector with barcodes or a named character/factor vector with
-#' barcodes as names and cluster IDs a vector elements. The output of Seurat's \code{Idents} function works.
+#' barcodes as names and cluster IDs a vector elements. The output of Seurat's `Idents` function works.
 #'
 #' @param .force.list Logical. If TRUE then always returns a list, even if the result is one data frame.
 #'
@@ -37,7 +41,7 @@ if (getRversion() >= "2.15.1") {
 #' with clonotype barcodes corresponding to the input barcodes. The output list names are cluster names
 #' in the ".barcode" argument (Seurat::Idents() case only).
 #'
-#' @seealso \link{select_clusters}
+#' @seealso [select_clusters]
 #'
 #' @examples
 #' \dontrun{
@@ -120,7 +124,11 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
 #'
 #' @concept single_cell
 #'
-#' @description Given the vector of barcodes from Seurat, splits the input repertoires
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Given the vector of barcodes from Seurat, splits the input repertoires
 #' to separate subsets following the barcodes' assigned IDs. Useful in case you want to
 #' split immune repertoires by patients or clusters.
 #'
@@ -128,7 +136,7 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
 #' immune repertoires, and "meta" being a metadata table.
 #'
 #' @param .clusters Factor vector with barcodes as vector names and cluster IDs as vector elements.
-#' The output of the Seurat \code{Idents} function works.
+#' The output of the Seurat `Idents` function works.
 #'
 #' @param .field A string specifying the name of the field in the input metadata. New immune
 #' repertoire subsets will have cluster IDs in this field.
@@ -136,7 +144,7 @@ select_barcodes <- function(.data, .barcodes, .force.list = FALSE) {
 #' @return A list with two elements "data" and "meta" with updated immune repertoire tables and
 #' metadata.
 #'
-#' @seealso \link{select_barcodes}
+#' @seealso [select_barcodes]
 #'
 #' @examples
 #' \dontrun{

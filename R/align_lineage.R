@@ -12,8 +12,12 @@
 #' @importFrom ape as.DNAbin clustal
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom parallel mclapply
-
-#' @description This function aligns all sequences (incliding germline) that belong to one clonal
+#'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' This function aligns all sequences (incliding germline) that belong to one clonal
 #' lineage and one cluster. After clustering and building the clonal lineage and germline, the next
 #' step is to analyze the degree of mutation and maturity of each clonal lineage. This allows for
 #' finding high mature cells and cells with a large number of offspring. The phylogenetic analysis
@@ -24,7 +28,7 @@
 #'
 #' repAlignLineage(.data, .min_lineage_sequences, .prepare_threads, .align_threads, .nofail)
 #'
-#' @param .data The data to be processed. Can be \link{data.frame}, [data.table::data.table]
+#' @param .data The data to be processed. Can be [data.frame], [data.table::data.table]
 #' or a list of these objects.
 #'
 #' @param .min_lineage_sequences If number of sequences in the same clonal lineage and the same
@@ -36,7 +40,7 @@
 #'
 #' @param .align_threads Number of threads for lineage alignment.
 #'
-#' It must have columns in the immunarch compatible format \link{immunarch_data_format}, and also
+#' It must have columns in the immunarch compatible format [immunarch_data_format], and also
 #' must contain 'Cluster' column, which is added by seqCluster() function, and 'Germline.sequence'
 #' column, which is added by repGermline() function.
 #'

@@ -9,7 +9,7 @@
 \arguments{
 \item{.data}{Public repertoire - an output from the \link{pubRep} function.}
 
-\item{...}{Other arguments passsed directly to [UpSetR::upset].}
+\item{...}{Other arguments passsed directly to \link[UpSetR:upset]{UpSetR::upset}.}
 }
 \value{
 A ggplot2 object.

@@ -7,7 +7,7 @@
 \method{vis}{clonal_family_tree}(.data, ...)
 }
 \arguments{
-\item{.data}{Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link{repClonalFamily}} output.}
+\item{.data}{Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link[=repClonalFamily]{repClonalFamily()}} output.}
 
 \item{...}{Not used here.}
 }

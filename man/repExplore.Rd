@@ -13,7 +13,7 @@ repExplore(
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -51,6 +51,8 @@ with exploratory analysis statistics.
 Otherwise, it returns a numeric matrix with exploratory analysis statistics for all input repertoires.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 The \code{repExplore} function calculates the basic statistics of
 repertoire: the number of unique immune receptor clonotypes, their relative abundances,
 and sequence length distribution across the input dataset.

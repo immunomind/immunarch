@@ -22,7 +22,7 @@ repOverlap(
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -75,6 +75,8 @@ If only two repertoires were provided, return value is single numeric value.
 If one of the incremental method is chosen, return list of overlap matrix.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 The \code{repOverlap} function is designed to analyse the overlap between
 two or more repertoires. It contains a number of methods to compare immune receptor
 sequences that are shared between individuals.

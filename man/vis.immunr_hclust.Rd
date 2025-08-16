@@ -9,7 +9,7 @@
 \arguments{
 \item{.data}{Clustering results from \link{repOverlapAnalysis} or \link{geneUsageAnalysis}.}
 
-\item{.rect}{Passed to [factoextra::fviz_dend] - whether to add a rectangle around groups.}
+\item{.rect}{Passed to \link[factoextra:fviz_dend]{factoextra::fviz_dend} - whether to add a rectangle around groups.}
 
 \item{.plot}{A character vector of length one or two specifying which plots to visualise.
 If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.

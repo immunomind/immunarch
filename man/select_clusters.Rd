@@ -21,6 +21,8 @@ A list with two elements "data" and "meta" with updated immune repertoire tables
 metadata.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Given the vector of barcodes from Seurat, splits the input repertoires
 to separate subsets following the barcodes' assigned IDs. Useful in case you want to
 split immune repertoires by patients or clusters.

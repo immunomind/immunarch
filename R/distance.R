@@ -8,17 +8,21 @@
 #' @importFrom tidyr unite
 #' @importFrom dplyr select_if group_keys group_map group_by group_by_at
 
-#' @description Computing sequential distances between clonotypes from two repertoires:
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Computing sequential distances between clonotypes from two repertoires:
 #'
 #' @usage
 #'
 #' seqDist(.data, .col = 'CDR3.nt', .method = 'hamming',
 #'  .group_by = c("V.name", "J.name"), .group_by_seqLength = TRUE, .trim_genes = TRUE, ...)
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
-#' Every object must have columns in the immunarch compatible format \link{immunarch_data_format}
+#' Every object must have columns in the immunarch compatible format [immunarch_data_format]
 #'
 #' @param .col A string that specifies the column name to be processed. The default value is 'CDR3.nt'.
 #'
@@ -32,27 +36,27 @@
 #'
 #' @param ... Extra arguments for user-defined function.
 #'
-#' The default value is \code{'hamming'} for Hamming distance which counts the number of character substitutions that turns b into a.
+#' The default value is `'hamming'` for Hamming distance which counts the number of character substitutions that turns b into a.
 #' If a and b have different number of characters the distance is Inf.
 #'
 #' Other possible values are:
 #'
-#' \code{'lv'} for Levenshtein distance which counts the number of deletions, insertions and substitutions necessary to turn b into a.
+#' `'lv'` for Levenshtein distance which counts the number of deletions, insertions and substitutions necessary to turn b into a.
 #'
-#' \code{'lcs'} for longest common substring is defined as the longest string can be obtained by pairing characters from a and b while keeping the order of characters intact.
+#' `'lcs'` for longest common substring is defined as the longest string can be obtained by pairing characters from a and b while keeping the order of characters intact.
 #'
-#' In case of user-defined function, it should take x and y parameters as input and return \link{dist} object.
+#' In case of user-defined function, it should take x and y parameters as input and return [dist] object.
 #'
 #' @return
 #'
-#' Named list of list with \link{dist} objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.
+#' Named list of list with [dist] objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.
 #'
 #' @examples
 #'
 #' data(immdata)
 #' # Reducing data to save time on examples
 #' immdata$data <- purrr::map(immdata$data, ~ .x %>% head(10))
-#' # Computing hamming distance for the first two repertoires in \code{'immdata'}
+#' # Computing hamming distance for the first two repertoires in `'immdata'`
 #' seqDist(immdata$data[1:2])
 #'
 #' # Here we define a custom distance function

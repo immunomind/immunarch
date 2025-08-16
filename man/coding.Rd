@@ -16,11 +16,11 @@ inframes(.data)
 outofframes(.data)
 }
 \arguments{
-\item{.data}{The data to be processed. Can be [data.frame],
-[data.table], or a list of these objects.
+\item{.data}{The data to be processed. Can be \link{data.frame},
+\link{data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
-[immunarch_data_format]
+\link{immunarch_data_format}
 
 Competent users may provide advanced data representations:
 DBI database connections, Apache Spark DataFrame from "copy_to" or a list
@@ -34,13 +34,13 @@ Filtered data frame.
 \description{
 Filter out clonotypes with non-coding, coding, in-frame or out-of-frame CDR3 sequences:
 
-`coding()` - remove all non-coding sequences (i.e., remove all sequences with stop codons and frame shifts);
+\code{coding()} - remove all non-coding sequences (i.e., remove all sequences with stop codons and frame shifts);
 
-`noncoding()` - remove all coding sequences (i.e., leave sequences with stop codons and frame shifts only);
+\code{noncoding()} - remove all coding sequences (i.e., leave sequences with stop codons and frame shifts only);
 
-`inframes()` - remove all out-of-frame sequences (i.e., remove all sequences with frame shifts);
+\code{inframes()} - remove all out-of-frame sequences (i.e., remove all sequences with frame shifts);
 
-`outofframes()` - remove all in-frame sequences (i.e., leave sequences with frame shifts only).
+\code{outofframes()} - remove all in-frame sequences (i.e., leave sequences with frame shifts only).
 
 Note: the function will remove all clonotypes sequences with NAs in the CDR3 amino acid column.
 }

@@ -21,7 +21,7 @@ apply_asymm(.datalist, .fun, ..., .diag = NA, .verbose = TRUE)
 \item{.verbose}{if TRUE then output a progress bar.}
 }
 \value{
-Matrix with values M[i,j] = fun(datalist[i], datalist[j])
+Matrix with values M\link{i,j} = fun(datalist\link{i}, datalist\link{j})
 }
 \description{
 Apply the given function to every pair in the given datalist. Function either

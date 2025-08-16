@@ -4,11 +4,16 @@
 #'
 #' @importFrom dplyr summarise group_by
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list

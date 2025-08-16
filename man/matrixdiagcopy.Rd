@@ -19,7 +19,7 @@ Copy the upper matrix triangle to the lower one
 
 mat <- matrix(0, 3, 3)
 mat
-mat[1, 3] <- 1
+mat\link{1, 3} <- 1
 mat <- immunarch:::matrixdiagcopy(mat)
 mat
 }

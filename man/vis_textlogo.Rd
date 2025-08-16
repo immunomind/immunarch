@@ -20,7 +20,7 @@ to plot points on the straight vertical line for each position.}
 
 \item{...}{Not used here.}
 
-\item{.scheme}{Character. An argument passed to [ggseqlogo::geom_logo] specifying how to colour symbols.}
+\item{.scheme}{Character. An argument passed to \link[ggseqlogo:geom_logo]{ggseqlogo::geom_logo} specifying how to colour symbols.}
 }
 \value{
 A ggplot2 object.
@@ -28,10 +28,10 @@ A ggplot2 object.
 \description{
 Plot sequence logo plots for visualising of amino acid motif sequences / profiles.
 
-`vis_textlogo` plots sequences in a text format - each letter has the same height. Useful when there
+\code{vis_textlogo} plots sequences in a text format - each letter has the same height. Useful when there
 are no big differences between occurences of amino acids in the motif.
 
-`vis_seqlogo` is a traditional sequence logo plots. Useful when there are one or two amino acids
+\code{vis_seqlogo} is a traditional sequence logo plots. Useful when there are one or two amino acids
 with clear differences in their occurrences.
 }
 \examples{

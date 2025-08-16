@@ -10,12 +10,12 @@
 \item{.data}{Public repertoire, an output from \link{pubRep}.}
 
 \item{.plot}{A string specifying the plot type:
-
-- "freq" for visualisation of the distribution of occurrences of clonotypes
+\itemize{
+\item "freq" for visualisation of the distribution of occurrences of clonotypes
 and their frequencies using \link{vis_public_frequencies}.
-
-- "clonotypes" for visualisation of public clonotype frequenciy correlations between pairs of
-samples using \link{vis_public_clonotypes}}
+\item "clonotypes" for visualisation of public clonotype frequenciy correlations between pairs of
+samples using \link{vis_public_clonotypes}
+}}
 
 \item{...}{Further arguments passed \link{vis_public_frequencies} or \link{vis_public_clonotypes},
 depending on the ".plot" argument.}

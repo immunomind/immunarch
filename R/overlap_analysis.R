@@ -2,12 +2,16 @@
 #'
 #' @concept overlap
 #'
-#' @description The \code{\link{repOverlapAnalysis}} function contains advanced data
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The [repOverlapAnalysis()] function contains advanced data
 #' analysis methods. You can use several clustering and dimensionality reduction
 #' techniques in order to investigate further the difference between repertoires
 #' provided.
 #'
-#' To cluster a subset of similar data with \code{\link{repOverlapAnalysis}} you can
+#' To cluster a subset of similar data with [repOverlapAnalysis()] you can
 #' perform hierarchical clustering, k-means or dbscan ('hclust', 'kmeans', 'dbscan'
 #' respectively).
 #'
@@ -16,21 +20,21 @@
 #' respectively).
 #'
 #' @param .data Any distance matrix between pairs of repertoires. You can also pass your
-#' output from \code{\link{repOverlap}}.
+#' output from [repOverlap()].
 #' @param .method A string that defines the type of analysis to perform.
 #' @param .scale A function to scale the data before passing it to the MDS algorithm.
 #' @param .raw A logical value. Set TRUE if you want to receive raw output of clustering
 #' or dimensionality reduction function of choice. Set FALSE if you want to receive
-#' processed output that can be subjected to visualisation with \code{\link{vis}} function.
+#' processed output that can be subjected to visualisation with [vis()] function.
 #'
-#' @param .perp A numerical value, t-SNE parameter, see \code{\link{immunr_tsne}}.
-#' @param .theta A numerical value, t-SNE parameter, see \code{\link{immunr_tsne}}.
+#' @param .perp A numerical value, t-SNE parameter, see [immunr_tsne()].
+#' @param .theta A numerical value, t-SNE parameter, see [immunr_tsne()].
 #'
-#' @param .eps A numerical value, DBscan epsylon parameter, see \code{\link{immunr_dbscan}}.
+#' @param .eps A numerical value, DBscan epsylon parameter, see [immunr_dbscan()].
 #'
-#' @param .k The number of clusters to create, passed as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.
+#' @param .k The number of clusters to create, passed as `k` to [hcut][factoextra::hcut] or as `centers` to [kmeans].
 #'
-#' @return Depends on the last element in the \code{.method} string. See \link{immunr_tsne} for more info.
+#' @return Depends on the last element in the `.method` string. See [immunr_tsne] for more info.
 #'
 #' @examples
 #' data(immdata)

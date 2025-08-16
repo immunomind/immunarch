@@ -9,17 +9,21 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @concept annotation
 #'
-#' @description The function automatically detects the database format and loads it into R.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The function automatically detects the database format and loads it into R.
 #' Additionally, the function provides a general query interface to databases that allows
 #' filtering by species, chain types (i.e., locus) and pathology (i.e., antigen species).
 #'
 #' Currently we support three popular databases:
 #'
-#' VDJDB - \url{https://github.com/antigenomics/vdjdb-db}
+#' VDJDB - <https://github.com/antigenomics/vdjdb-db>
 #'
-#' McPAS-TCR - \url{http://friedmanlab.weizmann.ac.il/McPAS-TCR/}
+#' McPAS-TCR - <http://friedmanlab.weizmann.ac.il/McPAS-TCR/>
 #'
-#' TBAdb from PIRD - \url{https://db.cngb.org/pird/}
+#' TBAdb from PIRD - <https://db.cngb.org/pird/>
 #'
 #' @param .path Character. A path to the database file, e.g., "/Users/researcher/Downloads/McPAS-TCR.csv".
 #'
@@ -111,15 +115,18 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #' @concept annotation
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Annotate clonotypes by matching them to known condition-associated immune receptors in a database.
 #' Before using this function, you must download or load the relevant database files.
 #' For more information, see the [online tutorial](https://immunarch.com/articles/web_only/v11_db.html).
 #'
-#' @param .data The data to process. It can be a \link{data.frame}, a
-#' \link{data.table}, or a list of these objects.
+#' @param .data The data to process. It can be a [data.frame], a
+#' [data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -127,7 +134,7 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .db A data frame or a data table with an immune receptor database. See \link{dbLoad} on how to load databases into R.
+#' @param .db A data frame or a data table with an immune receptor database. See [dbLoad] on how to load databases into R.
 #'
 #' @param .data.col Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., `"CDR3.aa"` or `c("CDR3.aa", "V.name")`.
 #'

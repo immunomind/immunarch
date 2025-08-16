@@ -4,7 +4,11 @@
 #'
 #' @aliases entropy kl_div js_div cross_entropy
 #'
-#' @description Compute information-based estimates and distances.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Compute information-based estimates and distances.
 #'
 #' @usage
 #' entropy(.data, .base = 2, .norm = FALSE, .do.norm = NA, .laplace = 1e-12)

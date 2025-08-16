@@ -34,7 +34,7 @@ For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.}
 \code{kmer_profile} - a matrix with per-position amino acid statistics.
 }
 \description{
-Analysis immune repertoire kmer statistics: sequence profiles, etc.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 data(immdata)

@@ -4,14 +4,18 @@
 #'
 #' @aliases clonality clonal.prop clonal_proportion top_proportion rare_proportion clonal_space_homeostasis
 #'
-#' @description \code{repClonality} function encompasses several methods to measure
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' `repClonality` function encompasses several methods to measure
 #' clonal proportions in a given repertoire.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -19,22 +23,22 @@
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .method A String with one of the following options: \code{"clonal.prop"},
-#' \code{"homeo"}, \code{"top"} or \code{"rare"}.
+#' @param .method A String with one of the following options: `"clonal.prop"`,
+#' `"homeo"`, `"top"` or `"rare"`.
 #'
-#' Set \code{"clonal.prop"} to compute clonal proportions or in other words
-#' percentage of clonotypes required to occupy specified by \code{.perc} percent
+#' Set `"clonal.prop"` to compute clonal proportions or in other words
+#' percentage of clonotypes required to occupy specified by `.perc` percent
 #' of the total immune repertoire.
 #'
-#' Set \code{"homeo"} to analyse relative abundance (also known as clonal space homeostasis), which is defined as the
+#' Set `"homeo"` to analyse relative abundance (also known as clonal space homeostasis), which is defined as the
 #' proportion of repertoire occupied by clonal groups with specific abundances..
 #'
-#' Set \code{"top"} to estimate relative abundance for the groups of top clonotypes in
-#' repertoire, e.g., ten most abundant clonotypes. Use \code{".head"} to define index intervals,
+#' Set `"top"` to estimate relative abundance for the groups of top clonotypes in
+#' repertoire, e.g., ten most abundant clonotypes. Use `".head"` to define index intervals,
 #' such as 10, 100 and so on.
 #'
-#' Set \code{"rare"} to estimate relative abundance for the groups of rare clonotypes
-#' with low counts. Use \code{".bound"} to define the threshold of clonotype groups.
+#' Set `"rare"` to estimate relative abundance for the groups of rare clonotypes
+#' with low counts. Use `".bound"` to define the threshold of clonotype groups.
 #'
 #' @param .perc A single numerical value ranging from 0 to 100.
 #' @param .clone.types A named numerical vector with the threshold of the half-closed
@@ -60,7 +64,7 @@
 #'
 #' Otherwise, it returns a numeric matrix with clonality statistics for all input repertoires.
 #'
-#' @seealso \link{repDiversity}
+#' @seealso [repDiversity]
 #'
 #' @examples
 #' # Load the data

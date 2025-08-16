@@ -13,7 +13,7 @@ pubRepApply(.pr1, .pr2, .fun = function(x) log10(x[1])/log10(x[2]))
 \item{.pr2}{Second public repertoire.}
 
 \item{.fun}{A function to apply to pairs of frequencies of same clonotypes from "pr1" and "pr2".
-By default - \code{log(X) / log(Y)} where \code{X,Y} - frequencies of the same clonotype,
+By default - \code{log(X) / log(Y)} where \verb{X,Y} - frequencies of the same clonotype,
 found in both public repertoires.}
 }
 \value{

@@ -8,7 +8,7 @@ trackClonotypes(.data, .which = list(1, 15), .col = "aa", .norm = TRUE)
 }
 \arguments{
 \item{.data}{The data to process. It can be a \link{data.frame}, a
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -20,13 +20,12 @@ of these objects. They are supported with the same limitations as basic objects.
 Note: each connection must represent a separate repertoire.}
 
 \item{.which}{An argument that regulates which clonotypes to choose for tracking. There are three options for this argument:
-
-1) passes a list with two elements \code{list(X, Y)}, where \code{X} is the name or the index of a target repertoire from ".data", and
+\enumerate{
+\item passes a list with two elements \code{list(X, Y)}, where \code{X} is the name or the index of a target repertoire from ".data", and
 \code{Y} is the number of the most abundant clonotypes to take from \code{X}.
-
-2) passes a character vector of sequences to take from all data frames;
-
-3) passes a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).
+\item passes a character vector of sequences to take from all data frames;
+\item passes a data frame (data table, database) with one or more columns - first for sequences, and other for gene segments (if applicable).
+}
 
 See the "Examples" below with examples for each option.}
 
@@ -43,6 +42,8 @@ in the function output.}
 Data frame with input sequences and counts or proportions for each of the input repertoire.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Tracks the temporal dynamics of clonotypes in repertoires. For example, tracking across multiple
 time points after vaccination.
 

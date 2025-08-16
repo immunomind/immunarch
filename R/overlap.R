@@ -6,15 +6,19 @@
 #' @importFrom magrittr "%>%"
 #' @importFrom dtplyr lazy_dt
 #'
-#' @description The \code{repOverlap} function is designed to analyse the overlap between
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The `repOverlap` function is designed to analyse the overlap between
 #' two or more repertoires. It contains a number of methods to compare immune receptor
 #' sequences that are shared between individuals.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -23,7 +27,7 @@
 #' Note: each connection must represent a separate repertoire.
 #'
 #' @param .method A string that specifies the method of analysis or a combination of
-#' methods. The \code{repOverlap} function supports following basic methods:
+#' methods. The `repOverlap` function supports following basic methods:
 #' "public", "overlap", "jaccard", "tversky", "cosine", "morisita".
 #' If vector of multiple methods is given for this parameter, the first method will be used.
 #'
@@ -83,7 +87,7 @@
 #'
 #' If one of the incremental method is chosen, return list of overlap matrix.
 #'
-#' @seealso \link{inc_overlap}, \link{vis}
+#' @seealso [inc_overlap], [vis]
 #'
 #' @examples
 #' data(immdata)
@@ -332,13 +336,17 @@ horn_index <- function(.x, .y) {
 #'
 #' @concept overlap
 #'
-#' @description For reference please look up https://www.pnas.org/content/111/16/5980 (Fig. 4).
+#' @description
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' `r lifecycle::badge('deprecated')`
+#'
+#' For reference please look up https://www.pnas.org/content/111/16/5980 (Fig. 4).
+#'
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -346,7 +354,7 @@ horn_index <- function(.x, .y) {
 #'
 #' Note: each connection must represent a separate repertoire.
 #'
-#' @param .fun Function to compute overlaps. e.g., \code{morisita_index}.
+#' @param .fun Function to compute overlaps. e.g., `morisita_index`.
 #'
 #' @param .step Either an integer or a numeric vector.
 #'
@@ -354,7 +362,7 @@ horn_index <- function(.x, .y) {
 #'
 #' In the second case, the vector encodes all repertoire sampling depths.
 #'
-#' @param .n.steps Integer. Number of steps if \code{.step} is a single integer.
+#' @param .n.steps Integer. Number of steps if `.step` is a single integer.
 #' Skipped if ".step" is a numeric vector.
 #'
 #' @param .downsample If TRUE then performs downsampling to N clonotypes at each step instead of choosing the
@@ -364,7 +372,7 @@ horn_index <- function(.x, .y) {
 #'
 #' @param .verbose.inc Logical. If TRUE then shows the output from the computation process.
 #'
-#' @param ... Other arguments passed to \code{.fun}.
+#' @param ... Other arguments passed to `.fun`.
 #'
 #' @return
 #' List with overlap matrices.

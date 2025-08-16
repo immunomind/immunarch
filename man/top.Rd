@@ -7,8 +7,8 @@
 top(.data, .n = 10)
 }
 \arguments{
-\item{.data}{The data to be processed. Can be [data.frame],
-[data.table::data.table], or a list of these objects.
+\item{.data}{The data to be processed. Can be \link{data.frame},
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -22,7 +22,7 @@ Note: each connection must represent a separate repertoire.}
 \item{.n}{Numeric. Number of the most abundant clonotypes to return.}
 }
 \value{
-Data frame with the `.n` most abundant clonotypes only.
+Data frame with the \code{.n} most abundant clonotypes only.
 }
 \description{
 Get the N most abundant clonotypes

@@ -55,12 +55,11 @@ PCA / MDS / tSNE visualisation (mainly overlap / gene usage)
 }
 \details{
 Other visualisation methods:
-
-- PCA - \link{vis.immunr_pca}
-
-- MDS - \link{vis.immunr_mds}
-
-- tSNE - \link{vis.immunr_tsne}
+\itemize{
+\item PCA - \link{vis.immunr_pca}
+\item MDS - \link{vis.immunr_mds}
+\item tSNE - \link{vis.immunr_tsne}
+}
 }
 \examples{
 data(immdata)

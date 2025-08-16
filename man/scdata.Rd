@@ -11,9 +11,9 @@ A list of four elements:
 "bc_patients" is a list of barcodes corresponding to specific patients.
 "bc_clusters" is a list of barcodes corresponding to specific cell clusters.
 \describe{
-  \item{data}{List of immune repertoire data frames.}
-  \item{meta}{Metadata}
-  ...
+\item{data}{List of immune repertoire data frames.}
+\item{meta}{Metadata}
+...
 }
 }
 \usage{

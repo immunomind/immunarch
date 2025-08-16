@@ -8,7 +8,7 @@ spectratype(.data, .quant = c("id", "count"), .col = "nt")
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -33,7 +33,7 @@ Clonal counts of equal clonotypes will be summed up.}
 Data frame with distributions of clonotypes per CDR3 length.
 }
 \description{
-Immune repertoire spectratyping
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 # Load the data

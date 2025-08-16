@@ -17,7 +17,7 @@ pubRep(
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -49,15 +49,14 @@ in the public repertoire table. Set NA (by default) to have the maximal amount o
 }
 \value{
 Data table with columns for:
-
-- Clonotypes (e.g., CDR3 sequence, or two columns for CDR3 sequence and V gene)
-
-- Incidence of clonotypes
-
-- Per-sample proportions or counts
+\itemize{
+\item Clonotypes (e.g., CDR3 sequence, or two columns for CDR3 sequence and V gene)
+\item Incidence of clonotypes
+\item Per-sample proportions or counts
+}
 }
 \description{
-Create a repertoire of public clonotypes
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 # Subset the data to make the example faster to run

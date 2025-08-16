@@ -21,19 +21,21 @@ Note: each connection must represent a separate repertoire.}
 
 \item{.db}{A data frame or a data table with an immune receptor database. See \link{dbLoad} on how to load databases into R.}
 
-\item{.data.col}{Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., `"CDR3.aa"` or `c("CDR3.aa", "V.name")`.}
+\item{.data.col}{Character vector. Vector of columns in the input repertoires to use for clonotype search. E.g., \code{"CDR3.aa"} or \code{c("CDR3.aa", "V.name")}.}
 
 \item{.db.col}{Character vector. Vector of columns in the database to use for clonotype search. The order must match the order of ".data.col".
-E.g., if ".data.col" is `c("CDR3.aa", "V.name")`, then ".db.col" must have the exact order of columns. i.e., the first column must correspond
+E.g., if ".data.col" is \code{c("CDR3.aa", "V.name")}, then ".db.col" must have the exact order of columns. i.e., the first column must correspond
 to CDR3 amino acid sequences, and the second column must correspond to V gene segment names.}
 }
 \value{
 Data frame with input sequences and counts or proportions for each of the input repertoire.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Annotate clonotypes by matching them to known condition-associated immune receptors in a database.
 Before using this function, you must download or load the relevant database files.
-For more information, see the [online tutorial](https://immunarch.com/articles/web_only/v11_db.html).
+For more information, see the \href{https://immunarch.com/articles/web_only/v11_db.html}{online tutorial}.
 }
 \examples{
 data(immdata)

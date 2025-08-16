@@ -9,9 +9,9 @@ A list of two elements. The first element ("data") is a list of 1 element named 
 that contains immune repertoire data frame.
 The second element ("meta") is empty metadata table.
 \describe{
-  \item{data}{List of immune repertoire data frames.}
-  \item{meta}{Metadata}
-  ...
+\item{data}{List of immune repertoire data frames.}
+\item{meta}{Metadata}
+...
 }
 }
 \usage{

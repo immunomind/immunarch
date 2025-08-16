@@ -10,18 +10,22 @@
 #' @importFrom tibble rownames_to_column
 #' @importFrom glue glue
 #'
-#' @description Graph clustering based on distances between sequences
+#' @description
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Graph clustering based on distances between sequences
 #'
 #' @usage
 #'
 #' seqCluster(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold)
 #'
-#' @param .data The data which was used to caluculate .dist object. Can be \link{data.frame},
+#' @param .data The data which was used to caluculate .dist object. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
-#' Every object must have columns in the immunarch compatible format \link{immunarch_data_format}
+#' Every object must have columns in the immunarch compatible format [immunarch_data_format]
 #'
-#' @param .dist List of distance objects produced with \link{seqDist} function.
+#' @param .dist List of distance objects produced with [seqDist] function.
 #'
 #' @param .perc_similarity   Numeric value between 0 and 1 specifying the maximum acceptable weight of an edge in a graph.
 #'                           This threshold depends on the length of sequences.
@@ -34,12 +38,13 @@
 #' Immdata data format object. Same as .data, but with extra 'Cluster' column with clusters assigned.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' data(immdata)
 #' # In this example, we will use only 2 samples with 500 clonotypes in each for time saving
 #' input_data <- lapply(immdata$data[1:2], head, 500)
 #' dist_result <- seqDist(input_data)
 #' cluster_result <- seqCluster(input_data, dist_result, .fixed_threshold = 1)
+#' }
 #' @export seqCluster
 
 seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_threshold = 10) {

@@ -23,6 +23,8 @@ name if a single dataframe is provided to .data argument.}
 No return value.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 The \code{repSave} function is deigned to save your data to the disk
 in desirable format. Currently supports "immunarch" and "vdjtools" file formats.
 }

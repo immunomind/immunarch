@@ -6,17 +6,21 @@
 #'
 #' @aliases geneUsageAnalysis
 #'
-#' @description The \code{\link{geneUsageAnalysis}} function deploys several
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The [geneUsageAnalysis()] function deploys several
 #' data analysis methods, including PCA, multidimensional scaling,
 #' Jensen-Shannon divergence, k-means, hierarchical clustering, DBscan, and different
 #' correlation coefficients.
 #'
-#' @param .data The \code{\link{geneUsageAnalysis}} function runs on the output from
-#' \code{\link{geneUsage}}.
+#' @param .data The [geneUsageAnalysis()] function runs on the output from
+#' [geneUsage()].
 #'
 #' @param .method A string that defines the type of analysis to perform. Can be "pca",
 #' "mds", "js", "kmeans", "hclust", "dbscan" or "cor" if you want to calculate
-#' correlation coefficient. In the latter case you have to provide \code{.cor} argument.
+#' correlation coefficient. In the latter case you have to provide `.cor` argument.
 #'
 #' @param .base A numerical value that defines the logarithm base for Jensen-Shannon
 #' divergence.
@@ -29,13 +33,13 @@
 #' @param .laplace The numeric value, which is used as a pseudocount for Laplace
 #' smoothing.
 #' @param .verbose A logical value.
-#' @param .k The number of clusters to create, passed as \code{k} to \link[factoextra]{hcut} or as \code{centers} to \link{kmeans}.
+#' @param .k The number of clusters to create, passed as `k` to [hcut][factoextra::hcut] or as `centers` to [kmeans].
 #' @param .eps A numerical value, DBscan epsylon parameter, see
-#' \code{\link{immunr_dbscan}}.
-#' @param .perp A numerical value, t-SNE perplexity, see \code{\link{immunr_tsne}}.
-#' @param .theta A numerical value, t-SNE theta parameter, see \code{\link{immunr_tsne}}.
+#' [immunr_dbscan()].
+#' @param .perp A numerical value, t-SNE perplexity, see [immunr_tsne()].
+#' @param .theta A numerical value, t-SNE theta parameter, see [immunr_tsne()].
 #'
-#' @return Depends on the last element in the \code{.method} string. See \link{immunr_tsne} for more info.
+#' @return Depends on the last element in the `.method` string. See [immunr_tsne] for more info.
 #'
 #' @examples
 #' data(immdata)

@@ -20,6 +20,8 @@ pubRepFilter(.pr, .meta, .by, .min.samples = 1)
 Data frame with filtered clonotypes.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Filter our clonotypes with low incidence in a specific group.
 }
 \examples{

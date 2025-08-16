@@ -17,16 +17,20 @@ default_scale_fun <- function(x) {
 #'
 #' @aliases immunr_pca immunr_mds immunr_tsne
 #'
-#' @description Collects a set of principal variables, reducing the number of not important variables
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Collects a set of principal variables, reducing the number of not important variables
 #' to analyse. Dimensionality reduction makes data analysis algorithms work faster and
 #' sometimes more accurate, since it also reduces noise in the data. Currently available
 #' methods are:
 #'
-#' - \code{immunr_pca} performs PCA (Principal Component Analysis) using \link{prcomp};
+#' - `immunr_pca` performs PCA (Principal Component Analysis) using [prcomp];
 #'
-#' - \code{immunr_mds} performs MDS (Multi-Dimensional Scaling) using \link[MASS]{isoMDS};
+#' - `immunr_mds` performs MDS (Multi-Dimensional Scaling) using [isoMDS][MASS::isoMDS];
 #'
-#' - \code{immunr_tsne} performs tSNE (t-Distributed Stochastic Neighbour Embedding) using \link[Rtsne]{Rtsne}.
+#' - `immunr_tsne` performs tSNE (t-Distributed Stochastic Neighbour Embedding) using [Rtsne][Rtsne::Rtsne].
 #'
 #' @usage
 #'
@@ -36,12 +40,12 @@ default_scale_fun <- function(x) {
 #'
 #' immunr_tsne(.data, .perp = 1, .dist = TRUE, ...)
 #'
-#' @param .data A matrix or a data frame with features, distance matrix or output from \link{repOverlapAnalysis} or \link{geneUsageAnalysis} functions.
+#' @param .data A matrix or a data frame with features, distance matrix or output from [repOverlapAnalysis] or [geneUsageAnalysis] functions.
 #'
 #' @param .scale A function to apply to your data before passing it to any of
 #' dimensionality reduction algorithms. There is no scaling by default.
 #'
-#' @param .perp The perplexity parameter for \link[Rtsne]{Rtsne}. Specifies the number
+#' @param .perp The perplexity parameter for [Rtsne][Rtsne::Rtsne]. Specifies the number
 #' of neighbors each data point must have in the resulting plot.
 #'
 #' @param .raw If TRUE then returns the non-processed output from dimensionality reduction
@@ -52,16 +56,16 @@ default_scale_fun <- function(x) {
 #'
 #' @param .dist If TRUE then assumes that ".data" is a distance matrix.
 #'
-#' @param ... Other parameters passed to \link[Rtsne]{Rtsne}.
+#' @param ... Other parameters passed to [Rtsne][Rtsne::Rtsne].
 #'
 #' @return
-#' \code{immunr_pca} - an output from \link{prcomp}.
+#' `immunr_pca` - an output from [prcomp].
 #'
-#' \code{immunr_mds} - an output from \link[MASS]{isoMDS}.
+#' `immunr_mds` - an output from [isoMDS][MASS::isoMDS].
 #'
-#' \code{immunr_tsne} - an output from \\link[Rtsne]{Rtsne}.
+#' `immunr_tsne` - an output from \[Rtsne][Rtsne::Rtsne].
 #'
-#' @seealso \link{vis.immunr_pca} for visualisations.
+#' @seealso [vis.immunr_pca] for visualisations.
 #'
 #' @examples
 #' data(immdata)

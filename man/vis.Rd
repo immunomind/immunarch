@@ -26,54 +26,50 @@ See "Details" for the list of available visualisations.
 List of available visualisations for different kinds of data.
 
 Basic analysis:
-
-- Exploratory analysis results (from \link{repExplore}) - see \link{vis.immunr_exp_vol};
-
-- Clonality statistics (from \link{repClonality}) - see \link{vis.immunr_homeo}.
+\itemize{
+\item Exploratory analysis results (from \link{repExplore}) - see \link{vis.immunr_exp_vol};
+\item Clonality statistics (from \link{repClonality}) - see \link{vis.immunr_homeo}.
+}
 
 Overlaps and public clonotypes:
-
-- Overlaps (from \link{repOverlap}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
-
--  Overlap clustering (from \link{repOverlapAnalysis}) - see \link{vis.immunr_hclust};
-
-- Repertoire incremental overlaps (from \link{repOverlap}) - see \link{vis.immunr_inc_overlap};
-
-- Public repertoire abundance (from \link{pubRep}) - vis \link{vis.immunr_public_repertoire}.
+\itemize{
+\item Overlaps (from \link{repOverlap}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
+\item Overlap clustering (from \link{repOverlapAnalysis}) - see \link{vis.immunr_hclust};
+\item Repertoire incremental overlaps (from \link{repOverlap}) - see \link{vis.immunr_inc_overlap};
+\item Public repertoire abundance (from \link{pubRep}) - vis \link{vis.immunr_public_repertoire}.
+}
 
 Gene usage:
-
-- Gene usage statistics (from \link{geneUsage}) using bar plots, box plots - see \link{vis.immunr_gene_usage};
-
-- Gene usage distances (from \link{geneUsageAnalysis}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
-
-- Gene usage clustering (from \link{geneUsageAnalysis}) - see \link{vis.immunr_hclust}.
+\itemize{
+\item Gene usage statistics (from \link{geneUsage}) using bar plots, box plots - see \link{vis.immunr_gene_usage};
+\item Gene usage distances (from \link{geneUsageAnalysis}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
+\item Gene usage clustering (from \link{geneUsageAnalysis}) - see \link{vis.immunr_hclust}.
+}
 
 Diversity estimation:
-
-- Diversity estimations (from \link{repDiversity}) - see \link{vis.immunr_chao1}.
+\itemize{
+\item Diversity estimations (from \link{repDiversity}) - see \link{vis.immunr_chao1}.
+}
 
 BCR analysis:
-
-- Clonal tree (from \link{repClonalFamily}) - see \link{vis.clonal_family} and \link{vis.clonal_family_tree}.
+\itemize{
+\item Clonal tree (from \link{repClonalFamily}) - see \link{vis.clonal_family} and \link{vis.clonal_family_tree}.
+}
 
 Advanced analysis:
-
-- Repertoire dynamics (from \link{trackClonotypes}) - see \link{vis.immunr_dynamics};
-
-- Sequence logo plots of amino acid distributions (from \link{kmer_profile}) - see \link{vis_seqlogo};
-
-- Kmers distributions (from \link{getKmers}) - see \link{vis.immunr_kmer_table};
-
-- Mutation networks (from mutationNetwork) - Work In Progress on vis.immunr_mutation_network;
-
-- CDR3 amino acid properties, e.g., biophysical (from cdrProp) - Work In Progress on vis.immunr_cdr_prop.
+\itemize{
+\item Repertoire dynamics (from \link{trackClonotypes}) - see \link{vis.immunr_dynamics};
+\item Sequence logo plots of amino acid distributions (from \link{kmer_profile}) - see \link{vis_seqlogo};
+\item Kmers distributions (from \link{getKmers}) - see \link{vis.immunr_kmer_table};
+\item Mutation networks (from mutationNetwork) - Work In Progress on vis.immunr_mutation_network;
+\item CDR3 amino acid properties, e.g., biophysical (from cdrProp) - Work In Progress on vis.immunr_cdr_prop.
+}
 
 Additionaly, we provide a wrapper functions for visualisations of common data types:
-
-- Any data frames or matrices using heatmaps - see \link{vis_heatmap} and \link{vis_heatmap2};
-
-- Any data frames or matrices using circos plots - see \link{vis_circos}.
+\itemize{
+\item Any data frames or matrices using heatmaps - see \link{vis_heatmap} and \link{vis_heatmap2};
+\item Any data frames or matrices using circos plots - see \link{vis_circos}.
+}
 }
 \examples{
 # Load the test data

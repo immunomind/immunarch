@@ -8,7 +8,7 @@ select_barcodes(.data, .barcodes, .force.list = FALSE)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -31,6 +31,8 @@ with clonotype barcodes corresponding to the input barcodes. The output list nam
 in the ".barcode" argument (Seurat::Idents() case only).
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Subsets the input immune repertoire by barcodes. Creates a vector of
 barcodes to subset or a vector cluster IDs and corresponding barcodes to
 get a list of immune repertoires corresponding to cluster IDs.

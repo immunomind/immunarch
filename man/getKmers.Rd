@@ -10,7 +10,7 @@ getKmers(.data, .k, .col = c("aa", "nt"), .coding = TRUE)
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -32,7 +32,7 @@ pass "nt" for CDR3 nucleotide sequences.}
 Data frame with two columns (k-mers and their counts).
 }
 \description{
-Calculate the k-mer statistics of immune repertoires
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 data(immdata)

@@ -11,20 +11,18 @@
 \item{.data}{Output from \link{repOverlap} or \link{geneUsageAnalysis}.}
 
 \item{.plot}{A string specifying the plot type:
-
-- "heatmap" for heatmaps using \link{vis_heatmap};
-
-- "heatmap2" for heatmaps using \link{vis_heatmap2};
-
-- "circos" for circos plots using \link{vis_circos};}
+\itemize{
+\item "heatmap" for heatmaps using \link{vis_heatmap};
+\item "heatmap2" for heatmaps using \link{vis_heatmap2};
+\item "circos" for circos plots using \link{vis_circos};
+}}
 
 \item{...}{Other arguments are passed through to the underlying plotting function:
-
-- "heatmap" - passes arguments to \link{vis_heatmap};
-
-- "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
-
-- "circos" - passes arguments to \link{vis_circos} and [circlize::chordDiagram] from the "circlize" package;}
+\itemize{
+\item "heatmap" - passes arguments to \link{vis_heatmap};
+\item "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
+\item "circos" - passes arguments to \link{vis_circos} and \link[circlize:chordDiagram]{circlize::chordDiagram} from the "circlize" package;
+}}
 }
 \value{
 A ggplot2, pheatmap or circlize object.

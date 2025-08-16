@@ -17,17 +17,20 @@ if (getRversion() >= "2.15.1") {
 #' @importFrom tidyselect all_of
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' This is a utility function to estimate the diversity of species or objects in the given distribution.
 #'
 #' Note: functions will check if .data is a distribution of a random variable (sum == 1) or not.
 #' To force normalisation and / or to prevent this, set .do.norm to TRUE (do normalisation)
 #' or FALSE (don't do normalisation), respectively.
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -65,7 +68,7 @@ if (getRversion() >= "2.15.1") {
 #' chao1 returns 4 values: estimated number of species, standart deviation of
 #' this number and two 95% confidence intervals for the species number.
 #'
-#' hill returns a vector of specified length \code{.max.q - .min.q}
+#' hill returns a vector of specified length `.max.q - .min.q`
 #'
 #' @details
 #' - True diversity, or the effective number of types, refers to the number
@@ -111,13 +114,13 @@ if (getRversion() >= "2.15.1") {
 #' on different step of the simulaiton process or a list with such matrices.
 #'
 #'
-#' @seealso \link{repOverlap}, \link{entropy}, \link{repClonality}
+#' @seealso [repOverlap], [entropy], [repClonality]
 #' Rarefaction wiki
-#' \url{https://en.wikipedia.org/wiki/Rarefaction_(ecology)}
+#' <https://en.wikipedia.org/wiki/Rarefaction_(ecology)>
 #' Hill numbers paper
-#' \url{https://www.uvm.edu/~ngotelli/manuscriptpdfs/ChaoHill.pdf}
+#' <https://www.uvm.edu/~ngotelli/manuscriptpdfs/ChaoHill.pdf>
 #' Diversity wiki
-#' \url{https://en.wikipedia.org/wiki/Measurement_of_biodiversity}
+#' <https://en.wikipedia.org/wiki/Measurement_of_biodiversity>
 #'
 #'
 #' @examples

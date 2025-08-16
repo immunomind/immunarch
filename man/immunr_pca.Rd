@@ -26,29 +26,30 @@ if you want to visualise results.}
 
 \item{.dist}{If TRUE then assumes that ".data" is a distance matrix.}
 
-\item{.perp}{The perplexity parameter for \link[Rtsne]{Rtsne}. Specifies the number
+\item{.perp}{The perplexity parameter for \link[Rtsne:Rtsne]{Rtsne}. Specifies the number
 of neighbors each data point must have in the resulting plot.}
 
-\item{...}{Other parameters passed to \link[Rtsne]{Rtsne}.}
+\item{...}{Other parameters passed to \link[Rtsne:Rtsne]{Rtsne}.}
 }
 \value{
 \code{immunr_pca} - an output from \link{prcomp}.
 
-\code{immunr_mds} - an output from \link[MASS]{isoMDS}.
+\code{immunr_mds} - an output from \link[MASS:isoMDS]{isoMDS}.
 
-\code{immunr_tsne} - an output from \\link[Rtsne]{Rtsne}.
+\code{immunr_tsne} - an output from [Rtsne][Rtsne::Rtsne].
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Collects a set of principal variables, reducing the number of not important variables
 to analyse. Dimensionality reduction makes data analysis algorithms work faster and
 sometimes more accurate, since it also reduces noise in the data. Currently available
 methods are:
-
-- \code{immunr_pca} performs PCA (Principal Component Analysis) using \link{prcomp};
-
-- \code{immunr_mds} performs MDS (Multi-Dimensional Scaling) using \link[MASS]{isoMDS};
-
-- \code{immunr_tsne} performs tSNE (t-Distributed Stochastic Neighbour Embedding) using \link[Rtsne]{Rtsne}.
+\itemize{
+\item \code{immunr_pca} performs PCA (Principal Component Analysis) using \link{prcomp};
+\item \code{immunr_mds} performs MDS (Multi-Dimensional Scaling) using \link[MASS:isoMDS]{isoMDS};
+\item \code{immunr_tsne} performs tSNE (t-Distributed Stochastic Neighbour Embedding) using \link[Rtsne:Rtsne]{Rtsne}.
+}
 }
 \examples{
 data(immdata)

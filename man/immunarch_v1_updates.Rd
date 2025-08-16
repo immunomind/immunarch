@@ -5,7 +5,7 @@
 \alias{immunarch_v1_updates}
 \title{Some description}
 \format{
-An object of class \code{NULL} of length 0.
+An object of class \code{list} of length 1.
 }
 \usage{
 immunarch_v1_updates

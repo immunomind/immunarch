@@ -9,11 +9,16 @@
 #' @importFrom data.table setcolorder ":=" as.data.table
 #' @importFrom dplyr full_join ungroup
 #'
-#' @param .data The data to be processed. Can be \link{data.frame},
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
+#' @param .data The data to be processed. Can be [data.frame],
 #' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
-#' \link{immunarch_data_format}
+#' [immunarch_data_format]
 #'
 #' Competent users may provide advanced data representations:
 #' DBI database connections, or a list
@@ -123,7 +128,7 @@ publicRepertoire <- pubRep
 #'
 #' @concept pubrep
 #'
-#' @param .data Public repertoire, an output from \link{pubRep}.
+#' @param .data Public repertoire, an output from [pubRep].
 #'
 #' @return
 #' Matrix with per-sample clonotype counts / proportions only.
@@ -168,9 +173,13 @@ get_public_repertoire_names <- function(.pr) {
 #'
 #' @aliases pubRepFilter publicRepertoireFilter
 #'
-#' @description Filter our clonotypes with low incidence in a specific group.
+#' @description
 #'
-#' @param .pr Public repertoires, an output from \link{pubRep}.
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Filter our clonotypes with low incidence in a specific group.
+#'
+#' @param .pr Public repertoires, an output from [pubRep].
 #' @param .meta Metadata file.
 #' @param .by Named character vector. Names of the group to filter by.
 #' @param .min.samples Integer. Filters out clonotypes with the number of samples below than this number.
@@ -241,7 +250,7 @@ publicRepertoireFilter <- pubRepFilter
 #' @param .pr1 First public repertoire.
 #' @param .pr2 Second public repertoire.
 #' @param .fun A function to apply to pairs of frequencies of same clonotypes from "pr1" and "pr2".
-#' By default - \code{log(X) / log(Y)} where \code{X,Y} - frequencies of the same clonotype,
+#' By default - `log(X) / log(Y)` where `X,Y` - frequencies of the same clonotype,
 #' found in both public repertoires.
 #'
 #' @return
@@ -288,7 +297,12 @@ publicRepertoireApply <- pubRepApply
 #' @importFrom dplyr group_by mutate filter
 #' @importFrom stats na.omit
 #'
-#' @param .data Public repertoire, an output from the \link{pubRep} function.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
+#' @param .data Public repertoire, an output from the [pubRep] function.
 #' @param .by Work in Progress.
 #' @param .meta Work in Progress.
 #'

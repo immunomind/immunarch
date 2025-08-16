@@ -7,7 +7,7 @@
 \method{vis}{clonal_family}(.data, ...)
 }
 \arguments{
-\item{.data}{Clonal families from 1 or multiple samples: \code{\link{repClonalFamily}} output.}
+\item{.data}{Clonal families from 1 or multiple samples: \code{\link[=repClonalFamily]{repClonalFamily()}} output.}
 
 \item{...}{Not used here.}
 }

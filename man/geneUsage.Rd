@@ -17,7 +17,7 @@ geneUsage(
 }
 \arguments{
 \item{.data}{The data to be processed. Can be \link{data.frame},
-[data.table::data.table], or a list of these objects.
+\link[data.table:data.table]{data.table::data.table}, or a list of these objects.
 
 Every object must have columns in the immunarch compatible format.
 \link{immunarch_data_format}
@@ -38,12 +38,10 @@ Pass NA if you want to compute gene statistics at the clonotype level without re
 Pass "count" to use the "Clones" column to weight genes by abundance of their corresponding clonotypes.}
 
 \item{.ambig}{An option to handle ambiguous gene assigments, e.g., "TRAV1,TRAV2".
-
-
-- Pass "inc" to include all possible gene segments, so "TRAV1,TRAV2" is counted as a different gene segment.
-
-- Pass "exc" to exclude all ambiguous gene assignments, so "TRAV1,TRAV2" is excluded from the resultant gene table.
-
+\itemize{
+\item Pass "inc" to include all possible gene segments, so "TRAV1,TRAV2" is counted as a different gene segment.
+\item Pass "exc" to exclude all ambiguous gene assignments, so "TRAV1,TRAV2" is excluded from the resultant gene table.
+}
 
 We recommend to turn it on by passing "inc" (turned on by default).
 You can exclude data for the cases where
@@ -58,9 +56,11 @@ or pick only first from the set. Set it to "exc", "inc" or "maj", respectively.}
 A data frame with rows corresponding to gene segments and columns corresponding to the input samples.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 An utility function to analyse the immune receptor gene usage
 (IGHD, IGHJ, IDHV, IGIJ, IGKJ, IGKV, IGLJ, IGLV, TRAJ, TRAV, TRBD, etc.)
-and statistics. For gene details run `gene_stats()`.
+and statistics. For gene details run \code{gene_stats()}.
 }
 \examples{
 data(immdata)
