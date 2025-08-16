@@ -1,0 +1,60 @@
+---
+title: "Tracking receptors across immune space and time"
+author: "Vadim I. Nazarov"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Tracking immune receptors}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 6)
+
+library(immunarch)
+data(immdata)
+read_repertoires from system.file.
+```
+
+# Background
+
+what it is 
+
+relevance for immunotherapy
+
+# Tracking receptors
+
+# Visualising
+
+# Clustering
+
+# Input / output
+#' 1a) List of CDR3 - vector + col to match (screw that, just pass a data frame)
+#' 1b) List of CDR3 + other columns
+#' 1c) List of CDR3 alpha + CDR3 beta (+ other columns)
+#' 2a) Find abundance of found receptors in an ordered repertoires
+#' 2b) Find abundance of receptors close by distance in an ordered repertoires
+#' 3a) Visualise via alluvial
+#' 3b) Compute PCA on abundances and visualise
+#'
