@@ -23,3 +23,4 @@
 ^.RDataFiles$
 ^.idea$
 ^cran-comments\.md$
+^vignettes/*_files$
