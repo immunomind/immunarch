@@ -73,7 +73,7 @@ check_distribution <- function(.data, .do.norm = NA, .laplace = 1, .na.val = 0, 
 #' @param .class String with the desired class name.
 #'
 #' @return
-#' Input object with additional class \code{.class}.
+#' Input object with additional class `.class`.
 #'
 #' @section Developer Examples:
 #' tmp <- "abc"
@@ -125,7 +125,7 @@ get_empty_object_with_class <- function(.class) {
 #' add_pb(.pb, .value = 1)
 #'
 #' @param .max Integer. Maximal value of the progress bar.
-#' @param .pb Progress bar object from \code{set_pb}.
+#' @param .pb Progress bar object from `set_pb`.
 #' @param .value Numeric. Value to add to the progress bar at each step.
 #'
 #' @return
@@ -276,7 +276,7 @@ check_group_names <- function(.meta, .by) {
 #'
 #' @param .by Character vector. Specify a column or columns in the input metadata to group by.
 #' @param .metadata Metadata object.
-#' @param .sep Character vector. Defines a separator between groups if more than one group passed in \code{.by}.
+#' @param .sep Character vector. Defines a separator between groups if more than one group passed in `.by`.
 #'
 #' @return
 #' Character vector with group names.
