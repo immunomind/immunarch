@@ -155,13 +155,13 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @importFrom tidyr drop_na
 #'
 #' @description Output from every function in immunarch can be visualised with a
-#' single function - \code{vis}. The \code{vis} automatically detects
+#' single function - `vis`. The `vis` automatically detects
 #' the type of the data and draws a proper visualisation. For example, output
-#' from the \code{repOverlap} function will be identified as repertoire overlap values
+#' from the `repOverlap` function will be identified as repertoire overlap values
 #' and respective visualisation will be chosen without any additional arguments.
 #' See "Details" for the list of available visualisations.
 #'
-#' @param .data Pass the output from any immunarch analysis tool to \code{vis()}.
+#' @param .data Pass the output from any immunarch analysis tool to `vis()`.
 #' @param ... Any other arguments, see the "Details" section for specific visualisation functions.
 #'
 #' @details
@@ -169,43 +169,43 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #'
 #' Basic analysis:
 #'
-#' - Exploratory analysis results (from \link{repExplore}) - see \link{vis.immunr_exp_vol};
+#' - Exploratory analysis results (from [repExplore]) - see [vis.immunr_exp_vol];
 #'
-#' - Clonality statistics (from \link{repClonality}) - see \link{vis.immunr_homeo}.
+#' - Clonality statistics (from [repClonality]) - see [vis.immunr_homeo].
 #'
 #' Overlaps and public clonotypes:
 #'
-#' - Overlaps (from \link{repOverlap}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
+#' - Overlaps (from [repOverlap]) using heatmaps, circos plots, polar area plots - see [vis.immunr_ov_matrix];
 #'
-#' -  Overlap clustering (from \link{repOverlapAnalysis}) - see \link{vis.immunr_hclust};
+#' -  Overlap clustering (from [repOverlapAnalysis]) - see [vis.immunr_hclust];
 #'
-#' - Repertoire incremental overlaps (from \link{repOverlap}) - see \link{vis.immunr_inc_overlap};
+#' - Repertoire incremental overlaps (from [repOverlap]) - see [vis.immunr_inc_overlap];
 #'
-#' - Public repertoire abundance (from \link{pubRep}) - vis \link{vis.immunr_public_repertoire}.
+#' - Public repertoire abundance (from [pubRep]) - vis [vis.immunr_public_repertoire].
 #'
 #' Gene usage:
 #'
-#' - Gene usage statistics (from \link{geneUsage}) using bar plots, box plots - see \link{vis.immunr_gene_usage};
+#' - Gene usage statistics (from [geneUsage]) using bar plots, box plots - see [vis.immunr_gene_usage];
 #'
-#' - Gene usage distances (from \link{geneUsageAnalysis}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
+#' - Gene usage distances (from [geneUsageAnalysis]) using heatmaps, circos plots, polar area plots - see [vis.immunr_ov_matrix];
 #'
-#' - Gene usage clustering (from \link{geneUsageAnalysis}) - see \link{vis.immunr_hclust}.
+#' - Gene usage clustering (from [geneUsageAnalysis]) - see [vis.immunr_hclust].
 #'
 #' Diversity estimation:
 #'
-#' - Diversity estimations (from \link{repDiversity}) - see \link{vis.immunr_chao1}.
+#' - Diversity estimations (from [repDiversity]) - see [vis.immunr_chao1].
 #'
 #' BCR analysis:
 #'
-#' - Clonal tree (from \link{repClonalFamily}) - see \link{vis.clonal_family} and \link{vis.clonal_family_tree}.
+#' - Clonal tree (from [repClonalFamily]) - see [vis.clonal_family] and [vis.clonal_family_tree].
 #'
 #' Advanced analysis:
 #'
-#' - Repertoire dynamics (from \link{trackClonotypes}) - see \link{vis.immunr_dynamics};
+#' - Repertoire dynamics (from [trackClonotypes]) - see [vis.immunr_dynamics];
 #'
-#' - Sequence logo plots of amino acid distributions (from \link{kmer_profile}) - see \link{vis_seqlogo};
+#' - Sequence logo plots of amino acid distributions (from [kmer_profile]) - see [vis_seqlogo];
 #'
-#' - Kmers distributions (from \link{getKmers}) - see \link{vis.immunr_kmer_table};
+#' - Kmers distributions (from [getKmers]) - see [vis.immunr_kmer_table];
 #'
 #' - Mutation networks (from mutationNetwork) - Work In Progress on vis.immunr_mutation_network;
 #'
@@ -213,14 +213,14 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #'
 #' Additionaly, we provide a wrapper functions for visualisations of common data types:
 #'
-#' - Any data frames or matrices using heatmaps - see \link{vis_heatmap} and \link{vis_heatmap2};
+#' - Any data frames or matrices using heatmaps - see [vis_heatmap] and [vis_heatmap2];
 #'
-#' - Any data frames or matrices using circos plots - see \link{vis_circos}.
+#' - Any data frames or matrices using circos plots - see [vis_circos].
 #'
 #' @return
 #' A ggplot2, pheatmap or circlize object.
 #'
-#' @seealso \link{fixVis} for precise manipulation of plots.
+#' @seealso [fixVis] for precise manipulation of plots.
 #'
 #' @examples
 #' # Load the test data
@@ -255,23 +255,23 @@ vis <- function(.data, ...) {
 #' @description Visualises matrices with overlap values or gene usage distances among samples.
 #' For details see the links below.
 #'
-#' @param .data Output from \link{repOverlap} or \link{geneUsageAnalysis}.
+#' @param .data Output from [repOverlap] or [geneUsageAnalysis].
 #'
 #' @param .plot A string specifying the plot type:
 #'
-#' - "heatmap" for heatmaps using \link{vis_heatmap};
+#' - "heatmap" for heatmaps using [vis_heatmap];
 #'
-#' - "heatmap2" for heatmaps using \link{vis_heatmap2};
+#' - "heatmap2" for heatmaps using [vis_heatmap2];
 #'
-#' - "circos" for circos plots using \link{vis_circos};
+#' - "circos" for circos plots using [vis_circos];
 #'
 #' @param ... Other arguments are passed through to the underlying plotting function:
 #'
-#' - "heatmap" - passes arguments to \link{vis_heatmap};
+#' - "heatmap" - passes arguments to [vis_heatmap];
 #'
-#' - "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
+#' - "heatmap2" - passes arguments to [vis_heatmap2] and [heatmap] from the "pheatmap" package;
 #'
-#' - "circos" - passes arguments to \link{vis_circos} and [circlize::chordDiagram] from the "circlize" package;
+#' - "circos" - passes arguments to [vis_circos] and [circlize::chordDiagram] from the "circlize" package;
 #'
 #' @return
 #' A ggplot2, pheatmap or circlize object.
@@ -364,7 +364,7 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{vis}, \link{repOverlap}.
+#' @seealso [vis], [repOverlap].
 #'
 #' @examples
 #' data(immdata)
@@ -454,7 +454,7 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #'
 #' @name vis_heatmap2
 #'
-#' @description Visualise matrices with the functions based on the \link[pheatmap]{pheatmap}
+#' @description Visualise matrices with the functions based on the [pheatmap][pheatmap::pheatmap]
 #' package with minimum amount of arguments.
 #'
 #' @param .data Input matrix. Column names and row names (if presented) will be used as names for labs.
@@ -464,17 +464,17 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #'
 #' @param .by Set NA if you want to plot samples without grouping.
 #'
-#' @param .title The text for the plot's title (same as the "main" argument in \link[pheatmap]{pheatmap}).
+#' @param .title The text for the plot's title (same as the "main" argument in [pheatmap][pheatmap::pheatmap]).
 #'
-#' @param .color A vector specifying the colors (same as the "color" argument in \link[pheatmap]{pheatmap}).
+#' @param .color A vector specifying the colors (same as the "color" argument in [pheatmap][pheatmap::pheatmap]).
 #' Pass NA to use the default pheatmap colors.
 #'
-#' @param ... Other arguments for the \link[pheatmap]{pheatmap} function.
+#' @param ... Other arguments for the [pheatmap][pheatmap::pheatmap] function.
 #'
 #' @return
 #' A pheatmap object.
 #'
-#' @seealso \link{vis}, \link{repOverlap}
+#' @seealso [vis], [repOverlap]
 #'
 #' @examples
 #' data(immdata)
@@ -520,7 +520,7 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
 #' @return
 #' A circlize object.
 #'
-#' @seealso \link{vis}, \link{repOverlap}.
+#' @seealso [vis], [repOverlap].
 #'
 #' @examples
 #' data(immdata)
@@ -628,7 +628,7 @@ vis_circos <- function(.data, .title = NULL, ...) {
 #'
 #' @name vis.immunr_inc_overlap
 #'
-#' @param .data Output from the \link{repOverlap} function that uses "top" methods.
+#' @param .data Output from the [repOverlap] function that uses "top" methods.
 #'
 #' @param .target Index of a repertoire to plot. Omitted if .grid is TRUE.
 #'
@@ -641,7 +641,7 @@ vis_circos <- function(.data, .title = NULL, ...) {
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{repOverlap}
+#' @seealso [repOverlap]
 #'
 #' @examples
 #' data(immdata)
@@ -724,15 +724,15 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 #'
 #' @name vis.immunr_public_repertoire
 #'
-#' @param .data Public repertoire, an output from \link{pubRep}.
+#' @param .data Public repertoire, an output from [pubRep].
 #' @param .plot A string specifying the plot type:
 #'
 #' - "freq" for visualisation of the distribution of occurrences of clonotypes
-#' and their frequencies using \link{vis_public_frequencies}.
+#' and their frequencies using [vis_public_frequencies].
 #'
 #' - "clonotypes" for visualisation of public clonotype frequenciy correlations between pairs of
-#' samples using \link{vis_public_clonotypes}
-#' @param ... Further arguments passed \link{vis_public_frequencies} or \link{vis_public_clonotypes},
+#' samples using [vis_public_clonotypes]
+#' @param ... Further arguments passed [vis_public_frequencies] or [vis_public_clonotypes],
 #' depending on the ".plot" argument.
 #'
 #' @return
@@ -767,7 +767,7 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #'
 #' @description Visualise public clonotype frequencies.
 #'
-#' @param .data Public repertoire - an output from the \link{pubRep} function.
+#' @param .data Public repertoire - an output from the [pubRep] function.
 #'
 #' @param ... Other arguments passsed directly to [UpSetR::upset].
 #'
@@ -800,7 +800,7 @@ vis.immunr_public_statistics <- function(.data, ...) {
 #'
 #' @description Visualise public clonotype frequencies.
 #'
-#' @param .data Public repertoire - an output from the \link{pubRep} function.
+#' @param .data Public repertoire - an output from the [pubRep] function.
 #' @param .by Pass NA if you want to plot samples without grouping.
 #'
 #' You can pass a character vector with one or several column names from ".meta"
@@ -896,7 +896,7 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #'
 #' @description Visualise correlation of public clonotype frequencies in pairs of repertoires.
 #'
-#' @param .data Public repertoire data - an output from the \link{pubRep} function.
+#' @param .data Public repertoire data - an output from the [pubRep] function.
 #'
 #' @param .x.rep Either indices of samples or character vector of sample names
 #' for the x-axis. Must be of the same length as ".y.rep".
@@ -925,7 +925,7 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{pubRep}, \link{vis.immunr_public_repertoire}
+#' @seealso [pubRep], [vis.immunr_public_repertoire]
 #'
 #' @examples
 #' data(immdata)
@@ -1099,29 +1099,29 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #'
 #' @description Visualise distributions of genes using heatmaps or other plots.
 #'
-#' @param .data Output from the \link{geneUsage} function.
+#' @param .data Output from the [geneUsage] function.
 #'
 #' @param .plot String specifying the plot type:
 #'
-#' - "hist" for histograms using \link{vis_hist};
+#' - "hist" for histograms using [vis_hist];
 #'
-#' - "heatmap" for heatmaps using \link{vis_heatmap};
+#' - "heatmap" for heatmaps using [vis_heatmap];
 #'
-#' - "heatmap2" for heatmaps using \link{vis_heatmap2};
+#' - "heatmap2" for heatmaps using [vis_heatmap2];
 #'
-#' - "circos" for circos plots using \link{vis_circos}.
+#' - "circos" for circos plots using [vis_circos].
 #'
 #' @param ... Other arguments passed to corresponding functions depending on the plot type:
 #'
-#' - "hist" - passes arguments to \link{vis_hist};
+#' - "hist" - passes arguments to [vis_hist];
 #'
-#' - "box" - passes arguments to \link{vis_box};
+#' - "box" - passes arguments to [vis_box];
 #'
-#' - "heatmap" - passes arguments to \link{vis_heatmap};
+#' - "heatmap" - passes arguments to [vis_heatmap];
 #'
-#' - "heatmap2" - passes arguments to \link{vis_heatmap2} and \link{heatmap} from the "pheatmap" package;
+#' - "heatmap2" - passes arguments to [vis_heatmap2] and [heatmap] from the "pheatmap" package;
 #'
-#' - "circos" - passes arguments to \link{vis_circos} and [circlize::chordDiagram] from the "circlize" package.
+#' - "circos" - passes arguments to [vis_circos] and [circlize::chordDiagram] from the "circlize" package.
 #'
 #' @return
 #' A ggplot2 object, pheatmap or circlize object.
@@ -1135,7 +1135,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #' gu <- geneUsage(immdata$data)
 #' vis(gu, .by = "Status", .meta = immdata$meta)
 #' vis(gu, "box", .by = "Status", .meta = immdata$meta)
-#' @seealso \link{geneUsage}
+#' @seealso [geneUsage]
 #'
 #' @export
 vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "heatmap2", "circos"), ...) {
@@ -1217,19 +1217,19 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
 #' @param ... Is not used here.
 #'
 #' @details
-#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless \code{.test = FALSE} is supplied.
+#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless `.test = FALSE` is supplied.
 #' In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
-#' (R function \code{\link{wilcox.test}} with an argument \code{exact = FALSE}) for testing if there is a difference in mean rank values between two groups.
-#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
+#' (R function [wilcox.test()] with an argument `exact = FALSE`) for testing if there is a difference in mean rank values between two groups.
+#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function [kruskal.test()]), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
 #' A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
 #' Adjusted for multiple comparisons P-values are plotted on the top of groups.
 #' P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction).
-#' You can execute the command \code{?p.adjust} in the R console to see more.
+#' You can execute the command `?p.adjust` in the R console to see more.
 #'
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{vis.immunr_gene_usage}, \link{geneUsage}
+#' @seealso [vis.immunr_gene_usage], [geneUsage]
 #'
 #' @examples
 #' data(immdata)
@@ -1402,7 +1402,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{vis.immunr_gene_usage}, \link{geneUsage}
+#' @seealso [vis.immunr_gene_usage], [geneUsage]
 #'
 #' @examples
 #' vis_box(data.frame(Sample = sample(c("A", "B", "C"), 100, TRUE), Value = rnorm(100)), .melt = FALSE)
@@ -1546,11 +1546,11 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 #'
 #' @description
 #' Visualisation of the results of hierarchical clustering.
-#' For other clustering visualisations see \link{vis.immunr_kmeans}.
+#' For other clustering visualisations see [vis.immunr_kmeans].
 #'
 #' @aliases vis.immunr_hclust
 #'
-#' @param .data Clustering results from \link{repOverlapAnalysis} or \link{geneUsageAnalysis}.
+#' @param .data Clustering results from [repOverlapAnalysis] or [geneUsageAnalysis].
 #' @param .rect Passed to [factoextra::fviz_dend] - whether to add a rectangle around groups.
 #' @param .plot A character vector of length one or two specifying which plots to visualise.
 #' If "clust" then plot only the clustering. If "best" then plot the number of optimal clusters.
@@ -1560,7 +1560,7 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 #' @return
 #' Ggplot2 objects inside the patchwork container.
 #'
-#' @seealso \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}
+#' @seealso [vis], [repOverlapAnalysis], [geneUsageAnalysis]
 #'
 #' @examples
 #' data(immdata)
@@ -1601,11 +1601,11 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #'
 #' @description
 #' Visualisation of the results of K-means and DBSCAN clustering.
-#' For hierarhical clustering visualisations see \link{vis.immunr_hclust}.
+#' For hierarhical clustering visualisations see [vis.immunr_hclust].
 #'
 #' @aliases vis.immunr_kmeans vis.immunr_dbscan
 #'
-#' @param .data Clustering results from \link{repOverlapAnalysis} or \link{geneUsageAnalysis}.
+#' @param .data Clustering results from [repOverlapAnalysis] or [geneUsageAnalysis].
 #' @param .point If TRUE then plot sample points. Passed to [factoextra::fviz_cluster].
 #' @param .text If TRUE then plot text labels. Passed to [factoextra::fviz_cluster].
 #' @param .ellipse If TRUE then plot ellipses around all samples. Passed to "ellipse" from [factoextra::fviz_cluster].
@@ -1619,7 +1619,7 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' @return
 #' Ggplot2 objects inside the pathwork container.
 #'
-#' @seealso \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}
+#' @seealso [vis], [repOverlapAnalysis], [geneUsageAnalysis]
 #'
 #' @examples
 #' data(immdata)
@@ -1687,8 +1687,8 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #'
 #' @aliases vis.immunr_mds vis.immunr_pca vis.immunr_tsne
 #'
-#' @param .data Output from analysis functions such as \link{geneUsageAnalysis} or
-#' \link{immunr_pca}, \link{immunr_mds} or \link{immunr_tsne}.
+#' @param .data Output from analysis functions such as [geneUsageAnalysis] or
+#' [immunr_pca], [immunr_mds] or [immunr_tsne].
 #' @param .by Pass NA if you want to plot samples without grouping.
 #'
 #' You can pass a character vector with one or several column names from ".meta"
@@ -1714,11 +1714,11 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' @details
 #' Other visualisation methods:
 #'
-#' - PCA - \link{vis.immunr_pca}
+#' - PCA - [vis.immunr_pca]
 #'
-#' - MDS - \link{vis.immunr_mds}
+#' - MDS - [vis.immunr_mds]
 #'
-#' - tSNE - \link{vis.immunr_tsne}
+#' - tSNE - [vis.immunr_tsne]
 #'
 #' @examples
 #' data(immdata)
@@ -1900,12 +1900,12 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #'
 #' @aliases vis.immunr_clonal_prop vis.immunr_homeo vis.immunr_top_prop vis.immunr_tail_prop
 #'
-#' @description An utility function to visualise the output from \code{\link{repClonality}}.
+#' @description An utility function to visualise the output from [repClonality()].
 #'
 #' @importFrom reshape2 melt
 #' @importFrom scales percent
 #'
-#' @param .data Output from \code{\link{repClonality}}.
+#' @param .data Output from [repClonality()].
 #' @param .by Pass NA if you want to plot samples without grouping.
 #'
 #' You can pass a character vector with one or several column names from ".meta"
@@ -1930,19 +1930,19 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' @param ... Not used here.
 #'
 #' @details
-#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless \code{.test = FALSE} is supplied.
+#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless `.test = FALSE` is supplied.
 #' In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
-#' (R function \code{\link{wilcox.test}} with an argument \code{exact = FALSE}) for testing if there is a difference in mean rank values between two groups.
-#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
+#' (R function [wilcox.test()] with an argument `exact = FALSE`) for testing if there is a difference in mean rank values between two groups.
+#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function [kruskal.test()]), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
 #' A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
 #' Adjusted for multiple comparisons P-values are plotted on the top of groups.
 #' P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction).
-#' You can execute the command \code{?p.adjust} in the R console to see more.
+#' You can execute the command `?p.adjust` in the R console to see more.
 #'
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{repClonality} \link{vis}
+#' @seealso [repClonality] [vis]
 #'
 #' @examples
 #' data(immdata)
@@ -2305,11 +2305,11 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #' @concept diversity
 #'
 #' @aliases vis.immunr_chao1 vis.immunr_dxx vis.immunr_rarefaction vis.immunr_div vis.immunr_ginisimp vis.immunr_invsimp vis.immunr_hill
-#' @description An utility function to visualise the output from \code{\link{repDiversity}}.
+#' @description An utility function to visualise the output from [repDiversity()].
 #'
 #' @importFrom reshape2 melt
 #'
-#' @param .data Output from \code{\link{repDiversity}}.
+#' @param .data Output from [repDiversity()].
 #' @param .by Pass NA if you want to plot samples without grouping.
 #'
 #' You can pass a character vector with one or several column names from ".meta"
@@ -2331,19 +2331,19 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #' @param ... Not used here.
 #'
 #' @details
-#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless \code{.test = FALSE} is supplied.
+#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless `.test = FALSE` is supplied.
 #' In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
-#' (R function \code{\link{wilcox.test}} with an argument \code{exact = FALSE}) for testing if there is a difference in mean rank values between two groups.
-#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
+#' (R function [wilcox.test()] with an argument `exact = FALSE`) for testing if there is a difference in mean rank values between two groups.
+#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function [kruskal.test()]), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
 #' A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
 #' Adjusted for multiple comparisons P-values are plotted on the top of groups.
 #' P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction).
-#' You can execute the command \code{?p.adjust} in the R console to see more.
+#' You can execute the command `?p.adjust` in the R console to see more.
 #'
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{repDiversity} \link{vis}
+#' @seealso [repDiversity] [vis]
 #'
 #' @examples
 #' data(immdata)
@@ -2569,11 +2569,11 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 #' @concept explore
 #'
 #' @aliases vis.immunr_exp_vol vis.immunr_exp_count vis.immunr_exp_len vis.immunr_exp_clones
-#' @description An utility function to visualise the output from \code{\link{repExplore}}.
+#' @description An utility function to visualise the output from [repExplore()].
 #'
 #' @importFrom reshape2 melt
 #'
-#' @param .data Output from \code{\link{repExplore}}.
+#' @param .data Output from [repExplore()].
 #' @param .by Pass NA if you want to plot samples without grouping.
 #'
 #' You can pass a character vector with one or several column names from ".meta"
@@ -2598,19 +2598,19 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 #' @param ... Not used here.
 #'
 #' @details
-#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless \code{.test = FALSE} is supplied.
+#' If data is grouped, then statistical tests for comparing means of groups will be performed, unless `.test = FALSE` is supplied.
 #' In case there are only two groups, the Wilcoxon rank sum test (https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test) is performed
-#' (R function \code{\link{wilcox.test}} with an argument \code{exact = FALSE}) for testing if there is a difference in mean rank values between two groups.
-#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function \code{\link{kruskal.test}}), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
+#' (R function [wilcox.test()] with an argument `exact = FALSE`) for testing if there is a difference in mean rank values between two groups.
+#' In case there more than two groups, the Kruskal-Wallis test (https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is performed (R function [kruskal.test()]), that is equivalent to ANOVA for ranks and it tests whether samples from different groups originated from the same distribution.
 #' A significant Kruskal-Wallis test indicates that at least one sample stochastically dominates one other sample.
 #' Adjusted for multiple comparisons P-values are plotted on the top of groups.
 #' P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method) (also known as Holm-Bonferroni correction).
-#' You can execute the command \code{?p.adjust} in the R console to see more.
+#' You can execute the command `?p.adjust` in the R console to see more.
 #'
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{repExplore} \link{vis}
+#' @seealso [repExplore] [vis]
 #'
 #' @examples
 #' data(immdata)
@@ -2718,14 +2718,14 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #'
 #' @param .data Data frame with two columns "Kmers" and "Count" or a list with such data frames. See Examples.
 #' @param .head Number of the most frequent kmers to choose for plotting from each data frame.
-#' @param .position Character vector of length 1. Position of bars for each kmers. Value for the \code{ggplot2} argument \code{position}.
+#' @param .position Character vector of length 1. Position of bars for each kmers. Value for the `ggplot2` argument `position`.
 #' @param .log Logical. If TRUE then plot log-scaled plots.
 #' @param ... Not used here.
 #'
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \code{get.kmers}
+#' @seealso `get.kmers`
 #'
 #' @examples
 #' # Load necessary data and package.
@@ -2799,7 +2799,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' `vis_seqlogo` is a traditional sequence logo plots. Useful when there are one or two amino acids
 #' with clear differences in their occurrences.
 #'
-#' @param .data Output from the \code{kmer.profile} function.
+#' @param .data Output from the `kmer.profile` function.
 #' @param .replace.zero.with.na if TRUE then replace all zeros with NAs, therefore letters with
 #' zero frequency wont appear at the plot.
 #' @param .scheme Character. An argument passed to [ggseqlogo::geom_logo] specifying how to colour symbols.
@@ -2810,7 +2810,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso \link{getKmers}, \link{kmer_profile}
+#' @seealso [getKmers], [kmer_profile]
 #'
 #' @examples
 #' data(immdata)
@@ -2855,13 +2855,13 @@ vis_seqlogo <- function(.data, .scheme = "chemistry", ...) {
 #'
 #' @concept kmers
 #'
-#' @param .data Kmer data, an output from \link{kmer_profile}.
+#' @param .data Kmer data, an output from [kmer_profile].
 #' @param .plot String specifying the plot type:
 #'
-#' - "seqlogo" for traditional sequence logo plots using \link{vis_seqlogo};
+#' - "seqlogo" for traditional sequence logo plots using [vis_seqlogo];
 #'
-#' - "textlogo" for modified approach to sequence logo plots via text labels using \link{vis_textlogo};
-#' @param ... Other arguments passed to \link{vis_textlogo} or \link{vis_seqlogo}, depending
+#' - "textlogo" for modified approach to sequence logo plots via text labels using [vis_textlogo];
+#' @param ... Other arguments passed to [vis_textlogo] or [vis_seqlogo], depending
 #' on the ".plot" argument.
 #'
 #' @return
@@ -2923,7 +2923,7 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #'
 #' @name vis.immunr_dynamics
 #'
-#' @param .data Output from the \link{trackClonotypes} function.
+#' @param .data Output from the [trackClonotypes] function.
 #' @param .plot Character. Either "smooth", "area" or "line". Each specifies a type of plot for visualisation of clonotype dynamics.
 #' @param .order Numeric or character vector. Specifies the order to samples, e.g., it used for ordering samples
 #' by timepoints. Either See "Examples" below for more details.
@@ -3049,7 +3049,7 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #'
 #' @concept phylip
 #'
-#' @param .data Clonal families from 1 or multiple samples: \code{\link{repClonalFamily}} output.
+#' @param .data Clonal families from 1 or multiple samples: [repClonalFamily()] output.
 #' @param ... Not used here.
 #'
 #' @return
@@ -3095,7 +3095,7 @@ vis.clonal_family <- function(.data, ...) {
 #'
 #' @concept phylip
 #'
-#' @param .data Single clonal family tree data from 1 cluster: 1 element from TreeStats column from \code{\link{repClonalFamily}} output.
+#' @param .data Single clonal family tree data from 1 cluster: 1 element from TreeStats column from [repClonalFamily()] output.
 #' @param ... Not used here.
 #'
 #' @return
