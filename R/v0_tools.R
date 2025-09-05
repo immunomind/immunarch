@@ -189,7 +189,7 @@ add_pb <- function(.pb, .value = 1) {
 #' @section Developer Examples:
 #' mat <- matrix(0, 3, 3)
 #' mat
-#' mat[1, 3] <- 1
+#' mat(1, 3) <- 1
 #' mat <- immunarch:::matrixdiagcopy(mat)
 #' mat
 matrixdiagcopy <- function(.mat) {
@@ -362,7 +362,7 @@ rename_column <- function(.data, .old, .new) {
 #' @param .diag Either NA for NA or something else != NULL for .fun(x,x).
 #' @param .verbose if TRUE then output a progress bar.
 #'
-#' @return Matrix with values M[i,j] = fun(datalist[i], datalist[j])
+#' @return Matrix with values M(i,j) = fun(datalist(i), datalist(j))
 #'
 #' @examples
 #' data(immdata)
@@ -510,7 +510,7 @@ apply_to_sample_or_list <- function(.data, .function, .with_names = FALSE, .vali
     }
     if (.with_names) {
       .data %<>%
-        purrr::imap(function(sample_data, sample_name) {
+        imap(function(sample_data, sample_name) {
           sample_data %>%
             as_tibble() %>%
             .function(..., sample_name = sample_name)
@@ -624,7 +624,7 @@ require_system_package <- function(executable_names,
   if (.nofail & .prev_failed) {
     return(FALSE)
   }
-  package_not_exist <- all(unlist(purrr::map(Sys.which(executable_names), identical, "")))
+  package_not_exist <- all(unlist(map(Sys.which(executable_names), identical, "")))
   if (package_not_exist) {
     if (.nofail) {
       cat(error_message)

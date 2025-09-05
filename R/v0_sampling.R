@@ -22,6 +22,9 @@
 #' @aliases repSample
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Sample (downsample) repertoires using different approches.
 #'
 #' @param .data The data to be processed. Can be [data.frame],

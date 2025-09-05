@@ -63,7 +63,7 @@ top <- function(.data, .n = 10) {
 #' outofframes(.data)
 #'
 #' @param .data The data to be processed. Can be [data.frame],
-#' [data.table], or a list of these objects.
+#' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
 #' [immunarch_data_format]

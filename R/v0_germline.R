@@ -5,7 +5,6 @@
 #' @aliases repGermline
 #'
 #' @importFrom stringr str_sub str_length str_replace fixed str_extract_all str_extract boundary str_c
-#' @importFrom purrr imap map_dfr
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom dplyr filter rowwise
 #' @importFrom tidyselect any_of

@@ -3,7 +3,6 @@
 #' @concept distance
 #'
 #' @importFrom stringdist stringdistmatrix
-#' @importFrom purrr map pmap map2
 #' @importFrom magrittr %>% %<>% set_attr
 #' @importFrom tidyr unite
 #' @importFrom dplyr select_if group_keys group_map group_by group_by_at
@@ -55,7 +54,7 @@
 #'
 #' data(immdata)
 #' # Reducing data to save time on examples
-#' immdata$data <- purrr::map(immdata$data, ~ .x %>% head(10))
+#' immdata$data <- map(immdata$data, ~ .x %>% head(10))
 #' # Computing hamming distance for the first two repertoires in `'immdata'`
 #' seqDist(immdata$data[1:2])
 #'

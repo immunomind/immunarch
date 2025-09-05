@@ -2,13 +2,13 @@
 #'
 #' @concept seq_cluster
 #'
-#' @importFrom purrr map map_lgl map_chr map2 map2_chr map_df map2_lgl pmap map2_df
 #' @importFrom magrittr %>% %<>%
 #' @importFrom reshape2 melt
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join
 #' @importFrom reshape2 melt
 #' @importFrom tibble rownames_to_column
 #' @importFrom glue glue
+#' @importFrom purrr map_chr
 #'
 #' @description
 #'
@@ -100,7 +100,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     threshold <- map(seq_length, ~ .x %>% threshold_fun())
     group_values <- map_dfr(dist_list, ~ attr(.x, "group_values"))
     if (all(is.na(grouping_cols))) {
-      protocluster_names <- map_chr(seq_labels, 1)
+      protocluster_names <- purrr::map_chr(seq_labels, 1)
       result_single <- data.frame(
         Sequence = unlist(seq_labels[singleseq_flag]),
         Cluster = paste0(

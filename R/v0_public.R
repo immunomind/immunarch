@@ -128,6 +128,11 @@ publicRepertoire <- pubRep
 #'
 #' @concept pubrep
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
 #' @param .data Public repertoire, an output from [pubRep].
 #'
 #' @return
@@ -245,7 +250,9 @@ publicRepertoireFilter <- pubRepFilter
 #'
 #' @aliases pubRepApply publicRepertoireApply
 #'
-#' @description Work In Progress
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
 #'
 #' @param .pr1 First public repertoire.
 #' @param .pr2 Second public repertoire.

@@ -17,7 +17,6 @@ if (getRversion() >= "2.15.1") {
 #' @concept io
 #'
 #' @importFrom readr read_delim read_tsv read_csv col_integer col_character col_double col_logical col_guess cols write_lines
-#' @importFrom jsonlite read_json
 #' @importFrom stringr str_split str_detect str_replace_all str_trim
 #' @importFrom methods as
 #' @importFrom dplyr contains first select_ group_by_at one_of row_number
@@ -175,7 +174,6 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
         catt = parse_catt,
         rtcr = parse_rtcr,
         imseq = parse_imseq,
-        vidjil = parse_vidjil,
         NA
       )
 
@@ -434,7 +432,6 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #'
 #' @importFrom utils packageVersion
 #' @importFrom plyr mapvalues
-#' @importFrom purrr map
 #'
 #' @description
 #'
@@ -460,7 +457,7 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' @examples
 #' data(immdata)
 #' # Reduce data to save time on examples
-#' immdata$data <- purrr::map(immdata$data, ~ .x %>% head(10))
+#' immdata$data <- map(immdata$data, ~ .x %>% head(10))
 #' dirpath <- tempdir()
 #' # Save the list of repertoires
 #' repSave(immdata, dirpath)

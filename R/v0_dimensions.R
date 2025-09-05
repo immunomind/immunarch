@@ -28,9 +28,9 @@ default_scale_fun <- function(x) {
 #'
 #' - `immunr_pca` performs PCA (Principal Component Analysis) using [prcomp];
 #'
-#' - `immunr_mds` performs MDS (Multi-Dimensional Scaling) using [isoMDS][MASS::isoMDS];
+#' - `immunr_mds` performs MDS (Multi-Dimensional Scaling) using isoMODS from MASS package.
 #'
-#' - `immunr_tsne` performs tSNE (t-Distributed Stochastic Neighbour Embedding) using [Rtsne][Rtsne::Rtsne].
+#' - `immunr_tsne` performs tSNE (t-Distributed Stochastic Neighbour Embedding) using Rtsne Rtsne package.
 #'
 #' @usage
 #'
@@ -45,7 +45,7 @@ default_scale_fun <- function(x) {
 #' @param .scale A function to apply to your data before passing it to any of
 #' dimensionality reduction algorithms. There is no scaling by default.
 #'
-#' @param .perp The perplexity parameter for [Rtsne][Rtsne::Rtsne]. Specifies the number
+#' @param .perp The perplexity parameter for Rtsne. Specifies the number
 #' of neighbors each data point must have in the resulting plot.
 #'
 #' @param .raw If TRUE then returns the non-processed output from dimensionality reduction
@@ -56,14 +56,14 @@ default_scale_fun <- function(x) {
 #'
 #' @param .dist If TRUE then assumes that ".data" is a distance matrix.
 #'
-#' @param ... Other parameters passed to [Rtsne][Rtsne::Rtsne].
+#' @param ... Other parameters passed to Rtsne.
 #'
 #' @return
 #' `immunr_pca` - an output from [prcomp].
 #'
-#' `immunr_mds` - an output from [isoMDS][MASS::isoMDS].
+#' `immunr_mds` - an output from isoMDS.
 #'
-#' `immunr_tsne` - an output from \[Rtsne][Rtsne::Rtsne].
+#' `immunr_tsne` - an output from Rtsne.
 #'
 #' @seealso [vis.immunr_pca] for visualisations.
 #'
@@ -103,6 +103,10 @@ immunr_pca <- function(.data, .scale = default_scale_fun, .raw = TRUE, .orig = F
 }
 
 immunr_mds <- function(.data, .scale = default_scale_fun, .raw = TRUE, .orig = FALSE, .dist = TRUE) {
+  if (!requireNamespace("MASS", quietly = TRUE)) {
+    stop("Package 'MASS' is required for this function. Please install it first via `pak::pkg_install('MASS')`", call. = FALSE)
+  }
+
   if (.dist) {
     .data <- as.dist(.scale(.data))
   } else {
@@ -129,6 +133,10 @@ immunr_mds <- function(.data, .scale = default_scale_fun, .raw = TRUE, .orig = F
 }
 
 immunr_tsne <- function(.data, .perp = 1, .dist = TRUE, ...) {
+  if (!requireNamespace("Rtsne", quietly = TRUE)) {
+    stop("Package 'Rtsne' is required for this function. Please install it first via `pak::pkg_install('Rtsne')`", call. = FALSE)
+  }
+
   if (.dist) {
     data_proc <- as.dist(.data)
   } else {

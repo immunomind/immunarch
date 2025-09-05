@@ -191,11 +191,9 @@ geneUsage <- function(.data, # df, list, MonetDB
 
 #' WIP
 #'
-#' @concept gene_usage
+#' @concept data
 #'
 #' @importFrom dplyr n
-#'
-#' @aliases gene_stats
 #'
 #' @return
 #' `gene_stats` returns all segment gene statistics

@@ -12,50 +12,67 @@ if (getRversion() >= "2.15.1") {
   ))
 }
 
-theme_pubr <- function (base_size = 12, base_family = "", border = FALSE, margin = TRUE,
-          legend = c("top", "bottom", "left", "right", "none"), x.text.angle = 0)
-{
-  half_line <- base_size/2
-  if (!is.numeric(legend))
+theme_pubr <- function(base_size = 12, base_family = "", border = FALSE, margin = TRUE,
+                       legend = c("top", "bottom", "left", "right", "none"), x.text.angle = 0) {
+  half_line <- base_size / 2
+  if (!is.numeric(legend)) {
     legend <- match.arg(legend)
-  if (x.text.angle > 5)
+  }
+  if (x.text.angle > 5) {
     xhjust <- 1
-  else xhjust <- NULL
+  } else {
+    xhjust <- NULL
+  }
   if (border) {
-    panel.border <- element_rect(fill = NA, colour = "black",
-                                 size = 0.7)
+    panel.border <- element_rect(
+      fill = NA, colour = "black",
+      size = 0.7
+    )
     axis.line <- element_blank()
-  }
-  else {
+  } else {
     panel.border <- element_blank()
-    axis.line = element_line(colour = "black", size = 0.5)
+    axis.line <- element_line(colour = "black", size = 0.5)
   }
-  if (margin)
-    plot.margin <- margin(half_line, half_line, half_line,
-                          half_line)
-  else plot.margin <- unit(c(0.5, 0.3, 0.3, 0.3), "mm")
+  if (margin) {
+    plot.margin <- margin(
+      half_line, half_line, half_line,
+      half_line
+    )
+  } else {
+    plot.margin <- unit(c(0.5, 0.3, 0.3, 0.3), "mm")
+  }
   .theme <- theme_bw(base_size = base_size, base_family = base_family) %+replace%
-    theme(panel.border = panel.border, panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.line = axis.line,
-          axis.text = element_text(color = "black"), legend.key = element_blank(),
-          strip.background = element_rect(fill = "#F2F2F2",
-                                          colour = "black", size = 0.7), plot.margin = plot.margin,
-          legend.position = legend, complete = TRUE)
-  if (x.text.angle != 0)
-    .theme <- .theme + theme(axis.text.x = element_text(angle = x.text.angle,
-                                                        hjust = xhjust))
+    theme(
+      panel.border = panel.border, panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(), axis.line = axis.line,
+      axis.text = element_text(color = "black"), legend.key = element_blank(),
+      strip.background = element_rect(
+        fill = "#F2F2F2",
+        colour = "black", size = 0.7
+      ), plot.margin = plot.margin,
+      legend.position = legend, complete = TRUE
+    )
+  if (x.text.angle != 0) {
+    .theme <- .theme + theme(axis.text.x = element_text(
+      angle = x.text.angle,
+      hjust = xhjust
+    ))
+  }
   .theme
 }
 
 
-rotate_x_text <- function (angle = 90, hjust = NULL, vjust = NULL, ...)
-{
-  if (missing(hjust) & angle > 5)
+rotate_x_text <- function(angle = 90, hjust = NULL, vjust = NULL, ...) {
+  if (missing(hjust) & angle > 5) {
     hjust <- 1
-  if (missing(vjust) & angle == 90)
+  }
+  if (missing(vjust) & angle == 90) {
     vjust <- 0.5
-  theme(axis.text.x = element_text(angle = angle, hjust = hjust,
-                                   vjust = vjust, ...))
+  }
+  theme(axis.text.x = element_text(
+    angle = angle, hjust = hjust,
+    vjust = vjust, ...
+  ))
 }
 
 
@@ -154,7 +171,11 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @importFrom grDevices colorRampPalette
 #' @importFrom tidyr drop_na
 #'
-#' @description Output from every function in immunarch can be visualised with a
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Output from every function in immunarch can be visualised with a
 #' single function - `vis`. The `vis` automatically detects
 #' the type of the data and draws a proper visualisation. For example, output
 #' from the `repOverlap` function will be identified as repertoire overlap values
@@ -252,7 +273,11 @@ vis <- function(.data, ...) {
 #'
 #' @aliases vis.immunr_ov_matrix vis.immunr_gu_matrix
 #'
-#' @description Visualises matrices with overlap values or gene usage distances among samples.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualises matrices with overlap values or gene usage distances among samples.
 #' For details see the links below.
 #'
 #' @param .data Output from [repOverlap] or [geneUsageAnalysis].
@@ -326,7 +351,11 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #'
 #' @aliases vis_heatmap
 #'
-#' @description Fast and easy visualisations of matrices or data frames
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Fast and easy visualisations of matrices or data frames
 #' with functions based on the ggplot2 package.
 #'
 #' @param .data Input object: a matrix or a data frame.
@@ -454,7 +483,11 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #'
 #' @name vis_heatmap2
 #'
-#' @description Visualise matrices with the functions based on the [pheatmap][pheatmap::pheatmap]
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualise matrices with the functions based on the [pheatmap][pheatmap::pheatmap]
 #' package with minimum amount of arguments.
 #'
 #' @param .data Input matrix. Column names and row names (if presented) will be used as names for labs.
@@ -508,7 +541,11 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
 #'
 #' @name vis_circos
 #'
-#' @description Visualise matrices with the [circlize::chordDiagram] function
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualise matrices with the [circlize::chordDiagram] function
 #' from the circlize package.
 #'
 #' @param .data Input matrix.
@@ -626,6 +663,11 @@ vis_circos <- function(.data, .title = NULL, ...) {
 #'
 #' @importFrom dplyr rename
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
 #' @name vis.immunr_inc_overlap
 #'
 #' @param .data Output from the [repOverlap] function that uses "top" methods.
@@ -724,6 +766,11 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 #'
 #' @name vis.immunr_public_repertoire
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
 #' @param .data Public repertoire, an output from [pubRep].
 #' @param .plot A string specifying the plot type:
 #'
@@ -765,7 +812,11 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #'
 #' @name vis.immunr_public_statistics
 #'
-#' @description Visualise public clonotype frequencies.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualise public clonotype frequencies.
 #'
 #' @param .data Public repertoire - an output from the [pubRep] function.
 #'
@@ -781,7 +832,6 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #' pubRepStatistics(pr) %>% vis()
 #' @export
 vis.immunr_public_statistics <- function(.data, ...) {
-
   if (!requireNamespace("UpSetR", quietly = TRUE)) {
     stop("Package 'UpSetR' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
   }
@@ -798,7 +848,11 @@ vis.immunr_public_statistics <- function(.data, ...) {
 #'
 #' @name vis_public_frequencies
 #'
-#' @description Visualise public clonotype frequencies.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualise public clonotype frequencies.
 #'
 #' @param .data Public repertoire - an output from the [pubRep] function.
 #' @param .by Pass NA if you want to plot samples without grouping.
@@ -894,7 +948,11 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #' @importFrom stats lm
 #' @importFrom patchwork wrap_plots plot_annotation
 #'
-#' @description Visualise correlation of public clonotype frequencies in pairs of repertoires.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualise correlation of public clonotype frequencies in pairs of repertoires.
 #'
 #' @param .data Public repertoire data - an output from the [pubRep] function.
 #'
@@ -1097,7 +1155,11 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #'
 #' @name vis.immunr_gene_usage
 #'
-#' @description Visualise distributions of genes using heatmaps or other plots.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualise distributions of genes using heatmaps or other plots.
 #'
 #' @param .data Output from the [geneUsage] function.
 #'
@@ -1172,7 +1234,11 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
 #'
 #' @name vis_hist
 #'
-#' @description Visualisation of distributions using ggplot2-based histograms.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualisation of distributions using ggplot2-based histograms.
 #'
 #' @param .data Input matrix or data frame.
 #'
@@ -1366,7 +1432,11 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #'
 #' @name vis_box
 #'
-#' @description Visualisation of distributions using ggplot2-based boxplots.
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' Visualisation of distributions using ggplot2-based boxplots.
 #'
 #' @param .data Input matrix or data frame.
 #'
@@ -1545,6 +1615,9 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 #' @concept post_analysis
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Visualisation of the results of hierarchical clustering.
 #' For other clustering visualisations see [vis.immunr_kmeans].
 #'
@@ -1600,6 +1673,9 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' @concept post_analysis
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Visualisation of the results of K-means and DBSCAN clustering.
 #' For hierarhical clustering visualisations see [vis.immunr_hclust].
 #'
@@ -1686,6 +1762,11 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' @concept post_analysis
 #'
 #' @aliases vis.immunr_mds vis.immunr_pca vis.immunr_tsne
+#'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #'
 #' @param .data Output from analysis functions such as [geneUsageAnalysis] or
 #' [immunr_pca], [immunr_mds] or [immunr_tsne].
@@ -1900,7 +1981,11 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #'
 #' @aliases vis.immunr_clonal_prop vis.immunr_homeo vis.immunr_top_prop vis.immunr_tail_prop
 #'
-#' @description An utility function to visualise the output from [repClonality()].
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' An utility function to visualise the output from [repClonality()].
 #'
 #' @importFrom reshape2 melt
 #' @importFrom scales percent
@@ -2088,6 +2173,11 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 #' @concept vis
 #'
 #' @name vis_bar
+#'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #'
 #' @param .data Data to visualise.
 #' @param .by Pass NA if you want to plot samples without grouping.
@@ -2305,7 +2395,12 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #' @concept diversity
 #'
 #' @aliases vis.immunr_chao1 vis.immunr_dxx vis.immunr_rarefaction vis.immunr_div vis.immunr_ginisimp vis.immunr_invsimp vis.immunr_hill
-#' @description An utility function to visualise the output from [repDiversity()].
+#'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' An utility function to visualise the output from [repDiversity()].
 #'
 #' @importFrom reshape2 melt
 #'
@@ -2492,7 +2587,6 @@ vis.immunr_dxx <- function(.data, .by = NA, .meta = NA,
 vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
                                    .mean = TRUE, .errors = TRUE, .log = FALSE,
                                    .labels = TRUE, ...) {
-
   if (!requireNamespace("ggrepel", quietly = TRUE)) {
     stop("Package 'ggrepel' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
   }
@@ -2569,7 +2663,11 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 #' @concept explore
 #'
 #' @aliases vis.immunr_exp_vol vis.immunr_exp_count vis.immunr_exp_len vis.immunr_exp_clones
-#' @description An utility function to visualise the output from [repExplore()].
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' An utility function to visualise the output from [repExplore()].
 #'
 #' @importFrom reshape2 melt
 #'
@@ -2714,6 +2812,9 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #' @name vis.immunr_kmer_table
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Plot a distribution (bar plot) of the most frequent kmers in a data.
 #'
 #' @param .data Data frame with two columns "Kmers" and "Count" or a list with such data frames. See Examples.
@@ -2779,8 +2880,6 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #'
 #' @concept kmers
 #'
-#' @importFrom ggseqlogo geom_logo theme_logo
-#'
 #' @aliases vis_seqlogo vis_textlogo
 #'
 #' @name vis_textlogo
@@ -2791,6 +2890,9 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' vis_seqlogo(.data, .scheme = "chemistry", ...)
 #'
 #' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Plot sequence logo plots for visualising of amino acid motif sequences / profiles.
 #'
 #' `vis_textlogo` plots sequences in a text format - each letter has the same height. Useful when there
@@ -2802,7 +2904,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' @param .data Output from the `kmer.profile` function.
 #' @param .replace.zero.with.na if TRUE then replace all zeros with NAs, therefore letters with
 #' zero frequency wont appear at the plot.
-#' @param .scheme Character. An argument passed to [ggseqlogo::geom_logo] specifying how to colour symbols.
+#' @param .scheme Character. An argument passed to geom_logo from ggseqlogo package specifying how to colour symbols.
 #' @param .width Width for jitter, i.e., how much points will scatter around the verical line. Pass 0 (zero)
 #' to plot points on the straight vertical line for each position.
 #' @param ... Not used here.
@@ -2845,6 +2947,10 @@ vis_textlogo <- function(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...)
 
 #' @export
 vis_seqlogo <- function(.data, .scheme = "chemistry", ...) {
+  if (!requireNamespace("ggseqlogo", quietly = TRUE)) {
+    stop("Package 'ggseqlogo' is required for this function. Please install it first via `pak::pkg_install('ggseqlogo')`", call. = FALSE)
+  }
+
   ggplot() +
     ggseqlogo::geom_logo(.data, method = "custom", col_scheme = .scheme) +
     ggseqlogo::theme_logo()
@@ -2854,6 +2960,11 @@ vis_seqlogo <- function(.data, .scheme = "chemistry", ...) {
 #' Visualise kmer profiles
 #'
 #' @concept kmers
+#'
+#' @description
+#'
+#' #' `r lifecycle::badge('deprecated')`
+#'
 #'
 #' @param .data Kmer data, an output from [kmer_profile].
 #' @param .plot String specifying the plot type:
@@ -2923,6 +3034,11 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #'
 #' @name vis.immunr_dynamics
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
 #' @param .data Output from the [trackClonotypes] function.
 #' @param .plot Character. Either "smooth", "area" or "line". Each specifies a type of plot for visualisation of clonotype dynamics.
 #' @param .order Numeric or character vector. Specifies the order to samples, e.g., it used for ordering samples
@@ -2982,7 +3098,6 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #' vis(tc, .order = sample_order)
 #' @export
 vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .order = NA, .log = FALSE, ...) {
-
   if (!requireNamespace("ggalluvial", quietly = TRUE)) {
     stop("Package 'ggalluvial' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
   }
@@ -3049,8 +3164,14 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #'
 #' @concept phylip
 #'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#'
 #' @param .data Clonal families from 1 or multiple samples: [repClonalFamily()] output.
 #' @param ... Not used here.
+#'
 #'
 #' @return
 #' A ggraph object.
@@ -3094,6 +3215,11 @@ vis.clonal_family <- function(.data, ...) {
 #' Visualise clonal family tree
 #'
 #' @concept phylip
+#'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
 #'
 #' @param .data Single clonal family tree data from 1 cluster: 1 element from TreeStats column from [repClonalFamily()] output.
 #' @param ... Not used here.
@@ -3142,6 +3268,10 @@ vis.clonal_family_tree <- function(.data, ...) {
 
 #' Handler for .nofail argument of pipeline steps that prevents examples from crashing
 #' on computers where certain dependencies are not installed
+#'
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
 #'
 #' @param .data Not used here.
 #' @param ... Not used here.

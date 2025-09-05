@@ -11,7 +11,11 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @importFrom graphics plot
 #'
-#' @description The `fixVis` is a built-in software tool for the manipulation
+#' @description
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' The `fixVis` is a built-in software tool for the manipulation
 #' of plots, such as adjusting title text font and size, axes, and more. It is a powerful
 #' tool designed to produce publication-ready plots with minimal amount of coding.
 #'

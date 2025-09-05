@@ -5,14 +5,11 @@
 #' @aliases repClonalFamily
 #'
 #' @importFrom magrittr %>% %<>% extract2
-#' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
 #' @importFrom stringr str_match str_count fixed str_extract_all str_length str_sub
-#' @importFrom stringi stri_replace_all_fixed
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
 #' @importFrom ape read.tree
-#' @importFrom uuid UUIDgenerate
 #' @importFrom data.table fread
 
 #' @description
@@ -158,12 +155,15 @@ process_cluster <- function(cluster_row, vis_groups) {
 
   fsep <- if (.Platform$OS.type == "windows") "\\" else "/"
   shell <- if (.Platform$OS.type == "windows") "powershell /c " else "sh -c "
-  temp_dir <- file.path(tempdir(check = TRUE), uuid::UUIDgenerate(use.time = FALSE), fsep = fsep)
+
+  temp_dir <- tempfile(pattern = "tempdir_")
   dir.create(temp_dir)
+
   # workaround for phylip: it shows "Unexpected end-of-file" for too short sequence labels;
   # these \t are also used to read outfile as table
   rownames(alignment) %<>% paste0("\t")
   phangorn::write.phyDat(alignment, file.path(temp_dir, "infile", fsep = fsep))
+
   dnapars <- if (Sys.which("phylip") == "") "dnapars" else "phylip dnapars"
   system(
     paste0(shell, "\"cd ", temp_dir, "; ", dnapars, " infile\""),
@@ -373,7 +373,7 @@ convert_nested_to_df <- function(nested_results_list) {
     tibble(Sequences = .)
   df <- nested_results_list %>%
     lapply(rlist::list.remove, c("Tree", "TreeStats", "Sequences")) %>%
-    purrr::map_dfr(~.) %>%
+    map_dfr(~.) %>%
     cbind(tree, tree_stats, sequences)
   # fix column types after dataframe rebuilding
   df[["Trunk.Length"]] %<>% as.integer()

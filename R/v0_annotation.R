@@ -123,7 +123,7 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #' For more information, see the [online tutorial](https://immunarch.com/articles/web_only/v11_db.html).
 #'
 #' @param .data The data to process. It can be a [data.frame], a
-#' [data.table], or a list of these objects.
+#' [data.table::data.table], or a list of these objects.
 #'
 #' Every object must have columns in the immunarch compatible format.
 #' [immunarch_data_format]

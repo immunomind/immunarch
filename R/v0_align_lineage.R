@@ -7,7 +7,6 @@
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom stringr str_extract_all str_sub str_length boundary
 #' @importFrom plyr dlply .
-#' @importFrom purrr map_dfr
 #' @importFrom rlist list.remove
 #' @importFrom ape as.DNAbin clustal
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
@@ -202,7 +201,7 @@ convert_results_to_df <- function(nested_results_list, alignments_list) {
     tibble(Sequences = .)
   df <- nested_results_list %>%
     lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
-    purrr::map_dfr(~.) %>%
+    map_dfr(~.) %>%
     cbind(alignments, sequences)
   return(df)
 }
