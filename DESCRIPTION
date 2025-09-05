@@ -7,10 +7,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-3659-2709")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
     person("Aleksandr A.", "Popov", , role = "aut"),
-    person("Ivan", "Balashov", , role = "aut"),
-    person("Maria", "Samokhina", , role = "aut"),
-    person("Daniel J.", "Moore", , role = "ctb"),
-    person("ImmunoMind", role = c("cph", "fnd"))
+    person("Ivan", "Balashov", , role = "aut")
     )
 Contact: support@immunomind.com
 Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
@@ -27,29 +24,24 @@ BugReports: https://github.com/immunomind/immunarch/issues
 Depends:
     R (>= 4.1.0),
     ggplot2 (>= 3.1.0),
-    immundata (>= 0.0.2.9002),
+    immundata (>= 0.0.3),
     patchwork
 Imports:
-    dplyr (>= 0.8.0),
+    dplyr,
     dtplyr (>= 1.0.0),
     data.table (>= 1.12.6),
     cli,
     pheatmap (>= 1.0.12),
     reshape2 (>= 1.4.2),
     circlize,
-    MASS (>= 7.3),
-    Rtsne (>= 0.15),
     airr,
-    ggseqlogo,
     Rcpp (>= 1.0),
     magrittr,
     methods,
     scales,
     rlang,
     plyr,
-    purrr,
     stringdist,
-    jsonlite,
     readr,
     stringr,
     tibble,
@@ -60,15 +52,12 @@ Imports:
     rlist,
     utils,
     glue,
-    uuid,
-    stringi,
     checkmate,
     duckplyr,
     dbplyr,
-    lifecycle
+    lifecycle,
+    purrr
 LinkingTo: Rcpp
-Remotes:
-    immunomind/immundata-rlang
 Suggests:
     knitr (>= 1.8),
     roxygen2 (>= 3.0.0),
@@ -80,17 +69,23 @@ Suggests:
     fpc,
     ggpubr (>= 0.2),
     ggraph,
+    ggseqlogo,
     igraph,
     phangorn,
     ggalluvial (>= 0.10.0),
     UpSetR (>= 1.4.0),
     ggrepel (>= 0.8.0),
     shiny (>= 1.4.0),
-    shinythemes
+    shinythemes,
+    quarto,
+    MASS (>= 7.3),
+    Rtsne (>= 0.15)
 VignetteBuilder:
+    knitr,
     quarto
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
+Config/Needs/website: rmarkdown
