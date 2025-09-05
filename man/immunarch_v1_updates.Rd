@@ -3,7 +3,7 @@
 \docType{data}
 \name{immunarch_v1_updates}
 \alias{immunarch_v1_updates}
-\title{Some description}
+\title{Get a list of package updates}
 \format{
 An object of class \code{list} of length 1.
 }
@@ -11,6 +11,7 @@ An object of class \code{list} of length 1.
 immunarch_v1_updates
 }
 \description{
-Some description
+Get a list of package updates
 }
+\concept{migration_utility}
 \keyword{datasets}

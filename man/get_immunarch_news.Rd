@@ -24,3 +24,4 @@ If no matching update is found, a warning is issued along with available update 
 \seealso{
 \code{\link[=list_immunarch_news]{list_immunarch_news()}}
 }
+\concept{migration_utility}

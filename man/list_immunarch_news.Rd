@@ -15,3 +15,4 @@ Returns the list of available update keys for immunarch v1.
 \seealso{
 \code{\link[=get_immunarch_news]{get_immunarch_news()}}
 }
+\concept{migration_utility}
