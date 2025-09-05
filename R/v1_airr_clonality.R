@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' A family of functions to quantify **receptor overabundance** per repertoire.
+#' A family of functions to quantify **receptor overabundance** per repertoire. Helps in deciphering the structure and partition the repertoire.
 #'
 #' ## Available functions:
 #'

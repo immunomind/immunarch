@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' A family of functions to quantify **receptor diversity** per repertoire.
+#' A family of functions to quantify **receptor diversity** per repertoire. A characteristic of a whole repertoire.
 #'
 #' ## Available functions:
 #'
