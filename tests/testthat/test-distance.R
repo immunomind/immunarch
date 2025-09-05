@@ -1,5 +1,4 @@
 data(immdata)
-library(purrr)
 short_immdata <- map(immdata$data, ~ .x %>% head(1000)) # smaller sample size saves time in computations
 
 f <- function(x, y) {
