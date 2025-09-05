@@ -1,1 +1,5 @@
 *_files
+drafts*
+
+/.quarto/
+**/*.quarto_ipynb

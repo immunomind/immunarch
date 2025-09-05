@@ -256,20 +256,20 @@ repFilter(scdata, .method = "by.clonotype", .query = list(CDR3.aa = exclude("par
 ```
 
 Create a new dataset with cluster-specific immune repertoires (for more information see *Single-cell* tutorials):
-```{r}
+```{r eval=FALSE}
 scdata_cl <- select_clusters(scdata, scdata$bc_cluster, "Cluster")
 scdata_cl$meta
 ```
 
 And compare the number of clonotypes between clusters:
 
-```{r clonotypes, warnings = F}
+```{r clonotypes, warnings = F, eval=FALSE}
 vis(repExplore(scdata_cl$data, .method = "volume"))
 ```
 
 Compare J gene usage between three clusters:
 
-```{r geneUsage,  warning=F}
+```{r geneUsage,  warning=F, eval=FALSE}
 sc_active <- geneUsage(repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))$data, "hs.trbj", .norm = T)
 p1 <- vis(sc_active)
 p1
@@ -284,7 +284,7 @@ p3
 ```
 
 Compare gene usage of IGHJ4 between three clusters:
-```{r IGHV3, warning=F}
+```{r IGHV3, warning=F, eval=FALSE}
 scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))
 scdata_active <- repFilter(scdata_active, .method = "by.cl", .query = list(J.name = include("IGHJ4")), .match = "substring")
 sc_active <- geneUsage(scdata_active$data, "hs.trbj", .norm = T)
@@ -304,7 +304,7 @@ p1 + p2 + p3
 ```
 
 Look at the coding clonotypes in each cluster. Note that there aren't any noncoding clonotypes in the datasets:
-```{r ORF, warning=F}
+```{r ORF, warning=F, eval=FALSE}
 scdata_active <- repFilter(scdata_cl, .method = "by.meta", .query = list(Cluster = include("Activ")))
 scdata_active <- repFilter(scdata_active, .method = "by.clonotype", .query = list(CDR3.aa = exclude("partial", "out_of_frame")))
 exp_vol <- repExplore(scdata_active$data, .method = "volume")

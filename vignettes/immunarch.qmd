@@ -1,0 +1,196 @@
+---
+title: "Immunarch 1.0 --- introduction and migration from 0.9 version"
+author: "Vadim Nazarov"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    toc: true
+    number-sections: true
+    # theme: none
+    # minimal: true
+vignette: >
+  %\VignetteIndexEntry{Immunarch}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+Install specific version via `pak::pkg_install("immunarch@=0.9.1")`.
+
+Mind that the 0.9.x versions will NOT be supported. If something breaks, if some R package dive into oblivion - it won't be fixed, sorry. So it is highly advised to move to the new 1.0 version ASAP, especially considering that the feature parity will be obtained in months.
+
+However, there is high priority to obrain feature parity, stability and add features for the most common uses case and several complex use cases fcused on immunotherapy development. So please consider switching. Open an issue - I'm willing to help.
+
+why removed vis -> because it brings only a quick value, hides all the complexity so people created issues to adapt the plot, and they are not publication ready plots. So I opt out to remove them, but focus on helping people learn how to visualise stuff. That's why tutorials will have more visualisation examples.
+
+In the future I still plan to provide something using more common approachs via ggplot2::autoplot, but it's out of scope for now.
+
+Short asnwer: great for fast analysis, but as soon as you need something more custom or complex, it becomes too hard to tune and it's easier to write your own from scratch.
+
+# TODO
+
+- [ ] I need to clearly state somewhere the list of v1 functions that use immundata. Maybe here or in the updates
+
+- [ ] lifecycle::deprecated tag for v0 functions
+
+- [ ] Frame the immundata.
+
+- [ ] Link to ImmunData README tutorial somewhere
+
+# Overview
+
+There are three major points related to transformations:
+
+1.  **How immunarch 1.0.0 works with data**\
+2.  **Interface or API changes** (i.e., names and parameters of the functions in immunarch)\
+3.  **Removing / moving some functions to a separate package** to make immunarch easier to install and manage
+
+For more long-term plans, take a look at the final sections. If you’re only interested in what to do **right now**, keep reading below.
+
+------------------------------------------------------------------------
+
+# Major update for the current version: Spring 2025
+
+
+## What Changed and What You Can Do
+
+-   **Removed heavier dependencies** (ggpubr, factoextra, fpc, ggraph, phangorn, igraph, etc.).
+    -   This was partly due to CRAN requirements and overall maintenance overhead.\
+    -   The **good news** is that immunarch now needs \~80 packages to install (down from 184!).\
+    -   If your analysis code relied on these libraries, you can still install them separately.
+-   **Functionality**:
+    -   If you’ve been using immunarch for a while, most immunarch function signatures remain the same.\
+
+    -   If you see errors asking for those removed packages, simply install them manually. For example:
+
+        ``` r
+        install.packages("ggpubr")
+        ```
+
+        Then re-run your analysis.
+-   **immundata Integration**:
+    -   We’re introducing better synergy with Immundata. [See details in the “Scalable and fast data processing” section](#scalable-and-fast-data-processing).\
+    -   You can seamlessly convert older immunarch data objects to the new `ImmunData` format.
+
+### Key Takeaways
+
+-   **Lighter** default install: less “bloat” you don’t need.\
+-   Additional packages can be installed on-demand if your scripts require them.\
+-   You shouldn’t see breaking changes in function usage — **only** in how to handle optional libraries.
+
+------------------------------------------------------------------------
+
+# Next Major Update: Summer 2025
+
+## What Will Be Changed
+
+-   **Refined Data Structures**:
+    -   We plan to unify the internal data structure for single-cell vs. bulk repertoire data.\
+    -   The old `immdata` approach will be replaced or augmented by a more consistent framework.
+-   **Deprecated Functions**:
+    -   Some older convenience wrappers will be marked deprecated.\
+    -   We’ll provide new recommended calls in the console messages.
+-   **Possibly More Dependency Splits**:
+    -   Additional packages (e.g., PCA or tree-based analysis libraries) might move out.\
+    -   A new “immunarch.ext” or similarly named extension package might appear with specialized analyses.
+
+## What Can You Do to Mitigate Risks
+
+1.  **Pin Your Dependencies**
+    -   Use `renv` or a Docker image to lock your environment if you need stable re-runs.\
+2.  **Watch for Deprecation Warnings**
+    -   If you see console messages about “deprecated” or “will be removed in v1.1.0,” update your code ASAP.\
+3.  **Try Out Immundata**
+    -   If you handle complex or large-scale data, consider migrating to `ImmunData` early.\
+    -   [See the “How immunarch 1.0.0 will look” section](#how-immunarch-100-will-look-like) for more details on Immundata synergy.
+
+------------------------------------------------------------------------
+
+# Future Major Updates: Autumn-Winter 2025
+
+## What Will Be Changed
+
+-   **Deeper Integration with Immundata**
+    -   We plan to store certain immunarch metadata in `ImmunData` structures by default.\
+    -   One possibility: all immunarch pipeline steps become “ImmunData” transformations under the hood.
+-   **Performance Overhaul**
+    -   We may adopt new backends (DuckDB, Polars) for bigger data sets.\
+    -   This may involve changes to how custom analysis scripts are written.
+
+## What Can You Do to Mitigate Risks
+
+1.  **Stay Updated**
+    -   Subscribe to the immunarch newsletter or GitHub releases to see upcoming changes.\
+2.  **Adopt the “New Way” Early**
+    -   If you see a function is overshadowed by a newer `ImmunData`-based alternative, switch now.\
+3.  **Check Release Notes**
+    -   We post details on the migration paths, including function renaming or column renaming.
+
+------------------------------------------------------------------------
+
+# How immunarch 1.0.0 Will Look Like
+
+## Why Do We Even Need 1.0.0?
+
+-   **Outdated code** that’s hard to maintain, especially in an academic environment where developer turnover is high.\
+-   **Improved code culture**: adopting best practices, standard data structures, consistent naming.\
+-   **User feedback**: Many users asked for more scalable and flexible pipelines.
+
+### High-Level Goals
+
+1.  **More maintainable code** base.
+2.  **Less friction** with environment setups.
+3.  **Consistent syntax** and naming conventions.
+
+## Scalable and Fast Data Processing {#scalable-and-fast-data-processing}
+
+-   **Lazy Backends**: We’re exploring or partially implementing backends like DuckDB or Arrow.
+    -   Potential performance boosts for big repertoires.\
+    -   Immundata is designed to be backend-agnostic.\
+-   **Parallelization**: Where possible, certain immarch steps will parallelize out-of-the-box.
+
+### How Immundata Helps
+
+-   We introduced [Immundata](https://github.com/yourrepo/immundata) to unify TCR/BCR data.\
+-   `ImmunData` objects can seamlessly handle single-cell or bulk data in a single pipeline.\
+-   The biggest advantage is the **unified schema** (receptor, annotations, repertoire definitions).
+
+## Lighter Interface
+
+-   Reducing hidden dependencies means fewer manual installs.\
+-   Possibly removing large plotting packages from the core install.\
+-   You’ll see many advanced visualizations in optional extension modules.
+
+## Modularizing the Ecosystem
+
+-   In the near future, we plan to have:
+    -   **immunarch.core**: essential data processing.\
+    -   **immunarch.plots**: advanced visualization.\
+    -   **immunarch.bioinfo**: alignment, clonotype assignment, etc.\
+-   Each sub-package can be installed only if you need that functionality.
+
+------------------------------------------------------------------------
+
+# Proposed Outline / Sections to Expand Further
+
+1.  **Installation Details**
+    -   Precisely how to install or upgrade to immunarch 1.0.0.\
+    -   Example: `install.packages("immunarch")` (once it’s on CRAN).\
+2.  **Detailed Migration Steps**
+    -   If you used old code, step-by-step instructions (like “Replace `immdata$data[[i]]` with `ImmunData$new(...)`”).\
+    -   Potential script transformation examples.\
+3.  **FAQ**
+    -   “I see errors about missing packages?” → install them.\
+    -   “Where can I find the old plot() function?” → in `immunarch.plots`.\
+4.  **Future “Beta” or “Dev” versions**
+    -   Encourage users to test the dev branch if they want the newest changes.\
+5.  **In-depth Immundata Demonstrations**
+    -   Show how to create an `ImmunData` from a typical immunarch object.\
+    -   Show how to use Immundata’s new filter or aggregation pipelines.
+
+------------------------------------------------------------------------
+
+# Conclusion
+
+immunarch 1.0.0 is a major step in making immune repertoire analysis **lighter**, **faster**, and **easier to maintain**. While many changes revolve around removing heavy dependencies, the core **user experience** should remain familiar. For large or advanced analyses, consider exploring **Immundata** to leverage its robust data structure and efficient transformations.
+
+Stay tuned for more updates in **Summer 2025** and **Autumn-Winter 2025**, and don’t hesitate to **reach out** on GitHub or our user forum if you have questions or encounter migration issues.

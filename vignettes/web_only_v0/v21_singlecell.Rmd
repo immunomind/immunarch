@@ -84,7 +84,7 @@ head(igdata$data[[1]][c(1:7, 16, 17)])
 
 To subset the data by barcodes, use the `select_barcodes` function.
 
-```{r}
+```{r, eval=FALSE}
 barcodes <- c("AGTAGTCAGTGTACTC-1", "GGCGACTGTACCGAGA-1", "TTGAACGGTCACCTAA-1")
 
 new_df <- select_barcodes(scdata$data[[1]], barcodes)
@@ -96,7 +96,7 @@ new_df
 
 To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function:
 
-```{r}
+```{r, eval=FALSE}
 scdata_pat <- select_clusters(scdata, scdata$bc_patient, "Patient")
 
 names(scdata_pat$data)
@@ -108,7 +108,7 @@ scdata_pat$meta
 
 To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function. You can apply this function after you created patient-specific datasets to get patient-specific cell cluster-specific immune repertoires, e.g., a Memory B Cell repertoire for a specific patient:
 
-```{r}
+```{r, eval=FALSE}
 scdata_cl <- select_clusters(scdata_pat, scdata$bc_cluster, "Cluster")
 
 names(scdata_cl$data)
@@ -120,7 +120,7 @@ scdata_cl$meta
 
 Most functions will work out-of-the-box with paired chain data.
 
-```{r}
+```{r, eval=FALSE}
 p1 <- repOverlap(scdata_cl$data) %>% vis()
 p2 <- repDiversity(scdata_cl$data) %>% vis()
 

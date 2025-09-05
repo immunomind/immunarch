@@ -94,7 +94,7 @@ B-cell **clonal lineage** represents a set of B cells that presumably have a com
 
 An example of reconstructing clonal lineages using default Immunarch options:
 
-```{r example 2}
+```{r example 2, eval=FALSE}
 #calulate distance matrix
 distBCR <- seqDist(bcrdata$data %>% top(500))
 
@@ -108,7 +108,7 @@ Each clonal lineage has its own **germline sequence** that represents the ancest
 
 In Immunarch, `repGermline()` function generates germline for each sequence:
 
-```{r example 3, results = 'hide'}
+```{r example 3, results = 'hide', eval=FALSE}
 #generate germline
 bcrdata$data %>%
     repGermline(.threads = 1)
@@ -116,7 +116,7 @@ bcrdata$data %>%
 
 A germline is represented via sequences of V gene - N...N (CDR3 length) - J gene:
 
-```{r example 4}
+```{r example 4, eval=FALSE}
 #germline example
 bcrdata$data %>%
      top(1) %>%
@@ -151,7 +151,7 @@ sudo apt install clustalw
 
 `repAlignLineage` usage example:
 
-```{r example 7, results = 'hide'}
+```{r example 7, results = 'hide', eval=FALSE}
 data(bcrdata)
 bcr_data <- bcrdata$data %>% top(500)
 bcr_data %>%
@@ -164,7 +164,7 @@ The function has several parameters:
 
 - `.min_lineage_sequences` — Filters clusters (clonal lineages) with the number of clonotypes lower than the threshold. Aligning clonal lineages with few sequences is of little use.
 
-```{r example 8, results = 'hide'}
+```{r example 8, results = 'hide', eval=FALSE}
 # take clusters that contain at least 1 sequence
 bcr_data <- bcrdata$data
 align_dt <- bcr_data %>%
@@ -185,7 +185,7 @@ Requirements for the input table for `repAlignLineage()`
 
 Align sequences in a cluster can be visualized using standard functions:
 
-```{r align visualisation}
+```{r align visualisation, eval=FALSE}
 # A name of the first cluster
 align_dt$full_clones$Cluster[[1]]
 
@@ -217,7 +217,7 @@ sudo apt-get install -y phylip
 
 repClonalFamily usage example:
 
-```{r example 10, results = 'hide'}
+```{r example 10, results = 'hide', eval=FALSE}
 bcr <- align_dt %>%
   repClonalFamily(.threads = 2, .nofail = TRUE)
 #plot visualization of the first tree
@@ -225,14 +225,14 @@ vis(bcr[["full_clones"]][["TreeStats"]][[1]])
 ```
 For each cluster tree is represented as table (The default number of clones for CommonAncestor, Germline, Presumable is 1):
 
-```{r example 10.1, results = 'hide'}
+```{r example 10.1, results = 'hide', eval=FALSE}
 #example for the first tree
 bcr[["full_clones"]][["TreeStats"]][[1]]
 ```
 
 You can recolor leaves. For example, we recolor leaves where number of AA mutations is not 0:
 
-```{r example 10.3, results = 'hide'}
+```{r example 10.3, results = 'hide', eval=FALSE}
 #take sequence where number of AA mutations is not 0
 f <- bcr[["full_clones"]][["TreeStats"]][[1]]
 #rename these leaves
@@ -243,7 +243,7 @@ vis(f)
 
 Another way to recolor leaves is to use `.vis_groups` parameter for repClonalFamily. It allows to assign group names for specific clone IDs, or lists of clone IDs:
 
-```{r example 10.4, results = 'hide'}
+```{r example 10.4, results = 'hide', eval=FALSE}
 #get all clone IDs from align_dt
 clone_ids <- unnest(align_dt[["full_clones"]], "Sequences")[["Clone.ID"]]
 #run repClonalFamily with assigning some of these clones to differently named and colored groups
@@ -261,13 +261,13 @@ vis(bcr_with_groups[["full_clones"]][["TreeStats"]][[1]])
 
 We have found 4 clusters:
 
-```{r example 11, warning = FALSE}
+```{r example 11, warning = FALSE, eval=FALSE}
 bcr$full_clones$Cluster %>% unique()
 ```
 
 We have found mismatches between a germline and an ancestor sequence. Dots represent nucleotides matches between the sequences, letters represent mismatches between the sequences:
 
-```{r example 12}
+```{r example 12, eval=FALSE}
 # the example of common ancestor sequence
 bcr$full_clones$Common.Ancestor[1]
 
@@ -277,13 +277,13 @@ bcr$full_clones$Germline.Output[1]
 
 We have calculated a trunk length for each cluster:
 
-```{r example 13}
+```{r example 13, eval=FALSE}
 bcr$full_clones[ , c('Cluster', 'Trunk.Length') ]
 ```
 
 Also trunk length specified in "TreeStats" table in column "DistanceNT".
 
-```{r example 10.2, results = 'hide'}
+```{r example 10.2, results = 'hide', eval=FALSE}
 #example fot first tree
 bcr[["full_clones"]][["TreeStats"]][[1]][1, ]
 ```
@@ -294,7 +294,7 @@ The rate of somatic hypermutation allows us to estimate repertoire maturation an
 
 In Immunarch, `repSomaticHypermutation()` function is designed for hypermutation analysis:
 
-```{r example 14, , warning = FALSE}
+```{r example 14, , warning = FALSE, eval=FALSE}
 bcr_data <- bcrdata$data
 
 shm_data <- bcr %>% repSomaticHypermutation(.threads = 2, .nofail = TRUE)
@@ -304,7 +304,7 @@ The function repSomaticHypermutation() takes V and J germline sequences and V an
 
 Examples of germline and clonotype sequences:
 
-```{r example 15}
+```{r example 15, eval=FALSE}
 full_clones <- shm_data$full_clones
 v_length <- nchar(paste(full_clones[1, "FR1.nt"], full_clones[1, "CDR1.nt"],
  full_clones[1, "FR2.nt"], full_clones[1, "CDR2.nt"], full_clones[1, "FR3.nt"], collapse=""))
@@ -326,26 +326,26 @@ full_clones$Sequence[1] %>% substr(seq_length - j_length, seq_length)
 
 Example: aligning germline and clonotype V sequences:
 
-```{r example 16}
+```{r example 16, eval=FALSE}
 image(shm_data$full_clones$Germline.Alignment.V[[3]], grid = TRUE)
 ```
 
 Example: aligning germline and clonotype J sequences:
 
-```{r example 17}
+```{r example 17, eval=FALSE}
 image(shm_data$full_clones$Germline.Alignment.J[[3]], grid = TRUE)
 ```
 
 The number of mutations for each clonotype sequence:
 
-```{r example 18}
+```{r example 18, eval=FALSE}
 cols <- c('Clone.ID', 'Substitutions', 'Insertions', 'Deletions', 'Mutations')
 shm_data$full_clones[ , cols ]
 ```
 
 Then you could easily estimate the mutation rate:
 
-```{r example 19}
+```{r example 19, eval=FALSE}
 # estimate mutation rate
 shm_data$full_clones %>%
   mutate(Mutation.Rate = Mutations / (nchar(Sequence) - nchar(CDR3.nt))) %>%
