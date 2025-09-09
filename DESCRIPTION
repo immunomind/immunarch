@@ -1,6 +1,6 @@
 Package: immunarch
 Type: Package
-Title: Data-Driven Immune Repertoire Insights for Immunotherapy and Vaccine Design
+Title: Multi-Modal Immune Repertoire Analytics for Immunotherapy and Vaccine Design in R
 Version: 0.9.1.9001
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "support@immunomind.com", role = c("aut", "cre"),
@@ -10,14 +10,14 @@ Authors@R: c(
     person("Ivan", "Balashov", , role = "aut")
     )
 Contact: support@immunomind.com
-Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
-    T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
-    visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
-    and single-cell sequencing (scRNAseq). Immunarch implements most of the widely used AIRR analysis methods,
-    such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes
-    and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
-    databases and clonotype tracking in vaccination and cancer studies. A successor to our
-    previously published 'tcR' immunoinformatics package (Nazarov 2015) <doi:10.1186/s12859-015-0613-1>.
+Description: A comprehensive analytics framework for building reproducible pipelines on T-cell and B-cell immune receptor repertoire data.
+    Delivers multi-modal immune profiling (bulk, single-cell, CITE-seq/AbSeq, spatial, immunogenicity data), 
+    feature engineering (ML-ready feature tables and matrices), and biomarker discovery workflows
+    (cohort comparisons, longitudinal tracking, repertoire similarity, enrichment). 
+    Provides a user-friendly interface to widely used AIRR methods — 
+    clonality/diversity, V(D)J usage, similarity, annotation, tracking, and many more.
+    Think Scanpy or Seurat, but for AIRR data, a.k.a. Adaptive Immune Receptor Repertoire, VDJ-seq, RepSeq, or 
+    VDJ sequencing data. A successor to our previously published "tcR" R package (Nazarov 2015).
 License: Apache License (== 2.0)
 URL: https://immunarch.com/, https://github.com/immunomind/immunarch
 BugReports: https://github.com/immunomind/immunarch/issues
@@ -53,10 +53,11 @@ Imports:
     utils,
     glue,
     checkmate,
-    duckplyr,
+    duckplyr (>= 1.1.0),
     dbplyr,
     lifecycle,
-    purrr
+    purrr,
+    stats
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),
@@ -84,7 +85,7 @@ VignetteBuilder:
     knitr,
     quarto
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
