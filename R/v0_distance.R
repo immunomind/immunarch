@@ -51,7 +51,7 @@
 #' Named list of list with [dist] objects for given repertoires for each combination of .group_by variable(s) and/or sequence length of .col.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' data(immdata)
 #' # Reducing data to save time on examples
 #' immdata$data <- map(immdata$data, ~ .x %>% head(10))
@@ -71,6 +71,8 @@
 #' }
 #'
 #' seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
+#' }
+#'
 #' @export seqDist
 
 seqDist <- function(.data,

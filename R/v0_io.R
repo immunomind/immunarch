@@ -455,6 +455,7 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' @return No return value.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' # Reduce data to save time on examples
 #' immdata$data <- map(immdata$data, ~ .x %>% head(10))
@@ -466,6 +467,7 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' # sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
 #' # sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
 #' # sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
+#' }
 #' @export repSave
 repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
                     .compress = TRUE) {

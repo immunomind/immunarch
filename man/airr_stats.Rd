@@ -36,7 +36,8 @@ airr_stats_genes(
 \arguments{
 \item{idata}{An \code{ImmunData} object.}
 
-\item{locus_col}{Column in \code{idata$annotations} that stores the locus (e.g. \code{"locus"}). If \code{NULL} or missing, the result is not split by locus.}
+\item{locus_col}{Column in \code{idata$annotations} that stores the locus (e.g.
+\code{"locus"}). If \code{NULL} or missing, the result is not split by locus.}
 
 \item{autojoin}{If TRUE, join repertoire metadata by the schema repertoire id.
 For \code{format="analysis"}, metadata is joined to the long table; for
@@ -51,15 +52,16 @@ columns, and \code{value}) or \code{"ml"} (wide/unmelted table of features).}
 looks like \verb{family.method|facet1=...;facet2=...} (e.g.,
 \code{airr_stats.genes|v_call=TRBV7-2}).}
 
-\item{seq_col}{Character vector with names of the columns containing sequences.}
+\item{seq_col}{Character vector with names of the columns containing
+sequences.}
 
 \item{gene_col}{A single column name in \code{idata$annotations} with gene segment
 calls (e.g., \code{"v_call"}, \code{"d_call"}, \code{"j_call"}, \code{"c_call"}). Default is
 \code{"v_call"}.}
 
 \item{level}{One of \code{"receptor"} or \code{"barcode"}. If \code{"receptor"} (default),
-the function counts \strong{unique receptors} (one per receptor ID) that carry
-a given gene segment. If \code{"barcode"}, the function \strong{sums counts} (e.g.,
+the function counts \strong{unique receptors} (one per receptor ID) that carry a
+given gene segment. If \code{"barcode"}, the function \strong{sums counts} (e.g.,
 cells/UMIs) per gene segment using the column defined by
 \code{immundata::imd_schema("count")}.}
 
@@ -69,9 +71,7 @@ is further split by the locus column if present (as given by
 split is ignored.}
 }
 \value{
-\subsection{\code{airr_stats_chains}}{
-
-Returns a tibble with columns:
+\subsection{\code{airr_stats_chains} Returns a tibble with columns:}{
 \itemize{
 \item \code{repertoire_id} -- repertoire identifier
 \item \code{locus} -- TRA, TRB, IGH … (present only if \code{locus_col} is supplied)
@@ -79,9 +79,7 @@ Returns a tibble with columns:
 }
 }
 
-\subsection{\code{airr_stats_lengths}}{
-
-Returns a tibble with columns:
+\subsection{\code{airr_stats_lengths} Returns a tibble with columns:}{
 \itemize{
 \item \code{repertoire_id} -- repertoire identifier
 \item \code{seq_len} -- lengths of sequences
@@ -89,9 +87,7 @@ Returns a tibble with columns:
 }
 }
 
-\subsection{\code{airr_stats_genes}}{
-
-A tibble with columns:
+\subsection{\code{airr_stats_genes} A tibble with columns:}{
 \itemize{
 \item \code{repertoire_id} — repertoire identifier
 \item \emph{(optional)} \code{locus} — TRA, TRB, IGH … (present only when \code{by = "locus"}
@@ -109,18 +105,34 @@ and the locus column exists)
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 A family of functions that extract \strong{core descriptive statistics} from an \code{ImmunData} object.
-\subsection{Available functions:}{
+\subsection{Available functions}{
+
+Supported methods are the following.
 }
 
-\code{airr_stats_chains} --- count V(D)J \emph{chains} per repertoire (optionally split by locus). WHY USEFUL / APPLICATION?
+\code{airr_stats_chains} --- count V(D)J \emph{chains} per repertoire
+(optionally split by locus). Quickly gauges capture depth per repertoire
+and, when split by locus, reveals TRA/TRB/IGH balance. Use it for QC,
+library-size checks, and to spot locus-specific dropouts or
+over-representation.
 
-\code{airr_stats_lengths} --- count the number of sequence lengths per repertoire. WHY USEFUL / APPLICATION?
+\code{airr_stats_lengths} --- count the number of sequence lengths
+per repertoire. Summarizes the CDR3 length distribution, a sensitive QC
+fingerprint of repertoire prep and selection. Helpful for detecting
+primer/UMI biases, comparing cohorts, and deriving length-based features for
+models.
 
 \code{airr_stats_genes} — count V(D)J gene segments per repertoire,
 optionally split by locus and using either receptor counts or barcode/UMI
-counts as the measure. WHY USEFUL / APPLICATION?
+counts as the measure. Profiles V/D/J gene usage to characterize repertoire
+composition and germline biases, with optional locus split. Useful for
+cohort comparisons, flagging clonal expansions, and producing ML-ready
+features for repertoire-level ML tasks.
 }
 \examples{
+# Load data
+immdata <- get_test_idata() |> agg_repertoires("Therapy")
+
 #
 # airr_stats_chains
 #

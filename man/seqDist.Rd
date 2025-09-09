@@ -45,7 +45,7 @@ Named list of list with \link{dist} objects for given repertoires for each combi
 Computing sequential distances between clonotypes from two repertoires:
 }
 \examples{
-
+\dontrun{
 data(immdata)
 # Reducing data to save time on examples
 immdata$data <- map(immdata$data, ~ .x \%>\% head(10))
@@ -65,5 +65,7 @@ f <- function(x, y) {
 }
 
 seqDist(immdata$data[1:2], .method = f, .group_by_seqLength = FALSE)
+}
+
 }
 \concept{distance}

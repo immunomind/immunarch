@@ -5,7 +5,9 @@
 #'
 #' A family of functions to quantify **public or shared receptors** between repertoire.
 #'
-#' ## Available functions:
+#' ## Available functions
+#'
+#' Supported methods are the following.
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams airr_public_intersection
@@ -13,6 +15,10 @@
 #' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
+#'
+#' @examples
+#' # Load data
+#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #'
 #' @name airr_public
 #' @concept Public indices

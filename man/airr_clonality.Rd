@@ -104,8 +104,10 @@ If \code{output = "annot"}: an \code{ImmunData} object where \code{annotations} 
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions to quantify \strong{receptor overabundance} per repertoire.
-\subsection{Available functions:}{
+A family of functions to quantify \strong{receptor overabundance} per repertoire. Helps in deciphering the structure and partition the repertoire.
+\subsection{Available functions}{
+
+Supported methods are the following.
 }
 
 \code{airr_clonality_line} — build ranked abundance lines: for each
@@ -122,6 +124,9 @@ Each receptor is assigned to a named bin according to its \code{proportion}
 descending order; unmatched receptors fall into \code{"Ultra-rare"}.
 }
 \examples{
+# Load data
+immdata <- get_test_idata() |> agg_repertoires("Therapy")
+
 #
 # airr_clonality_line
 #

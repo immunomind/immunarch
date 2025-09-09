@@ -5,7 +5,9 @@
 #'
 #' A family of functions that extract **core descriptive statistics** from an `ImmunData` object.
 #'
-#' ## Available functions:
+#' ## Available functions
+#'
+#' Supported methods are the following.
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams airr_stats_chains
@@ -14,6 +16,10 @@
 #' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
+#'
+#' @examples
+#' # Load data
+#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #'
 #' @name airr_stats
 #' @concept Key AIRR statistics
@@ -58,14 +64,18 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
 }
 
 
-#' @description `airr_stats_chains` --- count V(D)J *chains* per repertoire (optionally split by locus). WHY USEFUL / APPLICATION?
+#' @description `airr_stats_chains` --- count V(D)J *chains* per repertoire
+#'   (optionally split by locus). Quickly gauges capture depth per repertoire
+#'   and, when split by locus, reveals TRA/TRB/IGH balance. Use it for QC,
+#'   library-size checks, and to spot locus-specific dropouts or
+#'   over-representation.
 #'
-#' @param locus_col Column in `idata$annotations` that stores the locus (e.g. `"locus"`). If `NULL` or missing, the result is not split by locus.
+#' @param locus_col Column in `idata$annotations` that stores the locus (e.g.
+#'   `"locus"`). If `NULL` or missing, the result is not split by locus.
 #'
 #' @return
 #'
-#' ## `airr_stats_chains`
-#' Returns a tibble with columns:
+#' ## `airr_stats_chains` Returns a tibble with columns:
 #' * `repertoire_id` -- repertoire identifier
 #' * `locus` -- TRA, TRB, IGH … (present only if `locus_col` is supplied)
 #' * `n_chains` -- number of chains
@@ -96,14 +106,18 @@ airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
 }
 
 
-#' @description `airr_stats_lengths` --- count the number of sequence lengths per repertoire. WHY USEFUL / APPLICATION?
+#' @description `airr_stats_lengths` --- count the number of sequence lengths
+#' per repertoire. Summarizes the CDR3 length distribution, a sensitive QC
+#' fingerprint of repertoire prep and selection. Helpful for detecting
+#' primer/UMI biases, comparing cohorts, and deriving length-based features for
+#' models.
 #'
-#' @param seq_col Character vector with names of the columns containing sequences.
+#' @param seq_col Character vector with names of the columns containing
+#'   sequences.
 #'
 #' @return
 #'
-#' ## `airr_stats_lengths`
-#' Returns a tibble with columns:
+#' ## `airr_stats_lengths` Returns a tibble with columns:
 #' * `repertoire_id` -- repertoire identifier
 #' * `seq_len` -- lengths of sequences
 #' * `n` -- number of receptors
@@ -146,15 +160,18 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 }
 
 #' @description `airr_stats_genes` — count V(D)J gene segments per repertoire,
-#' optionally split by locus and using either receptor counts or barcode/UMI
-#' counts as the measure. WHY USEFUL / APPLICATION?
+#'   optionally split by locus and using either receptor counts or barcode/UMI
+#'   counts as the measure. Profiles V/D/J gene usage to characterize repertoire
+#'   composition and germline biases, with optional locus split. Useful for
+#'   cohort comparisons, flagging clonal expansions, and producing ML-ready
+#'   features for repertoire-level ML tasks.
 #'
 #' @param gene_col A single column name in `idata$annotations` with gene segment
 #'   calls (e.g., `"v_call"`, `"d_call"`, `"j_call"`, `"c_call"`). Default is
 #'   `"v_call"`.
 #' @param level One of `"receptor"` or `"barcode"`. If `"receptor"` (default),
-#'   the function counts **unique receptors** (one per receptor ID) that carry
-#'   a given gene segment. If `"barcode"`, the function **sums counts** (e.g.,
+#'   the function counts **unique receptors** (one per receptor ID) that carry a
+#'   given gene segment. If `"barcode"`, the function **sums counts** (e.g.,
 #'   cells/UMIs) per gene segment using the column defined by
 #'   `immundata::imd_schema("count")`.
 #' @param by Either `NULL` (no split) or `"locus"`. When `"locus"`, the result
@@ -164,11 +181,10 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #'
 #' @return
 #'
-#' ## `airr_stats_genes`
-#' A tibble with columns:
+#' ## `airr_stats_genes` A tibble with columns:
 #' * `repertoire_id` — repertoire identifier
 #' * *(optional)* `locus` — TRA, TRB, IGH … (present only when `by = "locus"`
-#'   and the locus column exists)
+#' and the locus column exists)
 #' * `<gene_col>` — the gene segment value (e.g., V gene)
 #' * `n` — the measure:
 #'   - if `level = "receptor"`: number of receptors carrying the gene segment

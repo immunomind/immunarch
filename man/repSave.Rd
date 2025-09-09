@@ -33,6 +33,7 @@ It is not necessary to create directories beforehand. If the provided directory
 does not exist it will be created automatically.
 }
 \examples{
+\dontrun{
 data(immdata)
 # Reduce data to save time on examples
 immdata$data <- map(immdata$data, ~ .x \%>\% head(10))
@@ -44,5 +45,6 @@ new_immdata <- repLoad(dirpath)
 # sum(immdata$data[[1]] != new_immdata$data[[1]], na.rm = TRUE)
 # sum(immdata$data[[2]] != new_immdata$data[[2]], na.rm = TRUE)
 # sum(immdata$meta != new_immdata$meta, na.rm = TRUE)
+}
 }
 \concept{io}

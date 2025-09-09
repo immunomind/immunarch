@@ -52,6 +52,7 @@
 #' @importFrom rlang is_true
 #' @importFrom rlang set_names
 #' @importFrom rlang sym
+#' @importFrom stats runif
 #' @importFrom utils globalVariables
 #' @useDynLib immunarch, .registration = TRUE
 ## usethis namespace: end

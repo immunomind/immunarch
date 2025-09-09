@@ -124,8 +124,10 @@ A tibble with:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions to quantify \strong{receptor diversity} per repertoire.
-\subsection{Available functions:}{
+A family of functions to quantify \strong{receptor diversity} per repertoire. A characteristic of a whole repertoire.
+\subsection{Available functions}{
+
+Supported methods are the following.
 }
 
 \code{airr_diversity_dxx} — \strong{coverage diversity}: minimal number of
@@ -151,6 +153,9 @@ emphasizes abundant receptors. Perfect when you want a \strong{diversity profile
 that tunes sensitivity to rare vs. abundant clonotypes.
 }
 \examples{
+# Load data
+immdata <- get_test_idata() |> agg_repertoires("Therapy")
+
 #
 # airr_diversity_dxx
 #

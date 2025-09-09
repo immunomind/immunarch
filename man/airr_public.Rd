@@ -55,7 +55,9 @@ names are repertoire IDs.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 A family of functions to quantify \strong{public or shared receptors} between repertoire.
-\subsection{Available functions:}{
+\subsection{Available functions}{
+
+Supported methods are the following.
 }
 
 \code{airr_public_intersection} — number of \strong{shared receptors} between
@@ -67,6 +69,9 @@ sets between repertoires (\verb{|A∩B| / |A∪B|}). Best when comparing cohorts
 different sizes to get a scale-invariant overlap score.
 }
 \examples{
+# Load data
+immdata <- get_test_idata() |> agg_repertoires("Therapy")
+
 #
 # airr_public_intersection
 #

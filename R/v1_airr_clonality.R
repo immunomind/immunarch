@@ -5,7 +5,9 @@
 #'
 #' A family of functions to quantify **receptor overabundance** per repertoire. Helps in deciphering the structure and partition the repertoire.
 #'
-#' ## Available functions:
+#' ## Available functions
+#'
+#' Supported methods are the following.
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams airr_clonality_line
@@ -14,6 +16,10 @@
 #' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
+#'
+#' @examples
+#' # Load data
+#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #'
 #' @name airr_clonality
 #' @concept Clonality
