@@ -1,8 +1,10 @@
 url: https://immunarch.com
 template:
   bootstrap: 5
+  bslib:
+    bootswatch: cosmo
+    pkgdown-nav-height: 100px
   params:
-    bootswatch: flatly
     ganalytics: UA-128418614-2
 authors:
   ImmunoMind:
@@ -16,12 +18,8 @@ authors:
   Ivan Balashov:
     href: https://www.linkedin.com/in/ivan-balashov/
 articles:
-- title: "immunarch v1.0"
-  desc: ~
-  contents:
-  - immunarch
-  - articles/singlecell
-- title: "immunarch v0.9"
+- title: "Immunarch v0.9"
+  subtitle: "Deprecated"
   desc: ~
   contents:
   - '`web_only_v0/introduction`'
@@ -43,39 +41,26 @@ articles:
   - '`web_only_v0/BCRpipeline`'
   - '`web_only_v0/clustering`'
 navbar:
+  bg: dark
+  type: dark
   structure:
-    left: [articles, reference, migration]
-    right: [im_link, twitter, github]
+    left: [tutorial, articles, reference]
+    right: [github]
   components:
     home: ~
     news: ~
     tutorial:
-      text: "⚡ Start Here - Tutorial for v1.0"
-      href: articles/singlecell.html
+      text: "Immunarch v1.0"
+      href: https://immunomind.github.io/docs/tutorials/single-cell/
     migration:
-      text: "🚢 Migration Guide"
-      href: articles/immunarch.html
+      text: "Migration Guide"
+      href: https://immunomind.github.io/docs/tutorials/migration/
     reference:
       text: "Reference"
       href: reference/index.html
     articles:
-      text: "Guides & Tutorials"
+      text: "Immunarch v0.9"
       menu:
-      - text: '---'
-      - text: "IMMUNARCH v1.0"
-
-      # - text: "Tutorial for bulk/single-cell and single-/paired-chain data"
-      #   href: articles/web_only_v1/tutorial_singlecell.html
-
-      - text: '---'
-      - text: "... more coming soon ..."
-
-      - text: '---'
-      - text: "IMMUNARCH v0.9"
-
-      - text: '---'
-      - text: "Package"
-
       - text: "Installation & troubleshooting"
         href: articles/web_only_v0/introduction.html
 
@@ -142,27 +127,43 @@ navbar:
 
       - text: Clustering
         href: articles/web_only_v0/clustering.html
-    twitter:
-      icon: fa-lg fa-twitter
-      href: http://twitter.com/immunomind
-    im_link:
-      text: ImmunoMind
-      href: https://immunomind.com
     github:
       icon: fa-github
       href: https://github.com/immunomind/immunarch
 reference:
 - title: Stable, v1.0
+- subtitle: ... work in progress ...
 
 - contents:
   - has_lifecycle("stable")
 
 - title: Experimental, v1.0
 
+- subtitle: Repertoire descriptive statistics
+- contents:
+  - starts_with("airr_stats")
+
+- subtitle: Clonality
+- contents:
+  - starts_with("airr_clonality")
+
+- subtitle: Diversity
+- contents:
+  - starts_with("airr_diversity")
+
+- subtitle: Public indices
+- contents:
+  - starts_with("airr_public")
+
+- subtitle: Technical
 - contents:
   - has_lifecycle("experimental")
   - has_concept("data")
   - has_concept("migration_utility")
+  - -starts_with("airr_stats")
+  - -starts_with("airr_clonality")
+  - -starts_with("airr_diversity")
+  - -starts_with("airr_public")
 
 - title: Under Question, v0.9 -> v1.0
 
