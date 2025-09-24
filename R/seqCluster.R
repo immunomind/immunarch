@@ -131,7 +131,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       map2(., seq_length[!singleseq_flag], ~ .x %>%
         mutate(
           length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]),
-            yes = .x[1],
+            yes = as.character(.x[1]),
             no = glue("range_{min(.x)}:{max(.x)}")
           ))
         )) %>%
