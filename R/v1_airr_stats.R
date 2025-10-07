@@ -30,6 +30,10 @@ NULL
 airr_stats_chains_impl <- function(idata, locus_col = NA) {
   checkmate::assert_character(locus_col, null.ok = TRUE)
 
+  if (is.null(idata$repertoires)) {
+    cli::cli_abort("No repertoires in the input ImmunData. Run {.code agg_repertoires} first.")
+  }
+
   if (is.na(locus_col)) {
     locus_col <- immundata::imd_schema("locus")
 
@@ -50,13 +54,15 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
     summarise(
       .by = all_of(by_cols),
       n_chains = n()
-    )
+    ) |>
+    collect()
 
   chain_stats <- idata$repertoires |>
+    select(-idata$schema_repertoire) |>
     left_join(chain_stats, by = repertoire_id_col) |>
     collect()
 
-  if (!is.null(locus_col)) {
+  if (is.null(locus_col)) {
     chain_stats |> mutate(locus = NA)
   } else {
     chain_stats |> rename(locus = locus_col)
@@ -89,20 +95,28 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
 #' @rdname airr_stats
 #' @concept Key AIRR statistics
 #' @export
-airr_stats_chains <- register_immunarch_method(airr_stats_chains_impl, "airr_stats", "chains")
+airr_stats_chains <- register_immunarch_method(
+  core = airr_stats_chains_impl,
+  family = "airr_stats",
+  name = "chains"
+)
 
 
 #' @keywords internal
 airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
-  length_tbl <- idata$annotations |>
-    distinct(!!rlang::sym(seq_col)) |>
-    mutate(seq_len = dd$length(!!rlang::sym(seq_col)))
-
   idata$annotations |>
-    select(all_of(c(idata$schema_repertoire, seq_col))) |>
-    left_join(length_tbl, by = seq_col) |>
-    summarise(.by = all_of(c(idata$schema_repertoire, "seq_len")), n = n()) |>
-    collect()
+    dplyr::select(dplyr::all_of(c(immundata::imd_schema("repertoire"), seq_col))) |>
+    dplyr::mutate(seq_len = dd$length(!!rlang::sym(seq_col))) |>
+    dplyr::summarise(
+      n = dplyr::n(),
+      .by = dplyr::all_of(c(immundata::imd_schema("repertoire"), "seq_len"))
+    ) |>
+    collect() |>
+    dplyr::mutate(
+      prop = n / sum(n, na.rm = TRUE), # proportion within repertoire
+      pct = 100 * prop,
+      .by = immundata::imd_schema("repertoire")
+    )
 }
 
 
@@ -131,7 +145,12 @@ airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
 #' @rdname airr_stats
 #' @concept Key AIRR statistics
 #' @export
-airr_stats_lengths <- register_immunarch_method(airr_stats_lengths_impl, "airr_stats", "lengths")
+airr_stats_lengths <- register_immunarch_method(
+  core = airr_stats_lengths_impl,
+  family = "airr_stats",
+  name = "lengths",
+  required = "seq_col"
+)
 
 
 #' @keywords internal
@@ -206,4 +225,9 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #' @rdname airr_stats
 #' @concept Key AIRR statistics
 #' @export
-airr_stats_genes <- register_immunarch_method(airr_stats_genes_impl, "airr_stats", "genes")
+airr_stats_genes <- register_immunarch_method(
+  core = airr_stats_genes_impl,
+  family = "airr_stats",
+  name = "genes",
+  required = "gene_col"
+)
