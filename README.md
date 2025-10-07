@@ -44,7 +44,7 @@
 </div>
 
 <p align="center">
-  <a href="https://immunomind.github.io/docs/tutorials/single-cell/">Tutorials</a>
+  <a href="https://immunomind.github.io/docs/tutorials/single_cell/">Tutorials</a>
   |
   <a href="https://immunomind.github.io/immunarch/reference">API reference</a>
   |
