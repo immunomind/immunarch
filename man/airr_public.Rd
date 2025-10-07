@@ -8,33 +8,25 @@
 \usage{
 airr_public_intersection(
   idata,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_public_jaccard(
   idata,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 }
 \arguments{
 \item{idata}{An \code{ImmunData} object.}
 
-\item{autojoin}{If TRUE, join repertoire metadata by the schema repertoire id.
-For \code{format="analysis"}, metadata is joined to the long table; for
-\code{format="ml"}, it’s joined after pivoting to wide. Defaults to
-\code{getOption("immundata.autojoin", FALSE)}.}
+\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
+Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
 
-\item{format}{One of \code{"analysis"} (long tibble with \code{repertoire_id}, facet
-columns, and \code{value}) or \code{"ml"} (wide/unmelted table of features).}
-
-\item{features}{Character vector of \strong{feature keys} to keep when
-\code{format="ml"}. If \code{NULL}, features are derived from the data. A feature key
-looks like \verb{family.method|facet1=...;facet2=...} (e.g.,
-\code{airr_stats.genes|v_call=TRBV7-2}).}
+\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
+columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
+with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 }
 \value{
 \subsection{\code{airr_public_intersection}}{
