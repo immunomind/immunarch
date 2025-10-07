@@ -1,35 +1,40 @@
 #' Get a list of package updates
 #' @concept migration_utility
 immunarch_v1_updates <- c(
-  "Sep 2025" = immunarch_v1_update_sep_2025
+  "Oct 2025" = immunarch_v1_update_oct_2025
 )
 
 .onAttach <- function(libname, pkgname) {
-  msg <- paste0(
-    "Hi, this is Vadim Nazarov speaking -- author of ",
-    cli::col_green("immunarch"),
-    ".\n",
-    cli::col_green("immunarch"),
-    " is evolving towards its 1.0 release. Soon it will be faster, more user-friendly, and ready for its long-awaited publication. Some functions will no longer be supported or will be replaced with new, more powerful methods.\n",
-    "\n -- Please click on ",
-    cli::col_cyan("{.run [get_immunarch_news()](immunarch::get_immunarch_news())}"),
-    " or run it in your R console to read the latest update and learn what has changed, what's new, how to migrate your code, and what changes are planned for the next update.\n",
-    "\n -- Click on ",
-    cli::col_cyan("{.run [list_immunarch_news()](immunarch::list_immunarch_news())}"),
-    " or run it to list all available updates and catch up on any you may have missed. Latest update: ",
-    cli::col_yellow("#1, Sep 2025"),
-    "\n",
-    "\n -- To import the package without this message, run ",
-    cli::col_cyan("suppressPackageStartupMessages(library(\"immunarch\"))"),
-    "\n",
-    "\nMigration guide is available online:\n\n-- in R: ",
-    "\n",
-    " {.url https://immunomind.github.io/docs/tutorials/migration}",
-    "\n\nThank you.\n",
-    "\n- Vadim I. Nazarov"
+  lines <- c(
+    paste0("Hi, this is Vadim Nazarov - author of ", cli::col_green("immunarch"), "."),
+    paste0(
+      cli::col_green("immunarch"),
+      " is moving toward its 1.0 release. It will be faster, more user-friendly, and ready for publication. ",
+      "Some functions will be deprecated or replaced with newer, more powerful methods."
+    ),
+    "",
+    "- Click {.run [get_immunarch_news()](immunarch::get_immunarch_news())} to read the latest update (what changed, what's new, how to migrate, what's next).",
+    "",
+    "- Click {.run [list_immunarch_news()](immunarch::list_immunarch_news())} to list all updates (latest: {cli::col_yellow('#1, Oct 2025')}).",
+    "",
+    "- Migration guide: {.url https://immunomind.github.io/docs/tutorials/migration}",
+    "",
+    "To load the package without this message: {.code suppressPackageStartupMessages(library('immunarch'))}",
+    "",
+    "- Vadim I. Nazarov"
   )
 
-  cli::cli_inform(msg, class = "packageStartupMessage")
+  msg <- paste(lines, collapse = "\n")
+  cli::cli_inform(cli::format_inline(msg), class = "packageStartupMessage")
+}
 
-  # Show registered methods?
+
+.onLoad <- function(libname, pkgname) {
+  op <- options()
+  op.immunarch <- list(
+    immunarch.autojoin = FALSE # default
+  )
+  toset <- !(names(op.immunarch) %in% names(op))
+  if (any(toset)) options(op.immunarch[toset])
+  invisible()
 }

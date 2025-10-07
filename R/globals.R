@@ -2,7 +2,13 @@ utils::globalVariables(c(
   "index",
   "richness",
   "shannon",
-  "dd"
+  "dd",
+  "counts",
+  "annotate_immundata",
+  "ch",
+  "clonal_prop_bin",
+  "clonal_rank_bin",
+  "prop"
 ))
 
 #' @keywords internal

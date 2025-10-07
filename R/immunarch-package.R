@@ -32,6 +32,7 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr slice_head
 #' @importFrom dplyr summarise
+#' @importFrom dplyr transmute
 #' @importFrom dplyr union
 #' @importFrom dplyr union_all
 #' @importFrom duckplyr as_duckdb_tibble
@@ -53,6 +54,8 @@
 #' @importFrom rlang set_names
 #' @importFrom rlang sym
 #' @importFrom stats runif
+#' @importFrom tidyr as_tibble
+#' @importFrom utils adist
 #' @importFrom utils globalVariables
 #' @useDynLib immunarch, .registration = TRUE
 ## usethis namespace: end

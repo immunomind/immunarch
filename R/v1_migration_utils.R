@@ -38,5 +38,7 @@ get_immunarch_news <- function(datepoint = "latest") {
 #'
 #' @export
 list_immunarch_news <- function() {
-  names(immunarch_v1_updates)
+  for (i in seq_along(names(immunarch_v1_updates))) {
+    cat(names(immunarch_v1_updates), " -> ", "run immunarch::get_immunarch_news(", '"', names(immunarch_v1_updates), '"', ")", sep = "")
+  }
 }
