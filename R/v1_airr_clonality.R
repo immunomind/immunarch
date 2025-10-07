@@ -15,7 +15,9 @@
 #' @inheritParams airr_clonality_prop
 #' @inheritParams im_common_args
 #'
-#' @seealso [immundata::ImmunData]
+#' @seealso
+#' * Per-repertoire summaries: [annotate_clonality]
+#' * Data container: [immundata::ImmunData]
 #'
 #' @examples
 #' # Load data
@@ -46,23 +48,14 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
       .keep_all = TRUE
     ) |>
     arrange(desc(!!immundata::imd_schema_sym("count"))) |>
-    slice_head(n = limit * n_repertoires) |> # Optimization before compute - does it make sense, though?
-    compute() |> # TODO: If we remove compute, the output breaks. Open an issue in duckplr - something wrong with row_number + mutate-by
+    collect() |> # TODO: .by doesn't work in slice_head in duckplyr. What to do instead then?
+    slice_head(n = limit * n_repertoires, by = !!immundata::imd_schema_sym("repertoire")) |>
     mutate(
       index = row_number(),
       .by = immundata::imd_schema("repertoire")
     ) |>
-    filter(index <= limit) |>
     select(-!!immundata::imd_schema_sym("receptor")) |>
-    left_join(
-      idata$repertoires |> select(-any_of(c(
-        immundata::imd_schema("n_barcodes"),
-        immundata::imd_schema("n_receptors")
-      ))),
-      by = immundata::imd_schema("repertoire")
-    ) |>
-    arrange(index) |>
-    collect()
+    arrange(index)
 }
 
 
@@ -91,59 +84,28 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #' @rdname airr_clonality
 #' @concept Clonality
 #' @export
-airr_clonality_line <- register_immunarch_method(airr_clonality_line_impl, "airr_clonality", "line")
+airr_clonality_line <- register_immunarch_method(
+  core = airr_clonality_line_impl,
+  family = "airr_clonality",
+  name = "line",
+  need_repertoires = TRUE
+)
 
 
 #' @keywords internal
 airr_clonality_rank_impl <- function(idata,
-                                     bins = c(10, 30, 100, 300, 1000, 10000, 100000),
-                                     output = c("stat", "annot")) {
+                                     bins = c(10, 30, 100, 300, 1000, 10000, 100000)) {
   checkmate::check_numeric(bins, lower = 1)
-
-  output <- match.arg(output)
 
   bins <- sort(bins, decreasing = FALSE)
 
-  sql_expr <- paste0(
-    "CASE ",
-    paste0(map_chr(
-      bins,
-      ~ cli::format_inline("WHEN ROW_NUMBER() OVER (PARTITION BY {immundata::imd_schema('repertoire')} ORDER BY {immundata::imd_schema('proportion')} DESC) <= {.x} THEN {.x}")
-    ), collapse = " "), " ELSE NULL END"
-  )
+  clonality_df <- core_clonality_rank(idata = idata, bins = bins)
 
-  clonality_df <- idata$annotations |>
-    select(all_of(c(
-      immundata::imd_schema("repertoire"),
-      immundata::imd_schema("receptor"),
-      immundata::imd_schema("proportion")
-    ))) |>
-    distinct(!!immundata::imd_schema_sym("repertoire"),
-      !!immundata::imd_schema_sym("receptor"),
-      .keep_all = TRUE
-    ) |>
-    arrange() |>
-    as_tbl() |>
-    mutate(clonal_rank_bin = dbplyr::sql(sql_expr)) |>
-    as_duckdb_tibble() |>
-    compute()
-
-  if (output == "stat") {
-    clonality_df |>
-      summarise(
-        .by = c(immundata::imd_schema("repertoire"), "clonal_rank_bin"),
-        occupied_prop = sum(!!immundata::imd_schema_sym("proportion"), na.rm = TRUE)
-      ) |>
-      right_join(idata$repertoires, by = immundata::imd_schema("repertoire"))
-  } else {
-    ImmunData$new(
-      schema = idata$schema_receptor,
-      annotations = idata$annotations |>
-        left_join(clonality_df,
-          by = immundata::imd_schema("receptor")
-        )
+  clonality_df |>
+    summarise(
+      .by = c(immundata::imd_schema("repertoire"), "clonal_rank_bin"),
+      occupied_prop = sum(!!immundata::imd_schema_sym("proportion"), na.rm = TRUE)
     )
-  }
 }
 
 
@@ -154,33 +116,31 @@ airr_clonality_rank_impl <- function(idata,
 #' @param bins Integer vector of rank thresholds (e.g., `c(10, 100, 1000)`).
 #'   For each repertoire, receptors with ranks `<= bins[i]` contribute to bin
 #'   `bins[i]`. Bins are sorted ascending internally.
-#' @param output One of `"stat"` (default) to return per-repertoire bin
-#'   aggregates, or `"annot"` to return an `ImmunData` with an added
-#'   `clonal_rank_bin` column in `annotations`.
 #'
 #' @return
 #'
 #' ## `airr_clonality_rank`
-#' If `output = "stat"`: a tibble with
+#' A tibble with
 #' * `repertoire_id`
 #' * `clonal_rank_bin` — the rank threshold (e.g., `10`, `100`, …)
 #' * `occupied_prop` — sum of `proportion` within the bin
 #' * plus repertoire metadata columns from `idata$repertoires`
 #'
-#' If `output = "annot"`: an `ImmunData` object where `annotations` includes
-#' `clonal_rank_bin`.
-#'
 #' @examples
 #' #
 #' # airr_clonality_rank
 #' #
-#' rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100), output = "stat")
-#' rank_annot <- airr_clonality_rank(immdata, bins = c(10, 100), output = "annot")
+#' rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
 #'
 #' @rdname airr_clonality
 #' @concept Clonality
 #' @export
-airr_clonality_rank <- register_immunarch_method(airr_clonality_rank_impl, "airr_clonality", "rank")
+airr_clonality_rank <- register_immunarch_method(
+  core = airr_clonality_rank_impl,
+  family = "airr_clonality",
+  name = "rank",
+  need_repertoires = TRUE
+)
 
 
 #' @keywords internal
@@ -191,53 +151,18 @@ airr_clonality_prop_impl <- function(
       Medium = 1e-4,
       Small = 1e-5,
       Rare = 1e-6
-    ),
-    output = c("stat", "annot")) {
+    )) {
   checkmate::check_numeric(bins, lower = 0, min.len = 1)
-
-  output <- match.arg(output)
 
   bins <- sort(bins, decreasing = TRUE)
 
-  sql_expr <- paste0(
-    "CASE ",
-    paste0(map2_chr(
-      bins, names(bins),
-      ~ sprintf("WHEN %s >= %s THEN '%s'", immundata::imd_schema("proportion"), .x, .y)
-    ), collapse = " "), " ELSE 'Ultra-rare' END"
-  )
+  clonality_df <- core_clonality_prop(idata = idata, bins = bins)
 
-  clonality_df <- idata$annotations |>
-    select(all_of(c(
-      immundata::imd_schema("repertoire"),
-      immundata::imd_schema("receptor"),
-      immundata::imd_schema("proportion")
-    ))) |>
-    distinct(!!immundata::imd_schema_sym("repertoire"),
-      !!immundata::imd_schema_sym("receptor"),
-      .keep_all = TRUE
-    ) |>
-    duckplyr::as_tbl() |>
-    mutate(clonal_prop_bin = dbplyr::sql(sql_expr)) |>
-    duckplyr::as_duckdb_tibble() |>
-    compute()
-
-  if (output == "stat") {
-    clonality_df |>
-      summarise(
-        .by = c(immundata::imd_schema("repertoire"), "clonal_prop_bin"),
-        occupied_prop = sum(!!immundata::imd_schema_sym("proportion"), na.rm = TRUE)
-      ) |>
-      right_join(idata$repertoires, by = immundata::imd_schema("repertoire"))
-  } else {
-    ImmunData$new(
-      schema = idata$schema_receptor,
-      annotations = idata$annotations |>
-        left_join(clonality_df,
-          by = immundata::imd_schema("receptor")
-        )
+  clonality_df |>
+    summarise(
+      .by = c(immundata::imd_schema("repertoire"), "clonal_prop_bin"),
+      occupied_prop = sum(!!immundata::imd_schema_sym("proportion"), na.rm = TRUE)
     )
-  }
 }
 
 
@@ -249,30 +174,28 @@ airr_clonality_prop_impl <- function(
 #' @param bins A **named** numeric vector of thresholds (e.g.,
 #'   `c(Hyperexpanded = 1e-2, Large = 1e-3, ...)`). Names become bin labels and
 #'   must be non-empty. Internally sorted in descending order.
-#' @param output One of `"stat"` (default) to return per-repertoire bin
-#'   aggregates, or `"annot"` to return an `ImmunData` with an added
-#'   `clonal_prop_bin` column in `annotations`.
 #'
 #' @return
 #'
 #' ## `airr_clonality_prop`
-#' If `output = "stat"`: a tibble with
+#' A tibble with
 #' * `repertoire_id`
 #' * `clonal_prop_bin` — factor-like label from `names(bins)` or `"Ultra-rare"`
 #' * `occupied_prop` — sum of `proportion` within the bin
 #' * plus repertoire metadata columns from `idata$repertoires`
 #'
-#' If `output = "annot"`: an `ImmunData` object where `annotations` includes
-#' `clonal_prop_bin`.
-#'
 #' @examples
 #' #
 #' # airr_clonality_prop
 #' #
-#' prop_stat <- airr_clonality_prop(immdata, output = "stat")
-#' prop_annot <- airr_clonality_prop(immdata, output = "annot")
+#' prop_stat <- airr_clonality_prop(immdata)
 #'
 #' @rdname airr_clonality
 #' @concept Clonality
 #' @export
-airr_clonality_prop <- register_immunarch_method(airr_clonality_prop_impl, "airr_clonality", "prop")
+airr_clonality_prop <- register_immunarch_method(
+  core = airr_clonality_prop_impl,
+  family = "airr_clonality",
+  name = "prop",
+  need_repertoires = TRUE
+)

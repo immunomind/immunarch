@@ -10,28 +10,23 @@
 airr_clonality_line(
   idata,
   limit = 1e+05,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_clonality_rank(
   idata,
   bins = c(10, 30, 100, 300, 1000, 10000, 1e+05),
-  output = c("stat", "annot"),
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_clonality_prop(
   idata,
   bins = c(Hyperexpanded = 0.01, Large = 0.001, Medium = 1e-04, Small = 1e-05, Rare =
     1e-06),
-  output = c("stat", "annot"),
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 }
 \arguments{
@@ -40,26 +35,16 @@ airr_clonality_prop(
 \item{limit}{Positive integer ≥ 10: maximum number of top receptors to keep
 \strong{per repertoire} (default \code{100000}).}
 
-\item{autojoin}{If TRUE, join repertoire metadata by the schema repertoire id.
-For \code{format="analysis"}, metadata is joined to the long table; for
-\code{format="ml"}, it’s joined after pivoting to wide. Defaults to
-\code{getOption("immundata.autojoin", FALSE)}.}
+\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
+Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
 
-\item{format}{One of \code{"analysis"} (long tibble with \code{repertoire_id}, facet
-columns, and \code{value}) or \code{"ml"} (wide/unmelted table of features).}
-
-\item{features}{Character vector of \strong{feature keys} to keep when
-\code{format="ml"}. If \code{NULL}, features are derived from the data. A feature key
-looks like \verb{family.method|facet1=...;facet2=...} (e.g.,
-\code{airr_stats.genes|v_call=TRBV7-2}).}
+\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
+columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
+with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
 \item{bins}{A \strong{named} numeric vector of thresholds (e.g.,
 \code{c(Hyperexpanded = 1e-2, Large = 1e-3, ...)}). Names become bin labels and
 must be non-empty. Internally sorted in descending order.}
-
-\item{output}{One of \code{"stat"} (default) to return per-repertoire bin
-aggregates, or \code{"annot"} to return an \code{ImmunData} with an added
-\code{clonal_prop_bin} column in \code{annotations}.}
 }
 \value{
 \subsection{\code{airr_clonality_line}}{
@@ -75,30 +60,24 @@ A tibble with columns:
 
 \subsection{\code{airr_clonality_rank}}{
 
-If \code{output = "stat"}: a tibble with
+A tibble with
 \itemize{
 \item \code{repertoire_id}
 \item \code{clonal_rank_bin} — the rank threshold (e.g., \code{10}, \code{100}, …)
 \item \code{occupied_prop} — sum of \code{proportion} within the bin
 \item plus repertoire metadata columns from \code{idata$repertoires}
 }
-
-If \code{output = "annot"}: an \code{ImmunData} object where \code{annotations} includes
-\code{clonal_rank_bin}.
 }
 
 \subsection{\code{airr_clonality_prop}}{
 
-If \code{output = "stat"}: a tibble with
+A tibble with
 \itemize{
 \item \code{repertoire_id}
 \item \code{clonal_prop_bin} — factor-like label from \code{names(bins)} or \code{"Ultra-rare"}
 \item \code{occupied_prop} — sum of \code{proportion} within the bin
 \item plus repertoire metadata columns from \code{idata$repertoires}
 }
-
-If \code{output = "annot"}: an \code{ImmunData} object where \code{annotations} includes
-\code{clonal_prop_bin}.
 }
 }
 \description{
@@ -135,17 +114,18 @@ top_line <- airr_clonality_line(immdata, limit = 1000)
 #
 # airr_clonality_rank
 #
-rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100), output = "stat")
-rank_annot <- airr_clonality_rank(immdata, bins = c(10, 100), output = "annot")
+rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
 
 #
 # airr_clonality_prop
 #
-prop_stat <- airr_clonality_prop(immdata, output = "stat")
-prop_annot <- airr_clonality_prop(immdata, output = "annot")
+prop_stat <- airr_clonality_prop(immdata)
 
 }
 \seealso{
-\link[immundata:ImmunData]{immundata::ImmunData}
+\itemize{
+\item Per-repertoire summaries: \link{annotate_clonality}
+\item Data container: \link[immundata:ImmunData]{immundata::ImmunData}
+}
 }
 \concept{Clonality}
