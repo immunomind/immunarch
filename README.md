@@ -22,10 +22,6 @@
          src="https://cranlogs.r-pkg.org/badges/last-week/immunarch">
   </a>
   <a href="https://anaconda.org/conda-forge/r-immunarch">
-    <img alt="Conda Downloads"
-         src="https://img.shields.io/conda/d/conda-forge/r-immunarch?style=flat-square">
-  </a>
-  <a href="https://anaconda.org/conda-forge/r-immunarch">
     <img alt="Conda Version"
          src="https://anaconda.org/conda-forge/r-immunarch/badges/version.svg">
   </a>
