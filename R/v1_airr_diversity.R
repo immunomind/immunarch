@@ -11,6 +11,7 @@
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams airr_diversity_dxx
+#' @inheritParams airr_diversity_chao1
 #' @inheritParams airr_diversity_shannon
 #' @inheritParams airr_diversity_pielou
 #' @inheritParams airr_diversity_hill
@@ -30,7 +31,51 @@ NULL
 
 #' @keywords internal
 airr_diversity_dxx_impl <- function(idata, perc = 50) {
-  checkmate::assert_numeric(perc, null.ok = TRUE)
+  checkmate::assert_numeric(perc, any.missing = FALSE)
+  if (!all(perc > 0 & perc <= 100)) {
+    cli::cli_abort("{.code perc} must be in (0, 100].")
+  }
+
+  rep_str <- immundata::imd_schema("repertoire")
+  rep_sym <- immundata::imd_schema_sym("repertoire")
+  rec_sym <- immundata::imd_schema_sym("receptor")
+  prop_str <- immundata::imd_schema("proportion")
+  prop_sym <- immundata::imd_schema_sym("proportion")
+
+  base_tbl <- idata$annotations |>
+    dplyr::select(!!rec_sym, !!rep_sym, !!prop_sym) |>
+    dplyr::distinct(!!rec_sym, !!rep_sym, .keep_all = TRUE) |>
+    dplyr::arrange()
+
+  k_sql <- sprintf(
+    "ROW_NUMBER() OVER (PARTITION BY %s ORDER BY %s DESC)",
+    rep_str, prop_str
+  )
+  cum_sql <- sprintf(
+    "SUM(%s) OVER (PARTITION BY %s ORDER BY %s DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)",
+    prop_str, rep_str, prop_str
+  )
+
+  ranked <- base_tbl |>
+    duckplyr::as_tbl() |>
+    dplyr::mutate(
+      k   = dbplyr::sql(k_sql),
+      cum = dbplyr::sql(cum_sql)
+    ) |>
+    duckplyr::as_duckdb_tibble()
+
+  res <- purrr::map_dfr(perc, function(p) {
+    ranked |>
+      dplyr::filter(.data$cum >= p / 100) |>
+      dplyr::group_by(!!rep_sym) |>
+      dplyr::summarise(dxx = min(.data$k), .groups = "drop") |>
+      dplyr::mutate(perc = p)
+  }) |>
+    dplyr::select(!!rep_sym, .data$perc, .data$dxx) |>
+    dplyr::arrange(!!rep_sym, .data$perc) |>
+    collect()
+
+  res
 }
 
 
@@ -46,7 +91,7 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 #'
 #' ## `airr_diversity_dxx`
 #' A tibble with:
-#' * `repertoire_id`
+#' * `imd_repertoire_id`
 #' * `perc`
 #' * `dxx` — minimal count of top receptors to reach `perc%`
 #' * plus repertoire metadata from `idata$repertoires`
@@ -65,6 +110,56 @@ airr_diversity_dxx <- register_immunarch_method(airr_diversity_dxx_impl, "airr_d
 
 
 #' @keywords internal
+airr_diversity_chao1_impl <- function(idata) {
+  rep_col <- immundata::imd_schema("repertoire")
+  rep_sym <- immundata::imd_schema_sym("repertoire")
+  cnt_sym <- immundata::imd_schema_sym("count")
+
+  # TODO: optimize this please, loading all the data in R is not good.
+  # TODO: check if no integer overflow
+  idata$annotations |>
+    select(!!rep_sym, !!cnt_sym) |>
+    collect() |>
+    summarise(counts = list(!!cnt_sym), .by = !!rep_sym) |>
+    mutate(ch = lapply(counts, chao1)) |>
+    transmute(
+      !!rep_col := !!rep_sym,
+      Estimator = vapply(ch, function(x) unname(x["Estimator.1"]), numeric(1)),
+      SD = vapply(ch, function(x) unname(x["SD.2"]), numeric(1)),
+      `Conf.95.lo` = vapply(ch, function(x) unname(x["Conf.95.lo.1"]), numeric(1)),
+      `Conf.95.hi` = vapply(ch, function(x) unname(x["Conf.95.hi.1"]), numeric(1))
+    ) |>
+    collect()
+}
+
+#' @description `airr_diversity_chao1` — Chao1 estimator is a nonparameteric
+#'  asymptotic estimator of species richness (number of species in a population).
+#'  One of the most used methods for estimating immune repertoire diversity.
+#'
+#' @return
+#'
+#' ## `airr_diversity_chao1`
+#' A tibble with:
+#' * `imd_repertoire_id`
+#' * `Estimator` — number of species
+#' * `SD` — standard deviation for the estimator value
+#' * `Conf.95.lo` — CI 0.025
+#' * `Conf.95.hi` — CI 0.975
+#' * plus repertoire metadata from `idata$repertoires`
+#'
+#' @examples
+#' #
+#' # airr_diversity_chao1
+#' #
+#' chao <- airr_diversity_chao1(immdata)
+#'
+#' @rdname airr_diversity
+#' @concept Diversity
+#' @export
+airr_diversity_chao1 <- register_immunarch_method(airr_diversity_chao1_impl, "airr_diversity", "chao1")
+
+
+#' @keywords internal
 airr_diversity_shannon_impl <- function(idata) {
   idata$annotations |>
     select(
@@ -79,7 +174,8 @@ airr_diversity_shannon_impl <- function(idata) {
     summarise(
       .by = !!immundata::imd_schema_sym("repertoire"),
       shannon = -sum(!!immundata::imd_schema_sym("proportion") * dd$log2(!!immundata::imd_schema_sym("proportion")))
-    )
+    ) |>
+    collect()
 }
 
 
@@ -91,7 +187,7 @@ airr_diversity_shannon_impl <- function(idata) {
 #'
 #' ## `airr_diversity_shannon`
 #' A tibble with:
-#' * `repertoire_id`
+#' * `imd_repertoire_id`
 #' * `shannon` — entropy in bits
 #'
 #' @examples
@@ -108,13 +204,15 @@ airr_diversity_shannon <- register_immunarch_method(airr_diversity_shannon_impl,
 
 #' @keywords internal
 airr_diversity_pielou_impl <- function(idata) {
-  shannon_values <- airr_diversity_shannon(idata)
+  shannon_values <- airr_diversity_shannon(idata, autojoin = FALSE)
 
   idata$repertoires |>
+    select(c(immundata::imd_schema("repertoire"), immundata::imd_schema("n_receptors"))) |>
     left_join(shannon_values,
       by = imd_schema("repertoire")
     ) |>
-    mutate(richness = dd$log2(!!immundata::imd_schema_sym("n_receptors")), pielou = shannon / richness)
+    mutate(richness = dd$log2(!!immundata::imd_schema_sym("n_receptors")), pielou = shannon / richness) |>
+    collect()
 }
 
 
@@ -126,7 +224,7 @@ airr_diversity_pielou_impl <- function(idata) {
 #'
 #' ## `airr_diversity_pielou`
 #' A tibble with:
-#' * `repertoire_id`
+#' * `imd_repertoire_id`
 #' * `shannon`
 #' * `n_receptors`
 #' * `pielou` — evenness in `[0, 1]` (NA if `S ≤ 1`)
@@ -157,7 +255,7 @@ airr_diversity_index_impl <- function(idata) {
 #'
 #' ## `airr_diversity_index`
 #' A tibble with:
-#' * `repertoire_id`
+#' * `imd_repertoire_id`
 #' * `q = 1`
 #' * `hill_number`
 #' * plus repertoire metadata from `idata$repertoires`
@@ -223,7 +321,9 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
     }
   }
 
-  idata$repertoires |> left_join(result, by = imd_schema("repertoire"))
+  idata$metadata |>
+    left_join(result, by = imd_schema("repertoire")) |>
+    collect()
 }
 
 
@@ -239,7 +339,7 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #'
 #' ## `airr_diversity_hill`
 #' A tibble with:
-#' * `repertoire_id`
+#' * `imd_repertoire_id`
 #' * `q` — Hill order
 #' * `hill_number` — true diversity of order `q`
 #' * plus repertoire metadata from `idata$repertoires`

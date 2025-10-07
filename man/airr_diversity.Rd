@@ -3,6 +3,7 @@
 \name{airr_diversity}
 \alias{airr_diversity}
 \alias{airr_diversity_dxx}
+\alias{airr_diversity_chao1}
 \alias{airr_diversity_shannon}
 \alias{airr_diversity_pielou}
 \alias{airr_diversity_index}
@@ -12,38 +13,39 @@
 airr_diversity_dxx(
   idata,
   perc = 50,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
+)
+
+airr_diversity_chao1(
+  idata,
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_diversity_shannon(
   idata,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_diversity_pielou(
   idata,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_diversity_index(
   idata,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 
 airr_diversity_hill(
   idata,
   q = 0:5,
-  autojoin = getOption("immundata.autojoin", FALSE),
-  format = c("analysis", "ml"),
-  features = NULL
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
 )
 }
 \arguments{
@@ -52,18 +54,12 @@ airr_diversity_hill(
 \item{perc}{A number or numeric vector in \verb{(0, 100]} (default \code{50}), e.g.
 \code{50} for D50, \code{20} for D20.}
 
-\item{autojoin}{If TRUE, join repertoire metadata by the schema repertoire id.
-For \code{format="analysis"}, metadata is joined to the long table; for
-\code{format="ml"}, it’s joined after pivoting to wide. Defaults to
-\code{getOption("immundata.autojoin", FALSE)}.}
+\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
+Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
 
-\item{format}{One of \code{"analysis"} (long tibble with \code{repertoire_id}, facet
-columns, and \code{value}) or \code{"ml"} (wide/unmelted table of features).}
-
-\item{features}{Character vector of \strong{feature keys} to keep when
-\code{format="ml"}. If \code{NULL}, features are derived from the data. A feature key
-looks like \verb{family.method|facet1=...;facet2=...} (e.g.,
-\code{airr_stats.genes|v_call=TRBV7-2}).}
+\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
+columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
+with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
 \item{q}{A scalar or vector of non-negative orders. Defaults to \code{0:5}.}
 }
@@ -72,9 +68,22 @@ looks like \verb{family.method|facet1=...;facet2=...} (e.g.,
 
 A tibble with:
 \itemize{
-\item \code{repertoire_id}
+\item \code{imd_repertoire_id}
 \item \code{perc}
 \item \code{dxx} — minimal count of top receptors to reach \verb{perc\%}
+\item plus repertoire metadata from \code{idata$repertoires}
+}
+}
+
+\subsection{\code{airr_diversity_chao1}}{
+
+A tibble with:
+\itemize{
+\item \code{imd_repertoire_id}
+\item \code{Estimator} — number of species
+\item \code{SD} — standard deviation for the estimator value
+\item \code{Conf.95.lo} — CI 0.025
+\item \code{Conf.95.hi} — CI 0.975
 \item plus repertoire metadata from \code{idata$repertoires}
 }
 }
@@ -83,7 +92,7 @@ A tibble with:
 
 A tibble with:
 \itemize{
-\item \code{repertoire_id}
+\item \code{imd_repertoire_id}
 \item \code{shannon} — entropy in bits
 }
 }
@@ -92,7 +101,7 @@ A tibble with:
 
 A tibble with:
 \itemize{
-\item \code{repertoire_id}
+\item \code{imd_repertoire_id}
 \item \code{shannon}
 \item \code{n_receptors}
 \item \code{pielou} — evenness in \verb{[0, 1]} (NA if \verb{S ≤ 1})
@@ -103,7 +112,7 @@ A tibble with:
 
 A tibble with:
 \itemize{
-\item \code{repertoire_id}
+\item \code{imd_repertoire_id}
 \item \code{q = 1}
 \item \code{hill_number}
 \item plus repertoire metadata from \code{idata$repertoires}
@@ -114,7 +123,7 @@ A tibble with:
 
 A tibble with:
 \itemize{
-\item \code{repertoire_id}
+\item \code{imd_repertoire_id}
 \item \code{q} — Hill order
 \item \code{hill_number} — true diversity of order \code{q}
 \item plus repertoire metadata from \code{idata$repertoires}
@@ -134,6 +143,10 @@ Supported methods are the following.
 top receptors needed to reach \verb{perc\%} of clonal space (by \code{proportion}).
 Great for spotting dominance/overexpansion and for quick, interpretable dashboards
 (e.g., D50 = receptors to cover half of the repertoire).
+
+\code{airr_diversity_chao1} — Chao1 estimator is a nonparameteric
+asymptotic estimator of species richness (number of species in a population).
+One of the most used methods for estimating immune repertoire diversity.
 
 \code{airr_diversity_shannon} — Shannon entropy (base 2) per repertoire
 computed from \code{proportion}. Ideal when you want a single evenness-aware
@@ -161,6 +174,11 @@ immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #
 d50 <- airr_diversity_dxx(immdata, perc = 50)
 d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
+
+#
+# airr_diversity_chao1
+#
+chao <- airr_diversity_chao1(immdata)
 
 #
 # airr_diversity_shannon
