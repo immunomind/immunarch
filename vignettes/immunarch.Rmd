@@ -9,62 +9,7 @@ output: html_document
 %\VignettePackage{immunarch}
 -->
 
-<div align="center">
-  <h2>🧬 <code>immunarch</code> --- <strong>Multi-modal immune repertoire analysis in R</strong></h2>
-</div>
-
----
-
-<div align="center">
-  <a href="https://github.com/immunomind">
-    <img alt="Ecosystem: ImmunoMind"
-         src="https://img.shields.io/badge/ecosystem-ImmunoMind-orange?style=flat-square">
-  </a>
-  <a href="https://cran.r-project.org/package=immunarch">
-    <img alt="CRAN Version"
-         src="https://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square">
-  </a>
-  <a href="https://www.r-pkg.org/pkg/immunarch">
-    <img alt="CRAN Downloads (all time)"
-         src="https://cranlogs.r-pkg.org/badges/grand-total/immunarch">
-  </a>
-  <a href="https://www.r-pkg.org/pkg/immunarch">
-    <img alt="CRAN Downloads (last week)"
-         src="https://cranlogs.r-pkg.org/badges/last-week/immunarch">
-  </a>
-  <a href="https://anaconda.org/conda-forge/r-immunarch">
-    <img alt="Conda Downloads"
-         src="https://img.shields.io/conda/d/conda-forge/r-immunarch?style=flat-square">
-  </a>
-  <a href="https://anaconda.org/conda-forge/r-immunarch">
-    <img alt="Conda Version"
-         src="https://anaconda.org/conda-forge/r-immunarch/badges/version.svg">
-  </a>
-  <a href="https://anaconda.org/conda-forge/r-immunarch">
-    <img alt="Conda Total Downloads"
-         src="https://anaconda.org/conda-forge/r-immunarch/badges/downloads.svg">
-  </a>
-  <a href="https://github.com/immunomind/immunarch/issues">
-    <img alt="GitHub Issues"
-         src="https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square">
-  </a>
-  <a href="https://doi.org/10.5281/zenodo.3367200">
-    <img alt="DOI"
-         src="https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg">
-  </a>
-</div>
-
-<p align="center">
-  <a href="https://immunomind.github.io/docs/tutorials/">Tutorials</a>
-  |
-  <a href="https://immunomind.github.io/immunarch/reference">API reference</a>
-  |
-  <a href=https://immunomind.github.io/docs/>Ecosystem</a>
-  |
-  Publication (coming soon...)
-</p>
-
----
+# 🧬 immunarch – Multi-modal immune repertoire analysis in R
 
 `immunarch` brings a comprehensive analytics toolkit to build reproducible analysis pipelines for Adaptive Immune Receptor Repertoire (AIRR) data with a particular focus on designing personalized immunotherapies and vaccines. Key features are:
 
@@ -189,9 +134,7 @@ airr_diversity_pielou(immdata)
 # Use your own data by reading sample files from the metadata file
 mdtable <- read_metadata("data/metadata.csv")
 immdata <- read_repertoires("<metadata>", metadata = mdtable)
-```
 
-```r eval=FALSE
 # Use your own data by reading sample files directly
 mdtable <- read_metadata("data/metadata.csv")
 immdata <- read_repertoires("data/*.tsv.gz", metadata = mdtable)
@@ -246,7 +189,7 @@ We are always open to contributions. There are three ways to contribute:
 
 2. Create an issue or find one [here](https://github.com/immunomind/immunarch/issues), fork the repository and make a pull request with the bugfix or improvement.
 
-3. Find an existing issue and help others.
+3. Find an existing issue and help others resolve this.
 
 
 ## 🏷 About

@@ -1,4 +1,4 @@
-#' @title Annotate clonality — per-receptor labels for overabundance
+#' @title Annotate clonality - per-receptor labels for overabundance
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -7,8 +7,8 @@
 #' an [immundata::ImmunData] object.
 #'
 #' ## Available functions
-#' * `annotate_clonality_rank()` — label by **rank bins** within each repertoire.
-#' * `annotate_clonality_prop()` — label by **proportion bins** (named thresholds).
+#' * `annotate_clonality_rank()` - label by **rank bins** within each repertoire.
+#' * `annotate_clonality_prop()` - label by **proportion bins** (named thresholds).
 #'
 #' @param idata An [immundata::ImmunData] object.
 #' @inheritParams im_common_args
@@ -53,15 +53,15 @@ annotate_clonality_rank_impl <- function(idata,
 
 
 #' @description
-#' `annotate_clonality_rank()` — for each repertoire, receptors are ordered by
+#' `annotate_clonality_rank()` - for each repertoire, receptors are ordered by
 #' within-repertoire abundance (proportion) and assigned a **rank bin** label.
 #'
 #' @inheritParams airr_clonality_rank
 #'
 #' @return
 #' An [immundata::ImmunData] whose `$annotations` gains:
-#' * `clonal_rank_bin` — integer-like label with the applied rank threshold
-#'   (outside all thresholds → `NA`).
+#' * `clonal_rank_bin` - integer-like label with the applied rank threshold
+#'   (outside all thresholds -> `NA`).
 #'
 #' @rdname annotate_clonality
 #' @concept Clonality
@@ -104,14 +104,14 @@ annotate_clonality_prop_impl <- function(
 
 
 #' @description
-#' `annotate_clonality_prop()` — label each receptor by **proportion bin**
+#' `annotate_clonality_prop()` - label each receptor by **proportion bin**
 #' using named thresholds (matched in descending order; else `"Ultra-rare"`).
 #'
 #' @inheritParams airr_clonality_prop
 #'
 #' @return
 #' An [immundata::ImmunData] whose `$annotations` gains:
-#' * `clonal_prop_bin` — label from `names(bins)` or `"Ultra-rare"`.
+#' * `clonal_prop_bin` - label from `names(bins)` or `"Ultra-rare"`.
 #'
 #' @rdname annotate_clonality
 #' @concept Clonality

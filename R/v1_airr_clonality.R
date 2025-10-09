@@ -1,4 +1,4 @@
-#' @title Clonality — receptor overabundance statistics for immune repertoires
+#' @title Clonality - receptor overabundance statistics for immune repertoires
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -59,20 +59,20 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 }
 
 
-#' @description `airr_clonality_line` — build ranked abundance lines: for each
+#' @description `airr_clonality_line` - build ranked abundance lines: for each
 #' repertoire, take the top `limit` receptors by `count` and attach repertoire
-#' metadata. Useful for per-repertoire rank–abundance plots.
+#' metadata. Useful for per-repertoire rank-abundance plots.
 #'
-#' @param limit Positive integer ≥ 10: maximum number of top receptors to keep
+#' @param limit Positive integer >= 10: maximum number of top receptors to keep
 #'   **per repertoire** (default `100000`).
 #'
 #' @return
 #'
 #' ## `airr_clonality_line`
 #' A tibble with columns:
-#' * `repertoire_id` — repertoire identifier
-#' * `index` — rank within repertoire (1 = most abundant)
-#' * `count` — receptor count used for ranking
+#' * `repertoire_id` - repertoire identifier
+#' * `index` - rank within repertoire (1 = most abundant)
+#' * `count` - receptor count used for ranking
 #' * plus any repertoire metadata columns carried from `idata$repertoires`
 #'
 #' @examples
@@ -109,7 +109,7 @@ airr_clonality_rank_impl <- function(idata,
 }
 
 
-#' @description `airr_clonality_rank` — aggregate clonal space by **rank bins**.
+#' @description `airr_clonality_rank` - aggregate clonal space by **rank bins**.
 #' Receptors are ordered by `proportion` within each repertoire; each receptor
 #' is assigned to the smallest threshold in `bins` that contains its rank.
 #'
@@ -122,8 +122,8 @@ airr_clonality_rank_impl <- function(idata,
 #' ## `airr_clonality_rank`
 #' A tibble with
 #' * `repertoire_id`
-#' * `clonal_rank_bin` — the rank threshold (e.g., `10`, `100`, …)
-#' * `occupied_prop` — sum of `proportion` within the bin
+#' * `clonal_rank_bin` - the rank threshold (e.g., `10`, `100`, ...)
+#' * `occupied_prop` - sum of `proportion` within the bin
 #' * plus repertoire metadata columns from `idata$repertoires`
 #'
 #' @examples
@@ -166,9 +166,9 @@ airr_clonality_prop_impl <- function(
 }
 
 
-#' @description `airr_clonality_prop` — aggregate clonal space by **proportion bins**.
+#' @description `airr_clonality_prop` - aggregate clonal space by **proportion bins**.
 #' Each receptor is assigned to a named bin according to its `proportion`
-#' (e.g., `Hyperexpanded ≥ 1e-2`, `Large ≥ 1e-3`, …). Thresholds are matched in
+#' (e.g., `Hyperexpanded >= 1e-2`, `Large >= 1e-3`, ...). Thresholds are matched in
 #' descending order; unmatched receptors fall into `"Ultra-rare"`.
 #'
 #' @param bins A **named** numeric vector of thresholds (e.g.,
@@ -180,8 +180,8 @@ airr_clonality_prop_impl <- function(
 #' ## `airr_clonality_prop`
 #' A tibble with
 #' * `repertoire_id`
-#' * `clonal_prop_bin` — factor-like label from `names(bins)` or `"Ultra-rare"`
-#' * `occupied_prop` — sum of `proportion` within the bin
+#' * `clonal_prop_bin` - factor-like label from `names(bins)` or `"Ultra-rare"`
+#' * `occupied_prop` - sum of `proportion` within the bin
 #' * plus repertoire metadata columns from `idata$repertoires`
 #'
 #' @examples

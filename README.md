@@ -42,7 +42,7 @@
 <p align="center">
   <a href="https://immunomind.github.io/docs/tutorials/single_cell/">Tutorials</a>
   |
-  <a href="https://immunomind.github.io/immunarch/reference">API reference</a>
+  <a href="https://immunomind.github.io/docs/api/reference/">API reference</a>
   |
   <a href=https://immunomind.github.io/docs/>Ecosystem</a>
   |

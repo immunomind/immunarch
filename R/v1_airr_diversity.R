@@ -1,4 +1,4 @@
-#' @title Diversity — estimating the heterogeneity of immune repertoires
+#' @title Diversity - estimating the heterogeneity of immune repertoires
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -79,7 +79,7 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 }
 
 
-#' @description `airr_diversity_dxx` — **coverage diversity**: minimal number of
+#' @description `airr_diversity_dxx` - **coverage diversity**: minimal number of
 #' top receptors needed to reach `perc%` of clonal space (by `proportion`).
 #' Great for spotting dominance/overexpansion and for quick, interpretable dashboards
 #' (e.g., D50 = receptors to cover half of the repertoire).
@@ -93,7 +93,7 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 #' A tibble with:
 #' * `imd_repertoire_id`
 #' * `perc`
-#' * `dxx` — minimal count of top receptors to reach `perc%`
+#' * `dxx` - minimal count of top receptors to reach `perc%`
 #' * plus repertoire metadata from `idata$repertoires`
 #'
 #' @examples
@@ -132,7 +132,7 @@ airr_diversity_chao1_impl <- function(idata) {
     collect()
 }
 
-#' @description `airr_diversity_chao1` — Chao1 estimator is a nonparameteric
+#' @description `airr_diversity_chao1` - Chao1 estimator is a nonparameteric
 #'  asymptotic estimator of species richness (number of species in a population).
 #'  One of the most used methods for estimating immune repertoire diversity.
 #'
@@ -141,10 +141,10 @@ airr_diversity_chao1_impl <- function(idata) {
 #' ## `airr_diversity_chao1`
 #' A tibble with:
 #' * `imd_repertoire_id`
-#' * `Estimator` — number of species
-#' * `SD` — standard deviation for the estimator value
-#' * `Conf.95.lo` — CI 0.025
-#' * `Conf.95.hi` — CI 0.975
+#' * `Estimator` - number of species
+#' * `SD` - standard deviation for the estimator value
+#' * `Conf.95.lo` - CI 0.025
+#' * `Conf.95.hi` - CI 0.975
 #' * plus repertoire metadata from `idata$repertoires`
 #'
 #' @examples
@@ -179,7 +179,7 @@ airr_diversity_shannon_impl <- function(idata) {
 }
 
 
-#' @description `airr_diversity_shannon` — Shannon entropy (base 2) per repertoire
+#' @description `airr_diversity_shannon` - Shannon entropy (base 2) per repertoire
 #' computed from `proportion`. Ideal when you want a single evenness-aware
 #' diversity score; pair with Pielou/Hill for samples with very different richness.
 #'
@@ -188,7 +188,7 @@ airr_diversity_shannon_impl <- function(idata) {
 #' ## `airr_diversity_shannon`
 #' A tibble with:
 #' * `imd_repertoire_id`
-#' * `shannon` — entropy in bits
+#' * `shannon` - entropy in bits
 #'
 #' @examples
 #' #
@@ -216,8 +216,8 @@ airr_diversity_pielou_impl <- function(idata) {
 }
 
 
-#' @description `airr_diversity_pielou` — Pielou’s evenness `H / log2(S)` with
-#' richness `S`. Best when you need a **size-normalized** evenness score that’s
+#' @description `airr_diversity_pielou` - Pielou's evenness `H / log2(S)` with
+#' richness `S`. Best when you need a **size-normalized** evenness score that's
 #' comparable across repertoires with different receptor counts.
 #'
 #' @return
@@ -227,7 +227,7 @@ airr_diversity_pielou_impl <- function(idata) {
 #' * `imd_repertoire_id`
 #' * `shannon`
 #' * `n_receptors`
-#' * `pielou` — evenness in `[0, 1]` (NA if `S ≤ 1`)
+#' * `pielou` - evenness in `[0, 1]` (NA if `S <= 1`)
 #'
 #' @examples
 #' #
@@ -247,9 +247,9 @@ airr_diversity_index_impl <- function(idata) {
 }
 
 
-#' @description `airr_diversity_index` — convenience alias for Hill number with
+#' @description `airr_diversity_index` - convenience alias for Hill number with
 #' `q = 1` (`exp(Shannon)` using natural log). A solid **default single metric**
-#' that’s relatively robust to rare-count noise and easy to compare across samples.
+#' that's relatively robust to rare-count noise and easy to compare across samples.
 #'
 #' @return
 #'
@@ -327,8 +327,8 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 }
 
 
-#' @description `airr_diversity_hill` — Hill numbers (“true diversity”) for
-#' orders `q ∈ {0, 1, 2, …}`: `q=0` richness, `q=1` exp(Shannon), `q>1`
+#' @description `airr_diversity_hill` - Hill numbers ("true diversity") for
+#' orders `q \eqn{\in}{in} {0, 1, 2, ...}`: `q=0` richness, `q=1` exp(Shannon), `q>1`
 #' emphasizes abundant receptors. Perfect when you want a **diversity profile**
 #' that tunes sensitivity to rare vs. abundant clonotypes.
 #'
@@ -340,8 +340,8 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #' ## `airr_diversity_hill`
 #' A tibble with:
 #' * `imd_repertoire_id`
-#' * `q` — Hill order
-#' * `hill_number` — true diversity of order `q`
+#' * `q` - Hill order
+#' * `hill_number` - true diversity of order `q`
 #' * plus repertoire metadata from `idata$repertoires`
 #'
 #' @examples

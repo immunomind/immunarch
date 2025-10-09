@@ -83,7 +83,7 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
 #'
 #' ## `airr_stats_chains` Returns a tibble with columns:
 #' * `repertoire_id` -- repertoire identifier
-#' * `locus` -- TRA, TRB, IGH … (present only if `locus_col` is supplied)
+#' * `locus` -- TRA, TRB, IGH, ... (present only if `locus_col` is supplied)
 #' * `n_chains` -- number of chains
 #'
 #' @examples
@@ -178,7 +178,7 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
     collect()
 }
 
-#' @description `airr_stats_genes` — count V(D)J gene segments per repertoire,
+#' @description `airr_stats_genes` - count V(D)J gene segments per repertoire,
 #'   optionally split by locus and using either receptor counts or barcode/UMI
 #'   counts as the measure. Profiles V/D/J gene usage to characterize repertoire
 #'   composition and germline biases, with optional locus split. Useful for
@@ -201,11 +201,11 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #' @return
 #'
 #' ## `airr_stats_genes` A tibble with columns:
-#' * `repertoire_id` — repertoire identifier
-#' * *(optional)* `locus` — TRA, TRB, IGH … (present only when `by = "locus"`
+#' * `repertoire_id` - repertoire identifier
+#' * *(optional)* `locus` - TRA, TRB, IGH, ... (present only when `by = "locus"`
 #' and the locus column exists)
-#' * `<gene_col>` — the gene segment value (e.g., V gene)
-#' * `n` — the measure:
+#' * `<gene_col>` - the gene segment value (e.g., V gene)
+#' * `n` - the measure:
 #'   - if `level = "receptor"`: number of receptors carrying the gene segment
 #'   - if `level = "barcode"`: sum of counts across receptors for the segment
 #'
@@ -219,7 +219,7 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #' # V gene usage by summed cell/UMI counts (if a count column is present)
 #' airr_stats_genes(immdata, gene_col = "v_call", level = "barcode")
 #'
-#' # Split by locus (TRA/TRB/… if locus column exists)
+#' # Split by locus (TRA/TRB/... if locus column exists)
 #' airr_stats_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
 #'
 #' @rdname airr_stats

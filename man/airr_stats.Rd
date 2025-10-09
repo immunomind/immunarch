@@ -65,7 +65,7 @@ split is ignored.}
 \subsection{\code{airr_stats_chains} Returns a tibble with columns:}{
 \itemize{
 \item \code{repertoire_id} -- repertoire identifier
-\item \code{locus} -- TRA, TRB, IGH … (present only if \code{locus_col} is supplied)
+\item \code{locus} -- TRA, TRB, IGH, ... (present only if \code{locus_col} is supplied)
 \item \code{n_chains} -- number of chains
 }
 }
@@ -80,11 +80,11 @@ split is ignored.}
 
 \subsection{\code{airr_stats_genes} A tibble with columns:}{
 \itemize{
-\item \code{repertoire_id} — repertoire identifier
-\item \emph{(optional)} \code{locus} — TRA, TRB, IGH … (present only when \code{by = "locus"}
+\item \code{repertoire_id} - repertoire identifier
+\item \emph{(optional)} \code{locus} - TRA, TRB, IGH, ... (present only when \code{by = "locus"}
 and the locus column exists)
-\item \verb{<gene_col>} — the gene segment value (e.g., V gene)
-\item \code{n} — the measure:
+\item \verb{<gene_col>} - the gene segment value (e.g., V gene)
+\item \code{n} - the measure:
 \itemize{
 \item if \code{level = "receptor"}: number of receptors carrying the gene segment
 \item if \code{level = "barcode"}: sum of counts across receptors for the segment
@@ -113,7 +113,7 @@ fingerprint of repertoire prep and selection. Helpful for detecting
 primer/UMI biases, comparing cohorts, and deriving length-based features for
 models.
 
-\code{airr_stats_genes} — count V(D)J gene segments per repertoire,
+\code{airr_stats_genes} - count V(D)J gene segments per repertoire,
 optionally split by locus and using either receptor counts or barcode/UMI
 counts as the measure. Profiles V/D/J gene usage to characterize repertoire
 composition and germline biases, with optional locus split. Useful for
@@ -143,7 +143,7 @@ airr_stats_genes(immdata, gene_col = "v_call", level = "receptor")
 # V gene usage by summed cell/UMI counts (if a count column is present)
 airr_stats_genes(immdata, gene_col = "v_call", level = "barcode")
 
-# Split by locus (TRA/TRB/… if locus column exists)
+# Split by locus (TRA/TRB/... if locus column exists)
 airr_stats_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
 
 }

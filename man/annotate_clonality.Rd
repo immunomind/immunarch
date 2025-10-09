@@ -4,7 +4,7 @@
 \alias{annotate_clonality}
 \alias{annotate_clonality_rank}
 \alias{annotate_clonality_prop}
-\title{Annotate clonality — per-receptor labels for overabundance}
+\title{Annotate clonality - per-receptor labels for overabundance}
 \usage{
 annotate_clonality_rank(
   idata,
@@ -38,13 +38,13 @@ with each row corresponding to a specific repertoire / pair of repertoires; usef
 \value{
 An \link[immundata:ImmunData]{immundata::ImmunData} whose \verb{$annotations} gains:
 \itemize{
-\item \code{clonal_rank_bin} — integer-like label with the applied rank threshold
-(outside all thresholds → \code{NA}).
+\item \code{clonal_rank_bin} - integer-like label with the applied rank threshold
+(outside all thresholds -> \code{NA}).
 }
 
 An \link[immundata:ImmunData]{immundata::ImmunData} whose \verb{$annotations} gains:
 \itemize{
-\item \code{clonal_prop_bin} — label from \code{names(bins)} or \code{"Ultra-rare"}.
+\item \code{clonal_prop_bin} - label from \code{names(bins)} or \code{"Ultra-rare"}.
 }
 }
 \description{
@@ -54,15 +54,15 @@ A small family of helpers that \strong{add clonality labels to each receptor} in
 an \link[immundata:ImmunData]{immundata::ImmunData} object.
 \subsection{Available functions}{
 \itemize{
-\item \code{annotate_clonality_rank()} — label by \strong{rank bins} within each repertoire.
-\item \code{annotate_clonality_prop()} — label by \strong{proportion bins} (named thresholds).
+\item \code{annotate_clonality_rank()} - label by \strong{rank bins} within each repertoire.
+\item \code{annotate_clonality_prop()} - label by \strong{proportion bins} (named thresholds).
 }
 }
 
-\code{annotate_clonality_rank()} — for each repertoire, receptors are ordered by
+\code{annotate_clonality_rank()} - for each repertoire, receptors are ordered by
 within-repertoire abundance (proportion) and assigned a \strong{rank bin} label.
 
-\code{annotate_clonality_prop()} — label each receptor by \strong{proportion bin}
+\code{annotate_clonality_prop()} - label each receptor by \strong{proportion bin}
 using named thresholds (matched in descending order; else \code{"Ultra-rare"}).
 }
 \examples{

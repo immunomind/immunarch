@@ -32,7 +32,7 @@ the family environment by calling \code{register_airr_family()} when available.}
 repertoires.}
 }
 \value{
-A \strong{function} — the user-facing wrapper around \code{core}. Typical usage is to
+A \strong{function} - the user-facing wrapper around \code{core}. Typical usage is to
 assign it to the exported symbol of the method, e.g.:
 \code{airr_stats_lengths <- register_immunarch_method(...)}.
 }
@@ -46,7 +46,7 @@ arguments} and \strong{runs safety checks} so your core stays minimal.
 \subsection{What your core must look like}{
 \itemize{
 \item Signature: \verb{function(idata, ...)}
-\item \strong{Must not} declare \code{autojoin}, \code{format}, or \code{features} — these are added by the wrapper.
+\item \strong{Must not} declare \code{autojoin}, \code{format}, or \code{features} - these are added by the wrapper.
 }
 }
 

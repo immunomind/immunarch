@@ -38,7 +38,7 @@ Currently we support three popular databases:
 
 VDJDB - \url{https://github.com/antigenomics/vdjdb-db}
 
-McPAS-TCR - \url{http://friedmanlab.weizmann.ac.il/McPAS-TCR/}
+McPAS-TCR - \url{https://friedmanlab.weizmann.ac.il/McPAS-TCR/}
 
 TBAdb from PIRD - \url{https://db.cngb.org/pird/}
 }

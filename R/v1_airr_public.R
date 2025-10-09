@@ -1,4 +1,4 @@
-#' @title Public indices — pairwise repertoire overlap
+#' @title Public indices - pairwise repertoire overlap
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -54,9 +54,9 @@ airr_public_intersection_impl <- function(idata) {
   result_matrix
 }
 
-#' @description `airr_public_intersection` — number of **shared receptors** between
+#' @description `airr_public_intersection` - number of **shared receptors** between
 #' each pair of repertoires (intersection size). Handy for quick overlap heatmaps,
-#' QC of replicate similarity, or spotting donor-shared “public” clonotypes.
+#' QC of replicate similarity, or spotting donor-shared "public" clonotypes.
 #'
 #' @return
 #'
@@ -119,8 +119,8 @@ airr_public_jaccard_impl <- function(idata) {
 }
 
 
-#' @description `airr_public_jaccard` — **Jaccard similarity** of receptor
-#' sets between repertoires (`|A∩B| / |A∪B|`). Best when comparing cohorts with
+#' @description `airr_public_jaccard` - **Jaccard similarity** of receptor
+#' sets between repertoires (\eqn{A \cap B}{A cap B} / \eqn{A \cup B}{A cup B}). Best when comparing cohorts with
 #' different sizes to get a scale-invariant overlap score.
 #'
 #' @inheritParams im_common_args

@@ -27,3 +27,4 @@
 ^wip-.*
 ^vignettes/articles$
 ^vignettes/.quarto$
+^CRAN-SUBMISSION$

@@ -5,7 +5,7 @@
 \alias{airr_clonality_line}
 \alias{airr_clonality_rank}
 \alias{airr_clonality_prop}
-\title{Clonality — receptor overabundance statistics for immune repertoires}
+\title{Clonality - receptor overabundance statistics for immune repertoires}
 \usage{
 airr_clonality_line(
   idata,
@@ -32,7 +32,7 @@ airr_clonality_prop(
 \arguments{
 \item{idata}{An \code{ImmunData} object.}
 
-\item{limit}{Positive integer ≥ 10: maximum number of top receptors to keep
+\item{limit}{Positive integer >= 10: maximum number of top receptors to keep
 \strong{per repertoire} (default \code{100000}).}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
@@ -51,9 +51,9 @@ must be non-empty. Internally sorted in descending order.}
 
 A tibble with columns:
 \itemize{
-\item \code{repertoire_id} — repertoire identifier
-\item \code{index} — rank within repertoire (1 = most abundant)
-\item \code{count} — receptor count used for ranking
+\item \code{repertoire_id} - repertoire identifier
+\item \code{index} - rank within repertoire (1 = most abundant)
+\item \code{count} - receptor count used for ranking
 \item plus any repertoire metadata columns carried from \code{idata$repertoires}
 }
 }
@@ -63,8 +63,8 @@ A tibble with columns:
 A tibble with
 \itemize{
 \item \code{repertoire_id}
-\item \code{clonal_rank_bin} — the rank threshold (e.g., \code{10}, \code{100}, …)
-\item \code{occupied_prop} — sum of \code{proportion} within the bin
+\item \code{clonal_rank_bin} - the rank threshold (e.g., \code{10}, \code{100}, ...)
+\item \code{occupied_prop} - sum of \code{proportion} within the bin
 \item plus repertoire metadata columns from \code{idata$repertoires}
 }
 }
@@ -74,8 +74,8 @@ A tibble with
 A tibble with
 \itemize{
 \item \code{repertoire_id}
-\item \code{clonal_prop_bin} — factor-like label from \code{names(bins)} or \code{"Ultra-rare"}
-\item \code{occupied_prop} — sum of \code{proportion} within the bin
+\item \code{clonal_prop_bin} - factor-like label from \code{names(bins)} or \code{"Ultra-rare"}
+\item \code{occupied_prop} - sum of \code{proportion} within the bin
 \item plus repertoire metadata columns from \code{idata$repertoires}
 }
 }
@@ -89,17 +89,17 @@ A family of functions to quantify \strong{receptor overabundance} per repertoire
 Supported methods are the following.
 }
 
-\code{airr_clonality_line} — build ranked abundance lines: for each
+\code{airr_clonality_line} - build ranked abundance lines: for each
 repertoire, take the top \code{limit} receptors by \code{count} and attach repertoire
-metadata. Useful for per-repertoire rank–abundance plots.
+metadata. Useful for per-repertoire rank-abundance plots.
 
-\code{airr_clonality_rank} — aggregate clonal space by \strong{rank bins}.
+\code{airr_clonality_rank} - aggregate clonal space by \strong{rank bins}.
 Receptors are ordered by \code{proportion} within each repertoire; each receptor
 is assigned to the smallest threshold in \code{bins} that contains its rank.
 
-\code{airr_clonality_prop} — aggregate clonal space by \strong{proportion bins}.
+\code{airr_clonality_prop} - aggregate clonal space by \strong{proportion bins}.
 Each receptor is assigned to a named bin according to its \code{proportion}
-(e.g., \verb{Hyperexpanded ≥ 1e-2}, \verb{Large ≥ 1e-3}, …). Thresholds are matched in
+(e.g., \code{Hyperexpanded >= 1e-2}, \code{Large >= 1e-3}, ...). Thresholds are matched in
 descending order; unmatched receptors fall into \code{"Ultra-rare"}.
 }
 \examples{

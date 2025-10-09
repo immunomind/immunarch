@@ -21,7 +21,7 @@ if (getRversion() >= "2.15.1") {
 #'
 #' VDJDB - <https://github.com/antigenomics/vdjdb-db>
 #'
-#' McPAS-TCR - <http://friedmanlab.weizmann.ac.il/McPAS-TCR/>
+#' McPAS-TCR - <https://friedmanlab.weizmann.ac.il/McPAS-TCR/>
 #'
 #' TBAdb from PIRD - <https://db.cngb.org/pird/>
 #'

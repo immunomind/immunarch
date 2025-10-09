@@ -8,7 +8,7 @@
 \alias{airr_diversity_pielou}
 \alias{airr_diversity_index}
 \alias{airr_diversity_hill}
-\title{Diversity — estimating the heterogeneity of immune repertoires}
+\title{Diversity - estimating the heterogeneity of immune repertoires}
 \usage{
 airr_diversity_dxx(
   idata,
@@ -70,7 +70,7 @@ A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
 \item \code{perc}
-\item \code{dxx} — minimal count of top receptors to reach \verb{perc\%}
+\item \code{dxx} - minimal count of top receptors to reach \verb{perc\%}
 \item plus repertoire metadata from \code{idata$repertoires}
 }
 }
@@ -80,10 +80,10 @@ A tibble with:
 A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
-\item \code{Estimator} — number of species
-\item \code{SD} — standard deviation for the estimator value
-\item \code{Conf.95.lo} — CI 0.025
-\item \code{Conf.95.hi} — CI 0.975
+\item \code{Estimator} - number of species
+\item \code{SD} - standard deviation for the estimator value
+\item \code{Conf.95.lo} - CI 0.025
+\item \code{Conf.95.hi} - CI 0.975
 \item plus repertoire metadata from \code{idata$repertoires}
 }
 }
@@ -93,7 +93,7 @@ A tibble with:
 A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
-\item \code{shannon} — entropy in bits
+\item \code{shannon} - entropy in bits
 }
 }
 
@@ -104,7 +104,7 @@ A tibble with:
 \item \code{imd_repertoire_id}
 \item \code{shannon}
 \item \code{n_receptors}
-\item \code{pielou} — evenness in \verb{[0, 1]} (NA if \verb{S ≤ 1})
+\item \code{pielou} - evenness in \verb{[0, 1]} (NA if \code{S <= 1})
 }
 }
 
@@ -124,8 +124,8 @@ A tibble with:
 A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
-\item \code{q} — Hill order
-\item \code{hill_number} — true diversity of order \code{q}
+\item \code{q} - Hill order
+\item \code{hill_number} - true diversity of order \code{q}
 \item plus repertoire metadata from \code{idata$repertoires}
 }
 }
@@ -139,29 +139,29 @@ A family of functions to quantify \strong{receptor diversity} per repertoire. A 
 Supported methods are the following.
 }
 
-\code{airr_diversity_dxx} — \strong{coverage diversity}: minimal number of
+\code{airr_diversity_dxx} - \strong{coverage diversity}: minimal number of
 top receptors needed to reach \verb{perc\%} of clonal space (by \code{proportion}).
 Great for spotting dominance/overexpansion and for quick, interpretable dashboards
 (e.g., D50 = receptors to cover half of the repertoire).
 
-\code{airr_diversity_chao1} — Chao1 estimator is a nonparameteric
+\code{airr_diversity_chao1} - Chao1 estimator is a nonparameteric
 asymptotic estimator of species richness (number of species in a population).
 One of the most used methods for estimating immune repertoire diversity.
 
-\code{airr_diversity_shannon} — Shannon entropy (base 2) per repertoire
+\code{airr_diversity_shannon} - Shannon entropy (base 2) per repertoire
 computed from \code{proportion}. Ideal when you want a single evenness-aware
 diversity score; pair with Pielou/Hill for samples with very different richness.
 
-\code{airr_diversity_pielou} — Pielou’s evenness \code{H / log2(S)} with
-richness \code{S}. Best when you need a \strong{size-normalized} evenness score that’s
+\code{airr_diversity_pielou} - Pielou's evenness \code{H / log2(S)} with
+richness \code{S}. Best when you need a \strong{size-normalized} evenness score that's
 comparable across repertoires with different receptor counts.
 
-\code{airr_diversity_index} — convenience alias for Hill number with
+\code{airr_diversity_index} - convenience alias for Hill number with
 \code{q = 1} (\code{exp(Shannon)} using natural log). A solid \strong{default single metric}
-that’s relatively robust to rare-count noise and easy to compare across samples.
+that's relatively robust to rare-count noise and easy to compare across samples.
 
-\code{airr_diversity_hill} — Hill numbers (“true diversity”) for
-orders \verb{q ∈ \{0, 1, 2, …\}}: \code{q=0} richness, \code{q=1} exp(Shannon), \code{q>1}
+\code{airr_diversity_hill} - Hill numbers ("true diversity") for
+orders \verb{q \eqn{\in}{in} \{0, 1, 2, ...\}}: \code{q=0} richness, \code{q=1} exp(Shannon), \code{q>1}
 emphasizes abundant receptors. Perfect when you want a \strong{diversity profile}
 that tunes sensitivity to rare vs. abundant clonotypes.
 }

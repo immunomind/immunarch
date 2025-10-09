@@ -115,7 +115,7 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
 #'
 #' ## What your core must look like
 #' * Signature: `function(idata, ...)`
-#' * **Must not** declare `autojoin`, `format`, or `features` — these are added by the wrapper.
+#' * **Must not** declare `autojoin`, `format`, or `features` - these are added by the wrapper.
 #'
 #' ## What the wrapper adds
 #' * Common args from `im_common_args()`: `autojoin`, `format`, `features`
@@ -138,7 +138,7 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
 #' @param need_repertoires Logical. Use this to declare the necessity of having aggregated
 #'  repertoires.
 #'
-#' @return A **function** — the user-facing wrapper around `core`. Typical usage is to
+#' @return A **function** - the user-facing wrapper around `core`. Typical usage is to
 #' assign it to the exported symbol of the method, e.g.:
 #' `airr_stats_lengths <- register_immunarch_method(...)`.
 #'

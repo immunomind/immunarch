@@ -4,7 +4,7 @@
 \alias{airr_public}
 \alias{airr_public_intersection}
 \alias{airr_public_jaccard}
-\title{Public indices — pairwise repertoire overlap}
+\title{Public indices - pairwise repertoire overlap}
 \usage{
 airr_public_intersection(
   idata,
@@ -52,12 +52,12 @@ A family of functions to quantify \strong{public or shared receptors} between re
 Supported methods are the following.
 }
 
-\code{airr_public_intersection} — number of \strong{shared receptors} between
+\code{airr_public_intersection} - number of \strong{shared receptors} between
 each pair of repertoires (intersection size). Handy for quick overlap heatmaps,
-QC of replicate similarity, or spotting donor-shared “public” clonotypes.
+QC of replicate similarity, or spotting donor-shared "public" clonotypes.
 
-\code{airr_public_jaccard} — \strong{Jaccard similarity} of receptor
-sets between repertoires (\verb{|A∩B| / |A∪B|}). Best when comparing cohorts with
+\code{airr_public_jaccard} - \strong{Jaccard similarity} of receptor
+sets between repertoires (\eqn{A \cap B}{A cap B} / \eqn{A \cup B}{A cup B}). Best when comparing cohorts with
 different sizes to get a scale-invariant overlap score.
 }
 \examples{
