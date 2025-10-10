@@ -1,330 +1,123 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://immunarch.com/404.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/CONTRIBUTION.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v1_introduction.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/v2_data.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/BCRpipeline.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/clustering.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/community.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/load_10x.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/load_mixcr.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/repFilter_v3.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v10_prop.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v11_db.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v21_singlecell.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v3_basic_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v4_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v5_gene_usage.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v6_diversity.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v7_fixvis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v8_tracking.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/articles/web_only/v9_kmers.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/code-of-conduct.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/index.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/aa_properties.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/aa_table.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/add_class.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/apply_symm.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/bcrdata.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/bunch_translate.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/check_distribution.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/coding.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/dbAnnotate.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/dbLoad.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/dot-quant_column_choice.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/entropy.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/fixVis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/geneUsage.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/geneUsageAnalysis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/gene_segments.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/gene_stats.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/getKmers.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/group_from_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/has_class.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/immdata.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/immunr_data_format.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/immunr_hclust.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/immunr_pca.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/inc_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/matrixdiagcopy.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/pubRep.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/pubRepApply.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/pubRepFilter.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/pubRepStatistics.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/public_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repAlignLineage.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repClonalFamily.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repClonality.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repDiversity.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repExplore.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repFilter.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repGermline.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repLoad.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repOverlap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repOverlapAnalysis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repSample.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repSave.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/repSomaticHypermutation.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/scdata.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/select_barcodes.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/select_clusters.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/seqCluster.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/seqDist.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/set_pb.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/spectratype.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/split_to_kmers.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/switch_type.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/top.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/trackClonotypes.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.clonal_family.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.clonal_family_tree.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_chao1.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_clonal_prop.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_dynamics.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_exp_vol.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_gene_usage.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_hclust.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_inc_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_kmeans.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_kmer_table.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_mds.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_ov_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_public_repertoire.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.immunr_public_statistics.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis.step_failure_ignored.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_bar.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_box.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_circos.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_heatmap2.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_hist.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_immunr_kmer_profile_main.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_public_clonotypes.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_public_frequencies.html</loc>
-  </url>
-  <url>
-    <loc>https://immunarch.com/reference/vis_textlogo.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://immunarch.com/404.html</loc></url>
+<url><loc>https://immunarch.com/CONTRIBUTION.html</loc></url>
+<url><loc>https://immunarch.com/LICENSE-text.html</loc></url>
+<url><loc>https://immunarch.com/articles/immunarch.html</loc></url>
+<url><loc>https://immunarch.com/articles/index.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/BCRpipeline.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/clustering.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/community.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/data.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/introduction.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/load_10x.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/load_mixcr.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/repFilter_v3.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v10_prop.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v11_db.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v21_singlecell.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v3_basic_analysis.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v4_overlap.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v5_gene_usage.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v6_diversity.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v7_fixvis.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v8_tracking.html</loc></url>
+<url><loc>https://immunarch.com/articles/web_only_v0/v9_kmers.html</loc></url>
+<url><loc>https://immunarch.com/authors.html</loc></url>
+<url><loc>https://immunarch.com/code-of-conduct.html</loc></url>
+<url><loc>https://immunarch.com/index.html</loc></url>
+<url><loc>https://immunarch.com/news/index.html</loc></url>
+<url><loc>https://immunarch.com/reference/aa_properties.html</loc></url>
+<url><loc>https://immunarch.com/reference/aa_table.html</loc></url>
+<url><loc>https://immunarch.com/reference/add_class.html</loc></url>
+<url><loc>https://immunarch.com/reference/airr_clonality.html</loc></url>
+<url><loc>https://immunarch.com/reference/airr_diversity.html</loc></url>
+<url><loc>https://immunarch.com/reference/airr_public.html</loc></url>
+<url><loc>https://immunarch.com/reference/airr_stats.html</loc></url>
+<url><loc>https://immunarch.com/reference/annotate_clonality.html</loc></url>
+<url><loc>https://immunarch.com/reference/apply_symm.html</loc></url>
+<url><loc>https://immunarch.com/reference/bcrdata.html</loc></url>
+<url><loc>https://immunarch.com/reference/bunch_translate.html</loc></url>
+<url><loc>https://immunarch.com/reference/check_distribution.html</loc></url>
+<url><loc>https://immunarch.com/reference/coding.html</loc></url>
+<url><loc>https://immunarch.com/reference/dbAnnotate.html</loc></url>
+<url><loc>https://immunarch.com/reference/dbLoad.html</loc></url>
+<url><loc>https://immunarch.com/reference/dot-quant_column_choice.html</loc></url>
+<url><loc>https://immunarch.com/reference/entropy.html</loc></url>
+<url><loc>https://immunarch.com/reference/fixVis.html</loc></url>
+<url><loc>https://immunarch.com/reference/geneUsage.html</loc></url>
+<url><loc>https://immunarch.com/reference/geneUsageAnalysis.html</loc></url>
+<url><loc>https://immunarch.com/reference/gene_segments.html</loc></url>
+<url><loc>https://immunarch.com/reference/gene_stats.html</loc></url>
+<url><loc>https://immunarch.com/reference/getKmers.html</loc></url>
+<url><loc>https://immunarch.com/reference/get_immunarch_news.html</loc></url>
+<url><loc>https://immunarch.com/reference/group_from_metadata.html</loc></url>
+<url><loc>https://immunarch.com/reference/has_class.html</loc></url>
+<url><loc>https://immunarch.com/reference/im_common_args.html</loc></url>
+<url><loc>https://immunarch.com/reference/immdata.html</loc></url>
+<url><loc>https://immunarch.com/reference/immunarch_v1_updates.html</loc></url>
+<url><loc>https://immunarch.com/reference/immunr_data_format.html</loc></url>
+<url><loc>https://immunarch.com/reference/immunr_hclust.html</loc></url>
+<url><loc>https://immunarch.com/reference/immunr_pca.html</loc></url>
+<url><loc>https://immunarch.com/reference/inc_overlap.html</loc></url>
+<url><loc>https://immunarch.com/reference/index.html</loc></url>
+<url><loc>https://immunarch.com/reference/list_immunarch_news.html</loc></url>
+<url><loc>https://immunarch.com/reference/matrixdiagcopy.html</loc></url>
+<url><loc>https://immunarch.com/reference/pubRep.html</loc></url>
+<url><loc>https://immunarch.com/reference/pubRepApply.html</loc></url>
+<url><loc>https://immunarch.com/reference/pubRepFilter.html</loc></url>
+<url><loc>https://immunarch.com/reference/pubRepStatistics.html</loc></url>
+<url><loc>https://immunarch.com/reference/public_matrix.html</loc></url>
+<url><loc>https://immunarch.com/reference/register_immunarch_method.html</loc></url>
+<url><loc>https://immunarch.com/reference/repAlignLineage.html</loc></url>
+<url><loc>https://immunarch.com/reference/repClonalFamily.html</loc></url>
+<url><loc>https://immunarch.com/reference/repClonality.html</loc></url>
+<url><loc>https://immunarch.com/reference/repDiversity.html</loc></url>
+<url><loc>https://immunarch.com/reference/repExplore.html</loc></url>
+<url><loc>https://immunarch.com/reference/repFilter.html</loc></url>
+<url><loc>https://immunarch.com/reference/repGermline.html</loc></url>
+<url><loc>https://immunarch.com/reference/repLoad.html</loc></url>
+<url><loc>https://immunarch.com/reference/repOverlap.html</loc></url>
+<url><loc>https://immunarch.com/reference/repOverlapAnalysis.html</loc></url>
+<url><loc>https://immunarch.com/reference/repSample.html</loc></url>
+<url><loc>https://immunarch.com/reference/repSave.html</loc></url>
+<url><loc>https://immunarch.com/reference/repSomaticHypermutation.html</loc></url>
+<url><loc>https://immunarch.com/reference/scdata.html</loc></url>
+<url><loc>https://immunarch.com/reference/select_barcodes.html</loc></url>
+<url><loc>https://immunarch.com/reference/select_clusters.html</loc></url>
+<url><loc>https://immunarch.com/reference/seqCluster.html</loc></url>
+<url><loc>https://immunarch.com/reference/seqDist.html</loc></url>
+<url><loc>https://immunarch.com/reference/set_pb.html</loc></url>
+<url><loc>https://immunarch.com/reference/spectratype.html</loc></url>
+<url><loc>https://immunarch.com/reference/split_to_kmers.html</loc></url>
+<url><loc>https://immunarch.com/reference/switch_type.html</loc></url>
+<url><loc>https://immunarch.com/reference/top.html</loc></url>
+<url><loc>https://immunarch.com/reference/trackClonotypes.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.clonal_family.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.clonal_family_tree.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_chao1.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_clonal_prop.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_dynamics.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_exp_vol.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_gene_usage.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_hclust.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_inc_overlap.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_kmeans.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_kmer_table.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_mds.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_ov_matrix.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_public_repertoire.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.immunr_public_statistics.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis.step_failure_ignored.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_bar.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_box.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_circos.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_heatmap.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_heatmap2.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_hist.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_immunr_kmer_profile_main.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_public_clonotypes.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_public_frequencies.html</loc></url>
+<url><loc>https://immunarch.com/reference/vis_textlogo.html</loc></url>
 </urlset>
+
