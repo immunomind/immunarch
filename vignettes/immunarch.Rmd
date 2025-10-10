@@ -1,13 +1,11 @@
 ---
-title: "immunarch"
-output: html_document
+title: "Immunarch overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Immunarch overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{immunarch}
-%\VignettePackage{immunarch}
--->
 
 # 🧬 immunarch – Multi-modal immune repertoire analysis in R
 

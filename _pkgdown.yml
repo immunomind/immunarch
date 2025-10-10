@@ -44,14 +44,14 @@ navbar:
   bg: dark
   type: dark
   structure:
-    left: [tutorial, articles, reference]
+    left: [tutorial, migration, articles, reference]
     right: [github]
   components:
     home: ~
     news: ~
     tutorial:
       text: "Immunarch v1.0"
-      href: https://immunomind.github.io/docs/tutorials/single-cell/
+      href: https://immunomind.github.io/docs/tutorials/single_cell/
     migration:
       text: "Migration Guide"
       href: https://immunomind.github.io/docs/tutorials/migration/
@@ -146,6 +146,7 @@ reference:
 - subtitle: Clonality
 - contents:
   - starts_with("airr_clonality")
+  - starts_with("annotate_clonality")
 
 - subtitle: Diversity
 - contents:
@@ -164,6 +165,7 @@ reference:
   - -starts_with("airr_clonality")
   - -starts_with("airr_diversity")
   - -starts_with("airr_public")
+  - -starts_with("annotate_clonality")
 
 - title: Under Question, v0.9 -> v1.0
 

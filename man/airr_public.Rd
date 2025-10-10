@@ -61,6 +61,9 @@ sets between repertoires (\eqn{A \cap B}{A cap B} / \eqn{A \cup B}{A cup B}). Be
 different sizes to get a scale-invariant overlap score.
 }
 \examples{
+# Limit the number of threads used by the underlying DB for this session.
+# Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+db_exec("SET threads TO 1")
 # Load data
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
 

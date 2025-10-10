@@ -166,6 +166,9 @@ emphasizes abundant receptors. Perfect when you want a \strong{diversity profile
 that tunes sensitivity to rare vs. abundant clonotypes.
 }
 \examples{
+# Limit the number of threads used by the underlying DB for this session.
+# Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+db_exec("SET threads TO 1")
 # Load data
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
 
