@@ -1,80 +1,63 @@
 Package: immunarch
 Type: Package
-Title: Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires
-Version: 0.9.1
+Title: Multi-Modal Immune Repertoire Analytics for Immunotherapy and Vaccine Design in R
+Version: 0.10.0
 Authors@R: c(
-    person("Vadim I.", "Nazarov", , "support@immunomind.io", c("aut", "cre")),
+    person("Vadim I.", "Nazarov", , "support@immunomind.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-3659-2709")),
     person("Vasily O.", "Tsvetkov", , role = "aut"),
-    person("Siarhei", "Fiadziushchanka", , role = "aut"),
-    person("Eugene", "Rumynskiy", , role = "aut"),
     person("Aleksandr A.", "Popov", , role = "aut"),
-    person("Ivan", "Balashov", , role = "aut"),
-    person("Maria", "Samokhina", , role = "aut"),
-    person("Anna", "Lorenc", , role = "ctb"),
-    person("Daniel J.", "Moore", , role = "ctb"),
-    person("Victor", "Greiff", , role = "ctb"),
-    person("ImmunoMind", role = c("cph", "fnd"))
+    person("Ivan", "Balashov", , role = "aut")
     )
-Contact: support@immunomind.io
-Description: A comprehensive framework for bioinformatics exploratory analysis of bulk and single-cell
-    T-cell receptor and antibody repertoires. It provides seamless data loading, analysis and
-    visualisation for AIRR (Adaptive Immune Receptor Repertoire) data, both bulk immunosequencing (RepSeq)
-    and single-cell sequencing (scRNAseq). Immunarch implements most of the widely used AIRR analysis methods,
-    such as: clonality analysis, estimation of repertoire similarities in distribution of clonotypes
-    and gene segments, repertoire diversity analysis, annotation of clonotypes using external immune receptor
-    databases and clonotype tracking in vaccination and cancer studies. A successor to our
-    previously published 'tcR' immunoinformatics package (Nazarov 2015) <doi:10.1186/s12859-015-0613-1>.
-License: Apache License (== 2.0)
-URL: https://immunarch.com/, https://github.com/immunomind/immunarch
+Contact: support@immunomind.com
+Description: A comprehensive analytics framework for building reproducible pipelines on T-cell and B-cell immune receptor repertoire data.
+    Delivers multi-modal immune profiling (bulk, single-cell, CITE-seq/AbSeq, spatial, immunogenicity data), 
+    feature engineering (ML-ready feature tables and matrices), and biomarker discovery workflows
+    (cohort comparisons, longitudinal tracking, repertoire similarity, enrichment). 
+    Provides a user-friendly interface to widely used AIRR methods — 
+    clonality/diversity, V(D)J usage, similarity, annotation, tracking, and many more.
+    Think Scanpy or Seurat, but for AIRR data, a.k.a. Adaptive Immune Receptor Repertoire, VDJ-seq, RepSeq, or 
+    VDJ sequencing data. A successor to our previously published "tcR" R package (Nazarov 2015).
+License: Apache License (>= 2.0)
+URL: https://immunomind.github.io/docs/, https://github.com/immunomind/immunarch
 BugReports: https://github.com/immunomind/immunarch/issues
+Depends:
+    R (>= 4.1.0),
+    ggplot2 (>= 3.1.0),
+    immundata (>= 0.0.5),
+    patchwork
 Imports:
-    factoextra (>= 1.0.4),
-    fpc,
-    UpSetR (>= 1.4.0),
+    dplyr,
+    dtplyr (>= 1.0.0),
+    data.table (>= 1.12.6),
+    cli,
     pheatmap (>= 1.0.12),
-    ggrepel (>= 0.8.0),
     reshape2 (>= 1.4.2),
     circlize,
-    MASS (>= 7.3),
-    Rtsne (>= 0.15),
-    readxl (>= 1.3.1),
-    shiny (>= 1.4.0),
-    shinythemes,
     airr,
-    ggseqlogo,
-    ggalluvial (>= 0.10.0),
     Rcpp (>= 1.0),
     magrittr,
     methods,
     scales,
-    ggpubr (>= 0.2),
-    rlang (>= 0.4),
+    rlang,
     plyr,
-    purrr,
     stringdist,
-    jsonlite,
     readr,
     stringr,
     tibble,
     tidyselect,
     tidyr,
-    igraph,
     ape,
     doParallel,
     rlist,
     utils,
     glue,
-    phangorn,
-    uuid,
-    stringi,
-    ggraph
-Depends:
-    R (>= 4.0.0),
-    ggplot2 (>= 3.1.0),
-    dplyr (>= 0.8.0),
-    dtplyr (>= 1.0.0),
-    data.table (>= 1.12.6),
-    patchwork
+    checkmate,
+    duckplyr (>= 1.1.0),
+    dbplyr,
+    lifecycle,
+    purrr,
+    stats
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),
@@ -82,9 +65,28 @@ Suggests:
     testthat (>= 2.1.0),
     pkgdown (>= 0.1.0),
     assertthat,
-    rmarkdown
-VignetteBuilder: knitr
+    rmarkdown,
+    factoextra (>= 1.0.4),
+    fpc,
+    ggpubr (>= 0.2),
+    ggraph,
+    ggseqlogo,
+    igraph,
+    phangorn,
+    ggalluvial (>= 0.10.0),
+    UpSetR (>= 1.4.0),
+    ggrepel (>= 0.8.0),
+    shiny (>= 1.4.0),
+    shinythemes,
+    quarto,
+    MASS (>= 7.3),
+    Rtsne (>= 0.15)
+VignetteBuilder:
+    knitr,
+    quarto
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
 LazyData: true
 LazyDataCompression: xz
+Roxygen: list(markdown = TRUE)
+Config/Needs/website: rmarkdown
