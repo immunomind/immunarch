@@ -34,11 +34,13 @@ Visualises matrices with overlap values or gene usage distances among samples.
 For details see the links below.
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 vis(ov)
 vis(ov, "heatmap")
 vis(ov, "heatmap2")
 vis(ov, "circos")
+}
 }
 \concept{overlap}

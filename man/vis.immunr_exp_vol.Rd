@@ -68,11 +68,13 @@ P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/H
 You can execute the command \code{?p.adjust} in the R console to see more.
 }
 \examples{
+\dontrun{
 data(immdata)
 repExplore(immdata$data, "volume") \%>\% vis()
 repExplore(immdata$data, "count") \%>\% vis()
 repExplore(immdata$data, "len") \%>\% vis()
 repExplore(immdata$data, "clones") \%>\% vis()
+}
 }
 \seealso{
 \link{repExplore} \link{vis}

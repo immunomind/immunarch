@@ -28,3 +28,5 @@
 ^vignettes/articles$
 ^vignettes/.quarto$
 ^CRAN-SUBMISSION$
+^immdata-.*$
+^immdata*$

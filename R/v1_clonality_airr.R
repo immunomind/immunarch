@@ -102,7 +102,7 @@ airr_clonality_rank_impl <- function(idata,
 
   bins <- sort(bins, decreasing = FALSE)
 
-  clonality_df <- core_clonality_rank(idata = idata, bins = bins)
+  clonality_df <- base_clonality_rank(idata = idata, bins = bins)
 
   clonality_df |>
     summarise(
@@ -159,7 +159,7 @@ airr_clonality_prop_impl <- function(
 
   bins <- sort(bins, decreasing = TRUE)
 
-  clonality_df <- core_clonality_prop(idata = idata, bins = bins)
+  clonality_df <- base_clonality_prop(idata = idata, bins = bins)
 
   clonality_df |>
     summarise(

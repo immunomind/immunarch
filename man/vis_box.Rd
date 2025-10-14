@@ -74,7 +74,9 @@ A ggplot2 object.
 Visualisation of distributions using ggplot2-based boxplots.
 }
 \examples{
+\dontrun{
 vis_box(data.frame(Sample = sample(c("A", "B", "C"), 100, TRUE), Value = rnorm(100)), .melt = FALSE)
+}
 }
 \seealso{
 \link{vis.immunr_gene_usage}, \link{geneUsage}

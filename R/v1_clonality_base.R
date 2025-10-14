@@ -1,5 +1,5 @@
 #' @keywords internal
-core_clonality_rank <- function(idata, bins) {
+base_clonality_rank <- function(idata, bins) {
   checkmate::check_numeric(bins, lower = 1)
 
   bins <- sort(bins, decreasing = FALSE)
@@ -33,7 +33,7 @@ core_clonality_rank <- function(idata, bins) {
 
 
 #' @keywords internal
-core_clonality_prop <- function(idata, bins) {
+base_clonality_prop <- function(idata, bins) {
   sql_expr <- paste0(
     "CASE ",
     paste0(map2_chr(

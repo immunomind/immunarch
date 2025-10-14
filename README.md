@@ -166,10 +166,11 @@ library(immunarch)
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
 
 # In just 4 lines of code you get the essential AIRR statistics
-airr_stats_genes(immdata, gene_col = "v_call")
-airr_public_jaccard(immdata)
+airr_stats_genes(immdata, gene_col = "v_call") |> vis()
+airr_public_jaccard(immdata) |> vis()
+airr_diversity_pielou(immdata) |> vis()
+airr_diversity_chao1(immdata) |> vis()
 airr_clonality_prop(immdata)
-airr_diversity_pielou(immdata)
 
 # Use your own data by reading sample files from the metadata file
 mdtable <- read_metadata("data/metadata.csv")

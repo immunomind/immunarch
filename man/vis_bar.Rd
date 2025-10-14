@@ -83,6 +83,8 @@ A ggplot2 object.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 vis_bar(data.frame(Sample = c("A", "B", "C"), Value = c(1, 2, 3)))
+}
 }
 \concept{vis}

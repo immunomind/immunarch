@@ -63,11 +63,13 @@ Fast and easy visualisations of matrices or data frames
 with functions based on the ggplot2 package.
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 vis_heatmap(ov)
 gu <- geneUsage(immdata$data, "hs.trbj")
 vis_heatmap(gu)
+}
 }
 \seealso{
 \link{vis}, \link{repOverlap}.

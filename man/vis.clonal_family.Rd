@@ -18,6 +18,7 @@ A ggraph object.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(bcrdata)
 bcr_data <- bcrdata$data
 
@@ -27,5 +28,6 @@ clonal_family <- bcr_data \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
   repClonalFamily(.threads = 1, .nofail = TRUE) \%>\%
   vis()
+}
 }
 \concept{phylip}

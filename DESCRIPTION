@@ -1,7 +1,7 @@
 Package: immunarch
 Type: Package
 Title: Multi-Modal Immune Repertoire Analytics for Immunotherapy and Vaccine Design in R
-Version: 0.10.1
+Version: 0.10.2
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "support@immunomind.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3659-2709")),
@@ -22,7 +22,7 @@ License: Apache License (>= 2.0)
 URL: https://immunomind.github.io/docs/, https://github.com/immunomind/immunarch
 BugReports: https://github.com/immunomind/immunarch/issues
 Depends:
-    R (>= 4.1.0),
+    R (>= 4.2.0),
     ggplot2 (>= 3.1.0),
     immundata (>= 0.0.5),
     patchwork
@@ -53,16 +53,19 @@ Imports:
     utils,
     glue,
     checkmate,
-    duckplyr (>= 1.1.0),
+    duckplyr (>= 1.1.2),
     dbplyr,
     lifecycle,
     purrr,
-    stats
+    stats,
+    vctrs,
+    ggthemes,
+    ggsci
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),
     roxygen2 (>= 3.0.0),
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     pkgdown (>= 0.1.0),
     assertthat,
     rmarkdown,
@@ -90,3 +93,4 @@ LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 Config/Needs/website: rmarkdown
+Config/testthat/edition: 3

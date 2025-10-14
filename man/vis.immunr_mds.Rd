@@ -62,8 +62,10 @@ Other visualisation methods:
 }
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 repOverlapAnalysis(ov, "mds") \%>\% vis()
+}
 }
 \concept{post_analysis}

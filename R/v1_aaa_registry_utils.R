@@ -29,7 +29,7 @@ register_airr_method <- function(family_name, method_name, fn) {
 }
 
 get_airr_method <- function(family_name, method_name, verbose = TRUE) {
-  # checkmate checks
+  # TODO: checkmate checks
 
   fam_env <- IMMUNARCH_METHOD_REGISTRY[[family_name]]
 
@@ -54,8 +54,6 @@ get_airr_method <- function(family_name, method_name, verbose = TRUE) {
 }
 
 make_airr_dispatcher <- function(family_name) {
-  # checkmate for family_name
-
   function(idata = NULL, method = NULL, ...) {
     checkmate::assert_r6(idata, "ImmunData", null.ok = TRUE)
     checkmate::assert_character(method, null.ok = TRUE)

@@ -27,9 +27,11 @@ Visualisation of the results of hierarchical clustering.
 For other clustering visualisations see \link{vis.immunr_kmeans}.
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 repOverlapAnalysis(ov, "mds+hclust") \%>\% vis()
+}
 }
 \seealso{
 \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}

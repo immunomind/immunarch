@@ -2,7 +2,7 @@
 % Please edit documentation in R/aaa-registry.R
 \name{im_common_args}
 \alias{im_common_args}
-\title{Common arguments for immundata helpers}
+\title{Common arguments for immunarch helpers}
 \usage{
 im_common_args(
   autojoin = getOption("immundata.autojoin", TRUE),
@@ -18,6 +18,6 @@ columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unm
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 }
 \description{
-Common arguments for immundata helpers
+Common arguments for immunarch helpers
 }
 \keyword{internal}

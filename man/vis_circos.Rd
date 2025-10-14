@@ -23,9 +23,11 @@ Visualise matrices with the \link[circlize:chordDiagram]{circlize::chordDiagram}
 from the circlize package.
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 vis(ov, .plot = "circos")
+}
 }
 \seealso{
 \link{vis}, \link{repOverlap}.
