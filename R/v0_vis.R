@@ -2066,7 +2066,6 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' hom <- repClonality(immdata$data, "homeo")
 #' # Remove p values and points from the plot
 #' vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
-#' Ъ
 #' }
 #' @export
 vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
