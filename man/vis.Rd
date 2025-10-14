@@ -7,86 +7,37 @@
 vis(.data, ...)
 }
 \arguments{
-\item{.data}{Pass the output from any immunarch analysis tool to \code{vis()}.}
+\item{.data}{The output from any immunarch analysis function. The function automatically resolves to a correct visualisation.}
 
 \item{...}{Any other arguments, see the "Details" section for specific visualisation functions.}
 }
 \value{
-A ggplot2, pheatmap or circlize object.
+A ggplot2 object.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Output from every function in immunarch can be visualised with a
-single function - \code{vis}. The \code{vis} automatically detects
-the type of the data and draws a proper visualisation. For example, output
-from the \code{repOverlap} function will be identified as repertoire overlap values
-and respective visualisation will be chosen without any additional arguments.
-See "Details" for the list of available visualisations.
+\strong{\code{vis()} is a lightweight, quick-look plotting helper.}
+It's designed to help you \strong{visualise results fast} with sensible defaults.
+It automatically detects the input type and chooses an appropriate visualisation
+(e.g., output from \code{airr_stats_genes()} is recognised as gene usage values and plotted
+without extra arguments).
+
+\strong{vis() is not intended for publication-quality figures.}
+For serious, highly customised, or publication-ready plots, I recommend
+building your graphics directly with \strong{ggplot2}.
 }
 \details{
-List of available visualisations for different kinds of data.
-
-Basic analysis:
-\itemize{
-\item Exploratory analysis results (from \link{repExplore}) - see \link{vis.immunr_exp_vol};
-\item Clonality statistics (from \link{repClonality}) - see \link{vis.immunr_homeo}.
-}
-
-Overlaps and public clonotypes:
-\itemize{
-\item Overlaps (from \link{repOverlap}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
-\item Overlap clustering (from \link{repOverlapAnalysis}) - see \link{vis.immunr_hclust};
-\item Repertoire incremental overlaps (from \link{repOverlap}) - see \link{vis.immunr_inc_overlap};
-\item Public repertoire abundance (from \link{pubRep}) - vis \link{vis.immunr_public_repertoire}.
-}
-
-Gene usage:
-\itemize{
-\item Gene usage statistics (from \link{geneUsage}) using bar plots, box plots - see \link{vis.immunr_gene_usage};
-\item Gene usage distances (from \link{geneUsageAnalysis}) using heatmaps, circos plots, polar area plots - see \link{vis.immunr_ov_matrix};
-\item Gene usage clustering (from \link{geneUsageAnalysis}) - see \link{vis.immunr_hclust}.
-}
-
-Diversity estimation:
-\itemize{
-\item Diversity estimations (from \link{repDiversity}) - see \link{vis.immunr_chao1}.
-}
-
-BCR analysis:
-\itemize{
-\item Clonal tree (from \link{repClonalFamily}) - see \link{vis.clonal_family} and \link{vis.clonal_family_tree}.
-}
-
-Advanced analysis:
-\itemize{
-\item Repertoire dynamics (from \link{trackClonotypes}) - see \link{vis.immunr_dynamics};
-\item Sequence logo plots of amino acid distributions (from \link{kmer_profile}) - see \link{vis_seqlogo};
-\item Kmers distributions (from \link{getKmers}) - see \link{vis.immunr_kmer_table};
-\item Mutation networks (from mutationNetwork) - Work In Progress on vis.immunr_mutation_network;
-\item CDR3 amino acid properties, e.g., biophysical (from cdrProp) - Work In Progress on vis.immunr_cdr_prop.
-}
-
-Additionaly, we provide a wrapper functions for visualisations of common data types:
-\itemize{
-\item Any data frames or matrices using heatmaps - see \link{vis_heatmap} and \link{vis_heatmap2};
-\item Any data frames or matrices using circos plots - see \link{vis_circos}.
-}
+List of available visualisations for different kinds of data - will be available soon.
 }
 \examples{
 \dontrun{
-# Load the test data
-data(immdata)
-
-# Compute and visualise:
-ov <- repOverlap(immdata$data)
-vis(ov)
-
-gu <- geneUsage(immdata$data)
-vis(gu)
-
-dv <- repDiversity(immdata$data)
-vis(dv)
+immdata <- get_test_idata() |> agg_repertoires("Therapy")
+airr_stats_genes(immdata, gene_col = "v_call") |> vis()
+airr_public_jaccard(immdata) |> vis()
+airr_diversity_pielou(immdata) |> vis()
+airr_diversity_chao1(immdata) |> vis()
+airr_clonality_prop(immdata)
 }
 }
 \seealso{

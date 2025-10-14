@@ -65,7 +65,9 @@ different sizes to get a scale-invariant overlap score.
 # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
 db_exec("SET threads TO 1")
 # Load data
+\dontrun{
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
+}
 
 #
 # airr_public_intersection

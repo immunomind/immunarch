@@ -1,6 +1,6 @@
 #' @keywords internal
 immunarch_v1_update_oct_2025 <- function() {
-  cli::cli_h1("{cli::col_green('immunarch')} {cli::col_yellow('0.10.0')} -- Critical Pre-release Notice")
+  cli::cli_h1("{cli::col_green('immunarch')} {cli::col_yellow('0.10.3')} -- Critical Pre-release Notice")
 
   cli::cli_alert_warning("Update #1 [Oct 2025] -- Major changes are coming in {cli::col_green('immunarch')} {cli::col_yellow('1.0.0')}!")
   cli::cli_text(cli::col_yellow(cli::spark_line(runif(110, 0, 1))))

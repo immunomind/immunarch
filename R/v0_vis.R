@@ -169,90 +169,36 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #'
 #' @description
 #'
-#' `r lifecycle::badge('deprecated')`
+#' `r lifecycle::badge('experimental')`
 #'
-#' Output from every function in immunarch can be visualised with a
-#' single function - `vis`. The `vis` automatically detects
-#' the type of the data and draws a proper visualisation. For example, output
-#' from the `repOverlap` function will be identified as repertoire overlap values
-#' and respective visualisation will be chosen without any additional arguments.
-#' See "Details" for the list of available visualisations.
+#' **`vis()` is a lightweight, quick-look plotting helper.**
+#' It's designed to help you **visualise results fast** with sensible defaults.
+#' It automatically detects the input type and chooses an appropriate visualisation
+#' (e.g., output from `airr_stats_genes()` is recognised as gene usage values and plotted
+#' without extra arguments).
 #'
-#' @param .data Pass the output from any immunarch analysis tool to `vis()`.
+#' **vis() is not intended for publication-quality figures.**
+#' For serious, highly customised, or publication-ready plots, I recommend
+#' building your graphics directly with **ggplot2**.
+#'
+#' @param .data The output from any immunarch analysis function. The function automatically resolves to a correct visualisation.
 #' @param ... Any other arguments, see the "Details" section for specific visualisation functions.
 #'
 #' @details
-#' List of available visualisations for different kinds of data.
-#'
-#' Basic analysis:
-#'
-#' - Exploratory analysis results (from [repExplore]) - see [vis.immunr_exp_vol];
-#'
-#' - Clonality statistics (from [repClonality]) - see [vis.immunr_homeo].
-#'
-#' Overlaps and public clonotypes:
-#'
-#' - Overlaps (from [repOverlap]) using heatmaps, circos plots, polar area plots - see [vis.immunr_ov_matrix];
-#'
-#' -  Overlap clustering (from [repOverlapAnalysis]) - see [vis.immunr_hclust];
-#'
-#' - Repertoire incremental overlaps (from [repOverlap]) - see [vis.immunr_inc_overlap];
-#'
-#' - Public repertoire abundance (from [pubRep]) - vis [vis.immunr_public_repertoire].
-#'
-#' Gene usage:
-#'
-#' - Gene usage statistics (from [geneUsage]) using bar plots, box plots - see [vis.immunr_gene_usage];
-#'
-#' - Gene usage distances (from [geneUsageAnalysis]) using heatmaps, circos plots, polar area plots - see [vis.immunr_ov_matrix];
-#'
-#' - Gene usage clustering (from [geneUsageAnalysis]) - see [vis.immunr_hclust].
-#'
-#' Diversity estimation:
-#'
-#' - Diversity estimations (from [repDiversity]) - see [vis.immunr_chao1].
-#'
-#' BCR analysis:
-#'
-#' - Clonal tree (from [repClonalFamily]) - see [vis.clonal_family] and [vis.clonal_family_tree].
-#'
-#' Advanced analysis:
-#'
-#' - Repertoire dynamics (from [trackClonotypes]) - see [vis.immunr_dynamics];
-#'
-#' - Sequence logo plots of amino acid distributions (from [kmer_profile]) - see [vis_seqlogo];
-#'
-#' - Kmers distributions (from [getKmers]) - see [vis.immunr_kmer_table];
-#'
-#' - Mutation networks (from mutationNetwork) - Work In Progress on vis.immunr_mutation_network;
-#'
-#' - CDR3 amino acid properties, e.g., biophysical (from cdrProp) - Work In Progress on vis.immunr_cdr_prop.
-#'
-#' Additionaly, we provide a wrapper functions for visualisations of common data types:
-#'
-#' - Any data frames or matrices using heatmaps - see [vis_heatmap] and [vis_heatmap2];
-#'
-#' - Any data frames or matrices using circos plots - see [vis_circos].
+#' List of available visualisations for different kinds of data - will be available soon.
 #'
 #' @return
-#' A ggplot2, pheatmap or circlize object.
+#' A ggplot2 object.
 #'
 #' @seealso [fixVis] for precise manipulation of plots.
 #'
 #' @examples
 #' \dontrun{
-#' # Load the test data
-#' data(immdata)
-#'
-#' # Compute and visualise:
-#' ov <- repOverlap(immdata$data)
-#' vis(ov)
-#'
-#' gu <- geneUsage(immdata$data)
-#' vis(gu)
-#'
-#' dv <- repDiversity(immdata$data)
-#' vis(dv)
+#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
+#' airr_stats_genes(immdata, gene_col = "v_call") |> vis()
+#' airr_public_jaccard(immdata) |> vis()
+#' airr_diversity_pielou(immdata) |> vis()
+#' airr_diversity_chao1(immdata) |> vis()
 #' }
 #' @export
 vis <- function(.data, ...) {

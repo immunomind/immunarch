@@ -1,24 +1,3 @@
-#
-# 1) Look at this for examples: https://chatgpt.com/c/68eacc4b-785c-832a-88f5-b94086ad7f26
-#
-# 2) Register in the registry. Registry should check if all visualisations are assigned to existing (!) classes.
-# vis_airr_diversity_chao1 <- ...
-# It is probably impossible to do...
-# Should use https://stat.ethz.ch/R-manual/R-devel/RHOME/library/base/html/S3method.html
-#
-# 3) I need registry to control the class system in one place. One for assigning classes following a specific schema, the other one is for parsing classes.
-# I probably need to write a short manual on the logic of this. And on the structure of the code. And on the phiolosophy / architectural design decisions. Same for immundata.
-#
-# 4) Key question: can I use different names? https://stackoverflow.com/questions/61482561/whats-the-preferred-means-for-defining-an-s3-method-in-an-r-package-without-int/61483612#61483612
-# https://vctrs.r-lib.org/reference/s3_register.html
-#
-# 5) [!!!] I still need some name for Roxygen to @inheritParams. There is no way around that.
-# opt.1 - dynamically register S3 stuff, one big vis() or some weird names for docs
-# opt.2 - pre-defined classes, vis() is constructed via @inheritParams
-# Or...
-# - https://github.com/r-lib/roxygen2/issues/1159
-# - https://github.com/rstudio/renv/blob/4a8bcb4605f085fbea5f29a76ad9a291ac2bd363/R/roxygen.R#L2-L26
-
 #' @keywords internal
 make_fixed_col_plot <- function(x_col, y_col, title, xlab, ylab) {
   checkmate::assert_string(x_col)
