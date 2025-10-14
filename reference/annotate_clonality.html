@@ -43,7 +43,7 @@ using named thresholds (matched in descending order; else "Ultra-rare").'><!-- G
 
     <a class="navbar-brand me-2" href="../index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -172,11 +172,59 @@ with each row corresponding to a specific repertoire / pair of repertoires; usef
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">idata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/immundata/man/get_test_idata.html" class="external-link">get_test_idata</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/immundata/man/agg_repertoires.html" class="external-link">agg_repertoires</a></span><span class="op">(</span><span class="st">"Therapy"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">2</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">4</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Delimiter:</span> "\t"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span> (4): File, Therapy, Response, Prefix</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Found 2/2 repertoire files from the metadata on the disk</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Metadata parsed successfully</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Reading repertoire data </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   1. /home/runner/work/_temp/Library/immundata/extdata/tsv/sample_0_1k.tsv</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   2. /home/runner/work/_temp/Library/immundata/extdata/tsv/sample_1k_2k.tsv</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Checking if all files are of the same type</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> All files have the same extension</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Renaming the columns and schemas </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Renaming is finished</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Preprocessing the data </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   1. exclude_columns</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   2. filter_nonproductive</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Preprocessing plan is ready</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Aggregating the data to receptors </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No locus information found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing data as immune repertoire tables - no counts, no barcodes, no chain pairing possible</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Execution plan for receptor data aggregation and annotation is ready</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Joining the metadata table with the dataset using 'filename' column </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Joining plan is ready</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Postprocessing the data </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   1. prefix_barcodes</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Postprocessing plan is ready</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Saving the newly created ImmunData to disk </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Writing the receptor annotation data to [/tmp/RtmpVH5iE5/file1ed4b047e85/annotations.parquet]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Writing the metadata to [/tmp/RtmpVH5iE5/file1ed4b047e85/metadata.json]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ImmunData files saved to [/tmp/RtmpVH5iE5/file1ed4b047e85]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Reading ImmunData files from [<span style="color: #0000BB;">/tmp/RtmpVH5iE5/file1ed4b047e85</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded ImmunData with the receptor schema: [c("cdr3_aa", "v_call") and list()]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Reading ImmunData files from [<span style="color: #0000BB;">/tmp/RtmpVH5iE5/file1ed4b047e85</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Summary </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Time elapsed: <span style="font-style: italic;">2.37 secs</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded ImmunData with the receptor schema: [c("cdr3_aa", "v_call") and NULL]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded ImmunData with [1902] chains</span>
 <span class="r-in"><span><span class="va">idata_rank</span> <span class="op">&lt;-</span> <span class="fu">annotate_clonality_rank</span><span class="op">(</span><span class="va">idata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">idata_prop</span> <span class="op">&lt;-</span> <span class="fu">annotate_clonality_prop</span><span class="op">(</span><span class="va">idata</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

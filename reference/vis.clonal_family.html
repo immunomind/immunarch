@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,7 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bcrdata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bcr_data</span> <span class="op">&lt;-</span> <span class="va">bcrdata</span><span class="op">$</span><span class="va">data</span></span></span>
 <span class="r-in"><span></span></span>
@@ -106,7 +106,10 @@
 <span class="r-in"><span>  <span class="fu"><a href="repAlignLineage.html">repAlignLineage</a></span><span class="op">(</span>.min_lineage_sequences <span class="op">=</span> <span class="fl">2</span>, .align_threads <span class="op">=</span> <span class="fl">2</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="repClonalFamily.html">repClonalFamily</a></span><span class="op">(</span>.threads <span class="op">=</span> <span class="fl">1</span>, .nofail <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> repAlignLineage requires Clustal W app to be installed!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Please download it from here: http://www.clustal.org/download/current/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> or install it with your system package manager (such as apt or dnf).</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

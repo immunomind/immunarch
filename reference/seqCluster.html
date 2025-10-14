@@ -15,7 +15,7 @@ Graph clustering based on distances between sequences"><!-- Global site tag (gta
 
     <a class="navbar-brand me-2" href="../index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,13 +114,18 @@ the threshold of allowing a 1 in n nucleotides mismatch in sequencies.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># In this example, we will use only 2 samples with 500 clonotypes in each for time saving</span></span></span>
 <span class="r-in"><span><span class="va">input_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">head</span>, <span class="fl">500</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dist_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="seqDist.html">seqDist</a></span><span class="op">(</span><span class="va">input_data</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cluster_result</span> <span class="op">&lt;-</span> <span class="fu">seqCluster</span><span class="op">(</span><span class="va">input_data</span>, <span class="va">dist_result</span>, .fixed_threshold <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mutate(.data, ..., .by = {    {        .by    }}, .keep = .keep, .before = {    {        .before    }}, .after = {    {        .after    }}):</span> <span style="color: #00BBBB;">ℹ</span> In argument: `length_value = map_chr(.y, ~ifelse(all(.x == .x[1]), yes</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>   = .x[1], no = glue("range_{min(.x)}:{max(.x)}")))`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `vapply()`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> values must be type 'character',</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>  but FUN(X[[1]]) result is type 'integer'</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

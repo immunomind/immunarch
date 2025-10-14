@@ -15,7 +15,7 @@ Compute information-based estimates and distances."><!-- Global site tag (gtag.j
 
     <a class="navbar-brand me-2" href="../index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,13 +132,13 @@ Compute information-based estimates and distances."><!-- Global site tag (gtag.j
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">entropy</span><span class="op">(</span><span class="va">P</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.957532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.021958</span>
 <span class="r-in"><span><span class="fu">kl_div</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8719137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7606774</span>
 <span class="r-in"><span><span class="fu">js_div</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1569977</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1411576</span>
 <span class="r-in"><span><span class="fu">cross_entropy</span><span class="op">(</span><span class="va">P</span>, <span class="va">Q</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.829446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.782636</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
