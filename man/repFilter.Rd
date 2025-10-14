@@ -61,28 +61,4 @@ Default value: 'exact'.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
-\examples{
-data(immdata)
-
-# Select samples with status "MS"
-repFilter(immdata, "by.meta", list(Status = include("MS")))
-
-# Select samples without status "MS"
-repFilter(immdata, "by.meta", list(Status = exclude("MS")))
-
-# Select samples from lanes "A" and "B" with age > 15
-repFilter(immdata, "by.meta", list(Lane = include("A", "B"), Age = morethan(15)))
-
-# Select samples that are not from lanes "A" and "B"
-repFilter(immdata, "by.meta", list(Lane = exclude("A", "B")))
-
-# Select samples with a number of clonotypes from 1000 to 5000
-repFilter(immdata, "by.repertoire", list(n_clonotypes = interval(1000, 5000)))
-
-# Select clonotypes in all samples with alpha chains
-repFilter(immdata, "by.clonotype",
-  list(V.name = include("AV"), J.name = include("AJ")),
-  .match = "substring"
-)
-}
 \concept{filters}

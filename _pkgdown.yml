@@ -22,6 +22,7 @@ articles:
   subtitle: "Deprecated"
   desc: ~
   contents:
+  - '`immunarch_threads`'
   - '`web_only_v0/introduction`'
   - '`web_only_v0/data`'
   - '`web_only_v0/v21_singlecell`'
@@ -35,7 +36,6 @@ articles:
   - '`web_only_v0/v8_tracking`'
   - '`web_only_v0/v9_kmers`'
   - '`web_only_v0/v11_db`'
-  - '`web_only_v0/community`'
   - '`web_only_v0/repFilter_v3`'
   - '`web_only_v0/v10_prop`'
   - '`web_only_v0/BCRpipeline`'

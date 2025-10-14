@@ -25,7 +25,9 @@
 #' # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
 #' db_exec("SET threads TO 1")
 #' # Load data
+#' \dontrun{
 #' immdata <- get_test_idata() |> agg_repertoires("Therapy")
+#' }
 #'
 #' @name airr_diversity
 #' @concept Diversity
@@ -103,8 +105,10 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 #' #
 #' # airr_diversity_dxx
 #' #
+#' \dontrun{
 #' d50 <- airr_diversity_dxx(immdata, perc = 50)
 #' d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
+#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -154,7 +158,9 @@ airr_diversity_chao1_impl <- function(idata) {
 #' #
 #' # airr_diversity_chao1
 #' #
+#' \dontrun{
 #' chao <- airr_diversity_chao1(immdata)
+#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -197,7 +203,9 @@ airr_diversity_shannon_impl <- function(idata) {
 #' #
 #' # airr_diversity_shannon
 #' #
+#' \dontrun{
 #' sh <- airr_diversity_shannon(immdata)
+#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -236,7 +244,9 @@ airr_diversity_pielou_impl <- function(idata) {
 #' #
 #' # airr_diversity_pielou
 #' #
+#' \dontrun{
 #' pj <- airr_diversity_pielou(immdata)
+#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -267,7 +277,9 @@ airr_diversity_index_impl <- function(idata) {
 #' #
 #' # airr_diversity_index
 #' #
+#' \dontrun{
 #' idx <- airr_diversity_index(immdata)
+#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -351,7 +363,9 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #' #
 #' # airr_diversity_hill
 #' #
+#' \dontrun{
 #' hill <- airr_diversity_hill(immdata, q = c(0, 1, 2))
+#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity

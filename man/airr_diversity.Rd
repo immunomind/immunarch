@@ -170,38 +170,52 @@ that tunes sensitivity to rare vs. abundant clonotypes.
 # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
 db_exec("SET threads TO 1")
 # Load data
+\dontrun{
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
+}
 
 #
 # airr_diversity_dxx
 #
+\dontrun{
 d50 <- airr_diversity_dxx(immdata, perc = 50)
 d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
+}
 
 #
 # airr_diversity_chao1
 #
+\dontrun{
 chao <- airr_diversity_chao1(immdata)
+}
 
 #
 # airr_diversity_shannon
 #
+\dontrun{
 sh <- airr_diversity_shannon(immdata)
+}
 
 #
 # airr_diversity_pielou
 #
+\dontrun{
 pj <- airr_diversity_pielou(immdata)
+}
 
 #
 # airr_diversity_index
 #
+\dontrun{
 idx <- airr_diversity_index(immdata)
+}
 
 #
 # airr_diversity_hill
 #
+\dontrun{
 hill <- airr_diversity_hill(immdata, q = c(0, 1, 2))
+}
 
 }
 \seealso{

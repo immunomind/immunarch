@@ -23,8 +23,11 @@
 #' # Limit the number of threads used by the underlying DB for this session.
 #' # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
 #' db_exec("SET threads TO 1")
+#'
 #' # Load data
+#' \dontrun{
 #' immdata <- get_test_idata() |> agg_repertoires("Therapy")
+#' }
 #'
 #' @name airr_clonality
 #' @concept Clonality
@@ -82,7 +85,9 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #' #
 #' # airr_clonality_line
 #' #
+#' \dontrun{
 #' top_line <- airr_clonality_line(immdata, limit = 1000)
+#' }
 #'
 #' @rdname airr_clonality
 #' @concept Clonality
@@ -133,7 +138,9 @@ airr_clonality_rank_impl <- function(idata,
 #' #
 #' # airr_clonality_rank
 #' #
+#' \dontrun{
 #' rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
+#' }
 #'
 #' @rdname airr_clonality
 #' @concept Clonality
@@ -191,7 +198,9 @@ airr_clonality_prop_impl <- function(
 #' #
 #' # airr_clonality_prop
 #' #
+#' \dontrun{
 #' prop_stat <- airr_clonality_prop(immdata)
+#' }
 #'
 #' @rdname airr_clonality
 #' @concept Clonality

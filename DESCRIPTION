@@ -19,7 +19,7 @@ Description: A comprehensive analytics framework for building reproducible pipel
     Think Scanpy or Seurat, but for AIRR data, a.k.a. Adaptive Immune Receptor Repertoire, VDJ-seq, RepSeq, or 
     VDJ sequencing data. A successor to our previously published "tcR" R package (Nazarov 2015).
 License: Apache License (>= 2.0)
-URL: https://immunomind.github.io/docs/, https://github.com/immunomind/immunarch
+URL: https://immunomind.github.io/docs/, https://github.com/immunomind/immunarch/, https://immunarch.com/
 BugReports: https://github.com/immunomind/immunarch/issues
 Depends:
     R (>= 4.2.0),

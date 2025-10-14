@@ -126,21 +126,31 @@ features for repertoire-level ML tasks.
 db_exec("SET threads TO 2")
 
 # Load data
+\dontrun{
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
+}
 
 #
 # airr_stats_chains
 #
+
+\dontrun{
 airr_stats_chains(immdata)
+}
 
 #
 # airr_stats_lengths
 #
+
+\dontrun{
 airr_stats_lengths(immdata)
+}
 
 #
 # airr_stats_genes
 #
+
+\dontrun{
 # V gene usage by receptor count
 airr_stats_genes(immdata, gene_col = "v_call", level = "receptor")
 
@@ -149,6 +159,7 @@ airr_stats_genes(immdata, gene_col = "v_call", level = "barcode")
 
 # Split by locus (TRA/TRB/... if locus column exists)
 airr_stats_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
+}
 
 }
 \seealso{

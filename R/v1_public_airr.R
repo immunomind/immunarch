@@ -86,7 +86,9 @@ airr_public_intersection_impl <- function(idata) {
 #' #
 #' # airr_public_intersection
 #' #
+#' \dontrun{
 #' m_pub <- airr_public_intersection(immdata)
+#' }
 #'
 #' @rdname airr_public
 #' @concept Public indices
@@ -165,7 +167,9 @@ airr_public_jaccard_impl <- function(idata) {
 #' #
 #' # airr_public_jaccard
 #' #
+#' \dontrun{
 #' m_jac <- airr_public_jaccard(immdata)
+#' }
 #'
 #' @rdname airr_public
 #' @concept Public indices

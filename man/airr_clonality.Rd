@@ -106,23 +106,32 @@ descending order; unmatched receptors fall into \code{"Ultra-rare"}.
 # Limit the number of threads used by the underlying DB for this session.
 # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
 db_exec("SET threads TO 1")
+
 # Load data
+\dontrun{
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
+}
 
 #
 # airr_clonality_line
 #
+\dontrun{
 top_line <- airr_clonality_line(immdata, limit = 1000)
+}
 
 #
 # airr_clonality_rank
 #
+\dontrun{
 rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
+}
 
 #
 # airr_clonality_prop
 #
+\dontrun{
 prop_stat <- airr_clonality_prop(immdata)
+}
 
 }
 \seealso{

@@ -70,12 +70,16 @@ immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #
 # airr_public_intersection
 #
+\dontrun{
 m_pub <- airr_public_intersection(immdata)
+}
 
 #
 # airr_public_jaccard
 #
+\dontrun{
 m_jac <- airr_public_jaccard(immdata)
+}
 
 }
 \seealso{
