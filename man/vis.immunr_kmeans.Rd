@@ -45,9 +45,11 @@ Visualisation of the results of K-means and DBSCAN clustering.
 For hierarhical clustering visualisations see \link{vis.immunr_hclust}.
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 repOverlapAnalysis(ov, "mds+kmeans") \%>\% vis()
+}
 }
 \seealso{
 \link{vis}, \link{repOverlapAnalysis}, \link{geneUsageAnalysis}

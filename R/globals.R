@@ -8,7 +8,9 @@ utils::globalVariables(c(
   "ch",
   "clonal_prop_bin",
   "clonal_rank_bin",
-  "prop"
+  "prop",
+  ".val",
+  "size"
 ))
 
 #' @keywords internal

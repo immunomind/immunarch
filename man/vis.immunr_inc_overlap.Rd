@@ -24,10 +24,12 @@ A ggplot2 object.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 tmp <- repOverlap(immdata$data[1:4], "inc+overlap", .verbose.inc = FALSE, .verbose = FALSE)
 vis(tmp, .target = 1)
 vis(tmp, .grid = TRUE)
+}
 }
 \seealso{
 \link{repOverlap}

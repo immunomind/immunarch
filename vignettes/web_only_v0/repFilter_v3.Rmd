@@ -27,6 +27,7 @@ output:
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
+knitr::opts_chunk$set(eval = FALSE)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.align = "center")
 knitr::opts_chunk$set(fig.width = 12)

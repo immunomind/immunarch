@@ -18,6 +18,7 @@ A ggraph object.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(bcrdata)
 bcr_data <- bcrdata$data
 
@@ -31,6 +32,7 @@ clonal_family <- bcr_data \%>\%
 # when ClustalW or PHYLIP are not installed
 if (!("step_failure_ignored" \%in\% class(clonal_family))) {
   vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+}
 }
 }
 \concept{phylip}

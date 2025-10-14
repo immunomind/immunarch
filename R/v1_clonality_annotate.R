@@ -36,7 +36,7 @@ annotate_clonality_rank_impl <- function(idata,
 
   bins <- sort(bins, decreasing = FALSE)
 
-  clonality_df <- core_clonality_rank(idata = idata, bins = bins)
+  clonality_df <- base_clonality_rank(idata = idata, bins = bins)
 
   by_cols <- c(immundata::imd_schema("receptor"), immundata::imd_schema("repertoire"))
   names(by_cols) <- c(immundata::imd_schema("receptor"), immundata::imd_schema("repertoire"))
@@ -87,7 +87,7 @@ annotate_clonality_prop_impl <- function(
 
   bins <- sort(bins, decreasing = TRUE)
 
-  clonality_df <- core_clonality_prop(idata = idata, bins = bins)
+  clonality_df <- base_clonality_prop(idata = idata, bins = bins)
 
   by_cols <- c(immundata::imd_schema("receptor"), immundata::imd_schema("repertoire"))
   names(by_cols) <- c(immundata::imd_schema("receptor"), immundata::imd_schema("repertoire"))

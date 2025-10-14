@@ -27,6 +27,7 @@ A ggplot2 object.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 300)
 pr <- pubRep(immdata$data, .verbose = FALSE)
@@ -34,5 +35,6 @@ vis(pr, "freq")
 vis(pr, "freq", .type = "none")
 
 vis(pr, "clonotypes", 1, 2)
+}
 }
 \concept{pubrep}

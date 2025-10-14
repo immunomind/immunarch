@@ -83,6 +83,7 @@ P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/H
 You can execute the command \code{?p.adjust} in the R console to see more.
 }
 \examples{
+\dontrun{
 data(immdata)
 imm_gu <- geneUsage(immdata$data[[1]])
 vis(imm_gu,
@@ -94,6 +95,7 @@ vis(imm_gu,
   .plot = "hist", .grid = TRUE, .add.layer =
     theme(axis.text.x = element_text(angle = 75, vjust = 1))
 )
+}
 }
 \seealso{
 \link{vis.immunr_gene_usage}, \link{geneUsage}

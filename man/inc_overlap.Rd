@@ -57,8 +57,10 @@ List with overlap matrices.
 For reference please look up https://www.pnas.org/content/111/16/5980 (Fig. 4).
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data, "inc+overlap", .step = 100, .verbose.inc = FALSE, .verbose = FALSE)
 vis(ov)
+}
 }
 \concept{overlap}

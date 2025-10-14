@@ -22,6 +22,7 @@ articles:
   subtitle: "Deprecated"
   desc: ~
   contents:
+  - '`immunarch_threads`'
   - '`web_only_v0/introduction`'
   - '`web_only_v0/data`'
   - '`web_only_v0/v21_singlecell`'
@@ -35,7 +36,6 @@ articles:
   - '`web_only_v0/v8_tracking`'
   - '`web_only_v0/v9_kmers`'
   - '`web_only_v0/v11_db`'
-  - '`web_only_v0/community`'
   - '`web_only_v0/repFilter_v3`'
   - '`web_only_v0/v10_prop`'
   - '`web_only_v0/BCRpipeline`'
@@ -44,14 +44,14 @@ navbar:
   bg: dark
   type: dark
   structure:
-    left: [tutorial, articles, reference]
+    left: [tutorial, migration, articles, reference]
     right: [github]
   components:
     home: ~
     news: ~
     tutorial:
       text: "Immunarch v1.0"
-      href: https://immunomind.github.io/docs/tutorials/single-cell/
+      href: https://immunomind.github.io/docs/tutorials/single_cell/
     migration:
       text: "Migration Guide"
       href: https://immunomind.github.io/docs/tutorials/migration/
@@ -146,6 +146,7 @@ reference:
 - subtitle: Clonality
 - contents:
   - starts_with("airr_clonality")
+  - starts_with("annotate_clonality")
 
 - subtitle: Diversity
 - contents:
@@ -164,6 +165,7 @@ reference:
   - -starts_with("airr_clonality")
   - -starts_with("airr_diversity")
   - -starts_with("airr_public")
+  - -starts_with("annotate_clonality")
 
 - title: Under Question, v0.9 -> v1.0
 

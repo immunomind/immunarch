@@ -74,6 +74,7 @@ Additionaly, we provide a wrapper functions for visualisations of common data ty
 }
 }
 \examples{
+\dontrun{
 # Load the test data
 data(immdata)
 
@@ -87,7 +88,7 @@ vis(gu)
 dv <- repDiversity(immdata$data)
 vis(dv)
 }
+}
 \seealso{
 \link{fixVis} for precise manipulation of plots.
 }
-\concept{vis}

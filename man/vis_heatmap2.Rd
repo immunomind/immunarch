@@ -39,9 +39,11 @@ Visualise matrices with the functions based on the \link[pheatmap:pheatmap]{phea
 package with minimum amount of arguments.
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 vis_heatmap2(ov)
+}
 }
 \seealso{
 \link{vis}, \link{repOverlap}

@@ -71,9 +71,11 @@ P-value adjusting is done using the Holm method (https://en.wikipedia.org/wiki/H
 You can execute the command \code{?p.adjust} in the R console to see more.
 }
 \examples{
+\dontrun{
 data(immdata)
 dv <- repDiversity(immdata$data, "chao1")
 vis(dv)
+}
 }
 \seealso{
 \link{repDiversity} \link{vis}

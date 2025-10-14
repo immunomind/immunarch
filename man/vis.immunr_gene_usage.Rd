@@ -35,6 +35,7 @@ A ggplot2 object, pheatmap or circlize object.
 Visualise distributions of genes using heatmaps or other plots.
 }
 \examples{
+\dontrun{
 data(immdata)
 
 gu <- geneUsage(immdata$data[[1]])
@@ -43,6 +44,7 @@ vis(gu)
 gu <- geneUsage(immdata$data)
 vis(gu, .by = "Status", .meta = immdata$meta)
 vis(gu, "box", .by = "Status", .meta = immdata$meta)
+}
 }
 \seealso{
 \link{geneUsage}

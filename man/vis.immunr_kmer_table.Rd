@@ -32,6 +32,7 @@ A ggplot2 object.
 Plot a distribution (bar plot) of the most frequent kmers in a data.
 }
 \examples{
+\dontrun{
 # Load necessary data and package.
 data(immdata)
 # Get 5-mers.
@@ -40,6 +41,7 @@ imm.km <- getKmers(immdata$data[[1]], 5)
 p1 <- vis(imm.km, .position = "stack")
 p2 <- vis(imm.km, .position = "fill")
 p1 + p2
+}
 }
 \seealso{
 \code{get.kmers}

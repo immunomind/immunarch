@@ -18,8 +18,14 @@
 #' @seealso [immundata::ImmunData]
 #'
 #' @examples
+#' # Limit the number of threads used by the underlying DB for this session.
+#' # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+#' db_exec("SET threads TO 2")
+#'
 #' # Load data
+#' \dontrun{
 #' immdata <- get_test_idata() |> agg_repertoires("Therapy")
+#' }
 #'
 #' @name airr_stats
 #' @concept Key AIRR statistics
@@ -90,7 +96,10 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
 #' #
 #' # airr_stats_chains
 #' #
+#'
+#' \dontrun{
 #' airr_stats_chains(immdata)
+#' }
 #'
 #' @rdname airr_stats
 #' @concept Key AIRR statistics
@@ -140,7 +149,10 @@ airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
 #' #
 #' # airr_stats_lengths
 #' #
+#'
+#' \dontrun{
 #' airr_stats_lengths(immdata)
+#' }
 #'
 #' @rdname airr_stats
 #' @concept Key AIRR statistics
@@ -213,6 +225,8 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #' #
 #' # airr_stats_genes
 #' #
+#'
+#' \dontrun{
 #' # V gene usage by receptor count
 #' airr_stats_genes(immdata, gene_col = "v_call", level = "receptor")
 #'
@@ -221,6 +235,7 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #'
 #' # Split by locus (TRA/TRB/... if locus column exists)
 #' airr_stats_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
+#' }
 #'
 #' @rdname airr_stats
 #' @concept Key AIRR statistics

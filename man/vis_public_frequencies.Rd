@@ -39,6 +39,7 @@ A ggplot2 object.
 Visualise public clonotype frequencies.
 }
 \examples{
+\dontrun{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 500)
 pr <- pubRep(immdata$data, .verbose = FALSE)
@@ -46,5 +47,6 @@ vis(pr, "freq", .type = "boxplot")
 vis(pr, "freq", .type = "none")
 vis(pr, "freq", .type = "mean")
 vis(pr, "freq", .by = "Status", .meta = immdata$meta)
+}
 }
 \concept{pubrep}

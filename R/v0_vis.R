@@ -163,10 +163,6 @@ theme_cleveland2 <- function(rotate = TRUE) {
 
 #' One function to visualise them all
 #'
-#' @concept vis
-#'
-#' @name vis
-#'
 #' @import ggplot2
 #' @importFrom grDevices colorRampPalette
 #' @importFrom tidyr drop_na
@@ -244,6 +240,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' @seealso [fixVis] for precise manipulation of plots.
 #'
 #' @examples
+#' \dontrun{
 #' # Load the test data
 #' data(immdata)
 #'
@@ -256,7 +253,8 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #'
 #' dv <- repDiversity(immdata$data)
 #' vis(dv)
-#' @export vis
+#' }
+#' @export
 vis <- function(.data, ...) {
   UseMethod("vis")
 }
@@ -302,12 +300,14 @@ vis <- function(.data, ...) {
 #' A ggplot2, pheatmap or circlize object.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' vis(ov)
 #' vis(ov, "heatmap")
 #' vis(ov, "heatmap2")
 #' vis(ov, "circos")
+#' }
 #' @export
 vis.immunr_ov_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos"), ...) {
   args <- list(...)
@@ -396,11 +396,13 @@ vis.immunr_gu_matrix <- function(.data, .plot = c("heatmap", "heatmap2", "circos
 #' @seealso [vis], [repOverlap].
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' vis_heatmap(ov)
 #' gu <- geneUsage(immdata$data, "hs.trbj")
 #' vis_heatmap(gu)
+#' }
 #' @export
 vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits = 2,
                         .text.size = 4, .axis.text.size = NULL,
@@ -510,9 +512,11 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' @seealso [vis], [repOverlap]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' vis_heatmap2(ov)
+#' }
 #' @export
 vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
   args <- list(...)
@@ -560,9 +564,11 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
 #' @seealso [vis], [repOverlap].
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' vis(ov, .plot = "circos")
+#' }
 #' @export
 vis_circos <- function(.data, .title = NULL, ...) {
   if (has_class(.data, "tibble")) {
@@ -686,10 +692,12 @@ vis_circos <- function(.data, .title = NULL, ...) {
 #' @seealso [repOverlap]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' tmp <- repOverlap(immdata$data[1:4], "inc+overlap", .verbose.inc = FALSE, .verbose = FALSE)
 #' vis(tmp, .target = 1)
 #' vis(tmp, .grid = TRUE)
+#' }
 #' @export
 vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2, ...) {
   data_is_bootstrapped <- !is.null(attr(.data, "bootstrap"))
@@ -786,6 +794,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 #' A ggplot2 object.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 300)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
@@ -793,6 +802,7 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 #' vis(pr, "freq", .type = "none")
 #'
 #' vis(pr, "clonotypes", 1, 2)
+#' }
 #' @export
 vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"), ...) {
   .plot <- .plot[1]
@@ -826,10 +836,12 @@ vis.immunr_public_repertoire <- function(.data, .plot = c("freq", "clonotypes"),
 #' A ggplot2 object.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pubRepStatistics(pr) %>% vis()
+#' }
 #' @export
 vis.immunr_public_statistics <- function(.data, ...) {
   if (!requireNamespace("UpSetR", quietly = TRUE)) {
@@ -874,6 +886,7 @@ vis.immunr_public_statistics <- function(.data, ...) {
 #' A ggplot2 object.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 500)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
@@ -881,6 +894,7 @@ vis.immunr_public_statistics <- function(.data, ...) {
 #' vis(pr, "freq", .type = "none")
 #' vis(pr, "freq", .type = "mean")
 #' vis(pr, "freq", .by = "Status", .meta = immdata$meta)
+#' }
 vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
                                    .type = c("boxplot", "none", "mean")) {
   .type <- .type[1]
@@ -986,9 +1000,11 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 #' @seealso [pubRep], [vis.immunr_public_repertoire]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' vis(pr, "clonotypes", 1, 2)
+#' }
 vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
                                   .title = NA, .ncol = 3,
                                   .point.size.modif = 1, .cut.axes = TRUE,
@@ -1189,6 +1205,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #' A ggplot2 object, pheatmap or circlize object.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #'
 #' gu <- geneUsage(immdata$data[[1]])
@@ -1197,6 +1214,7 @@ vis_public_clonotypes <- function(.data, .x.rep = NA, .y.rep = NA,
 #' gu <- geneUsage(immdata$data)
 #' vis(gu, .by = "Status", .meta = immdata$meta)
 #' vis(gu, "box", .by = "Status", .meta = immdata$meta)
+#' }
 #' @seealso [geneUsage]
 #'
 #' @export
@@ -1298,6 +1316,7 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
 #' @seealso [vis.immunr_gene_usage], [geneUsage]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' imm_gu <- geneUsage(immdata$data[[1]])
 #' vis(imm_gu,
@@ -1309,6 +1328,7 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
 #'   .plot = "hist", .grid = TRUE, .add.layer =
 #'     theme(axis.text.x = element_text(angle = 75, vjust = 1))
 #' )
+#' }
 #' @export
 vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol = NA,
                      .points = TRUE, .test = TRUE, .coord.flip = FALSE,
@@ -1475,7 +1495,9 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #' @seealso [vis.immunr_gene_usage], [geneUsage]
 #'
 #' @examples
+#' \dontrun{
 #' vis_box(data.frame(Sample = sample(c("A", "B", "C"), 100, TRUE), Value = rnorm(100)), .melt = FALSE)
+#' }
 #' @export
 vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
                     .points = TRUE, .test = TRUE, .signif.label.size = 3.5, .defgroupby = "Sample", .grouping.var = "Group",
@@ -1636,9 +1658,11 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
 #' @seealso [vis], [repOverlapAnalysis], [geneUsageAnalysis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds+hclust") %>% vis()
+#' }
 #' @export
 vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), ...) {
   if (!requireNamespace("factoextra", quietly = TRUE)) {
@@ -1698,9 +1722,11 @@ vis.immunr_hclust <- function(.data, .rect = FALSE, .plot = c("clust", "best"), 
 #' @seealso [vis], [repOverlapAnalysis], [geneUsageAnalysis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds+kmeans") %>% vis()
+#' }
 #' @export
 vis.immunr_kmeans <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRUE,
                               .point.size = 2, .text.size = 10, .plot = c("clust", "best"),
@@ -1802,9 +1828,11 @@ vis.immunr_dbscan <- function(.data, .point = TRUE, .text = TRUE, .ellipse = TRU
 #' - tSNE - [vis.immunr_tsne]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds") %>% vis()
+#' }
 #' @export
 vis.immunr_mds <- function(.data, .by = NA, .meta = NA,
                            .point = TRUE, .text = TRUE, .ellipse = TRUE,
@@ -2030,6 +2058,7 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' @seealso [repClonality] [vis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' clp <- repClonality(immdata$data, "clonal.prop")
 #' vis(clp)
@@ -2037,6 +2066,7 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #' hom <- repClonality(immdata$data, "homeo")
 #' # Remove p values and points from the plot
 #' vis(hom, .by = "Status", .meta = immdata$meta, .test = FALSE, .points = FALSE)
+#' }
 #' @export
 vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
   # ToDo: this and other repClonality and repDiversity functions doesn't work on a single repertoire. Fix it
@@ -2214,7 +2244,9 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 #' A ggplot2 object.
 #'
 #' @examples
+#' \dontrun{
 #' vis_bar(data.frame(Sample = c("A", "B", "C"), Value = c(1, 2, 3)))
+#' }
 #' @export
 vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = FALSE,
                     .points = TRUE, .test = TRUE, .signif.label.size = 3.5, .errorbar.width = 0.2, .defgroupby = "Sample", .grouping.var = "Group",
@@ -2441,9 +2473,11 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #' @seealso [repDiversity] [vis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' dv <- repDiversity(immdata$data, "chao1")
 #' vis(dv)
+#' }
 #' @export
 vis.immunr_chao1 <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .points = TRUE, .test = TRUE, .signif.label.size = 3.5, ...) {
   .data <- data.frame(Sample = row.names(.data), Value = .data[, 1])
@@ -2711,11 +2745,13 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 #' @seealso [repExplore] [vis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' repExplore(immdata$data, "volume") %>% vis()
 #' repExplore(immdata$data, "count") %>% vis()
 #' repExplore(immdata$data, "len") %>% vis()
 #' repExplore(immdata$data, "clones") %>% vis()
+#' }
 #' @export
 vis.immunr_exp_vol <- function(.data, .by = NA, .meta = NA,
                                .errorbars = c(0.025, 0.975), .errorbars.off = FALSE,
@@ -2829,6 +2865,7 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #' @seealso `get.kmers`
 #'
 #' @examples
+#' \dontrun{
 #' # Load necessary data and package.
 #' data(immdata)
 #' # Get 5-mers.
@@ -2837,6 +2874,7 @@ vis.immunr_exp_clones <- function(.data, .by = NA, .meta = NA,
 #' p1 <- vis(imm.km, .position = "stack")
 #' p2 <- vis(imm.km, .position = "fill")
 #' p1 + p2
+#' }
 #' @export
 vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "dodge", "fill"), .log = FALSE, ...) {
   .position <- switch(substr(.position[1], 1, 1),
@@ -2915,6 +2953,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' @seealso [getKmers], [kmer_profile]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' kmers <- getKmers(immdata$data[[1]], 5)
 #' ppm <- kmer_profile(kmers, "prob")
@@ -2924,6 +2963,7 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
 #' d <- kmer_profile(c("CASLL", "CASSQ", "CASGL"))
 #' vis_textlogo(d)
 #' vis_seqlogo(d)
+#' }
 #' @export
 vis_textlogo <- function(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...) {
   # ToDo: make different color schemas, for type of aminoacids (polarity, etc), etc
@@ -2979,10 +3019,12 @@ vis_seqlogo <- function(.data, .scheme = "chemistry", ...) {
 #' A ggplot2 object.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' getKmers(immdata$data[[1]], 5) %>%
 #'   kmer_profile() %>%
 #'   vis("seqlogo")
+#' }
 #' @export
 vis_immunr_kmer_profile_main <- function(.data, .plot, ...) {
   if (.plot[1] == "text") {
@@ -3050,6 +3092,7 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #' A ggplot2 object.
 #'
 #' @examples
+#' \dontrun{
 #' # Load an example data that comes with immunarch
 #' data(immdata)
 #'
@@ -3096,6 +3139,7 @@ vis.immunr_kmer_profile_self <- function(.data, .plot = c("textlogo", "seqlogo")
 #' immdata$meta$Sample[sample_order]
 #' # And finally, we visualise the data:
 #' vis(tc, .order = sample_order)
+#' }
 #' @export
 vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .order = NA, .log = FALSE, ...) {
   if (!requireNamespace("ggalluvial", quietly = TRUE)) {
@@ -3177,6 +3221,7 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #' A ggraph object.
 #'
 #' @examples
+#' \dontrun{
 #' data(bcrdata)
 #' bcr_data <- bcrdata$data
 #'
@@ -3186,6 +3231,7 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
 #'   repClonalFamily(.threads = 1, .nofail = TRUE) %>%
 #'   vis()
+#' }
 #' @export
 vis.clonal_family <- function(.data, ...) {
   if (inherits(.data, "clonal_family_df")) {
@@ -3228,6 +3274,7 @@ vis.clonal_family <- function(.data, ...) {
 #' A ggraph object.
 #'
 #' @examples
+#' \dontrun{
 #' data(bcrdata)
 #' bcr_data <- bcrdata$data
 #'
@@ -3241,6 +3288,7 @@ vis.clonal_family <- function(.data, ...) {
 #' # when ClustalW or PHYLIP are not installed
 #' if (!("step_failure_ignored" %in% class(clonal_family))) {
 #'   vis(clonal_family[["full_clones"]][["TreeStats"]][[2]])
+#' }
 #' }
 #' @export
 vis.clonal_family_tree <- function(.data, ...) {
