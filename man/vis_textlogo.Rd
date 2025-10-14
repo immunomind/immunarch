@@ -37,6 +37,7 @@ are no big differences between occurences of amino acids in the motif.
 with clear differences in their occurrences.
 }
 \examples{
+\dontrun{
 data(immdata)
 kmers <- getKmers(immdata$data[[1]], 5)
 ppm <- kmer_profile(kmers, "prob")
@@ -46,6 +47,7 @@ vis(ppm, .plot = "seq")
 d <- kmer_profile(c("CASLL", "CASSQ", "CASGL"))
 vis_textlogo(d)
 vis_seqlogo(d)
+}
 }
 \seealso{
 \link{getKmers}, \link{kmer_profile}

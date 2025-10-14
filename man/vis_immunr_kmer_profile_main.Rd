@@ -25,9 +25,11 @@ A ggplot2 object.
 #' \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 getKmers(immdata$data[[1]], 5) \%>\%
   kmer_profile() \%>\%
   vis("seqlogo")
+}
 }
 \concept{kmers}

@@ -53,9 +53,11 @@ A ggplot2 object.
 Visualise correlation of public clonotype frequencies in pairs of repertoires.
 }
 \examples{
+\dontrun{
 data(immdata)
 pr <- pubRep(immdata$data, .verbose = FALSE)
 vis(pr, "clonotypes", 1, 2)
+}
 }
 \seealso{
 \link{pubRep}, \link{vis.immunr_public_repertoire}
