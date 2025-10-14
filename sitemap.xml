@@ -3,10 +3,10 @@
 <url><loc>https://immunarch.com/CONTRIBUTION.html</loc></url>
 <url><loc>https://immunarch.com/LICENSE-text.html</loc></url>
 <url><loc>https://immunarch.com/articles/immunarch.html</loc></url>
+<url><loc>https://immunarch.com/articles/immunarch_threads.html</loc></url>
 <url><loc>https://immunarch.com/articles/index.html</loc></url>
 <url><loc>https://immunarch.com/articles/web_only_v0/BCRpipeline.html</loc></url>
 <url><loc>https://immunarch.com/articles/web_only_v0/clustering.html</loc></url>
-<url><loc>https://immunarch.com/articles/web_only_v0/community.html</loc></url>
 <url><loc>https://immunarch.com/articles/web_only_v0/data.html</loc></url>
 <url><loc>https://immunarch.com/articles/web_only_v0/introduction.html</loc></url>
 <url><loc>https://immunarch.com/articles/web_only_v0/load_10x.html</loc></url>
@@ -81,7 +81,6 @@
 <url><loc>https://immunarch.com/reference/repSample.html</loc></url>
 <url><loc>https://immunarch.com/reference/repSave.html</loc></url>
 <url><loc>https://immunarch.com/reference/repSomaticHypermutation.html</loc></url>
-<url><loc>https://immunarch.com/reference/scdata.html</loc></url>
 <url><loc>https://immunarch.com/reference/select_barcodes.html</loc></url>
 <url><loc>https://immunarch.com/reference/select_clusters.html</loc></url>
 <url><loc>https://immunarch.com/reference/seqCluster.html</loc></url>

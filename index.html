@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,8 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/single-cell/">Immunarch v1.0</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/single_cell/">Immunarch v1.0</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/migration/">Migration Guide</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-immunarch-v-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Immunarch v0.9</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-immunarch-v-">
@@ -192,10 +193,11 @@
 <span><span class="va">immdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/immundata/man/get_test_idata.html" class="external-link">get_test_idata</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/pkg/immundata/man/agg_repertoires.html" class="external-link">agg_repertoires</a></span><span class="op">(</span><span class="st">"Therapy"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># In just 4 lines of code you get the essential AIRR statistics</span></span>
-<span><span class="fu"><a href="reference/airr_stats.html">airr_stats_genes</a></span><span class="op">(</span><span class="va">immdata</span>, gene_col <span class="op">=</span> <span class="st">"v_call"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/airr_public.html">airr_public_jaccard</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/airr_stats.html">airr_stats_genes</a></span><span class="op">(</span><span class="va">immdata</span>, gene_col <span class="op">=</span> <span class="st">"v_call"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/airr_public.html">airr_public_jaccard</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/airr_diversity.html">airr_diversity_pielou</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/airr_diversity.html">airr_diversity_chao1</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/airr_clonality.html">airr_clonality_prop</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/airr_diversity.html">airr_diversity_pielou</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Use your own data by reading sample files from the metadata file</span></span>
 <span><span class="va">mdtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/immundata/man/read_metadata.html" class="external-link">read_metadata</a></span><span class="op">(</span><span class="st">"data/metadata.csv"</span><span class="op">)</span></span>

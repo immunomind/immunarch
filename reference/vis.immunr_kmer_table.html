@@ -15,7 +15,7 @@ Plot a distribution (bar plot) of the most frequent kmers in a data."><!-- Globa
 
     <a class="navbar-brand me-2" href="../index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +23,8 @@ Plot a distribution (bar plot) of the most frequent kmers in a data."><!-- Globa
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/single-cell/">Immunarch v1.0</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/single_cell/">Immunarch v1.0</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/migration/">Migration Guide</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-immunarch-v-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Immunarch v0.9</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-immunarch-v-"><li><a class="dropdown-item" href="../articles/web_only_v0/introduction.html">Installation &amp; troubleshooting</a></li>
@@ -120,7 +121,8 @@ Plot a distribution (bar plot) of the most frequent kmers in a data."><!-- Globa
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load necessary data and package.</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># Load necessary data and package.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Get 5-mers.</span></span></span>
 <span class="r-in"><span><span class="va">imm.km</span> <span class="op">&lt;-</span> <span class="fu"><a href="getKmers.html">getKmers</a></span><span class="op">(</span><span class="va">immdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span></span>
@@ -128,7 +130,7 @@ Plot a distribution (bar plot) of the most frequent kmers in a data."><!-- Globa
 <span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm.km</span>, .position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="vis.html">vis</a></span><span class="op">(</span><span class="va">imm.km</span>, .position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></span>
-<span class="r-plt img"><img src="vis.immunr_kmer_table-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

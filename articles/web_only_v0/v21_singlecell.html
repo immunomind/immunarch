@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../../index.html">immunarch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,8 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/single-cell/">Immunarch v1.0</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/single_cell/">Immunarch v1.0</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://immunomind.github.io/docs/tutorials/migration/">Migration Guide</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-immunarch-v-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Immunarch v0.9</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-immunarch-v-">
@@ -147,6 +148,7 @@ barcodes from the output of <code>Seurat::Idents()</code> use the
 <code>immunarch</code>. Load it by executing the following command:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">scdata</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in data(scdata): data set 'scdata' not found</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="load-the-paired-chain-data">Load the paired chain data<a class="anchor" aria-label="anchor" href="#load-the-paired-chain-data"></a>
@@ -154,7 +156,7 @@ barcodes from the output of <code>Seurat::Idents()</code> use the
 <p>To load your own datasets, use the <code>repLoad</code> function.
 Currently we implemented paired chain data support for 10X Genomics data
 only. A working example of loading datasets into R:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"immunarch"</span><span class="op">)</span>, <span class="st">"/extdata/sc/flu.csv.gz"</span><span class="op">)</span></span>
 <span><span class="va">igdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repLoad.html">repLoad</a></span><span class="op">(</span><span class="va">file_path</span>, .mode <span class="op">=</span> <span class="st">"paired"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -170,13 +172,13 @@ only. A working example of loading datasets into R:</p>
 <span><span class="co">## == Step 3/3: processing paired chain data... ==</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Done!</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">igdata</span><span class="op">$</span><span class="va">meta</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">##   Sample</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> flu</span></span></code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">igdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="fl">16</span>, <span class="fl">17</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Clones Proportion</span></span>
 <span><span class="co">## 1      3      3e-04</span></span>
@@ -212,7 +214,7 @@ only. A working example of loading datasets into R:</p>
 </h2>
 <p>To subset the data by barcodes, use the <code>select_barcodes</code>
 function.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">barcodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AGTAGTCAGTGTACTC-1"</span>, <span class="st">"GGCGACTGTACCGAGA-1"</span>, <span class="st">"TTGAACGGTCACCTAA-1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">new_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_barcodes.html">select_barcodes</a></span><span class="op">(</span><span class="va">scdata</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">barcodes</span><span class="op">)</span></span>
@@ -223,7 +225,7 @@ function.</p>
 </h3>
 <p>To create a new dataset with cluster-specific immune repertoires, use
 the <code>select_clusters</code> function:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scdata_pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_clusters.html">select_clusters</a></span><span class="op">(</span><span class="va">scdata</span>, <span class="va">scdata</span><span class="op">$</span><span class="va">bc_patient</span>, <span class="st">"Patient"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">scdata_pat</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
@@ -238,7 +240,7 @@ the <code>select_clusters</code> function. You can apply this function
 after you created patient-specific datasets to get patient-specific cell
 cluster-specific immune repertoires, e.g., a Memory B Cell repertoire
 for a specific patient:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scdata_cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/select_clusters.html">select_clusters</a></span><span class="op">(</span><span class="va">scdata_pat</span>, <span class="va">scdata</span><span class="op">$</span><span class="va">bc_cluster</span>, <span class="st">"Cluster"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
@@ -250,7 +252,7 @@ for a specific patient:</p>
 <h2 id="explore-and-compute-statistics">Explore and compute statistics<a class="anchor" aria-label="anchor" href="#explore-and-compute-statistics"></a>
 </h2>
 <p>Most functions will work out-of-the-box with paired chain data.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repOverlap.html">repOverlap</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/repDiversity.html">repDiversity</a></span><span class="op">(</span><span class="va">scdata_cl</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../../reference/vis.html">vis</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
