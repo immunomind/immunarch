@@ -93,7 +93,7 @@ using named thresholds (matched in descending order; else "Ultra-rare").'><!-- G
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Annotate clonality - per-receptor labels for overabundance</h1>
-      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/master/R/v1_clonality_annotate.R" class="external-link"><code>R/v1_clonality_annotate.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/immunomind/immunarch/blob/0.10.3/R/v1_clonality_annotate.R" class="external-link"><code>R/v1_clonality_annotate.R</code></a></small>
       <div class="d-none name"><code>annotate_clonality.Rd</code></div>
     </div>
 
@@ -211,15 +211,15 @@ with each row corresponding to a specific repertoire / pair of repertoires; usef
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Postprocessing plan is ready</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── Saving the newly created ImmunData to disk </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Writing the receptor annotation data to [/tmp/RtmpVH5iE5/file1ed4b047e85/annotations.parquet]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Writing the metadata to [/tmp/RtmpVH5iE5/file1ed4b047e85/metadata.json]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ImmunData files saved to [/tmp/RtmpVH5iE5/file1ed4b047e85]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Reading ImmunData files from [<span style="color: #0000BB;">/tmp/RtmpVH5iE5/file1ed4b047e85</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Writing the receptor annotation data to [/tmp/RtmpPHpsgz/file1eef61c7a646/annotations.parquet]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Writing the metadata to [/tmp/RtmpPHpsgz/file1eef61c7a646/metadata.json]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ImmunData files saved to [/tmp/RtmpPHpsgz/file1eef61c7a646]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Reading ImmunData files from [<span style="color: #0000BB;">/tmp/RtmpPHpsgz/file1eef61c7a646</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded ImmunData with the receptor schema: [c("cdr3_aa", "v_call") and list()]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Reading ImmunData files from [<span style="color: #0000BB;">/tmp/RtmpVH5iE5/file1ed4b047e85</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Reading ImmunData files from [<span style="color: #0000BB;">/tmp/RtmpPHpsgz/file1eef61c7a646</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── Summary </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Time elapsed: <span style="font-style: italic;">2.37 secs</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Time elapsed: <span style="font-style: italic;">2.32 secs</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded ImmunData with the receptor schema: [c("cdr3_aa", "v_call") and NULL]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded ImmunData with [1902] chains</span>
 <span class="r-in"><span><span class="va">idata_rank</span> <span class="op">&lt;-</span> <span class="fu">annotate_clonality_rank</span><span class="op">(</span><span class="va">idata</span><span class="op">)</span></span></span>
