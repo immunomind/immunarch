@@ -158,6 +158,8 @@ if (getRversion() >= "2.15.1") {
 repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min.q = 1, .q = 5, .step = NA,
                          .quantile = c(.025, .975), .extrapolation = NA, .perc = 50,
                          .norm = TRUE, .verbose = TRUE, .do.norm = NA, .laplace = 0) {
+  lifecycle::deprecate_warn("0.10.3", "repDiversity()", details = "See `?airr_diversity()` for details on new functions.")
+
   .method <- .method[1]
 
   if (.method == "rarefaction") {

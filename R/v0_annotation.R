@@ -54,6 +54,8 @@ if (getRversion() >= "2.15.1") {
 #' db
 #' @export
 dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
+  lifecycle::deprecate_warn("0.10.3", "dbLoad()")
+
   .db <- tolower(.db)
   if (!(.db %in% c("vdjdb", "vdjdb-search", "mcpas", "mcpas-tcr", "pird"))) {
     stop('Unknown .db argument. Please provide one of the following: "vdjdb", "vdjdb-search", "mcpas"')
@@ -158,6 +160,8 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #' res
 #' @export dbAnnotate
 dbAnnotate <- function(.data, .db, .data.col, .db.col) {
+  lifecycle::deprecate_warn("0.10.3", "dbAnnotate()")
+
   # Check if the number of columns is equal
   if (length(.data.col) != length(.db.col)) {
     stop("Number of columns in .data.col and .db.col doesn't match! Please provide equal number of columns.")

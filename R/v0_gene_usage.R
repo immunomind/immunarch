@@ -64,6 +64,8 @@ geneUsage <- function(.data, # df, list, MonetDB
                       .ambig = c("inc", "exc", "maj"),
                       .type = c("segment", "allele", "family"),
                       .norm = FALSE) {
+  lifecycle::deprecate_warn("0.10.3", "geneUsage()", details = "See `?airr_desc()` for details on replacement functions.")
+
   .type <- .type[1]
   .ambig <- .ambig[1]
   .quant <- .quant[1]
