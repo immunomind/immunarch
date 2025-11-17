@@ -37,7 +37,6 @@ airr_stats_genes(immdata, gene_col = "v_call") |> vis()
 airr_public_jaccard(immdata) |> vis()
 airr_diversity_pielou(immdata) |> vis()
 airr_diversity_chao1(immdata) |> vis()
-airr_clonality_prop(immdata)
 }
 }
 \seealso{
