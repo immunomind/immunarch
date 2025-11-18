@@ -1,0 +1,26 @@
+name: "🪲 Bug report"
+description: "Something works incorrectly or throws an error? Let us know."
+labels:
+- bug
+body:
+- type: textarea
+  id: description
+  attributes:
+    label: What happened?
+    description: Describe what you tried to do, and what happened instead.
+  validations:
+    required: true
+- type: textarea
+  id: code
+  attributes:
+    label: Minimal code sample
+    description: Paste your code. Attach minimal data as a file to this ticket if necessary. Provide plots.
+  validations:
+    required: true
+- type: textarea
+  id: info
+  attributes:
+    label: Additional information
+    description: "Any additional information you want to share with us: your R version and OS, how you want the result look like, etc."
+  validations:
+    required: false
