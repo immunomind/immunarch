@@ -1,0 +1,12 @@
+name: "❓ Question"
+description: Ask us anything about immundata - how to use it, how to do something, how it works
+labels:
+- question
+body:
+- type: textarea
+  id: description
+  attributes:
+    label: Your question
+    description: Describe what you want to know. E.g., how to analyse a specific data, how to do X, when a method will be available, etc.
+  validations:
+    required: true

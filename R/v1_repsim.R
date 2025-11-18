@@ -1,4 +1,4 @@
-#' @title Public indices - pairwise repertoire overlap
+#' @title Immune repertoire similarity
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -10,8 +10,8 @@
 #' Supported methods are the following.
 #'
 #' @param idata An `ImmunData` object.
-#' @inheritParams airr_public_intersection
-#' @inheritParams airr_public_jaccard
+#' @inheritParams repsim_intersection
+#' @inheritParams repsim_jaccard
 #' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
@@ -25,13 +25,13 @@
 #' immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #' }
 #'
-#' @name airr_public
-#' @concept Public indices
+#' @name repsim
+#' @concept Repertoire similarity
 NULL
 
 
 #' @keywords internal
-airr_public_intersection_impl <- function(idata) {
+repsim_intersection_impl <- function(idata) {
   receptor_id_col <- immundata::imd_schema("receptor")
   repertoire_id_col <- immundata::imd_schema("repertoire")
   repertoire_ids <- idata$repertoires |>
@@ -73,33 +73,33 @@ airr_public_intersection_impl <- function(idata) {
   result_matrix
 }
 
-#' @description `airr_public_intersection` - number of **shared receptors** between
+#' @description `repsim_intersection` - number of **shared receptors** between
 #' each pair of repertoires (intersection size). Handy for quick overlap heatmaps,
 #' QC of replicate similarity, or spotting donor-shared "public" clonotypes.
 #'
 #' @return
 #'
-#' ## `airr_public_intersection`
+#' ## `repsim_intersection`
 #' A **symmetric numeric matrix** where rows/columns are `repertoire_id` and each
 #' cell is the count of shared unique receptors. The diagonal contains per-repertoire
 #' richness (total unique receptors). Row/column names are repertoire IDs.
 #'
 #' @examples
 #' #
-#' # airr_public_intersection
+#' # repsim_intersection
 #' #
 #' \dontrun{
-#' m_pub <- airr_public_intersection(immdata)
+#' m_pub <- repsim_intersection(immdata)
 #' }
 #'
-#' @rdname airr_public
-#' @concept Public indices
+#' @rdname repsim
+#' @concept Repertoire similarity
 #' @export
-airr_public_intersection <- register_immunarch_method(airr_public_intersection_impl, "airr_public", "intersection", )
+repsim_intersection <- register_immunarch_method(repsim_intersection_impl, "repsim", "intersection", )
 
 
 #' @keywords internal
-airr_public_jaccard_impl <- function(idata) {
+repsim_jaccard_impl <- function(idata) {
   receptor_id_col <- immundata::imd_schema("receptor")
   repertoire_id_col <- immundata::imd_schema("repertoire")
   repertoire_ids <- idata$repertoires |>
@@ -152,7 +152,7 @@ airr_public_jaccard_impl <- function(idata) {
 }
 
 
-#' @description `airr_public_jaccard` - **Jaccard similarity** of receptor
+#' @description `repsim_jaccard` - **Jaccard similarity** of receptor
 #' sets between repertoires (\eqn{A \cap B}{A cap B} / \eqn{A \cup B}{A cup B}). Best when comparing cohorts with
 #' different sizes to get a scale-invariant overlap score.
 #'
@@ -160,20 +160,20 @@ airr_public_jaccard_impl <- function(idata) {
 #'
 #' @return
 #'
-#' ## `airr_public_jaccard`
+#' ## `repsim_jaccard`
 #' A **symmetric numeric matrix** where rows/columns are `repertoire_id` and each
 #' cell is the Jaccard similarity in `[0, 1]`. The diagonal is `1`. Row/column
 #' names are repertoire IDs.
 #'
 #' @examples
 #' #
-#' # airr_public_jaccard
+#' # repsim_jaccard
 #' #
 #' \dontrun{
-#' m_jac <- airr_public_jaccard(immdata)
+#' m_jac <- repsim_jaccard(immdata)
 #' }
 #'
-#' @rdname airr_public
-#' @concept Public indices
+#' @rdname repsim
+#' @concept Repertoire similarity
 #' @export
-airr_public_jaccard <- register_immunarch_method(airr_public_jaccard_impl, "airr_public", "jaccard")
+repsim_jaccard <- register_immunarch_method(repsim_jaccard_impl, "repsim", "jaccard")

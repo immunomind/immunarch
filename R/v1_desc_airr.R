@@ -1,4 +1,4 @@
-#' @title Compute key immune repertoire statistics
+#' @title Descriptive immune repertoire statistics
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
@@ -10,9 +10,9 @@
 #' Supported methods are the following.
 #'
 #' @param idata An `ImmunData` object.
-#' @inheritParams airr_stats_chains
-#' @inheritParams airr_stats_lengths
-#' @inheritParams airr_stats_genes
+#' @inheritParams airr_desc_chains
+#' @inheritParams airr_desc_lengths
+#' @inheritParams airr_desc_genes
 #' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
@@ -27,13 +27,13 @@
 #' immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #' }
 #'
-#' @name airr_stats
+#' @name airr_desc
 #' @concept Key AIRR statistics
 NULL
 
 
 #' @keywords internal
-airr_stats_chains_impl <- function(idata, locus_col = NA) {
+airr_desc_chains_impl <- function(idata, locus_col = NA) {
   checkmate::assert_character(locus_col, null.ok = TRUE)
 
   if (is.null(idata$repertoires)) {
@@ -76,7 +76,7 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
 }
 
 
-#' @description `airr_stats_chains` --- count V(D)J *chains* per repertoire
+#' @description `airr_desc_chains` --- count V(D)J *chains* per repertoire
 #'   (optionally split by locus). Quickly gauges capture depth per repertoire
 #'   and, when split by locus, reveals TRA/TRB/IGH balance. Use it for QC,
 #'   library-size checks, and to spot locus-specific dropouts or
@@ -87,32 +87,32 @@ airr_stats_chains_impl <- function(idata, locus_col = NA) {
 #'
 #' @return
 #'
-#' ## `airr_stats_chains` Returns a tibble with columns:
+#' ## `airr_desc_chains` Returns a tibble with columns:
 #' * `repertoire_id` -- repertoire identifier
 #' * `locus` -- TRA, TRB, IGH, ... (present only if `locus_col` is supplied)
 #' * `n_chains` -- number of chains
 #'
 #' @examples
 #' #
-#' # airr_stats_chains
+#' # airr_desc_chains
 #' #
 #'
 #' \dontrun{
-#' airr_stats_chains(immdata)
+#' airr_desc_chains(immdata)
 #' }
 #'
-#' @rdname airr_stats
+#' @rdname airr_desc
 #' @concept Key AIRR statistics
 #' @export
-airr_stats_chains <- register_immunarch_method(
-  core = airr_stats_chains_impl,
-  family = "airr_stats",
+airr_desc_chains <- register_immunarch_method(
+  core = airr_desc_chains_impl,
+  family = "airr_desc",
   name = "chains"
 )
 
 
 #' @keywords internal
-airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
+airr_desc_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
   idata$annotations |>
     dplyr::select(dplyr::all_of(c(immundata::imd_schema("repertoire"), seq_col))) |>
     dplyr::mutate(seq_len = dd$length(!!rlang::sym(seq_col))) |>
@@ -129,7 +129,7 @@ airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
 }
 
 
-#' @description `airr_stats_lengths` --- count the number of sequence lengths
+#' @description `airr_desc_lengths` --- count the number of sequence lengths
 #' per repertoire. Summarizes the CDR3 length distribution, a sensitive QC
 #' fingerprint of repertoire prep and selection. Helpful for detecting
 #' primer/UMI biases, comparing cohorts, and deriving length-based features for
@@ -140,33 +140,33 @@ airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
 #'
 #' @return
 #'
-#' ## `airr_stats_lengths` Returns a tibble with columns:
+#' ## `airr_desc_lengths` Returns a tibble with columns:
 #' * `repertoire_id` -- repertoire identifier
 #' * `seq_len` -- lengths of sequences
 #' * `n` -- number of receptors
 #'
 #' @examples
 #' #
-#' # airr_stats_lengths
+#' # airr_desc_lengths
 #' #
 #'
 #' \dontrun{
-#' airr_stats_lengths(immdata)
+#' airr_desc_lengths(immdata)
 #' }
 #'
-#' @rdname airr_stats
+#' @rdname airr_desc
 #' @concept Key AIRR statistics
 #' @export
-airr_stats_lengths <- register_immunarch_method(
-  core = airr_stats_lengths_impl,
-  family = "airr_stats",
+airr_desc_lengths <- register_immunarch_method(
+  core = airr_desc_lengths_impl,
+  family = "airr_desc",
   name = "lengths",
   required = "seq_col"
 )
 
 
 #' @keywords internal
-airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("receptor", "barcode"), by = c(NA, "locus")) {
+airr_desc_genes_impl <- function(idata, gene_col = "v_call", level = c("receptor", "barcode"), by = c(NA, "locus")) {
   checkmate::assert_logical(gene_col %in% colnames(idata$annotations))
   level <- match.arg(level)
   by <- match.arg(by)
@@ -190,7 +190,7 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
     collect()
 }
 
-#' @description `airr_stats_genes` - count V(D)J gene segments per repertoire,
+#' @description `airr_desc_genes` - count V(D)J gene segments per repertoire,
 #'   optionally split by locus and using either receptor counts or barcode/UMI
 #'   counts as the measure. Profiles V/D/J gene usage to characterize repertoire
 #'   composition and germline biases, with optional locus split. Useful for
@@ -212,7 +212,7 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #'
 #' @return
 #'
-#' ## `airr_stats_genes` A tibble with columns:
+#' ## `airr_desc_genes` A tibble with columns:
 #' * `repertoire_id` - repertoire identifier
 #' * *(optional)* `locus` - TRA, TRB, IGH, ... (present only when `by = "locus"`
 #' and the locus column exists)
@@ -223,26 +223,26 @@ airr_stats_genes_impl <- function(idata, gene_col = "v_call", level = c("recepto
 #'
 #' @examples
 #' #
-#' # airr_stats_genes
+#' # airr_desc_genes
 #' #
 #'
 #' \dontrun{
 #' # V gene usage by receptor count
-#' airr_stats_genes(immdata, gene_col = "v_call", level = "receptor")
+#' airr_desc_genes(immdata, gene_col = "v_call", level = "receptor")
 #'
 #' # V gene usage by summed cell/UMI counts (if a count column is present)
-#' airr_stats_genes(immdata, gene_col = "v_call", level = "barcode")
+#' airr_desc_genes(immdata, gene_col = "v_call", level = "barcode")
 #'
 #' # Split by locus (TRA/TRB/... if locus column exists)
-#' airr_stats_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
+#' airr_desc_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
 #' }
 #'
-#' @rdname airr_stats
+#' @rdname airr_desc
 #' @concept Key AIRR statistics
 #' @export
-airr_stats_genes <- register_immunarch_method(
-  core = airr_stats_genes_impl,
-  family = "airr_stats",
+airr_desc_genes <- register_immunarch_method(
+  core = airr_desc_genes_impl,
+  family = "airr_desc",
   name = "genes",
   required = "gene_col"
 )

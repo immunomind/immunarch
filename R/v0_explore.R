@@ -65,6 +65,8 @@
 #' repExplore(immdata$data, .method = "len") %>% vis()
 #' @export repExplore
 repExplore <- function(.data, .method = c("volume", "count", "len", "clones"), .col = c("nt", "aa"), .coding = TRUE) {
+  lifecycle::deprecate_warn("0.10.3", "repExplore()", details = "Run `?airr_desc()` for information on new functions.")
+
   if (!has_class(.data, "list")) {
     .data <- list(Sample = .data)
   }

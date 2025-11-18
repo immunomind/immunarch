@@ -89,6 +89,8 @@ repClonality <- function(.data, .method = c("clonal.prop", "homeo", "top", "rare
                          ),
                          .head = c(10, 100, 1000, 3000, 10000, 30000, 100000),
                          .bound = c(1, 3, 10, 30, 100)) {
+  lifecycle::deprecate_warn("0.10.3", "repClonality()", details = "See `?airr_clonality()` on details for replacement functions.")
+
   .method <- .method[1]
   if (.method == "tail") {
     .method <- "rare"

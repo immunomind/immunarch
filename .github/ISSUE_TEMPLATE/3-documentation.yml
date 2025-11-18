@@ -1,0 +1,12 @@
+name: "📚 Tutorial or documentation request"
+description: "Propose a tutorial for a specific use case or new documentation."
+labels:
+- documentation
+body:
+- type: textarea
+  id: description
+  attributes:
+    label: What type of documentation would you like to see on the website?
+    description: Interested in a tutorial? More details on how a specific method works? More examples? Something else entirely?
+  validations:
+    required: true
