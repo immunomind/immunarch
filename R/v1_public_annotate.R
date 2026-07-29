@@ -32,7 +32,7 @@
 #'
 #' idata_strata <- get_test_immundata() |>
 #'   agg_repertoires(c("Response", "Therapy")) |>
-#'   agg_strata(by = "Response") |>
+#'   agg_strata(schema = "Response") |>
 #'   annotate_public()
 #'
 #' write_immundata(idata_global, "snapshots/public-annotated-global")
@@ -156,12 +156,10 @@ annotate_public <- function(idata) {
     }
   }
 
-  annotated_annotations <- idata$annotations |>
-    left_join(public_ann, by = receptor_col)
-
-  immundata::ImmunData$new(
-    schema = idata$schema_receptor,
-    annotations = annotated_annotations,
-    repertoires = idata$repertoires
+  immundata::annotate_receptors(
+    idata = idata,
+    annotations = public_ann,
+    conflicts = "replace",
+    remove_limit = TRUE
   )
 }

@@ -31,16 +31,6 @@ build_synthetic_public_idata <- function(count_matrix, prop_matrix, strata_ids) 
     cdr3_aa = receptor_ids[present_pairs[, 1]]
   )
 
-  # Add duplicate lower-valued rows so the expected value is defined by max()
-  if (nrow(ann_tbl) > 0) {
-    dup_n <- max(1L, floor(0.2 * nrow(ann_tbl)))
-    dup_idx <- seq_len(dup_n)
-    dup_tbl <- ann_tbl[dup_idx, , drop = FALSE]
-    dup_tbl[[count_col]] <- pmax(1, dup_tbl[[count_col]] - 1)
-    dup_tbl[[prop_col]] <- pmax(0, dup_tbl[[prop_col]] - 0.01)
-    ann_tbl <- dplyr::bind_rows(ann_tbl, dup_tbl)
-  }
-
   rep_tbl <- tibble::tibble(
     !!repertoire_col := repertoire_ids,
     !!strata_col := strata_ids
@@ -188,8 +178,11 @@ test_that("annotate_public adds global publicness metrics", {
 
   idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
   out <- annotate_public(idata)
+  input_ann <- dplyr::collect(idata$annotations)
   out_ann <- dplyr::collect(out$annotations)
 
+  expect_equal(nrow(out_ann), nrow(input_ann))
+  expect_true(all(names(input_ann) %in% names(out_ann)))
   expect_true(all(c(
     "imd_public_incidence",
     "imd_public_incidence_prop",
@@ -243,7 +236,10 @@ test_that("annotate_public computes global metrics correctly", {
 test_that("annotate_public adds per-strata metrics when idata is stratified", {
 
   idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
-  stratified <- immundata::agg_strata(idata, by = c("Response", "Therapy"))
+  stratified <- immundata::agg_strata(
+    idata,
+    schema = c("Response", "Therapy")
+  )
   out <- annotate_public(stratified)
   out_ann <- dplyr::collect(out$annotations)
 
@@ -259,13 +255,25 @@ test_that("annotate_public adds per-strata metrics when idata is stratified", {
 
   expect_equal(inc_cols_n, n_strata)
   expect_equal(prop_mean_cols_n, n_strata)
+  expect_equal(out$schema_receptor, stratified$schema_receptor)
+  expect_equal(out$schema_repertoire, stratified$schema_repertoire)
+  expect_equal(out$schema_strata, stratified$schema_strata)
+  expect_equal(
+    dplyr::collect(out$repertoires),
+    dplyr::collect(stratified$repertoires)
+  )
+  expect_equal(
+    dplyr::collect(out$strata),
+    dplyr::collect(stratified$strata)
+  )
+  expect_identical(out$provenance, stratified$provenance)
 })
 
 test_that("annotate_public computes per-strata metrics correctly", {
 
   idata <- get_test_immundata() |>
     agg_repertoires(c("Response", "Therapy")) |>
-    immundata::agg_strata(by = "Response")
+    immundata::agg_strata(schema = "Response")
   out <- annotate_public(idata)
 
   matrices <- build_public_matrices_from_idata(idata)
@@ -299,7 +307,7 @@ test_that("annotate_public computes per-strata metrics correctly", {
 
 test_that("annotate_public errors if repertoires are not aggregated", {
 
-  idata <- get_test_immundata()
+  idata <- get_test_immundata(repertoire_schema = NULL)
 
   expect_error(
     annotate_public(idata),
@@ -557,4 +565,60 @@ test_that("annotate_public computes deterministic global and per-strata incidenc
   expected[metric_cols] <- lapply(expected[metric_cols], as.numeric)
 
   expect_equal(observed, expected, tolerance = 1e-12)
+})
+
+test_that("annotate_public replaces existing publicness annotations", {
+
+  receptor_col <- immundata::imd_schema("receptor")
+
+  count_matrix <- matrix(
+    c(
+      10, 0, 5,
+      1, 2, 3,
+      0, 4, 0
+    ),
+    nrow = 3,
+    byrow = TRUE,
+    dimnames = list(c("R1", "R2", "R3"), c("P1", "P2", "P3"))
+  )
+
+  prop_matrix <- matrix(
+    c(
+      0.50, 0.00, 0.25,
+      0.10, 0.20, 0.30,
+      0.00, 0.40, 0.00
+    ),
+    nrow = 3,
+    byrow = TRUE,
+    dimnames = list(c("R1", "R2", "R3"), c("P1", "P2", "P3"))
+  )
+
+  idata <- build_synthetic_public_idata(
+    count_matrix = count_matrix,
+    prop_matrix = prop_matrix,
+    strata_ids = c(1L, 1L, 2L)
+  )
+
+  once <- annotate_public(idata)
+  twice <- annotate_public(once)
+
+  once_ann <- dplyr::collect(once$annotations)
+  twice_ann <- dplyr::collect(twice$annotations)
+  once_public_cols <- grep("^imd_public_", names(once_ann), value = TRUE)
+  twice_public_cols <- grep("^imd_public_", names(twice_ann), value = TRUE)
+
+  expect_setequal(twice_public_cols, once_public_cols)
+  expect_false(any(grepl("\\.[xy]$", names(twice_ann))))
+
+  once_metrics <- once_ann |>
+    dplyr::select(all_of(c(receptor_col, once_public_cols))) |>
+    dplyr::distinct() |>
+    dplyr::arrange(.data[[receptor_col]])
+
+  twice_metrics <- twice_ann |>
+    dplyr::select(all_of(c(receptor_col, twice_public_cols))) |>
+    dplyr::distinct() |>
+    dplyr::arrange(.data[[receptor_col]])
+
+  expect_equal(twice_metrics, once_metrics)
 })
