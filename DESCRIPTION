@@ -24,36 +24,27 @@ BugReports: https://github.com/immunomind/immunarch/issues
 Depends:
     R (>= 4.2.0),
     ggplot2 (>= 3.1.0),
-    immundata (>= 0.0.5),
+    immundata (>= 0.0.6),
     patchwork
 Imports:
-    dplyr,
+    dplyr (>= 1.2.0),
     dtplyr (>= 1.0.0),
     data.table (>= 1.12.6),
     cli,
-    pheatmap (>= 1.0.12),
     reshape2 (>= 1.4.2),
-    circlize,
-    airr,
     Rcpp (>= 1.0),
     magrittr,
     methods,
     scales,
     rlang,
-    plyr,
-    stringdist,
     readr,
     stringr,
     tibble,
     tidyselect,
     tidyr,
-    ape,
-    doParallel,
-    rlist,
     utils,
-    glue,
     checkmate,
-    duckplyr (>= 1.1.2),
+    duckplyr (>= 1.2.0),
     dbplyr,
     lifecycle,
     purrr,
@@ -67,8 +58,12 @@ Suggests:
     roxygen2 (>= 3.0.0),
     testthat (>= 3.0.0),
     pkgdown (>= 0.1.0),
-    assertthat,
     rmarkdown,
+    pheatmap (>= 1.0.12),
+    circlize,
+    airr,
+    stringdist,
+    ape,
     factoextra (>= 1.0.4),
     fpc,
     ggpubr (>= 0.2),
@@ -88,9 +83,10 @@ VignetteBuilder:
     knitr,
     quarto
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
+Config/testthat/parallel: false
+Config/roxygen2/version: 8.0.0

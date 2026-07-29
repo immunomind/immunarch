@@ -9,7 +9,6 @@
 #' @importFrom dplyr filter rowwise
 #' @importFrom tidyselect any_of
 #' @importFrom parallel parApply detectCores makeCluster clusterExport stopCluster
-#' @importFrom ape as.DNAbin clustal
 #'
 #' @description
 #'

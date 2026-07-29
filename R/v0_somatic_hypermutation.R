@@ -6,10 +6,7 @@
 #'
 #' @importFrom magrittr %>% %<>%
 #' @importFrom tidyr unnest
-#' @importFrom plyr adply
 #' @importFrom parallel detectCores
-#' @importFrom doParallel registerDoParallel stopImplicitCluster
-#' @importFrom ape as.DNAbin clustal
 #'
 #' @description
 #'
@@ -67,30 +64,34 @@ repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .
   ), .nofail, has_class(.data, "step_failure_ignored"))) {
     return(get_empty_object_with_class("step_failure_ignored"))
   }
-
-  parallel <- .threads > 1
-  if (parallel) {
-    doParallel::registerDoParallel(cores = .threads)
+  if (!requireNamespace("ape", quietly = TRUE)) {
+    stop(
+      "Package 'ape' is required for this function. ",
+      "Please install it with install.packages('ape').",
+      call. = FALSE
+    )
   }
+
   results <- .data %>% apply_to_sample_or_list(
     shm_process_dataframe,
-    .parallel = parallel,
+    .threads = .threads,
     .validate = FALSE
   )
-  if (parallel) {
-    doParallel::stopImplicitCluster()
-  }
   return(results)
 }
 
-shm_process_dataframe <- function(df, .parallel) {
+shm_process_dataframe <- function(df, .threads) {
   # convert dataframe from cluster-per-row to clonotype-per-row
   # and add columns with alignment and number of mutations
-  df %<>% unnest("Sequences") %>% plyr::adply(
-    .fun = shm_process_clonotype_row,
-    .margins = 1,
-    .parallel = .parallel
-  )
+  df %<>% unnest("Sequences")
+  rows <- split(df, seq_len(nrow(df)))
+  df <- par_or_normal_lapply(
+    X = rows,
+    FUN = shm_process_clonotype_row,
+    mc.preschedule = TRUE,
+    mc.cores = .threads
+  ) %>%
+    dplyr::bind_rows()
   # fix column types after dataframe rebuilding
   for (column in c(
     "Clone.ID", "Clones", "Trunk.Length", "Substitutions", "Insertions", "Deletions", "Mutations"

@@ -39,7 +39,9 @@
 #' vis(sp)
 #' @export spectratype
 spectratype <- function(.data, .quant = c("id", "count"), .col = "nt") {
-  assertthat::assert_that(!has_class(.data, "list"))
+  if (has_class(.data, "list")) {
+    stop("`.data` must be a single repertoire, not a list.", call. = FALSE)
+  }
 
   .col <- gsub("nuc", "nt", .col) # ToDo: left it here for the backwards compatability, remove it
   if (grepl("nt", .col) && grepl("aa", .col)) {

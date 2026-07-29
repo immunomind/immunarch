@@ -427,8 +427,6 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #'
 #' @concept vis
 #'
-#' @importFrom pheatmap pheatmap
-#'
 #' @name vis_heatmap2
 #'
 #' @description
@@ -465,6 +463,15 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' }
 #' @export
 vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
+  if (!requireNamespace("pheatmap", quietly = TRUE) ||
+      utils::packageVersion("pheatmap") < "1.0.12") {
+    stop(
+      "Package 'pheatmap' (>= 1.0.12) is required for this function. ",
+      "Please install it with install.packages('pheatmap').",
+      call. = FALSE
+    )
+  }
+
   args <- list(...)
   if (!is.na(.by)[1]) {
     if (!is.na(.meta)[1]) {
@@ -479,15 +486,13 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
   if (!is.na(.color)[1]) {
     args[["color"]] <- .color
   }
-  do.call(pheatmap, args)
+  do.call(pheatmap::pheatmap, args)
 }
 
 
 #' Visualisation of matrices using circos plots
 #'
 #' @concept vis
-#'
-#' @importFrom circlize chordDiagram
 #'
 #' @name vis_circos
 #'
@@ -517,10 +522,18 @@ vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colo
 #' }
 #' @export
 vis_circos <- function(.data, .title = NULL, ...) {
+  if (!requireNamespace("circlize", quietly = TRUE)) {
+    stop(
+      "Package 'circlize' is required for this function. ",
+      "Please install it with install.packages('circlize').",
+      call. = FALSE
+    )
+  }
+
   if (has_class(.data, "tibble")) {
     .data <- as.data.frame(.data)
   }
-  chordDiagram(.data, ...)
+  circlize::chordDiagram(.data, ...)
 }
 
 

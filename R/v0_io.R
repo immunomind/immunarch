@@ -432,7 +432,6 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' @concept io
 #'
 #' @importFrom utils packageVersion
-#' @importFrom plyr mapvalues
 #'
 #' @description
 #'

@@ -7,7 +7,6 @@
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join
 #' @importFrom reshape2 melt
 #' @importFrom tibble rownames_to_column
-#' @importFrom glue glue
 #' @importFrom purrr map_chr
 #'
 #' @description
@@ -140,7 +139,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
         mutate(
           length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]),
             yes = .x[1],
-            no = glue("range_{min(.x)}:{max(.x)}")
+            no = paste0("range_", min(.x), ":", max(.x))
           ))
         )) %>%
       map2(., protocluster_names[!singleseq_flag], ~ rownames_to_column(.x, var = "Sequence") %>%

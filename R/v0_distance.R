@@ -2,7 +2,6 @@
 #'
 #' @concept distance
 #'
-#' @importFrom stringdist stringdistmatrix
 #' @importFrom magrittr %>% %<>% set_attr
 #' @importFrom tidyr unite
 #' @importFrom dplyr select_if group_keys group_map group_by group_by_at
@@ -111,6 +110,14 @@ seqDist <- function(.data,
         return(do.call(method, args))
       }
       if (inherits(.method, "character")) {
+        if (!requireNamespace("stringdist", quietly = TRUE)) {
+          stop(
+            "Package 'stringdist' is required when `.method` is a string. ",
+            "Please install it with install.packages('stringdist'), ",
+            "or provide a custom distance function via `.method`.",
+            call. = FALSE
+          )
+        }
         dist_fun <- character_dist
       } else if (inherits(.method, "function")) {
         dist_fun <- function_dist

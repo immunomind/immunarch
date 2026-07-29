@@ -6,10 +6,6 @@
 #'
 #' @importFrom magrittr %>% %<>% extract2
 #' @importFrom stringr str_extract_all str_sub str_length boundary
-#' @importFrom plyr dlply .
-#' @importFrom rlist list.remove
-#' @importFrom ape as.DNAbin clustal
-#' @importFrom doParallel registerDoParallel stopImplicitCluster
 #' @importFrom parallel mclapply
 #'
 #' @description
@@ -84,6 +80,14 @@ repAlignLineage <- function(.data,
   ), .nofail)) {
     return(get_empty_object_with_class("step_failure_ignored"))
   }
+  if (!requireNamespace("ape", quietly = TRUE)) {
+    stop(
+      "Package 'ape' is required for this function. ",
+      "Please install it with install.packages('ape').",
+      call. = FALSE
+    )
+  }
+
   if (.min_lineage_sequences < 2) {
     warning(
       ".min_lineage_sequences is set to less than 2; ",
@@ -91,26 +95,19 @@ repAlignLineage <- function(.data,
     )
   }
 
-  parallel_prepare <- .prepare_threads > 1
-  if (parallel_prepare) {
-    doParallel::registerDoParallel(cores = .prepare_threads)
-  }
   .data %<>%
     apply_to_sample_or_list(
       align_single_df,
       .min_lineage_sequences = .min_lineage_sequences,
-      .parallel_prepare = parallel_prepare,
+      .prepare_threads = .prepare_threads,
       .align_threads = .align_threads
     )
-  if (parallel_prepare) {
-    doParallel::stopImplicitCluster()
-  }
   return(.data)
 }
 
 align_single_df <- function(data,
                             .min_lineage_sequences,
-                            .parallel_prepare,
+                            .prepare_threads,
                             .align_threads) {
   for (required_column in c(
     "Cluster", "Germline.sequence", "V.allele", "J.allele",
@@ -126,16 +123,18 @@ align_single_df <- function(data,
     }
   }
 
-  results <- data %>%
+  lineage_groups <- data %>%
     fill_missing_columns() %>%
-    plyr::dlply(
-      .variables = .(get("Cluster"), get("Germline.sequence")),
-      .fun = prepare_results_row,
-      .min_lineage_sequences = .min_lineage_sequences,
-      .parallel = .parallel_prepare
-    ) %>%
-    `[`(!is.na(.)) %>%
-    unname()
+    dplyr::group_by(.data$Cluster, .data$Germline.sequence) %>%
+    dplyr::group_split(.keep = TRUE)
+  results <- par_or_normal_lapply(
+    X = lineage_groups,
+    FUN = prepare_results_row,
+    .min_lineage_sequences = .min_lineage_sequences,
+    mc.preschedule = TRUE,
+    mc.cores = .prepare_threads
+  )
+  results <- Filter(function(result) !identical(result, NA), results)
 
   if (length(results) == 0) {
     stop("There are no lineages containing at least ", .min_lineage_sequences, " sequences!")
@@ -202,7 +201,7 @@ convert_results_to_df <- function(nested_results_list, alignments_list) {
     lapply(magrittr::extract2, "Sequences") %>%
     tibble(Sequences = .)
   df <- nested_results_list %>%
-    lapply(rlist::list.remove, c("Alignment", "Sequences")) %>%
+    lapply(function(result) result[!names(result) %in% c("Alignment", "Sequences")]) %>%
     map_dfr(~.) %>%
     cbind(alignments, sequences)
   return(df)

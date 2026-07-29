@@ -200,8 +200,13 @@ get_public_repertoire_names <- function(.pr) {
 #' head(pr1)
 #' @export pubRepFilter publicRepertoireFilter
 pubRepFilter <- function(.pr, .meta, .by, .min.samples = 1) {
-  assertthat::assert_that(has_class(.pr, "immunr_public_repertoire"))
-  assertthat::assert_that(.min.samples > 0)
+  if (!has_class(.pr, "immunr_public_repertoire")) {
+    stop("`.pr` must be an immunr_public_repertoire object returned by `pubRep()`.", call. = FALSE)
+  }
+  if (!is.numeric(.min.samples) || length(.min.samples) != 1L ||
+      is.na(.min.samples) || .min.samples <= 0) {
+    stop("`.min.samples` must be a single positive number.", call. = FALSE)
+  }
 
   if (!check_group_names(.meta, .by)) {
     return(NA)

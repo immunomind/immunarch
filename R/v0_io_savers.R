@@ -38,10 +38,8 @@ save_vdjtools <- function(.data, .path, .compress = TRUE) {
     "J Segments"
   )
 
-  names(.data) <- plyr::mapvalues(names(.data),
-    from = old,
-    to = as.character(new)
-  )
+  matching_names <- match(names(.data), old)
+  names(.data)[!is.na(matching_names)] <- new[matching_names[!is.na(matching_names)]]
 
   readr::write_tsv(x = .data, path = filepath)
 }

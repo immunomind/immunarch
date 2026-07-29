@@ -965,6 +965,14 @@ parse_imgt <- function(.filename, .mode) {
 }
 
 parse_airr <- function(.filename, .mode) {
+  if (!requireNamespace("airr", quietly = TRUE)) {
+    stop(
+      "Package 'airr' is required to load AIRR-formatted files. ",
+      "Please install it with install.packages('airr').",
+      call. = FALSE
+    )
+  }
+
   df <- .filename %>%
     .as_tsv() %>%
     airr::read_rearrangement()
