@@ -1,7 +1,7 @@
 Package: immunarch
 Type: Package
 Title: Multi-Modal Immune Repertoire Analytics for Immunotherapy and Vaccine Design in R
-Version: 0.10.3.9003
+Version: 0.10.3.9004
 Authors@R: c(
     person("Vadim I.", "Nazarov", , "support@immunomind.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3659-2709")),
