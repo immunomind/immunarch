@@ -3,9 +3,7 @@
 #' @concept seq_cluster
 #'
 #' @importFrom magrittr %>% %<>%
-#' @importFrom reshape2 melt
 #' @importFrom dplyr group_by mutate ungroup select cur_group_id left_join
-#' @importFrom reshape2 melt
 #' @importFrom tibble rownames_to_column
 #' @importFrom purrr map_chr
 #'
@@ -128,21 +126,31 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
       apply(., 1, function(x, t) {
         ifelse(x > t, NA, x)
       }, .y))
-    seq_clusters <- map(mat_dist, ~ melt(.x, na.rm = TRUE) %>%
-      igraph::graph_from_data_frame() %>%
-      igraph::clusters() %>%
-      .$membership %>%
-      melt() %>%
-      suppressWarnings())
+    seq_clusters <- map(mat_dist, function(dist_mat) {
+      membership <- as.data.frame(dist_mat) %>%
+        tibble::rownames_to_column("Var1") %>%
+        tidyr::pivot_longer(
+          cols = -1,
+          names_to = "Var2",
+          values_to = "value",
+          values_drop_na = TRUE,
+          cols_vary = "slowest"
+        ) %>%
+        igraph::graph_from_data_frame() %>%
+        igraph::clusters() %>%
+        .$membership %>%
+        suppressWarnings()
+      tibble::enframe(membership, name = "Sequence", value = "value")
+    })
     result_multi <- seq_clusters %>%
       map2(., seq_length[!singleseq_flag], ~ .x %>%
         mutate(
           length_value = map_chr(.y, ~ ifelse(all(.x == .x[1]),
-            yes = .x[1],
+            yes = as.character(.x[1]),
             no = paste0("range_", min(.x), ":", max(.x))
           ))
         )) %>%
-      map2(., protocluster_names[!singleseq_flag], ~ rownames_to_column(.x, var = "Sequence") %>%
+      map2(., protocluster_names[!singleseq_flag], ~ .x %>%
         group_by(value, length_value) %>%
         mutate(Cluster = paste0(.y, "_length_", length_value, "_cluster_", cur_group_id())) %>%
         ungroup() %>%
@@ -176,7 +184,7 @@ seqCluster <- function(.data, .dist, .perc_similarity, .nt_similarity, .fixed_th
     }
   }
   joined_data <- map2(temp_data, clusters, ~ left_join(.x, .y) %>% suppressMessages())
-  clusters_cols <- map(joined_data, "Cluster")
+  clusters_cols <- lapply(joined_data, `[[`, "Cluster")
   result_data <- map2(.data, clusters_cols, ~ cbind(.x, "Cluster" = .y))
   return(result_data)
 }

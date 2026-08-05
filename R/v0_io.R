@@ -487,7 +487,7 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
   } else {
     if ("meta" %in% names(.data)) {
       ifelse(!dir.exists(.path), dir.create(.path), FALSE)
-      readr::write_tsv(.data$meta, path = paste0(.path, "/metadata.txt"))
+      readr::write_tsv(.data$meta, file = paste0(.path, "/metadata.txt"))
       for (name in names(.data$data)) {
         success <- switch(.format,
           immunarch = save_immunarch(

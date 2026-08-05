@@ -9,7 +9,6 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @aliases repDiversity chao1 hill_numbers diversity_eco gini_simpson inverse_simpson gini_coef rarefaction
 #'
-#' @importFrom reshape2 melt
 #' @importFrom utils tail
 #' @importFrom dplyr mutate group_by_at pull
 #' @importFrom stats qnorm
@@ -177,12 +176,28 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
     new_class <- head(class(res[[1]]), 1)
     res <- do.call(rbind, res)
     if (.method == "hill") {
-      res <- reshape2::melt(res)
-      colnames(res) <- c("Sample", "Q", "Value")
+      sample_levels <- rownames(res)
+      res <- as.data.frame(res) %>%
+        tibble::rownames_to_column("Sample") %>%
+        tidyr::pivot_longer(
+          cols = -1,
+          names_to = "Q",
+          values_to = "Value",
+          cols_vary = "slowest"
+        )
+      res$Sample <- factor(res$Sample, levels = sample_levels)
       res$Q <- as.numeric(sapply(res$Q, stringr::str_sub, start = 2))
     } else if (.method %in% c("div", "gini.simp", "inv.simp")) {
-      res <- reshape2::melt(res)[c(1, 3)]
-      colnames(res) <- c("Sample", "Value")
+      sample_levels <- rownames(res)
+      res <- as.data.frame(res) %>%
+        tibble::rownames_to_column("Sample") %>%
+        tidyr::pivot_longer(
+          cols = -1,
+          names_to = NULL,
+          values_to = "Value",
+          cols_vary = "slowest"
+        )
+      res$Sample <- factor(res$Sample, levels = sample_levels)
     } else if (.method == "chao1") {
       colnames(res) <- c("Estimator", "SD", "Conf.95.lo", "Conf.95.hi")
     }

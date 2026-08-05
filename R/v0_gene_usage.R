@@ -208,7 +208,9 @@ gene_stats <- function() {
   res <- GENE_SEGMENTS %>%
     group_by(alias, species, gene) %>%
     summarise(n = n()) %>%
-    reshape2::dcast(alias + species ~ gene, value.var = "n")
+    ungroup() %>%
+    tidyr::pivot_wider(names_from = gene, values_from = n, names_sort = TRUE) %>%
+    as.data.frame()
   res[is.na(res)] <- 0
   res
 }

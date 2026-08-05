@@ -336,7 +336,16 @@ pubRepStatistics <- function(.data, .by = NA, .meta = NA) {
     stop("Error: please apply pubRepStatistics() to public repertoires, i.e., output from the pubRep() function.")
   }
 
-  melted_pr <- reshape2::melt(.data, id.vars = colnames(.data)[1:(match("Samples", colnames(.data)))])
+  id_cols <- colnames(.data)[seq_len(match("Samples", colnames(.data)))]
+  sample_cols <- setdiff(colnames(.data), id_cols)
+  melted_pr <- tidyr::pivot_longer(
+    .data,
+    cols = tidyselect::all_of(sample_cols),
+    names_to = "variable",
+    values_to = "value",
+    cols_vary = "slowest"
+  )
+  melted_pr$variable <- factor(melted_pr$variable, levels = sample_cols)
   melted_pr <- na.omit(melted_pr)
   melted_pr <- melted_pr %>%
     group_by(CDR3.aa) %>%

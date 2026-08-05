@@ -1,19 +1,20 @@
 save_immunarch <- function(.data, .path, .compress = TRUE) {
   if (.compress) {
-    filepath <- gzfile(paste0(.path, ".tsv.gz"), compression = 9)
+    filepath <- gzfile(paste0(.path, ".tsv.gz"), open = "wb", compression = 9)
+    on.exit(close(filepath), add = TRUE)
   } else {
     filepath <- paste0(.path, ".tsv")
   }
   readr::write_lines(paste0("# Exported from immunarch ", packageVersion("immunarch"), " https://immunarch.com"),
-    path = filepath
+    file = filepath
   )
-  filepath <- gzfile(paste0(.path, ".tsv.gz"), compression = 9)
-  readr::write_tsv(x = .data, path = filepath, append = TRUE, col_names = TRUE)
+  readr::write_tsv(x = .data, file = filepath, append = TRUE, col_names = TRUE)
 }
 
 save_vdjtools <- function(.data, .path, .compress = TRUE) {
   if (.compress) {
-    filepath <- gzfile(paste0(.path, ".tsv.gz"), compression = 9)
+    filepath <- gzfile(paste0(.path, ".tsv.gz"), open = "wb", compression = 9)
+    on.exit(close(filepath), add = TRUE)
   } else {
     filepath <- paste0(.path, ".tsv")
   }
@@ -41,5 +42,5 @@ save_vdjtools <- function(.data, .path, .compress = TRUE) {
   matching_names <- match(names(.data), old)
   names(.data)[!is.na(matching_names)] <- new[matching_names[!is.na(matching_names)]]
 
-  readr::write_tsv(x = .data, path = filepath)
+  readr::write_tsv(x = .data, file = filepath)
 }

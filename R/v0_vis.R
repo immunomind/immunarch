@@ -384,7 +384,13 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
   tmp <- as.data.frame(.data)
   tmp$name <- row.names(.data)
 
-  m <- reshape2::melt(tmp, id.var = c("name"))
+  m <- tidyr::pivot_longer(
+    tmp,
+    cols = -tidyselect::all_of("name"),
+    names_to = "variable",
+    values_to = "value",
+    cols_vary = "slowest"
+  )
   m[, 1] <- factor(m[, 1], levels = rev(rownames(.data)))
   m[, 2] <- factor(m[, 2], levels = colnames(.data))
 
@@ -545,7 +551,7 @@ vis_circos <- function(.data, .title = NULL, ...) {
 #   stop("vis_radar() is under complety re-working. Please use other functions such as vis_heatmap.
 # Sorry for the inconvenience! Please contact us if you need vis_radar() ASAP.")
 #
-#   .data <- melt(.data)
+#   .data <- tidyr::pivot_longer(.data, cols = everything())
 #   colnames(.data) <- c("Source", "Target", "Value")
 #   .data$Value[is.na(.data$Value)] <- 0
 #
@@ -675,6 +681,23 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
 
     return(do.call(wrap_plots, c(p_list, list(ncol = .ncol))))
   } else {
+    matrix_to_long <- function(mat) {
+      row_levels <- rownames(mat)
+      col_levels <- colnames(mat)
+      result <- as.data.frame(mat) %>%
+        tibble::rownames_to_column("Sample_subj") %>%
+        tidyr::pivot_longer(
+          cols = -1,
+          names_to = "Sample",
+          values_to = "Overlap",
+          values_drop_na = TRUE,
+          cols_vary = "slowest"
+        )
+      result$Sample_subj <- factor(result$Sample_subj, levels = row_levels)
+      result$Sample <- factor(result$Sample, levels = col_levels)
+      result
+    }
+
     if (data_is_bootstrapped) {
       sample_names <- colnames(.data[[1]][[1]])
 
@@ -683,8 +706,12 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
           replace(mat, lower.tri(mat, TRUE), NA)
         })
       })
-      .data <- reshape2::melt(.data, na.rm = TRUE)
-      names(.data) <- c("Sample_subj", "Sample", "Overlap", "N", "Seq.count")
+      .data <- purrr::imap_dfr(.data, function(mat_list, seq_count) {
+        purrr::imap_dfr(mat_list, function(mat, n) {
+          matrix_to_long(mat) %>%
+            mutate(N = n, Seq.count = seq_count)
+        })
+      })
 
       filtered_data <- .data[.data$Sample_subj == sample_names[.target], ]
       filtered_data$Seq.count <- as.numeric(filtered_data$Seq.count)
@@ -700,8 +727,10 @@ vis.immunr_inc_overlap <- function(.data, .target = 1, .grid = FALSE, .ncol = 2,
       sample_names <- colnames(.data[[1]])
 
       .data <- lapply(.data, function(mat) replace(mat, lower.tri(mat, TRUE), NA))
-      .data <- reshape2::melt(.data, na.rm = TRUE)
-      names(.data) <- c("Sample_subj", "Sample", "Overlap", "Seq.count")
+      .data <- purrr::imap_dfr(.data, function(mat, seq_count) {
+        matrix_to_long(mat) %>%
+          mutate(Seq.count = seq_count)
+      })
 
       filtered_data <- .data[.data$Sample_subj == sample_names[.target], ]
       filtered_data$Seq.count <- as.numeric(filtered_data$Seq.count)
@@ -859,7 +888,16 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
   .type <- .type[1]
 
   # ToDo: make it work with V genes
-  melted_pr <- reshape2::melt(.data, id.vars = colnames(.data)[1:(match("Samples", colnames(.data)))])
+  id_cols <- colnames(.data)[seq_len(match("Samples", colnames(.data)))]
+  sample_cols <- setdiff(colnames(.data), id_cols)
+  melted_pr <- tidyr::pivot_longer(
+    .data,
+    cols = tidyselect::all_of(sample_cols),
+    names_to = "variable",
+    values_to = "value",
+    cols_vary = "slowest"
+  )
+  melted_pr$variable <- factor(melted_pr$variable, levels = sample_cols)
 
   colnames(melted_pr)[1] <- "Sequence"
   colnames(melted_pr)[ncol(melted_pr) - 1] <- "Sample"
@@ -1247,7 +1285,7 @@ vis.immunr_gene_usage <- function(.data, .plot = c("hist", "box", "heatmap", "he
 #'
 #' @param .labs A character vector of length two with names for x-axis and y-axis, respectively.
 #'
-#' @param .melt If TRUE then apply [reshape2::melt] to the ".data" before plotting.
+#' @param .melt If TRUE then apply [tidyr::pivot_longer()] to the ".data" before plotting.
 #' In this case ".data" is supposed to be a data frame with the first character column reserved
 #' for names of genes and other numeric columns reserved to counts or frequencies of genes.
 #' Each numeric column should be associated with a specific repertoire sample.
@@ -1296,12 +1334,19 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
   res <- .data
 
   if (.melt) {
-    res <- reshape2::melt(res)
-    res <- res[1:nrow(res), ]
+    sample_cols <- colnames(res)[-1]
+    res <- tidyr::pivot_longer(
+      res,
+      cols = tidyselect::all_of(sample_cols),
+      names_to = "Sample",
+      values_to = "Freq",
+      cols_vary = "slowest"
+    )
+    res$Sample <- factor(res$Sample, levels = sample_cols)
     if (ncol(.data) == 2) {
-      res[[2]] <- "Data"
+      res$Sample <- "Data"
     }
-    colnames(res) <- c("Gene", "Sample", "Freq")
+    colnames(res)[1] <- "Gene"
   }
 
   if (is.na(.labs[2])) {
@@ -1433,7 +1478,7 @@ vis_hist <- function(.data, .by = NA, .meta = NA, .title = "Gene usage", .ncol =
 #' such as age, serostatus or hla.
 #' @param .title The text for the title of the plot.
 #' @param .labs Character vector of length two with names for x-axis and y-axis, respectively.
-#' @param .melt If TRUE then apply [reshape2::melt] to the ".data" before plotting.
+#' @param .melt If TRUE then apply [tidyr::pivot_longer()] to the ".data" before plotting.
 #' In this case ".data" is supposed to be a data frame with the first character column reserved
 #' for names of genes and other numeric columns reserved to counts or frequencies of genes.
 #' Each numeric column should be associated with a specific repertoire sample.
@@ -1468,12 +1513,19 @@ vis_box <- function(.data, .by = NA, .meta = NA, .melt = TRUE,
   }
 
   if (.melt) {
-    res <- reshape2::melt(.data)
-    res <- res[1:nrow(res), ]
+    sample_cols <- colnames(.data)[-1]
+    res <- tidyr::pivot_longer(
+      .data,
+      cols = tidyselect::all_of(sample_cols),
+      names_to = "Sample",
+      values_to = "Value",
+      cols_vary = "slowest"
+    )
+    res$Sample <- factor(res$Sample, levels = sample_cols)
     if (ncol(.data) == 2) {
-      res[[2]] <- "Data"
+      res$Sample <- "Data"
     }
-    colnames(res) <- c(.grouping.var, "Sample", "Value")
+    colnames(res)[1] <- .grouping.var
     .data <- res
   }
 
@@ -1974,7 +2026,6 @@ vis_bar_stacked <- function(.data, .by = NA, .meta = NA,
 #'
 #' An utility function to visualise the output from [repClonality()].
 #'
-#' @importFrom reshape2 melt
 #' @importFrom scales percent
 #'
 #' @param .data Output from [repClonality()].
@@ -2047,8 +2098,18 @@ vis.immunr_clonal_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0
 
 #' @export
 vis.immunr_homeo <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .errorbars.off = FALSE, .stack = NA, .test = TRUE, .points = TRUE, ...) {
-  melted <- reshape2::melt(.data)
-  colnames(melted) <- c("Sample", "Clone.group", "Value")
+  sample_levels <- rownames(.data)
+  clone_levels <- colnames(.data)
+  melted <- as.data.frame(.data) %>%
+    tibble::rownames_to_column("Sample") %>%
+    tidyr::pivot_longer(
+      cols = -1,
+      names_to = "Clone.group",
+      values_to = "Value",
+      cols_vary = "slowest"
+    )
+  melted$Sample <- factor(melted$Sample, levels = sample_levels)
+  melted$Clone.group <- factor(melted$Clone.group, levels = clone_levels)
 
   if (is.na(.by[1]) && is.na(.stack)) {
     .stack <- TRUE
@@ -2082,8 +2143,15 @@ vis.immunr_top_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.02
   colnames(res) <- paste0("[", c(1, .head[-length(.head)] + 1), ":", .head, ")")
   res <- as.data.frame(res)
   res$Sample <- row.names(res)
-  res <- reshape2::melt(res)
-  colnames(res) <- c("Sample", "Clone.index", "Value")
+  clone_levels <- setdiff(colnames(res), "Sample")
+  res <- tidyr::pivot_longer(
+    res,
+    cols = tidyselect::all_of(clone_levels),
+    names_to = "Clone.index",
+    values_to = "Value",
+    cols_vary = "slowest"
+  )
+  res$Clone.index <- factor(res$Clone.index, levels = clone_levels)
 
   if (is.na(.by[1]) && is.na(.stack)) {
     .stack <- TRUE
@@ -2133,8 +2201,15 @@ vis.immunr_rare_prop <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.0
 
   res <- as.data.frame(res)
   res$Sample <- row.names(res)
-  res <- reshape2::melt(res)
-  colnames(res) <- c("Sample", "Counts", "Value")
+  count_levels <- setdiff(colnames(res), "Sample")
+  res <- tidyr::pivot_longer(
+    res,
+    cols = tidyselect::all_of(count_levels),
+    names_to = "Counts",
+    values_to = "Value",
+    cols_vary = "slowest"
+  )
+  res$Counts <- factor(res$Counts, levels = count_levels)
 
   if (is.na(.by[1]) && is.na(.stack)) {
     .stack <- TRUE
@@ -2393,7 +2468,6 @@ vis_bar <- function(.data, .by = NA, .meta = NA, .errorbars = c(0.025, 0.975), .
 #'
 #' An utility function to visualise the output from [repDiversity()].
 #'
-#' @importFrom reshape2 melt
 #'
 #' @param .data Output from [repDiversity()].
 #' @param .by Pass NA if you want to plot samples without grouping.
@@ -2662,7 +2736,6 @@ vis.immunr_rarefaction <- function(.data, .by = NA, .meta = NA,
 #'
 #' An utility function to visualise the output from [repExplore()].
 #'
-#' @importFrom reshape2 melt
 #'
 #' @param .data Output from [repExplore()].
 #' @param .by Pass NA if you want to plot samples without grouping.
@@ -2848,8 +2921,15 @@ vis.immunr_kmer_table <- function(.data, .head = 100, .position = c("stack", "do
   n_samples <- ncol(.data) - 1
   .data <- .data[max_indices, ]
 
-  melted <- reshape2::melt(.data, id.vars = "Kmer")
-  colnames(melted) <- c("Kmer", "Sample", "Count")
+  sample_levels <- setdiff(colnames(.data), "Kmer")
+  melted <- tidyr::pivot_longer(
+    .data,
+    cols = tidyselect::all_of(sample_levels),
+    names_to = "Sample",
+    values_to = "Count",
+    cols_vary = "slowest"
+  )
+  melted$Sample <- factor(melted$Sample, levels = sample_levels)
   p <- ggplot() +
     geom_bar(aes(x = Kmer, y = Count, fill = Sample),
       col = "black",
@@ -2931,11 +3011,21 @@ vis_textlogo <- function(.data, .replace.zero.with.na = TRUE, .width = 0.1, ...)
     stop("Package 'ggrepel' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
   }
 
-  .data <- reshape2::melt(.data)
+  aa_levels <- rownames(.data)
+  position_levels <- colnames(.data)
+  .data <- as.data.frame(.data) %>%
+    tibble::rownames_to_column("AA") %>%
+    tidyr::pivot_longer(
+      cols = -1,
+      names_to = "Position",
+      values_to = "Freq",
+      cols_vary = "slowest"
+    )
+  .data$AA <- factor(.data$AA, levels = aa_levels)
+  .data$Position <- factor(.data$Position, levels = position_levels)
   if (.replace.zero.with.na) {
-    .data$value[.data$value == 0] <- NA
+    .data$Freq[.data$Freq == 0] <- NA
   }
-  colnames(.data) <- c("AA", "Position", "Freq")
   ggplot(aes(x = Position, y = Freq, colour = AA), data = .data) +
     geom_jitter(colour = "black", width = .width) +
     ggrepel::geom_label_repel(aes(label = AA), size = 5) +
@@ -3111,9 +3201,15 @@ vis.immunr_dynamics <- function(.data, .plot = c("smooth", "area", "line"), .ord
   }
 
   y_lab_title <- "Count"
-  melted <- melt(.data) %>%
+  measure_cols <- names(.data)[vapply(.data, is.numeric, logical(1))]
+  melted <- tidyr::pivot_longer(
+    .data,
+    cols = tidyselect::all_of(measure_cols),
+    names_to = "Sample",
+    values_to = "Count",
+    cols_vary = "slowest"
+  ) %>%
     lazy_dt() %>%
-    rename(Count = value, Sample = variable) %>%
     collect()
   setDT(melted)
   if (max(melted[["Count"]]) <= 1) {

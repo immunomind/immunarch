@@ -24,9 +24,9 @@
 ^.idea$
 ^cran-comments\.md$
 ^vignettes/*_files$
-^wip-.*
 ^vignettes/articles$
 ^vignettes/.quarto$
 ^CRAN-SUBMISSION$
 ^immdata-.*$
 ^immdata*$
+^dev$
