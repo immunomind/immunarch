@@ -358,10 +358,11 @@ dist_hamm_impl <- function(
 #' res
 #'
 #' # Normalised -- no receptors with more than .2 normalised distance in the output
-#' res <- dist_hamm(idata, min_dist = .2) |> collect()
+#' res <- dist_hamm(idata, max_dist = .2) |> collect()
 #' res
 #'
-#' # Similarity, inverse to normalised distance -- no receptors with less than 0.9 similarity in the output
+#' # Similarity, inverse to normalised distance -- no receptors with
+#' # less than 0.9 similarity in the output
 #' # The results are the same as for the previous normalised run
 #' res <- dist_hamm(idata, min_sim = .8) |> collect()
 #' res

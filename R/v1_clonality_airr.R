@@ -20,8 +20,8 @@
 #' * Data container: [immundata::ImmunData]
 #'
 #' @examples
-#' # Limit the number of threads used by the underlying DB for this session.
-#' # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+#' # Limit the number of threads used by the underlying DB for this example.
+#' # Generally, you should NOT do this in your session.
 #' db_exec("SET threads TO 1")
 #'
 #' # Load data

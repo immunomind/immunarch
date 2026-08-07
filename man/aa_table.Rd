@@ -6,9 +6,6 @@
 \alias{AA_TABLE}
 \alias{AA_TABLE_REVERSED}
 \title{Amino acid / codon table}
-\format{
-An object of class \code{table} of length 65.
-}
 \usage{
 AA_TABLE
 }
@@ -16,4 +13,3 @@ AA_TABLE
 Amino acid / codon table
 }
 \concept{data}
-\keyword{datasets}

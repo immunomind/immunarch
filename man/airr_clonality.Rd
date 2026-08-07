@@ -51,9 +51,10 @@ must be non-empty. Internally sorted in descending order.}
 
 A tibble with columns:
 \itemize{
-\item \code{repertoire_id} - repertoire identifier
+\item \code{imd_repertoire_id} - repertoire identifier
 \item \code{index} - rank within repertoire (1 = most abundant)
-\item \code{count} - receptor count used for ranking
+\item \code{imd_count} - receptor count used for ranking
+\item \code{imd_proportion} - receptor proportion within the repertoire
 \item plus any repertoire metadata columns carried from \code{idata$repertoires}
 }
 }
@@ -90,8 +91,9 @@ Supported methods are the following.
 }
 
 \code{airr_clonality_line} - build ranked abundance lines: for each
-repertoire, take the top \code{limit} receptors by \code{count} and attach repertoire
-metadata. Useful for per-repertoire rank-abundance plots.
+repertoire, take the top \code{limit} receptors by \code{count}, retain both counts and
+proportions, and attach repertoire metadata. Useful for per-repertoire
+rank-abundance plots.
 
 \code{airr_clonality_rank} - aggregate clonal space by \strong{rank bins}.
 Receptors are ordered by \code{proportion} within each repertoire; each receptor
@@ -102,14 +104,47 @@ Each receptor is assigned to a named bin according to its \code{proportion}
 (e.g., \code{Hyperexpanded >= 1e-2}, \code{Large >= 1e-3}, ...). Thresholds are matched in
 descending order; unmatched receptors fall into \code{"Ultra-rare"}.
 }
+\section{Visualising clonality statistics}{
+
+All three \verb{airr_clonality_*()} results can be passed directly to \code{\link[=vis]{vis()}}.
+With \code{autojoin = TRUE} (the default), repertoire metadata is included in the
+result and can be selected by the plotting arguments.
+
+\strong{Rank-abundance lines.} \code{vis()} plots receptor rank (\code{index}) against
+\code{imd_proportion} on a logarithmic y-axis by default. The line plot accepts:
+\itemize{
+\item \code{yval} selects either \code{"imd_proportion"} (the depth-normalised default) or
+\code{"imd_count"} (raw observed counts).
+\item \code{color} colours the lines by a repertoire or metadata column. Lines remain
+grouped by repertoire when a metadata column is selected.
+\item \code{log = FALSE} switches to a linear y-axis.
+\item \code{facet} splits the plot by one column, or creates a facet grid when given
+two columns; \code{dir = "h"} or \code{dir = "v"} controls the wrapping direction.
+\item \code{title} replaces the default plot title.
+}
+
+\strong{Rank-bin statistics.} \code{vis()} produces a stacked column plot of
+\code{occupied_prop} per repertoire, filled by \code{clonal_rank_bin}. Receptors beyond
+the largest requested rank have a missing bin and are not drawn, so the total
+bar height shows the repertoire space occupied by the displayed ranks.
+
+\strong{Proportion-bin statistics.} \code{vis()} produces a stacked column plot of
+\code{occupied_prop} per repertoire, filled by \code{clonal_prop_bin}. The
+\code{"Ultra-rare"} bin is included, so each complete repertoire normally sums to
+100\%.
+
+Both stacked plots accept \code{xval}, \code{yval}, and \code{fill} to remap columns, plus
+\code{facet}, \code{dir}, and \code{title} for layout and labelling.
+}
+
 \examples{
-# Limit the number of threads used by the underlying DB for this session.
-# Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+# Limit the number of threads used by the underlying DB for this example.
+# Generally, you should NOT do this in your session.
 db_exec("SET threads TO 1")
 
 # Load data
 \dontrun{
-immdata <- get_test_idata() |> agg_repertoires("Therapy")
+immdata <- get_test_idata()
 }
 
 #
@@ -117,6 +152,12 @@ immdata <- get_test_idata() |> agg_repertoires("Therapy")
 #
 \dontrun{
 top_line <- airr_clonality_line(immdata, limit = 1000)
+
+# Depth-normalised rank-abundance is the default visualisation.
+vis(top_line)
+
+# Raw observed counts are available when sequencing depth is relevant.
+vis(top_line, yval = "imd_count")
 }
 
 #
@@ -124,6 +165,7 @@ top_line <- airr_clonality_line(immdata, limit = 1000)
 #
 \dontrun{
 rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
+vis(rank_stat)
 }
 
 #
@@ -131,6 +173,7 @@ rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
 #
 \dontrun{
 prop_stat <- airr_clonality_prop(immdata)
+vis(prop_stat)
 }
 
 }

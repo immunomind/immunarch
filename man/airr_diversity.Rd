@@ -4,6 +4,7 @@
 \alias{airr_diversity}
 \alias{airr_diversity_dxx}
 \alias{airr_diversity_chao1}
+\alias{airr_diversity_rarefaction}
 \alias{airr_diversity_shannon}
 \alias{airr_diversity_pielou}
 \alias{airr_diversity_index}
@@ -19,6 +20,17 @@ airr_diversity_dxx(
 
 airr_diversity_chao1(
   idata,
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
+)
+
+airr_diversity_rarefaction(
+  idata,
+  step = NA,
+  quantile = c(0.025, 0.975),
+  extrapolation = NA,
+  norm = TRUE,
+  verbose = TRUE,
   autojoin = getOption("immundata.autojoin", TRUE),
   format = c("long", "wide")
 )
@@ -61,6 +73,19 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
+\item{step}{Rarefaction step size. Defaults to \code{floor(min_total_clones / 50)},
+lower-bounded by \code{1}.}
+
+\item{quantile}{Numeric vector of length 2 with confidence interval bounds.}
+
+\item{extrapolation}{Upper size limit for extrapolation. Use \code{0} to disable
+extrapolation. Defaults to \code{max_total_clones * 20}.}
+
+\item{norm}{Logical; if \code{TRUE}, size is divided by total repertoire size and
+richness estimates are divided by observed richness.}
+
+\item{verbose}{Logical; show a concise progress message.}
+
 \item{q}{A scalar or vector of non-negative orders. Defaults to \code{0:5}.}
 }
 \value{
@@ -84,6 +109,20 @@ A tibble with:
 \item \code{SD} - standard deviation for the estimator value
 \item \code{Conf.95.lo} - CI 0.025
 \item \code{Conf.95.hi} - CI 0.975
+\item plus repertoire metadata from \code{idata$repertoires}
+}
+}
+
+\subsection{\code{airr_diversity_rarefaction}}{
+
+A tibble with:
+\itemize{
+\item \code{imd_repertoire_id}
+\item \code{size} - sample size (absolute or normalized)
+\item \code{q_low} - lower confidence bound
+\item \code{mean} - expected richness
+\item \code{q_high} - upper confidence bound
+\item \code{type} - \code{interpolation} or \code{extrapolation}
 \item plus repertoire metadata from \code{idata$repertoires}
 }
 }
@@ -148,6 +187,10 @@ Great for spotting dominance/overexpansion and for quick, interpretable dashboar
 asymptotic estimator of species richness (number of species in a population).
 One of the most used methods for estimating immune repertoire diversity.
 
+\code{airr_diversity_rarefaction} - interpolation/extrapolation curves
+for receptor richness as a function of sampled clones. Computation is done in
+RAM after one DB query that fetches only repertoire id and receptor counts.
+
 \code{airr_diversity_shannon} - Shannon entropy (base 2) per repertoire
 computed from \code{proportion}. Ideal when you want a single evenness-aware
 diversity score; pair with Pielou/Hill for samples with very different richness.
@@ -187,6 +230,14 @@ d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
 #
 \dontrun{
 chao <- airr_diversity_chao1(immdata)
+}
+
+#
+# airr_diversity_rarefaction
+#
+\dontrun{
+raref <- airr_diversity_rarefaction(immdata, step = 2000, extrapolation = 0)
+vis(raref)
 }
 
 #
