@@ -26,7 +26,7 @@
 #'
 #' # Load data
 #' \dontrun{
-#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
+#' immdata <- get_test_idata()
 #' }
 #'
 #' @name airr_clonality
@@ -36,18 +36,19 @@ NULL
 
 #' @keywords internal
 airr_clonality_line_impl <- function(idata, limit = 100000) {
-  checkmate::check_numeric(limit, lower = 10, len = 1)
-
-  n_repertoires <- idata$repertoires |>
-    distinct(!!immundata::imd_schema_sym("repertoire")) |>
-    pull() |>
-    length()
+  checkmate::assert_integerish(
+    limit,
+    lower = 10,
+    len = 1,
+    any.missing = FALSE
+  )
 
   idata$annotations |>
     select(all_of(c(
       immundata::imd_schema("repertoire"),
       immundata::imd_schema("receptor"),
-      immundata::imd_schema("count")
+      immundata::imd_schema("count"),
+      immundata::imd_schema("proportion")
     ))) |>
     distinct(!!immundata::imd_schema_sym("repertoire"),
       !!immundata::imd_schema_sym("receptor"),
@@ -55,7 +56,7 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
     ) |>
     arrange(desc(!!immundata::imd_schema_sym("count"))) |>
     collect() |> # TODO: .by doesn't work in slice_head in duckplyr. What to do instead then?
-    slice_head(n = limit * n_repertoires, by = !!immundata::imd_schema_sym("repertoire")) |>
+    slice_head(n = limit, by = !!immundata::imd_schema_sym("repertoire")) |>
     mutate(
       index = row_number(),
       .by = immundata::imd_schema("repertoire")
@@ -66,8 +67,39 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 
 
 #' @description `airr_clonality_line` - build ranked abundance lines: for each
-#' repertoire, take the top `limit` receptors by `count` and attach repertoire
-#' metadata. Useful for per-repertoire rank-abundance plots.
+#' repertoire, take the top `limit` receptors by `count`, retain both counts and
+#' proportions, and attach repertoire metadata. Useful for per-repertoire
+#' rank-abundance plots.
+#'
+#' @section Visualising clonality statistics:
+#' All three `airr_clonality_*()` results can be passed directly to [vis()].
+#' With `autojoin = TRUE` (the default), repertoire metadata is included in the
+#' result and can be selected by the plotting arguments.
+#'
+#' **Rank-abundance lines.** `vis()` plots receptor rank (`index`) against
+#' `imd_proportion` on a logarithmic y-axis by default. The line plot accepts:
+#'
+#' * `yval` selects either `"imd_proportion"` (the depth-normalised default) or
+#'   `"imd_count"` (raw observed counts).
+#' * `color` colours the lines by a repertoire or metadata column. Lines remain
+#'   grouped by repertoire when a metadata column is selected.
+#' * `log = FALSE` switches to a linear y-axis.
+#' * `facet` splits the plot by one column, or creates a facet grid when given
+#'   two columns; `dir = "h"` or `dir = "v"` controls the wrapping direction.
+#' * `title` replaces the default plot title.
+#'
+#' **Rank-bin statistics.** `vis()` produces a stacked column plot of
+#' `occupied_prop` per repertoire, filled by `clonal_rank_bin`. Receptors beyond
+#' the largest requested rank have a missing bin and are not drawn, so the total
+#' bar height shows the repertoire space occupied by the displayed ranks.
+#'
+#' **Proportion-bin statistics.** `vis()` produces a stacked column plot of
+#' `occupied_prop` per repertoire, filled by `clonal_prop_bin`. The
+#' `"Ultra-rare"` bin is included, so each complete repertoire normally sums to
+#' 100%.
+#'
+#' Both stacked plots accept `xval`, `yval`, and `fill` to remap columns, plus
+#' `facet`, `dir`, and `title` for layout and labelling.
 #'
 #' @param limit Positive integer >= 10: maximum number of top receptors to keep
 #'   **per repertoire** (default `100000`).
@@ -76,9 +108,10 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #'
 #' ## `airr_clonality_line`
 #' A tibble with columns:
-#' * `repertoire_id` - repertoire identifier
+#' * `imd_repertoire_id` - repertoire identifier
 #' * `index` - rank within repertoire (1 = most abundant)
-#' * `count` - receptor count used for ranking
+#' * `imd_count` - receptor count used for ranking
+#' * `imd_proportion` - receptor proportion within the repertoire
 #' * plus any repertoire metadata columns carried from `idata$repertoires`
 #'
 #' @examples
@@ -87,6 +120,12 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #' #
 #' \dontrun{
 #' top_line <- airr_clonality_line(immdata, limit = 1000)
+#'
+#' # Depth-normalised rank-abundance is the default visualisation.
+#' vis(top_line)
+#'
+#' # Raw observed counts are available when sequencing depth is relevant.
+#' vis(top_line, yval = "imd_count")
 #' }
 #'
 #' @rdname airr_clonality
@@ -140,6 +179,7 @@ airr_clonality_rank_impl <- function(idata,
 #' #
 #' \dontrun{
 #' rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
+#' vis(rank_stat)
 #' }
 #'
 #' @rdname airr_clonality
@@ -155,13 +195,14 @@ airr_clonality_rank <- register_immunarch_method(
 
 #' @keywords internal
 airr_clonality_prop_impl <- function(
-    idata, bins = c(
-      Hyperexpanded = 1e-2,
-      Large = 1e-3,
-      Medium = 1e-4,
-      Small = 1e-5,
-      Rare = 1e-6
-    )) {
+  idata, bins = c(
+    Hyperexpanded = 1e-2,
+    Large = 1e-3,
+    Medium = 1e-4,
+    Small = 1e-5,
+    Rare = 1e-6
+  )
+) {
   checkmate::check_numeric(bins, lower = 0, min.len = 1)
 
   bins <- sort(bins, decreasing = TRUE)
@@ -200,6 +241,7 @@ airr_clonality_prop_impl <- function(
 #' #
 #' \dontrun{
 #' prop_stat <- airr_clonality_prop(immdata)
+#' vis(prop_stat)
 #' }
 #'
 #' @rdname airr_clonality
