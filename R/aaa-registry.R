@@ -18,8 +18,9 @@ IMMUNARCH_CLASS_PREFIX <- "immunarch_res"
 #'   columns, and `value`; useful for visualizations) or `"wide"` (wide/unmelted table of features,
 #'   with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).
 im_common_args <- function(
-    autojoin = getOption("immundata.autojoin", TRUE),
-    format   = c("long", "wide")) {} # nocov
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
+) {} # nocov
 
 
 # ---------------------------------------------------------------------------- #
@@ -49,6 +50,7 @@ im_as_result <- function(x, family, name) {
   cls_full <- im_result_class(family, name)
   cls_fam <- im_result_class(family, NULL)
   # TODO: maybe I need the "airr" or "receptor" instead of IMMUNARCH_CLASS_PREFIX?
+  # TODO: apparently, this makes the execution eager. The question is, maybe, this is something we want?
   structure(x, class = c(cls_full, cls_fam, IMMUNARCH_CLASS_PREFIX, class(x)))
 }
 
@@ -77,7 +79,7 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
     checkmate::assert_character(required_cols, any.missing = FALSE)
   }
 
-  wrapper <- function() { }
+  wrapper <- function() {}
   formals(wrapper) <- c(
     core_fmls,
     formals(im_common_args)
