@@ -24,14 +24,24 @@ NULL
 
 #' @keywords internal
 dist_hamm_impl <- function(
-    idata,
-    seq_col = "cdr3_aa",
-    by = NULL,
-    max_dist = 0) {
+  idata,
+  seq_col = "cdr3_aa",
+  by = NULL,
+  max_dist = NULL,
+  min_sim = NULL
+) {
   checkmate::assert_string(seq_col)
-  checkmate::assert_number(max_dist, lower = 0, finite = TRUE)
+  checkmate::assert_number(max_dist, lower = 0, finite = TRUE, null.ok = TRUE)
+  checkmate::assert_number(
+    min_sim,
+    lower = 0, upper = 1, finite = TRUE, null.ok = TRUE
+  )
 
-  if (max_dist >= 1 && max_dist != floor(max_dist)) {
+  if (!is.null(max_dist) && !is.null(min_sim)) {
+    cli::cli_abort("Provide only one of {.arg max_dist} and {.arg min_sim}.")
+  }
+
+  if (!is.null(max_dist) && max_dist >= 1 && max_dist != floor(max_dist)) {
     cli::cli_abort(
       "{.arg max_dist} must be an integer when it is at least 1."
     )
@@ -159,7 +169,7 @@ dist_hamm_impl <- function(
     " AND a.\".idist_receptor\" < b.\".idist_receptor\""
   )
 
-  if (max_dist == 0) {
+  if (is.null(min_sim) && (is.null(max_dist) || max_dist == 0)) {
     pair_query <- paste0(
       "SELECT ",
       if (length(by)) paste0(node_group_fields, ", ") else "",
@@ -182,13 +192,15 @@ dist_hamm_impl <- function(
       "imd_receptor_id_1, imd_receptor_id_2, seq_len",
       ", mismatches AS dist",
       ", 1.0 * mismatches / seq_len AS norm_dist",
+      ", 1.0 - 1.0 * mismatches / seq_len AS sim",
       " FROM distances"
     )
   } else {
-    max_mismatches_sql <- if (max_dist < 1) {
+    norm_bound <- if (!is.null(min_sim)) 1 - min_sim else max_dist
+    max_mismatches_sql <- if (!is.null(min_sim) || max_dist < 1) {
       paste0(
         "least(\".idist_length\", floor(",
-        as.character(dbplyr::escape(max_dist, con = con)),
+        as.character(dbplyr::escape(norm_bound, con = con)),
         " * \".idist_length\" + 1e-12)::BIGINT)"
       )
     } else {
@@ -282,6 +294,7 @@ dist_hamm_impl <- function(
       "imd_receptor_id_1, imd_receptor_id_2, seq_len",
       ", mismatches AS dist",
       ", 1.0 * mismatches / seq_len AS norm_dist",
+      ", 1.0 - 1.0 * mismatches / seq_len AS sim",
       " FROM distances",
       " WHERE mismatches <= max_mismatches"
     )
@@ -299,10 +312,10 @@ dist_hamm_impl <- function(
 #' receptor schemas, the canonical locus column is added to `by` automatically,
 #' so distances are computed separately per locus.
 #'
-#' With `max_dist = 0`, all eligible receptor pairs are returned. With a
-#' positive bound, exact `(k + 1)`-block candidate generation is used before
-#' Hamming verification; this avoids constructing the complete Cartesian
-#' product when the bound is selective.
+#' Without a bound, all eligible receptor pairs are returned. With a bound,
+#' exact `(k + 1)`-block candidate generation is used before Hamming
+#' verification; this avoids constructing the complete Cartesian product when
+#' the bound is selective.
 #'
 #' @param seq_col Name of a sequence feature in the receptor schema.
 #' @param by Optional columns from `idata$annotations` that must be equal within
@@ -310,9 +323,12 @@ dist_hamm_impl <- function(
 #'   `c("v_call", "j_call")`; add `imd_repertoire_id` when comparisons must stay
 #'   within repertoires. Sequence length grouping is always applied. Locus
 #'   grouping is also always applied for paired-chain receptor schemas.
-#' @param max_dist Distance bound. The default `0` disables bounding. Values in
-#'   `(0, 1)` bound normalized Hamming distance; integer values greater than or
-#'   equal to `1` bound raw Hamming distance.
+#' @param max_dist Maximum distance. Values in `(0, 1)` bound normalized
+#'   Hamming distance; integer values greater than or equal to `1` bound raw
+#'   Hamming distance. `NULL` (the default) and the legacy value `0` disable
+#'   bounding. Mutually exclusive with `min_sim`.
+#' @param min_sim Minimum normalized Hamming similarity in `[0, 1]`. Mutually
+#'   exclusive with `max_dist`.
 #'
 #' @return A lazy duckplyr table with:
 #' * grouping columns supplied through `by`
@@ -322,28 +338,45 @@ dist_hamm_impl <- function(
 #' * `seq_len`
 #' * `dist` -- raw Hamming distance
 #' * `norm_dist` -- `dist / seq_len`
+#' * `sim` -- normalized Hamming similarity, `1 - norm_dist`
 #'
 #' Call [dplyr::collect()] only when the edge table is small enough for memory.
 #'
 #' @examples
+#' idata <- get_test_idata()
+#'
+#' # Build the computing query
+#' res <- dist_hamm(idata)
+#' # Check how results would look like
+#' res
+#' # Run the computation query and upload the results to the memory
+#' res <- res |> collect()
+#'
+#' # Bound Hamming distance.
+#' # Non-normalised -- no receptors with more than 1 mismatch in the output
+#' res <- dist_hamm(idata, max_dist = 1) |> collect()
+#' res
+#'
+#' # Normalised -- no receptors with more than .2 normalised distance in the output
+#' res <- dist_hamm(idata, min_dist = .2) |> collect()
+#' res
+#'
+#' # Similarity, inverse to normalised distance -- no receptors with less than 0.9 similarity in the output
+#' # The results are the same as for the previous normalised run
+#' res <- dist_hamm(idata, min_sim = .8) |> collect()
+#' res
+#'
 #' \dontrun{
-#' # Direct Hamming distance between receptors.
-#' edges <- dist_hamm(immdata, seq_col = "junction")
+#' #
+#' # Typical use case for BCR data
+#' #
 #'
-#' # BCR-style V/J/length blocking with at most four mismatches.
+#' # BCR-style V/J/length blocking with at most three mismatches, inside patients
 #' clone_edges <- dist_hamm(
-#'   immdata,
+#'   idata_bcr,
 #'   seq_col = "junction",
-#'   by = c("v_call", "j_call"),
-#'   max_dist = 4
-#' )
-#'
-#' # Bound normalized Hamming distance.
-#' clone_edges_norm <- dist_hamm(
-#'   immdata,
-#'   seq_col = "junction",
-#'   by = c("v_call", "j_call"),
-#'   max_dist = 0.1
+#'   by = c("patient", "v_call", "j_call"),
+#'   max_dist = 3
 #' )
 #' }
 #'

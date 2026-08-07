@@ -9,7 +9,8 @@ dist_hamm(
   idata,
   seq_col = "cdr3_aa",
   by = NULL,
-  max_dist = 0,
+  max_dist = NULL,
+  min_sim = NULL,
   autojoin = getOption("immundata.autojoin", TRUE),
   format = c("long", "wide")
 )
@@ -25,9 +26,13 @@ a receptor pair. For B-cell clone assignment, a typical choice is
 within repertoires. Sequence length grouping is always applied. Locus
 grouping is also always applied for paired-chain receptor schemas.}
 
-\item{max_dist}{Distance bound. The default \code{0} disables bounding. Values in
-\verb{(0, 1)} bound normalized Hamming distance; integer values greater than or
-equal to \code{1} bound raw Hamming distance.}
+\item{max_dist}{Maximum distance. Values in \verb{(0, 1)} bound normalized
+Hamming distance; integer values greater than or equal to \code{1} bound raw
+Hamming distance. \code{NULL} (the default) and the legacy value \code{0} disable
+bounding. Mutually exclusive with \code{min_sim}.}
+
+\item{min_sim}{Minimum normalized Hamming similarity in \verb{[0, 1]}. Mutually
+exclusive with \code{max_dist}.}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -46,6 +51,7 @@ with \code{imd_receptor_id_1 < imd_receptor_id_2}
 \item \code{seq_len}
 \item \code{dist} -- raw Hamming distance
 \item \code{norm_dist} -- \code{dist / seq_len}
+\item \code{sim} -- normalized Hamming similarity, \code{1 - norm_dist}
 }
 
 Call \code{\link[dplyr:collect]{dplyr::collect()}} only when the edge table is small enough for memory.
@@ -69,30 +75,46 @@ Comparisons are restricted to equal sequence lengths and equal values of
 receptor schemas, the canonical locus column is added to \code{by} automatically,
 so distances are computed separately per locus.
 
-With \code{max_dist = 0}, all eligible receptor pairs are returned. With a
-positive bound, exact \code{(k + 1)}-block candidate generation is used before
-Hamming verification; this avoids constructing the complete Cartesian
-product when the bound is selective.
+Without a bound, all eligible receptor pairs are returned. With a bound,
+exact \code{(k + 1)}-block candidate generation is used before Hamming
+verification; this avoids constructing the complete Cartesian product when
+the bound is selective.
 }
 \examples{
+idata <- get_test_idata()
+
+# Build the computing query
+res <- dist_hamm(idata)
+# Check how results would look like
+res
+# Run the computation query and upload the results to the memory
+res <- res |> collect()
+
+# Bound Hamming distance.
+# Non-normalised -- no receptors with more than 1 mismatch in the output
+res <- dist_hamm(idata, max_dist = 1) |> collect()
+res
+
+# Normalised -- no receptors with more than .2 normalised distance in the output
+res <- dist_hamm(idata, min_dist = .2) |> collect()
+res
+
+# Similarity, inverse to normalised distance -- no receptors with less than 0.9 similarity in the output
+# The results are the same as for the previous normalised run
+res <- dist_hamm(idata, min_sim = .8) |> collect()
+res
+
 \dontrun{
-# Direct Hamming distance between receptors.
-edges <- dist_hamm(immdata, seq_col = "junction")
+#
+# Typical use case for BCR data
+#
 
-# BCR-style V/J/length blocking with at most four mismatches.
+# BCR-style V/J/length blocking with at most three mismatches, inside patients
 clone_edges <- dist_hamm(
-  immdata,
+  idata_bcr,
   seq_col = "junction",
-  by = c("v_call", "j_call"),
-  max_dist = 4
-)
-
-# Bound normalized Hamming distance.
-clone_edges_norm <- dist_hamm(
-  immdata,
-  seq_col = "junction",
-  by = c("v_call", "j_call"),
-  max_dist = 0.1
+  by = c("patient", "v_call", "j_call"),
+  max_dist = 3
 )
 }
 
