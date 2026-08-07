@@ -16,3 +16,13 @@ vis_repsim_jaccard_impl <- make_dotplot(
 )
 
 register_immunarch_visualisation(vis_repsim_jaccard_impl, "repsim", "jaccard")
+
+
+#' @keywords internal
+vis_repsim_bray_impl <- make_dotplot(
+  title_default = "Bray-Curtis dissimilarity",
+  size_default = "Distance",
+  fill_default = "Distance"
+)
+
+register_immunarch_visualisation(vis_repsim_bray_impl, "repsim", "bray")
