@@ -1,5 +1,4 @@
 test_that("vis() for airr_desc_lengths builds plots", {
-  skip_on_cran()
   skip_if_not_installed("ggplot2")
 
   idata <- get_test_immundata() |> agg_repertoires("Therapy")

@@ -4,7 +4,8 @@
 \alias{repsim}
 \alias{repsim_intersection}
 \alias{repsim_jaccard}
-\title{Public indices - pairwise repertoire overlap}
+\alias{repsim_bray}
+\title{Immune repertoire similarity}
 \usage{
 repsim_intersection(
   idata,
@@ -13,6 +14,12 @@ repsim_intersection(
 )
 
 repsim_jaccard(
+  idata,
+  autojoin = getOption("immundata.autojoin", TRUE),
+  format = c("long", "wide")
+)
+
+repsim_bray(
   idata,
   autojoin = getOption("immundata.autojoin", TRUE),
   format = c("long", "wide")
@@ -42,6 +49,13 @@ A \strong{symmetric numeric matrix} where rows/columns are \code{repertoire_id} 
 cell is the Jaccard similarity in \verb{[0, 1]}. The diagonal is \code{1}. Row/column
 names are repertoire IDs.
 }
+
+\subsection{\code{repsim_bray}}{
+
+A \strong{symmetric numeric matrix} where rows/columns are repertoire labels and
+each cell is Bray-Curtis dissimilarity in \verb{[0, 1]} (\code{0} = identical, \code{1} = no overlap).
+The diagonal is \code{0}.
+}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -59,6 +73,14 @@ QC of replicate similarity, or spotting donor-shared "public" clonotypes.
 \code{repsim_jaccard} - \strong{Jaccard similarity} of receptor
 sets between repertoires (\eqn{A \cap B}{A cap B} / \eqn{A \cup B}{A cup B}). Best when comparing cohorts with
 different sizes to get a scale-invariant overlap score.
+
+\code{repsim_bray} - \strong{Bray-Curtis dissimilarity} between repertoires:
+\eqn{\sum_k |p_{ik} - p_{jk}| / \sum_k (p_{ik} + p_{jk})}, where \eqn{p_{ik}}
+are receptor abundances in repertoire \code{i}.
+
+The method uses \code{imd_proportion} values from \code{idata$annotations}. The reusable
+receptor-abundance projection is materialized inside DuckDB; only repertoire
+metadata and the final dense pair table are collected into R.
 }
 \examples{
 # Limit the number of threads used by the underlying DB for this session.
@@ -81,6 +103,17 @@ m_pub <- repsim_intersection(immdata)
 #
 \dontrun{
 m_jac <- repsim_jaccard(immdata)
+}
+
+#
+# repsim_bray
+#
+\dontrun{
+m_bray <- repsim_bray(immdata)
+
+# Optional transforms can be done on proportions beforehand:
+immdata_log <- immundata::mutate(immdata, imd_proportion = log1p(imd_proportion))
+m_bray_log <- repsim_bray(immdata_log)
 }
 
 }

@@ -68,7 +68,7 @@ test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
     out,
     c(
       "v_call", "j_call", "imd_receptor_id_1", "imd_receptor_id_2",
-      "seq_len", "dist", "norm_dist"
+      "seq_len", "dist", "norm_dist", "sim"
     ),
     ignore.order = FALSE
   )
@@ -82,6 +82,7 @@ test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
   )
   expect_equal(out$dist, c(1, 2, 0, 0, 1, 1, 1, 2, 2, 0))
   expect_equal(out$norm_dist, out$dist / 3)
+  expect_equal(out$sim, 1 - out$norm_dist)
   expect_true(all(out$seq_len == 3L))
 })
 
@@ -97,7 +98,7 @@ test_that("dist_hamm computes paired-chain distances separately by locus", {
     out,
     c(
       "locus", "imd_receptor_id_1", "imd_receptor_id_2",
-      "seq_len", "dist", "norm_dist"
+      "seq_len", "dist", "norm_dist", "sim"
     ),
     ignore.order = FALSE
   )
@@ -161,6 +162,15 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
     dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
     dplyr::collect()
 
+  similar <- dist_hamm(
+    idata,
+    by = c("v_call", "j_call"),
+    min_sim = 2 / 3,
+    autojoin = FALSE
+  ) |>
+    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::collect()
+
   expect_equal(
     raw$imd_receptor_id_1,
     c(1L, 1L, 1L, 2L, 2L, 2L, 6L)
@@ -174,6 +184,18 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
   expect_equal(normalized$imd_receptor_id_2, raw$imd_receptor_id_2)
   expect_equal(normalized$dist, raw$dist)
   expect_equal(normalized$norm_dist, raw$dist / 3)
+  expect_equal(similar, normalized)
+})
+
+
+test_that("dist_hamm similarity bounds include identity", {
+  idata <- make_dist_hamm_idata()
+
+  out <- dist_hamm(idata, min_sim = 1, autojoin = FALSE) |>
+    dplyr::collect()
+
+  expect_true(all(out$dist == 0))
+  expect_true(all(out$sim == 1))
 })
 
 
@@ -294,6 +316,11 @@ test_that("dist_hamm validates columns and bounds", {
   expect_error(dist_hamm(idata, seq_col = "missing"), "missing")
   expect_error(dist_hamm(idata, by = "missing"), "missing")
   expect_error(dist_hamm(idata, max_dist = 1.5), "integer")
+  expect_error(dist_hamm(idata, min_sim = 1.1), "<= 1")
+  expect_error(
+    dist_hamm(idata, max_dist = 0.1, min_sim = 0.9),
+    "only one"
+  )
 
   idata_without_sequence_schema <- immundata::ImmunData$new(
     schema = "v_call",

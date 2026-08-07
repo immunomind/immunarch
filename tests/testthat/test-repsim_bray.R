@@ -62,3 +62,76 @@ test_that("repsim_bray returns a symmetric [0,1] matrix and vis() works", {
   expect_s3_class(p, "ggplot")
   expect_silent(ggplot2::ggplot_build(p))
 })
+
+
+test_that("repsim_bray matches an independent weighted reference", {
+  receptor_col <- immundata::imd_schema("receptor")
+  repertoire_col <- immundata::imd_schema("repertoire")
+  count_col <- immundata::imd_schema("count")
+  prop_col <- immundata::imd_schema("proportion")
+
+  for (seed in 1:5) {
+    set.seed(seed)
+    repertoire_ids <- sprintf("R%02d", 1:12)
+    receptor_ids <- sprintf("r%04d", 1:500)
+    ann_tbl <- tidyr::crossing(
+      .receptor = receptor_ids,
+      .repertoire = repertoire_ids
+    ) |>
+      dplyr::filter(stats::runif(dplyr::n()) < 0.07) |>
+      dplyr::mutate(.weight = stats::rexp(dplyr::n(), rate = 0.5)) |>
+      dplyr::transmute(
+        !!receptor_col := .data$.receptor,
+        !!repertoire_col := .data$.repertoire,
+        !!count_col := ceiling(.data$.weight),
+        !!prop_col := .data$.weight,
+        cdr3_aa = .data$.receptor
+      )
+    rep_tbl <- tibble::tibble(
+      !!repertoire_col := repertoire_ids,
+      Group = repertoire_ids
+    )
+
+    abundance_matrix <- matrix(
+      0,
+      nrow = length(receptor_ids),
+      ncol = length(repertoire_ids),
+      dimnames = list(receptor_ids, repertoire_ids)
+    )
+    abundance_matrix[cbind(
+      match(ann_tbl[[receptor_col]], receptor_ids),
+      match(ann_tbl[[repertoire_col]], repertoire_ids)
+    )] <- ann_tbl[[prop_col]]
+
+    expected <- matrix(
+      0,
+      nrow = length(repertoire_ids),
+      ncol = length(repertoire_ids),
+      dimnames = list(repertoire_ids, repertoire_ids)
+    )
+    for (rep_i in seq_along(repertoire_ids)) {
+      for (rep_j in seq_along(repertoire_ids)) {
+        denominator <- sum(abundance_matrix[, rep_i] + abundance_matrix[, rep_j])
+        expected[rep_i, rep_j] <- if (denominator > 0) {
+          sum(abs(abundance_matrix[, rep_i] - abundance_matrix[, rep_j])) / denominator
+        } else {
+          NA_real_
+        }
+      }
+    }
+
+    idata <- immundata::ImmunData$new(
+      schema = "cdr3_aa",
+      annotations = duckplyr::as_duckdb_tibble(ann_tbl),
+      repertoires = duckplyr::as_duckdb_tibble(rep_tbl)
+    )
+    idata$schema_repertoire <- "Group"
+
+    expect_equal(
+      unclass(repsim_bray(idata, autojoin = FALSE)),
+      expected,
+      tolerance = 1e-12,
+      info = paste("seed", seed)
+    )
+  }
+})
