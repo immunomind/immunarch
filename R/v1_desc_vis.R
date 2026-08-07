@@ -1,7 +1,7 @@
 #' @keywords internal
 vis_airr_desc_chains_impl <- make_dynam_col_plot(
-  y_default = "n_receptors",
-  title_default = "No. receptors per sample",
+  y_default = "n_chains",
+  title_default = "No. chains per sample",
   position = "dodge"
 )
 
