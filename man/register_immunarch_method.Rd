@@ -53,7 +53,7 @@ arguments} and \strong{runs safety checks} so your core stays minimal.
 \subsection{What the wrapper adds}{
 \itemize{
 \item Common args from \code{im_common_args()}: \code{autojoin}, \code{format}, \code{features}
-(with \code{autojoin} default controlled by \code{getOption("immunarch.autojoin", FALSE)}).
+(with \code{autojoin} default controlled by \code{getOption("immunarch.autojoin", TRUE)}).
 \item Validates \code{idata} is an \link[immundata:ImmunData]{immundata::ImmunData} object.
 \item Ensures all columns in \code{required_cols} exist in \code{idata$annotations}.
 \item If \code{autojoin = TRUE} and the result is a data frame containing the repertoire id

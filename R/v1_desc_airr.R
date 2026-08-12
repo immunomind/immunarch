@@ -3,11 +3,14 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' A family of functions that extract **core descriptive statistics** from an `ImmunData` object.
+#' A family of functions that summarise the **basic structure of immune
+#' repertoires**. These summaries help you check data quality, compare samples,
+#' and describe chain counts, sequence lengths, and gene usage before more
+#' detailed analyses.
 #'
 #' ## Available functions
 #'
-#' Supported methods are the following.
+#' The following methods are available.
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams airr_desc_chains
@@ -17,15 +20,48 @@
 #'
 #' @seealso [immundata::ImmunData]
 #'
-#' @examples
-#' # Limit the number of threads used by the underlying DB for this session.
-#' # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
-#' db_exec("SET threads TO 2")
+#' @section Visualisation:
+#' All three `airr_desc_*()` results can be passed directly to [vis()]. With
+#' `autojoin = TRUE` (the default), repertoire summaries and user metadata are
+#' included in the result and can be selected by the plotting arguments.
 #'
-#' # Load data
-#' \dontrun{
-#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
-#' }
+#' ## 1) Chain counts (`airr_desc_chains`)
+#'
+#' `vis()` plots `n_chains` per repertoire by default. The plot accepts:
+#'
+#' * `xval` selects the column shown on the x-axis.
+#' * `yval` selects the numeric column shown on the y-axis.
+#' * `fill` colours and groups observations by a column.
+#' * `facet` splits the plot by one column, or creates a facet grid when given
+#'   two columns.
+#' * `title` replaces the default plot title.
+#'
+#' For example, use `yval = "n_receptors"` to plot the auto-joined receptor
+#' count instead of the chain count.
+#'
+#' ## 2) Sequence-length distribution (`airr_desc_lengths`)
+#'
+#' `vis()` plots `seq_len` on the x-axis and `prop` on the y-axis, filled by
+#' repertoire. Set `fill` to a metadata or grouping column to compare groups
+#' with box-and-violin distributions. `facet` accepts one column for a wrapped
+#' layout or two columns for a facet grid; `dir = "h"` or `dir = "v"` controls
+#' the wrapping direction.
+#'
+#' ## 3) Gene usage (`airr_desc_genes`)
+#'
+#' `vis()` produces a dot plot with gene segments as rows, repertoires as
+#' columns, and `n` mapped to dot size and colour. Use `row` to select the gene
+#' column, `col` to select repertoire or metadata columns, and `value` to select
+#' the numeric measure. `size_max_mm` controls the largest dot; `row_order` and
+#' `col_order` set the display order.
+#'
+#' @examples
+#' # Limit the number of threads used by the underlying DB for this example.
+#' # Generally, you should NOT do this in your session.
+#' db_exec("SET threads TO 1")
+#'
+#' # Load example data.
+#' immdata <- get_test_idata()
 #'
 #' @name airr_desc
 #' @concept Key AIRR statistics
@@ -76,58 +112,26 @@ airr_desc_chains_impl <- function(idata, locus_col = NA) {
 }
 
 
-#' @description `airr_desc_chains` --- count V(D)J *chains* per repertoire
-#'   (optionally split by locus). Quickly gauges capture depth per repertoire
-#'   and, when split by locus, reveals TRA/TRB/IGH balance. Use it for QC,
-#'   library-size checks, and to spot locus-specific dropouts or
-#'   over-representation.
-#'
-#' @section Visualising descriptive statistics:
-#' All three `airr_desc_*()` results can be passed directly to [vis()]. With
-#' `autojoin = TRUE` (the default), repertoire summaries and user metadata are
-#' included in the result and can be selected by the plotting arguments.
-#'
-#' **Chain statistics.** `vis()` plots `n_chains` per repertoire by default.
-#' The plot can be remapped to other result columns:
-#'
-#' * `xval` selects the column shown on the x-axis.
-#' * `yval` selects the numeric column shown on the y-axis.
-#' * `fill` colours and groups observations by a column.
-#' * `facet` splits the plot by one column, or creates a facet grid when given
-#'   two columns.
-#' * `title` replaces the default plot title.
-#'
-#' For example, use `yval = "n_receptors"` to plot the auto-joined receptor
-#' count instead of the chain count.
-#'
-#' **Length statistics.** `vis()` plots `seq_len` on the x-axis and `prop` on
-#' the y-axis, filled by repertoire. Set `fill` to a metadata or grouping
-#' column to compare its groups with box-and-violin distributions. `facet`
-#' accepts one column for a wrapped layout or two columns for a facet grid;
-#' `dir = "h"` or `dir = "v"` controls the wrapping direction.
-#'
-#' **Gene statistics.** `vis()` produces a dot plot with gene segments as rows,
-#' repertoires as columns, and `n` mapped to dot size and colour. Use `row` to
-#' select the gene column, `col` to select one or more repertoire, grouping, or
-#' metadata columns, and `value` to select the numeric measure. `size_max_mm`
-#' controls the largest dot; `row_order` and `col_order` set display order.
+#' @description
+#' **1) Chain counts (`airr_desc_chains`).** Count V(D)J chains in each
+#' repertoire, optionally grouped by locus. Use this method to check capture
+#' depth, compare library sizes, examine TRA/TRB/IGH balance, and identify
+#' locus-specific loss or over-representation.
 #'
 #' @param locus_col Column in `idata$annotations` that stores the locus (e.g.
 #'   `"locus"`). If `NULL` or missing, the result is not split by locus.
 #'
 #' @return
 #'
-#' ## `airr_desc_chains` Returns a tibble with columns:
-#' * `repertoire_id` -- repertoire identifier
+#' ## 1) Chain counts (`airr_desc_chains`)
+#' A tibble with columns:
+#' * `imd_repertoire_id` -- internal repertoire identifier
 #' * `locus` -- TRA, TRB, IGH, ... (present only if `locus_col` is supplied)
 #' * `n_chains` -- number of chains
 #'
 #' @examples
 #' #
-#' # airr_desc_chains
-#' #
-#'
-#' \dontrun{
+#' # Count chains in each repertoire.
 #' chain_stats <- airr_desc_chains(immdata)
 #'
 #' # Default: chain counts per repertoire
@@ -140,10 +144,9 @@ airr_desc_chains_impl <- function(idata, locus_col = NA) {
 #'   title = "No. receptors per sample"
 #' )
 #'
-#' # Use auto-joined metadata and locus information for comparison
-#' vis(chain_stats, xval = "Therapy", fill = "locus")
-#' vis(chain_stats, xval = "Therapy", facet = "locus")
-#' }
+#' # Use auto-joined repertoire information and locus information for comparison.
+#' vis(chain_stats, xval = "imd_filename", fill = "locus")
+#' vis(chain_stats, xval = "imd_filename", facet = "locus")
 #'
 #' @rdname airr_desc
 #' @concept Key AIRR statistics
@@ -192,11 +195,11 @@ airr_desc_lengths_impl <- function(
 }
 
 
-#' @description `airr_desc_lengths` --- count the number of sequence lengths per
-#' repertoire, optionally split by annotation columns. Summarizes the CDR3
-#' length distribution, a sensitive QC fingerprint of repertoire prep and
-#' selection. Helpful for detecting primer/UMI biases, comparing cohorts, and
-#' deriving length-based features for models.
+#' @description
+#' **2) Sequence-length distribution (`airr_desc_lengths`).** Count sequences
+#' of each length per repertoire, optionally grouped by annotation columns. Use
+#' this method to describe CDR3 length distributions, detect possible library
+#' preparation bias, compare groups, and create length-based features.
 #'
 #' @param seq_col Name of the column containing sequences.
 #' @param by Grouping columns from `idata$annotations`. The default `NA`
@@ -206,7 +209,8 @@ airr_desc_lengths_impl <- function(
 #'
 #' @return
 #'
-#' ## `airr_desc_lengths` Returns a tibble with columns:
+#' ## 2) Sequence-length distribution (`airr_desc_lengths`)
+#' A tibble with columns:
 #' * `imd_repertoire_id` -- internal repertoire identifier
 #' * grouping columns requested through `by` (for example, `locus`)
 #' * `seq_len` -- lengths of sequences
@@ -216,21 +220,17 @@ airr_desc_lengths_impl <- function(
 #'
 #' @examples
 #' #
-#' # airr_desc_lengths
-#' #
-#'
-#' \dontrun{
+#' # Calculate CDR3 length distributions.
 #' length_stats <- airr_desc_lengths(immdata)
 #'
 #' # Default: CDR3 length proportions by repertoire
 #' vis(length_stats)
 #'
-#' # Compare distributions between metadata groups and split them by locus
-#' vis(length_stats, fill = "Therapy", facet = "locus")
+#' # Compare distributions between repertoires and split them by locus.
+#' vis(length_stats, fill = "imd_filename", facet = "locus")
 #'
 #' airr_desc_lengths(immdata, by = "locus")
 #' airr_desc_lengths(immdata, by = NULL)
-#' }
 #'
 #' @rdname airr_desc
 #' @concept Key AIRR statistics
@@ -297,12 +297,11 @@ airr_desc_genes_impl <- function(
     collect()
 }
 
-#' @description `airr_desc_genes` - count V(D)J gene segments per repertoire,
-#'   optionally split by locus and using either receptor counts or barcode/UMI
-#'   counts as the measure. Profiles V/D/J gene usage to characterize repertoire
-#'   composition and germline biases, with optional locus split. Useful for
-#'   cohort comparisons, flagging clonal expansions, and producing ML-ready
-#'   features for repertoire-level ML tasks.
+#' @description
+#' **3) Gene usage (`airr_desc_genes`).** Count V(D)J gene segments per
+#' repertoire, optionally grouped by locus. The method can count unique
+#' receptors or sum barcode/UMI counts. Use it to compare gene usage between
+#' groups, identify unusual gene patterns, and create repertoire-level features.
 #'
 #' @param gene_col A single column name in `idata$annotations` with gene segment
 #'   calls (e.g., `"v_call"`, `"d_call"`, `"j_call"`, `"c_call"`). Default is
@@ -319,7 +318,8 @@ airr_desc_genes_impl <- function(
 #'
 #' @return
 #'
-#' ## `airr_desc_genes` A tibble with columns:
+#' ## 3) Gene usage (`airr_desc_genes`)
+#' A tibble with columns:
 #' * `<gene_col>` - the gene segment value (e.g., V gene)
 #' * `imd_repertoire_id` - internal repertoire identifier
 #' * grouping columns requested through `by` (for example, `locus`)
@@ -330,11 +330,7 @@ airr_desc_genes_impl <- function(
 #'
 #' @examples
 #' #
-#' # airr_desc_genes
-#' #
-#'
-#' \dontrun{
-#' # V gene usage by receptor count
+#' # Calculate V gene usage from receptor counts.
 #' gene_stats <- airr_desc_genes(
 #'   immdata,
 #'   gene_col = "v_call",
@@ -344,11 +340,11 @@ airr_desc_genes_impl <- function(
 #' # Default: genes by repertoire, with counts mapped to dot size and colour
 #' vis(gene_stats)
 #'
-#' # Compare gene usage across metadata groups and loci
+#' # Compare gene usage across repertoires and loci.
 #' vis(
 #'   gene_stats,
 #'   row = "v_call",
-#'   col = c("Therapy", "locus"),
+#'   col = c("imd_filename", "locus"),
 #'   value = "n",
 #'   size_max_mm = 5
 #' )
@@ -361,7 +357,6 @@ airr_desc_genes_impl <- function(
 #'
 #' # Pool loci explicitly
 #' airr_desc_genes(immdata, gene_col = "v_call", by = NULL)
-#' }
 #'
 #' @rdname airr_desc
 #' @concept Key AIRR statistics

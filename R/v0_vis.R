@@ -181,16 +181,29 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' For serious, highly customised, or publication-ready plots, I recommend
 #' building your graphics directly with **ggplot2**.
 #'
+#' Information on how visualise a specific result from a domain, e.g., clonality or diversity,
+#' is available at each domain's help page in the visualisation section.
+#' Take a look at the "See also" section down below to *see* links to the domains, which support visualisations.
+#'
 #' @param .data The output from any immunarch analysis function. The function automatically resolves to a correct visualisation.
 #' @param ... Any other arguments, see the "Details" section for specific visualisation functions.
 #'
 #' @details
-#' List of available visualisations for different kinds of data - will be available soon.
+#' `vis()` chooses a plot based on the analysis result. Start with `vis(result)`,
+#' then consult the documentation for the analysis that created it to see its
+#' plotting defaults and supported arguments.
+#'
+#' E.g., for clonality results, see [airr_clonality] by running `?airr_clonality`.
+#' Or see [repsim] For repertoire similarity by running `?repsim`.
 #'
 #' @return
 #' A ggplot2 object.
 #'
-#' @seealso [fixVis] for precise manipulation of plots.
+#' @seealso
+#' * [airr_desc] for descriptive statistics visualisations.
+#' * [airr_clonality] for clonality visualisations.
+#' * [airr_diversity] for diversity visualisations.
+#' * [repsim] for repertoire similarity visualisations.
 #'
 #' @examples
 #' \dontrun{
@@ -470,7 +483,7 @@ vis_heatmap <- function(.data, .text = TRUE, .scientific = FALSE, .signif.digits
 #' @export
 vis_heatmap2 <- function(.data, .meta = NA, .by = NA, .title = NA, .color = colorRampPalette(c("#67001f", "#d6604d", "#f7f7f7", "#4393c3", "#053061"))(1024), ...) {
   if (!requireNamespace("pheatmap", quietly = TRUE) ||
-      utils::packageVersion("pheatmap") < "1.0.12") {
+    utils::packageVersion("pheatmap") < "1.0.12") {
     stop(
       "Package 'pheatmap' (>= 1.0.12) is required for this function. ",
       "Please install it with install.packages('pheatmap').",
@@ -946,7 +959,6 @@ vis_public_frequencies <- function(.data, .by = NA, .meta = NA,
 
   p + theme_pubr(legend = "right") + theme_cleveland2()
 }
-
 
 
 #' Visualisation of public clonotypes

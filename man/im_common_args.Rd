@@ -5,7 +5,7 @@
 \title{Common arguments for immunarch helpers}
 \usage{
 im_common_args(
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }

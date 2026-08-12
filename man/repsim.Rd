@@ -4,24 +4,39 @@
 \alias{repsim}
 \alias{repsim_intersection}
 \alias{repsim_jaccard}
+\alias{repsim_chao_jaccard}
+\alias{repsim_morisita_horn}
 \alias{repsim_bray}
 \title{Immune repertoire similarity}
 \usage{
 repsim_intersection(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 repsim_jaccard(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
+  format = c("long", "wide")
+)
+
+repsim_chao_jaccard(
+  idata,
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
+  format = c("long", "wide")
+)
+
+repsim_morisita_horn(
+  idata,
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 repsim_bray(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  transform = c("none", "log1p"),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }
@@ -34,88 +49,224 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 \item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
+
+\item{transform}{Transformation applied to \code{imd_proportion} before calculating
+dissimilarity. Use \code{"none"} (the default) for the original proportions or
+\code{"log1p"} for \code{log(1 + imd_proportion)}.
+
+\deqn{BC_{ij} = \frac{\sum_k |a_{ik} - a_{jk}|}
+{\sum_k (a_{ik} + a_{jk})}}
+where \eqn{a_{ik}} is the original or transformed abundance of receptor
+\eqn{k} in repertoire \eqn{i}.}
 }
 \value{
-\subsection{\code{repsim_intersection}}{
+\subsection{1) Shared-receptor counts (\code{repsim_intersection})}{
 
-A \strong{symmetric numeric matrix} where rows/columns are \code{repertoire_id} and each
-cell is the count of shared unique receptors. The diagonal contains per-repertoire
-richness (total unique receptors). Row/column names are repertoire IDs.
+A \strong{symmetric numeric matrix} where rows/columns are repertoire labels derived
+from \code{schema_repertoire}. Each cell is the count of shared unique receptors. The
+diagonal contains per-repertoire richness (total unique receptors).
 }
 
-\subsection{\code{repsim_jaccard}}{
+\subsection{2) Jaccard similarity (\code{repsim_jaccard})}{
 
-A \strong{symmetric numeric matrix} where rows/columns are \code{repertoire_id} and each
-cell is the Jaccard similarity in \verb{[0, 1]}. The diagonal is \code{1}. Row/column
-names are repertoire IDs.
+A \strong{symmetric numeric matrix} where rows/columns are repertoire labels derived
+from \code{schema_repertoire}. Each cell is the Jaccard similarity in \verb{[0, 1]}. The
+diagonal is \code{1}.
 }
 
-\subsection{\code{repsim_bray}}{
+\subsection{3) Chao-Jaccard similarity (\code{repsim_chao_jaccard})}{
 
-A \strong{symmetric numeric matrix} where rows/columns are repertoire labels and
-each cell is Bray-Curtis dissimilarity in \verb{[0, 1]} (\code{0} = identical, \code{1} = no overlap).
-The diagonal is \code{0}.
+A \strong{symmetric numeric matrix} where rows/columns are repertoire labels derived
+from \code{schema_repertoire}. Each cell is the Chao-Jaccard similarity in \verb{[0, 1]}
+(\code{1} = maximum estimated overlap, \code{0} = no observed shared receptors). The
+diagonal is \code{1}.
+}
+
+\subsection{4) Morisita-Horn similarity (\code{repsim_morisita_horn})}{
+
+A \strong{symmetric numeric matrix} whose rows/columns are repertoire labels derived
+from \code{schema_repertoire}, with values in \verb{[0, 1]} (\code{0} = no shared abundance,
+\code{1} = identical abundance composition). The diagonal is \code{1}. Comparisons
+involving an empty repertoire are \code{NA}.
+}
+
+\subsection{5) Bray-Curtis dissimilarity (\code{repsim_bray})}{
+
+A \strong{symmetric numeric matrix} where rows/columns are repertoire labels derived
+from \code{schema_repertoire}. Each cell is Bray-Curtis dissimilarity in \verb{[0, 1]}
+(\code{0} = identical, \code{1} = no overlap). The diagonal is \code{0}.
 }
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions to quantify \strong{public or shared receptors} between repertoire.
+A family of functions to compare \strong{shared receptors} between repertoires.
+These methods help you measure repertoire similarity, identify public
+receptors, compare biological groups, and check whether replicate samples
+have similar receptor composition.
 \subsection{Available functions}{
 
-Supported methods are the following.
+The following methods are available.
 }
 
-\code{repsim_intersection} - number of \strong{shared receptors} between
-each pair of repertoires (intersection size). Handy for quick overlap heatmaps,
-QC of replicate similarity, or spotting donor-shared "public" clonotypes.
+\strong{1) Shared-receptor counts (\code{repsim_intersection}).} Count the unique
+receptors shared by each pair of repertoires. Use this method to find related
+samples, check replicate similarity, or identify receptors shared across
+many repertoires.
 
-\code{repsim_jaccard} - \strong{Jaccard similarity} of receptor
-sets between repertoires (\eqn{A \cap B}{A cap B} / \eqn{A \cup B}{A cup B}). Best when comparing cohorts with
-different sizes to get a scale-invariant overlap score.
+\strong{2) Jaccard similarity (\code{repsim_jaccard}).} Compare the sets of unique
+receptors in each pair of repertoires. The score accounts for the total
+number of unique receptors in both repertoires. Use it to compare receptor
+overlap when repertoire sizes differ.
 
-\code{repsim_bray} - \strong{Bray-Curtis dissimilarity} between repertoires:
-\eqn{\sum_k |p_{ik} - p_{jk}| / \sum_k (p_{ik} + p_{jk})}, where \eqn{p_{ik}}
-are receptor abundances in repertoire \code{i}.
+\deqn{J(A, B) = \frac{|A \cap B|}{|A \cup B|}}
 
-The method uses \code{imd_proportion} values from \code{idata$annotations}. The reusable
-receptor-abundance projection is materialized inside DuckDB; only repertoire
-metadata and the final dense pair table are collected into R.
+\strong{3) Chao-Jaccard similarity (\code{repsim_chao_jaccard}).} Compare receptor
+overlap using receptor counts. The method estimates similarity after allowing
+for shared receptors that may be missing because one or both repertoires were
+sampled at limited depth. Use it when sampling depth may affect the observed
+overlap.
+
+\strong{4) Morisita-Horn similarity (\code{repsim_morisita_horn}).} Compare receptor
+abundance profiles. Abundant receptors have more influence on the score than
+rare receptors. Use it to determine whether the same expanded receptors
+dominate two repertoires. The method uses \code{imd_proportion} as the abundance
+measure.
+
+\deqn{C_{MH} = \frac{2 \sum_k x_{ik} x_{jk}}
+{(\lambda_i + \lambda_j) N_i N_j}}
+
+\strong{5) Bray-Curtis dissimilarity (\code{repsim_bray}).} Measure how different two
+receptor abundance profiles are. A value of \code{0} means the profiles are
+identical, and a value of \code{1} means they have no overlap. Use it when you want
+to express differences directly instead of using a similarity score. The
+method uses \code{imd_proportion} as the abundance measure.
+
+Set \code{transform = "log1p"} to reduce the influence of the most abundant
+receptors and give lower-abundance receptors more influence on the result.
+This can reveal broader repertoire similarity when a few expanded receptors
+would otherwise dominate the comparison. The transformation is applied
+inside the database query and does not modify \code{idata}.
+
+Immune-repertoire studies commonly calculate Bray-Curtis dissimilarity from
+clonotype proportions without an additional transformation. Therefore,
+\code{transform = "none"} remains the default. The \code{"log1p"} option is an
+exploratory sensitivity analysis based on a common ecological pre-treatment
+for reducing the effect of dominant taxa. After transformation, the values no
+longer sum to one, and the result no longer has the simple interpretation of
+the fraction of repertoire abundance that does not overlap.
 }
+\section{Visualisation}{
+
+All five \verb{repsim_*()} results can be passed directly to \code{\link[=vis]{vis()}}. \code{vis()}
+displays the result as a dot plot, with repertoire labels on both axes. Each
+dot represents one pair of repertoires; its size and fill show the value for
+that pair.
+\subsection{1) Shared-receptor counts (\code{repsim_intersection})}{
+
+Larger and darker dots mean that the repertoires share more unique receptors.
+The diagonal shows the total number of unique receptors in each repertoire.
+}
+
+\subsection{2) Jaccard similarity (\code{repsim_jaccard})}{
+
+Larger and darker dots mean greater similarity between the sets of unique
+receptors. Values range from \code{0} (no shared receptors) to \code{1} (identical
+receptor sets).
+}
+
+\subsection{3) Chao-Jaccard similarity (\code{repsim_chao_jaccard})}{
+
+Larger and darker dots mean greater estimated similarity after correction
+for receptors that may be missing because of limited sampling. Values range
+from \code{0} (no observed shared receptors) to \code{1} (maximum estimated
+similarity).
+}
+
+\subsection{4) Morisita-Horn similarity (\code{repsim_morisita_horn})}{
+
+Larger and darker dots mean greater similarity between receptor abundance
+profiles. Values range from \code{0} (no overlap) to \code{1} (identical abundance
+composition).
+}
+
+\subsection{5) Bray-Curtis dissimilarity (\code{repsim_bray})}{
+
+Larger and darker dots mean greater dissimilarity between receptor abundance
+profiles. Values range from \code{0} (identical abundance composition) to \code{1} (no
+overlap).
+
+All repertoire-similarity plots accept:
+\itemize{
+\item \code{size_max_mm} to set the maximum dot diameter.
+\item \code{row_order} and \code{col_order} to set the repertoire order on each axis.
+}
+}
+}
+
 \examples{
-# Limit the number of threads used by the underlying DB for this session.
-# Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+# Limit the number of threads used by the underlying DB for this example.
+# Generally, you should NOT do this in your session.
 db_exec("SET threads TO 1")
-# Load data
-\dontrun{
-immdata <- get_test_idata() |> agg_repertoires("Therapy")
-}
+
+# Load example data.
+immdata <- get_test_idata()
 
 #
-# repsim_intersection
-#
-\dontrun{
+# Count receptors shared by each pair of repertoires.
 m_pub <- repsim_intersection(immdata)
-}
+
+# Visualise the shared-receptor counts.
+vis(m_pub)
 
 #
-# repsim_jaccard
-#
-\dontrun{
+# Calculate Jaccard similarity.
 m_jac <- repsim_jaccard(immdata)
-}
+vis(m_jac)
 
 #
-# repsim_bray
+# Calculate sampling-corrected Jaccard similarity.
+m_chao_jac <- repsim_chao_jaccard(immdata)
+vis(m_chao_jac)
+
 #
-\dontrun{
+# Calculate Morisita-Horn similarity.
+m_mh <- repsim_morisita_horn(immdata)
+vis(m_mh)
+
+#
+# Calculate Bray-Curtis dissimilarity.
 m_bray <- repsim_bray(immdata)
+vis(m_bray)
 
-# Optional transforms can be done on proportions beforehand:
-immdata_log <- immundata::mutate(immdata, imd_proportion = log1p(imd_proportion))
-m_bray_log <- repsim_bray(immdata_log)
+# Reduce the influence of highly expanded receptors.
+m_bray_log <- repsim_bray(
+  immdata,
+  transform = "log1p"
+)
+vis(m_bray_log)
+
 }
+\references{
+Chao A, Chazdon RL, Colwell RK, Shen TJ (2005). A new statistical approach
+for assessing similarity of species composition with incidence and abundance
+data. \emph{Ecology Letters}, 8(2), 148-159. \doi{10.1111/j.1461-0248.2004.00707.x}
 
+Horn HS (1966). Measurement of overlap in comparative ecological studies.
+\emph{The American Naturalist}, 100(914), 419-424. \doi{10.1086/282436}
+
+Clarke KR, Chapman MG, Somerfield PJ, Needham HR (2006). Dispersion-based
+weighting of species counts in assemblage analyses. \emph{Marine Ecology Progress
+Series}, 320, 11-27. \doi{10.3354/meps320011}
+
+\emph{The TCR assigns naive T cells to a preferred lymph node} (2024).
+\emph{Science Advances}. \doi{10.1126/sciadv.adl0796}
+
+*On the feasibility of using TCR sequencing to follow a vaccination response
+\itemize{
+\item lessons learned* (2023). \emph{Frontiers in Immunology}.
+\doi{10.3389/fimmu.2023.1210168}
+}
 }
 \seealso{
 \link[immundata:ImmunData]{immundata::ImmunData}

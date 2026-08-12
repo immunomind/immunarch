@@ -9,7 +9,7 @@
 annotate_clonality_rank(
   idata,
   bins = c(10, 30, 100, 300, 1000, 10000, 1e+05),
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
@@ -17,7 +17,7 @@ annotate_clonality_prop(
   idata,
   bins = c(Hyperexpanded = 0.01, Large = 0.001, Medium = 1e-04, Small = 1e-05, Rare =
     1e-06),
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }

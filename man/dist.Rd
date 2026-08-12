@@ -11,7 +11,7 @@ dist_hamm(
   by = NULL,
   max_dist = NULL,
   min_sim = NULL,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }
@@ -96,10 +96,11 @@ res <- dist_hamm(idata, max_dist = 1) |> collect()
 res
 
 # Normalised -- no receptors with more than .2 normalised distance in the output
-res <- dist_hamm(idata, min_dist = .2) |> collect()
+res <- dist_hamm(idata, max_dist = .2) |> collect()
 res
 
-# Similarity, inverse to normalised distance -- no receptors with less than 0.9 similarity in the output
+# Similarity, inverse to normalised distance -- no receptors with
+# less than 0.9 similarity in the output
 # The results are the same as for the previous normalised run
 res <- dist_hamm(idata, min_sim = .8) |> collect()
 res

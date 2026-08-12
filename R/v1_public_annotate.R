@@ -92,7 +92,8 @@ annotate_public <- function(idata) {
       .by = all_of(receptor_col)
     ) |>
     mutate(
-      imd_public_incidence_prop = imd_public_incidence / n_repertoires_total
+      imd_public_incidence_prop =
+        !!rlang::sym("imd_public_incidence") / n_repertoires_total
     )
 
   if (!(strata_col %in% colnames(rep_tbl))) {
@@ -116,7 +117,7 @@ annotate_public <- function(idata) {
       for (sid in strata_ids) {
         n_rep_in_strata <- strata_sizes |>
           filter(!!rlang::sym(strata_col) == sid) |>
-          pull(imd_strata_n_repertoires)
+          pull("imd_strata_n_repertoires")
 
         sid_chr <- as.character(sid)
 
@@ -138,7 +139,8 @@ annotate_public <- function(idata) {
             .by = all_of(receptor_col)
           ) |>
           mutate(
-            imd_public_incidence_prop = imd_public_incidence / n_rep_in_strata
+            imd_public_incidence_prop =
+              !!rlang::sym("imd_public_incidence") / n_rep_in_strata
           )
 
         strata_metric_cols <- setdiff(colnames(strata_stats), receptor_col)

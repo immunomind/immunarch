@@ -13,7 +13,7 @@ clust_cc(
   by = NULL,
   cluster_col = "cluster_id",
   size_col = "cluster_size",
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }

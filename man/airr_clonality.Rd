@@ -10,14 +10,14 @@
 airr_clonality_line(
   idata,
   limit = 1e+05,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_clonality_rank(
   idata,
   bins = c(10, 30, 100, 300, 1000, 10000, 1e+05),
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
@@ -25,7 +25,7 @@ airr_clonality_prop(
   idata,
   bins = c(Hyperexpanded = 0.01, Large = 0.001, Medium = 1e-04, Small = 1e-05, Rare =
     1e-06),
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }
@@ -47,7 +47,7 @@ with each row corresponding to a specific repertoire / pair of repertoires; usef
 must be non-empty. Internally sorted in descending order.}
 }
 \value{
-\subsection{\code{airr_clonality_line}}{
+\subsection{1) Rank-abundance lines (\code{airr_clonality_line})}{
 
 A tibble with columns:
 \itemize{
@@ -59,7 +59,7 @@ A tibble with columns:
 }
 }
 
-\subsection{\code{airr_clonality_rank}}{
+\subsection{2) Rank-bin statistics (\code{airr_clonality_rank})}{
 
 A tibble with
 \itemize{
@@ -70,7 +70,7 @@ A tibble with
 }
 }
 
-\subsection{\code{airr_clonality_prop}}{
+\subsection{3) Proportion-bin statistics (\code{airr_clonality_prop})}{
 
 A tibble with
 \itemize{
@@ -84,33 +84,42 @@ A tibble with
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions to quantify \strong{receptor overabundance} per repertoire. Helps in deciphering the structure and partition the repertoire.
+A family of functions to quantify \strong{receptor overabundance} per repertoire.
+It helps in deciphering the structure and partition the repertoire.
+Higher clonality means that one or several receptors are over-expanded. Such effects
+is usually associated with the ongoing immune system response or anomalous behaviour, e.g.,
+in blood cancers.
 \subsection{Available functions}{
 
-Supported methods are the following.
+The following methods are available.
 }
 
-\code{airr_clonality_line} - build ranked abundance lines: for each
-repertoire, take the top \code{limit} receptors by \code{count}, retain both counts and
-proportions, and attach repertoire metadata. Useful for per-repertoire
-rank-abundance plots.
+\strong{1) Rank-abundance lines (\code{airr_clonality_line}).} Prepare a plot for each
+repertoire. It orders receptors from most to least abundant and keeps the top
+\code{limit} receptors. Use it to see whether a small number of receptors dominate
+the repertoire: a steep line suggests strong clonal expansion.
 
-\code{airr_clonality_rank} - aggregate clonal space by \strong{rank bins}.
-Receptors are ordered by \code{proportion} within each repertoire; each receptor
-is assigned to the smallest threshold in \code{bins} that contains its rank.
+\strong{2) Rank-bin statistics (\code{airr_clonality_rank}).} Summarise how much of a repertoire is
+occupied by receptors in different rank ranges. Receptors are ordered by
+proportion and grouped using rank thresholds such as the top 10, top 100, or
+top 1,000 receptors. Use it to compare whether expansion is concentrated in
+the highest-ranked receptors across repertoires.
 
-\code{airr_clonality_prop} - aggregate clonal space by \strong{proportion bins}.
-Each receptor is assigned to a named bin according to its \code{proportion}
-(e.g., \code{Hyperexpanded >= 1e-2}, \code{Large >= 1e-3}, ...). Thresholds are matched in
-descending order; unmatched receptors fall into \code{"Ultra-rare"}.
+\strong{3) Proportion-bin statistics (\code{airr_clonality_prop}).} Summarise how much of a repertoire is
+occupied by receptors at different abundance levels. It assigns each receptor
+to a proportion-based group, such as \code{"Hyperexpanded"}, \code{"Large"}, or
+\code{"Ultra-rare"}. Each bin contains receptors with the proportion in the specified limits --
+just like in a histogram. Use it to compare the balance of expanded and rare receptors
+across repertoires.
 }
-\section{Visualising clonality statistics}{
+\section{Visualisation}{
 
 All three \verb{airr_clonality_*()} results can be passed directly to \code{\link[=vis]{vis()}}.
 With \code{autojoin = TRUE} (the default), repertoire metadata is included in the
 result and can be selected by the plotting arguments.
+\subsection{1) Rank-abundance lines (\code{airr_clonality_line})}{
 
-\strong{Rank-abundance lines.} \code{vis()} plots receptor rank (\code{index}) against
+\code{vis()} plots receptor rank (\code{index}) against
 \code{imd_proportion} on a logarithmic y-axis by default. The line plot accepts:
 \itemize{
 \item \code{yval} selects either \code{"imd_proportion"} (the depth-normalised default) or
@@ -122,19 +131,26 @@ grouped by repertoire when a metadata column is selected.
 two columns; \code{dir = "h"} or \code{dir = "v"} controls the wrapping direction.
 \item \code{title} replaces the default plot title.
 }
+}
 
-\strong{Rank-bin statistics.} \code{vis()} produces a stacked column plot of
+\subsection{2) Rank-bin statistics (\code{airr_clonality_rank})}{
+
+\code{vis()} produces a stacked column plot of
 \code{occupied_prop} per repertoire, filled by \code{clonal_rank_bin}. Receptors beyond
 the largest requested rank have a missing bin and are not drawn, so the total
 bar height shows the repertoire space occupied by the displayed ranks.
+}
 
-\strong{Proportion-bin statistics.} \code{vis()} produces a stacked column plot of
+\subsection{3) Proportion-bin statistics (\code{airr_clonality_prop})}{
+
+\code{vis()} produces a stacked column plot of
 \code{occupied_prop} per repertoire, filled by \code{clonal_prop_bin}. The
 \code{"Ultra-rare"} bin is included, so each complete repertoire normally sums to
 100\%.
 
 Both stacked plots accept \code{xval}, \code{yval}, and \code{fill} to remap columns, plus
-\code{facet}, \code{dir}, and \code{title} for layout and labelling.
+\code{facet}, \code{dir}, and \code{title} for layout and labeling.
+}
 }
 
 \examples{
@@ -142,39 +158,32 @@ Both stacked plots accept \code{xval}, \code{yval}, and \code{fill} to remap col
 # Generally, you should NOT do this in your session.
 db_exec("SET threads TO 1")
 
-# Load data
-\dontrun{
+# Load example data.
 immdata <- get_test_idata()
-}
 
 #
-# airr_clonality_line
-#
-\dontrun{
+# Analyse receptor abundance by rank.
 top_line <- airr_clonality_line(immdata, limit = 1000)
 
-# Depth-normalised rank-abundance is the default visualisation.
+# Visualise the depth-normalised rank-abundance curve.
 vis(top_line)
 
-# Raw observed counts are available when sequencing depth is relevant.
+# Or visualise raw receptor counts.
 vis(top_line, yval = "imd_count")
-}
 
 #
-# airr_clonality_rank
-#
-\dontrun{
+# Analyse the repertoire space occupied by different rank ranges.
 rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
+
+# Visualise the rank-bin summary.
 vis(rank_stat)
-}
 
 #
-# airr_clonality_prop
-#
-\dontrun{
+# Analyse the repertoire space occupied by abundance groups.
 prop_stat <- airr_clonality_prop(immdata)
+
+# Visualise the abundance-group summary.
 vis(prop_stat)
-}
 
 }
 \seealso{
