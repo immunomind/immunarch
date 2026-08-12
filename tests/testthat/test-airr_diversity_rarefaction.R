@@ -1,3 +1,42 @@
+make_rarefaction_idata <- function(counts, repertoire_id = "R1") {
+  receptor_col <- immundata::imd_schema("receptor")
+  repertoire_col <- immundata::imd_schema("repertoire")
+  count_col <- immundata::imd_schema("count")
+  proportion_col <- immundata::imd_schema("proportion")
+  receptor_ids <- paste0("receptor_", seq_along(counts))
+
+  annotations <- tibble::tibble(
+    !!receptor_col := receptor_ids,
+    !!repertoire_col := repertoire_id,
+    !!count_col := counts,
+    !!proportion_col := counts / sum(counts),
+    cdr3_aa = receptor_ids
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  repertoires <- tibble::tibble(
+    !!repertoire_col := repertoire_id,
+    Group = repertoire_id
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+
+  immundata::ImmunData$new(
+    schema = "cdr3_aa",
+    annotations = annotations,
+    repertoires = repertoires
+  )
+}
+
+
+run_v1_rarefaction <- function(counts, ...) {
+  airr_diversity_rarefaction(
+    make_rarefaction_idata(counts),
+    ...,
+    verbose = FALSE,
+    autojoin = FALSE
+  )
+}
+
+
 test_that("airr_diversity_rarefaction returns normalized interpolation curves", {
 
   idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
@@ -7,6 +46,7 @@ test_that("airr_diversity_rarefaction returns normalized interpolation curves", 
     idata,
     step = 100,
     extrapolation = 0,
+    nboot = 0,
     norm = TRUE,
     verbose = FALSE,
     autojoin = FALSE
@@ -36,16 +76,20 @@ test_that("airr_diversity_rarefaction supports extrapolation and vis()", {
     max()
 
   step <- max(1, floor(max_n / 10))
+  set.seed(2026)
   res <- airr_diversity_rarefaction(
     idata,
     step = step,
     extrapolation = max_n + step,
+    nboot = 2,
     norm = FALSE,
     verbose = FALSE,
     autojoin = FALSE
   )
 
   expect_true(any(res$type == "extrapolation"))
+  expect_true(all(is.finite(res$q_low)))
+  expect_true(all(is.finite(res$q_high)))
 
   p <- vis(res)
   expect_s3_class(p, "ggplot")
@@ -81,6 +125,7 @@ test_that("Chao1 and rarefaction are consistent at interpolation/extrapolation b
     idata,
     step = step,
     extrapolation = max_n + 5 * step,
+    nboot = 0,
     norm = FALSE,
     verbose = FALSE,
     autojoin = FALSE
@@ -110,4 +155,192 @@ test_that("Chao1 and rarefaction are consistent at interpolation/extrapolation b
     expect_true(all(ex_cmp$mean >= ex_cmp$s_obs - 1e-8))
     expect_true(all(ex_cmp$mean <= ex_cmp$Estimator + 1e-8))
   }
+})
+
+
+test_that("rarefaction interpolation matches exact hypergeometric oracles", {
+
+  adversarial <- run_v1_rarefaction(
+    c(9, 1),
+    step = 1,
+    quantile = c(.025, .975),
+    extrapolation = 0,
+    nboot = 0,
+    norm = FALSE
+  )
+  expect_equal(adversarial$mean[adversarial$size == 1], 1)
+  expect_equal(adversarial$mean, c(1, seq(1.2, 2, by = .1)), tolerance = 1e-12)
+
+  counts <- c(4, 3, 2, 1)
+  expected <- c(
+    1, 1.77777777777778, 2.375, 2.82857142857143, 3.17063492063492,
+    3.42857142857143, 3.625, 3.77777777777778, 3.9, 4
+  )
+  curve <- run_v1_rarefaction(
+    counts,
+    step = 1,
+    quantile = c(.025, .975),
+    extrapolation = 0,
+    nboot = 0,
+    norm = FALSE
+  )
+  expect_equal(curve$mean, expected, tolerance = 1e-12)
+  expect_equal(curve$mean[1], 1)
+  expect_equal(tail(curve$mean, 1), length(counts))
+  expect_true(all(diff(curve$mean) >= 0))
+  expect_true(all(curve$mean <= pmin(curve$size, length(counts))))
+
+  singleton_curve <- run_v1_rarefaction(
+    rep(1, 4),
+    step = 1,
+    quantile = c(.025, .975),
+    extrapolation = 0,
+    nboot = 0,
+    norm = FALSE
+  )
+  expect_equal(singleton_curve$mean, 1:4)
+})
+
+
+test_that("rarefaction interpolation matches vegan", {
+
+  skip_if_not_installed("vegan")
+  counts <- c(9, 4, 3, 2, 1, 1)
+  sizes <- seq_len(sum(counts))
+  curve <- run_v1_rarefaction(
+    counts,
+    step = 1,
+    quantile = c(.025, .975),
+    extrapolation = 0,
+    nboot = 0,
+    norm = FALSE
+  )
+
+  vegan_estimate <- as.numeric(vegan::rarefy(counts, sample = sizes))
+  expect_equal(curve$mean, vegan_estimate, tolerance = 1e-12)
+})
+
+
+test_that("rarefaction uses finite-sample Chao extrapolation to twice N", {
+
+  counts <- c(3, 2, 1, 1)
+  n <- sum(counts)
+  f0_hat <- (n - 1) / n * 2^2 / (2 * 1)
+  A <- n * f0_hat / (n * f0_hat + 2)
+  expected_at_2n <- length(counts) + f0_hat * (1 - A^n)
+
+  curve <- run_v1_rarefaction(
+    counts,
+    step = 2,
+    quantile = c(.025, .975),
+    nboot = 0,
+    norm = FALSE
+  )
+
+  expect_equal(max(curve$size), 2 * n)
+  expect_equal(curve$mean[curve$size == 2 * n], expected_at_2n, tolerance = 1e-12)
+  expect_equal(curve$type[curve$size == n], "interpolation")
+  expect_true(all(diff(curve$mean) >= 0))
+})
+
+
+test_that("bootstrap bounds honor both requested probabilities", {
+
+  counts <- c(4, 3, 2, 1, 1, 1)
+  set.seed(1201)
+  central <- run_v1_rarefaction(
+    counts,
+    step = 2,
+    quantile = c(.025, .975),
+    nboot = 100,
+    norm = FALSE
+  )
+  set.seed(1201)
+  changed_lower <- run_v1_rarefaction(
+    counts,
+    step = 2,
+    quantile = c(.1, .975),
+    nboot = 100,
+    norm = FALSE
+  )
+
+  expect_equal(central$q_high, changed_lower$q_high)
+  expect_true(any(abs(central$q_low - changed_lower$q_low) > 1e-8))
+  expect_true(all(central$q_low <= central$q_high))
+  expect_true(all(central$q_low >= 1))
+  expect_true(all(central$q_high <= central$size))
+  expect_true(any(
+    central$q_low[central$type == "extrapolation"] <
+      central$q_high[central$type == "extrapolation"]
+  ))
+
+  without_ci <- run_v1_rarefaction(
+    counts,
+    step = 2,
+    quantile = c(.025, .975),
+    extrapolation = 0,
+    nboot = 0,
+    norm = FALSE
+  )
+  expect_true(all(is.na(without_ci$q_low)))
+  expect_true(all(is.na(without_ci$q_high)))
+})
+
+
+test_that("v1 bootstrap handles a large estimated unseen-species pool", {
+
+  counts <- rep(1, 1000)
+  set.seed(42)
+  curve <- run_v1_rarefaction(
+    counts,
+    step = 1000,
+    quantile = c(.025, .975),
+    extrapolation = 0,
+    nboot = 2,
+    norm = FALSE
+  )
+
+  expect_equal(curve$size, c(1, 1000))
+  expect_true(all(is.finite(curve$q_low)))
+  expect_true(all(is.finite(curve$q_high)))
+})
+
+
+test_that("rarefaction validates scientific count and CI inputs", {
+
+  expect_error(
+    run_v1_rarefaction(
+      c(2.5, 1), step = 1, quantile = c(.025, .975),
+      extrapolation = 0, nboot = 0, norm = FALSE
+    ),
+    "integer clonotype counts"
+  )
+  expect_error(
+    run_v1_rarefaction(
+      c(2, 0), step = 1, quantile = c(.025, .975),
+      extrapolation = 0, nboot = 0, norm = FALSE
+    ),
+    "finite, positive"
+  )
+  expect_error(
+    run_v1_rarefaction(
+      c(2, 1), step = 1, quantile = c(0, .975),
+      extrapolation = 0, nboot = 0, norm = FALSE
+    ),
+    "strictly between"
+  )
+  expect_error(
+    run_v1_rarefaction(
+      c(2, 1), step = 1, quantile = c(.025, .975),
+      extrapolation = 0, nboot = 1, norm = FALSE
+    ),
+    "0 or an integer"
+  )
+  expect_error(
+    run_v1_rarefaction(
+      c(.Machine$integer.max, 1), step = 1, quantile = c(.025, .975),
+      extrapolation = 0, nboot = 2, norm = FALSE
+    ),
+    "Bootstrap rarefaction supports"
+  )
 })

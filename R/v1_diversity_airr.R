@@ -3,11 +3,14 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' A family of functions to quantify **receptor diversity** per repertoire. A characteristic of a whole repertoire.
+#' A family of functions to quantify **receptor diversity** in each repertoire.
+#' Diversity describes how many different receptors are present and how evenly
+#' their abundances are distributed. These methods help you compare repertoire
+#' structure, detect clonal expansion, and assess sampling depth.
 #'
 #' ## Available functions
 #'
-#' Supported methods are the following.
+#' The following methods are available.
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams airr_diversity_dxx
@@ -21,14 +24,53 @@
 #'
 #' @seealso [immundata::ImmunData]
 #'
+#' @section Visualisation:
+#' Most `airr_diversity_*()` results can be passed directly to [vis()]. With
+#' `autojoin = TRUE` (the default), repertoire metadata is included in the
+#' result and can be selected by the plotting arguments.
+#'
+#' ## 1) Coverage diversity (`airr_diversity_dxx`)
+#'
+#' `vis()` plots `dxx` for each repertoire. When several `perc` values are
+#' present, use `fill = "perc"` to show a separate column for each coverage
+#' threshold.
+#'
+#' ## 2) Chao1 richness (`airr_diversity_chao1`)
+#'
+#' `vis()` produces a column plot of the estimated richness (`Estimator`) for
+#' each repertoire.
+#'
+#' ## 3) Rarefaction and extrapolation (`airr_diversity_rarefaction`)
+#'
+#' `vis()` plots estimated richness (`mean`) against sample size (`size`). Use
+#' `color` to group curves, `show_ci = FALSE` to hide confidence intervals, and
+#' `log = TRUE` to use a logarithmic x-axis.
+#'
+#' ## 4) Shannon entropy (`airr_diversity_shannon`)
+#'
+#' `vis()` produces a column plot of `shannon` for each repertoire.
+#'
+#' ## 5) Pielou evenness (`airr_diversity_pielou`)
+#'
+#' `vis()` produces a column plot of `pielou` for each repertoire.
+#'
+#' ## 6) Diversity index (`airr_diversity_index`)
+#'
+#' `vis()` produces a column plot of `hill_number` at `q = 1` for each
+#' repertoire.
+#'
+#' ## 7) Hill numbers (`airr_diversity_hill`)
+#'
+#' This result does not currently have a dedicated `vis()` method. Use the
+#' returned `q` and `hill_number` columns to create a diversity profile.
+#'
 #' @examples
-#' # Limit the number of threads used by the underlying DB for this session.
-#' # Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+#' # Limit the number of threads used by the underlying DB for this example.
+#' # Generally, you should NOT do this in your session.
 #' db_exec("SET threads TO 1")
-#' # Load data
-#' \dontrun{
-#' immdata <- get_test_idata() |> agg_repertoires("Therapy")
-#' }
+#'
+#' # Load example data.
+#' immdata <- get_test_idata()
 #'
 #' @name airr_diversity
 #' @concept Diversity
@@ -70,14 +112,18 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
     ) |>
     duckplyr::as_duckdb_tibble()
 
-  res <- purrr::map_dfr(perc, function(p) {
-    ranked |>
-      dplyr::filter(.data$cum >= p / 100) |>
-      dplyr::group_by(!!rep_sym) |>
-      dplyr::summarise(dxx = min(.data$k), .groups = "drop") |>
-      dplyr::mutate(perc = p)
-  }) |>
-    dplyr::select(!!rep_sym, .data$perc, .data$dxx) |>
+  thresholds <- tibble::tibble(
+    perc = perc,
+    perc_id = seq_along(perc)
+  ) |>
+    duckplyr::as_duckdb_tibble()
+
+  res <- ranked |>
+    dplyr::cross_join(thresholds) |>
+    dplyr::filter(.data$cum >= .data$perc / 100) |>
+    dplyr::group_by(!!rep_sym, .data$perc, .data$perc_id) |>
+    dplyr::summarise(dxx = min(.data$k), .groups = "drop") |>
+    dplyr::select(dplyr::all_of(c(rep_str, "perc", "dxx"))) |>
     dplyr::arrange(!!rep_sym, .data$perc) |>
     collect()
 
@@ -85,17 +131,19 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 }
 
 
-#' @description `airr_diversity_dxx` - **coverage diversity**: minimal number of
-#' top receptors needed to reach `perc%` of clonal space (by `proportion`).
-#' Great for spotting dominance/overexpansion and for quick, interpretable dashboards
-#' (e.g., D50 = receptors to cover half of the repertoire).
+#' @description
+#' **1) Coverage diversity (`airr_diversity_dxx`).** Calculate the minimum
+#' number of the most abundant receptors needed to cover `perc%` of a
+#' repertoire. For example, D50 is the number of receptors that cover half of
+#' the repertoire. Use it to identify repertoires dominated by expanded
+#' receptors.
 #'
 #' @param perc A number or numeric vector in `(0, 100]` (default `50`), e.g.
 #'   `50` for D50, `20` for D20.
 #'
 #' @return
 #'
-#' ## `airr_diversity_dxx`
+#' ## 1) Coverage diversity (`airr_diversity_dxx`)
 #' A tibble with:
 #' * `imd_repertoire_id`
 #' * `perc`
@@ -104,12 +152,12 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 #'
 #' @examples
 #' #
-#' # airr_diversity_dxx
-#' #
-#' \dontrun{
+#' # Calculate D50 and several coverage thresholds.
 #' d50 <- airr_diversity_dxx(immdata, perc = 50)
 #' d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
-#' }
+#'
+#' # Visualise the coverage diversity.
+#' vis(d_multi)
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -143,16 +191,18 @@ airr_diversity_chao1_impl <- function(idata) {
     collect()
 }
 
-#' @description `airr_diversity_chao1` - Chao1 estimator is a nonparameteric
-#'  asymptotic estimator of species richness (number of species in a population).
-#'  One of the most used methods for estimating immune repertoire diversity.
+#' @description
+#' **2) Chao1 richness (`airr_diversity_chao1`).** Estimate the total number of
+#' receptors, including receptors that may be missing because of limited
+#' sampling. Use this non-parametric estimator when rare receptors suggest that
+#' the observed repertoire is incomplete.
 #'
 #' @return
 #'
-#' ## `airr_diversity_chao1`
+#' ## 2) Chao1 richness (`airr_diversity_chao1`)
 #' A tibble with:
 #' * `imd_repertoire_id`
-#' * `Estimator` - number of species
+#' * `Estimator` - estimated receptor richness
 #' * `SD` - standard deviation for the estimator value
 #' * `Conf.95.lo` - CI 0.025
 #' * `Conf.95.hi` - CI 0.975
@@ -160,11 +210,11 @@ airr_diversity_chao1_impl <- function(idata) {
 #'
 #' @examples
 #' #
-#' # airr_diversity_chao1
-#' #
-#' \dontrun{
+#' # Estimate receptor richness.
 #' chao <- airr_diversity_chao1(immdata)
-#' }
+#'
+#' # Visualise the richness estimates.
+#' vis(chao)
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -173,94 +223,160 @@ airr_diversity_chao1 <- register_immunarch_method(airr_diversity_chao1_impl, "ai
 
 
 #' @keywords internal
-airr_diversity_rarefaction_collect_rep_counts <- function(idata) {
-  rep_sym <- immundata::imd_schema_sym("repertoire")
-  rec_sym <- immundata::imd_schema_sym("receptor")
-  cnt_sym <- immundata::imd_schema_sym("count")
-
-  idata$annotations |>
-    dplyr::select(!!rep_sym, !!rec_sym, !!cnt_sym) |>
-    dplyr::distinct(!!rec_sym, !!rep_sym, .keep_all = TRUE) |>
-    dplyr::select(!!rep_sym, !!cnt_sym) |>
-    dplyr::collect()
-}
-
-
-#' @keywords internal
-airr_diversity_rarefaction_chao1_stats <- function(counts_vec) {
-  counts_vec <- as.numeric(counts_vec)
-  counts_vec <- counts_vec[is.finite(counts_vec) & counts_vec >= 0]
-
-  if (length(counts_vec) == 0 || sum(counts_vec) <= 0) {
-    return(c(Estimator = 0, SD = 0, `Conf.95.lo` = 0, `Conf.95.hi` = 0))
-  }
-
-  counts <- table(counts_vec)
-  n <- sum(counts_vec)
-  D <- length(counts_vec)
-  f1 <- counts["1"]
-  f2 <- counts["2"]
-
-  if (is.na(f1) && is.na(f2)) {
-    e <- D
-    i <- unique(counts_vec)
-    v <- sum(sapply(i, function(j) sum(counts_vec == j) * (exp(-j) - exp(-2 * j)))) -
-      (sum(sapply(i, function(j) j * exp(-j) * sum(counts_vec == j))))^2 / n
-    P <- sum(sapply(i, function(j) sum(counts_vec == j) * exp(-j) / D))
-    lo <- max(D, D / (1 - P) - stats::qnorm(1 - .05 / 2) * sqrt(v) / (1 - P))
-    hi <- D / (1 - P) + stats::qnorm(1 - .05 / 2) * sqrt(v) / (1 - P)
-  } else if (is.na(f2)) {
-    e <- D + f1 * (f1 - 1) / 2 * (n - 1) / n
-    v <- (n - 1) / n * f1 * (f1 - 1) / 2 +
-      ((n - 1) / n)^2 * f1 * (2 * f1 - 1)^2 / 4 -
-      ((n - 1) / n)^2 * f1^4 / 4 / e
-    t_val <- e - D
-    K <- exp(stats::qnorm(1 - .05 / 2) * sqrt(log(1 + v / t_val^2)))
-    lo <- D + t_val / K
-    hi <- D + t_val * K
-  } else {
-    const <- (n - 1) / n
-    e <- D + f1^2 / (2 * f2) * const
-    f12 <- f1 / f2
-    v <- f2 * (const * f12^2 / 2 + const^2 * f12^3 + const^2 * f12^4 / 4)
-    t_val <- e - D
-    K <- exp(stats::qnorm(1 - .05 / 2) * sqrt(log(1 + v / t_val^2)))
-    lo <- D + t_val / K
-    hi <- D + t_val * K
-  }
-
-  c(
-    Estimator = as.numeric(e),
-    SD = as.numeric(sqrt(v)),
-    `Conf.95.lo` = as.numeric(lo),
-    `Conf.95.hi` = as.numeric(hi)
-  )
-}
-
-
-#' @keywords internal
 airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025, .975),
-                                            extrapolation = NA, norm = TRUE, verbose = TRUE) {
+                                            extrapolation = NA, nboot = 50,
+                                            norm = TRUE, verbose = TRUE) {
+  estimate_unseen_richness <- function(counts) {
+    n <- sum(counts)
+    singleton_count <- sum(counts == 1)
+    doubleton_count <- sum(counts == 2)
+
+    if (doubleton_count > 0) {
+      (n - 1) / n * singleton_count^2 / (2 * doubleton_count)
+    } else {
+      (n - 1) / n * singleton_count * (singleton_count - 1) / 2
+    }
+  }
+
+  estimate_richness <- function(counts, sizes) {
+    n <- sum(counts)
+    observed_richness <- length(counts)
+    unseen_richness <- estimate_unseen_richness(counts)
+    singleton_count <- sum(counts == 1)
+
+    count_frequency <- table(counts)
+    frequencies <- as.numeric(names(count_frequency))
+    frequency_multiplicity <- as.numeric(count_frequency)
+
+    vapply(sizes, function(size) {
+      if (size < n) {
+        log_p_absent <- lchoose(n - frequencies, size) - lchoose(n, size)
+        p_present <- pmin(pmax(-expm1(log_p_absent), 0), 1)
+        estimate <- sum(p_present * frequency_multiplicity)
+        return(min(max(estimate, 1), size, observed_richness))
+      }
+
+      if (size == n || unseen_richness <= 0 || singleton_count == 0) {
+        return(as.numeric(observed_richness))
+      }
+
+      additional_size <- size - n
+      chao_a <- n * unseen_richness / (n * unseen_richness + singleton_count)
+      estimate <- observed_richness +
+        unseen_richness * (-expm1(additional_size * log(chao_a)))
+      min(max(estimate, observed_richness), size, observed_richness + unseen_richness)
+    }, numeric(1))
+  }
+
+  make_bootstrap_sampler <- function(counts) {
+    n <- sum(counts)
+    singleton_count <- sum(counts == 1)
+    unseen_richness <- estimate_unseen_richness(counts)
+
+    if (unseen_richness <= 0 || singleton_count == 0) {
+      observed_probabilities <- counts / n
+      unseen_mass <- 0
+      unseen_species <- 0
+    } else {
+      chao_a <- n * unseen_richness / (n * unseen_richness + singleton_count)
+      unseen_mass <- singleton_count / n * chao_a
+      empirical_probabilities <- counts / n
+      non_detection <- exp(n * log1p(-empirical_probabilities))
+      adjustment <- unseen_mass / sum(empirical_probabilities * non_detection)
+      observed_probabilities <- empirical_probabilities *
+        (1 - adjustment * non_detection)
+      observed_probabilities <- pmax(observed_probabilities, 0)
+
+      probability_total <- sum(observed_probabilities) + unseen_mass
+      observed_probabilities <- observed_probabilities / probability_total
+      unseen_mass <- unseen_mass / probability_total
+      unseen_species <- ceiling(unseen_richness)
+    }
+
+    function() {
+      unseen_draws <- if (unseen_mass > 0) {
+        stats::rbinom(1, size = n, prob = unseen_mass)
+      } else {
+        0
+      }
+      observed_draws <- n - unseen_draws
+
+      observed_counts <- numeric(0)
+      if (observed_draws > 0) {
+        probability_sum <- sum(observed_probabilities)
+        if (probability_sum > 0) {
+          observed_counts <- stats::rmultinom(
+            1,
+            size = observed_draws,
+            prob = observed_probabilities / probability_sum
+          )[, 1]
+          observed_counts <- observed_counts[observed_counts > 0]
+        }
+      }
+
+      unseen_counts <- numeric(0)
+      if (unseen_draws > 0) {
+        unseen_ids <- sample.int(unseen_species, unseen_draws, replace = TRUE)
+        unseen_counts <- as.numeric(table(unseen_ids))
+      }
+
+      c(observed_counts, unseen_counts)
+    }
+  }
+
   checkmate::assert_logical(norm, len = 1)
   checkmate::assert_logical(verbose, len = 1)
-  checkmate::assert_numeric(quantile, len = 2, any.missing = FALSE, lower = 0, upper = 1)
+  checkmate::assert_numeric(quantile, len = 2, any.missing = FALSE, finite = TRUE)
+  quantile <- sort(as.numeric(quantile))
+  if (quantile[1] <= 0 || quantile[2] >= 1) {
+    cli::cli_abort("{.arg quantile} values must lie strictly between 0 and 1.")
+  }
+  if (quantile[1] == quantile[2]) {
+    cli::cli_abort("{.arg quantile} values must be different.")
+  }
+
+  checkmate::assert_number(
+    nboot,
+    lower = 0,
+    upper = .Machine$integer.max,
+    finite = TRUE
+  )
+  if (nboot != round(nboot) || nboot == 1) {
+    cli::cli_abort("{.arg nboot} must be 0 or an integer greater than or equal to 2.")
+  }
+  nboot <- as.integer(nboot)
 
   if (!is.na(step)) {
     checkmate::assert_number(step, lower = 1, finite = TRUE)
+    if (step != round(step)) {
+      cli::cli_abort("{.arg step} must be an integer.")
+    }
+    step <- as.numeric(round(step))
   }
 
   if (!is.na(extrapolation)) {
     checkmate::assert_number(extrapolation, lower = 0, finite = TRUE)
-  }
-
-  quantile <- sort(quantile)
-  if (quantile[1] == quantile[2]) {
-    cli::cli_abort("{.code quantile} values must be different.")
+    if (extrapolation != round(extrapolation)) {
+      cli::cli_abort("{.arg extrapolation} must be an integer.")
+    }
+    extrapolation <- as.numeric(round(extrapolation))
   }
 
   rep_col <- immundata::imd_schema("repertoire")
   cnt_col <- immundata::imd_schema("count")
-  counts_tbl <- airr_diversity_rarefaction_collect_rep_counts(idata)
+  rep_sym <- immundata::imd_schema_sym("repertoire")
+  rec_sym <- immundata::imd_schema_sym("receptor")
+  cnt_sym <- immundata::imd_schema_sym("count")
+
+  counts_tbl <- idata$annotations |>
+    dplyr::select(!!rep_sym, !!rec_sym, !!cnt_sym) |>
+    dplyr::distinct(!!rec_sym, !!rep_sym, .keep_all = TRUE) |>
+    dplyr::select(!!rep_sym, !!cnt_sym)
+
+  # Keep projection and deduplication lazy. The numerical estimator requires
+  # abundance vectors, so only the two required columns cross the RAM boundary.
+  counts_tbl <- counts_tbl |>
+    dplyr::collect()
 
   if (!nrow(counts_tbl)) {
     out <- tibble::tibble(
@@ -271,131 +387,125 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
       type = character(0)
     )
     out[[rep_col]] <- numeric(0)
-    out <- out |>
-      dplyr::select(all_of(c(rep_col, "size", "q_low", "mean", "q_high", "type")))
-    return(out)
+    return(out |>
+      dplyr::select(all_of(c(rep_col, "size", "q_low", "mean", "q_high", "type"))))
   }
 
   counts_split <- counts_tbl |>
     dplyr::summarise(counts = list(.data[[cnt_col]]), .by = all_of(rep_col))
 
-  total_counts <- vapply(counts_split$counts, function(x) sum(as.numeric(x), na.rm = TRUE), numeric(1))
+  counts_split$counts <- lapply(seq_len(nrow(counts_split)), function(i) {
+    repertoire_id <- counts_split[[rep_col]][i]
+    counts <- as.numeric(counts_split$counts[[i]])
 
+    if (!length(counts) || anyNA(counts) ||
+      any(!is.finite(counts)) || any(counts <= 0)) {
+      cli::cli_abort(
+        "Counts for repertoire {.value {repertoire_id}} must be finite, positive clonotype counts."
+      )
+    }
+    if (any(abs(counts - round(counts)) > sqrt(.Machine$double.eps))) {
+      cli::cli_abort(
+        "Counts for repertoire {.value {repertoire_id}} must be integer clonotype counts."
+      )
+    }
+
+    counts <- as.numeric(round(counts))
+    if (!is.finite(sum(counts))) {
+      cli::cli_abort(
+        "The total clone count for repertoire {.value {repertoire_id}} must be finite."
+      )
+    }
+    counts
+  })
+
+  total_counts <- vapply(counts_split$counts, sum, numeric(1))
   if (is.na(step)) {
-    min_total <- min(total_counts[total_counts > 0], na.rm = TRUE)
-    step <- if (is.finite(min_total)) floor(min_total / 50) else 1
+    step <- max(1, floor(min(total_counts) / 50))
   }
-  step <- max(1L, as.integer(step))
-
-  if (is.na(extrapolation)) {
-    extrapolation <- max(total_counts, na.rm = TRUE) * 20
-  }
-  extrapolation <- as.numeric(extrapolation)
 
   if (isTRUE(verbose)) {
-    cli::cli_alert_info("Computing rarefaction in RAM for {nrow(counts_split)} repertoire(s).")
+    cli::cli_alert_info(
+      "Computing rarefaction with {nboot} bootstrap replicate{?s} for {nrow(counts_split)} repertoire(s)."
+    )
   }
 
   res_list <- lapply(seq_len(nrow(counts_split)), function(i) {
-    rep_id <- counts_split[[rep_col]][i]
-    bc_vec <- as.numeric(counts_split$counts[[i]])
-    bc_vec <- bc_vec[is.finite(bc_vec) & bc_vec > 0]
+    repertoire_id <- counts_split[[rep_col]][i]
+    counts <- counts_split$counts[[i]]
+    n <- sum(counts)
+    observed_richness <- length(counts)
 
-    if (!length(bc_vec)) {
-      return(NULL)
-    }
-
-    Sobs <- length(bc_vec)
-    n <- sum(bc_vec)
-
-    if (n <= 0) {
-      return(NULL)
-    }
-
-    ch_stats <- airr_diversity_rarefaction_chao1_stats(bc_vec)
-    Sest <- unname(ch_stats["Estimator"])
-    if (!is.finite(Sest)) {
-      Sest <- Sobs
-    }
-
-    sizes <- seq(step, n, step)
-    if (!length(sizes) || tail(sizes, 1) != n) {
-      sizes <- c(sizes, n)
-    }
-    sizes <- sort(unique(sizes))
-
-    count_freq <- table(bc_vec)
-    freqs <- as.numeric(names(count_freq))
-    freq_mult <- as.numeric(count_freq)
-    z_value <- stats::qnorm(quantile[2])
-
-    interpolation_df <- do.call(rbind, lapply(sizes, function(sz) {
-      alpha <- (1 - sz / n)^freqs
-      Sind <- sum((1 - alpha) * freq_mult)
-
-      if (Sest == Sobs) {
-        SD <- 0
-      } else {
-        var_est <- sum((1 - alpha)^2 * freq_mult) - Sind^2 / Sest
-        SD <- sqrt(max(var_est, 0))
-      }
-
-      t_val <- Sind - Sobs
-      if (t_val != 0) {
-        K <- exp(z_value * sqrt(log(1 + (SD / t_val)^2)))
-        ci_1 <- Sobs + t_val / K
-        ci_2 <- Sobs + t_val * K
-        low <- min(ci_1, ci_2)
-        high <- max(ci_1, ci_2)
-      } else {
-        low <- Sind
-        high <- Sind
-      }
-
-      tibble::tibble(
-        size = as.numeric(sz),
-        q_low = as.numeric(low),
-        mean = as.numeric(Sind),
-        q_high = as.numeric(high),
-        type = "interpolation"
+    max_bootstrap_size <- .Machine$integer.max
+    if (nboot > 0 && n > max_bootstrap_size) {
+      cli::cli_abort(
+        "Bootstrap rarefaction supports at most {.value {max_bootstrap_size}} total clones; use {.code nboot = 0} for this repertoire."
       )
-    }))
-
-    extrapolation_df <- NULL
-    if (extrapolation > 0) {
-      extrap_sizes <- seq(max(sizes) + step, extrapolation, step)
-      if (length(extrap_sizes)) {
-        f0 <- Sest - Sobs
-        f1 <- unname(count_freq["1"])
-        extrapolation_df <- do.call(rbind, lapply(extrap_sizes, function(sz) {
-          if (is.na(f1) || f0 == 0) {
-            Sind <- Sobs
-          } else {
-            Sind <- Sobs + f0 * (1 - exp(-(sz - n) / n * f1 / f0))
-          }
-          tibble::tibble(
-            size = as.numeric(sz),
-            q_low = as.numeric(Sind),
-            mean = as.numeric(Sind),
-            q_high = as.numeric(Sind),
-            type = "extrapolation"
-          )
-        }))
-      }
     }
 
-    out <- dplyr::bind_rows(interpolation_df, extrapolation_df)
+    interpolation_sizes <- 1
+    if (step <= n) {
+      interpolation_sizes <- c(interpolation_sizes, seq(step, n, by = step))
+    }
+    interpolation_sizes <- sort(unique(c(interpolation_sizes, n)))
+
+    extrapolation_limit <- if (is.na(extrapolation)) 2 * n else extrapolation
+    extrapolation_sizes <- numeric(0)
+    if (extrapolation_limit > n) {
+      if (n + step <= extrapolation_limit) {
+        extrapolation_sizes <- seq(n + step, extrapolation_limit, by = step)
+      }
+      extrapolation_sizes <- sort(unique(c(
+        extrapolation_sizes,
+        extrapolation_limit
+      )))
+    }
+
+    sizes <- c(interpolation_sizes, extrapolation_sizes)
+    type <- c(
+      rep("interpolation", length(interpolation_sizes)),
+      rep("extrapolation", length(extrapolation_sizes))
+    )
+    estimate <- estimate_richness(counts, sizes)
+
+    q_low <- rep(NA_real_, length(sizes))
+    q_high <- rep(NA_real_, length(sizes))
+    if (nboot > 0) {
+      draw_bootstrap_counts <- make_bootstrap_sampler(counts)
+      bootstrap_estimates <- matrix(
+        vapply(seq_len(nboot), function(bootstrap_index) {
+          estimate_richness(draw_bootstrap_counts(), sizes)
+        }, numeric(length(sizes))),
+        nrow = length(sizes),
+        ncol = nboot
+      )
+      bootstrap_se <- apply(bootstrap_estimates, 1, stats::sd)
+
+      q_low <- estimate + stats::qnorm(quantile[1]) * bootstrap_se
+      q_high <- estimate + stats::qnorm(quantile[2]) * bootstrap_se
+      q_low <- pmin(pmax(q_low, 1), sizes)
+      q_high <- pmin(pmax(q_high, 1), sizes)
+    }
+
+    out <- tibble::tibble(
+      size = as.numeric(sizes),
+      q_low = as.numeric(q_low),
+      mean = as.numeric(estimate),
+      q_high = as.numeric(q_high),
+      type = type
+    )
+
     if (isTRUE(norm)) {
       out <- out |>
         dplyr::mutate(
           size = .data$size / n,
-          q_low = .data$q_low / Sobs,
-          mean = .data$mean / Sobs,
-          q_high = .data$q_high / Sobs
+          q_low = .data$q_low / observed_richness,
+          mean = .data$mean / observed_richness,
+          q_high = .data$q_high / observed_richness
         )
     }
 
-    out[[rep_col]] <- rep_id
+    out[[rep_col]] <- repertoire_id
     out |>
       dplyr::select(all_of(c(rep_col, "size", "q_low", "mean", "q_high", "type")))
   })
@@ -404,26 +514,42 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
     dplyr::arrange(.data[[rep_col]], .data$size, .data$type)
 }
 
-
-#' @description `airr_diversity_rarefaction` - interpolation/extrapolation curves
-#' for receptor richness as a function of sampled clones. Computation is done in
-#' RAM after one DB query that fetches only repertoire id and receptor counts.
+#' @description
+#' **3) Rarefaction and extrapolation (`airr_diversity_rarefaction`).** Estimate
+#' how receptor richness changes with sample size. Use interpolation to compare
+#' repertoires at a common sampling depth and extrapolation to estimate how many
+#' additional receptors may be found with deeper sampling.
+#'
+#' Computation is done in RAM after one database query that fetches only the
+#' repertoire identifier and receptor counts.
+#' Interpolation uses the exact hypergeometric expectation for sampling without
+#' replacement. Extrapolation uses the finite-sample Chao estimator, and
+#' confidence bounds use bootstrap standard errors from an estimated abundance
+#' distribution. Clonotype counts must be positive integers.
 #'
 #' @param step Rarefaction step size. Defaults to `floor(min_total_clones / 50)`,
 #'   lower-bounded by `1`.
-#' @param quantile Numeric vector of length 2 with confidence interval bounds.
+#' @param quantile Numeric vector of length 2 containing confidence probabilities
+#'   strictly between `0` and `1`.
 #' @param extrapolation Upper size limit for extrapolation. Use `0` to disable
-#'   extrapolation. Defaults to `max_total_clones * 20`.
+#'   extrapolation. Defaults to twice each repertoire's observed clone count.
+#' @param nboot Number of bootstrap replicates used to estimate confidence
+#'   bounds. Defaults to `50`; use `0` to return `NA` confidence bounds.
 #' @param norm Logical; if `TRUE`, size is divided by total repertoire size and
 #'   richness estimates are divided by observed richness.
 #' @param verbose Logical; show a concise progress message.
 #'
+#' @references
+#' Chao, A. et al. (2014). Rarefaction and extrapolation with Hill numbers:
+#' a framework for sampling and estimation in species diversity studies.
+#' *Ecological Monographs*, 84, 45-67. \doi{10.1890/13-0133.1}
+#'
 #' @return
 #'
-#' ## `airr_diversity_rarefaction`
+#' ## 3) Rarefaction and extrapolation (`airr_diversity_rarefaction`)
 #' A tibble with:
 #' * `imd_repertoire_id`
-#' * `size` - sample size (absolute or normalized)
+#' * `size` - sample size (absolute or normalised)
 #' * `q_low` - lower confidence bound
 #' * `mean` - expected richness
 #' * `q_high` - upper confidence bound
@@ -432,12 +558,11 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
 #'
 #' @examples
 #' #
-#' # airr_diversity_rarefaction
-#' #
-#' \dontrun{
-#' raref <- airr_diversity_rarefaction(immdata, step = 2000, extrapolation = 0)
+#' # Calculate a rarefaction curve without extrapolation.
+#' raref <- airr_diversity_rarefaction(immdata, step = 2000)
+#'
+#' # Visualise the rarefaction curve.
 #' vis(raref)
-#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -465,24 +590,25 @@ airr_diversity_shannon_impl <- function(idata) {
 }
 
 
-#' @description `airr_diversity_shannon` - Shannon entropy (base 2) per repertoire
-#' computed from `proportion`. Ideal when you want a single evenness-aware
-#' diversity score; pair with Pielou/Hill for samples with very different richness.
+#' @description
+#' **4) Shannon entropy (`airr_diversity_shannon`).** Calculate Shannon entropy
+#' from receptor proportions in each repertoire. The value increases when a
+#' repertoire contains more receptors or has a more even abundance
+#' distribution. Use it as one summary that reflects both richness and
+#' evenness.
 #'
 #' @return
 #'
-#' ## `airr_diversity_shannon`
+#' ## 4) Shannon entropy (`airr_diversity_shannon`)
 #' A tibble with:
 #' * `imd_repertoire_id`
 #' * `shannon` - entropy in bits
 #'
 #' @examples
 #' #
-#' # airr_diversity_shannon
-#' #
-#' \dontrun{
+#' # Calculate Shannon entropy.
 #' sh <- airr_diversity_shannon(immdata)
-#' }
+#' vis(sh)
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -504,26 +630,26 @@ airr_diversity_pielou_impl <- function(idata) {
 }
 
 
-#' @description `airr_diversity_pielou` - Pielou's evenness `H / log2(S)` with
-#' richness `S`. Best when you need a **size-normalized** evenness score that's
-#' comparable across repertoires with different receptor counts.
+#' @description
+#' **5) Pielou evenness (`airr_diversity_pielou`).** Calculate how evenly
+#' receptor abundance is distributed within each repertoire. The method divides
+#' Shannon entropy by the maximum entropy for the observed richness. Use it to
+#' compare evenness between repertoires with different numbers of receptors.
 #'
 #' @return
 #'
-#' ## `airr_diversity_pielou`
+#' ## 5) Pielou evenness (`airr_diversity_pielou`)
 #' A tibble with:
 #' * `imd_repertoire_id`
 #' * `shannon`
 #' * `n_receptors`
-#' * `pielou` - evenness in `[0, 1]` (NA if `S <= 1`)
+#' * `pielou` - evenness in `[0, 1]` (`NA` if `S <= 1`)
 #'
 #' @examples
 #' #
-#' # airr_diversity_pielou
-#' #
-#' \dontrun{
+#' # Calculate Pielou evenness.
 #' pj <- airr_diversity_pielou(immdata)
-#' }
+#' vis(pj)
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -533,17 +659,19 @@ airr_diversity_pielou <- register_immunarch_method(airr_diversity_pielou_impl, "
 
 #' @keywords internal
 airr_diversity_index_impl <- function(idata) {
-  airr_diversity_hill(idata, q = 1)
+  airr_diversity_hill_impl(idata, q = 1)
 }
 
 
-#' @description `airr_diversity_index` - convenience alias for Hill number with
-#' `q = 1` (`exp(Shannon)` using natural log). A solid **default single metric**
-#' that's relatively robust to rare-count noise and easy to compare across samples.
+#' @description
+#' **6) Diversity index (`airr_diversity_index`).** Calculate the Hill number at
+#' `q = 1`, which is the exponential of Shannon entropy calculated with natural
+#' logarithms. Use it as an effective number of receptors that is easy to
+#' compare between repertoires.
 #'
 #' @return
 #'
-#' ## `airr_diversity_index`
+#' ## 6) Diversity index (`airr_diversity_index`)
 #' A tibble with:
 #' * `imd_repertoire_id`
 #' * `q = 1`
@@ -552,11 +680,9 @@ airr_diversity_index_impl <- function(idata) {
 #'
 #' @examples
 #' #
-#' # airr_diversity_index
-#' #
-#' \dontrun{
+#' # Calculate the default diversity index.
 #' idx <- airr_diversity_index(immdata)
-#' }
+#' vis(idx)
 #'
 #' @rdname airr_diversity
 #' @concept Diversity
@@ -566,7 +692,14 @@ airr_diversity_index <- register_immunarch_method(airr_diversity_index_impl, "ai
 
 #' @keywords internal
 airr_diversity_hill_impl <- function(idata, q = 0:5) {
-  checkmate::check_numeric(q, lower = 0, sorted = TRUE)
+  checkmate::assert_numeric(
+    q,
+    lower = 0,
+    min.len = 1,
+    any.missing = FALSE,
+    finite = TRUE,
+    sorted = TRUE
+  )
 
   receptors <- idata$annotations |>
     select(
@@ -613,23 +746,24 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
     }
   }
 
-  idata$metadata |>
-    left_join(result, by = imd_schema("repertoire")) |>
+  result |>
     collect()
 }
 
 
-#' @description `airr_diversity_hill` - Hill numbers ("true diversity") for
-#' orders `q \eqn{\in}{in} {0, 1, 2, ...}`: `q=0` richness, `q=1` exp(Shannon), `q>1`
-#' emphasizes abundant receptors. Perfect when you want a **diversity profile**
-#' that tunes sensitivity to rare vs. abundant clonotypes.
+#' @description
+#' **7) Hill numbers (`airr_diversity_hill`).** Calculate a diversity profile
+#' for one or more orders `q`. At `q = 0`, the result is receptor richness; at
+#' `q = 1`, it is the exponential of Shannon entropy; higher values of `q` give
+#' more weight to abundant receptors. Use several orders to compare the
+#' influence of rare and abundant receptors.
 #'
 #' @inheritParams im_common_args
 #' @param q A scalar or vector of non-negative orders. Defaults to `0:5`.
 #'
 #' @return
 #'
-#' ## `airr_diversity_hill`
+#' ## 7) Hill numbers (`airr_diversity_hill`)
 #' A tibble with:
 #' * `imd_repertoire_id`
 #' * `q` - Hill order
@@ -638,11 +772,8 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #'
 #' @examples
 #' #
-#' # airr_diversity_hill
-#' #
-#' \dontrun{
+#' # Calculate a diversity profile for three Hill orders.
 #' hill <- airr_diversity_hill(immdata, q = c(0, 1, 2))
-#' }
 #'
 #' @rdname airr_diversity
 #' @concept Diversity

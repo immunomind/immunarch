@@ -14,13 +14,13 @@
 airr_diversity_dxx(
   idata,
   perc = 50,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_diversity_chao1(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
@@ -29,34 +29,35 @@ airr_diversity_rarefaction(
   step = NA,
   quantile = c(0.025, 0.975),
   extrapolation = NA,
+  nboot = 50,
   norm = TRUE,
   verbose = TRUE,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_diversity_shannon(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_diversity_pielou(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_diversity_index(
   idata,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_diversity_hill(
   idata,
   q = 0:5,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }
@@ -76,10 +77,14 @@ with each row corresponding to a specific repertoire / pair of repertoires; usef
 \item{step}{Rarefaction step size. Defaults to \code{floor(min_total_clones / 50)},
 lower-bounded by \code{1}.}
 
-\item{quantile}{Numeric vector of length 2 with confidence interval bounds.}
+\item{quantile}{Numeric vector of length 2 containing confidence probabilities
+strictly between \code{0} and \code{1}.}
 
 \item{extrapolation}{Upper size limit for extrapolation. Use \code{0} to disable
-extrapolation. Defaults to \code{max_total_clones * 20}.}
+extrapolation. Defaults to twice each repertoire's observed clone count.}
+
+\item{nboot}{Number of bootstrap replicates used to estimate confidence
+bounds. Defaults to \code{50}; use \code{0} to return \code{NA} confidence bounds.}
 
 \item{norm}{Logical; if \code{TRUE}, size is divided by total repertoire size and
 richness estimates are divided by observed richness.}
@@ -89,7 +94,7 @@ richness estimates are divided by observed richness.}
 \item{q}{A scalar or vector of non-negative orders. Defaults to \code{0:5}.}
 }
 \value{
-\subsection{\code{airr_diversity_dxx}}{
+\subsection{1) Coverage diversity (\code{airr_diversity_dxx})}{
 
 A tibble with:
 \itemize{
@@ -100,12 +105,12 @@ A tibble with:
 }
 }
 
-\subsection{\code{airr_diversity_chao1}}{
+\subsection{2) Chao1 richness (\code{airr_diversity_chao1})}{
 
 A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
-\item \code{Estimator} - number of species
+\item \code{Estimator} - estimated receptor richness
 \item \code{SD} - standard deviation for the estimator value
 \item \code{Conf.95.lo} - CI 0.025
 \item \code{Conf.95.hi} - CI 0.975
@@ -113,12 +118,12 @@ A tibble with:
 }
 }
 
-\subsection{\code{airr_diversity_rarefaction}}{
+\subsection{3) Rarefaction and extrapolation (\code{airr_diversity_rarefaction})}{
 
 A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
-\item \code{size} - sample size (absolute or normalized)
+\item \code{size} - sample size (absolute or normalised)
 \item \code{q_low} - lower confidence bound
 \item \code{mean} - expected richness
 \item \code{q_high} - upper confidence bound
@@ -127,7 +132,7 @@ A tibble with:
 }
 }
 
-\subsection{\code{airr_diversity_shannon}}{
+\subsection{4) Shannon entropy (\code{airr_diversity_shannon})}{
 
 A tibble with:
 \itemize{
@@ -136,18 +141,18 @@ A tibble with:
 }
 }
 
-\subsection{\code{airr_diversity_pielou}}{
+\subsection{5) Pielou evenness (\code{airr_diversity_pielou})}{
 
 A tibble with:
 \itemize{
 \item \code{imd_repertoire_id}
 \item \code{shannon}
 \item \code{n_receptors}
-\item \code{pielou} - evenness in \verb{[0, 1]} (NA if \code{S <= 1})
+\item \code{pielou} - evenness in \verb{[0, 1]} (\code{NA} if \code{S <= 1})
 }
 }
 
-\subsection{\code{airr_diversity_index}}{
+\subsection{6) Diversity index (\code{airr_diversity_index})}{
 
 A tibble with:
 \itemize{
@@ -158,7 +163,7 @@ A tibble with:
 }
 }
 
-\subsection{\code{airr_diversity_hill}}{
+\subsection{7) Hill numbers (\code{airr_diversity_hill})}{
 
 A tibble with:
 \itemize{
@@ -172,102 +177,162 @@ A tibble with:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions to quantify \strong{receptor diversity} per repertoire. A characteristic of a whole repertoire.
+A family of functions to quantify \strong{receptor diversity} in each repertoire.
+Diversity describes how many different receptors are present and how evenly
+their abundances are distributed. These methods help you compare repertoire
+structure, detect clonal expansion, and assess sampling depth.
 \subsection{Available functions}{
 
-Supported methods are the following.
+The following methods are available.
 }
 
-\code{airr_diversity_dxx} - \strong{coverage diversity}: minimal number of
-top receptors needed to reach \verb{perc\%} of clonal space (by \code{proportion}).
-Great for spotting dominance/overexpansion and for quick, interpretable dashboards
-(e.g., D50 = receptors to cover half of the repertoire).
+\strong{1) Coverage diversity (\code{airr_diversity_dxx}).} Calculate the minimum
+number of the most abundant receptors needed to cover \verb{perc\%} of a
+repertoire. For example, D50 is the number of receptors that cover half of
+the repertoire. Use it to identify repertoires dominated by expanded
+receptors.
 
-\code{airr_diversity_chao1} - Chao1 estimator is a nonparameteric
-asymptotic estimator of species richness (number of species in a population).
-One of the most used methods for estimating immune repertoire diversity.
+\strong{2) Chao1 richness (\code{airr_diversity_chao1}).} Estimate the total number of
+receptors, including receptors that may be missing because of limited
+sampling. Use this non-parametric estimator when rare receptors suggest that
+the observed repertoire is incomplete.
 
-\code{airr_diversity_rarefaction} - interpolation/extrapolation curves
-for receptor richness as a function of sampled clones. Computation is done in
-RAM after one DB query that fetches only repertoire id and receptor counts.
+\strong{3) Rarefaction and extrapolation (\code{airr_diversity_rarefaction}).} Estimate
+how receptor richness changes with sample size. Use interpolation to compare
+repertoires at a common sampling depth and extrapolation to estimate how many
+additional receptors may be found with deeper sampling.
 
-\code{airr_diversity_shannon} - Shannon entropy (base 2) per repertoire
-computed from \code{proportion}. Ideal when you want a single evenness-aware
-diversity score; pair with Pielou/Hill for samples with very different richness.
+Computation is done in RAM after one database query that fetches only the
+repertoire identifier and receptor counts.
+Interpolation uses the exact hypergeometric expectation for sampling without
+replacement. Extrapolation uses the finite-sample Chao estimator, and
+confidence bounds use bootstrap standard errors from an estimated abundance
+distribution. Clonotype counts must be positive integers.
 
-\code{airr_diversity_pielou} - Pielou's evenness \code{H / log2(S)} with
-richness \code{S}. Best when you need a \strong{size-normalized} evenness score that's
-comparable across repertoires with different receptor counts.
+\strong{4) Shannon entropy (\code{airr_diversity_shannon}).} Calculate Shannon entropy
+from receptor proportions in each repertoire. The value increases when a
+repertoire contains more receptors or has a more even abundance
+distribution. Use it as one summary that reflects both richness and
+evenness.
 
-\code{airr_diversity_index} - convenience alias for Hill number with
-\code{q = 1} (\code{exp(Shannon)} using natural log). A solid \strong{default single metric}
-that's relatively robust to rare-count noise and easy to compare across samples.
+\strong{5) Pielou evenness (\code{airr_diversity_pielou}).} Calculate how evenly
+receptor abundance is distributed within each repertoire. The method divides
+Shannon entropy by the maximum entropy for the observed richness. Use it to
+compare evenness between repertoires with different numbers of receptors.
 
-\code{airr_diversity_hill} - Hill numbers ("true diversity") for
-orders \verb{q \eqn{\in}{in} \{0, 1, 2, ...\}}: \code{q=0} richness, \code{q=1} exp(Shannon), \code{q>1}
-emphasizes abundant receptors. Perfect when you want a \strong{diversity profile}
-that tunes sensitivity to rare vs. abundant clonotypes.
+\strong{6) Diversity index (\code{airr_diversity_index}).} Calculate the Hill number at
+\code{q = 1}, which is the exponential of Shannon entropy calculated with natural
+logarithms. Use it as an effective number of receptors that is easy to
+compare between repertoires.
+
+\strong{7) Hill numbers (\code{airr_diversity_hill}).} Calculate a diversity profile
+for one or more orders \code{q}. At \code{q = 0}, the result is receptor richness; at
+\code{q = 1}, it is the exponential of Shannon entropy; higher values of \code{q} give
+more weight to abundant receptors. Use several orders to compare the
+influence of rare and abundant receptors.
 }
+\section{Visualisation}{
+
+Most \verb{airr_diversity_*()} results can be passed directly to \code{\link[=vis]{vis()}}. With
+\code{autojoin = TRUE} (the default), repertoire metadata is included in the
+result and can be selected by the plotting arguments.
+\subsection{1) Coverage diversity (\code{airr_diversity_dxx})}{
+
+\code{vis()} plots \code{dxx} for each repertoire. When several \code{perc} values are
+present, use \code{fill = "perc"} to show a separate column for each coverage
+threshold.
+}
+
+\subsection{2) Chao1 richness (\code{airr_diversity_chao1})}{
+
+\code{vis()} produces a column plot of the estimated richness (\code{Estimator}) for
+each repertoire.
+}
+
+\subsection{3) Rarefaction and extrapolation (\code{airr_diversity_rarefaction})}{
+
+\code{vis()} plots estimated richness (\code{mean}) against sample size (\code{size}). Use
+\code{color} to group curves, \code{show_ci = FALSE} to hide confidence intervals, and
+\code{log = TRUE} to use a logarithmic x-axis.
+}
+
+\subsection{4) Shannon entropy (\code{airr_diversity_shannon})}{
+
+\code{vis()} produces a column plot of \code{shannon} for each repertoire.
+}
+
+\subsection{5) Pielou evenness (\code{airr_diversity_pielou})}{
+
+\code{vis()} produces a column plot of \code{pielou} for each repertoire.
+}
+
+\subsection{6) Diversity index (\code{airr_diversity_index})}{
+
+\code{vis()} produces a column plot of \code{hill_number} at \code{q = 1} for each
+repertoire.
+}
+
+\subsection{7) Hill numbers (\code{airr_diversity_hill})}{
+
+This result does not currently have a dedicated \code{vis()} method. Use the
+returned \code{q} and \code{hill_number} columns to create a diversity profile.
+}
+}
+
 \examples{
-# Limit the number of threads used by the underlying DB for this session.
-# Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
+# Limit the number of threads used by the underlying DB for this example.
+# Generally, you should NOT do this in your session.
 db_exec("SET threads TO 1")
-# Load data
-\dontrun{
-immdata <- get_test_idata() |> agg_repertoires("Therapy")
-}
+
+# Load example data.
+immdata <- get_test_idata()
 
 #
-# airr_diversity_dxx
-#
-\dontrun{
+# Calculate D50 and several coverage thresholds.
 d50 <- airr_diversity_dxx(immdata, perc = 50)
 d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
-}
+
+# Visualise the coverage diversity.
+vis(d_multi)
 
 #
-# airr_diversity_chao1
-#
-\dontrun{
+# Estimate receptor richness.
 chao <- airr_diversity_chao1(immdata)
-}
+
+# Visualise the richness estimates.
+vis(chao)
 
 #
-# airr_diversity_rarefaction
-#
-\dontrun{
+# Calculate a rarefaction curve without extrapolation.
 raref <- airr_diversity_rarefaction(immdata, step = 2000, extrapolation = 0)
+
+# Visualise the rarefaction curve.
 vis(raref)
-}
 
 #
-# airr_diversity_shannon
-#
-\dontrun{
+# Calculate Shannon entropy.
 sh <- airr_diversity_shannon(immdata)
-}
+vis(sh)
 
 #
-# airr_diversity_pielou
-#
-\dontrun{
+# Calculate Pielou evenness.
 pj <- airr_diversity_pielou(immdata)
-}
+vis(pj)
 
 #
-# airr_diversity_index
-#
-\dontrun{
+# Calculate the default diversity index.
 idx <- airr_diversity_index(immdata)
-}
+vis(idx)
 
 #
-# airr_diversity_hill
-#
-\dontrun{
+# Calculate a diversity profile for three Hill orders.
 hill <- airr_diversity_hill(immdata, q = c(0, 1, 2))
-}
 
+}
+\references{
+Chao, A. et al. (2014). Rarefaction and extrapolation with Hill numbers:
+a framework for sampling and estimation in species diversity studies.
+\emph{Ecological Monographs}, 84, 45-67. \doi{10.1890/13-0133.1}
 }
 \seealso{
 \link[immundata:ImmunData]{immundata::ImmunData}
