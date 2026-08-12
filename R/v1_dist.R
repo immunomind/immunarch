@@ -1,15 +1,15 @@
-#' @title Receptor distances
+#' @title Immune receptor distances
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' A family of functions that constructs sparse receptor-pair distance tables
-#' from the receptors in one `ImmunData` object.
+#' A family of functions to calculate **sequence distances between immune receptors**.
+#' These methods help you explore receptor similarity, select thresholds for
+#' Immunoglobulin clone assignment, and construct sparse receptor-similarity graphs.
 #'
 #' ## Available functions
 #'
-#' * `dist_hamm()` computes Hamming distance between equal-length receptor
-#'   sequences.
+#' The following methods are available.
 #'
 #' @param idata An `ImmunData` object.
 #' @inheritParams dist_hamm
@@ -17,9 +17,43 @@
 #'
 #' @seealso [immundata::ImmunData]
 #'
+#' @section Visualisation:
+#' Distance results can be passed directly to [vis()].
+#'
+#' ## 1) Hamming distances (`dist_hamm`)
+#'
+#' `vis()` plots the normalized distance to the nearest non-identical neighbor
+#' for each receptor by default. This is the distribution used for manual IG
+#' clone-threshold selection. When a subject column can be inferred using the
+#' same priority as `sample_by = "<auto>"`, one panel is drawn per subject;
+#' otherwise, a single pooled distribution is drawn.
+#'
+#' Use `mode = "all"` to plot every pairwise distance instead of nearest neighbors.
+#' Pass one of the following values to `xval` to change what will be plotted:
+#' `"norm_dist"` (the default), `"dist"` (non-normalised distnaces), or `"sim"` (similarity).
+#' Set `facet = NULL` to have one plot per all input samples, or name a result column to facet by it.
+#' `binwidth` and `title` customize the histogram.
+#'
 #' @name dist
 #' @concept Receptor distance
 NULL
+
+
+#' @keywords internal
+infer_dist_group_col <- function(columns) {
+  candidates <- c(
+    "subject_id",
+    "donor",
+    "donor_id",
+    "patient_id",
+    "patient",
+    "subject",
+    immundata::imd_schema("repertoire")
+  )
+  index <- match(TRUE, candidates %in% columns)
+
+  if (is.na(index)) NULL else candidates[[index]]
+}
 
 
 #' @keywords internal
@@ -28,7 +62,9 @@ dist_hamm_impl <- function(
   seq_col = "cdr3_aa",
   by = NULL,
   max_dist = NULL,
-  min_sim = NULL
+  min_sim = NULL,
+  sample_n = 0L,
+  sample_by = "<auto>"
 ) {
   checkmate::assert_string(seq_col)
   checkmate::assert_number(max_dist, lower = 0, finite = TRUE, null.ok = TRUE)
@@ -36,6 +72,7 @@ dist_hamm_impl <- function(
     min_sim,
     lower = 0, upper = 1, finite = TRUE, null.ok = TRUE
   )
+  checkmate::assert_count(sample_n)
 
   if (!is.null(max_dist) && !is.null(min_sim)) {
     cli::cli_abort("Provide only one of {.arg max_dist} and {.arg min_sim}.")
@@ -62,6 +99,40 @@ dist_hamm_impl <- function(
   locus_col <- immundata::imd_schema("locus")
   annotation_cols <- colnames(idata$annotations)
   paired <- length(idata$schema_receptor$chains) == 2L
+
+  resolved_sample_by <- NULL
+  if (sample_n > 0L) {
+    if (!is.null(sample_by)) {
+      checkmate::assert_string(sample_by)
+    }
+
+    if (identical(sample_by, "<auto>")) {
+      resolved_sample_by <- infer_dist_group_col(annotation_cols)
+
+      if (is.null(resolved_sample_by)) {
+        cli::cli_abort(c(
+          "Could not infer a sampling group from {.field idata$annotations}.",
+          "i" = "Set {.arg sample_by} to a column name, or to {.code NULL} for global sampling."
+        ))
+      }
+    } else {
+      resolved_sample_by <- sample_by
+    }
+
+    if (!is.null(resolved_sample_by) &&
+      !resolved_sample_by %in% annotation_cols) {
+      cli::cli_abort(
+        "Column {.field {resolved_sample_by}} selected by {.arg sample_by} is missing from {.field idata$annotations}."
+      )
+    }
+
+    if (!is.null(resolved_sample_by) && !resolved_sample_by %in% by) {
+      cli::cli_abort(c(
+        "Sampling is grouped by {.field {resolved_sample_by}}, but that column is absent from {.arg by}.",
+        "i" = "Add {.field {resolved_sample_by}} to {.arg by} to prevent distances between different sampling groups."
+      ))
+    }
+  }
 
   if (!seq_col %in% idata$schema_receptor$features) {
     cli::cli_abort(
@@ -149,8 +220,9 @@ dist_hamm_impl <- function(
     ""
   }
 
+  base_nodes_name <- if (sample_n > 0L) "all_nodes" else "nodes"
   nodes_cte <- paste0(
-    "nodes AS MATERIALIZED (",
+    base_nodes_name, " AS MATERIALIZED (",
     " SELECT ",
     q_receptor, " AS \".idist_receptor\", ",
     q_sequence, " AS \".idist_sequence\", ",
@@ -162,6 +234,53 @@ dist_hamm_impl <- function(
     " AND length(", q_sequence, ") > 0",
     ")"
   )
+
+  if (sample_n > 0L) {
+    if (is.null(resolved_sample_by)) {
+      sample_group_select <- ""
+      sample_partition <- ""
+      sample_group_join <- ""
+    } else {
+      sample_group_index <- match(resolved_sample_by, by)
+      sample_group_field <- paste0(
+        "\".idist_group_", sample_group_index, "\""
+      )
+      sample_group_select <- paste0(
+        ", ", sample_group_field, " AS \".idist_sample_group\""
+      )
+      sample_partition <- "PARTITION BY \".idist_sample_group\" "
+      sample_group_join <- paste0(
+        " AND n.", sample_group_field,
+        " IS NOT DISTINCT FROM s.\".idist_sample_group\""
+      )
+    }
+
+    nodes_cte <- paste0(
+      nodes_cte,
+      ", sampled_receptors AS MATERIALIZED (",
+      " SELECT \".idist_receptor\"",
+      if (!is.null(resolved_sample_by)) ", \".idist_sample_group\"" else "",
+      " FROM (",
+      " SELECT *, row_number() OVER (",
+      sample_partition,
+      "ORDER BY random()) AS \".idist_sample_rank\"",
+      " FROM (",
+      " SELECT DISTINCT \".idist_receptor\"",
+      sample_group_select,
+      " FROM all_nodes",
+      ") sampling_groups",
+      ") ranked_receptors",
+      " WHERE \".idist_sample_rank\" <= ", as.character(sample_n),
+      ")",
+      ", nodes AS MATERIALIZED (",
+      " SELECT n.*",
+      " FROM all_nodes n",
+      " JOIN sampled_receptors s",
+      " ON n.\".idist_receptor\" = s.\".idist_receptor\"",
+      sample_group_join,
+      ")"
+    )
+  }
 
   pair_join <- paste0(
     "a.\".idist_length\" = b.\".idist_length\"",
@@ -305,32 +424,42 @@ dist_hamm_impl <- function(
 }
 
 
-#' @description `dist_hamm()` computes an upper-triangular sparse edge table of
-#' Hamming distances between receptor IDs represented in `idata$annotations`.
+#' @description
+#' **1) Hamming distances (`dist_hamm`).** Compute an upper-triangular sparse
+#' edge table of Hamming distances between receptor IDs represented in
+#' `idata$annotations`.
 #' Comparisons are restricted to equal sequence lengths and equal values of
-#' `by`; repertoires are not an implicit grouping boundary. For paired-chain
-#' receptor schemas, the canonical locus column is added to `by` automatically,
-#' so distances are computed separately per locus.
-#'
-#' Without a bound, all eligible receptor pairs are returned. With a bound,
-#' exact `(k + 1)`-block candidate generation is used before Hamming
-#' verification; this avoids constructing the complete Cartesian product when
-#' the bound is selective.
+#' `by`. Please mind that the data is not grouped by repertoires automatically.
+#' For paired-chain receptor schemas, the canonical locus column is added to `by` automatically,
+#' so distances are computed separately per locus. Add it explicitly if you have a
+#' non-AIRR-C standard locus column name.
 #'
 #' @param seq_col Name of a sequence feature in the receptor schema.
 #' @param by Optional columns from `idata$annotations` that must be equal within
 #'   a receptor pair. For B-cell clone assignment, a typical choice is
 #'   `c("v_call", "j_call")`; add `imd_repertoire_id` when comparisons must stay
-#'   within repertoires. Sequence length grouping is always applied. Locus
-#'   grouping is also always applied for paired-chain receptor schemas.
+#'   within repertoires, or `subject_id` if your data has such a dedicated column for
+#'   subject-specific metadata. Locus grouping is also always applied for paired-chain receptor schemas.
 #' @param max_dist Maximum distance. Values in `(0, 1)` bound normalized
-#'   Hamming distance; integer values greater than or equal to `1` bound raw
+#'   Hamming distance, integer values which are `>=1` bound raw
 #'   Hamming distance. `NULL` (the default) and the legacy value `0` disable
 #'   bounding. Mutually exclusive with `min_sim`.
 #' @param min_sim Minimum normalized Hamming similarity in `[0, 1]`. Mutually
 #'   exclusive with `max_dist`.
+#' @param sample_n Maximum number of distinct receptor IDs to sample before
+#'   distance calculation within each `sample_by` group. `0` (the default)
+#'   disables sampling.
+#' @param sample_by Select a column to sample by. The default,
+#'   `"<auto>"`, uses the first available column among `subject_id`, `donor`,
+#'   `donor_id`, `patient_id`, `patient`, `subject`, and `imd_repertoire_id`.
+#'   The resolved column must also be supplied through `by`. Set to `NULL` to
+#'   sample from the whole dataset without accounting for groups.
+#'   For obvious reasons, this argument is completely ignored when `sample_n = 0`.
 #'
-#' @return A lazy duckplyr table with:
+#' @return
+#'
+#' ## 1) Hamming distances (`dist_hamm`)
+#' A lazy duckplyr table with:
 #' * grouping columns supplied through `by`
 #' * `locus` for paired-chain receptor schemas
 #' * `imd_receptor_id_1`, `imd_receptor_id_2` -- canonical receptor identifiers,
@@ -366,6 +495,11 @@ dist_hamm_impl <- function(
 #' # The results are the same as for the previous normalised run
 #' res <- dist_hamm(idata, min_sim = .8) |> collect()
 #' res
+#'
+#' # Plot normalized nearest-non-identical-neighbor distances.
+#' vis(dist_hamm(idata))
+#' # Plot all raw pairwise distances instead.
+#' vis(dist_hamm(idata), mode = "all", xval = "dist")
 #'
 #' \dontrun{
 #' #

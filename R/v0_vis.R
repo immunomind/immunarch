@@ -204,6 +204,7 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' * [airr_clonality] for clonality visualisations.
 #' * [airr_diversity] for diversity visualisations.
 #' * [repsim] for repertoire similarity visualisations.
+#' * [dist] for receptor distance visualisations.
 #'
 #' @examples
 #' \dontrun{

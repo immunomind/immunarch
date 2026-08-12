@@ -49,6 +49,30 @@ make_paired_dist_hamm_idata <- function() {
 }
 
 
+make_sampled_dist_hamm_idata <- function() {
+  receptor_col <- immundata::imd_schema("receptor")
+
+  annotations <- tibble::tibble(
+    !!receptor_col := seq_len(8L),
+    subject_id = rep(c("P1", "P2"), each = 4L),
+    cdr3_aa = c(
+      "AAAA", "AAAT", "AATT", "ATTT",
+      "CCCC", "CCCT", "CCTT", "CTTT"
+    ),
+    v_call = "V1",
+    j_call = "J1"
+  ) |>
+    duckplyr::as_duckdb_tibble()
+
+  immundata::ImmunData$new(
+    schema = immundata::make_receptor_schema(
+      features = c("cdr3_aa", "v_call", "j_call")
+    ),
+    annotations = annotations
+  )
+}
+
+
 test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
   idata <- make_dist_hamm_idata()
 
@@ -249,6 +273,63 @@ test_that("dist_hamm uses annotation columns in by", {
 })
 
 
+test_that("dist_hamm samples receptors within an inferred subject column", {
+  out <- dist_hamm(
+    make_sampled_dist_hamm_idata(),
+    by = c("subject_id", "v_call", "j_call"),
+    sample_n = 2L,
+    autojoin = FALSE
+  ) |>
+    dplyr::collect()
+
+  expect_equal(sort(out$subject_id), c("P1", "P2"))
+  expect_equal(nrow(out), 2L)
+  expect_equal(
+    length(unique(c(
+      out$imd_receptor_id_1,
+      out$imd_receptor_id_2
+    ))),
+    4L
+  )
+})
+
+
+test_that("dist_hamm supports global receptor sampling", {
+  out <- dist_hamm(
+    make_sampled_dist_hamm_idata(),
+    by = c("v_call", "j_call"),
+    sample_n = 3L,
+    sample_by = NULL,
+    autojoin = FALSE
+  ) |>
+    dplyr::collect()
+
+  expect_equal(nrow(out), 3L)
+  expect_equal(
+    length(unique(c(
+      out$imd_receptor_id_1,
+      out$imd_receptor_id_2
+    ))),
+    3L
+  )
+})
+
+
+test_that("dist_hamm sampling also works with bounded distances", {
+  out <- dist_hamm(
+    make_sampled_dist_hamm_idata(),
+    by = c("subject_id", "v_call", "j_call"),
+    max_dist = 4L,
+    sample_n = 2L,
+    autojoin = FALSE
+  ) |>
+    dplyr::collect()
+
+  expect_equal(sort(out$subject_id), c("P1", "P2"))
+  expect_equal(nrow(out), 2L)
+})
+
+
 test_that("dist_hamm block search exactly matches filtered direct distance", {
   idata <- make_dist_hamm_idata()
 
@@ -320,6 +401,23 @@ test_that("dist_hamm validates columns and bounds", {
   expect_error(
     dist_hamm(idata, max_dist = 0.1, min_sim = 0.9),
     "only one"
+  )
+  expect_error(dist_hamm(idata, sample_n = -1L), ">= 0", fixed = TRUE)
+  expect_error(
+    dist_hamm(idata, sample_n = 2L),
+    "absent from.*by"
+  )
+  expect_error(
+    dist_hamm(
+      idata,
+      by = c("v_call", "j_call"),
+      sample_n = 2L,
+      sample_by = "subject_id"
+    ),
+    "missing"
+  )
+  expect_no_error(
+    dist_hamm(idata, sample_n = 0L, sample_by = "missing")
   )
 
   idata_without_sequence_schema <- immundata::ImmunData$new(

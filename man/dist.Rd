@@ -3,7 +3,7 @@
 \name{dist}
 \alias{dist}
 \alias{dist_hamm}
-\title{Receptor distances}
+\title{Immune receptor distances}
 \usage{
 dist_hamm(
   idata,
@@ -11,6 +11,8 @@ dist_hamm(
   by = NULL,
   max_dist = NULL,
   min_sim = NULL,
+  sample_n = 0L,
+  sample_by = "<auto>",
   autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
@@ -23,16 +25,27 @@ dist_hamm(
 \item{by}{Optional columns from \code{idata$annotations} that must be equal within
 a receptor pair. For B-cell clone assignment, a typical choice is
 \code{c("v_call", "j_call")}; add \code{imd_repertoire_id} when comparisons must stay
-within repertoires. Sequence length grouping is always applied. Locus
-grouping is also always applied for paired-chain receptor schemas.}
+within repertoires, or \code{subject_id} if your data has such a dedicated column for
+subject-specific metadata. Locus grouping is also always applied for paired-chain receptor schemas.}
 
 \item{max_dist}{Maximum distance. Values in \verb{(0, 1)} bound normalized
-Hamming distance; integer values greater than or equal to \code{1} bound raw
+Hamming distance, integer values which are \verb{>=1} bound raw
 Hamming distance. \code{NULL} (the default) and the legacy value \code{0} disable
 bounding. Mutually exclusive with \code{min_sim}.}
 
 \item{min_sim}{Minimum normalized Hamming similarity in \verb{[0, 1]}. Mutually
 exclusive with \code{max_dist}.}
+
+\item{sample_n}{Maximum number of distinct receptor IDs to sample before
+distance calculation within each \code{sample_by} group. \code{0} (the default)
+disables sampling.}
+
+\item{sample_by}{Select a column to sample by. The default,
+\code{"<auto>"}, uses the first available column among \code{subject_id}, \code{donor},
+\code{donor_id}, \code{patient_id}, \code{patient}, \code{subject}, and \code{imd_repertoire_id}.
+The resolved column must also be supplied through \code{by}. Set to \code{NULL} to
+sample from the whole dataset without accounting for groups.
+For obvious reasons, this argument is completely ignored when \code{sample_n = 0}.}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -42,6 +55,8 @@ columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unm
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 }
 \value{
+\subsection{1) Hamming distances (\code{dist_hamm})}{
+
 A lazy duckplyr table with:
 \itemize{
 \item grouping columns supplied through \code{by}
@@ -56,30 +71,46 @@ with \code{imd_receptor_id_1 < imd_receptor_id_2}
 
 Call \code{\link[dplyr:collect]{dplyr::collect()}} only when the edge table is small enough for memory.
 }
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions that constructs sparse receptor-pair distance tables
-from the receptors in one \code{ImmunData} object.
+A family of functions to calculate \strong{sequence distances between immune receptors}.
+These methods help you explore receptor similarity, select thresholds for
+Immunoglobulin clone assignment, and construct sparse receptor-similarity graphs.
 \subsection{Available functions}{
-\itemize{
-\item \code{dist_hamm()} computes Hamming distance between equal-length receptor
-sequences.
-}
+
+The following methods are available.
 }
 
-\code{dist_hamm()} computes an upper-triangular sparse edge table of
-Hamming distances between receptor IDs represented in \code{idata$annotations}.
+\strong{1) Hamming distances (\code{dist_hamm}).} Compute an upper-triangular sparse
+edge table of Hamming distances between receptor IDs represented in
+\code{idata$annotations}.
 Comparisons are restricted to equal sequence lengths and equal values of
-\code{by}; repertoires are not an implicit grouping boundary. For paired-chain
-receptor schemas, the canonical locus column is added to \code{by} automatically,
-so distances are computed separately per locus.
-
-Without a bound, all eligible receptor pairs are returned. With a bound,
-exact \code{(k + 1)}-block candidate generation is used before Hamming
-verification; this avoids constructing the complete Cartesian product when
-the bound is selective.
+\code{by}. Please mind that the data is not grouped by repertoires automatically.
+For paired-chain receptor schemas, the canonical locus column is added to \code{by} automatically,
+so distances are computed separately per locus. Add it explicitly if you have a
+non-AIRR-C standard locus column name.
 }
+\section{Visualisation}{
+
+Distance results can be passed directly to \code{\link[=vis]{vis()}}.
+\subsection{1) Hamming distances (\code{dist_hamm})}{
+
+\code{vis()} plots the normalized distance to the nearest non-identical neighbor
+for each receptor by default. This is the distribution used for manual IG
+clone-threshold selection. When a subject column can be inferred using the
+same priority as \code{sample_by = "<auto>"}, one panel is drawn per subject;
+otherwise, a single pooled distribution is drawn.
+
+Use \code{mode = "all"} to plot every pairwise distance instead of nearest neighbors.
+Pass one of the following values to \code{xval} to change what will be plotted:
+\code{"norm_dist"} (the default), \code{"dist"} (non-normalised distnaces), or \code{"sim"} (similarity).
+Set \code{facet = NULL} to have one plot per all input samples, or name a result column to facet by it.
+\code{binwidth} and \code{title} customize the histogram.
+}
+}
+
 \examples{
 idata <- get_test_idata()
 
@@ -104,6 +135,11 @@ res
 # The results are the same as for the previous normalised run
 res <- dist_hamm(idata, min_sim = .8) |> collect()
 res
+
+# Plot normalized nearest-non-identical-neighbor distances.
+vis(dist_hamm(idata))
+# Plot all raw pairwise distances instead.
+vis(dist_hamm(idata), mode = "all", xval = "dist")
 
 \dontrun{
 #

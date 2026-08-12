@@ -54,5 +54,6 @@ airr_diversity_chao1(immdata) |> vis()
 \item \link{airr_clonality} for clonality visualisations.
 \item \link{airr_diversity} for diversity visualisations.
 \item \link{repsim} for repertoire similarity visualisations.
+\item \link{dist} for receptor distance visualisations.
 }
 }

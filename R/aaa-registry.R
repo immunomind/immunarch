@@ -277,7 +277,7 @@ im_ensure_vis_s3_for <- function(family, name) {
 register_immunarch_visualisation <- function(fn, family, name) {
   checkmate::assert_function(fn, args = c(".data"))
   checkmate::assert_string(family)
-  checkmate::assert_string(name)
+  checkmate::assert_string(name, null.ok = TRUE)
 
   cls <- im_result_class(family, name)
   assign(cls, fn, envir = IMMUNARCH_VIS_REGISTRY)
