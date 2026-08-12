@@ -124,8 +124,10 @@ export(repSample)
 export(repSave)
 export(repSomaticHypermutation)
 export(repsim_bray)
+export(repsim_chao_jaccard)
 export(repsim_intersection)
 export(repsim_jaccard)
+export(repsim_morisita_horn)
 export(select_barcodes)
 export(select_clusters)
 export(seqCluster)
@@ -145,170 +147,210 @@ export(vis_immunr_kmer_profile_main)
 export(vis_seqlogo)
 export(vis_textlogo)
 import(ggplot2)
-importFrom(Rcpp,cppFunction)
-importFrom(Rcpp,sourceCpp)
-importFrom(checkmate,assert_character)
-importFrom(checkmate,assert_choice)
-importFrom(checkmate,assert_data_frame)
-importFrom(checkmate,assert_logical)
-importFrom(checkmate,assert_matrix)
-importFrom(checkmate,assert_numeric)
-importFrom(checkmate,assert_r6)
-importFrom(checkmate,assert_string)
-importFrom(checkmate,assert_subset)
-importFrom(cli,cli_alert_info)
-importFrom(cli,cli_alert_success)
-importFrom(cli,cli_alert_warning)
-importFrom(cli,cli_bullets)
-importFrom(cli,cli_end)
-importFrom(cli,cli_h1)
-importFrom(cli,cli_inform)
-importFrom(cli,cli_par)
-importFrom(cli,cli_text)
-importFrom(cli,spark_line)
-importFrom(cli,start_app)
-importFrom(data.table,":=")
-importFrom(data.table,as.data.table)
-importFrom(data.table,data.table)
-importFrom(data.table,fread)
-importFrom(data.table,melt.data.table)
-importFrom(data.table,set)
-importFrom(data.table,setDF)
-importFrom(data.table,setDT)
-importFrom(data.table,setcolorder)
-importFrom(data.table,setnames)
+importFrom(Rcpp,
+  cppFunction,
+  sourceCpp
+)
+importFrom(checkmate,
+  assert_character,
+  assert_choice,
+  assert_data_frame,
+  assert_logical,
+  assert_matrix,
+  assert_numeric,
+  assert_r6,
+  assert_string,
+  assert_subset
+)
+importFrom(cli,
+  cli_alert_info,
+  cli_alert_success,
+  cli_alert_warning,
+  cli_bullets,
+  cli_end,
+  cli_h1,
+  cli_inform,
+  cli_par,
+  cli_text,
+  spark_line,
+  start_app
+)
+importFrom(data.table,
+  ":=",
+  as.data.table,
+  data.table,
+  fread,
+  melt.data.table,
+  set,
+  setDF,
+  setDT,
+  setcolorder,
+  setnames
+)
 importFrom(dbplyr,sql)
-importFrom(dplyr,all_of)
-importFrom(dplyr,arrange)
-importFrom(dplyr,as_tibble)
-importFrom(dplyr,collect)
-importFrom(dplyr,compute)
-importFrom(dplyr,contains)
-importFrom(dplyr,count)
-importFrom(dplyr,cur_group_id)
-importFrom(dplyr,desc)
-importFrom(dplyr,distinct)
-importFrom(dplyr,filter)
-importFrom(dplyr,first)
-importFrom(dplyr,full_join)
-importFrom(dplyr,group_by)
-importFrom(dplyr,group_by_at)
-importFrom(dplyr,group_keys)
-importFrom(dplyr,group_map)
-importFrom(dplyr,inner_join)
-importFrom(dplyr,intersect)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,n)
-importFrom(dplyr,one_of)
-importFrom(dplyr,pull)
-importFrom(dplyr,rename)
-importFrom(dplyr,right_join)
-importFrom(dplyr,row_number)
-importFrom(dplyr,rowwise)
-importFrom(dplyr,select)
-importFrom(dplyr,select_)
-importFrom(dplyr,select_if)
-importFrom(dplyr,slice_head)
-importFrom(dplyr,summarise)
-importFrom(dplyr,tally)
-importFrom(dplyr,top_n)
-importFrom(dplyr,transmute)
-importFrom(dplyr,ungroup)
-importFrom(dplyr,union)
-importFrom(dplyr,union_all)
+importFrom(dplyr,
+  all_of,
+  arrange,
+  as_tibble,
+  collect,
+  compute,
+  contains,
+  count,
+  cur_group_id,
+  desc,
+  distinct,
+  filter,
+  first,
+  full_join,
+  group_by,
+  group_by_at,
+  group_keys,
+  group_map,
+  inner_join,
+  intersect,
+  left_join,
+  mutate,
+  n,
+  one_of,
+  pull,
+  rename,
+  right_join,
+  row_number,
+  rowwise,
+  select,
+  select_,
+  select_if,
+  slice_head,
+  summarise,
+  tally,
+  top_n,
+  transmute,
+  ungroup,
+  union,
+  union_all
+)
 importFrom(dtplyr,lazy_dt)
-importFrom(duckplyr,as_duckdb_tibble)
-importFrom(duckplyr,as_tbl)
+importFrom(duckplyr,
+  as_duckdb_tibble,
+  as_tbl
+)
 importFrom(ggsci,scale_fill_locuszoom)
 importFrom(ggthemes,theme_few)
 importFrom(grDevices,colorRampPalette)
 importFrom(graphics,plot)
-importFrom(grid,gpar)
-importFrom(grid,rectGrob)
-importFrom(immundata,ImmunData)
-importFrom(immundata,imd_schema)
+importFrom(grid,
+  gpar,
+  rectGrob
+)
+importFrom(immundata,
+  ImmunData,
+  imd_schema
+)
 importFrom(lifecycle,deprecated)
-importFrom(magrittr,"%<>%")
-importFrom(magrittr,"%>%")
-importFrom(magrittr,extract2)
-importFrom(magrittr,set_attr)
+importFrom(magrittr,
+  "%<>%",
+  "%>%",
+  extract2,
+  set_attr
+)
 importFrom(methods,as)
-importFrom(parallel,clusterExport)
-importFrom(parallel,detectCores)
-importFrom(parallel,makeCluster)
-importFrom(parallel,mclapply)
-importFrom(parallel,parApply)
-importFrom(parallel,stopCluster)
-importFrom(patchwork,plot_annotation)
-importFrom(patchwork,wrap_plots)
-importFrom(purrr,map2_df)
-importFrom(purrr,map_chr)
-importFrom(purrr,map_df)
-importFrom(purrr,map_dfr)
-importFrom(readr,col_character)
-importFrom(readr,col_double)
-importFrom(readr,col_guess)
-importFrom(readr,col_integer)
-importFrom(readr,col_logical)
-importFrom(readr,cols)
-importFrom(readr,read_csv)
-importFrom(readr,read_delim)
-importFrom(readr,read_tsv)
-importFrom(readr,write_lines)
-importFrom(rlang,.data)
-importFrom(rlang,.env)
-importFrom(rlang,as_function)
-importFrom(rlang,global_env)
-importFrom(rlang,inject)
-importFrom(rlang,is_logical)
-importFrom(rlang,is_true)
-importFrom(rlang,set_names)
-importFrom(rlang,sym)
+importFrom(parallel,
+  clusterExport,
+  detectCores,
+  makeCluster,
+  mclapply,
+  parApply,
+  stopCluster
+)
+importFrom(patchwork,
+  plot_annotation,
+  wrap_plots
+)
+importFrom(purrr,
+  map2_df,
+  map_chr,
+  map_df,
+  map_dfr
+)
+importFrom(readr,
+  col_character,
+  col_double,
+  col_guess,
+  col_integer,
+  col_logical,
+  cols,
+  read_csv,
+  read_delim,
+  read_tsv,
+  write_lines
+)
+importFrom(rlang,
+  .data,
+  .env,
+  as_function,
+  global_env,
+  inject,
+  is_logical,
+  is_true,
+  set_names,
+  sym
+)
 importFrom(scales,percent)
-importFrom(stats,as.dist)
-importFrom(stats,cmdscale)
-importFrom(stats,cor)
-importFrom(stats,dist)
-importFrom(stats,kmeans)
-importFrom(stats,lm)
-importFrom(stats,na.omit)
-importFrom(stats,prcomp)
-importFrom(stats,qnorm)
-importFrom(stats,rmultinom)
-importFrom(stats,runif)
-importFrom(stringr,boundary)
-importFrom(stringr,fixed)
-importFrom(stringr,str_c)
-importFrom(stringr,str_count)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_extract)
-importFrom(stringr,str_extract_all)
-importFrom(stringr,str_length)
-importFrom(stringr,str_match)
-importFrom(stringr,str_order)
-importFrom(stringr,str_replace)
-importFrom(stringr,str_replace_all)
-importFrom(stringr,str_sort)
-importFrom(stringr,str_split)
-importFrom(stringr,str_sub)
-importFrom(stringr,str_trim)
-importFrom(tibble,rownames_to_column)
-importFrom(tibble,tibble)
-importFrom(tidyr,as_tibble)
-importFrom(tidyr,drop_na)
-importFrom(tidyr,unite)
-importFrom(tidyr,unnest)
-importFrom(tidyselect,all_of)
-importFrom(tidyselect,any_of)
-importFrom(tidyselect,starts_with)
-importFrom(utils,adist)
-importFrom(utils,capture.output)
-importFrom(utils,globalVariables)
-importFrom(utils,packageVersion)
-importFrom(utils,read.table)
-importFrom(utils,setTxtProgressBar)
-importFrom(utils,tail)
-importFrom(utils,txtProgressBar)
+importFrom(stats,
+  as.dist,
+  cmdscale,
+  cor,
+  dist,
+  kmeans,
+  lm,
+  na.omit,
+  prcomp,
+  qnorm,
+  rmultinom,
+  runif
+)
+importFrom(stringr,
+  boundary,
+  fixed,
+  str_c,
+  str_count,
+  str_detect,
+  str_extract,
+  str_extract_all,
+  str_length,
+  str_match,
+  str_order,
+  str_replace,
+  str_replace_all,
+  str_sort,
+  str_split,
+  str_sub,
+  str_trim
+)
+importFrom(tibble,
+  rownames_to_column,
+  tibble
+)
+importFrom(tidyr,
+  as_tibble,
+  drop_na,
+  unite,
+  unnest
+)
+importFrom(tidyselect,
+  all_of,
+  any_of,
+  starts_with
+)
+importFrom(utils,
+  adist,
+  capture.output,
+  globalVariables,
+  packageVersion,
+  read.table,
+  setTxtProgressBar,
+  tail,
+  txtProgressBar
+)
 importFrom(vctrs,s3_register)
 useDynLib(immunarch, .registration = TRUE)

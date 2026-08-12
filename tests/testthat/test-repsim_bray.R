@@ -44,6 +44,60 @@ test_that("repsim_bray computes Bray-Curtis from proportions", {
 })
 
 
+test_that("repsim_bray transforms abundances", {
+  receptor_col <- immundata::imd_schema("receptor")
+  repertoire_col <- immundata::imd_schema("repertoire")
+  count_col <- immundata::imd_schema("count")
+  prop_col <- immundata::imd_schema("proportion")
+
+  ann_tbl <- tibble::tibble(
+    !!receptor_col := c("r1", "r2", "r1", "r2"),
+    !!repertoire_col := c("R1", "R1", "R2", "R2"),
+    !!count_col := c(9, 1, 5, 5),
+    !!prop_col := c(0.9, 0.1, 0.5, 0.5),
+    cdr3_aa = c("r1", "r2", "r1", "r2")
+  )
+  rep_tbl <- tibble::tibble(
+    !!repertoire_col := c("R1", "R2"),
+    Group = c("R1", "R2")
+  )
+
+  idata <- immundata::ImmunData$new(
+    schema = "cdr3_aa",
+    annotations = duckplyr::as_duckdb_tibble(ann_tbl),
+    repertoires = duckplyr::as_duckdb_tibble(rep_tbl)
+  )
+  idata$schema_repertoire <- "Group"
+
+  reference_bray <- function(transform) {
+    abundance <- matrix(
+      c(0.9, 0.1, 0.5, 0.5),
+      nrow = 2,
+      dimnames = list(c("r1", "r2"), c("R1", "R2"))
+    )
+    if (transform == "log1p") {
+      abundance <- log1p(abundance)
+    }
+    sum(abs(abundance[, 1] - abundance[, 2])) / sum(abundance)
+  }
+
+  default <- repsim_bray(idata, autojoin = FALSE)
+  log_transformed <- repsim_bray(
+    idata,
+    transform = "log1p",
+    autojoin = FALSE
+  )
+
+  expect_equal(default[1, 2], reference_bray("none"), tolerance = 1e-12)
+  expect_equal(
+    log_transformed[1, 2],
+    reference_bray("log1p"),
+    tolerance = 1e-12
+  )
+  expect_false(isTRUE(all.equal(log_transformed, default)))
+})
+
+
 test_that("repsim_bray returns a symmetric [0,1] matrix and vis() works", {
   skip_if_not_installed("ggplot2")
 
