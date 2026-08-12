@@ -4,6 +4,10 @@ IMMUNARCH_VIS_REGISTRY <- new.env(parent = emptyenv())
 
 IMMUNARCH_CLASS_PREFIX <- "immunarch_res"
 
+IMMUNARCH_AUTOJOIN_OPTION <- "immunarch.autojoin"
+
+IMMUNARCH_AUTOJOIN_DEFAULT <- TRUE
+
 
 # ---------------------------------------------------------------------------- #
 # --- Common arguments
@@ -18,7 +22,7 @@ IMMUNARCH_CLASS_PREFIX <- "immunarch_res"
 #'   columns, and `value`; useful for visualizations) or `"wide"` (wide/unmelted table of features,
 #'   with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).
 im_common_args <- function(
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 ) {} # nocov
 
@@ -169,7 +173,7 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
 #'
 #' ## What the wrapper adds
 #' * Common args from `im_common_args()`: `autojoin`, `format`, `features`
-#'   (with `autojoin` default controlled by `getOption("immunarch.autojoin", FALSE)`).
+#'   (with `autojoin` default controlled by `getOption("immunarch.autojoin", TRUE)`).
 #' * Validates `idata` is an [immundata::ImmunData] object.
 #' * Ensures all columns in `required_cols` exist in `idata$annotations`.
 #' * If `autojoin = TRUE` and the result is a data frame containing the repertoire id

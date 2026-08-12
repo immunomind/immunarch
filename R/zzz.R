@@ -30,44 +30,9 @@ immunarch_v1_updates <- c(
 
 
 .onLoad <- function(libname, pkgname) {
-  # register_immunarch_visualisation(vis_airr_stats_lengths_impl, "airr_stats", "lengths")
-  # register_immunarch_visualisation(vis_airr_stats_chains_impl, "airr_stats", "chains")
-  # register_immunarch_visualisation(vis_airr_stats_genes_impl, "airr_stats", "genes")
-  #
-  # register_immunarch_visualisation(
-  #   vis_airr_diversity_dxx_impl,
-  #   "airr_diversity",
-  #   "dxx"
-  # )
-  # register_immunarch_visualisation(
-  #   vis_airr_diversity_chao1_impl,
-  #   "airr_diversity",
-  #   "chao1"
-  # )
-  # register_immunarch_visualisation(
-  #   vis_airr_diversity_shannon_impl,
-  #   "airr_diversity",
-  #   "shannon"
-  # )
-  # register_immunarch_visualisation(
-  #   vis_airr_diversity_pielou_impl,
-  #   "airr_diversity",
-  #   "pielou"
-  # )
-  # register_immunarch_visualisation(
-  #   vis_airr_diversity_index_impl,
-  #   "airr_diversity",
-  #   "index"
-  # )
-  #
-  #
-  # register_immunarch_visualisation(vis_airr_public_intersection_impl, "airr_public", "intersection")
-  # register_immunarch_visualisation(vis_airr_public_jaccard_impl, "airr_public", "jaccard")
-
   op <- options()
-  op.immunarch <- list(
-    immunarch.autojoin = FALSE # default
-  )
+  op.immunarch <- list(IMMUNARCH_AUTOJOIN_DEFAULT)
+  names(op.immunarch) <- IMMUNARCH_AUTOJOIN_OPTION
   toset <- !(names(op.immunarch) %in% names(op))
   if (any(toset)) options(op.immunarch[toset])
   invisible()
