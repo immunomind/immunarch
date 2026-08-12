@@ -1,6 +1,6 @@
 #' @keywords internal
 base_clonality_rank <- function(idata, bins) {
-  checkmate::check_numeric(bins, lower = 1)
+  checkmate::assert_integerish(bins, lower = 1, min.len = 1, any.missing = FALSE)
 
   bins <- sort(bins, decreasing = FALSE)
 

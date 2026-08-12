@@ -1,8 +1,8 @@
 make_immunarch_features <- function(ires, method_name = NULL, feature_col = NULL, value_col = NULL) {
-  checkmate::check_data_frame(ires)
-  checkmate::check_character(method_name, null.ok = TRUE)
-  checkmate::check_character(feature_col, null.ok = TRUE)
-  checkmate::check_character(value_col, null.ok = TRUE)
+  checkmate::assert_data_frame(ires)
+  checkmate::assert_character(method_name, null.ok = TRUE)
+  checkmate::assert_character(feature_col, null.ok = TRUE)
+  checkmate::assert_character(value_col, null.ok = TRUE)
 
   to_rename <- c("feature" = feature_col, "value" = value_col)
 
@@ -16,7 +16,7 @@ make_immunarch_features <- function(ires, method_name = NULL, feature_col = NULL
 }
 
 immunarch_methods <- function(family_name = NULL) {
-  checkmate::check_string(family_name)
+  checkmate::assert_string(family_name, null.ok = TRUE)
 
   if (is.null(family_name)) {
     ls(IMMUNARCH_METHOD_REGISTRY)

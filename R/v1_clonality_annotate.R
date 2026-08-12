@@ -32,7 +32,7 @@ NULL
 #' @keywords internal
 annotate_clonality_rank_impl <- function(idata,
                                          bins = c(10, 30, 100, 300, 1000, 10000, 100000)) {
-  checkmate::check_numeric(bins, lower = 1)
+  checkmate::assert_integerish(bins, lower = 1, min.len = 1, any.missing = FALSE)
 
   bins <- sort(bins, decreasing = FALSE)
 
@@ -80,10 +80,17 @@ annotate_clonality_prop_impl <- function(
       Hyperexpanded = 1e-2,
       Large = 1e-3,
       Medium = 1e-4,
-      Small = 1e-5,
-      Rare = 1e-6
+    Small = 1e-5,
+    Rare = 1e-6
     )) {
-  checkmate::check_numeric(bins, lower = 0, min.len = 1)
+  checkmate::assert_numeric(
+    bins,
+    lower = 0,
+    min.len = 1,
+    any.missing = FALSE,
+    finite = TRUE,
+    names = "named"
+  )
 
   bins <- sort(bins, decreasing = TRUE)
 
