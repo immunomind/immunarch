@@ -119,7 +119,11 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
     duckplyr::as_duckdb_tibble()
 
   res <- ranked |>
-    dplyr::cross_join(thresholds) |>
+    dplyr::mutate(.join_key = 1L) |>
+    dplyr::inner_join(
+      thresholds |> dplyr::mutate(.join_key = 1L),
+      by = ".join_key"
+    ) |>
     dplyr::filter(.data$cum >= .data$perc / 100) |>
     dplyr::group_by(!!rep_sym, .data$perc, .data$perc_id) |>
     dplyr::summarise(dxx = min(.data$k), .groups = "drop") |>

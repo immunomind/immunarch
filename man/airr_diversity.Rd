@@ -304,7 +304,7 @@ vis(chao)
 
 #
 # Calculate a rarefaction curve without extrapolation.
-raref <- airr_diversity_rarefaction(immdata, step = 2000, extrapolation = 0)
+raref <- airr_diversity_rarefaction(immdata, step = 2000)
 
 # Visualise the rarefaction curve.
 vis(raref)
