@@ -54,8 +54,8 @@ im_as_result <- function(x, family, name) {
   cls_full <- im_result_class(family, name)
   cls_fam <- im_result_class(family, NULL)
   # TODO: maybe I need the "airr" or "receptor" instead of IMMUNARCH_CLASS_PREFIX?
-  # TODO: apparently, this makes the execution eager. The question is, maybe, this is something we want?
-  structure(x, class = c(cls_full, cls_fam, IMMUNARCH_CLASS_PREFIX, class(x)))
+  class(x) <- c(cls_full, cls_fam, IMMUNARCH_CLASS_PREFIX, class(x))
+  x
 }
 
 
