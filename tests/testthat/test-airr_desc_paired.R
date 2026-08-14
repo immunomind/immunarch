@@ -14,7 +14,7 @@ make_paired_desc_idata <- function() {
     "S2", "S2-3", "TRA", "EEE",    "TRAV3", 10,
     "S2", "S2-3", "TRB", "FFFFF",  "TRBV3", 10
   ) |>
-    duckplyr::as_duckdb_tibble()
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
 
   receptor_schema <- immundata::make_receptor_schema(
     features = c("cdr3_aa", "v_call"),

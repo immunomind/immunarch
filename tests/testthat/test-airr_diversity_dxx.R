@@ -1,25 +1,8 @@
 make_dxx_idata <- function() {
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  proportion_col <- immundata::imd_schema("proportion")
-
-  annotations <- tibble::tibble(
-    !!receptor_col := paste0("r", seq_len(7)),
-    !!repertoire_col := c(rep("R1", 3), rep("R2", 4)),
-    !!proportion_col := c(0.60, 0.25, 0.15, 0.40, 0.30, 0.20, 0.10),
-    cdr3_aa = paste0("seq", seq_len(7))
-  ) |>
-    duckplyr::as_duckdb_tibble()
-
-  repertoires <- tibble::tibble(
-    !!repertoire_col := c("R1", "R2")
-  ) |>
-    duckplyr::as_duckdb_tibble()
-
-  immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = annotations,
-    repertoires = repertoires
+  make_test_repertoire_idata(
+    receptors = paste0("r", seq_len(7)),
+    repertoires = c(rep("R1", 3), rep("R2", 4)),
+    proportions = c(0.60, 0.25, 0.15, 0.40, 0.30, 0.20, 0.10)
   )
 }
 

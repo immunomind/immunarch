@@ -1,7 +1,7 @@
 test_that("vis() for airr_desc_lengths builds plots", {
   skip_if_not_installed("ggplot2")
 
-  idata <- get_test_immundata() |> agg_repertoires("Therapy")
+  idata <- make_aggregated_test_idata("Therapy")
   res_lengths <- idata |> airr_desc_lengths()
   p1 <- vis(res_lengths, fill = "Therapy")
   expect_s3_class(p1, "ggplot")

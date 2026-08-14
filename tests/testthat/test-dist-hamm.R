@@ -9,7 +9,7 @@ make_dist_hamm_idata <- function() {
     v_call = c("V1", "V1", "V1", "V1", "V2", "V1", "V1"),
     j_call = c("J1", "J1", "J1", "J1", "J1", "J1", "J1")
   ) |>
-    duckplyr::as_duckdb_tibble()
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
 
   immundata::ImmunData$new(
     schema = immundata::make_receptor_schema(
@@ -27,7 +27,8 @@ make_paired_dist_hamm_idata <- function() {
     "cell1", "TRB", "CASSA", "TRBV1", 20L,
     "cell2", "TRA", "CAVG",  "TRAV2", 15L,
     "cell2", "TRB", "CASSB", "TRBV2", 25L
-  )
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
 
   schema <- immundata::make_receptor_schema(
     features = c("cdr3_aa", "v_call"),
@@ -44,30 +45,6 @@ make_paired_dist_hamm_idata <- function() {
 
   immundata::ImmunData$new(
     schema = schema,
-    annotations = annotations
-  )
-}
-
-
-make_sampled_dist_hamm_idata <- function() {
-  receptor_col <- immundata::imd_schema("receptor")
-
-  annotations <- tibble::tibble(
-    !!receptor_col := seq_len(8L),
-    subject_id = rep(c("P1", "P2"), each = 4L),
-    cdr3_aa = c(
-      "AAAA", "AAAT", "AATT", "ATTT",
-      "CCCC", "CCCT", "CCTT", "CTTT"
-    ),
-    v_call = "V1",
-    j_call = "J1"
-  ) |>
-    duckplyr::as_duckdb_tibble()
-
-  immundata::ImmunData$new(
-    schema = immundata::make_receptor_schema(
-      features = c("cdr3_aa", "v_call", "j_call")
-    ),
     annotations = annotations
   )
 }
@@ -275,7 +252,7 @@ test_that("dist_hamm uses annotation columns in by", {
 
 test_that("dist_hamm samples receptors within an inferred subject column", {
   out <- dist_hamm(
-    make_sampled_dist_hamm_idata(),
+    make_grouped_distance_test_idata(),
     by = c("subject_id", "v_call", "j_call"),
     sample_n = 2L,
     autojoin = FALSE
@@ -296,7 +273,7 @@ test_that("dist_hamm samples receptors within an inferred subject column", {
 
 test_that("dist_hamm supports global receptor sampling", {
   out <- dist_hamm(
-    make_sampled_dist_hamm_idata(),
+    make_grouped_distance_test_idata(),
     by = c("v_call", "j_call"),
     sample_n = 3L,
     sample_by = NULL,
@@ -317,7 +294,7 @@ test_that("dist_hamm supports global receptor sampling", {
 
 test_that("dist_hamm sampling also works with bounded distances", {
   out <- dist_hamm(
-    make_sampled_dist_hamm_idata(),
+    make_grouped_distance_test_idata(),
     by = c("subject_id", "v_call", "j_call"),
     max_dist = 4L,
     sample_n = 2L,

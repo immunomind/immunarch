@@ -36,8 +36,8 @@ build_synthetic_public_idata <- function(count_matrix, prop_matrix, strata_ids) 
     !!strata_col := strata_ids
   )
 
-  ann_tbl <- duckplyr::as_duckdb_tibble(ann_tbl)
-  rep_tbl <- duckplyr::as_duckdb_tibble(rep_tbl)
+  ann_tbl <- duckplyr::as_duckdb_tibble(ann_tbl, prudence = "stingy")
+  rep_tbl <- duckplyr::as_duckdb_tibble(rep_tbl, prudence = "stingy")
 
   immundata::ImmunData$new(
     schema = "cdr3_aa",
@@ -174,9 +174,39 @@ build_public_matrices_from_idata <- function(idata) {
   )
 }
 
+
+make_small_public_matrices <- function() {
+  receptor_ids <- c("R1", "R2", "R3")
+  repertoire_ids <- c("P1", "P2", "P3")
+
+  list(
+    counts = matrix(
+      c(
+        10, 0, 5,
+        1, 2, 3,
+        0, 4, 0
+      ),
+      nrow = length(receptor_ids),
+      byrow = TRUE,
+      dimnames = list(receptor_ids, repertoire_ids)
+    ),
+    proportions = matrix(
+      c(
+        0.50, 0.00, 0.25,
+        0.10, 0.20, 0.30,
+        0.00, 0.40, 0.00
+      ),
+      nrow = length(receptor_ids),
+      byrow = TRUE,
+      dimnames = list(receptor_ids, repertoire_ids)
+    ),
+    strata = c(1L, 1L, 2L)
+  )
+}
+
 test_that("annotate_public adds global publicness metrics", {
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   out <- annotate_public(idata)
   input_ann <- dplyr::collect(idata$annotations)
   out_ann <- dplyr::collect(out$annotations)
@@ -201,7 +231,7 @@ test_that("annotate_public adds global publicness metrics", {
 
 test_that("annotate_public computes global metrics correctly", {
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   out <- annotate_public(idata)
 
   matrices <- build_public_matrices_from_idata(idata)
@@ -235,7 +265,7 @@ test_that("annotate_public computes global metrics correctly", {
 
 test_that("annotate_public adds per-strata metrics when idata is stratified", {
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   stratified <- immundata::agg_strata(
     idata,
     schema = c("Response", "Therapy")
@@ -271,8 +301,7 @@ test_that("annotate_public adds per-strata metrics when idata is stratified", {
 
 test_that("annotate_public computes per-strata metrics correctly", {
 
-  idata <- get_test_immundata() |>
-    agg_repertoires(c("Response", "Therapy")) |>
+  idata <- make_aggregated_test_idata() |>
     immundata::agg_strata(schema = "Response")
   out <- annotate_public(idata)
 
@@ -307,7 +336,11 @@ test_that("annotate_public computes per-strata metrics correctly", {
 
 test_that("annotate_public errors if repertoires are not aggregated", {
 
-  idata <- get_test_immundata(repertoire_schema = NULL)
+  source_idata <- make_test_idata()
+  idata <- immundata::ImmunData$new(
+    schema = source_idata$schema_receptor,
+    annotations = source_idata$annotations
+  )
 
   expect_error(
     annotate_public(idata),
@@ -318,8 +351,7 @@ test_that("annotate_public errors if repertoires are not aggregated", {
 test_that("annotate_public errors when required annotation columns are missing", {
 
   count_col <- immundata::imd_schema("count")
-  idata <- get_test_immundata() |>
-    agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
 
   bad_annotations <- idata$annotations |>
     dplyr::select(-all_of(count_col))
@@ -338,8 +370,7 @@ test_that("annotate_public errors when required annotation columns are missing",
 
 test_that("annotate_public errors when repertoires table is empty", {
 
-  idata <- get_test_immundata() |>
-    agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
 
   empty_repertoires <- idata$repertoires[0, , drop = FALSE]
 
@@ -419,41 +450,21 @@ test_that("annotate_public reports global-only mode and computes deterministic n
 
   receptor_col <- immundata::imd_schema("receptor")
   strata_col <- immundata::imd_schema("strata")
-
-  receptor_ids <- c("R1", "R2", "R3")
-  repertoire_ids <- c("P1", "P2", "P3")
-
-  count_matrix <- matrix(
-    c(
-      10, 0, 5,
-      1, 2, 3,
-      0, 4, 0
-    ),
-    nrow = length(receptor_ids),
-    byrow = TRUE,
-    dimnames = list(receptor_ids, repertoire_ids)
-  )
-
-  prop_matrix <- matrix(
-    c(
-      0.50, 0.00, 0.25,
-      0.10, 0.20, 0.30,
-      0.00, 0.40, 0.00
-    ),
-    nrow = length(receptor_ids),
-    byrow = TRUE,
-    dimnames = list(receptor_ids, repertoire_ids)
-  )
+  matrices <- make_small_public_matrices()
+  receptor_ids <- rownames(matrices$counts)
 
   idata_with_strata <- build_synthetic_public_idata(
-    count_matrix = count_matrix,
-    prop_matrix = prop_matrix,
-    strata_ids = c(1L, 1L, 2L)
+    count_matrix = matrices$counts,
+    prop_matrix = matrices$proportions,
+    strata_ids = matrices$strata
   )
 
   rep_tbl_no_strata <- idata_with_strata$repertoires |>
     dplyr::select(-all_of(strata_col))
-  rep_tbl_no_strata <- duckplyr::as_duckdb_tibble(rep_tbl_no_strata)
+  rep_tbl_no_strata <- duckplyr::as_duckdb_tibble(
+    rep_tbl_no_strata,
+    prudence = "stingy"
+  )
 
   idata_no_strata <- immundata::ImmunData$new(
     schema = idata_with_strata$schema_receptor,
@@ -497,36 +508,13 @@ test_that("annotate_public reports global-only mode and computes deterministic n
 test_that("annotate_public computes deterministic global and per-strata incidence and proportion metrics", {
 
   receptor_col <- immundata::imd_schema("receptor")
-
-  receptor_ids <- c("R1", "R2", "R3")
-  repertoire_ids <- c("P1", "P2", "P3")
-
-  count_matrix <- matrix(
-    c(
-      10, 0, 5,
-      1, 2, 3,
-      0, 4, 0
-    ),
-    nrow = length(receptor_ids),
-    byrow = TRUE,
-    dimnames = list(receptor_ids, repertoire_ids)
-  )
-
-  prop_matrix <- matrix(
-    c(
-      0.50, 0.00, 0.25,
-      0.10, 0.20, 0.30,
-      0.00, 0.40, 0.00
-    ),
-    nrow = length(receptor_ids),
-    byrow = TRUE,
-    dimnames = list(receptor_ids, repertoire_ids)
-  )
+  matrices <- make_small_public_matrices()
+  receptor_ids <- rownames(matrices$counts)
 
   idata <- build_synthetic_public_idata(
-    count_matrix = count_matrix,
-    prop_matrix = prop_matrix,
-    strata_ids = c(1L, 1L, 2L)
+    count_matrix = matrices$counts,
+    prop_matrix = matrices$proportions,
+    strata_ids = matrices$strata
   )
 
   out <- annotate_public(idata)
@@ -570,33 +558,12 @@ test_that("annotate_public computes deterministic global and per-strata incidenc
 test_that("annotate_public replaces existing publicness annotations", {
 
   receptor_col <- immundata::imd_schema("receptor")
-
-  count_matrix <- matrix(
-    c(
-      10, 0, 5,
-      1, 2, 3,
-      0, 4, 0
-    ),
-    nrow = 3,
-    byrow = TRUE,
-    dimnames = list(c("R1", "R2", "R3"), c("P1", "P2", "P3"))
-  )
-
-  prop_matrix <- matrix(
-    c(
-      0.50, 0.00, 0.25,
-      0.10, 0.20, 0.30,
-      0.00, 0.40, 0.00
-    ),
-    nrow = 3,
-    byrow = TRUE,
-    dimnames = list(c("R1", "R2", "R3"), c("P1", "P2", "P3"))
-  )
+  matrices <- make_small_public_matrices()
 
   idata <- build_synthetic_public_idata(
-    count_matrix = count_matrix,
-    prop_matrix = prop_matrix,
-    strata_ids = c(1L, 1L, 2L)
+    count_matrix = matrices$counts,
+    prop_matrix = matrices$proportions,
+    strata_ids = matrices$strata
   )
 
   once <- annotate_public(idata)

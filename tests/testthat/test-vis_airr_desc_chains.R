@@ -1,7 +1,7 @@
 test_that("vis() for airr_desc_chains plots chain counts by default", {
   skip_if_not_installed("ggplot2")
 
-  idata <- get_test_immundata() |> agg_repertoires("Therapy")
+  idata <- make_aggregated_test_idata("Therapy")
   res_chains <- idata |> airr_desc_chains()
   p <- vis(res_chains)
 

@@ -1,32 +1,12 @@
 test_that("repsim_bray computes Bray-Curtis from proportions", {
-
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  count_col <- immundata::imd_schema("count")
-  prop_col <- immundata::imd_schema("proportion")
-
-  ann_tbl <- tibble::tibble(
-    !!receptor_col := c("r1", "r2", "r1", "r2"),
-    !!repertoire_col := c("R1", "R2", "R3", "R3"),
-    !!count_col := c(10, 10, 5, 5),
-    !!prop_col := c(1, 1, 0.5, 0.5),
-    cdr3_aa = c("r1", "r2", "r1", "r2")
+  receptor_counts <- tibble::tibble(
+    receptor = c("r1", "r2", "r1", "r2"),
+    repertoire = c("R1", "R2", "R3", "R3"),
+    count = c(10, 10, 5, 5),
+    proportion = c(1, 1, 0.5, 0.5)
   )
 
-  rep_tbl <- tibble::tibble(
-    !!repertoire_col := c("R1", "R2", "R3"),
-    Group = c("R1", "R2", "R3")
-  )
-  ann_tbl <- duckplyr::as_duckdb_tibble(ann_tbl)
-  rep_tbl <- duckplyr::as_duckdb_tibble(rep_tbl)
-
-  idata <- immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = ann_tbl,
-    repertoires = rep_tbl
-  )
-
-  out <- repsim_bray(idata, autojoin = FALSE)
+  out <- repsim_bray(make_repsim_idata(receptor_counts), autojoin = FALSE)
 
   expect_true(is.matrix(out))
   expect_equal(unname(diag(out)), c(0, 0, 0), tolerance = 1e-12)
@@ -45,29 +25,14 @@ test_that("repsim_bray computes Bray-Curtis from proportions", {
 
 
 test_that("repsim_bray transforms abundances", {
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  count_col <- immundata::imd_schema("count")
-  prop_col <- immundata::imd_schema("proportion")
-
-  ann_tbl <- tibble::tibble(
-    !!receptor_col := c("r1", "r2", "r1", "r2"),
-    !!repertoire_col := c("R1", "R1", "R2", "R2"),
-    !!count_col := c(9, 1, 5, 5),
-    !!prop_col := c(0.9, 0.1, 0.5, 0.5),
-    cdr3_aa = c("r1", "r2", "r1", "r2")
-  )
-  rep_tbl <- tibble::tibble(
-    !!repertoire_col := c("R1", "R2"),
-    Group = c("R1", "R2")
+  receptor_counts <- tibble::tibble(
+    receptor = c("r1", "r2", "r1", "r2"),
+    repertoire = c("R1", "R1", "R2", "R2"),
+    count = c(9, 1, 5, 5),
+    proportion = c(0.9, 0.1, 0.5, 0.5)
   )
 
-  idata <- immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = duckplyr::as_duckdb_tibble(ann_tbl),
-    repertoires = duckplyr::as_duckdb_tibble(rep_tbl)
-  )
-  idata$schema_repertoire <- "Group"
+  idata <- make_repsim_idata(receptor_counts)
 
   reference_bray <- function(transform) {
     abundance <- matrix(
@@ -101,7 +66,7 @@ test_that("repsim_bray transforms abundances", {
 test_that("repsim_bray returns a symmetric [0,1] matrix and vis() works", {
   skip_if_not_installed("ggplot2")
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
 
   out <- repsim_bray(idata, autojoin = FALSE)
 
@@ -176,8 +141,14 @@ test_that("repsim_bray matches an independent weighted reference", {
 
     idata <- immundata::ImmunData$new(
       schema = "cdr3_aa",
-      annotations = duckplyr::as_duckdb_tibble(ann_tbl),
-      repertoires = duckplyr::as_duckdb_tibble(rep_tbl)
+      annotations = duckplyr::as_duckdb_tibble(
+        ann_tbl,
+        prudence = "stingy"
+      ),
+      repertoires = duckplyr::as_duckdb_tibble(
+        rep_tbl,
+        prudence = "stingy"
+      )
     )
     idata$schema_repertoire <- "Group"
 

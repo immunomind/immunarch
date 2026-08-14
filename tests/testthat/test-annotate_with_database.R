@@ -1,6 +1,6 @@
 test_that("annotate_with_database joins duckplyr database and applies filters", {
 
-  idata <- get_test_immundata()
+  idata <- make_test_idata()
   ann <- dplyr::collect(idata$annotations)
 
   keys <- unique(ann$cdr3_aa)[1:6]
@@ -9,7 +9,7 @@ test_that("annotate_with_database joins duckplyr database and applies filters", 
     species = c("A", "B", "C", "D", "E", "F"),
     gene = c("TRB", "TRA", "TRB", "TRA", "TRB", "TRA")
   )
-  db <- duckplyr::as_duckdb_tibble(db)
+  db <- duckplyr::as_duckdb_tibble(db, prudence = "lavish")
 
   out <- immunarch:::annotate_with_database(
     idata,
@@ -26,7 +26,7 @@ test_that("annotate_with_database joins duckplyr database and applies filters", 
 
 test_that("annotate_with_database reads database from CSV file", {
 
-  idata <- get_test_immundata()
+  idata <- make_test_idata()
   ann <- dplyr::collect(idata$annotations)
 
   keys <- unique(ann$cdr3_aa)[1:4]
@@ -34,7 +34,7 @@ test_that("annotate_with_database reads database from CSV file", {
     cdr3_db = keys,
     species = c("S1", "S2", "S3", "S4")
   )
-  db <- duckplyr::as_duckdb_tibble(db)
+  db <- duckplyr::as_duckdb_tibble(db, prudence = "lavish")
 
   db_path <- tempfile(fileext = ".csv")
   on.exit(unlink(db_path), add = TRUE)
@@ -54,13 +54,13 @@ test_that("annotate_with_database reads database from CSV file", {
 
 test_that("annotate_with_database errors when join columns are missing", {
 
-  idata <- get_test_immundata()
+  idata <- make_test_idata()
   ann <- dplyr::collect(idata$annotations)
   db <- tibble::tibble(
     cdr3_db = unique(ann$cdr3_aa)[1:3],
     species = c("A", "B", "C")
   )
-  db <- duckplyr::as_duckdb_tibble(db)
+  db <- duckplyr::as_duckdb_tibble(db, prudence = "lavish")
 
   expect_error(
     immunarch:::annotate_with_database(
@@ -85,13 +85,13 @@ test_that("annotate_with_database errors when join columns are missing", {
 
 test_that("annotate_with_database errors when label_col is missing", {
 
-  idata <- get_test_immundata()
+  idata <- make_test_idata()
   ann <- dplyr::collect(idata$annotations)
   db <- tibble::tibble(
     cdr3_db = unique(ann$cdr3_aa)[1:3],
     other_label = c("x", "y", "z")
   )
-  db <- duckplyr::as_duckdb_tibble(db)
+  db <- duckplyr::as_duckdb_tibble(db, prudence = "lavish")
 
   expect_error(
     immunarch:::annotate_with_database(
@@ -106,7 +106,7 @@ test_that("annotate_with_database errors when label_col is missing", {
 
 test_that("annotate_with_database errors for missing database file", {
 
-  idata <- get_test_immundata()
+  idata <- make_test_idata()
   missing_path <- file.path(tempdir(), "definitely_missing_db.csv")
 
   expect_error(

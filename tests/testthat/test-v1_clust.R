@@ -9,7 +9,7 @@ testthat::test_that("clust_cc retains transitive components and singletons", {
     to = c(2L, 3L, NA_integer_, NA_integer_),
     imd_receptor_id = 1:4
   ) |>
-    duckplyr::as_duckdb_tibble()
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
 
   idata <- immundata::ImmunData$new(
     schema = immundata::make_receptor_schema(features = "node"),

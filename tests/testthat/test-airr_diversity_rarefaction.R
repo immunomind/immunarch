@@ -1,28 +1,12 @@
 make_rarefaction_idata <- function(counts, repertoire_id = "R1") {
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  count_col <- immundata::imd_schema("count")
-  proportion_col <- immundata::imd_schema("proportion")
   receptor_ids <- paste0("receptor_", seq_along(counts))
 
-  annotations <- tibble::tibble(
-    !!receptor_col := receptor_ids,
-    !!repertoire_col := repertoire_id,
-    !!count_col := counts,
-    !!proportion_col := counts / sum(counts),
-    cdr3_aa = receptor_ids
-  ) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
-  repertoires <- tibble::tibble(
-    !!repertoire_col := repertoire_id,
-    Group = repertoire_id
-  ) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
-
-  immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = annotations,
-    repertoires = repertoires
+  make_test_repertoire_idata(
+    receptors = receptor_ids,
+    repertoires = rep(repertoire_id, length(counts)),
+    counts = counts,
+    proportions = counts / sum(counts),
+    all_repertoires = repertoire_id
   )
 }
 
@@ -39,7 +23,7 @@ run_v1_rarefaction <- function(counts, ...) {
 
 test_that("airr_diversity_rarefaction returns normalized interpolation curves", {
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   rep_col <- immundata::imd_schema("repertoire")
 
   res <- airr_diversity_rarefaction(
@@ -62,7 +46,7 @@ test_that("airr_diversity_rarefaction returns normalized interpolation curves", 
 
 test_that("airr_diversity_rarefaction supports extrapolation and vis()", {
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   rep_sym <- immundata::imd_schema_sym("repertoire")
   rec_sym <- immundata::imd_schema_sym("receptor")
   cnt_sym <- immundata::imd_schema_sym("count")
@@ -99,7 +83,7 @@ test_that("airr_diversity_rarefaction supports extrapolation and vis()", {
 
 test_that("Chao1 and rarefaction are consistent at interpolation/extrapolation boundaries", {
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   rep_col <- immundata::imd_schema("repertoire")
   rep_sym <- immundata::imd_schema_sym("repertoire")
   rec_sym <- immundata::imd_schema_sym("receptor")

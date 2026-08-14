@@ -1,33 +1,3 @@
-make_chao_jaccard_idata <- function(
-  receptor_counts,
-  repertoire_ids = unique(receptor_counts$repertoire)
-) {
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  count_col <- immundata::imd_schema("count")
-
-  ann_tbl <- receptor_counts |>
-    dplyr::transmute(
-      !!receptor_col := .data$receptor,
-      !!repertoire_col := .data$repertoire,
-      !!count_col := .data$count,
-      cdr3_aa = .data$receptor
-    )
-  rep_tbl <- tibble::tibble(
-    !!repertoire_col := repertoire_ids,
-    Group = repertoire_ids
-  )
-
-  idata <- immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = duckplyr::as_duckdb_tibble(ann_tbl, prudence = "stingy"),
-    repertoires = duckplyr::as_duckdb_tibble(rep_tbl, prudence = "stingy")
-  )
-  idata$schema_repertoire <- "Group"
-  idata
-}
-
-
 test_that("repsim_chao_jaccard matches hard-coded vegan similarities", {
   receptor_counts <- tibble::tribble(
     ~receptor, ~repertoire, ~count,
@@ -58,7 +28,7 @@ test_that("repsim_chao_jaccard matches hard-coded vegan similarities", {
   )
 
   observed <- repsim_chao_jaccard(
-    make_chao_jaccard_idata(receptor_counts),
+    make_repsim_idata(receptor_counts),
     autojoin = FALSE
   )
 
@@ -95,7 +65,7 @@ test_that("repsim_chao_jaccard handles pairs without shared doubletons", {
   )
 
   observed <- repsim_chao_jaccard(
-    make_chao_jaccard_idata(receptor_counts),
+    make_repsim_idata(receptor_counts),
     autojoin = FALSE
   )
 
@@ -119,7 +89,7 @@ test_that("repsim_chao_jaccard handles pairs without shared doubletons", {
 test_that("repsim_chao_jaccard returns a plottable similarity matrix", {
   skip_if_not_installed("ggplot2")
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   observed <- repsim_chao_jaccard(idata, autojoin = FALSE)
 
   expect_true(is.matrix(observed))

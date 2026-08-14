@@ -1,44 +1,3 @@
-make_morisita_horn_idata <- function(
-  receptor_counts,
-  repertoire_ids = unique(receptor_counts$repertoire),
-  normalize = TRUE
-) {
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  count_col <- immundata::imd_schema("count")
-  prop_col <- immundata::imd_schema("proportion")
-
-  ann_tbl <- receptor_counts |>
-    dplyr::mutate(
-      proportion = if (normalize) {
-        .data$count / sum(.data$count)
-      } else {
-        as.double(.data$count)
-      },
-      .by = "repertoire"
-    ) |>
-    dplyr::transmute(
-      !!receptor_col := .data$receptor,
-      !!repertoire_col := .data$repertoire,
-      !!count_col := .data$count,
-      !!prop_col := .data$proportion,
-      cdr3_aa = .data$receptor
-    )
-  rep_tbl <- tibble::tibble(
-    !!repertoire_col := repertoire_ids,
-    Group = repertoire_ids
-  )
-
-  idata <- immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = duckplyr::as_duckdb_tibble(ann_tbl, prudence = "stingy"),
-    repertoires = duckplyr::as_duckdb_tibble(rep_tbl, prudence = "stingy")
-  )
-  idata$schema_repertoire <- "Group"
-  idata
-}
-
-
 test_that("repsim_morisita_horn matches hard-coded vegan similarities", {
   receptor_counts <- tibble::tribble(
     ~receptor, ~repertoire, ~count,
@@ -65,7 +24,7 @@ test_that("repsim_morisita_horn matches hard-coded vegan similarities", {
   )
 
   observed <- repsim_morisita_horn(
-    make_morisita_horn_idata(receptor_counts),
+    make_repsim_idata(receptor_counts, normalize = TRUE),
     autojoin = FALSE
   )
 
@@ -101,11 +60,15 @@ test_that("repsim_morisita_horn is invariant to repertoire scaling", {
     )
 
   observed <- repsim_morisita_horn(
-    make_morisita_horn_idata(receptor_counts, normalize = FALSE),
+    make_repsim_idata(
+      dplyr::mutate(receptor_counts, proportion = as.double(.data$count))
+    ),
     autojoin = FALSE
   )
   observed_scaled <- repsim_morisita_horn(
-    make_morisita_horn_idata(scaled_counts, normalize = FALSE),
+    make_repsim_idata(
+      dplyr::mutate(scaled_counts, proportion = as.double(.data$count))
+    ),
     autojoin = FALSE
   )
 
@@ -121,7 +84,11 @@ test_that("repsim_morisita_horn handles empty repertoires", {
     "r2", "B", 1
   )
   observed <- repsim_morisita_horn(
-    make_morisita_horn_idata(receptor_counts, c("A", "B", "empty")),
+    make_repsim_idata(
+      receptor_counts,
+      all_repertoires = c("A", "B", "empty"),
+      normalize = TRUE
+    ),
     autojoin = FALSE
   )
 
@@ -135,7 +102,7 @@ test_that("repsim_morisita_horn handles empty repertoires", {
 test_that("repsim_morisita_horn returns a plottable similarity matrix", {
   skip_if_not_installed("ggplot2")
 
-  idata <- get_test_immundata() |> agg_repertoires(c("Response", "Therapy"))
+  idata <- make_aggregated_test_idata()
   observed <- repsim_morisita_horn(idata, autojoin = FALSE)
 
   expect_true(is.matrix(observed))
