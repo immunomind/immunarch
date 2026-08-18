@@ -24,7 +24,7 @@ BugReports: https://github.com/immunomind/immunarch/issues
 Depends:
     R (>= 4.2.0),
     ggplot2 (>= 3.1.0),
-    immundata (>= 0.0.6),
+    immundata (>= 0.0.8),
     patchwork
 Imports:
     dplyr (>= 1.2.0),
@@ -50,8 +50,7 @@ Imports:
     stats,
     vctrs,
     ggthemes,
-    ggsci,
-    immundapter (>= 0.1.0)
+    ggsci
 LinkingTo: Rcpp
 Suggests:
     knitr (>= 1.8),
@@ -79,6 +78,8 @@ Suggests:
     quarto,
     MASS (>= 7.3),
     Rtsne (>= 0.15)
+Remotes:
+    immunomind/immundata@dev
 VignetteBuilder:
     knitr,
     quarto
