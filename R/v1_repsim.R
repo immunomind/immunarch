@@ -567,7 +567,7 @@ repsim_morisita_horn_impl <- function(idata) {
       !!rlang::sym(repertoire_id_col),
       .keep_all = TRUE
     ) |>
-    dplyr::compute()
+    dplyr::compute(name = basename(tempfile(pattern = "immunarch_morisita_")))
 
   rep_x <- paste0(repertoire_id_col, ".x")
   rep_y <- paste0(repertoire_id_col, ".y")
@@ -751,7 +751,7 @@ repsim_bray_impl <- function(
   }
 
   receptor_abundances <- receptor_abundances |>
-    dplyr::compute()
+    dplyr::compute(name = basename(tempfile(pattern = "immunarch_bray_")))
 
   rep_x <- paste0(repertoire_id_col, ".x")
   rep_y <- paste0(repertoire_id_col, ".y")
