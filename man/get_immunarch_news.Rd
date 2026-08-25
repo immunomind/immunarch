@@ -7,8 +7,9 @@
 get_immunarch_news(datepoint = "latest")
 }
 \arguments{
-\item{datepoint}{A string specifying the update date. Use \code{"latest"} for the most recent update
-or supply a valid date key (e.g., \code{"Apr 2025"}).}
+\item{datepoint}{A single character string specifying the update date. Use
+\code{"latest"} for the most recent update or supply a valid date key (e.g.,
+\code{"Apr 2025"}).}
 }
 \value{
 A character string with the update details or a warning if the key is not found.

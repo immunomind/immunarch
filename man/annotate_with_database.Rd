@@ -7,23 +7,25 @@
 annotate_with_database(idata, db, by, label_col = "species", ...)
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{db}{A data frame / tibble / \code{duckplyr_df}, or a path to a
-delimited or Parquet file that will be read via duckplyr.}
+\item{db}{A data frame, tibble, \code{duckplyr_df}, or a single character string
+containing a path to a delimited or Parquet file. Files are read via
+duckplyr.}
 
-\item{by}{Named character vector of join columns, of the form
+\item{by}{A named character vector of join columns, of the form
 \code{c(idata_col = "db_col")}.}
 
-\item{label_col}{Name of a column in \code{db} that identifies the column from
-the database with the target label values to add (for VDJdb this could be \code{"species"}).}
+\item{label_col}{A single character string naming the column from \code{db} to
+add to \code{idata} (for VDJdb, this could be \code{"species"}).}
 
-\item{...}{Optional dplyr/duckplyr filter expressions evaluated on
+\item{...}{Optional dplyr or duckplyr filter expressions evaluated on
 \code{db} before joining (e.g. \code{species == "HomoSapiens"}, \code{gene == "TRB"}).}
 }
 \value{
-A new \code{ImmunData} object with database annotations added in new columns.
+A new \link[immundata:ImmunData]{immundata::ImmunData} object with the selected database label
+added as an annotation column.
 }
 \description{
-Add an information to ImmunData from external databases such as VDJdb.
+Add annotations to ImmunData from an external database such as VDJdb.
 }

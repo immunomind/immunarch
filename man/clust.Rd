@@ -18,9 +18,9 @@ clust_cc(
 )
 }
 \arguments{
-\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object. Its annotations provide the
-graph nodes through the canonical receptor-ID column and, when requested,
-repertoire metadata.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object. Its receptor annotations
+provide the graph nodes through the canonical receptor-ID column and, when
+requested, repertoire metadata.}
 
 \item{edges}{A lazy duckplyr table with one row per edge. It must contain the
 columns named by \code{from} and \code{to}, plus every column in \code{by}, and must use
@@ -29,21 +29,24 @@ the same type and identifiers as the canonical receptor-ID column.
 Edges are treated as undirected; duplicate edges, reversed duplicates,
 self-loops, and rows with a missing endpoint do not change the result.}
 
-\item{from, to}{Single strings naming the endpoint columns in \code{edges}. The
+\item{from, to}{Single character strings naming the endpoint columns in
+\code{edges}. The
 defaults, \code{"imd_receptor_id_1"} and \code{"imd_receptor_id_2"}, match the output
 of \code{\link[=dist_hamm]{dist_hamm()}}.}
 
-\item{by}{\code{NULL} or a character vector of column names present in both
-\code{idata$annotations} and \code{edges}. Each distinct combination defines an
-independent graph, so edges never connect nodes across groups. For example,
-\code{by = "imd_repertoire_id"} clusters each repertoire separately. The
-canonical receptor-ID column cannot also be used in \code{by}.}
+\item{by}{A character vector of column names or \code{NULL}. The columns must be
+present in both the receptor annotations and \code{edges}. Each distinct
+combination defines an independent graph, so edges never connect nodes
+across groups. For example, \code{by = "imd_repertoire_id"} clusters each
+repertoire separately. The canonical receptor-ID column cannot also be
+used in \code{by}.}
 
-\item{cluster_col}{A single string giving the output component-identifier
-column name. Within each \code{by} group, the identifier is the minimum node
-identifier in that component. Defaults to \code{"cluster_id"}.}
+\item{cluster_col}{A single character string giving the output
+component-identifier column name. Within each \code{by} group, the identifier
+is the minimum node identifier in that component. Defaults to
+\code{"cluster_id"}.}
 
-\item{size_col}{A single string giving the output component-size column
+\item{size_col}{A single character string giving the output component-size column
 name. The size is the number of distinct nodes in the component. Defaults
 to \code{"cluster_size"}.}
 

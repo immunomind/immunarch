@@ -21,6 +21,7 @@ test_that("annotate_with_database joins duckplyr database and applies filters", 
 
   out_ann <- dplyr::collect(out$annotations)
   expect_true("species" %in% names(out_ann))
+  expect_false("gene" %in% names(out_ann))
   expect_setequal(unique(stats::na.omit(out_ann$species)), c("A", "C", "E"))
 })
 

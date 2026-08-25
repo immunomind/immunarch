@@ -8,9 +8,9 @@
 #' A family of functions for clustering sparse receptor graphs represented by
 #' an `ImmunData` object and a lazy edge table.
 #'
-#' @param idata An [immundata::ImmunData] object. Its annotations provide the
-#'   graph nodes through the canonical receptor-ID column and, when requested,
-#'   repertoire metadata.
+#' @param idata An [immundata::ImmunData] object. Its receptor annotations
+#'   provide the graph nodes through the canonical receptor-ID column and, when
+#'   requested, repertoire metadata.
 #' @inheritParams im_common_args
 #'
 #' @name clust
@@ -246,43 +246,36 @@ clust_cc_impl <- function(
 
 #' @description
 #' `clust_cc()` finds connected components in an undirected receptor graph. The
-#' nodes come from the canonical receptor-ID column in `idata$annotations`, and
-#' `edges` supplies the receptor pairs. Consequently, every receptor is
-#' returned, including receptors with no edges as one-node components.
+#' nodes use the receptor ID.
 #'
 #' @param edges A lazy duckplyr table with one row per edge. It must contain the
-#'   columns named by `from` and `to`, plus every column in `by`, and must use
-#'   the same DuckDB connection as `idata$annotations`. Endpoint values must use
-#'   the same type and identifiers as the canonical receptor-ID column.
-#'   Edges are treated as undirected; duplicate edges, reversed duplicates,
+#'   columns named by `from` and `to`, plus every column in `by`.
+#'   Edges are treated as undirected. Duplicate edges, reversed duplicates,
 #'   self-loops, and rows with a missing endpoint do not change the result.
-#' @param from,to Single strings naming the endpoint columns in `edges`. The
+#' @param from,to Single character strings naming the endpoint columns in
+#'   `edges`. The
 #'   defaults, `"imd_receptor_id_1"` and `"imd_receptor_id_2"`, match the output
 #'   of [dist_hamm()].
-#' @param by `NULL` or a character vector of column names present in both
-#'   `idata$annotations` and `edges`. Each distinct combination defines an
-#'   independent graph, so edges never connect nodes across groups. For example,
-#'   `by = "imd_repertoire_id"` clusters each repertoire separately. The
-#'   canonical receptor-ID column cannot also be used in `by`.
-#' @param cluster_col A single string giving the output component-identifier
-#'   column name. Within each `by` group, the identifier is the minimum node
-#'   identifier in that component. Defaults to `"cluster_id"`.
-#' @param size_col A single string giving the output component-size column
+#' @param by A character vector of column names or `NULL`. The columns must be
+#'   present in both the receptor annotations and `edges`. Each distinct
+#'   combination defines an independent graph, so edges never connect nodes
+#'   across groups. For example, `by = "imd_repertoire_id"` clusters each
+#'   repertoire separately. The canonical receptor-ID column cannot also be
+#'   used in `by`.
+#' @param cluster_col A single character string giving the output
+#'   component-identifier column name. Within each `by` group, the identifier
+#'   is the minimum node identifier in that component. Defaults to
+#'   `"cluster_id"`.
+#' @param size_col A single character string giving the output component-size column
 #'   name. The size is the number of distinct nodes in the component. Defaults
 #'   to `"cluster_size"`.
 #'
 #' @details
-#' Only receptor identifiers listed in `idata$annotations` are returned. Edges
-#' whose endpoints are not present there cannot introduce new nodes. Duplicate
-#' annotation rows are collapsed, and rows with a missing receptor identifier
-#' are omitted. The order of output rows is not guaranteed; use
-#' [dplyr::arrange()] before collecting when order matters.
 #'
 #' [dist_hamm()] produces the expected edge columns using the default `from`
 #' and `to` names. Its distance columns (`seq_len`, `dist`, `norm_dist`, and
-#' `sim`) may remain in `edges`; `clust_cc()` selects only the endpoint and `by`
-#' columns it needs. Because [dist_hamm()] derives its edges from the same
-#' `idata`, the node and edge inputs automatically share a DuckDB connection.
+#' `sim`) may remain in `edges`. `clust_cc()` selects only the endpoint and `by`
+#' columns it needs.
 #'
 #' @return A lazy duckplyr table with one row per distinct, non-missing node and
 #'   the following columns:
@@ -303,7 +296,7 @@ clust_cc_impl <- function(
 #'
 #' # Connect receptors whose CDR3 amino-acid sequences differ by at most one
 #' # residue. dist_hamm() and clust_cc() use matching receptor-ID defaults.
-#' edges <- dist_hamm(idata, max_dist = 1, autojoin = FALSE)
+#' edges <- dist_hamm(idata, max_dist = 1)
 #' res <- clust_cc(
 #'   idata = idata,
 #'   edges = edges

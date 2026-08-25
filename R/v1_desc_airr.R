@@ -12,7 +12,7 @@
 #'
 #' The following methods are available.
 #'
-#' @param idata An `ImmunData` object.
+#' @param idata An [immundata::ImmunData] object.
 #' @inheritParams airr_desc_chains
 #' @inheritParams airr_desc_lengths
 #' @inheritParams airr_desc_genes
@@ -70,19 +70,21 @@ NULL
 
 #' @keywords internal
 airr_desc_chains_impl <- function(idata, locus_col = NA) {
-  checkmate::assert_character(locus_col, null.ok = TRUE)
+  checkmate::assert_string(locus_col, na.ok = TRUE, null.ok = TRUE)
 
   if (is.null(idata$repertoires)) {
     cli::cli_abort("No repertoires in the input ImmunData. Run {.code agg_repertoires} first.")
   }
 
-  if (is.na(locus_col)) {
+  if (is.null(locus_col)) {
+    # Keep all loci in one repertoire-level group.
+  } else if (is.na(locus_col)) {
     locus_col <- immundata::imd_schema("locus")
 
     if (!locus_col %in% colnames(idata$annotations)) {
       locus_col <- NULL
     }
-  } else if (!is.null(locus_col)) {
+  } else {
     if (!locus_col %in% colnames(idata$annotations)) {
       cli::cli_alert_warning("No locus column {.code locus_col} found.")
     }
@@ -118,15 +120,18 @@ airr_desc_chains_impl <- function(idata, locus_col = NA) {
 #' depth, compare library sizes, examine TRA/TRB/IGH balance, and identify
 #' locus-specific loss or over-representation.
 #'
-#' @param locus_col Column in `idata$annotations` that stores the locus (e.g.
-#'   `"locus"`). If `NULL` or missing, the result is not split by locus.
+#' @param locus_col A single character string, `NA`, or `NULL`. The default,
+#'   `NA`, uses the canonical locus column when it is available. Supply `NULL`
+#'   to combine loci, or a column name to group by that column.
 #'
 #' @return
 #'
 #' ## 1) Chain counts (`airr_desc_chains`)
 #' A tibble with columns:
 #' * `imd_repertoire_id` -- internal repertoire identifier
-#' * `locus` -- TRA, TRB, IGH, ... (present only if `locus_col` is supplied)
+#' * repertoire-summary columns carried from `idata`, such as `n_barcodes` and
+#'   `n_receptors`
+#' * `locus` -- TRA, TRB, IGH, ...; `NA` when locus grouping is disabled
 #' * `n_chains` -- number of chains
 #'
 #' @examples
@@ -201,8 +206,8 @@ airr_desc_lengths_impl <- function(
 #' this method to describe CDR3 length distributions, detect possible library
 #' preparation bias, compare groups, and create length-based features.
 #'
-#' @param seq_col Name of the column containing sequences.
-#' @param by Grouping columns from `idata$annotations`. The default `NA`
+#' @param seq_col A single character string naming the sequence column.
+#' @param by A character vector, `NA`, or `NULL`. The default `NA`
 #'   automatically groups by the canonical `locus` column when it is available.
 #'   Supply `NULL` to pool loci, or a character vector to group by and return
 #'   those columns explicitly.
@@ -303,15 +308,16 @@ airr_desc_genes_impl <- function(
 #' receptors or sum barcode/UMI counts. Use it to compare gene usage between
 #' groups, identify unusual gene patterns, and create repertoire-level features.
 #'
-#' @param gene_col A single column name in `idata$annotations` with gene segment
+#' @param gene_col A single character string naming a gene-segment column
 #'   calls (e.g., `"v_call"`, `"d_call"`, `"j_call"`, `"c_call"`). Default is
 #'   `"v_call"`.
-#' @param level One of `"receptor"` or `"barcode"`. If `"receptor"` (default),
+#' @param level A single character string: `"receptor"` or `"barcode"`. If
+#'   `"receptor"` (default),
 #'   the function counts **unique receptors** (one per receptor ID) that carry a
 #'   given gene segment. If `"barcode"`, the function **sums counts** (e.g.,
 #'   cells/UMIs) per gene segment using the column defined by
 #'   `immundata::imd_schema("count")`.
-#' @param by Grouping columns from `idata$annotations`. The default `NA`
+#' @param by A character vector, `NA`, or `NULL`. The default `NA`
 #'   automatically groups by the canonical `locus` column when it is available.
 #'   Supply `NULL` to pool loci, or a character vector to group by and return
 #'   those columns explicitly.

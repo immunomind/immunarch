@@ -30,10 +30,11 @@ airr_clonality_prop(
 )
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{limit}{Positive integer >= 10: maximum number of top receptors to keep
-\strong{per repertoire} (default \code{100000}).}
+\item{limit}{A single whole number greater than or equal to \code{10}, giving the
+maximum number of top receptors to keep \strong{per repertoire} (default
+\code{100000}).}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -42,7 +43,7 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
-\item{bins}{A \strong{named} numeric vector of thresholds (e.g.,
+\item{bins}{A named numeric vector of thresholds (e.g.,
 \code{c(Hyperexpanded = 1e-2, Large = 1e-3, ...)}). Names become bin labels and
 must be non-empty. Internally sorted in descending order.}
 }

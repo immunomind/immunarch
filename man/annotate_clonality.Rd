@@ -24,7 +24,7 @@ annotate_clonality_prop(
 \arguments{
 \item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{bins}{A \strong{named} numeric vector of thresholds (e.g.,
+\item{bins}{A named numeric vector of thresholds (e.g.,
 \code{c(Hyperexpanded = 1e-2, Large = 1e-3, ...)}). Names become bin labels and
 must be non-empty. Internally sorted in descending order.}
 

@@ -6,8 +6,9 @@
 #' Otherwise, specify the update date key (e.g., `"Apr 2025"`) to retrieve that particular update.
 #' If no matching update is found, a warning is issued along with available update keys.
 #'
-#' @param datepoint A string specifying the update date. Use `"latest"` for the most recent update
-#'   or supply a valid date key (e.g., `"Apr 2025"`).
+#' @param datepoint A single character string specifying the update date. Use
+#'   `"latest"` for the most recent update or supply a valid date key (e.g.,
+#'   `"Apr 2025"`).
 #'
 #' @return A character string with the update details or a warning if the key is not found.
 #'

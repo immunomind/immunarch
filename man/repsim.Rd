@@ -41,7 +41,7 @@ repsim_bray(
 )
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -50,8 +50,9 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
-\item{transform}{Transformation applied to \code{imd_proportion} before calculating
-dissimilarity. Use \code{"none"} (the default) for the original proportions or
+\item{transform}{A single character string selecting the transformation
+applied to \code{imd_proportion} before calculating dissimilarity. Use \code{"none"}
+(the default) for the original proportions or
 \code{"log1p"} for \code{log(1 + imd_proportion)}.
 
 \deqn{BC_{ij} = \frac{\sum_k |a_{ik} - a_{jk}|}

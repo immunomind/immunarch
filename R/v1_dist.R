@@ -11,7 +11,7 @@
 #'
 #' The following methods are available.
 #'
-#' @param idata An `ImmunData` object.
+#' @param idata An [immundata::ImmunData] object.
 #' @inheritParams dist_hamm
 #' @inheritParams im_common_args
 #'
@@ -427,34 +427,40 @@ dist_hamm_impl <- function(
 #' @description
 #' **1) Hamming distances (`dist_hamm`).** Compute an upper-triangular sparse
 #' edge table of Hamming distances between receptor IDs represented in
-#' `idata$annotations`.
+#' the receptor annotations in `idata`.
 #' Comparisons are restricted to equal sequence lengths and equal values of
-#' `by`. Please mind that the data is not grouped by repertoires automatically.
+#' `by`. The data are not grouped by repertoire automatically.
 #' For paired-chain receptor schemas, the canonical locus column is added to `by` automatically,
 #' so distances are computed separately per locus. Add it explicitly if you have a
 #' non-AIRR-C standard locus column name.
 #'
-#' @param seq_col Name of a sequence feature in the receptor schema.
-#' @param by Optional columns from `idata$annotations` that must be equal within
-#'   a receptor pair. For B-cell clone assignment, a typical choice is
+#' @param seq_col A single character string naming a sequence feature in the
+#'   receptor schema.
+#' @param by A character vector or `NULL`. These optional annotation columns
+#'   must be equal within a receptor pair. For B-cell clone assignment, a
+#'   typical choice is
 #'   `c("v_call", "j_call")`; add `imd_repertoire_id` when comparisons must stay
 #'   within repertoires, or `subject_id` if your data has such a dedicated column for
-#'   subject-specific metadata. Locus grouping is also always applied for paired-chain receptor schemas.
-#' @param max_dist Maximum distance. Values in `(0, 1)` bound normalized
+#'   subject-specific metadata. Locus grouping is also always applied for
+#'   paired-chain receptor schemas.
+#' @param max_dist A single nonnegative number or `NULL`. Values in `(0, 1)`
+#'   bound normalized
 #'   Hamming distance, integer values which are `>=1` bound raw
 #'   Hamming distance. `NULL` (the default) and the legacy value `0` disable
 #'   bounding. Mutually exclusive with `min_sim`.
-#' @param min_sim Minimum normalized Hamming similarity in `[0, 1]`. Mutually
-#'   exclusive with `max_dist`.
-#' @param sample_n Maximum number of distinct receptor IDs to sample before
+#' @param min_sim A single number in `[0, 1]` or `NULL`, giving the minimum
+#'   normalized Hamming similarity. It is mutually exclusive with `max_dist`.
+#' @param sample_n A nonnegative whole number giving the maximum number of
+#'   distinct receptor IDs to sample before
 #'   distance calculation within each `sample_by` group. `0` (the default)
 #'   disables sampling.
-#' @param sample_by Select a column to sample by. The default,
+#' @param sample_by A single character string or `NULL` selecting the column to
+#'   sample by. The default,
 #'   `"<auto>"`, uses the first available column among `subject_id`, `donor`,
 #'   `donor_id`, `patient_id`, `patient`, `subject`, and `imd_repertoire_id`.
 #'   The resolved column must also be supplied through `by`. Set to `NULL` to
 #'   sample from the whole dataset without accounting for groups.
-#'   For obvious reasons, this argument is completely ignored when `sample_n = 0`.
+#'   This argument is ignored when `sample_n = 0`.
 #'
 #' @return
 #'

@@ -40,9 +40,13 @@ make_paired_desc_idata <- function() {
 test_that("paired-chain descriptive statistics return automatic locus groups", {
   idata <- make_paired_desc_idata()
 
+  chains <- airr_desc_chains(idata, autojoin = FALSE)
   genes <- airr_desc_genes(idata, autojoin = FALSE)
   lengths <- airr_desc_lengths(idata, autojoin = FALSE)
 
+  expect_true(all(
+    c("imd_repertoire_id", "locus", "n_chains") %in% colnames(chains)
+  ))
   expect_named(
     genes,
     c("v_call", "imd_repertoire_id", "locus", "n"),
@@ -53,6 +57,7 @@ test_that("paired-chain descriptive statistics return automatic locus groups", {
     c("imd_repertoire_id", "locus", "seq_len", "n", "prop", "pct"),
     ignore.order = FALSE
   )
+  expect_setequal(unique(chains$locus), c("TRA", "TRB"))
   expect_setequal(unique(genes$locus), c("TRA", "TRB"))
   expect_setequal(unique(lengths$locus), c("TRA", "TRB"))
 
@@ -65,6 +70,26 @@ test_that("paired-chain descriptive statistics return automatic locus groups", {
 
   expect_equal(prop_sums$prop, rep(1, nrow(prop_sums)), tolerance = 1e-12)
   expect_equal(prop_sums$pct, rep(100, nrow(prop_sums)), tolerance = 1e-10)
+})
+
+
+test_that("chain statistics support explicit pooled locus output", {
+  idata <- make_paired_desc_idata()
+
+  pooled <- airr_desc_chains(
+    idata,
+    locus_col = NULL,
+    autojoin = FALSE
+  )
+
+  expect_true(all(
+    c("imd_repertoire_id", "n_chains", "locus") %in% colnames(pooled)
+  ))
+  expect_true(all(is.na(pooled$locus)))
+  expect_error(
+    airr_desc_chains(idata, locus_col = c("locus", "sample")),
+    "length 1"
+  )
 })
 
 

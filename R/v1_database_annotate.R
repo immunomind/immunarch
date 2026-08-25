@@ -1,18 +1,20 @@
 #' Annotate ImmunData with an external sequence database (e.g. VDJdb)
 #'
-#' Add an information to ImmunData from external databases such as VDJdb.
+#' Add annotations to ImmunData from an external database such as VDJdb.
 #'
-#' @param idata An `ImmunData` object.
-#' @param db A data frame / tibble / `duckplyr_df`, or a path to a
-#'   delimited or Parquet file that will be read via duckplyr.
-#' @param by Named character vector of join columns, of the form
+#' @param idata An [immundata::ImmunData] object.
+#' @param db A data frame, tibble, `duckplyr_df`, or a single character string
+#'   containing a path to a delimited or Parquet file. Files are read via
+#'   duckplyr.
+#' @param by A named character vector of join columns, of the form
 #'   `c(idata_col = "db_col")`.
-#' @param label_col Name of a column in `db` that identifies the column from
-#'   the database with the target label values to add (for VDJdb this could be `"species"`).
-#' @param ... Optional dplyr/duckplyr filter expressions evaluated on
+#' @param label_col A single character string naming the column from `db` to
+#'   add to `idata` (for VDJdb, this could be `"species"`).
+#' @param ... Optional dplyr or duckplyr filter expressions evaluated on
 #'   `db` before joining (e.g. `species == "HomoSapiens"`, `gene == "TRB"`).
 #'
-#' @return A new `ImmunData` object with database annotations added in new columns.
+#' @return A new [immundata::ImmunData] object with the selected database label
+#'   added as an annotation column.
 #' @export
 annotate_with_database <- function(idata, db, by, label_col = "species", ...) {
   checkmate::assert_r6(idata, "ImmunData")
@@ -66,6 +68,9 @@ annotate_with_database <- function(idata, db, by, label_col = "species", ...) {
     db_df <- db_df |>
       filter(!!!filters)
   }
+
+  db_df <- db_df |>
+    dplyr::select(dplyr::all_of(unique(c(db_cols, label_col))))
 
   immundata::annotate(
     idata = idata,

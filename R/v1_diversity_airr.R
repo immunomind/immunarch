@@ -12,7 +12,7 @@
 #'
 #' The following methods are available.
 #'
-#' @param idata An `ImmunData` object.
+#' @param idata An [immundata::ImmunData] object.
 #' @inheritParams airr_diversity_dxx
 #' @inheritParams airr_diversity_chao1
 #' @inheritParams airr_diversity_shannon
@@ -531,17 +531,20 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
 #' confidence bounds use bootstrap standard errors from an estimated abundance
 #' distribution. Clonotype counts must be positive integers.
 #'
-#' @param step Rarefaction step size. Defaults to `floor(min_total_clones / 50)`,
-#'   lower-bounded by `1`.
-#' @param quantile Numeric vector of length 2 containing confidence probabilities
-#'   strictly between `0` and `1`.
-#' @param extrapolation Upper size limit for extrapolation. Use `0` to disable
-#'   extrapolation. Defaults to twice each repertoire's observed clone count.
-#' @param nboot Number of bootstrap replicates used to estimate confidence
+#' @param step A whole number greater than or equal to `1`, or `NA`. The default,
+#'   `NA`, uses `floor(min_total_clones / 50)`, lower-bounded by `1`.
+#' @param quantile A numeric vector of length 2 containing confidence
+#'   probabilities strictly between `0` and `1`.
+#' @param extrapolation A nonnegative whole number or `NA` giving the upper size
+#'   limit for extrapolation. Use `0` to disable extrapolation. The default,
+#'   `NA`, uses twice each repertoire's observed clone count.
+#' @param nboot A nonnegative whole number that is either `0` or at least `2`.
+#'   It gives the number of bootstrap replicates used to estimate confidence
 #'   bounds. Defaults to `50`; use `0` to return `NA` confidence bounds.
-#' @param norm Logical; if `TRUE`, size is divided by total repertoire size and
-#'   richness estimates are divided by observed richness.
-#' @param verbose Logical; show a concise progress message.
+#' @param norm A single logical value; if `TRUE`, size is divided by total
+#'   repertoire size and richness estimates are divided by observed richness.
+#' @param verbose A single logical value controlling whether a concise progress
+#'   message is shown.
 #'
 #' @references
 #' Chao, A. et al. (2014). Rarefaction and extrapolation with Hill numbers:
@@ -763,7 +766,7 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #' influence of rare and abundant receptors.
 #'
 #' @inheritParams im_common_args
-#' @param q A scalar or vector of non-negative orders. Defaults to `0:5`.
+#' @param q A numeric scalar or vector of nonnegative orders. Defaults to `0:5`.
 #'
 #' @return
 #'

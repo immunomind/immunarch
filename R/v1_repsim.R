@@ -12,7 +12,7 @@
 #'
 #' The following methods are available.
 #'
-#' @param idata An `ImmunData` object.
+#' @param idata An [immundata::ImmunData] object.
 #' @inheritParams repsim_intersection
 #' @inheritParams repsim_jaccard
 #' @inheritParams repsim_morisita_horn
@@ -847,8 +847,9 @@ repsim_bray_impl <- function(
 #' longer sum to one, and the result no longer has the simple interpretation of
 #' the fraction of repertoire abundance that does not overlap.
 #'
-#' @param transform Transformation applied to `imd_proportion` before calculating
-#'   dissimilarity. Use `"none"` (the default) for the original proportions or
+#' @param transform A single character string selecting the transformation
+#'   applied to `imd_proportion` before calculating dissimilarity. Use `"none"`
+#'   (the default) for the original proportions or
 #'   `"log1p"` for `log(1 + imd_proportion)`.
 #'
 #' \deqn{BC_{ij} = \frac{\sum_k |a_{ik} - a_{jk}|}

@@ -13,7 +13,7 @@
 #'
 #' The following methods are available.
 #'
-#' @param idata An `ImmunData` object.
+#' @param idata An [immundata::ImmunData] object.
 #' @inheritParams airr_clonality_line
 #' @inheritParams airr_clonality_rank
 #' @inheritParams airr_clonality_prop
@@ -110,8 +110,9 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #' `limit` receptors. Use it to see whether a small number of receptors dominate
 #' the repertoire: a steep line suggests strong clonal expansion.
 #'
-#' @param limit Positive integer >= 10: maximum number of top receptors to keep
-#'   **per repertoire** (default `100000`).
+#' @param limit A single whole number greater than or equal to `10`, giving the
+#'   maximum number of top receptors to keep **per repertoire** (default
+#'   `100000`).
 #'
 #' @return
 #'
@@ -169,7 +170,7 @@ airr_clonality_rank_impl <- function(idata,
 #' top 1,000 receptors. Use it to compare whether expansion is concentrated in
 #' the highest-ranked receptors across repertoires.
 #'
-#' @param bins Integer vector of rank thresholds (e.g., `c(10, 100, 1000)`).
+#' @param bins An integer vector of rank thresholds (e.g., `c(10, 100, 1000)`).
 #'   For each repertoire, receptors with ranks `<= bins[i]` contribute to bin
 #'   `bins[i]`. Bins are sorted ascending internally.
 #'
@@ -240,7 +241,7 @@ airr_clonality_prop_impl <- function(
 #' just like in a histogram. Use it to compare the balance of expanded and rare receptors
 #' across repertoires.
 #'
-#' @param bins A **named** numeric vector of thresholds (e.g.,
+#' @param bins A named numeric vector of thresholds (e.g.,
 #'   `c(Hyperexpanded = 1e-2, Large = 1e-3, ...)`). Names become bin labels and
 #'   must be non-empty. Internally sorted in descending order.
 #'

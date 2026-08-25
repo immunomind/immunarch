@@ -62,7 +62,7 @@ airr_diversity_hill(
 )
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
 \item{perc}{A number or numeric vector in \verb{(0, 100]} (default \code{50}), e.g.
 \code{50} for D50, \code{20} for D20.}
@@ -74,24 +74,27 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
-\item{step}{Rarefaction step size. Defaults to \code{floor(min_total_clones / 50)},
-lower-bounded by \code{1}.}
+\item{step}{A whole number greater than or equal to \code{1}, or \code{NA}. The default,
+\code{NA}, uses \code{floor(min_total_clones / 50)}, lower-bounded by \code{1}.}
 
-\item{quantile}{Numeric vector of length 2 containing confidence probabilities
-strictly between \code{0} and \code{1}.}
+\item{quantile}{A numeric vector of length 2 containing confidence
+probabilities strictly between \code{0} and \code{1}.}
 
-\item{extrapolation}{Upper size limit for extrapolation. Use \code{0} to disable
-extrapolation. Defaults to twice each repertoire's observed clone count.}
+\item{extrapolation}{A nonnegative whole number or \code{NA} giving the upper size
+limit for extrapolation. Use \code{0} to disable extrapolation. The default,
+\code{NA}, uses twice each repertoire's observed clone count.}
 
-\item{nboot}{Number of bootstrap replicates used to estimate confidence
+\item{nboot}{A nonnegative whole number that is either \code{0} or at least \code{2}.
+It gives the number of bootstrap replicates used to estimate confidence
 bounds. Defaults to \code{50}; use \code{0} to return \code{NA} confidence bounds.}
 
-\item{norm}{Logical; if \code{TRUE}, size is divided by total repertoire size and
-richness estimates are divided by observed richness.}
+\item{norm}{A single logical value; if \code{TRUE}, size is divided by total
+repertoire size and richness estimates are divided by observed richness.}
 
-\item{verbose}{Logical; show a concise progress message.}
+\item{verbose}{A single logical value controlling whether a concise progress
+message is shown.}
 
-\item{q}{A scalar or vector of non-negative orders. Defaults to \code{0:5}.}
+\item{q}{A numeric scalar or vector of nonnegative orders. Defaults to \code{0:5}.}
 }
 \value{
 \subsection{1) Coverage diversity (\code{airr_diversity_dxx})}{

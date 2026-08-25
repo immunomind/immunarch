@@ -18,34 +18,40 @@ dist_hamm(
 )
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{seq_col}{Name of a sequence feature in the receptor schema.}
+\item{seq_col}{A single character string naming a sequence feature in the
+receptor schema.}
 
-\item{by}{Optional columns from \code{idata$annotations} that must be equal within
-a receptor pair. For B-cell clone assignment, a typical choice is
+\item{by}{A character vector or \code{NULL}. These optional annotation columns
+must be equal within a receptor pair. For B-cell clone assignment, a
+typical choice is
 \code{c("v_call", "j_call")}; add \code{imd_repertoire_id} when comparisons must stay
 within repertoires, or \code{subject_id} if your data has such a dedicated column for
-subject-specific metadata. Locus grouping is also always applied for paired-chain receptor schemas.}
+subject-specific metadata. Locus grouping is also always applied for
+paired-chain receptor schemas.}
 
-\item{max_dist}{Maximum distance. Values in \verb{(0, 1)} bound normalized
+\item{max_dist}{A single nonnegative number or \code{NULL}. Values in \verb{(0, 1)}
+bound normalized
 Hamming distance, integer values which are \verb{>=1} bound raw
 Hamming distance. \code{NULL} (the default) and the legacy value \code{0} disable
 bounding. Mutually exclusive with \code{min_sim}.}
 
-\item{min_sim}{Minimum normalized Hamming similarity in \verb{[0, 1]}. Mutually
-exclusive with \code{max_dist}.}
+\item{min_sim}{A single number in \verb{[0, 1]} or \code{NULL}, giving the minimum
+normalized Hamming similarity. It is mutually exclusive with \code{max_dist}.}
 
-\item{sample_n}{Maximum number of distinct receptor IDs to sample before
+\item{sample_n}{A nonnegative whole number giving the maximum number of
+distinct receptor IDs to sample before
 distance calculation within each \code{sample_by} group. \code{0} (the default)
 disables sampling.}
 
-\item{sample_by}{Select a column to sample by. The default,
+\item{sample_by}{A single character string or \code{NULL} selecting the column to
+sample by. The default,
 \code{"<auto>"}, uses the first available column among \code{subject_id}, \code{donor},
 \code{donor_id}, \code{patient_id}, \code{patient}, \code{subject}, and \code{imd_repertoire_id}.
 The resolved column must also be supplied through \code{by}. Set to \code{NULL} to
 sample from the whole dataset without accounting for groups.
-For obvious reasons, this argument is completely ignored when \code{sample_n = 0}.}
+This argument is ignored when \code{sample_n = 0}.}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -85,9 +91,9 @@ The following methods are available.
 
 \strong{1) Hamming distances (\code{dist_hamm}).} Compute an upper-triangular sparse
 edge table of Hamming distances between receptor IDs represented in
-\code{idata$annotations}.
+the receptor annotations in \code{idata}.
 Comparisons are restricted to equal sequence lengths and equal values of
-\code{by}. Please mind that the data is not grouped by repertoires automatically.
+\code{by}. The data are not grouped by repertoire automatically.
 For paired-chain receptor schemas, the canonical locus column is added to \code{by} automatically,
 so distances are computed separately per locus. Add it explicitly if you have a
 non-AIRR-C standard locus column name.

@@ -32,10 +32,11 @@ airr_desc_genes(
 )
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{locus_col}{Column in \code{idata$annotations} that stores the locus (e.g.
-\code{"locus"}). If \code{NULL} or missing, the result is not split by locus.}
+\item{locus_col}{A single character string, \code{NA}, or \code{NULL}. The default,
+\code{NA}, uses the canonical locus column when it is available. Supply \code{NULL}
+to combine loci, or a column name to group by that column.}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -44,18 +45,19 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
-\item{seq_col}{Name of the column containing sequences.}
+\item{seq_col}{A single character string naming the sequence column.}
 
-\item{by}{Grouping columns from \code{idata$annotations}. The default \code{NA}
+\item{by}{A character vector, \code{NA}, or \code{NULL}. The default \code{NA}
 automatically groups by the canonical \code{locus} column when it is available.
 Supply \code{NULL} to pool loci, or a character vector to group by and return
 those columns explicitly.}
 
-\item{gene_col}{A single column name in \code{idata$annotations} with gene segment
+\item{gene_col}{A single character string naming a gene-segment column
 calls (e.g., \code{"v_call"}, \code{"d_call"}, \code{"j_call"}, \code{"c_call"}). Default is
 \code{"v_call"}.}
 
-\item{level}{One of \code{"receptor"} or \code{"barcode"}. If \code{"receptor"} (default),
+\item{level}{A single character string: \code{"receptor"} or \code{"barcode"}. If
+\code{"receptor"} (default),
 the function counts \strong{unique receptors} (one per receptor ID) that carry a
 given gene segment. If \code{"barcode"}, the function \strong{sums counts} (e.g.,
 cells/UMIs) per gene segment using the column defined by
@@ -67,7 +69,9 @@ cells/UMIs) per gene segment using the column defined by
 A tibble with columns:
 \itemize{
 \item \code{imd_repertoire_id} -- internal repertoire identifier
-\item \code{locus} -- TRA, TRB, IGH, ... (present only if \code{locus_col} is supplied)
+\item repertoire-summary columns carried from \code{idata}, such as \code{n_barcodes} and
+\code{n_receptors}
+\item \code{locus} -- TRA, TRB, IGH, ...; \code{NA} when locus grouping is disabled
 \item \code{n_chains} -- number of chains
 }
 }
