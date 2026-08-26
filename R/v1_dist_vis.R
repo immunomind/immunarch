@@ -50,38 +50,38 @@ vis_dist_impl <- function(
       )
     )
     group_cols <- c(edge_group_cols, ".idist_receptor")
+    endpoint_cols <- c(
+      edge_group_cols,
+      .idist_receptor = "imd_receptor_id_1",
+      .idist_value = xval,
+      .idist_raw_dist = "dist"
+    )
     endpoint_1 <- .data |>
-      dplyr::transmute(
-        dplyr::across(dplyr::all_of(edge_group_cols)),
-        .idist_receptor = .data$imd_receptor_id_1,
-        .idist_value = .data[[xval]],
-        .idist_raw_dist = .data$dist
-      )
+      dplyr::select(dplyr::all_of(endpoint_cols))
+    endpoint_cols[".idist_receptor"] <- "imd_receptor_id_2"
     endpoint_2 <- .data |>
-      dplyr::transmute(
-        dplyr::across(dplyr::all_of(edge_group_cols)),
-        .idist_receptor = .data$imd_receptor_id_2,
-        .idist_value = .data[[xval]],
-        .idist_raw_dist = .data$dist
-      )
+      dplyr::select(dplyr::all_of(endpoint_cols))
 
-    plot_data <- dplyr::bind_rows(endpoint_1, endpoint_2) |>
-      dplyr::filter(.data$.idist_raw_dist > 0) |>
-      dplyr::summarise(
-        .idist_value = if (xval == "sim") {
-          max(.data$.idist_value, na.rm = TRUE)
-        } else {
-          min(.data$.idist_value, na.rm = TRUE)
-        },
-        .by = dplyr::all_of(group_cols)
-      ) |>
-      dplyr::collect()
+    nearest_data <- dplyr::union_all(endpoint_1, endpoint_2) |>
+      dplyr::filter(.data$.idist_raw_dist > 0)
+    plot_data <- if (xval == "sim") {
+      nearest_data |>
+        dplyr::summarise(
+          .idist_value = max(.data$.idist_value, na.rm = TRUE),
+          .by = dplyr::all_of(group_cols)
+        )
+    } else {
+      nearest_data |>
+        dplyr::summarise(
+          .idist_value = min(.data$.idist_value, na.rm = TRUE),
+          .by = dplyr::all_of(group_cols)
+        )
+    }
+    plot_data <- dplyr::collect(plot_data)
   } else {
+    plot_cols <- c(facet, .idist_value = xval)
     plot_data <- .data |>
-      dplyr::transmute(
-        dplyr::across(dplyr::all_of(facet)),
-        .idist_value = .data[[xval]]
-      ) |>
+      dplyr::select(dplyr::all_of(plot_cols)) |>
       dplyr::collect()
   }
 

@@ -1,6 +1,3 @@
-# Clustering receptor graphs.
-
-
 #' Connected-component clustering for receptor graphs
 #'
 #' `r lifecycle::badge("experimental")`
@@ -240,7 +237,8 @@ clust_cc_impl <- function(
   )
 
   dplyr::tbl(con, dbplyr::sql(query)) |>
-    duckplyr::as_duckdb_tibble()
+    duckplyr::as_duckdb_tibble() |>
+    dplyr::compute(prudence = "stingy")
 }
 
 

@@ -398,7 +398,8 @@ dist_hamm_impl <- function(
   }
 
   dplyr::tbl(con, dbplyr::sql(query)) |>
-    duckplyr::as_duckdb_tibble()
+    duckplyr::as_duckdb_tibble() |>
+    dplyr::compute(prudence = "stingy")
 }
 
 
