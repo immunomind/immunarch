@@ -40,23 +40,6 @@ NULL
 
 
 #' @keywords internal
-infer_dist_group_col <- function(columns) {
-  candidates <- c(
-    "subject_id",
-    "donor",
-    "donor_id",
-    "patient_id",
-    "patient",
-    "subject",
-    immundata::imd_schema("repertoire")
-  )
-  index <- match(TRUE, candidates %in% columns)
-
-  if (is.na(index)) NULL else candidates[[index]]
-}
-
-
-#' @keywords internal
 dist_hamm_impl <- function(
   idata,
   seq_col = "cdr3_aa",
@@ -84,16 +67,13 @@ dist_hamm_impl <- function(
     )
   }
 
-  if (is.null(by)) {
-    by <- character()
-  } else {
-    checkmate::assert_character(
-      by,
-      min.len = 1L,
-      any.missing = FALSE,
-      unique = TRUE
-    )
-  }
+  checkmate::assert_character(
+    by,
+    min.len = 1L,
+    any.missing = FALSE,
+    unique = TRUE,
+    null.ok = TRUE
+  )
 
   receptor_col <- immundata::imd_schema("receptor")
   locus_col <- immundata::imd_schema("locus")
@@ -102,9 +82,7 @@ dist_hamm_impl <- function(
 
   resolved_sample_by <- NULL
   if (sample_n > 0L) {
-    if (!is.null(sample_by)) {
-      checkmate::assert_string(sample_by)
-    }
+    checkmate::assert_string(sample_by, null.ok = TRUE)
 
     if (identical(sample_by, "<auto>")) {
       resolved_sample_by <- infer_dist_group_col(annotation_cols)
@@ -421,6 +399,23 @@ dist_hamm_impl <- function(
 
   dplyr::tbl(con, dbplyr::sql(query)) |>
     duckplyr::as_duckdb_tibble()
+}
+
+
+#' @keywords internal
+infer_dist_group_col <- function(columns) {
+  candidates <- c(
+    "subject_id",
+    "donor",
+    "donor_id",
+    "patient_id",
+    "patient",
+    "subject",
+    immundata::imd_schema("repertoire")
+  )
+  index <- match(TRUE, candidates %in% columns)
+
+  if (is.na(index)) NULL else candidates[[index]]
 }
 
 

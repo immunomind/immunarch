@@ -1,9 +1,16 @@
 make_vis_dist_result <- function() {
-  dist_hamm(
-    make_grouped_distance_test_idata(),
-    by = "subject_id",
-    autojoin = FALSE
-  )
+  dist <- rep(c(1, 2, 3, 1, 2, 1), 2)
+  edge_data <- tibble::tibble(
+    subject_id = rep(c("P1", "P2"), each = 6L),
+    imd_receptor_id_1 = c(1L, 1L, 1L, 2L, 2L, 3L, 5L, 5L, 5L, 6L, 6L, 7L),
+    imd_receptor_id_2 = c(2L, 3L, 4L, 3L, 4L, 4L, 6L, 7L, 8L, 7L, 8L, 8L),
+    seq_len = 4L,
+    dist = dist,
+    norm_dist = dist / 4,
+    sim = 1 - norm_dist
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  im_as_result(edge_data, family = "dist", name = "hamm")
 }
 
 
@@ -49,17 +56,17 @@ test_that("nearest-neighbor visualization respects similarity direction", {
 
 
 test_that("distance visualization pools data when no subject column exists", {
-  receptor_col <- immundata::imd_schema("receptor")
-  idata <- immundata::ImmunData$new(
-    schema = immundata::make_receptor_schema(features = "cdr3_aa"),
-    annotations = tibble::tibble(
-      !!receptor_col := 1:3,
-      cdr3_aa = c("AAA", "AAT", "ATT")
-    ) |>
-      duckplyr::as_duckdb_tibble(prudence = "stingy")
-  )
-
-  p <- dist_hamm(idata, autojoin = FALSE) |> vis()
+  edge_data <- tibble::tibble(
+    imd_receptor_id_1 = c(1L, 1L, 2L),
+    imd_receptor_id_2 = c(2L, 3L, 3L),
+    seq_len = 3L,
+    dist = c(1, 2, 1),
+    norm_dist = c(1 / 3, 2 / 3, 1 / 3),
+    sim = c(2 / 3, 1 / 3, 2 / 3)
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  edges <- im_as_result(edge_data, family = "dist", name = "hamm")
+  p <- vis(edges)
 
   expect_s3_class(p$facet, "FacetNull")
   expect_equal(nrow(p$data), 3L)
