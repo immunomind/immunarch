@@ -27,25 +27,25 @@ make_paired_dist_hamm_idata <- function() {
     "cell1", "TRB", "CASSA", "TRBV1", 20L,
     "cell2", "TRA", "CAVG",  "TRAV2", 15L,
     "cell2", "TRB", "CASSB", "TRBV2", 25L
-  ) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  )
 
   schema <- immundata::make_receptor_schema(
     features = c("cdr3_aa", "v_call"),
     chains = c("TRA", "TRB")
   )
 
-  annotations <- immundata::agg_receptors(
-    dataset = input_data,
+  path <- tempfile(fileext = ".tsv")
+  readr::write_tsv(input_data, path)
+
+  immundata::read_repertoires(
+    path = path,
     schema = schema,
     barcode_col = "barcode",
     locus_col = "locus",
-    umi_col = "umis"
-  )
-
-  immundata::ImmunData$new(
-    schema = schema,
-    annotations = annotations
+    umi_col = "umis",
+    repertoire_schema = NULL,
+    output_folder = tempfile("immundata-test-"),
+    verbose = FALSE
   )
 }
 
@@ -61,8 +61,10 @@ test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
 
   expect_s3_class(lazy, "duckplyr_df")
 
+  invisible(gc())
+
   out <- lazy |>
-    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   expect_named(
@@ -92,7 +94,7 @@ test_that("dist_hamm computes paired-chain distances separately by locus", {
   idata <- make_paired_dist_hamm_idata()
 
   out <- dist_hamm(idata, autojoin = FALSE) |>
-    dplyr::arrange(.data$locus) |>
+    dplyr::arrange(locus) |>
     dplyr::collect()
 
   expect_named(
@@ -124,6 +126,24 @@ test_that("dist_hamm computes paired-chain distances separately by locus", {
 })
 
 
+test_that("dist_hamm and locus filtering are order independent", {
+  idata <- make_paired_dist_hamm_idata()
+
+  distance_then_filter <- dist_hamm(idata, autojoin = FALSE) |>
+    dplyr::filter(.data$locus == "TRA") |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
+    dplyr::collect()
+
+  filter_then_distance <- idata |>
+    dplyr::filter(.data$locus == "TRA") |>
+    dist_hamm(autojoin = FALSE) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
+    dplyr::collect()
+
+  expect_equal(distance_then_filter, filter_then_distance)
+})
+
+
 test_that("dist_hamm always returns normalized Hamming distance", {
   idata <- make_dist_hamm_idata()
 
@@ -132,7 +152,7 @@ test_that("dist_hamm always returns normalized Hamming distance", {
     by = c("v_call", "j_call"),
     autojoin = FALSE
   ) |>
-    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   expect_equal(
@@ -151,7 +171,7 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
     max_dist = 1,
     autojoin = FALSE
   ) |>
-    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   normalized <- dist_hamm(
@@ -160,7 +180,7 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
     max_dist = 1 / 3,
     autojoin = FALSE
   ) |>
-    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   similar <- dist_hamm(
@@ -169,7 +189,7 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
     min_sim = 2 / 3,
     autojoin = FALSE
   ) |>
-    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   expect_equal(
@@ -209,7 +229,7 @@ test_that("dist_hamm grouping is optional and length matching is automatic", {
     max_dist = 1e-6,
     autojoin = FALSE
   ) |>
-    dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+    dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   expect_equal(out$imd_receptor_id_1, c(1L, 1L, 1L, 5L, 5L, 6L))
@@ -328,7 +348,7 @@ test_that("dist_hamm block search exactly matches filtered direct distance", {
       max_dist = bound,
       autojoin = FALSE
     ) |>
-      dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+      dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
       dplyr::collect()
 
     expect_equal(actual, expected)
@@ -345,7 +365,7 @@ test_that("dist_hamm block search exactly matches filtered direct distance", {
       max_dist = bound,
       autojoin = FALSE
     ) |>
-      dplyr::arrange(.data$imd_receptor_id_1, .data$imd_receptor_id_2) |>
+      dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
       dplyr::collect()
 
     expect_equal(actual, expected, tolerance = 1e-12)

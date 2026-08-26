@@ -32,8 +32,10 @@ testthat::test_that("clust_cc retains transitive components and singletons", {
 
   testthat::expect_s3_class(lazy, "immunarch_res_clust_cc")
 
+  invisible(gc())
+
   actual <- lazy |>
-    dplyr::arrange(.data$imd_receptor_id) |>
+    dplyr::arrange(imd_receptor_id) |>
     dplyr::collect()
 
   testthat::expect_equal(actual$component, c(1L, 1L, 1L, 4L))

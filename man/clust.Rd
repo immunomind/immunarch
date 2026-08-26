@@ -23,10 +23,8 @@ provide the graph nodes through the canonical receptor-ID column and, when
 requested, repertoire metadata.}
 
 \item{edges}{A lazy duckplyr table with one row per edge. It must contain the
-columns named by \code{from} and \code{to}, plus every column in \code{by}, and must use
-the same DuckDB connection as \code{idata$annotations}. Endpoint values must use
-the same type and identifiers as the canonical receptor-ID column.
-Edges are treated as undirected; duplicate edges, reversed duplicates,
+columns named by \code{from} and \code{to}, plus every column in \code{by}.
+Edges are treated as undirected. Duplicate edges, reversed duplicates,
 self-loops, and rows with a missing endpoint do not change the result.}
 
 \item{from, to}{Single character strings naming the endpoint columns in
@@ -73,25 +71,16 @@ Call \code{\link[dplyr:collect]{dplyr::collect()}} when an in-memory tibble is n
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 \code{clust_cc()} finds connected components in an undirected receptor graph. The
-nodes come from the canonical receptor-ID column in \code{idata$annotations}, and
-\code{edges} supplies the receptor pairs. Consequently, every receptor is
-returned, including receptors with no edges as one-node components.
+nodes use the receptor ID.
 }
 \details{
 A family of functions for clustering sparse receptor graphs represented by
 an \code{ImmunData} object and a lazy edge table.
 
-Only receptor identifiers listed in \code{idata$annotations} are returned. Edges
-whose endpoints are not present there cannot introduce new nodes. Duplicate
-annotation rows are collapsed, and rows with a missing receptor identifier
-are omitted. The order of output rows is not guaranteed; use
-\code{\link[dplyr:arrange]{dplyr::arrange()}} before collecting when order matters.
-
 \code{\link[=dist_hamm]{dist_hamm()}} produces the expected edge columns using the default \code{from}
 and \code{to} names. Its distance columns (\code{seq_len}, \code{dist}, \code{norm_dist}, and
-\code{sim}) may remain in \code{edges}; \code{clust_cc()} selects only the endpoint and \code{by}
-columns it needs. Because \code{\link[=dist_hamm]{dist_hamm()}} derives its edges from the same
-\code{idata}, the node and edge inputs automatically share a DuckDB connection.
+\code{sim}) may remain in \code{edges}. \code{clust_cc()} selects only the endpoint and \code{by}
+columns it needs.
 }
 \examples{
 # Limit the number of threads used by the underlying DB for this example.
@@ -102,7 +91,7 @@ idata <- immundata::get_test_idata()
 
 # Connect receptors whose CDR3 amino-acid sequences differ by at most one
 # residue. dist_hamm() and clust_cc() use matching receptor-ID defaults.
-edges <- dist_hamm(idata, max_dist = 1, autojoin = FALSE)
+edges <- dist_hamm(idata, max_dist = 1)
 res <- clust_cc(
   idata = idata,
   edges = edges

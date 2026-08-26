@@ -13,27 +13,26 @@ make_paired_desc_idata <- function() {
     "S2", "S2-2", "TRB", "FFFFF",  "TRBV3", 10,
     "S2", "S2-3", "TRA", "EEE",    "TRAV3", 10,
     "S2", "S2-3", "TRB", "FFFFF",  "TRBV3", 10
-  ) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  )
 
   receptor_schema <- immundata::make_receptor_schema(
     features = c("cdr3_aa", "v_call"),
     chains = c("TRA", "TRB")
   )
 
-  annotations <- immundata::agg_receptors(
-    dataset = cells,
+  path <- tempfile(fileext = ".tsv")
+  readr::write_tsv(cells, path)
+
+  immundata::read_repertoires(
+    path = path,
     schema = receptor_schema,
     barcode_col = "cell_id",
     locus_col = "locus",
-    umi_col = "umi_count"
+    umi_col = "umi_count",
+    repertoire_schema = "sample",
+    output_folder = tempfile("immundata-test-"),
+    verbose = FALSE
   )
-
-  immundata::ImmunData$new(
-    schema = receptor_schema,
-    annotations = annotations
-  ) |>
-    immundata::agg_repertoires("sample")
 }
 
 

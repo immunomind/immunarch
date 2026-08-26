@@ -37,11 +37,11 @@ After annotation, consider persisting the result as a snapshot with
 }
 \examples{
 \dontrun{
-idata_global <- get_test_immundata() |>
+idata_global <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy")) |>
   annotate_public()
 
-idata_strata <- get_test_immundata() |>
+idata_strata <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy")) |>
   agg_strata(schema = "Response") |>
   annotate_public()

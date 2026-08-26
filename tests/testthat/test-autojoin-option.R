@@ -12,26 +12,21 @@ make_autojoin_test_method <- function() {
 
 
 make_autojoin_test_idata <- function() {
-  repertoire_col <- immundata::imd_schema("repertoire")
-
   annotations <- tibble::tibble(
-    !!repertoire_col := "R1",
-    cdr3_aa = "AAA"
-  ) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
-  repertoires <- tibble::tibble(
-    !!repertoire_col := "R1",
+    cdr3_aa = "AAA",
     group = "case"
-  ) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
-
-  idata <- immundata::ImmunData$new(
-    schema = "cdr3_aa",
-    annotations = annotations,
-    repertoires = repertoires
   )
-  idata$schema_repertoire <- "group"
-  idata
+
+  path <- tempfile(fileext = ".tsv")
+  readr::write_tsv(annotations, path)
+
+  immundata::read_repertoires(
+    path = path,
+    schema = "cdr3_aa",
+    repertoire_schema = "group",
+    output_folder = tempfile("immundata-test-"),
+    verbose = FALSE
+  )
 }
 
 

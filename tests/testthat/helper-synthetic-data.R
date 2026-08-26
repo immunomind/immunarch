@@ -104,7 +104,7 @@ make_repsim_set_idata <- function(duplicated = FALSE) {
 
 make_test_idata <- function() {
   if (is.null(.test_idata_cache$base)) {
-    .test_idata_cache$base <- get_test_immundata()
+    .test_idata_cache$base <- get_test_idata()
   }
 
   .test_idata_cache$base$clone(deep = TRUE)
