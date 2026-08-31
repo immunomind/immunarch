@@ -9,46 +9,18 @@
 \alias{repsim_bray}
 \title{Immune repertoire similarity}
 \usage{
-repsim_intersection(
-  idata,
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
-)
+repsim_intersection(idata)
 
-repsim_jaccard(
-  idata,
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
-)
+repsim_jaccard(idata)
 
-repsim_chao_jaccard(
-  idata,
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
-)
+repsim_chao_jaccard(idata)
 
-repsim_morisita_horn(
-  idata,
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
-)
+repsim_morisita_horn(idata)
 
-repsim_bray(
-  idata,
-  transform = c("none", "log1p"),
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
-)
+repsim_bray(idata, transform = c("none", "log1p"))
 }
 \arguments{
 \item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
-
-\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
-Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
-
-\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
-columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
-with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
 \item{transform}{A single character string selecting the transformation
 applied to \code{imd_proportion} before calculating dissimilarity. Use \code{"none"}

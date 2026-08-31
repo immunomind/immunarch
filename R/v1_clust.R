@@ -1,4 +1,6 @@
-#' Connected-component clustering for receptor graphs
+#' @title Connected-component clustering for receptor graphs
+#'
+#' @description
 #'
 #' `r lifecycle::badge("experimental")`
 #'
@@ -8,7 +10,6 @@
 #' @param idata An [immundata::ImmunData] object. Its receptor annotations
 #'   provide the graph nodes through the canonical receptor-ID column and, when
 #'   requested, repertoire metadata.
-#' @inheritParams im_common_args
 #'
 #' @name clust
 #' @concept Clustering
@@ -238,7 +239,10 @@ clust_cc_impl <- function(
 
   dplyr::tbl(con, dbplyr::sql(query)) |>
     duckplyr::as_duckdb_tibble() |>
-    dplyr::compute(prudence = "stingy")
+    dplyr::compute(
+      name = basename(tempfile(pattern = "immunarch_clust_cc_")),
+      prudence = "stingy"
+    )
 }
 
 
@@ -325,7 +329,7 @@ clust_cc_impl <- function(
 #' @rdname clust
 #' @concept Clustering
 #' @export
-clust_cc <- register_immunarch_method(
+clust_cc <- register_method_clust(
   core = clust_cc_impl,
   family = "clust",
   name = "cc",

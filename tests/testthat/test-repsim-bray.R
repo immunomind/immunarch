@@ -6,7 +6,7 @@ test_that("repsim_bray computes Bray-Curtis from proportions", {
     proportion = c(1, 1, 0.5, 0.5)
   )
 
-  out <- repsim_bray(make_repsim_idata(receptor_counts), autojoin = FALSE)
+  out <- repsim_bray(make_repsim_idata(receptor_counts))
 
   expect_true(is.matrix(out))
   expect_equal(unname(diag(out)), c(0, 0, 0), tolerance = 1e-12)
@@ -46,11 +46,10 @@ test_that("repsim_bray transforms abundances", {
     sum(abs(abundance[, 1] - abundance[, 2])) / sum(abundance)
   }
 
-  default <- repsim_bray(idata, autojoin = FALSE)
+  default <- repsim_bray(idata)
   log_transformed <- repsim_bray(
     idata,
-    transform = "log1p",
-    autojoin = FALSE
+    transform = "log1p"
   )
 
   expect_equal(default[1, 2], reference_bray("none"), tolerance = 1e-12)
@@ -68,7 +67,7 @@ test_that("repsim_bray returns a symmetric [0,1] matrix and vis() works", {
 
   idata <- make_aggregated_test_idata()
 
-  out <- repsim_bray(idata, autojoin = FALSE)
+  out <- repsim_bray(idata)
 
   expect_true(is.matrix(out))
   expect_equal(out, t(out), tolerance = 1e-12)
@@ -153,7 +152,7 @@ test_that("repsim_bray matches an independent weighted reference", {
     idata$schema_repertoire <- "Group"
 
     expect_equal(
-      unclass(repsim_bray(idata, autojoin = FALSE)),
+      unclass(repsim_bray(idata)),
       expected,
       tolerance = 1e-12,
       info = paste("seed", seed)

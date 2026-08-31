@@ -55,8 +55,7 @@ test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
 
   lazy <- dist_hamm(
     idata,
-    by = c("v_call", "j_call"),
-    autojoin = FALSE
+    by = c("v_call", "j_call")
   )
 
   expect_s3_class(lazy, "duckplyr_df")
@@ -90,10 +89,30 @@ test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
 })
 
 
+test_that("dist_hamm materialization survives an RNG reset", {
+  idata <- make_dist_hamm_idata()
+
+  withr::local_preserve_seed()
+  set.seed(431)
+  first <- dist_hamm(idata)
+  invisible(gc())
+
+  set.seed(431)
+  second <- dist_hamm(idata)
+
+  arrange_edges <- function(edges) {
+    edges |>
+      dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
+      dplyr::collect()
+  }
+  expect_equal(arrange_edges(second), arrange_edges(first))
+})
+
+
 test_that("dist_hamm computes paired-chain distances separately by locus", {
   idata <- make_paired_dist_hamm_idata()
 
-  out <- dist_hamm(idata, autojoin = FALSE) |>
+  out <- dist_hamm(idata) |>
     dplyr::arrange(locus) |>
     dplyr::collect()
 
@@ -115,8 +134,7 @@ test_that("dist_hamm computes paired-chain distances separately by locus", {
   bounded <- dist_hamm(
     idata,
     by = "locus",
-    max_dist = 0.21,
-    autojoin = FALSE
+    max_dist = 0.21
   ) |>
     dplyr::collect()
 
@@ -129,14 +147,14 @@ test_that("dist_hamm computes paired-chain distances separately by locus", {
 test_that("dist_hamm and locus filtering are order independent", {
   idata <- make_paired_dist_hamm_idata()
 
-  distance_then_filter <- dist_hamm(idata, autojoin = FALSE) |>
+  distance_then_filter <- dist_hamm(idata) |>
     dplyr::filter(.data$locus == "TRA") |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
   filter_then_distance <- idata |>
     dplyr::filter(.data$locus == "TRA") |>
-    dist_hamm(autojoin = FALSE) |>
+    dist_hamm() |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
 
@@ -149,8 +167,7 @@ test_that("dist_hamm always returns normalized Hamming distance", {
 
   out <- dist_hamm(
     idata,
-    by = c("v_call", "j_call"),
-    autojoin = FALSE
+    by = c("v_call", "j_call")
   ) |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
@@ -168,8 +185,7 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
   raw <- dist_hamm(
     idata,
     by = c("v_call", "j_call"),
-    max_dist = 1,
-    autojoin = FALSE
+    max_dist = 1
   ) |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
@@ -177,8 +193,7 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
   normalized <- dist_hamm(
     idata,
     by = c("v_call", "j_call"),
-    max_dist = 1 / 3,
-    autojoin = FALSE
+    max_dist = 1 / 3
   ) |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
@@ -186,8 +201,7 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
   similar <- dist_hamm(
     idata,
     by = c("v_call", "j_call"),
-    min_sim = 2 / 3,
-    autojoin = FALSE
+    min_sim = 2 / 3
   ) |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
@@ -209,10 +223,49 @@ test_that("dist_hamm bounded modes use exact candidate generation", {
 })
 
 
+test_that("dist_hamm applies keyed normalized distance thresholds", {
+  thresholds <- tibble::tribble(
+    ~subject_id, ~threshold,
+    "P1", 0.25,
+    "P2", 0.50
+  )
+
+  out <- dist_hamm(
+    make_grouped_distance_test_idata(),
+    by = c("subject_id", "v_call", "j_call"),
+    max_dist = thresholds
+  ) |>
+    dplyr::collect()
+
+  expect_equal(as.integer(table(out$subject_id)), c(3L, 5L))
+  expect_equal(max(out$norm_dist[out$subject_id == "P1"]), 0.25)
+  expect_equal(max(out$norm_dist[out$subject_id == "P2"]), 0.50)
+  expect_false("threshold" %in% names(out))
+})
+
+
+test_that("dist_hamm supports multi-column threshold keys", {
+  thresholds <- tibble::tribble(
+    ~subject_id, ~v_call, ~threshold,
+    "P1", "V1", 0.25,
+    "P2", "V1", 0.50
+  )
+
+  out <- dist_hamm(
+    make_grouped_distance_test_idata(),
+    by = c("subject_id", "v_call", "j_call"),
+    max_dist = thresholds
+  ) |>
+    dplyr::collect()
+
+  expect_equal(as.integer(table(out$subject_id)), c(3L, 5L))
+})
+
+
 test_that("dist_hamm similarity bounds include identity", {
   idata <- make_dist_hamm_idata()
 
-  out <- dist_hamm(idata, min_sim = 1, autojoin = FALSE) |>
+  out <- dist_hamm(idata, min_sim = 1) |>
     dplyr::collect()
 
   expect_true(all(out$dist == 0))
@@ -226,8 +279,7 @@ test_that("dist_hamm grouping is optional and length matching is automatic", {
   out <- dist_hamm(
     idata,
     by = NULL,
-    max_dist = 1e-6,
-    autojoin = FALSE
+    max_dist = 1e-6
   ) |>
     dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
     dplyr::collect()
@@ -248,16 +300,14 @@ test_that("dist_hamm uses annotation columns in by", {
   global <- dist_hamm(
     idata,
     by = c("v_call", "j_call"),
-    max_dist = 1e-6,
-    autojoin = FALSE
+    max_dist = 1e-6
   ) |>
     dplyr::collect()
 
   within_repertoire <- dist_hamm(
     idata,
     by = c(repertoire_col, "v_call", "j_call"),
-    max_dist = 1e-6,
-    autojoin = FALSE
+    max_dist = 1e-6
   ) |>
     dplyr::collect()
 
@@ -274,8 +324,7 @@ test_that("dist_hamm samples receptors within an inferred subject column", {
   out <- dist_hamm(
     make_grouped_distance_test_idata(),
     by = c("subject_id", "v_call", "j_call"),
-    sample_n = 2L,
-    autojoin = FALSE
+    sample_n = 2L
   ) |>
     dplyr::collect()
 
@@ -296,8 +345,7 @@ test_that("dist_hamm supports global receptor sampling", {
     make_grouped_distance_test_idata(),
     by = c("v_call", "j_call"),
     sample_n = 3L,
-    sample_by = NULL,
-    autojoin = FALSE
+    sample_by = NULL
   ) |>
     dplyr::collect()
 
@@ -317,8 +365,7 @@ test_that("dist_hamm sampling also works with bounded distances", {
     make_grouped_distance_test_idata(),
     by = c("subject_id", "v_call", "j_call"),
     max_dist = 4L,
-    sample_n = 2L,
-    autojoin = FALSE
+    sample_n = 2L
   ) |>
     dplyr::collect()
 
@@ -332,8 +379,7 @@ test_that("dist_hamm block search exactly matches filtered direct distance", {
 
   direct_raw <- dist_hamm(
     idata,
-    by = c("v_call", "j_call"),
-    autojoin = FALSE
+    by = c("v_call", "j_call")
   ) |>
     dplyr::collect()
 
@@ -345,8 +391,7 @@ test_that("dist_hamm block search exactly matches filtered direct distance", {
     actual <- dist_hamm(
       idata,
       by = c("v_call", "j_call"),
-      max_dist = bound,
-      autojoin = FALSE
+      max_dist = bound
     ) |>
       dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
       dplyr::collect()
@@ -362,8 +407,7 @@ test_that("dist_hamm block search exactly matches filtered direct distance", {
     actual <- dist_hamm(
       idata,
       by = c("v_call", "j_call"),
-      max_dist = bound,
-      autojoin = FALSE
+      max_dist = bound
     ) |>
       dplyr::arrange(imd_receptor_id_1, imd_receptor_id_2) |>
       dplyr::collect()
@@ -424,6 +468,48 @@ test_that("dist_hamm validates columns and bounds", {
   expect_error(
     dist_hamm(idata_without_sequence_schema, seq_col = "cdr3_aa"),
     "receptor schema"
+  )
+})
+
+
+test_that("dist_hamm validates keyed thresholds", {
+  idata <- make_grouped_distance_test_idata()
+  by <- c("subject_id", "v_call", "j_call")
+  valid <- tibble::tibble(
+    subject_id = c("P1", "P2"),
+    threshold = c(0.25, 0.50)
+  )
+
+  expect_error(
+    dist_hamm(idata, by = by, max_dist = valid[1, ]),
+    "cover every input"
+  )
+  expect_error(
+    dist_hamm(
+      idata,
+      by = by,
+      max_dist = dplyr::bind_rows(
+        valid,
+        tibble::tibble(subject_id = "P3", threshold = 0.25)
+      )
+    ),
+    "absent from the input"
+  )
+  expect_error(
+    dist_hamm(idata, by = by, max_dist = dplyr::bind_rows(valid, valid[1, ])),
+    "must be unique"
+  )
+  expect_error(
+    dist_hamm(idata, by = by, max_dist = dplyr::mutate(valid, threshold = 0)),
+    "between 0 and 1"
+  )
+  expect_error(
+    dist_hamm(idata, by = c("v_call", "j_call"), max_dist = valid),
+    "included in.*by"
+  )
+  expect_error(
+    dist_hamm(idata, by = by, max_dist = valid, min_sim = 0.5),
+    "only one"
   )
 })
 

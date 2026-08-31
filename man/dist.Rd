@@ -12,9 +12,7 @@ dist_hamm(
   max_dist = NULL,
   min_sim = NULL,
   sample_n = 0L,
-  sample_by = "<auto>",
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
+  sample_by = "<auto>"
 )
 }
 \arguments{
@@ -31,11 +29,14 @@ within repertoires, or \code{subject_id} if your data has such a dedicated colum
 subject-specific metadata. Locus grouping is also always applied for
 paired-chain receptor schemas.}
 
-\item{max_dist}{A single nonnegative number or \code{NULL}. Values in \verb{(0, 1)}
-bound normalized
-Hamming distance, integer values which are \verb{>=1} bound raw
-Hamming distance. \code{NULL} (the default) and the legacy value \code{0} disable
-bounding. Mutually exclusive with \code{min_sim}.}
+\item{max_dist}{A single nonnegative number, a keyed threshold table, or
+\code{NULL}. Scalar values in \verb{(0, 1)} bound normalized Hamming distance;
+integer values which are \verb{>=1} bound raw Hamming distance. \code{NULL} (the
+default) and the legacy scalar value \code{0} disable bounding. A threshold
+table must contain one or more key columns plus a numeric \code{threshold}
+column strictly inside \verb{(0, 1)}. Its key columns must be included in \code{by}
+and must exactly cover the corresponding input key combinations. Mutually
+exclusive with \code{min_sim}.}
 
 \item{min_sim}{A single number in \verb{[0, 1]} or \code{NULL}, giving the minimum
 normalized Hamming similarity. It is mutually exclusive with \code{max_dist}.}
@@ -52,13 +53,6 @@ sample by. The default,
 The resolved column must also be supplied through \code{by}. Set to \code{NULL} to
 sample from the whole dataset without accounting for groups.
 This argument is ignored when \code{sample_n = 0}.}
-
-\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
-Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
-
-\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
-columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
-with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 }
 \value{
 \subsection{1) Hamming distances (\code{dist_hamm})}{

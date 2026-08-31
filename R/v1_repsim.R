@@ -13,12 +13,6 @@
 #' The following methods are available.
 #'
 #' @param idata An [immundata::ImmunData] object.
-#' @inheritParams repsim_intersection
-#' @inheritParams repsim_jaccard
-#' @inheritParams repsim_morisita_horn
-#' @inheritParams repsim_bray
-#' @inheritParams repsim_chao_jaccard
-#' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
 #'
@@ -160,8 +154,8 @@ repsim_intersection_impl <- function(idata) {
       by = repertoire_id_col
     ) |>
     dplyr::transmute(
-      !!rlang::sym(rep_x) := .data[[repertoire_id_col]],
-      !!rlang::sym(rep_y) := .data[[repertoire_id_col]],
+      !!rlang::sym(rep_x) := !!rlang::sym(repertoire_id_col),
+      !!rlang::sym(rep_y) := !!rlang::sym(repertoire_id_col),
       value = dplyr::coalesce(.data$value, 0L)
     )
 
@@ -200,7 +194,7 @@ repsim_intersection_impl <- function(idata) {
 #' @rdname repsim
 #' @concept Repertoire similarity
 #' @export
-repsim_intersection <- register_immunarch_method(repsim_intersection_impl, "repsim", "intersection")
+repsim_intersection <- register_method_repsim(repsim_intersection_impl, "repsim", "intersection")
 
 
 #' @keywords internal
@@ -301,8 +295,8 @@ repsim_jaccard_impl <- function(idata) {
 
   diagonal <- repertoire_ids_tbl |>
     dplyr::transmute(
-      !!rlang::sym(rep_x) := .data[[repertoire_id_col]],
-      !!rlang::sym(rep_y) := .data[[repertoire_id_col]],
+      !!rlang::sym(rep_x) := !!rlang::sym(repertoire_id_col),
+      !!rlang::sym(rep_y) := !!rlang::sym(repertoire_id_col),
       value = 1.0
     )
 
@@ -326,7 +320,6 @@ repsim_jaccard_impl <- function(idata) {
 #'
 #' \deqn{J(A, B) = \frac{|A \cap B|}{|A \cup B|}}
 #'
-#' @inheritParams im_common_args
 #'
 #' @return
 #'
@@ -344,7 +337,7 @@ repsim_jaccard_impl <- function(idata) {
 #' @rdname repsim
 #' @concept Repertoire similarity
 #' @export
-repsim_jaccard <- register_immunarch_method(repsim_jaccard_impl, "repsim", "jaccard")
+repsim_jaccard <- register_method_repsim(repsim_jaccard_impl, "repsim", "jaccard")
 
 
 #' @keywords internal
@@ -472,8 +465,8 @@ repsim_chao_jaccard_impl <- function(idata) {
 
   diagonal <- repertoire_ids_tbl |>
     dplyr::transmute(
-      !!rlang::sym(rep_x) := .data[[repertoire_id_col]],
-      !!rlang::sym(rep_y) := .data[[repertoire_id_col]],
+      !!rlang::sym(rep_x) := !!rlang::sym(repertoire_id_col),
+      !!rlang::sym(rep_y) := !!rlang::sym(repertoire_id_col),
       value = 1.0
     )
 
@@ -518,7 +511,7 @@ repsim_chao_jaccard_impl <- function(idata) {
 #' @rdname repsim
 #' @concept Repertoire similarity
 #' @export
-repsim_chao_jaccard <- register_immunarch_method(
+repsim_chao_jaccard <- register_method_repsim(
   repsim_chao_jaccard_impl,
   "repsim",
   "chao_jaccard"
@@ -637,8 +630,8 @@ repsim_morisita_horn_impl <- function(idata) {
 
   diagonal <- repertoire_ids_tbl |>
     dplyr::transmute(
-      !!rlang::sym(rep_x) := .data[[repertoire_id_col]],
-      !!rlang::sym(rep_y) := .data[[repertoire_id_col]],
+      !!rlang::sym(rep_x) := !!rlang::sym(repertoire_id_col),
+      !!rlang::sym(rep_y) := !!rlang::sym(repertoire_id_col),
       value = 1.0
     )
 
@@ -685,7 +678,7 @@ repsim_morisita_horn_impl <- function(idata) {
 #' @rdname repsim
 #' @concept Repertoire similarity
 #' @export
-repsim_morisita_horn <- register_immunarch_method(
+repsim_morisita_horn <- register_method_repsim(
   repsim_morisita_horn_impl,
   "repsim",
   "morisita_horn"
@@ -810,8 +803,8 @@ repsim_bray_impl <- function(
 
   diagonal <- repertoire_ids_tbl |>
     dplyr::transmute(
-      !!rlang::sym(rep_x) := .data[[repertoire_id_col]],
-      !!rlang::sym(rep_y) := .data[[repertoire_id_col]],
+      !!rlang::sym(rep_x) := !!rlang::sym(repertoire_id_col),
+      !!rlang::sym(rep_y) := !!rlang::sym(repertoire_id_col),
       value = 0.0
     )
 
@@ -892,4 +885,4 @@ repsim_bray_impl <- function(
 #' @rdname repsim
 #' @concept Repertoire similarity
 #' @export
-repsim_bray <- register_immunarch_method(repsim_bray_impl, "repsim", "bray")
+repsim_bray <- register_method_repsim(repsim_bray_impl, "repsim", "bray")

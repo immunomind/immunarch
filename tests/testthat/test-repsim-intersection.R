@@ -1,5 +1,5 @@
 test_that("repsim_intersection computes shared receptor counts with string repertoire ids", {
-  out <- repsim_intersection(make_repsim_set_idata(), autojoin = FALSE)
+  out <- repsim_intersection(make_repsim_set_idata())
 
   expect_true(is.matrix(out))
   expect_equal(out, t(out), tolerance = 1e-12)
@@ -19,8 +19,7 @@ test_that("repsim_intersection computes shared receptor counts with string reper
 
 test_that("repsim_intersection treats receptor sets as unique per repertoire", {
   out <- repsim_intersection(
-    make_repsim_set_idata(duplicated = TRUE),
-    autojoin = FALSE
+    make_repsim_set_idata(duplicated = TRUE)
   )
 
   expected <- matrix(c(2, 2, 2, 2), nrow = 2, byrow = TRUE)
@@ -35,7 +34,7 @@ test_that("repsim_intersection returns a plottable matrix", {
 
   idata <- make_aggregated_test_idata()
 
-  out <- repsim_intersection(idata, autojoin = FALSE)
+  out <- repsim_intersection(idata)
 
   expect_true(is.matrix(out))
   expect_equal(out, t(out), tolerance = 1e-12)

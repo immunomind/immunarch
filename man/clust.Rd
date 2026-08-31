@@ -12,9 +12,7 @@ clust_cc(
   to = "imd_receptor_id_2",
   by = NULL,
   cluster_col = "cluster_id",
-  size_col = "cluster_size",
-  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
-  format = c("long", "wide")
+  size_col = "cluster_size"
 )
 }
 \arguments{
@@ -47,13 +45,6 @@ is the minimum node identifier in that component. Defaults to
 \item{size_col}{A single character string giving the output component-size column
 name. The size is the number of distinct nodes in the component. Defaults
 to \code{"cluster_size"}.}
-
-\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
-Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
-
-\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
-columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
-with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 }
 \value{
 A lazy duckplyr table with one row per distinct, non-missing node and
@@ -70,13 +61,13 @@ Call \code{\link[dplyr:collect]{dplyr::collect()}} when an in-memory tibble is n
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
+A family of functions for clustering sparse receptor graphs represented by
+an \code{ImmunData} object and a lazy edge table.
+
 \code{clust_cc()} finds connected components in an undirected receptor graph. The
 nodes use the receptor ID.
 }
 \details{
-A family of functions for clustering sparse receptor graphs represented by
-an \code{ImmunData} object and a lazy edge table.
-
 \code{\link[=dist_hamm]{dist_hamm()}} produces the expected edge columns using the default \code{from}
 and \code{to} names. Its distance columns (\code{seq_len}, \code{dist}, \code{norm_dist}, and
 \code{sim}) may remain in \code{edges}. \code{clust_cc()} selects only the endpoint and \code{by}

@@ -28,8 +28,7 @@ test_that("repsim_chao_jaccard matches hard-coded vegan similarities", {
   )
 
   observed <- repsim_chao_jaccard(
-    make_repsim_idata(receptor_counts),
-    autojoin = FALSE
+    make_repsim_idata(receptor_counts)
   )
 
   # Generated once with vegan 2.7-5:
@@ -65,8 +64,7 @@ test_that("repsim_chao_jaccard handles pairs without shared doubletons", {
   )
 
   observed <- repsim_chao_jaccard(
-    make_repsim_idata(receptor_counts),
-    autojoin = FALSE
+    make_repsim_idata(receptor_counts)
   )
 
   # Hard-coded output from vegan::vegdist(..., method = "chao"), converted
@@ -90,7 +88,7 @@ test_that("repsim_chao_jaccard returns a plottable similarity matrix", {
   skip_if_not_installed("ggplot2")
 
   idata <- make_aggregated_test_idata()
-  observed <- repsim_chao_jaccard(idata, autojoin = FALSE)
+  observed <- repsim_chao_jaccard(idata)
 
   expect_true(is.matrix(observed))
   expect_equal(observed, t(observed), tolerance = 1e-12)

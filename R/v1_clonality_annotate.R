@@ -11,7 +11,6 @@
 #' * `annotate_clonality_prop()` - label by **proportion bins** (named thresholds).
 #'
 #' @param idata An [immundata::ImmunData] object.
-#' @inheritParams im_common_args
 #'
 #' @seealso
 #' * Per-repertoire summaries: [airr_clonality]
@@ -66,7 +65,7 @@ annotate_clonality_rank_impl <- function(idata,
 #' @rdname annotate_clonality
 #' @concept Clonality
 #' @export
-annotate_clonality_rank <- register_immunarch_method(
+annotate_clonality_rank <- register_method_annotate(
   core = annotate_clonality_rank_impl,
   family = "annotate_clonality",
   name = "rank",
@@ -123,7 +122,7 @@ annotate_clonality_prop_impl <- function(
 #' @rdname annotate_clonality
 #' @concept Clonality
 #' @export
-annotate_clonality_prop <- register_immunarch_method(
+annotate_clonality_prop <- register_method_annotate(
   core = annotate_clonality_prop_impl,
   family = "annotate_clonality",
   name = "prop",

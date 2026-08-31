@@ -24,8 +24,7 @@ test_that("repsim_morisita_horn matches hard-coded vegan similarities", {
   )
 
   observed <- repsim_morisita_horn(
-    make_repsim_idata(receptor_counts, normalize = TRUE),
-    autojoin = FALSE
+    make_repsim_idata(receptor_counts, normalize = TRUE)
   )
 
   # Generated once with vegan 2.7-5:
@@ -62,14 +61,12 @@ test_that("repsim_morisita_horn is invariant to repertoire scaling", {
   observed <- repsim_morisita_horn(
     make_repsim_idata(
       dplyr::mutate(receptor_counts, proportion = as.double(.data$count))
-    ),
-    autojoin = FALSE
+    )
   )
   observed_scaled <- repsim_morisita_horn(
     make_repsim_idata(
       dplyr::mutate(scaled_counts, proportion = as.double(.data$count))
-    ),
-    autojoin = FALSE
+    )
   )
 
   expect_equal(observed, observed_scaled, tolerance = 1e-12)
@@ -88,8 +85,7 @@ test_that("repsim_morisita_horn handles empty repertoires", {
       receptor_counts,
       all_repertoires = c("A", "B", "empty"),
       normalize = TRUE
-    ),
-    autojoin = FALSE
+    )
   )
 
   expect_equal(observed["A", "B"], 0)
@@ -103,7 +99,7 @@ test_that("repsim_morisita_horn returns a plottable similarity matrix", {
   skip_if_not_installed("ggplot2")
 
   idata <- make_aggregated_test_idata()
-  observed <- repsim_morisita_horn(idata, autojoin = FALSE)
+  observed <- repsim_morisita_horn(idata)
 
   expect_true(is.matrix(observed))
   expect_equal(observed, t(observed), tolerance = 1e-12)

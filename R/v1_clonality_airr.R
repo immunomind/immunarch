@@ -17,7 +17,7 @@
 #' @inheritParams airr_clonality_line
 #' @inheritParams airr_clonality_rank
 #' @inheritParams airr_clonality_prop
-#' @inheritParams im_common_args
+#' @inheritParams method_args_airr
 #'
 #' @seealso
 #' * Per-repertoire summaries: [annotate_clonality]
@@ -138,7 +138,7 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #' @rdname airr_clonality
 #' @concept Clonality
 #' @export
-airr_clonality_line <- register_immunarch_method(
+airr_clonality_line <- register_method_airr(
   core = airr_clonality_line_impl,
   family = "airr_clonality",
   name = "line",
@@ -194,7 +194,7 @@ airr_clonality_rank_impl <- function(idata,
 #' @rdname airr_clonality
 #' @concept Clonality
 #' @export
-airr_clonality_rank <- register_immunarch_method(
+airr_clonality_rank <- register_method_airr(
   core = airr_clonality_rank_impl,
   family = "airr_clonality",
   name = "rank",
@@ -265,7 +265,7 @@ airr_clonality_prop_impl <- function(
 #' @rdname airr_clonality
 #' @concept Clonality
 #' @export
-airr_clonality_prop <- register_immunarch_method(
+airr_clonality_prop <- register_method_airr(
   core = airr_clonality_prop_impl,
   family = "airr_clonality",
   name = "prop",

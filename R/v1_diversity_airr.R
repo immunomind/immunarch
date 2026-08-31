@@ -20,7 +20,7 @@
 #' @inheritParams airr_diversity_hill
 #' @inheritParams airr_diversity_index
 #' @inheritParams airr_diversity_rarefaction
-#' @inheritParams im_common_args
+#' @inheritParams method_args_airr
 #'
 #' @seealso [immundata::ImmunData]
 #'
@@ -166,7 +166,7 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_dxx <- register_immunarch_method(airr_diversity_dxx_impl, "airr_diversity", "dxx")
+airr_diversity_dxx <- register_method_airr(airr_diversity_dxx_impl, "airr_diversity", "dxx")
 
 
 #' @keywords internal
@@ -223,7 +223,7 @@ airr_diversity_chao1_impl <- function(idata) {
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_chao1 <- register_immunarch_method(airr_diversity_chao1_impl, "airr_diversity", "chao1")
+airr_diversity_chao1 <- register_method_airr(airr_diversity_chao1_impl, "airr_diversity", "chao1")
 
 
 #' @keywords internal
@@ -396,7 +396,7 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
   }
 
   counts_split <- counts_tbl |>
-    dplyr::summarise(counts = list(.data[[cnt_col]]), .by = all_of(rep_col))
+    dplyr::summarise(counts = list(!!rlang::sym(cnt_col)), .by = all_of(rep_col))
 
   counts_split$counts <- lapply(seq_len(nrow(counts_split)), function(i) {
     repertoire_id <- counts_split[[rep_col]][i]
@@ -515,7 +515,7 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
   })
 
   dplyr::bind_rows(res_list) |>
-    dplyr::arrange(.data[[rep_col]], .data$size, .data$type)
+    dplyr::arrange(!!rlang::sym(rep_col), .data$size, .data$type)
 }
 
 #' @description
@@ -574,7 +574,7 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_rarefaction <- register_immunarch_method(airr_diversity_rarefaction_impl, "airr_diversity", "rarefaction")
+airr_diversity_rarefaction <- register_method_airr(airr_diversity_rarefaction_impl, "airr_diversity", "rarefaction")
 
 
 #' @keywords internal
@@ -620,7 +620,7 @@ airr_diversity_shannon_impl <- function(idata) {
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_shannon <- register_immunarch_method(airr_diversity_shannon_impl, "airr_diversity", "shannon")
+airr_diversity_shannon <- register_method_airr(airr_diversity_shannon_impl, "airr_diversity", "shannon")
 
 
 #' @keywords internal
@@ -661,7 +661,7 @@ airr_diversity_pielou_impl <- function(idata) {
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_pielou <- register_immunarch_method(airr_diversity_pielou_impl, "airr_diversity", "pielou")
+airr_diversity_pielou <- register_method_airr(airr_diversity_pielou_impl, "airr_diversity", "pielou")
 
 
 #' @keywords internal
@@ -694,7 +694,7 @@ airr_diversity_index_impl <- function(idata) {
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_index <- register_immunarch_method(airr_diversity_index_impl, "airr_diversity", "index")
+airr_diversity_index <- register_method_airr(airr_diversity_index_impl, "airr_diversity", "index")
 
 
 #' @keywords internal
@@ -765,7 +765,7 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #' more weight to abundant receptors. Use several orders to compare the
 #' influence of rare and abundant receptors.
 #'
-#' @inheritParams im_common_args
+#' @inheritParams method_args_airr
 #' @param q A numeric scalar or vector of nonnegative orders. Defaults to `0:5`.
 #'
 #' @return
@@ -785,4 +785,4 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #' @rdname airr_diversity
 #' @concept Diversity
 #' @export
-airr_diversity_hill <- register_immunarch_method(airr_diversity_hill_impl, "airr_diversity", "hill")
+airr_diversity_hill <- register_method_airr(airr_diversity_hill_impl, "airr_diversity", "hill")

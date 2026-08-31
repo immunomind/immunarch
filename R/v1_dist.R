@@ -1,6 +1,7 @@
 #' @title Immune receptor distances
 #'
 #' @description
+#'
 #' `r lifecycle::badge("experimental")`
 #'
 #' A family of functions to calculate **sequence distances between immune receptors**.
@@ -12,8 +13,6 @@
 #' The following methods are available.
 #'
 #' @param idata An [immundata::ImmunData] object.
-#' @inheritParams dist_hamm
-#' @inheritParams im_common_args
 #'
 #' @seealso [immundata::ImmunData]
 #'
@@ -50,7 +49,13 @@ dist_hamm_impl <- function(
   sample_by = "<auto>"
 ) {
   checkmate::assert_string(seq_col)
-  checkmate::assert_number(max_dist, lower = 0, finite = TRUE, null.ok = TRUE)
+  table_bound <- is.data.frame(max_dist)
+  if (!table_bound) {
+    checkmate::assert_number(
+      max_dist,
+      lower = 0, finite = TRUE, null.ok = TRUE
+    )
+  }
   checkmate::assert_number(
     min_sim,
     lower = 0, upper = 1, finite = TRUE, null.ok = TRUE
@@ -61,7 +66,8 @@ dist_hamm_impl <- function(
     cli::cli_abort("Provide only one of {.arg max_dist} and {.arg min_sim}.")
   }
 
-  if (!is.null(max_dist) && max_dist >= 1 && max_dist != floor(max_dist)) {
+  if (!table_bound &&
+    !is.null(max_dist) && max_dist >= 1 && max_dist != floor(max_dist)) {
     cli::cli_abort(
       "{.arg max_dist} must be an integer when it is at least 1."
     )
@@ -85,7 +91,17 @@ dist_hamm_impl <- function(
     checkmate::assert_string(sample_by, null.ok = TRUE)
 
     if (identical(sample_by, "<auto>")) {
-      resolved_sample_by <- infer_dist_group_col(annotation_cols)
+      candidates <- c(
+        "subject_id",
+        "donor",
+        "donor_id",
+        "patient_id",
+        "patient",
+        "subject",
+        immundata::imd_schema("repertoire")
+      )
+      index <- match(TRUE, candidates %in% annotation_cols)
+      resolved_sample_by <- if (is.na(index)) NULL else candidates[[index]]
 
       if (is.null(resolved_sample_by)) {
         cli::cli_abort(c(
@@ -140,12 +156,83 @@ dist_hamm_impl <- function(
   }
 
   by <- unique(c(by, if (paired) locus_col))
+  threshold_spec <- NULL
+  if (table_bound) {
+    thresholds <- max_dist
+    checkmate::assert_data_frame(
+      thresholds,
+      min.rows = 1L,
+      min.cols = 2L
+    )
+
+    if (anyDuplicated(names(thresholds)) ||
+      !"threshold" %in% names(thresholds)) {
+      cli::cli_abort(
+        "A {.arg max_dist} table must have unique columns, including {.field threshold}."
+      )
+    }
+
+    keys <- setdiff(names(thresholds), "threshold")
+    missing_by <- setdiff(keys, by)
+    if (length(missing_by)) {
+      cli::cli_abort(
+        "Threshold key column(s) must be included in {.arg by}: {.field {missing_by}}."
+      )
+    }
+
+    checkmate::assert_numeric(
+      thresholds$threshold,
+      finite = TRUE,
+      any.missing = FALSE
+    )
+    if (any(thresholds$threshold <= 0 | thresholds$threshold >= 1)) {
+      cli::cli_abort("Table thresholds must be strictly between 0 and 1.")
+    }
+    if (anyNA(thresholds[keys])) {
+      cli::cli_abort("Threshold key columns must not contain missing values.")
+    }
+    if (anyDuplicated(thresholds[keys])) {
+      cli::cli_abort("Threshold key combinations must be unique.")
+    }
+
+    input_keys <- idata$annotations |>
+      dplyr::select(dplyr::all_of(keys)) |>
+      dplyr::distinct() |>
+      dplyr::collect()
+    threshold_keys <- dplyr::select(thresholds, dplyr::all_of(keys))
+
+    if (nrow(dplyr::anti_join(threshold_keys, input_keys, by = keys))) {
+      cli::cli_abort(
+        "The threshold table contains a key combination absent from the input."
+      )
+    }
+    if (nrow(dplyr::anti_join(input_keys, threshold_keys, by = keys))) {
+      cli::cli_abort(
+        "The threshold table must cover every input key combination."
+      )
+    }
+
+    threshold_spec <- list(
+      keys = keys,
+      table = dplyr::rename(
+        thresholds,
+        .idist_threshold = "threshold"
+      )
+    )
+  }
+
   source <- idata$annotations |>
     dplyr::select(dplyr::all_of(c(receptor_col, by, seq_col))) |>
     dplyr::distinct() |>
     duckplyr::as_tbl()
-
   con <- dbplyr::remote_con(source)
+  if (!is.null(threshold_spec)) {
+    source <- source |>
+      dplyr::inner_join(
+        dbplyr::copy_inline(con, threshold_spec$table),
+        by = threshold_spec$keys
+      )
+  }
 
   quote_ident <- function(x) {
     as.character(dbplyr::sql_escape_ident(con, x))
@@ -166,6 +253,11 @@ dist_hamm_impl <- function(
         collapse = ", "
       )
     )
+  } else {
+    ""
+  }
+  threshold_select <- if (!is.null(threshold_spec)) {
+    ", \".idist_threshold\""
   } else {
     ""
   }
@@ -206,6 +298,7 @@ dist_hamm_impl <- function(
     q_sequence, " AS \".idist_sequence\", ",
     "length(", q_sequence, ")::BIGINT AS \".idist_length\"",
     group_select,
+    threshold_select,
     " FROM (", source_sql, ") source",
     " WHERE ", q_receptor, " IS NOT NULL",
     " AND ", q_sequence, " IS NOT NULL",
@@ -266,7 +359,9 @@ dist_hamm_impl <- function(
     " AND a.\".idist_receptor\" < b.\".idist_receptor\""
   )
 
-  if (is.null(min_sim) && (is.null(max_dist) || max_dist == 0)) {
+  unbounded <- is.null(threshold_spec) &&
+    is.null(min_sim) && (is.null(max_dist) || max_dist == 0)
+  if (unbounded) {
     pair_query <- paste0(
       "SELECT ",
       if (length(by)) paste0(node_group_fields, ", ") else "",
@@ -293,11 +388,18 @@ dist_hamm_impl <- function(
       " FROM distances"
     )
   } else {
-    norm_bound <- if (!is.null(min_sim)) 1 - min_sim else max_dist
-    max_mismatches_sql <- if (!is.null(min_sim) || max_dist < 1) {
+    norm_bound_sql <- if (!is.null(threshold_spec)) {
+      "\".idist_threshold\""
+    } else {
+      norm_bound <- if (!is.null(min_sim)) 1 - min_sim else max_dist
+      as.character(dbplyr::escape(norm_bound, con = con))
+    }
+    normalized_bound <- !is.null(threshold_spec) ||
+      !is.null(min_sim) || max_dist < 1
+    max_mismatches_sql <- if (normalized_bound) {
       paste0(
         "least(\".idist_length\", floor(",
-        as.character(dbplyr::escape(norm_bound, con = con)),
+        norm_bound_sql,
         " * \".idist_length\" + 1e-12)::BIGINT)"
       )
     } else {
@@ -399,24 +501,10 @@ dist_hamm_impl <- function(
 
   dplyr::tbl(con, dbplyr::sql(query)) |>
     duckplyr::as_duckdb_tibble() |>
-    dplyr::compute(prudence = "stingy")
-}
-
-
-#' @keywords internal
-infer_dist_group_col <- function(columns) {
-  candidates <- c(
-    "subject_id",
-    "donor",
-    "donor_id",
-    "patient_id",
-    "patient",
-    "subject",
-    immundata::imd_schema("repertoire")
-  )
-  index <- match(TRUE, candidates %in% columns)
-
-  if (is.na(index)) NULL else candidates[[index]]
+    dplyr::compute(
+      name = basename(tempfile(pattern = "immunarch_dist_hamm_")),
+      prudence = "stingy"
+    )
 }
 
 
@@ -439,11 +527,14 @@ infer_dist_group_col <- function(columns) {
 #'   within repertoires, or `subject_id` if your data has such a dedicated column for
 #'   subject-specific metadata. Locus grouping is also always applied for
 #'   paired-chain receptor schemas.
-#' @param max_dist A single nonnegative number or `NULL`. Values in `(0, 1)`
-#'   bound normalized
-#'   Hamming distance, integer values which are `>=1` bound raw
-#'   Hamming distance. `NULL` (the default) and the legacy value `0` disable
-#'   bounding. Mutually exclusive with `min_sim`.
+#' @param max_dist A single nonnegative number, a keyed threshold table, or
+#'   `NULL`. Scalar values in `(0, 1)` bound normalized Hamming distance;
+#'   integer values which are `>=1` bound raw Hamming distance. `NULL` (the
+#'   default) and the legacy scalar value `0` disable bounding. A threshold
+#'   table must contain one or more key columns plus a numeric `threshold`
+#'   column strictly inside `(0, 1)`. Its key columns must be included in `by`
+#'   and must exactly cover the corresponding input key combinations. Mutually
+#'   exclusive with `min_sim`.
 #' @param min_sim A single number in `[0, 1]` or `NULL`, giving the minimum
 #'   normalized Hamming similarity. It is mutually exclusive with `max_dist`.
 #' @param sample_n A nonnegative whole number giving the maximum number of
@@ -520,7 +611,7 @@ infer_dist_group_col <- function(columns) {
 #' @rdname dist
 #' @concept Receptor distance
 #' @export
-dist_hamm <- register_immunarch_method(
+dist_hamm <- register_method_dist(
   core = dist_hamm_impl,
   family = "dist",
   name = "hamm",

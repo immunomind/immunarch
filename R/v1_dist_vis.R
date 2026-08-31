@@ -32,7 +32,17 @@ vis_dist_impl <- function(
     checkmate::assert_string(facet)
   }
   if (identical(facet, "<auto>")) {
-    facet <- infer_dist_group_col(names(.data))
+    candidates <- c(
+      "subject_id",
+      "donor",
+      "donor_id",
+      "patient_id",
+      "patient",
+      "subject",
+      immundata::imd_schema("repertoire")
+    )
+    index <- match(TRUE, candidates %in% names(.data))
+    facet <- if (is.na(index)) NULL else candidates[[index]]
   } else if (!is.null(facet)) {
     checkmate::assert_choice(facet, names(.data))
   }

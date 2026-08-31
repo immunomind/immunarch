@@ -16,7 +16,7 @@
 #' @inheritParams airr_desc_chains
 #' @inheritParams airr_desc_lengths
 #' @inheritParams airr_desc_genes
-#' @inheritParams im_common_args
+#' @inheritParams method_args_airr
 #'
 #' @seealso [immundata::ImmunData]
 #'
@@ -156,7 +156,7 @@ airr_desc_chains_impl <- function(idata, locus_col = NA) {
 #' @rdname airr_desc
 #' @concept Key AIRR statistics
 #' @export
-airr_desc_chains <- register_immunarch_method(
+airr_desc_chains <- register_method_airr(
   core = airr_desc_chains_impl,
   family = "airr_desc",
   name = "chains"
@@ -240,7 +240,7 @@ airr_desc_lengths_impl <- function(
 #' @rdname airr_desc
 #' @concept Key AIRR statistics
 #' @export
-airr_desc_lengths <- register_immunarch_method(
+airr_desc_lengths <- register_method_airr(
   core = airr_desc_lengths_impl,
   family = "airr_desc",
   name = "lengths",
@@ -367,7 +367,7 @@ airr_desc_genes_impl <- function(
 #' @rdname airr_desc
 #' @concept Key AIRR statistics
 #' @export
-airr_desc_genes <- register_immunarch_method(
+airr_desc_genes <- register_method_airr(
   core = airr_desc_genes_impl,
   family = "airr_desc",
   name = "genes",

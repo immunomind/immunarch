@@ -1,5 +1,5 @@
 test_that("repsim_jaccard computes set similarity with string repertoire ids", {
-  out <- repsim_jaccard(make_repsim_set_idata(), autojoin = FALSE)
+  out <- repsim_jaccard(make_repsim_set_idata())
 
   expect_true(is.matrix(out))
   expect_equal(out, t(out), tolerance = 1e-12)
@@ -19,8 +19,7 @@ test_that("repsim_jaccard computes set similarity with string repertoire ids", {
 
 test_that("repsim_jaccard deduplicates repeated receptor rows per repertoire", {
   out <- repsim_jaccard(
-    make_repsim_set_idata(duplicated = TRUE),
-    autojoin = FALSE
+    make_repsim_set_idata(duplicated = TRUE)
   )
 
   expected <- matrix(c(1, 1, 1, 1), nrow = 2, byrow = TRUE)
@@ -35,7 +34,7 @@ test_that("repsim_jaccard returns a plottable matrix with unit diagonal", {
 
   idata <- make_aggregated_test_idata()
 
-  out <- repsim_jaccard(idata, autojoin = FALSE)
+  out <- repsim_jaccard(idata)
 
   expect_true(is.matrix(out))
   expect_equal(out, t(out), tolerance = 1e-12)
