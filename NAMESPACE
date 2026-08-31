@@ -61,6 +61,7 @@ export(airr_diversity_rarefaction)
 export(airr_diversity_shannon)
 export(annotate_clonality_prop)
 export(annotate_clonality_rank)
+export(annotate_ig_clones)
 export(annotate_public)
 export(annotate_with_database)
 export(apply_asymm)
@@ -144,10 +145,6 @@ export(vis_immunr_kmer_profile_main)
 export(vis_seqlogo)
 export(vis_textlogo)
 import(ggplot2)
-importFrom(Rcpp,
-  cppFunction,
-  sourceCpp
-)
 importFrom(checkmate,
   assert_character,
   assert_choice,
@@ -350,4 +347,3 @@ importFrom(utils,
   txtProgressBar
 )
 importFrom(vctrs,s3_register)
-useDynLib(immunarch, .registration = TRUE)

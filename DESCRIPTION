@@ -24,14 +24,13 @@ BugReports: https://github.com/immunomind/immunarch/issues
 Depends:
     R (>= 4.2.0),
     ggplot2 (>= 3.1.0),
-    immundata (>= 0.0.8),
+    immundata (>= 0.1.0),
     patchwork
 Imports:
     dplyr (>= 1.2.0),
     dtplyr (>= 1.0.0),
     data.table (>= 1.12.6),
     cli,
-    Rcpp (>= 1.0),
     magrittr,
     methods,
     scales,
@@ -50,9 +49,7 @@ Imports:
     stats,
     vctrs,
     ggthemes,
-    ggsci,
-    ape
-LinkingTo: Rcpp
+    ggsci
 Suggests:
     knitr (>= 1.8),
     roxygen2 (>= 3.0.0),
@@ -62,6 +59,7 @@ Suggests:
     pheatmap (>= 1.0.12),
     circlize,
     airr,
+    ape,
     stringdist,
     factoextra (>= 1.0.4),
     fpc,
@@ -70,6 +68,7 @@ Suggests:
     ggseqlogo,
     igraph,
     phangorn,
+    withr,
     ggalluvial (>= 0.10.0),
     UpSetR (>= 1.4.0),
     ggrepel (>= 0.8.0),
