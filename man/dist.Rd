@@ -12,7 +12,8 @@ dist_hamm(
   max_dist = NULL,
   min_sim = NULL,
   sample_n = 0L,
-  sample_by = "<auto>"
+  sample_by = "<auto>",
+  mode = c("pairs", "graph")
 )
 }
 \arguments{
@@ -53,11 +54,16 @@ sample by. The default,
 The resolved column must also be supplied through \code{by}. Set to \code{NULL} to
 sample from the whole dataset without accounting for groups.
 This argument is ignored when \code{sample_n = 0}.}
+
+\item{mode}{Output representation. \code{"pairs"} (the default) returns the
+receptor-pair table described below. \code{"graph"} returns contracted
+sequence-node edges and receptor-to-node membership. Grouping columns
+cannot use names reserved for structural columns in the selected output.}
 }
 \value{
 \subsection{1) Hamming distances (\code{dist_hamm})}{
 
-A lazy duckplyr table with:
+With \code{mode = "pairs"}, a lazy duckplyr table with:
 \itemize{
 \item grouping columns supplied through \code{by}
 \item \code{locus} for paired-chain receptor schemas
@@ -69,7 +75,16 @@ with \code{imd_receptor_id_1 < imd_receptor_id_2}
 \item \code{sim} -- normalized Hamming similarity, \code{1 - norm_dist}
 }
 
-Call \code{\link[dplyr:collect]{dplyr::collect()}} only when the edge table is small enough for memory.
+With \code{mode = "graph"}, an \code{immunarch_sequence_graph} object containing two
+lazy duckplyr tables. \code{edges} contains the effective grouping columns,
+globally unique \code{from} and \code{to} node IDs, and \code{seq_len}, \code{dist}, \code{norm_dist},
+and \code{sim}. \code{membership} contains the effective grouping columns, the
+canonical receptor ID, and \code{node_id}. A receptor can have multiple membership
+rows, and membership includes nodes without edges. Nodes represent distinct
+combinations of the full effective comparison group and a non-missing,
+non-empty sequence; sequences themselves are not returned.
+
+Call \code{\link[dplyr:collect]{dplyr::collect()}} only when a returned table is small enough for memory.
 }
 }
 \description{

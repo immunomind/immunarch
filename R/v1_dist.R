@@ -46,8 +46,18 @@ dist_hamm_impl <- function(
   max_dist = NULL,
   min_sim = NULL,
   sample_n = 0L,
-  sample_by = "<auto>"
+  sample_by = "<auto>",
+  mode = c("pairs", "graph")
 ) {
+  mode <- tryCatch(
+    match.arg(mode),
+    error = function(cnd) {
+      cli::cli_abort(
+        "{.arg mode} must be one of {.val pairs} or {.val graph}.",
+        parent = cnd
+      )
+    }
+  )
   checkmate::assert_string(seq_col)
   table_bound <- is.data.frame(max_dist)
   if (!table_bound) {
@@ -156,6 +166,24 @@ dist_hamm_impl <- function(
   }
 
   by <- unique(c(by, if (paired) locus_col))
+  reserved_by <- if (mode == "graph") {
+    c(
+      ".idist_record_type", "from", "to", "node_id",
+      "seq_len", "dist", "norm_dist", "sim"
+    )
+  } else {
+    c(
+      "imd_receptor_id_1", "imd_receptor_id_2",
+      "seq_len", "dist", "norm_dist", "sim"
+    )
+  }
+  conflicting_by <- intersect(by, reserved_by)
+  if (length(conflicting_by)) {
+    cli::cli_abort(
+      "Grouping column(s) conflict with reserved {.arg mode} output columns: {.field {conflicting_by}}."
+    )
+  }
+
   threshold_spec <- NULL
   if (table_bound) {
     thresholds <- max_dist
@@ -188,9 +216,11 @@ dist_hamm_impl <- function(
     if (any(thresholds$threshold <= 0 | thresholds$threshold >= 1)) {
       cli::cli_abort("Table thresholds must be strictly between 0 and 1.")
     }
+
     if (anyNA(thresholds[keys])) {
       cli::cli_abort("Threshold key columns must not contain missing values.")
     }
+
     if (anyDuplicated(thresholds[keys])) {
       cli::cli_abort("Threshold key combinations must be unique.")
     }
@@ -206,6 +236,7 @@ dist_hamm_impl <- function(
         "The threshold table contains a key combination absent from the input."
       )
     }
+
     if (nrow(dplyr::anti_join(input_keys, threshold_keys, by = keys))) {
       cli::cli_abort(
         "The threshold table must cover every input key combination."
@@ -226,6 +257,7 @@ dist_hamm_impl <- function(
     dplyr::distinct() |>
     duckplyr::as_tbl()
   con <- dbplyr::remote_con(source)
+
   if (!is.null(threshold_spec)) {
     source <- source |>
       dplyr::inner_join(
@@ -234,277 +266,398 @@ dist_hamm_impl <- function(
       )
   }
 
-  quote_ident <- function(x) {
-    as.character(dbplyr::sql_escape_ident(con, x))
-  }
-  q_receptor <- quote_ident(receptor_col)
-  q_sequence <- quote_ident(seq_col)
-  q_by <- vapply(by, quote_ident, character(1))
-  source_sql <- as.character(dbplyr::sql_render(source))
-
-  group_select <- if (length(by)) {
-    paste0(
-      ", ",
-      paste0(
-        q_by,
-        " AS \".idist_group_",
-        seq_along(q_by),
-        "\"",
-        collapse = ", "
+  empty_sql <- DBI::SQL("")
+  group_aliases <- paste0(".idist_group_", seq_along(by))
+  qualified_columns <- function(columns, table = NULL, output_names = NULL) {
+    table_prefix <- if (is.null(table)) {
+      empty_sql
+    } else {
+      DBI::SQL(paste0(table, "."))
+    }
+    fields <- if (is.null(output_names)) {
+      glue::glue_sql("{table_prefix}{`columns`}", .con = con)
+    } else {
+      glue::glue_sql(
+        "{table_prefix}{`columns`} AS {`output_names`}",
+        .con = con
       )
-    )
-  } else {
-    ""
+    }
+    glue::glue_sql_collapse(fields, sep = ", ")
   }
+
+  if (length(by)) {
+    fields <- qualified_columns(by, output_names = group_aliases)
+    group_select <- glue::glue_sql(", {fields}", .con = con)
+
+    group_predicates <- glue::glue_sql(
+      "a.{`group_aliases`} IS NOT DISTINCT FROM b.{`group_aliases`}",
+      .con = con
+    )
+    predicates <- glue::glue_sql_collapse(group_predicates, sep = " AND ")
+    group_join <- glue::glue_sql(" AND {predicates}", .con = con)
+  } else {
+    group_select <- empty_sql
+    group_join <- empty_sql
+  }
+
   threshold_select <- if (!is.null(threshold_spec)) {
-    ", \".idist_threshold\""
+    DBI::SQL(", \".idist_threshold\"")
   } else {
-    ""
+    empty_sql
   }
 
-  node_group_fields <- if (length(by)) {
-    paste0(
-      "a.\".idist_group_",
-      seq_along(by),
-      "\" AS ",
-      q_by,
-      collapse = ", "
-    )
-  } else {
-    ""
-  }
-
-  group_join <- if (length(by)) {
-    paste0(
-      " AND ",
-      paste0(
-        "a.\".idist_group_",
-        seq_along(by),
-        "\" IS NOT DISTINCT FROM b.\".idist_group_",
-        seq_along(by),
-        "\"",
-        collapse = " AND "
-      )
-    )
-  } else {
-    ""
-  }
-
-  base_nodes_name <- if (sample_n > 0L) "all_nodes" else "nodes"
-  nodes_cte <- paste0(
-    base_nodes_name, " AS MATERIALIZED (",
-    " SELECT ",
-    q_receptor, " AS \".idist_receptor\", ",
-    q_sequence, " AS \".idist_sequence\", ",
-    "length(", q_sequence, ")::BIGINT AS \".idist_length\"",
-    group_select,
-    threshold_select,
-    " FROM (", source_sql, ") source",
-    " WHERE ", q_receptor, " IS NOT NULL",
-    " AND ", q_sequence, " IS NOT NULL",
-    " AND length(", q_sequence, ") > 0",
-    ")"
+  base_receptors_name <- if (sample_n > 0L) "all_receptors" else "receptors"
+  receptors_cte <- glue::glue_sql(
+    "
+    {`base_receptors_name`} AS MATERIALIZED (
+      SELECT
+        {`receptor_col`} AS \".idist_receptor\",
+        {`seq_col`} AS \".idist_sequence\",
+        length({`seq_col`})::BIGINT AS \".idist_length\"
+        {group_select}{threshold_select}
+      FROM ({source}) source
+      WHERE {`receptor_col`} IS NOT NULL
+        AND {`seq_col`} IS NOT NULL
+        AND length({`seq_col`}) > 0
+    )",
+    source = DBI::SQL(dbplyr::sql_render(source)),
+    .con = con
   )
 
   if (sample_n > 0L) {
     if (is.null(resolved_sample_by)) {
-      sample_group_select <- ""
-      sample_partition <- ""
-      sample_group_join <- ""
+      sample_group_select <- empty_sql
+      sample_partition <- empty_sql
+      sample_group_join <- empty_sql
+      sampled_group_field <- empty_sql
     } else {
       sample_group_index <- match(resolved_sample_by, by)
-      sample_group_field <- paste0(
-        "\".idist_group_", sample_group_index, "\""
+      sample_group_field <- group_aliases[[sample_group_index]]
+      sample_group_select <- glue::glue_sql(
+        ", {`sample_group_field`} AS \".idist_sample_group\"",
+        .con = con
       )
-      sample_group_select <- paste0(
-        ", ", sample_group_field, " AS \".idist_sample_group\""
+      sample_partition <- DBI::SQL(
+        "PARTITION BY \".idist_sample_group\" "
       )
-      sample_partition <- "PARTITION BY \".idist_sample_group\" "
-      sample_group_join <- paste0(
-        " AND n.", sample_group_field,
-        " IS NOT DISTINCT FROM s.\".idist_sample_group\""
+      sample_group_join <- glue::glue_sql(
+        " AND n.{`sample_group_field`} IS NOT DISTINCT FROM s.\".idist_sample_group\"",
+        .con = con
       )
+      sampled_group_field <- DBI::SQL(", \".idist_sample_group\"")
     }
 
-    nodes_cte <- paste0(
-      nodes_cte,
-      ", sampled_receptors AS MATERIALIZED (",
-      " SELECT \".idist_receptor\"",
-      if (!is.null(resolved_sample_by)) ", \".idist_sample_group\"" else "",
-      " FROM (",
-      " SELECT *, row_number() OVER (",
-      sample_partition,
-      "ORDER BY random()) AS \".idist_sample_rank\"",
-      " FROM (",
-      " SELECT DISTINCT \".idist_receptor\"",
-      sample_group_select,
-      " FROM all_nodes",
-      ") sampling_groups",
-      ") ranked_receptors",
-      " WHERE \".idist_sample_rank\" <= ", as.character(sample_n),
-      ")",
-      ", nodes AS MATERIALIZED (",
-      " SELECT n.*",
-      " FROM all_nodes n",
-      " JOIN sampled_receptors s",
-      " ON n.\".idist_receptor\" = s.\".idist_receptor\"",
-      sample_group_join,
-      ")"
+    receptors_cte <- glue::glue_sql(
+      "
+      {receptors_cte}, sampled_receptors AS MATERIALIZED (
+        SELECT \".idist_receptor\"{sampled_group_field}
+        FROM (
+          SELECT *, row_number() OVER (
+            {sample_partition}ORDER BY random()
+          ) AS \".idist_sample_rank\"
+          FROM (
+            SELECT DISTINCT \".idist_receptor\"{sample_group_select}
+            FROM all_receptors
+          ) sampling_groups
+        ) ranked_receptors
+        WHERE \".idist_sample_rank\" <= {sample_n}
+      ), receptors AS MATERIALIZED (
+        SELECT n.*
+        FROM all_receptors n
+        JOIN sampled_receptors s
+          ON n.\".idist_receptor\" = s.\".idist_receptor\"{sample_group_join}
+      )",
+      .con = con
     )
   }
 
-  pair_join <- paste0(
-    "a.\".idist_length\" = b.\".idist_length\"",
-    group_join,
-    " AND a.\".idist_receptor\" < b.\".idist_receptor\""
+  if (length(by)) {
+    signature_groups <- qualified_columns(group_aliases)
+    signature_group_columns <- glue::glue_sql(
+      ", {signature_groups}",
+      .con = con
+    )
+    signature_order <- glue::glue_sql(
+      "{signature_groups}, \".idist_sequence\"",
+      .con = con
+    )
+    graph_groups <- qualified_columns(by)
+    graph_output_columns <- glue::glue_sql(
+      "{graph_groups}, ",
+      .con = con
+    )
+    qualified_membership_groups <- qualified_columns(group_aliases, "r")
+    membership_group_columns <- glue::glue_sql(
+      ", {qualified_membership_groups}",
+      .con = con
+    )
+    membership_output_groups <- qualified_columns(group_aliases, "m", by)
+    membership_output_prefix <- glue::glue_sql(
+      "{membership_output_groups}, ",
+      .con = con
+    )
+    pair_output_groups <- qualified_columns(group_aliases, "p", by)
+    pair_output_prefix <- glue::glue_sql(
+      "{pair_output_groups}, ",
+      .con = con
+    )
+    qualified_distance_groups <- qualified_columns(group_aliases, "a")
+    distance_group_columns <- glue::glue_sql(
+      "{qualified_distance_groups}, ",
+      .con = con
+    )
+    qualified_pair_groups <- qualified_columns(group_aliases, "d")
+    distance_pair_groups <- glue::glue_sql(
+      "{qualified_pair_groups}, ",
+      .con = con
+    )
+    qualified_node_groups <- qualified_columns(group_aliases, "n")
+    node_pair_groups <- glue::glue_sql(
+      "{qualified_node_groups}, ",
+      .con = con
+    )
+    edge_output_groups <- qualified_columns(group_aliases, "d", by)
+    edge_output_prefix <- glue::glue_sql(
+      "{edge_output_groups}, ",
+      .con = con
+    )
+    signature_predicates <- glue::glue_sql_collapse(
+      glue::glue_sql(
+        "r.{`group_aliases`} IS NOT DISTINCT FROM n.{`group_aliases`}",
+        .con = con
+      ),
+      sep = " AND "
+    )
+    signature_group_join <- glue::glue_sql(
+      " AND {signature_predicates}",
+      .con = con
+    )
+  } else {
+    signature_group_columns <- empty_sql
+    signature_order <- DBI::SQL("\".idist_sequence\"")
+    graph_output_columns <- empty_sql
+    membership_group_columns <- empty_sql
+    membership_output_prefix <- empty_sql
+    pair_output_prefix <- empty_sql
+    distance_group_columns <- empty_sql
+    distance_pair_groups <- empty_sql
+    node_pair_groups <- empty_sql
+    edge_output_prefix <- empty_sql
+    signature_group_join <- empty_sql
+  }
+
+  contraction_ctes <- glue::glue_sql(
+    "
+    {receptors_cte}, sequence_nodes AS MATERIALIZED (
+      SELECT row_number() OVER (
+        ORDER BY {signature_order}
+      )::BIGINT AS node_id, signatures.*
+      FROM (
+        SELECT DISTINCT
+          \".idist_sequence\", \".idist_length\"
+          {signature_group_columns}{threshold_select}
+        FROM receptors
+      ) signatures
+    ), memberships AS MATERIALIZED (
+      SELECT DISTINCT
+        r.\".idist_receptor\"{membership_group_columns}, n.node_id
+      FROM receptors r
+      JOIN sequence_nodes n
+        ON r.\".idist_sequence\" IS NOT DISTINCT FROM n.\".idist_sequence\"
+        {signature_group_join}
+    )",
+    .con = con
+  )
+
+  node_pair_join <- glue::glue_sql(
+    "
+    a.\".idist_length\" = b.\".idist_length\"{group_join}
+      AND a.node_id < b.node_id",
+    .con = con
   )
 
   unbounded <- is.null(threshold_spec) &&
     is.null(min_sim) && (is.null(max_dist) || max_dist == 0)
   if (unbounded) {
-    pair_query <- paste0(
-      "SELECT ",
-      if (length(by)) paste0(node_group_fields, ", ") else "",
-      "a.\".idist_receptor\" AS imd_receptor_id_1",
-      ", b.\".idist_receptor\" AS imd_receptor_id_2",
-      ", a.\".idist_length\" AS seq_len",
-      ", hamming(",
-      "a.\".idist_sequence\", b.\".idist_sequence\"",
-      ") AS mismatches",
-      " FROM nodes a",
-      " JOIN nodes b ON ", pair_join
-    )
-
-    query <- paste0(
-      "WITH ", nodes_cte, ", distances AS (",
-      pair_query,
-      ")",
-      " SELECT ",
-      if (length(by)) paste0(paste(q_by, collapse = ", "), ", ") else "",
-      "imd_receptor_id_1, imd_receptor_id_2, seq_len",
-      ", mismatches AS dist",
-      ", 1.0 * mismatches / seq_len AS norm_dist",
-      ", 1.0 - 1.0 * mismatches / seq_len AS sim",
-      " FROM distances"
+    distance_ctes <- glue::glue_sql(
+      "
+      graph_distances AS (
+        SELECT
+          {distance_group_columns}a.node_id AS \"from\",
+          b.node_id AS \"to\",
+          a.\".idist_length\" AS seq_len,
+          hamming(
+            a.\".idist_sequence\", b.\".idist_sequence\"
+          ) AS mismatches
+        FROM sequence_nodes a
+        JOIN sequence_nodes b ON {node_pair_join}
+      )",
+      .con = con
     )
   } else {
     norm_bound_sql <- if (!is.null(threshold_spec)) {
-      "\".idist_threshold\""
+      DBI::SQL("\".idist_threshold\"")
     } else {
       norm_bound <- if (!is.null(min_sim)) 1 - min_sim else max_dist
-      as.character(dbplyr::escape(norm_bound, con = con))
+      norm_bound
     }
     normalized_bound <- !is.null(threshold_spec) ||
       !is.null(min_sim) || max_dist < 1
     max_mismatches_sql <- if (normalized_bound) {
-      paste0(
-        "least(\".idist_length\", floor(",
-        norm_bound_sql,
-        " * \".idist_length\" + 1e-12)::BIGINT)"
+      glue::glue_sql(
+        "least(\".idist_length\", floor(
+          {norm_bound_sql} * \".idist_length\" + 1e-12
+        )::BIGINT)",
+        .con = con
       )
     } else {
-      paste0(
-        "least(\".idist_length\", ",
-        as.integer(max_dist),
-        "::BIGINT)"
+      max_dist <- as.integer(max_dist)
+      glue::glue_sql(
+        "least(\".idist_length\", {max_dist}::BIGINT)",
+        .con = con
       )
     }
 
-    block_group_fields <- if (length(by)) {
-      paste0(
-        "a.\".idist_group_",
-        seq_along(by),
-        "\"",
-        collapse = ", "
-      )
-    } else {
-      ""
-    }
-
-    candidate_group_fields <- if (length(by)) {
-      paste0(
-        "\".idist_group_",
-        seq_along(by),
-        "\" AS ",
-        q_by,
-        collapse = ", "
-      )
-    } else {
-      ""
-    }
-
-    block_group_join <- if (length(by)) {
-      paste0(
-        " AND ",
-        paste0(
-          "a.\".idist_group_",
-          seq_along(by),
-          "\" IS NOT DISTINCT FROM b.\".idist_group_",
-          seq_along(by),
-          "\"",
-          collapse = " AND "
-        )
-      )
-    } else {
-      ""
-    }
-
-    query <- paste0(
-      "WITH ", nodes_cte,
-      ", bounded_nodes AS MATERIALIZED (",
-      " SELECT *, ", max_mismatches_sql, " AS max_mismatches",
-      " FROM nodes",
-      ")",
-      ", block_index AS MATERIALIZED (",
-      " SELECT n.*, block",
-      ", substr(",
-      "n.\".idist_sequence\", ",
-      "floor(block * n.\".idist_length\" / (n.max_mismatches + 1))::BIGINT + 1, ",
-      "(floor((block + 1) * n.\".idist_length\" / (n.max_mismatches + 1)) - ",
-      "floor(block * n.\".idist_length\" / (n.max_mismatches + 1)))::BIGINT",
-      ") AS token",
-      " FROM bounded_nodes n",
-      " CROSS JOIN LATERAL range(0, n.max_mismatches + 1) blocks(block)",
-      ")",
-      ", candidates AS (",
-      " SELECT DISTINCT ",
-      if (length(by)) paste0(block_group_fields, ", ") else "",
-      "a.\".idist_receptor\" AS imd_receptor_id_1",
-      ", b.\".idist_receptor\" AS imd_receptor_id_2",
-      ", a.\".idist_sequence\" AS sequence_from",
-      ", b.\".idist_sequence\" AS sequence_to",
-      ", a.\".idist_length\" AS seq_len",
-      ", a.max_mismatches",
-      " FROM block_index a",
-      " JOIN block_index b ON ",
-      "a.\".idist_length\" = b.\".idist_length\"",
-      block_group_join,
-      " AND a.max_mismatches = b.max_mismatches",
-      " AND a.block = b.block",
-      " AND a.token = b.token",
-      " AND a.\".idist_receptor\" < b.\".idist_receptor\"",
-      ")",
-      ", distances AS (",
-      " SELECT *, hamming(sequence_from, sequence_to) AS mismatches",
-      " FROM candidates",
-      ")",
-      " SELECT ",
-      if (length(by)) paste0(candidate_group_fields, ", ") else "",
-      "imd_receptor_id_1, imd_receptor_id_2, seq_len",
-      ", mismatches AS dist",
-      ", 1.0 * mismatches / seq_len AS norm_dist",
-      ", 1.0 - 1.0 * mismatches / seq_len AS sim",
-      " FROM distances",
-      " WHERE mismatches <= max_mismatches"
+    distance_ctes <- glue::glue_sql(
+      "
+      bounded_nodes AS MATERIALIZED (
+        SELECT *, {max_mismatches_sql} AS max_mismatches
+        FROM sequence_nodes
+      ), block_index AS MATERIALIZED (
+        SELECT
+          n.*, block,
+          substr(
+            n.\".idist_sequence\",
+            floor(
+              block * n.\".idist_length\" / (n.max_mismatches + 1)
+            )::BIGINT + 1,
+            (floor(
+              (block + 1) * n.\".idist_length\" / (n.max_mismatches + 1)
+            ) - floor(
+              block * n.\".idist_length\" / (n.max_mismatches + 1)
+            ))::BIGINT
+          ) AS token
+        FROM bounded_nodes n
+        CROSS JOIN LATERAL range(
+          0, n.max_mismatches + 1
+        ) blocks(block)
+      ), candidates AS (
+        SELECT DISTINCT
+          {distance_group_columns}a.node_id AS \"from\",
+          b.node_id AS \"to\",
+          a.\".idist_sequence\" AS sequence_from,
+          b.\".idist_sequence\" AS sequence_to,
+          a.\".idist_length\" AS seq_len,
+          a.max_mismatches
+        FROM block_index a
+        JOIN block_index b
+          ON a.\".idist_length\" = b.\".idist_length\"{group_join}
+          AND a.max_mismatches = b.max_mismatches
+          AND a.block = b.block
+          AND a.token = b.token
+          AND a.node_id < b.node_id
+      ), measured_distances AS (
+        SELECT *, hamming(sequence_from, sequence_to) AS mismatches
+        FROM candidates
+      ), graph_distances AS (
+        SELECT *
+        FROM measured_distances
+        WHERE mismatches <= max_mismatches
+      )",
+      .con = con
     )
   }
 
-  dplyr::tbl(con, dbplyr::sql(query)) |>
-    duckplyr::as_duckdb_tibble() |>
-    dplyr::compute(
-      name = basename(tempfile(pattern = "immunarch_dist_hamm_")),
-      prudence = "stingy"
+  materialize <- function(query, pattern) {
+    dplyr::tbl(con, dbplyr::sql(query)) |>
+      duckplyr::as_duckdb_tibble() |>
+      dplyr::compute(
+        name = basename(tempfile(pattern = pattern)),
+        prudence = "stingy"
+      )
+  }
+
+  if (mode == "graph") {
+    graph_query <- glue::glue_sql(
+      "
+      WITH {contraction_ctes}, {distance_ctes}, graph_rows AS (
+        SELECT
+          {edge_output_prefix}'edge' AS \".idist_record_type\",
+          d.\"from\", d.\"to\",
+          NULL AS {`receptor_col`}, NULL::BIGINT AS node_id,
+          d.seq_len, d.mismatches AS dist,
+          1.0 * d.mismatches / d.seq_len AS norm_dist,
+          1.0 - 1.0 * d.mismatches / d.seq_len AS sim
+        FROM graph_distances d
+
+        UNION ALL
+
+        SELECT
+          {membership_output_prefix}'membership' AS \".idist_record_type\",
+          NULL::BIGINT AS \"from\", NULL::BIGINT AS \"to\",
+          m.\".idist_receptor\" AS {`receptor_col`}, m.node_id,
+          NULL::BIGINT AS seq_len, NULL::BIGINT AS dist,
+          NULL::DOUBLE AS norm_dist, NULL::DOUBLE AS sim
+        FROM memberships m
+      )
+      SELECT
+        {graph_output_columns}\".idist_record_type\", \"from\", \"to\",
+        {`receptor_col`}, node_id, seq_len, dist, norm_dist, sim
+      FROM graph_rows",
+      .con = con
     )
+
+    graph_rows <- materialize(graph_query, "immunarch_dist_hamm_graph_")
+    out <- list(
+      edges = graph_rows |>
+        dplyr::filter(.idist_record_type == "edge") |>
+        dplyr::select(dplyr::all_of(c(
+          by, "from", "to", "seq_len", "dist", "norm_dist", "sim"
+        ))),
+      membership = graph_rows |>
+        dplyr::filter(.idist_record_type == "membership") |>
+        dplyr::select(dplyr::all_of(c(by, receptor_col, "node_id")))
+    )
+    class(out) <- c("immunarch_sequence_graph", class(out))
+    return(out)
+  }
+
+  pairs_query <- glue::glue_sql(
+    "
+    WITH {contraction_ctes}, {distance_ctes}, expanded_pairs AS (
+      SELECT
+        {distance_pair_groups}
+        least(m1.\".idist_receptor\", m2.\".idist_receptor\") AS receptor_1,
+        greatest(m1.\".idist_receptor\", m2.\".idist_receptor\") AS receptor_2,
+        d.seq_len, d.mismatches
+      FROM graph_distances d
+      JOIN memberships m1 ON d.\"from\" = m1.node_id
+      JOIN memberships m2 ON d.\"to\" = m2.node_id
+      WHERE m1.\".idist_receptor\" <> m2.\".idist_receptor\"
+
+      UNION ALL
+
+      SELECT
+        {node_pair_groups}
+        m1.\".idist_receptor\" AS receptor_1,
+        m2.\".idist_receptor\" AS receptor_2,
+        n.\".idist_length\" AS seq_len, 0::BIGINT AS mismatches
+      FROM sequence_nodes n
+      JOIN memberships m1 ON n.node_id = m1.node_id
+      JOIN memberships m2 ON n.node_id = m2.node_id
+        AND m1.\".idist_receptor\" < m2.\".idist_receptor\"
+    )
+    SELECT
+      {pair_output_prefix}p.receptor_1 AS imd_receptor_id_1,
+      p.receptor_2 AS imd_receptor_id_2, p.seq_len,
+      p.mismatches AS dist,
+      1.0 * p.mismatches / p.seq_len AS norm_dist,
+      1.0 - 1.0 * p.mismatches / p.seq_len AS sim
+    FROM expanded_pairs p",
+    .con = con
+  )
+
+  materialize(pairs_query, "immunarch_dist_hamm_")
 }
 
 
@@ -548,11 +701,15 @@ dist_hamm_impl <- function(
 #'   The resolved column must also be supplied through `by`. Set to `NULL` to
 #'   sample from the whole dataset without accounting for groups.
 #'   This argument is ignored when `sample_n = 0`.
+#' @param mode Output representation. `"pairs"` (the default) returns the
+#'   receptor-pair table described below. `"graph"` returns contracted
+#'   sequence-node edges and receptor-to-node membership. Grouping columns
+#'   cannot use names reserved for structural columns in the selected output.
 #'
 #' @return
 #'
 #' ## 1) Hamming distances (`dist_hamm`)
-#' A lazy duckplyr table with:
+#' With `mode = "pairs"`, a lazy duckplyr table with:
 #' * grouping columns supplied through `by`
 #' * `locus` for paired-chain receptor schemas
 #' * `imd_receptor_id_1`, `imd_receptor_id_2` -- canonical receptor identifiers,
@@ -562,7 +719,16 @@ dist_hamm_impl <- function(
 #' * `norm_dist` -- `dist / seq_len`
 #' * `sim` -- normalized Hamming similarity, `1 - norm_dist`
 #'
-#' Call [dplyr::collect()] only when the edge table is small enough for memory.
+#' With `mode = "graph"`, an `immunarch_sequence_graph` object containing two
+#' lazy duckplyr tables. `edges` contains the effective grouping columns,
+#' globally unique `from` and `to` node IDs, and `seq_len`, `dist`, `norm_dist`,
+#' and `sim`. `membership` contains the effective grouping columns, the
+#' canonical receptor ID, and `node_id`. A receptor can have multiple membership
+#' rows, and membership includes nodes without edges. Nodes represent distinct
+#' combinations of the full effective comparison group and a non-missing,
+#' non-empty sequence; sequences themselves are not returned.
+#'
+#' Call [dplyr::collect()] only when a returned table is small enough for memory.
 #'
 #' @examples
 #' idata <- get_test_idata()

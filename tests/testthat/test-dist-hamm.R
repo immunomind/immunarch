@@ -20,6 +20,26 @@ make_dist_hamm_idata <- function() {
 }
 
 
+make_repeated_dist_hamm_idata <- function(n_identical) {
+  receptor_col <- immundata::imd_schema("receptor")
+
+  annotations <- tibble::tibble(
+    !!receptor_col := seq_len(n_identical + 1L),
+    cdr3_aa = c(rep("AAA", n_identical), "AAT"),
+    v_call = "V1",
+    j_call = "J1"
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+
+  immundata::ImmunData$new(
+    schema = immundata::make_receptor_schema(
+      features = c("cdr3_aa", "v_call", "j_call")
+    ),
+    annotations = annotations
+  )
+}
+
+
 make_paired_dist_hamm_idata <- function() {
   input_data <- tibble::tribble(
     ~barcode, ~locus, ~cdr3_aa, ~v_call, ~umis,
@@ -48,6 +68,193 @@ make_paired_dist_hamm_idata <- function() {
     verbose = FALSE
   )
 }
+
+
+test_that("dist_hamm graph mode contracts identical sequences", {
+  idata <- make_dist_hamm_idata()
+  receptor_col <- immundata::imd_schema("receptor")
+
+  graph <- dist_hamm(
+    idata,
+    by = c("v_call", "j_call"),
+    max_dist = 1,
+    mode = "graph"
+  )
+
+  expect_s3_class(graph, "immunarch_sequence_graph")
+  expect_named(graph, c("edges", "membership"), ignore.order = FALSE)
+  expect_s3_class(graph$edges, "duckplyr_df")
+  expect_s3_class(graph$membership, "duckplyr_df")
+  expect_named(
+    graph$edges,
+    c(
+      "v_call", "j_call", "from", "to", "seq_len", "dist",
+      "norm_dist", "sim"
+    ),
+    ignore.order = FALSE
+  )
+  expect_named(
+    graph$membership,
+    c("v_call", "j_call", receptor_col, "node_id"),
+    ignore.order = FALSE
+  )
+
+  membership <- dplyr::collect(graph$membership)
+  node_for <- function(receptor) {
+    unique(membership$node_id[membership[[receptor_col]] == receptor])
+  }
+
+  expect_equal(nrow(membership), 7L)
+  expect_equal(dplyr::n_distinct(membership$node_id), 5L)
+  expect_length(node_for(1L), 1L)
+  expect_equal(node_for(1L), node_for(6L))
+  expect_equal(node_for(1L), node_for(7L))
+  expect_false(identical(node_for(1L), node_for(2L)))
+  expect_false(identical(node_for(1L), node_for(5L)))
+})
+
+
+test_that("dist_hamm graph mode returns unique-sequence distances", {
+  idata <- make_dist_hamm_idata()
+  receptor_col <- immundata::imd_schema("receptor")
+  graph <- dist_hamm(
+    idata,
+    by = c("v_call", "j_call"),
+    max_dist = 1,
+    mode = "graph"
+  )
+  membership <- dplyr::collect(graph$membership)
+  edges <- graph$edges |>
+    dplyr::arrange(from, to) |>
+    dplyr::collect()
+  node_for <- function(receptor) {
+    unique(membership$node_id[membership[[receptor_col]] == receptor])
+  }
+  edge_key <- function(from, to) {
+    paste(sort(as.character(c(from, to))), collapse = ":")
+  }
+
+  actual_edges <- vapply(
+    seq_len(nrow(edges)),
+    function(i) edge_key(edges$from[[i]], edges$to[[i]]),
+    character(1)
+  )
+  expected_edges <- c(
+    edge_key(node_for(1L), node_for(2L)),
+    edge_key(node_for(2L), node_for(3L))
+  )
+
+  expect_setequal(actual_edges, expected_edges)
+  expect_true(all(edges$v_call == "V1"))
+  expect_true(all(edges$j_call == "J1"))
+  expect_true(all(edges$seq_len == 3L))
+  expect_true(all(edges$dist == 1L))
+  expect_true(all(edges$norm_dist == 1 / 3))
+  expect_true(all(edges$sim == 1 - edges$norm_dist))
+
+  incident_nodes <- unique(c(edges$from, edges$to))
+  expect_false(node_for(4L) %in% incident_nodes)
+  expect_false(node_for(5L) %in% incident_nodes)
+})
+
+
+test_that("dist_hamm graph contraction respects effective groups", {
+  idata <- make_dist_hamm_idata()
+  receptor_col <- immundata::imd_schema("receptor")
+  repertoire_col <- immundata::imd_schema("repertoire")
+
+  membership <- dist_hamm(
+    idata,
+    by = c(repertoire_col, "v_call", "j_call"),
+    max_dist = 1,
+    mode = "graph"
+  )$membership |>
+    dplyr::collect()
+  node_for <- function(receptor) {
+    unique(membership$node_id[membership[[receptor_col]] == receptor])
+  }
+
+  expect_equal(node_for(1L), node_for(6L))
+  expect_false(identical(node_for(1L), node_for(7L)))
+})
+
+
+test_that("dist_hamm graph mode rejects reserved grouping columns", {
+  receptor_col <- immundata::imd_schema("receptor")
+  annotations <- tibble::tibble(
+    !!receptor_col := 1:2,
+    cdr3_aa = c("AAA", "AAT"),
+    node_id = 1L,
+    from = 1L,
+    .idist_record_type = "input"
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  idata <- immundata::ImmunData$new(
+    schema = immundata::make_receptor_schema(features = "cdr3_aa"),
+    annotations = annotations
+  )
+
+  for (group_col in c("node_id", "from", ".idist_record_type")) {
+    expect_error(
+      dist_hamm(idata, by = group_col, mode = "graph"),
+      "reserved.*output"
+    )
+  }
+})
+
+
+test_that("dist_hamm preserves duplicate sequence-derived receptor pairs", {
+  receptor_col <- immundata::imd_schema("receptor")
+  annotations <- tibble::tibble(
+    !!receptor_col := c(1L, 1L, 2L, 2L),
+    cdr3_aa = c("AAA", "AAT", "AAC", "AGT")
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+  idata <- immundata::ImmunData$new(
+    schema = immundata::make_receptor_schema(features = "cdr3_aa"),
+    annotations = annotations
+  )
+
+  out <- dist_hamm(idata) |>
+    dplyr::arrange(dist) |>
+    dplyr::collect()
+
+  expect_equal(out$imd_receptor_id_1, rep(1L, 4L))
+  expect_equal(out$imd_receptor_id_2, rep(2L, 4L))
+  expect_equal(out$dist, c(1, 1, 1, 2))
+})
+
+
+test_that("dist_hamm graph size is independent of duplicate multiplicity", {
+  graph_sizes <- lapply(c(2L, 20L), function(n_identical) {
+    graph <- dist_hamm(
+      make_repeated_dist_hamm_idata(n_identical),
+      by = c("v_call", "j_call"),
+      max_dist = 1,
+      mode = "graph"
+    )
+
+    c(
+      nodes = graph$membership |>
+        dplyr::distinct(node_id) |>
+        dplyr::summarise(n = dplyr::n()) |>
+        dplyr::pull(n),
+      edges = graph$edges |>
+        dplyr::summarise(n = dplyr::n()) |>
+        dplyr::pull(n),
+      memberships = graph$membership |>
+        dplyr::summarise(n = dplyr::n()) |>
+        dplyr::pull(n)
+    )
+  })
+
+  expect_equal(graph_sizes[[1]][["nodes"]], 2)
+  expect_equal(graph_sizes[[2]][["nodes"]], 2)
+  expect_equal(graph_sizes[[1]][["edges"]], 1)
+  expect_equal(graph_sizes[[2]][["edges"]], 1)
+  expect_equal(graph_sizes[[1]][["memberships"]], 3)
+  expect_equal(graph_sizes[[2]][["memberships"]], 21)
+})
 
 
 test_that("dist_hamm returns lazy receptor-level upper-triangle edges", {
@@ -435,6 +642,7 @@ test_that("dist_hamm does not require repertoire aggregation", {
 test_that("dist_hamm validates columns and bounds", {
   idata <- make_dist_hamm_idata()
 
+  expect_error(dist_hamm(idata, mode = "unknown"), "mode")
   expect_error(dist_hamm(idata, seq_col = "missing"), "missing")
   expect_error(dist_hamm(idata, by = "missing"), "missing")
   expect_error(dist_hamm(idata, max_dist = 1.5), "integer")
