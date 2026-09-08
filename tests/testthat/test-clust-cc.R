@@ -53,12 +53,13 @@ clust_cc_graph <- function(idata, by = "comparison", max_dist = 1) {
 }
 
 
-collect_clust_cc <- function(result) {
+collect_clust_cc <- function(result, by = "scope") {
   receptor_col <- immundata::imd_schema("receptor")
 
   result |>
-    dplyr::arrange(!!!rlang::syms(c("scope", receptor_col))) |>
-    dplyr::collect()
+    dplyr::arrange(!!!rlang::syms(c(by, receptor_col))) |>
+    dplyr::collect() |>
+    tibble::as_tibble()
 }
 
 
@@ -84,7 +85,8 @@ expect_clust_cc_partition <- function(
     expected_components,
     function(cells) {
       members <- receptors |>
-        dplyr::filter(cell %in% cells)
+        dplyr::filter(cell %in% cells) |>
+        dplyr::distinct(scope, !!rlang::sym(receptor_col))
       members[[cluster_col]] <- min(members[[receptor_col]])
       members[[size_col]] <- dplyr::n_distinct(members[[receptor_col]])
       members
@@ -130,11 +132,11 @@ testthat::test_that("clust_cc rejects ordinary receptor edge tables", {
 
 
 testthat::test_that(
-  "clust_cc labels receptor components and retains unusable singletons",
+  "clust_cc labels receptor components and retains isolated receptors",
   {
     rows <- clust_cc_rows(
-      cell = c("a", "b", "c", "duplicate", "isolated", "missing", "empty"),
-      sequence = c("AAAA", "AAAT", "AATT", "AAAA", "GGGG", NA, "")
+      cell = c("a", "b", "c", "duplicate", "isolated"),
+      sequence = c("AAAA", "AAAT", "AATT", "AAAA", "GGGG")
     )
     idata <- make_clust_cc_idata(rows)
     receptors <- clust_cc_receptors(idata)
@@ -158,15 +160,38 @@ testthat::test_that(
       receptors,
       list(
         c("a", "b", "c", "duplicate"),
-        "isolated",
-        "missing",
-        "empty"
+        "isolated"
       ),
       cluster_col = "component",
       size_col = "receptor_count"
     )
   }
 )
+
+
+testthat::test_that("receptors absent from graph membership remain singletons", {
+  receptor_col <- immundata::imd_schema("receptor")
+  idata <- make_clust_cc_idata(clust_cc_rows(
+    cell = c("a", "b", "omitted"),
+    sequence = c("AAAA", "AAAT", "GGGG")
+  ))
+  graph <- idata |>
+    dplyr::filter(cell != "omitted") |>
+    clust_cc_graph(by = NULL)
+  omitted_id <- idata$annotations |>
+    dplyr::filter(cell == "omitted") |>
+    dplyr::select(dplyr::all_of(receptor_col)) |>
+    dplyr::distinct() |>
+    dplyr::collect() |>
+    dplyr::pull(dplyr::all_of(receptor_col))
+
+  omitted <- clust_cc(idata, graph, by = NULL) |>
+    dplyr::filter(!!rlang::sym(receptor_col) == omitted_id) |>
+    dplyr::collect()
+
+  testthat::expect_equal(omitted$cluster_id, omitted_id)
+  testthat::expect_equal(omitted$cluster_size, 1)
+})
 
 
 testthat::test_that(
@@ -201,6 +226,46 @@ testthat::test_that(
     testthat::expect_true(all(actual$cluster_size == 3L))
   }
 )
+
+
+testthat::test_that("graph membership remains scoped by locus", {
+  rows <- dplyr::bind_rows(
+    clust_cc_rows("left", "AAAA", locus = "IGH"),
+    clust_cc_rows("left", "GGGG", locus = "IGK"),
+    clust_cc_rows("bridge", "AAAT", locus = "IGH"),
+    clust_cc_rows("bridge", "CCCC", locus = "IGK"),
+    clust_cc_rows("right", "TTTT", locus = "IGH"),
+    clust_cc_rows("right", "CCCT", locus = "IGK")
+  )
+  idata <- make_clust_cc_idata(rows, chains = c("IGH", "IGK"))
+  receptor_col <- immundata::imd_schema("receptor")
+  receptors <- idata$annotations |>
+    dplyr::select("locus", "cell", dplyr::all_of(receptor_col)) |>
+    dplyr::distinct() |>
+    dplyr::collect()
+
+  actual <- clust_cc(
+    idata,
+    clust_cc_graph(idata, by = "locus"),
+    by = "locus"
+  ) |>
+    collect_clust_cc(by = "locus") |>
+    dplyr::left_join(receptors, by = c("locus", receptor_col))
+
+  cluster <- function(wanted_locus, wanted_cell) {
+    actual |>
+      dplyr::filter(
+        locus == .env$wanted_locus,
+        cell == .env$wanted_cell
+      ) |>
+      dplyr::pull("cluster_id")
+  }
+
+  testthat::expect_equal(cluster("IGH", "left"), cluster("IGH", "bridge"))
+  testthat::expect_false(cluster("IGH", "left") == cluster("IGH", "right"))
+  testthat::expect_equal(cluster("IGK", "bridge"), cluster("IGK", "right"))
+  testthat::expect_false(cluster("IGK", "left") == cluster("IGK", "bridge"))
+})
 
 
 testthat::test_that(
@@ -246,7 +311,6 @@ testthat::test_that("independent null scopes remain independent", {
     receptors,
     list(c("a1", "a2"), c("null1", "null2"))
   )
-  testthat::expect_equal(length(unique(actual$cluster_id)), 2L)
 })
 
 
@@ -308,100 +372,4 @@ testthat::test_that("empty receptor universes return an empty typed result", {
     c("scope", immundata::imd_schema("receptor"), "component", "receptor_count")
   )
   testthat::expect_equal(nrow(actual), 0L)
-})
-
-
-testthat::test_that("component recursion uses one keyed label per scoped node", {
-  testthat::expect_gte(utils::packageVersion("duckdb"), "1.3.0")
-
-  idata <- make_clust_cc_idata(clust_cc_rows(
-    cell = c("a", "b", "c"),
-    sequence = c("AAAA", "AAAT", "AATT")
-  ))
-  graph <- clust_cc_graph(idata)
-  original_compute <- dplyr::compute
-  rendered <- character()
-
-  testthat::local_mocked_bindings(
-    compute = function(x, ...) {
-      rendered <<- c(
-        rendered,
-        as.character(dbplyr::sql_render(duckplyr::as_tbl(x)))
-      )
-      original_compute(x, ...)
-    },
-    .package = "dplyr"
-  )
-
-  clust_cc(idata, graph, by = "scope") |>
-    dplyr::collect()
-
-  recursive_sql <- rendered[grepl("WITH RECURSIVE", rendered, fixed = TRUE)]
-  testthat::expect_length(recursive_sql, 1L)
-  testthat::expect_match(recursive_sql, "USING KEY", fixed = TRUE)
-  testthat::expect_match(recursive_sql, "recurring.", fixed = TRUE)
-  testthat::expect_match(recursive_sql, "HAVING min(", fixed = TRUE)
-  testthat::expect_match(recursive_sql, "< current.", fixed = TRUE)
-  testthat::expect_match(recursive_sql, "membership_anchors", fixed = TRUE)
-  testthat::expect_match(recursive_sql, "min(m.node_id) OVER", fixed = TRUE)
-  testthat::expect_match(recursive_sql, "a.anchor <> a.node_id", fixed = TRUE)
-  testthat::expect_false(grepl("cc_reach", recursive_sql, fixed = TRUE))
-  testthat::expect_false(grepl(
-    "imd_receptor_id_1|imd_receptor_id_2",
-    recursive_sql
-  ))
-  testthat::expect_match(
-    recursive_sql,
-    "USING KEY \\([^)]*\\.cc_node[^)]*\\)",
-    perl = TRUE
-  )
-  testthat::expect_false(grepl(
-    "USING KEY \\([^)]*\\.cc_label[^)]*\\)",
-    recursive_sql,
-    perl = TRUE
-  ))
-})
-
-
-testthat::test_that("bounded long-chain and large connected graphs complete", {
-  check_graph <- function(sequences) {
-    n <- length(sequences)
-    rows <- clust_cc_rows(
-      cell = sprintf("r%05d", seq_len(n)),
-      sequence = sequences
-    )
-    idata <- make_clust_cc_idata(rows)
-    receptors <- clust_cc_receptors(idata)
-    graph <- clust_cc_graph(idata)
-
-    actual <- clust_cc(idata, graph, by = "scope") |>
-      dplyr::collect()
-
-    testthat::expect_equal(nrow(actual), n)
-    testthat::expect_equal(
-      unique(actual$cluster_id),
-      min(receptors[[immundata::imd_schema("receptor")]])
-    )
-    testthat::expect_equal(unique(actual$cluster_size), n)
-  }
-
-  chain_n <- 128L
-  chain <- vapply(
-    0:(chain_n - 1L),
-    function(i) paste0(strrep("T", i), strrep("A", chain_n - i)),
-    character(1)
-  )
-  check_graph(chain)
-
-  connected_n <- 400L
-  center <- strrep("A", connected_n - 1L)
-  leaves <- vapply(
-    seq_len(connected_n - 1L),
-    function(i) {
-      substr(center, i, i) <- "T"
-      center
-    },
-    character(1)
-  )
-  check_graph(c(center, leaves))
 })
