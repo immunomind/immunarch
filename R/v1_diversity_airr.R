@@ -93,19 +93,25 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
   base_tbl <- idata$annotations |>
     dplyr::select(!!rec_sym, !!rep_sym, !!prop_sym) |>
     dplyr::distinct(!!rec_sym, !!rep_sym, .keep_all = TRUE) |>
-    dplyr::arrange()
+    dplyr::arrange() |>
+    duckplyr::as_tbl()
+  con <- dbplyr::remote_con(base_tbl)
 
-  k_sql <- sprintf(
-    "ROW_NUMBER() OVER (PARTITION BY %s ORDER BY %s DESC)",
-    rep_str, prop_str
+  k_sql <- glue::glue_sql(
+    "ROW_NUMBER() OVER (
+      PARTITION BY {`rep_str`} ORDER BY {`prop_str`} DESC
+    )",
+    .con = con
   )
-  cum_sql <- sprintf(
-    "SUM(%s) OVER (PARTITION BY %s ORDER BY %s DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)",
-    prop_str, rep_str, prop_str
+  cum_sql <- glue::glue_sql(
+    "SUM({`prop_str`}) OVER (
+      PARTITION BY {`rep_str`} ORDER BY {`prop_str`} DESC
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    )",
+    .con = con
   )
 
   ranked <- base_tbl |>
-    duckplyr::as_tbl() |>
     dplyr::mutate(
       k   = dbplyr::sql(k_sql),
       cum = dbplyr::sql(cum_sql)
