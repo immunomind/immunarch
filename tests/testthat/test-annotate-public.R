@@ -472,6 +472,8 @@ test_that("annotate_public reports global-only mode and computes deterministic n
     repertoires = rep_tbl_no_strata
   )
 
+  withr::local_options(rlib_message_verbosity = "verbose")
+
   expect_message(
     out <- annotate_public(idata_no_strata),
     "global publicness metrics only"
