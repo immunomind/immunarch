@@ -8,8 +8,6 @@
 clust_cc(
   idata,
   edges,
-  from = "imd_receptor_id_1",
-  to = "imd_receptor_id_2",
   by = NULL,
   cluster_col = "cluster_id",
   size_col = "cluster_size"
@@ -20,40 +18,33 @@ clust_cc(
 provide the graph nodes through the canonical receptor-ID column and, when
 requested, repertoire metadata.}
 
-\item{edges}{A lazy duckplyr table with one row per edge. It must contain the
-columns named by \code{from} and \code{to}, plus every column in \code{by}.
-Edges are treated as undirected. Duplicate edges, reversed duplicates,
-self-loops, and rows with a missing endpoint do not change the result.}
+\item{edges}{An \code{immunarch_sequence_graph} returned by \code{\link[=dist_hamm]{dist_hamm()}} with
+\code{mode = "graph"}. Ordinary receptor edge tables are not accepted.}
 
-\item{from, to}{Single character strings naming the endpoint columns in
-\code{edges}. The
-defaults, \code{"imd_receptor_id_1"} and \code{"imd_receptor_id_2"}, match the output
-of \code{\link[=dist_hamm]{dist_hamm()}}.}
-
-\item{by}{A character vector of column names or \code{NULL}. The columns must be
-present in both the receptor annotations and \code{edges}. Each distinct
-combination defines an independent graph, so edges never connect nodes
-across groups. For example, \code{by = "imd_repertoire_id"} clusters each
-repertoire separately. The canonical receptor-ID column cannot also be
-used in \code{by}.}
+\item{by}{A character vector of column names or \code{NULL}. These columns come
+from the receptor annotations in \code{idata}; each distinct combination is an
+independent clustering scope. The scope may be broader than the comparison
+groups used by \code{\link[=dist_hamm]{dist_hamm()}}. The canonical receptor-ID column cannot also
+be used in \code{by}.}
 
 \item{cluster_col}{A single character string giving the output
 component-identifier column name. Within each \code{by} group, the identifier
-is the minimum node identifier in that component. Defaults to
+is the minimum original receptor identifier in that component. Defaults to
 \code{"cluster_id"}.}
 
 \item{size_col}{A single character string giving the output component-size column
-name. The size is the number of distinct nodes in the component. Defaults
+name. The size is the number of distinct original receptors in the component. Defaults
 to \code{"cluster_size"}.}
 }
 \value{
-A lazy duckplyr table with one row per distinct, non-missing node and
+A lazy duckplyr table with one row per distinct, non-missing receptor
+ID per clustering scope and
 the following columns:
 \itemize{
 \item the grouping columns supplied through \code{by}, in the same order;
 \item the canonical receptor identifier;
 \item the component identifier, named by \code{cluster_col}; and
-\item the number of nodes in that component, named by \code{size_col}.
+\item the number of distinct receptors in that component, named by \code{size_col}.
 }
 
 Call \code{\link[dplyr:collect]{dplyr::collect()}} when an in-memory tibble is needed.
@@ -62,16 +53,16 @@ Call \code{\link[dplyr:collect]{dplyr::collect()}} when an in-memory tibble is n
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 A family of functions for clustering sparse receptor graphs represented by
-an \code{ImmunData} object and a lazy edge table.
+an \code{ImmunData} object and an \code{immunarch_sequence_graph}.
 
-\code{clust_cc()} finds connected components in an undirected receptor graph. The
-nodes use the receptor ID.
+\code{clust_cc()} finds receptor-level connected components from the contracted
+sequence graph returned by \code{\link[=dist_hamm]{dist_hamm()}} with \code{mode = "graph"}.
 }
 \details{
-\code{\link[=dist_hamm]{dist_hamm()}} produces the expected edge columns using the default \code{from}
-and \code{to} names. Its distance columns (\code{seq_len}, \code{dist}, \code{norm_dist}, and
-\code{sim}) may remain in \code{edges}. \code{clust_cc()} selects only the endpoint and \code{by}
-columns it needs.
+Sequence-node distances are applied only where both nodes participate in the
+same clustering scope. If one receptor belongs to several sequence nodes in
+a scope, those nodes are joined by identity edges before components are
+computed. Receptors without a usable sequence remain singleton components.
 }
 \examples{
 # Limit the number of threads used by the underlying DB for this example.
@@ -81,11 +72,11 @@ db_exec("SET threads TO 1")
 idata <- immundata::get_test_idata()
 
 # Connect receptors whose CDR3 amino-acid sequences differ by at most one
-# residue. dist_hamm() and clust_cc() use matching receptor-ID defaults.
-edges <- dist_hamm(idata, max_dist = 1)
+# residue. Request the contracted graph used by clust_cc().
+graph <- dist_hamm(idata, max_dist = 1, mode = "graph")
 res <- clust_cc(
   idata = idata,
-  edges = edges
+  edges = graph
 )
 res
 res <- res |> collect()
@@ -93,21 +84,22 @@ res <- res |> collect()
 # Build independent graphs within each repertoire and V-gene group. The
 # same columns must be supplied to by in both functions.
 group_cols <- c("imd_repertoire_id", "v_call")
-edges_by_group <- dist_hamm(
+graph_by_group <- dist_hamm(
   idata,
   by = group_cols,
-  min_sim = 0.8
+  min_sim = 0.8,
+  mode = "graph"
 )
 
 res_by_group <- clust_cc(
   idata = idata,
-  edges = edges_by_group,
+  edges = graph_by_group,
   by = group_cols
 )
 
 res_by_group |>
-  dplyr::filter(.data$cluster_size > 1L) |>
-  dplyr::arrange(dplyr::desc(.data$cluster_size)) |>
+  dplyr::filter(cluster_size > 1L) |>
+  dplyr::arrange(dplyr::desc(cluster_size)) |>
   dplyr::collect()
 
 }
