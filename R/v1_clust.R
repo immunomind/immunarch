@@ -16,15 +16,31 @@
 NULL
 
 
-#' @keywords internal
-check_sequence_graph <- function(edges) {
-  if (!inherits(edges, "immunarch_sequence_graph")) {
-    cli::cli_abort(c(
-      "{.fn clust_cc} requires an {.cls immunarch_sequence_graph}.",
-      "i" = "Create it with {.code dist_hamm(..., mode = \"graph\")}.",
-      "x" = "Ordinary receptor edge tables are no longer accepted."
-    ))
+clust_sql_columns <- function(con, columns, alias = NULL, trailing = FALSE) {
+  if (!length(columns)) {
+    return(DBI::SQL(""))
   }
+  qualifier <- if (is.null(alias)) "" else paste0(alias, ".")
+  fields <- glue::glue_sql_collapse(
+    glue::glue_sql("{DBI::SQL(qualifier)}{`columns`}", .con = con),
+    sep = ", "
+  )
+  if (trailing) glue::glue_sql("{fields}, ", .con = con) else fields
+}
+
+
+clust_sql_join <- function(con, columns, left, right) {
+  if (!length(columns)) {
+    return(DBI::SQL(""))
+  }
+  predicates <- glue::glue_sql_collapse(
+    glue::glue_sql(
+      "{DBI::SQL(paste0(left, '.'))}{`columns`} IS NOT DISTINCT FROM {DBI::SQL(paste0(right, '.'))}{`columns`}",
+      .con = con
+    ),
+    sep = " AND "
+  )
+  glue::glue_sql(" AND {predicates}", .con = con)
 }
 
 
@@ -35,8 +51,13 @@ clust_cc_impl <- function(
   cluster_col = "cluster_id",
   size_col = "cluster_size"
 ) {
-  check_sequence_graph(edges)
-
+  if (!inherits(edges, "immunarch_sequence_graph")) {
+    cli::cli_abort(c(
+      "{.fn clust_cc} requires an {.cls immunarch_sequence_graph}.",
+      "i" = "Create it with {.code dist_hamm(..., mode = \"graph\")}.",
+      "x" = "Ordinary receptor edge tables are not accepted."
+    ))
+  }
   checkmate::assert_character(
     by,
     any.missing = FALSE,
@@ -75,8 +96,11 @@ clust_cc_impl <- function(
     dplyr::filter(!is.na(!!rlang::sym(receptor_col))) |>
     dplyr::distinct() |>
     duckplyr::as_tbl()
+  membership_scope <- intersect(by, colnames(edges$membership))
   membership <- edges$membership |>
-    dplyr::select(dplyr::all_of(c(receptor_col, "node_id"))) |>
+    dplyr::select(dplyr::all_of(c(
+      membership_scope, receptor_col, "node_id"
+    ))) |>
     dplyr::distinct() |>
     duckplyr::as_tbl()
   distance_edges <- edges$edges |>
@@ -95,37 +119,11 @@ clust_cc_impl <- function(
     )
   }
 
-  empty_sql <- DBI::SQL("")
-  fields <- function(alias = NULL) {
-    if (!length(by)) {
-      return(empty_sql)
-    }
-    if (is.null(alias)) {
-      glue::glue_sql_collapse(
-        glue::glue_sql("{`by`}", .con = con), sep = ", "
-      )
-    } else {
-      glue::glue_sql_collapse(
-        glue::glue_sql("{DBI::SQL(paste0(alias, '.'))}{`by`}", .con = con),
-        sep = ", "
-      )
-    }
-  }
   prefix <- function(alias = NULL) {
-    if (!length(by)) empty_sql else glue::glue_sql("{fields(alias)}, ", .con = con)
+    clust_sql_columns(con, by, alias, trailing = TRUE)
   }
-  null_join <- function(left, right) {
-    if (!length(by)) {
-      return(empty_sql)
-    }
-    predicates <- glue::glue_sql_collapse(
-      glue::glue_sql(
-        "{DBI::SQL(paste0(left, '.'))}{`by`} IS NOT DISTINCT FROM {DBI::SQL(paste0(right, '.'))}{`by`}",
-        .con = con
-      ),
-      sep = " AND "
-    )
-    glue::glue_sql(" AND {predicates}", .con = con)
+  null_join <- function(columns, left, right) {
+    clust_sql_join(con, columns, left, right)
   }
 
   scoped_membership_sql <- glue::glue_sql(
@@ -133,7 +131,7 @@ clust_cc_impl <- function(
     SELECT DISTINCT {prefix('u')}u.{`receptor_col`}, m.node_id
     FROM ({universe}) u
     JOIN ({membership}) m
-      ON u.{`receptor_col`} = m.{`receptor_col`}
+      ON u.{`receptor_col`} = m.{`receptor_col`}{null_join(membership_scope, 'u', 'm')}
     WHERE m.node_id IS NOT NULL",
     universe = DBI::SQL(dbplyr::sql_render(universe)),
     membership = DBI::SQL(dbplyr::sql_render(membership)),
@@ -155,7 +153,7 @@ clust_cc_impl <- function(
       FROM ({distance_edges}) e
       JOIN scoped_nodes a ON e.\"from\" = a.node_id
       JOIN scoped_nodes b
-        ON e.\"to\" = b.node_id{null_join('a', 'b')}
+        ON e.\"to\" = b.node_id{null_join(by, 'a', 'b')}
       WHERE e.\"from\" IS NOT NULL AND e.\"to\" IS NOT NULL
     ), membership_anchors AS (
       SELECT m.*, min(m.node_id) OVER (
@@ -185,10 +183,8 @@ clust_cc_impl <- function(
     to = "to",
     by = by,
     cluster_col = ".cc_sequence_component",
-    size_col = ".cc_sequence_component_size",
     node_col = "node_id"
   ) |>
-    dplyr::select(-".cc_sequence_component_size") |>
     duckplyr::as_tbl()
 
   output_sql <- glue::glue_sql(
@@ -198,13 +194,7 @@ clust_cc_impl <- function(
         {prefix('m')}m.{`receptor_col`}, l.\".cc_sequence_component\"
       FROM ({scoped_membership}) m
       JOIN ({node_labels}) l
-        ON m.node_id = l.node_id{null_join('m', 'l')}
-    ), receptor_components AS (
-      SELECT
-        {prefix('m')}m.{`receptor_col`},
-        min(m.\".cc_sequence_component\") AS \".cc_sequence_component\"
-      FROM member_components m
-      GROUP BY {prefix('m')}m.{`receptor_col`}
+        ON m.node_id = l.node_id{null_join(by, 'm', 'l')}
     ), connected AS (
       SELECT
         {prefix('x')}x.{`receptor_col`},
@@ -214,15 +204,15 @@ clust_cc_impl <- function(
         count(*) OVER (
           PARTITION BY {prefix('x')}x.\".cc_sequence_component\"
         ) AS {`size_col`}
-      FROM receptor_components x
+      FROM member_components x
     ), singletons AS (
       SELECT
         {prefix('u')}u.{`receptor_col`},
         u.{`receptor_col`} AS {`cluster_col`},
         1::BIGINT AS {`size_col`}
       FROM ({universe}) u
-      ANTI JOIN receptor_components x
-        ON u.{`receptor_col`} = x.{`receptor_col`}{null_join('u', 'x')}
+      ANTI JOIN member_components x
+        ON u.{`receptor_col`} = x.{`receptor_col`}{null_join(by, 'u', 'x')}
     )
     SELECT * FROM connected
     UNION ALL
@@ -242,26 +232,6 @@ clust_cc_impl <- function(
 }
 
 
-# The same component algorithm also serves internal graphs of gene-call sets.
-clust_cc_nodes <- function(
-  idata,
-  edges,
-  from = "imd_receptor_id_1",
-  to = "imd_receptor_id_2",
-  by = NULL,
-  cluster_col = "cluster_id",
-  size_col = "cluster_size",
-  node_col
-) {
-  nodes <- idata$annotations |>
-    dplyr::select(dplyr::all_of(c(by, node_col))) |>
-    dplyr::distinct()
-  clust_cc_tables(
-    nodes, edges, from, to, by, cluster_col, size_col, node_col
-  )
-}
-
-
 # Minimum-label propagation with one retained label per scoped node.
 clust_cc_tables <- function(
   nodes,
@@ -270,49 +240,11 @@ clust_cc_tables <- function(
   to,
   by,
   cluster_col,
-  size_col,
   node_col
 ) {
-  checkmate::assert_string(from)
-  checkmate::assert_string(to)
-  checkmate::assert_character(
-    by,
-    any.missing = FALSE,
-    unique = TRUE,
-    null.ok = TRUE
-  )
-  checkmate::assert_string(cluster_col)
-  checkmate::assert_string(size_col)
-
   by <- if (is.null(by)) character() else by
-  receptor_col <- node_col
-
-  if (receptor_col %in% by) {
-    cli::cli_abort(
-      "The canonical receptor-ID column must not also appear in {.arg by}."
-    )
-  }
-
-  required_receptor_cols <- c(by, receptor_col)
+  required_receptor_cols <- c(by, node_col)
   required_edge_cols <- c(by, from, to)
-  missing_receptor_cols <- setdiff(
-    required_receptor_cols,
-    colnames(nodes)
-  )
-  missing_edge_cols <- setdiff(required_edge_cols, colnames(edges))
-
-  if (length(missing_receptor_cols)) {
-    cli::cli_abort(
-      "Column(s) missing from the node table: {.field {missing_receptor_cols}}."
-    )
-  }
-
-  if (length(missing_edge_cols)) {
-    cli::cli_abort(
-      "Column(s) missing from {.arg edges}: {.field {missing_edge_cols}}."
-    )
-  }
-
   node_source <- nodes |>
     dplyr::select(dplyr::all_of(required_receptor_cols)) |>
     dplyr::distinct()
@@ -337,69 +269,29 @@ clust_cc_tables <- function(
   }
 
   con <- node_con
-  empty_sql <- DBI::SQL("")
-  if (length(by)) {
-    selected_groups <- glue::glue_sql("{`by`*}", .con = con)
-    group_prefix <- glue::glue_sql("{selected_groups}, ", .con = con)
-    group_e <- glue::glue_sql_collapse(
-      glue::glue_sql("e.{`by`}", .con = con),
-      sep = ", "
-    )
-    group_l <- glue::glue_sql_collapse(
-      glue::glue_sql("l.{`by`}", .con = con),
-      sep = ", "
-    )
-    group_c <- glue::glue_sql_collapse(
-      glue::glue_sql("c.{`by`}", .con = con),
-      sep = ", "
-    )
-    candidate_group_prefix <- glue::glue_sql("{group_e}, ", .con = con)
-    label_group_prefix <- glue::glue_sql("{group_l}, ", .con = con)
-    grouped_candidate_prefix <- glue::glue_sql("{group_c}, ", .con = con)
-    partition_group_prefix <- glue::glue_sql("{group_l}, ", .con = con)
-
-    predicates <- glue::glue_sql(
-      "l.{`by`} IS NOT DISTINCT FROM e.{`by`}",
-      .con = con
-    )
-    predicates <- glue::glue_sql_collapse(predicates, sep = " AND ")
-    edge_group_join <- glue::glue_sql(" AND {predicates}", .con = con)
-
-    predicates <- glue::glue_sql(
-      "c.{`by`} IS NOT DISTINCT FROM current.{`by`}",
-      .con = con
-    )
-    predicates <- glue::glue_sql_collapse(predicates, sep = " AND ")
-    current_group_join <- glue::glue_sql(
-      " AND {predicates}",
-      .con = con
-    )
-    cte_columns <- glue::glue_sql_collapse(
-      glue::glue_sql("{`c(by, '.cc_node', '.cc_label')`}", .con = con),
-      sep = ", "
-    )
-    key_columns <- glue::glue_sql_collapse(
-      glue::glue_sql("{`c(by, '.cc_node')`}", .con = con),
-      sep = ", "
-    )
-  } else {
-    group_prefix <- empty_sql
-    candidate_group_prefix <- empty_sql
-    label_group_prefix <- empty_sql
-    grouped_candidate_prefix <- empty_sql
-    partition_group_prefix <- empty_sql
-    edge_group_join <- empty_sql
-    current_group_join <- empty_sql
-    cte_columns <- DBI::SQL('".cc_node", ".cc_label"')
-    key_columns <- DBI::SQL('".cc_node"')
-  }
+  group_prefix <- clust_sql_columns(con, by, trailing = TRUE)
+  candidate_group_prefix <- clust_sql_columns(
+    con, by, "e",
+    trailing = TRUE
+  )
+  label_group_prefix <- clust_sql_columns(con, by, "l", trailing = TRUE)
+  grouped_candidate_prefix <- clust_sql_columns(
+    con, by, "c",
+    trailing = TRUE
+  )
+  edge_group_join <- clust_sql_join(con, by, "l", "e")
+  current_group_join <- clust_sql_join(con, by, "c", "current")
+  cte_columns <- clust_sql_columns(
+    con, c(by, ".cc_node", ".cc_label")
+  )
+  key_columns <- clust_sql_columns(con, c(by, ".cc_node"))
 
   query <- glue::glue_sql(
     "
     WITH RECURSIVE cc_nodes AS MATERIALIZED (
-      SELECT DISTINCT {group_prefix}{`receptor_col`} AS \".cc_node\"
+      SELECT DISTINCT {group_prefix}{`node_col`} AS \".cc_node\"
       FROM ({node_source}) node_source
-      WHERE {`receptor_col`} IS NOT NULL
+      WHERE {`node_col`} IS NOT NULL
     ), cc_edge_source AS MATERIALIZED (
       SELECT DISTINCT
         {group_prefix}{`from`} AS \".cc_from\", {`to`} AS \".cc_to\"
@@ -439,11 +331,8 @@ clust_cc_tables <- function(
       )
     )
     SELECT
-      {label_group_prefix}l.\".cc_node\" AS {`receptor_col`},
-      l.\".cc_label\" AS {`cluster_col`},
-      count(*) OVER (
-        PARTITION BY {partition_group_prefix}l.\".cc_label\"
-      ) AS {`size_col`}
+      {label_group_prefix}l.\".cc_node\" AS {`node_col`},
+      l.\".cc_label\" AS {`cluster_col`}
     FROM cc_labels l",
     node_source = DBI::SQL(dbplyr::sql_render(node_source)),
     edge_source = DBI::SQL(dbplyr::sql_render(edge_source)),
@@ -457,14 +346,6 @@ clust_cc_tables <- function(
       prudence = "stingy"
     )
 }
-
-
-clust_cc_registered <- register_method_clust(
-  core = clust_cc_impl,
-  family = "clust",
-  name = "cc",
-  need_repertoires = FALSE
-)
 
 
 #' @description
@@ -545,17 +426,9 @@ clust_cc_registered <- register_method_clust(
 #' @rdname clust
 #' @concept Clustering
 #' @export
-clust_cc <- function(
-  idata,
-  edges,
-  by = NULL,
-  cluster_col = "cluster_id",
-  size_col = "cluster_size"
-) {
-  # Validate before the registered wrapper passes a lazy data-frame argument
-  # through do.call(), which would try to materialize it.
-  check_sequence_graph(edges)
-  clust_cc_registered(idata, edges, by, cluster_col, size_col)
-}
-
-register_method_record("clust", "cc", clust_cc)
+clust_cc <- register_method_clust(
+  core = clust_cc_impl,
+  family = "clust",
+  name = "cc",
+  need_repertoires = FALSE
+)
