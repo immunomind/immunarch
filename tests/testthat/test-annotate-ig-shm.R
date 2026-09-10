@@ -8,6 +8,7 @@ make_shm_rows <- function(sequence, germline = sequence, cell_id = seq_along(seq
     cell_id = paste0("cell", fixture_id),
     umi = 1L,
     sequence_alignment = sequence,
+    germline_alignment = germline,
     germline_alignment_d_mask = germline,
     v_sequence_start = 1L,
     v_alignment_start = 1L,
@@ -216,6 +217,22 @@ testthat::test_that("custom sequence and germline columns are supported", {
 
   testthat::expect_equal(actual$mu_count, 1L)
   testthat::expect_equal(actual$mu_count_fwr1_s, 1L)
+})
+
+
+testthat::test_that("SHM defaults to the reconstructed germline alignment", {
+  rows <- make_shm_rows(
+    "GCCGCTGCTGCTGCTGCTGCT",
+    "GCTGCTGCTGCTGCTGCTGCT"
+  )
+  rows$germline_alignment <- rows$germline_alignment_d_mask
+  rows$germline_alignment_d_mask <- rows$sequence_alignment
+
+  actual <- make_shm_idata(rows) |>
+    annotate_ig_shm() |>
+    collect_shm()
+
+  testthat::expect_equal(actual$mu_count, 1L)
 })
 
 
