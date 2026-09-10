@@ -2,18 +2,60 @@
 % Please edit documentation in R/v1_ig_germlines_annotate.R
 \name{annotate_ig_germlines}
 \alias{annotate_ig_germlines}
-\title{Add Immunoglobulin germline information}
+\title{Reconstruct clone-level immunoglobulin germlines}
 \usage{
 annotate_ig_germlines(
   idata,
-  germline_col = "germline_alignment",
-  v_end_col = "v_alignment_end",
-  j_start_col = "j_alignment_start",
-  d_mask_col = "germline_alignment_d_mask"
+  references,
+  species = NULL,
+  by = "<auto>",
+  sequence_id_col = "sequence_id",
+  sequence_col = "sequence_alignment",
+  v_col = "v_call",
+  j_col = "j_call",
+  v_start_col = "v_germline_start",
+  v_end_col = "v_germline_end",
+  j_start_col = "j_germline_start",
+  j_end_col = "j_germline_end",
+  germline_col = "germline_alignment"
 )
+}
+\arguments{
+\item{idata}{\link[immundata:ImmunData]{immundata::ImmunData}. AIRR data to annotate.}
+
+\item{references}{A table returned by \code{\link[=read_germline_references]{read_germline_references()}}.}
+
+\item{species}{Character scalar, or \code{NULL} to use the sole reference species.}
+
+\item{by}{Character vector or \code{"<auto>"}. Clone grouping columns. Automatic
+grouping uses \code{family_id}, otherwise \code{subject_id} and \code{clone_id}. Locus is
+always added.}
+
+\item{sequence_id_col, sequence_col, v_col, j_col}{Character scalars selecting
+the sequence ID, aligned sequence, V-call, and J-call columns.}
+
+\item{v_start_col, v_end_col, j_start_col, j_end_col}{Character scalars selecting
+the closed germline-coordinate columns.}
+
+\item{germline_col}{Character scalar naming the reconstructed output column.}
+}
+\value{
+\link[immundata:ImmunData]{immundata::ImmunData} with one clone/locus germline assigned to each
+input row. Groups which cannot be reconstructed receive \code{NA}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Annotate clonal families with germline sequences.
+Select one representative sequence per clone and locus, then reconstruct its
+germline from V and J references with the intervening sequence masked by \code{N}.
 }
+\section{Reference compatibility}{
+
+
+\strong{Warning:} \code{references} must contain the same IMGT-gapped reference
+sequences, with the same numbering scheme, that were used to produce the
+input AIRR alignments and germline coordinates. Mixing reference sets or
+using ungapped references can silently shift germline bases and junction
+boundaries.
+}
+

@@ -1,270 +1,256 @@
-make_ig_germline_idata <- function(rows, chains = unique(rows$locus)) {
+make_ig_germline_idata <- function(rows) {
   receptor_col <- immundata::imd_schema("receptor")
   repertoire_col <- immundata::imd_schema("repertoire")
 
-  if (!receptor_col %in% names(rows)) {
-    rows[[receptor_col]] <- seq_len(nrow(rows))
-  }
-  if (!repertoire_col %in% names(rows)) {
-    rows[[repertoire_col]] <- 1L
-  }
+  if (!receptor_col %in% names(rows)) rows[[receptor_col]] <- seq_len(nrow(rows))
+  if (!repertoire_col %in% names(rows)) rows[[repertoire_col]] <- 1L
 
   immundata::ImmunData$new(
-    schema = immundata::make_receptor_schema(
-      features = "row_id",
-      chains = chains
-    ),
-    annotations = duckplyr::as_duckdb_tibble(
-      rows,
-      prudence = "stingy"
-    )
+    schema = immundata::make_receptor_schema(features = "row_id", chains = unique(rows$locus)),
+    annotations = duckplyr::as_duckdb_tibble(rows, prudence = "stingy")
   )
 }
 
 
-collect_germlines <- function(idata, columns) {
+collect_germlines <- function(idata) {
   idata$annotations |>
-    dplyr::select(dplyr::all_of(columns)) |>
     dplyr::collect() |>
     dplyr::arrange(row_id)
 }
 
 
-testthat::test_that("germlines mask the complete interval between V and J", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGH",
-    germline_alignment = "AAAACCCCGGGG",
-    v_alignment_end = 4L,
-    j_alignment_start = 9L
-  ))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(actual$germline_alignment_d_mask, "AAAANNNNGGGG")
-})
-
-
-testthat::test_that("light-chain germlines need no D columns", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGK",
-    germline_alignment = "AAAACCCCGGGG",
-    v_alignment_end = 4L,
-    j_alignment_start = 9L
-  ))
-
-  testthat::expect_false(any(c(
-    "d_call", "d_alignment_start", "d_alignment_end"
-  ) %in% names(idata$annotations)))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(actual$germline_alignment_d_mask, "AAAANNNNGGGG")
-})
-
-
-testthat::test_that("adjacent V and J boundaries leave germlines unchanged", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGH",
-    germline_alignment = "AAAAGGGG",
-    v_alignment_end = 4L,
-    j_alignment_start = 5L
-  ))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(actual$germline_alignment_d_mask, "AAAAGGGG")
-})
-
-
-testthat::test_that("germlines are masked independently row by row", {
-  idata <- make_ig_germline_idata(tibble::tribble(
-    ~row_id, ~locus, ~germline_alignment, ~v_alignment_end, ~j_alignment_start,
-    1L, "IGH", "AAAACCCCGGGG", 4L, 9L,
-    2L, "IGH", "AATTCCGG", 2L, 7L,
-    3L, "IGL", "GGGTTT", 3L, 4L
-  ))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(
-    actual$germline_alignment_d_mask,
-    c("AAAANNNNGGGG", "AANNNNGG", "GGGTTT")
+germline_references <- function() {
+  tibble::tribble(
+    ~species, ~locus, ~segment, ~allele_id, ~sequence,
+    "Homo_sapiens", "IGH", "V", "IGHV1*01", "AA..CC",
+    "Homo_sapiens", "IGH", "V", "IGHV2*01", "TT..CC",
+    "Homo_sapiens", "IGH", "J", "IGHJ1*01", "GG.TT",
+    "Homo_sapiens", "IGH", "J", "IGHJ2*01", "CC.AA",
+    "Mus_musculus", "IGH", "V", "IGHV1*01", "CCCCCC",
+    "Mus_musculus", "IGH", "J", "IGHJ1*01", "AAAAAA"
   )
-})
+}
 
 
-testthat::test_that("missing row values produce missing masked germlines", {
-  idata <- make_ig_germline_idata(tibble::tribble(
-    ~row_id, ~locus, ~germline_alignment, ~v_alignment_end, ~j_alignment_start,
-    1L, "IGH", NA_character_, 4L, 9L,
-    2L, "IGH", "AAAACCCCGGGG", NA_integer_, 9L,
-    3L, "IGH", "AAAACCCCGGGG", 4L, NA_integer_,
-    4L, "IGH", "AAAACCCCGGGG", 4L, 9L
-  ))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(nrow(actual), 4L)
-  testthat::expect_equal(
-    actual$germline_alignment_d_mask,
-    c(NA_character_, NA_character_, NA_character_, "AAAANNNNGGGG")
+germline_rows <- function() {
+  tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end, ~keep, ~germline_alignment_d_mask,
+    1L, "z-long", "tied", "IGH", "AAAAAAAAAA", "IGHV1*01,IGHV99*01", "IGHJ1*01|IGHJ99*01", 2L, 4L, 1L, 4L, "z", "legacy-z",
+    2L, "a-long", "tied", "IGH", "AAAAAAAAAA", "IGHV2*01", "IGHJ2*01", 1L, 4L, 1L, 4L, "a", "legacy-a",
+    3L, "b-short", "tied", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L, "b", "legacy-b",
+    4L, "c-short", "tied", "IGH", "AAAAAAAAA", "IGHV2*01", "IGHJ2*01", 1L, 4L, 1L, 4L, "c", "legacy-c",
+    5L, "x-long", "fallback", "IGH", "AAAAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L, "x", "legacy-x",
+    6L, "z-short", "fallback", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L, "z", "legacy-z2",
+    7L, "a-short", "fallback", "IGH", "AAAAAAAAAA", "IGHV2*01", "IGHJ1*01", 1L, 4L, 1L, 4L, "a", "legacy-a2"
   )
-})
+}
 
 
-testthat::test_that("an existing masked-germline column is replaced", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGH",
-    germline_alignment = "AAAACCCCGGGG",
-    v_alignment_end = 4L,
-    j_alignment_start = 9L,
-    germline_alignment_d_mask = "incorrect"
-  ))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(actual$germline_alignment_d_mask, "AAAANNNNGGGG")
-  testthat::expect_equal(sum(names(out$annotations) == "germline_alignment_d_mask"), 1L)
-})
-
-
-testthat::test_that("custom germline and coordinate columns are supported", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGH",
-    custom_germline = "AAAACCCCGGGG",
-    custom_v_end = 4L,
-    custom_j_start = 9L
-  ))
-
+testthat::test_that("germlines use modal V/J representatives and reconstruct V + N + J", {
+  rows <- germline_rows()
   out <- annotate_ig_germlines(
-    idata,
-    germline_col = "custom_germline",
-    v_end_col = "custom_v_end",
-    j_start_col = "custom_j_start",
-    d_mask_col = "custom_d_mask"
+    make_ig_germline_idata(rows),
+    references = germline_references(),
+    species = "Homo_sapiens"
   )
-  actual <- collect_germlines(out, c("row_id", "custom_d_mask"))
+  actual <- collect_germlines(out)
 
-  testthat::expect_equal(actual$custom_d_mask, "AAAANNNNGGGG")
-  testthat::expect_false("germline_alignment_d_mask" %in% names(out$annotations))
+  # Tied modal V/J calls retain either allele. The longest candidates tie, so
+  # the character sequence_id selects a-long and its V2/J2 coordinates.
+  testthat::expect_equal(actual$germline_alignment[actual$family_id == "tied"],
+    rep("TT..NNCC.A", 4L))
+  # No longest row has the modal V1/J1 combination. The shorter fallback is
+  # selected, extended at J to the clone maximum, and padded past reference end.
+  testthat::expect_equal(actual$germline_alignment[actual$family_id == "fallback"],
+    rep("AA..NNGG.TTN", 3L))
 })
 
 
-testthat::test_that("missing required germline columns use annotation validation", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGH",
-    germline_alignment = "AAAACCCCGGGG",
-    v_alignment_end = 4L
-  ))
+testthat::test_that("germline reconstruction selects one species and auto-groups by family and locus", {
+  rows <- germline_rows()[1:2, ]
+  refs <- germline_references()
 
   testthat::expect_error(
-    annotate_ig_germlines(idata),
-    "Passed column name.*j_alignment_start.*not in the input ImmunData"
+    annotate_ig_germlines(make_ig_germline_idata(rows), references = refs),
+    "species"
   )
+  testthat::expect_error(
+    annotate_ig_germlines(make_ig_germline_idata(rows), references = refs, species = "Rattus_norvegicus"),
+    "species"
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows), references = refs, species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+  testthat::expect_equal(actual$germline_alignment, rep("TT..NNCC.A", 2L))
 })
 
 
-testthat::test_that("germline masking has no clone-family dependency", {
-  idata <- make_ig_germline_idata(tibble::tibble(
-    row_id = 1L,
-    locus = "IGH",
-    germline_alignment = "AAAACCCCGGGG",
-    v_alignment_end = 4L,
-    j_alignment_start = 9L
-  ))
+testthat::test_that("failed germline groups retain rows and preserve existing annotations", {
+  rows <- germline_rows()[1:2, ]
+  rows$v_call <- "IGHV404*01"
+  rows$germline_alignment <- "obsolete"
+  before <- rows[, c("row_id", "sequence_alignment", "v_call", "j_call", "keep", "germline_alignment_d_mask")]
 
-  testthat::expect_false(any(c(
-    "family_id", "heavy_family_id", "light_family_id"
-  ) %in% names(idata$annotations)))
-
-  out <- annotate_ig_germlines(idata)
-  actual <- collect_germlines(out, c("row_id", "germline_alignment_d_mask"))
-
-  testthat::expect_equal(actual$germline_alignment_d_mask, "AAAANNNNGGGG")
-})
-
-
-testthat::test_that("germline masking is independent of clone annotation order", {
-  receptor_col <- immundata::imd_schema("receptor")
-  idata <- make_ig_germline_idata(
-    tibble::tibble(
-      row_id = 1:4,
-      locus = rep(c("IGH", "IGK"), 2),
-      germline_alignment = c(
-        "AAAACCCCGGGG", "TTTTAAAACCCC",
-        "AAAACCCCGGGG", "TTTTAAAACCCC"
-      ),
-      v_alignment_end = 4L,
-      j_alignment_start = 9L,
-      junction = c("AAAA", "CCCC", "AAAT", "CCCT"),
-      v_call = rep(c("IGHV1*01", "IGKV1*01"), 2),
-      j_call = rep(c("IGHJ1*01", "IGKJ1*01"), 2),
-      subject = "A",
-      !!receptor_col := rep(1:2, each = 2)
-    ),
-    chains = c("IGH", "IGK")
+  out <- annotate_ig_germlines(
+    make_ig_germline_idata(rows),
+    references = germline_references(), species = "Homo_sapiens"
   )
+  actual <- collect_germlines(out)
 
-  germlines_first <- idata$clone(deep = TRUE) |>
-    annotate_ig_germlines() |>
-    annotate_ig_clones(heavy_threshold = 0.25, by_scope = "subject")
-  clones_first <- idata$clone(deep = TRUE) |>
-    annotate_ig_clones(heavy_threshold = 0.25, by_scope = "subject") |>
-    annotate_ig_germlines()
-
-  first <- collect_germlines(
-    germlines_first,
-    c("row_id", "germline_alignment_d_mask")
+  testthat::expect_equal(nrow(actual), nrow(rows))
+  testthat::expect_true(all(is.na(actual$germline_alignment)))
+  testthat::expect_equal(
+    actual[, names(before)],
+    before[match(actual$row_id, before$row_id), ]
   )
-  second <- collect_germlines(
-    clones_first,
-    c("row_id", "germline_alignment_d_mask")
-  )
-
-  testthat::expect_equal(first, second)
-})
-
-
-testthat::test_that("germline masking preserves ImmunData structure and schema", {
-  receptor_col <- immundata::imd_schema("receptor")
-  repertoire_col <- immundata::imd_schema("repertoire")
-  idata <- make_ig_germline_idata(tibble::tribble(
-    ~row_id, ~locus, ~germline_alignment, ~v_alignment_end,
-    ~j_alignment_start, ~existing_annotation, ~imd_receptor_id,
-    ~imd_repertoire_id,
-    2L, "IGH", "AATTCCGG", 2L, 7L, "keep-b", 102L, 12L,
-    1L, "IGH", "AAAACCCCGGGG", 4L, 9L, "keep-a", 101L, 11L
-  ))
-  before <- idata$annotations |>
-    dplyr::select(dplyr::all_of(c(
-      "row_id", receptor_col, repertoire_col, "existing_annotation"
-    ))) |>
-    dplyr::collect() |>
-    dplyr::arrange(row_id)
-
-  out <- annotate_ig_germlines(idata)
-  after <- out$annotations |>
-    dplyr::select(dplyr::all_of(c(
-      "row_id", receptor_col, repertoire_col, "existing_annotation"
-    ))) |>
-    dplyr::collect() |>
-    dplyr::arrange(row_id)
-
-  testthat::expect_s3_class(out, "ImmunData")
   testthat::expect_s3_class(out$annotations, "duckplyr_df")
-  testthat::expect_equal(nrow(after), nrow(before))
-  testthat::expect_equal(after, before)
-  testthat::expect_true(all(names(idata$annotations) %in% names(out$annotations)))
+})
+
+
+testthat::test_that("maximum alignment length outranks a smaller ID among modal candidates", {
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, "a-short", "length", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    2L, "z-long", "length", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 2L, 4L, 1L, 4L
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows),
+    references = germline_references(), species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(actual$germline_alignment, rep("A..NNNGG.T", 2L))
+})
+
+
+testthat::test_that("shorter fallback candidates compare sequence IDs as characters", {
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, 99, "fallback-tie", "IGH", "AAAAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L,
+    2L, 2, "fallback-tie", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 2L, 4L, 1L, 4L,
+    3L, 10, "fallback-tie", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows),
+    references = germline_references(), species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(actual$germline_alignment, rep("AA..NNGG.TTN", 3L))
+})
+
+
+testthat::test_that("IMGT gaps are preserved from the reference sequence", {
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, "gapped", "gapped", "IGH", "AA.CCNNGGTT", "IGHV1*01", "IGHJ1*01", 1L, 5L, 1L, 4L
+  )
+  refs <- tibble::tribble(
+    ~species, ~locus, ~segment, ~allele_id, ~sequence,
+    "Homo_sapiens", "IGH", "V", "IGHV1*01", "AA.CCAA",
+    "Homo_sapiens", "IGH", "J", "IGHJ1*01", "GGTTAA"
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows), references = refs
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(actual$germline_alignment, "AA.CCNNGGTT")
+})
+
+
+testthat::test_that("automatic family grouping remains locus-scoped", {
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, "heavy", "same-family", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    2L, "light", "same-family", "IGK", "AAAAAAAAAA", "IGKV1*01", "IGKJ1*01", 1L, 4L, 1L, 4L
+  )
+  refs <- dplyr::bind_rows(
+    germline_references(),
+    tibble::tribble(
+      ~species, ~locus, ~segment, ~allele_id, ~sequence,
+      "Homo_sapiens", "IGK", "V", "IGKV1*01", "CCCCAA",
+      "Homo_sapiens", "IGK", "J", "IGKJ1*01", "TTTTAA"
+    )
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows), references = refs, species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(actual$germline_alignment, c("AA..NNGG.T", "CCCCNNTTTT"))
+})
+
+
+testthat::test_that("modal V/J calls are counted before alignment length preference", {
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, "a-short", "votes", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    2L, "b-short", "votes", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    3L, "c-short", "votes", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    4L, "z-long", "votes", "IGH", "AAAAAAAAAA", "IGHV2*01", "IGHJ2*01", 1L, 4L, 1L, 4L
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows),
+    references = germline_references(), species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(actual$germline_alignment, rep("AA..NGG.TT", 4L))
+})
+
+
+testthat::test_that("first non-empty V and J alleles support comma and pipe calls", {
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, "leading-separators", "calls", "IGH", "AAAAAAAAAA", ",IGHV1*01,IGHV2*01", "|IGHJ1*01|IGHJ2*01", 1L, 4L, 1L, 4L
+  )
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows),
+    references = germline_references(), species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(actual$germline_alignment, "AA..NNGG.T")
+})
+
+
+testthat::test_that("groups without a modal V/J co-occurrence retain NA germlines", {
+  # This 2x2-like layout has unique modal V1 (four rows) and J1 (four rows),
+  # but no row contains V1/J1: a constructively possible missing intersection.
+  rows <- tibble::tribble(
+    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    1L, "a", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L,
+    2L, "b", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L,
+    3L, "c", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ3*01", 1L, 4L, 1L, 4L,
+    4L, "d", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ3*01", 1L, 4L, 1L, 4L,
+    5L, "e", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV2*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    6L, "f", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV2*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    7L, "g", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV3*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
+    8L, "h", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV3*01", "IGHJ1*01", 1L, 4L, 1L, 4L
+  )
+  refs <- dplyr::bind_rows(
+    germline_references(),
+    tibble::tribble(
+      ~species, ~locus, ~segment, ~allele_id, ~sequence,
+      "Homo_sapiens", "IGH", "V", "IGHV3*01", "GG..CC",
+      "Homo_sapiens", "IGH", "J", "IGHJ3*01", "TT.CC"
+    )
+  )
+
+  out <- annotate_ig_germlines(
+    make_ig_germline_idata(rows), references = refs, species = "Homo_sapiens"
+  )
+  actual <- collect_germlines(out)
+
+  testthat::expect_equal(nrow(actual), 8L)
+  testthat::expect_true(all(is.na(actual$germline_alignment)))
 })
