@@ -148,7 +148,7 @@ annotate_ig_germlines_impl <- function(
   modal_v <- modal_calls(".ig_v", ".ig_modal_v")
   modal_j <- modal_calls(".ig_j", ".ig_modal_j")
 
-  representatives <- annotations |>
+  candidates <- annotations |>
     dplyr::inner_join(
       modal_v,
       by = c(stats::setNames(by, by), ".ig_v" = ".ig_modal_v")
@@ -162,13 +162,16 @@ annotate_ig_germlines_impl <- function(
       .ig_has_max = max(.ig_at_max, na.rm = TRUE),
       .by = dplyr::all_of(by)
     ) |>
-    dplyr::filter(!.ig_has_max | .ig_at_max) |>
-    dplyr::arrange(!!!rlang::syms(by), .ig_id) |>
-    dplyr::mutate(
-      .ig_rank = dplyr::row_number(),
+    dplyr::filter(!.ig_has_max | .ig_at_max)
+
+  selected_ids <- candidates |>
+    dplyr::summarise(
+      .ig_id = min(.ig_id, na.rm = TRUE),
       .by = dplyr::all_of(by)
-    ) |>
-    dplyr::filter(.ig_rank == 1L)
+    )
+
+  representatives <- candidates |>
+    dplyr::inner_join(selected_ids, by = c(by, ".ig_id"))
 
   groups <- annotations |>
     dplyr::summarise(
