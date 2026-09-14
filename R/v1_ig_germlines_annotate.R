@@ -5,26 +5,54 @@
 #' `r lifecycle::badge("experimental")`
 #'
 #' Select one representative sequence per clone and locus, then reconstruct its
-#' germline from V and J references with the intervening sequence masked by `N`.
+#' IMGT-gapped germline alignment from V and J references, with the intervening
+#' sequence (including any D segment) masked by `N`.
 #'
-#' @section Reference compatibility:
+#' @section Assumptions and reference compatibility:
 #'
-#' **Warning:** `references` must contain the same IMGT-gapped reference
-#' sequences, with the same numbering scheme, that were used to produce the
-#' input AIRR alignments and germline coordinates. Mixing reference sets or
-#' using ungapped references can silently shift germline bases and junction
-#' boundaries.
+#' This function reconstructs germlines by indexing directly into the supplied
+#' reference strings. It does not insert IMGT numbering gaps, convert coordinates,
+#' or otherwise align the input sequences and references. Consequently, all of
+#' the following assumptions must hold:
+#'
+#' * `sequence_col` contains IMGT-gapped alignments, including the standard `.`
+#'   numbering spacers.
+#' * The germline start and end columns use the same IMGT-gapped coordinate
+#'   system as `sequence_col` and `references`.
+#' * V references in `references` contain IMGT numbering gaps. In particular,
+#'   do not supply the ungapped FASTA files used to build an IgBLAST database.
+#' * The reference alleles and release match those used during assignment of the
+#'   V and J calls. Missing or different alleles cannot be reconstructed safely.
+#'
+#' An Immcantation-style workflow normally maintains two representations of the
+#' same reference release: ungapped sequences for the IgBLAST database and
+#' IMGT-gapped sequences for germline reconstruction. This function requires the
+#' latter. "Matching references" therefore means the same allele set and release,
+#' not the literal ungapped FASTA passed to IgBLAST.
+#'
+#' [read_germline_references()] preserves gaps that are already present in a
+#' FASTA file, but neither it nor this function converts ungapped references to
+#' IMGT-gapped references. Supplying incompatible ungapped data can produce a
+#' plausible-length but incorrectly shifted germline without an error.
+#'
+#' The reconstructed value corresponds conceptually to Dowser's
+#' `germline_alignment_d_mask`: the retained V and J portions surround an
+#' `N`-masked middle region. This function does not reconstruct a full V(D)J
+#' germline or infer a D segment.
 #'
 #' @param idata [immundata::ImmunData]. AIRR data to annotate.
-#' @param references A table returned by [read_germline_references()].
+#' @param references A table returned by [read_germline_references()] containing
+#'   IMGT-gapped reconstruction references. These are not the ungapped reference
+#'   files used to build an IgBLAST database; see **Assumptions and reference
+#'   compatibility**.
 #' @param species Character scalar, or `NULL` to use the sole reference species.
 #' @param by Character vector or `"<auto>"`. Clone grouping columns. Automatic
 #'   grouping uses `family_id`, otherwise `subject_id` and `clone_id`. Locus is
 #'   always added.
 #' @param sequence_id_col,sequence_col,v_col,j_col Character scalars selecting
-#'   the sequence ID, aligned sequence, V-call, and J-call columns.
+#'   the sequence ID, IMGT-gapped aligned sequence, V-call, and J-call columns.
 #' @param v_start_col,v_end_col,j_start_col,j_end_col Character scalars selecting
-#'   the closed germline-coordinate columns.
+#'   the closed, IMGT-gapped germline-coordinate columns.
 #' @param germline_col Character scalar naming the reconstructed output column.
 #'
 #' @return [immundata::ImmunData] with one clone/locus germline assigned to each
