@@ -14,11 +14,21 @@ A tibble with \code{species}, \code{locus}, \code{segment}, \code{allele_id}, an
 \code{sequence} columns.
 }
 \description{
-Read standard IMGT FASTA records from one file. Only nucleotide IG
-V-REGION and J-REGION records are retained.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+V and J genes provide parts of an antibody sequence. To measure mutations
+in a B-cell clone, we need to compare its sequences with reference versions of
+those genes before somatic hypermutation.
+
+This function reads nucleotide V and J genes from an IMGT FASTA file for
+use by \code{\link[=annotate_ig_germlines]{annotate_ig_germlines()}}. It keeps the IMGT gaps (\code{.}) in the
+reference sequences.
 }
-\details{
-The reader preserves IMGT numbering gaps. When these references are passed
-to \code{\link[=annotate_ig_germlines]{annotate_ig_germlines()}}, use the same IMGT-gapped reference set that was
-used to produce the AIRR alignments and germline coordinates.
+\section{Choosing files}{
+
+Use IMGT-gapped V and J FASTA files from the same IMGT release used for
+your IgBlast run. Read each needed file and combine the
+resulting tables. Do not use the ungapped FASTA from the searchable
+IgBlast database: this function does not add gaps or convert positions.
 }
+

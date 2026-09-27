@@ -57,6 +57,15 @@
 #' `dplyr::distinct()` on the grouping columns and summaries when a group-level
 #' rather than row-level result is needed.
 #'
+#' @section Why SHM results may differ between tools:
+#' Results can differ between SHM tools, even for the same sequences. This
+#' function counts a mutation only when its codon (a group of three bases) is
+#' complete and has no alignment gap. Other tools may count mutations in codons
+#' with gaps. Removing `.` characters from an IMGT alignment can also shift
+#' codon boundaries and change which mutations are counted, including mutations
+#' that create a stop codon. For a fair comparison, use matching alignments and
+#' region positions, and check how each tool handles gaps and stop codons.
+#'
 #' @return [immundata::ImmunData]. The input rows with combined `mu_count` and
 #'   `mu_freq` columns plus replacement and silent counts and frequencies
 #'   overall, across all CDRs, across all framework regions, and for each
