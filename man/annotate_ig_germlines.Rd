@@ -31,8 +31,8 @@ compatibility}.}
 \item{species}{Character scalar, or \code{NULL} to use the sole reference species.}
 
 \item{by}{Character vector or \code{"<auto>"}. Clone grouping columns. Automatic
-grouping uses \code{family_id}, otherwise \code{subject_id} and \code{clone_id}. Locus is
-always added.}
+grouping uses \code{clone_id}, with \code{subject_id} when available. Locus is always
+added.}
 
 \item{sequence_id_col, sequence_col, v_col, j_col}{Character scalars selecting
 the sequence ID, IMGT-gapped aligned sequence, V-call, and J-call columns.}

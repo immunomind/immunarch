@@ -14,7 +14,7 @@ annotate_ig_clones(
   v_col = "v_call",
   j_col = "j_call",
   heavy_locus = "IGH",
-  family_col = "family_id"
+  clone_col = "clone_id"
 )
 }
 \arguments{
@@ -43,14 +43,14 @@ level, allowing overlapping ambiguous assignments.}
 locus. The default is \code{"IGH"}; all other loci declared by the receptor
 schema are treated as light chains in paired mode.}
 
-\item{family_col}{Character scalar. Name of the combined family annotation.
-The default is \code{"family_id"}.}
+\item{clone_col}{Character scalar. Name of the combined clone annotation.
+The default is \code{"clone_id"}.}
 }
 \value{
 \link[immundata:ImmunData]{immundata::ImmunData}. The original rows and columns plus
-\code{family_id} (or the name supplied through \code{family_col}),
+\code{clone_id} (or the name supplied through \code{clone_col}),
 \code{heavy_family_id}, and \code{light_family_id}. Both chain rows of a paired
-receptor receive the same labels. In heavy mode, \code{family_id} equals
+receptor receive the same labels. In heavy mode, \code{clone_id} equals
 \code{heavy_family_id} and \code{light_family_id} is missing.
 }
 \description{
@@ -124,7 +124,7 @@ annotated |>
   dplyr::select(
     cell,
     locus,
-    family_id,
+    clone_id,
     heavy_family_id,
     light_family_id
   ) |>

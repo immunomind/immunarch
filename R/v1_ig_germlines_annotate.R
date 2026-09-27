@@ -72,8 +72,8 @@
 #'   compatibility**.
 #' @param species Character scalar, or `NULL` to use the sole reference species.
 #' @param by Character vector or `"<auto>"`. Clone grouping columns. Automatic
-#'   grouping uses `family_id`, otherwise `subject_id` and `clone_id`. Locus is
-#'   always added.
+#'   grouping uses `clone_id`, with `subject_id` when available. Locus is always
+#'   added.
 #' @param sequence_id_col,sequence_col,v_col,j_col Character scalars selecting
 #'   the sequence ID, IMGT-gapped aligned sequence, V-call, and J-call columns.
 #' @param v_start_col,v_end_col,j_start_col,j_end_col Character scalars selecting
@@ -132,13 +132,11 @@ annotate_ig_germlines_impl <- function(
   annotation_cols <- names(idata$annotations)
   locus_col <- immundata::imd_schema("locus")
   if (identical(by, "<auto>")) {
-    if ("family_id" %in% annotation_cols) {
-      by <- "family_id"
-    } else if (all(c("subject_id", "clone_id") %in% annotation_cols)) {
-      by <- c("subject_id", "clone_id")
+    if ("clone_id" %in% annotation_cols) {
+      by <- c(intersect("subject_id", annotation_cols), "clone_id")
     } else {
       cli::cli_abort(
-        "{.arg by = \"<auto>\"} requires {.field family_id} or both {.field subject_id} and {.field clone_id}."
+        "{.arg by = \"<auto>\"} requires {.field clone_id}."
       )
     }
   } else {

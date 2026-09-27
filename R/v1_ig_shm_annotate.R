@@ -20,9 +20,9 @@
 #'   but those columns must use the same alignment and coordinate system as the
 #'   canonical AIRR region-coordinate columns.
 #' @param by Character vector, `"<auto>"`, or `NULL`. Columns used to calculate
-#'   group-level `mu_freq` summaries. The default resolves to `family_id` when
-#'   available, otherwise to `subject_id` plus `clone_id`; `locus` is added to
-#'   either automatic grouping when available. `NULL` skips grouped summaries.
+#'   group-level `mu_freq` summaries. The default uses `clone_id`, with
+#'   `subject_id` when available; `locus` is added when available. `NULL` skips
+#'   grouped summaries.
 #'
 #' @details
 #' AIRR region coordinates are interpreted as 1-based closed intervals on the
@@ -96,11 +96,10 @@ annotate_ig_shm_impl <- function(
   )
 
   if (identical(by, "<auto>")) {
-    if ("family_id" %in% annotation_cols) {
-      resolved_by <- c("family_id", intersect(locus_col, annotation_cols))
-    } else if (all(c("subject_id", "clone_id") %in% annotation_cols)) {
+    if ("clone_id" %in% annotation_cols) {
       resolved_by <- c(
-        "subject_id", "clone_id", intersect(locus_col, annotation_cols)
+        intersect("subject_id", annotation_cols), "clone_id",
+        intersect(locus_col, annotation_cols)
       )
     } else {
       resolved_by <- NULL

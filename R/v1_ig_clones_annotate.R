@@ -66,8 +66,8 @@ NULL
 #' @param heavy_locus Character scalar. Value identifying the heavy-chain
 #'   locus. The default is `"IGH"`; all other loci declared by the receptor
 #'   schema are treated as light chains in paired mode.
-#' @param family_col Character scalar. Name of the combined family annotation.
-#'   The default is `"family_id"`.
+#' @param clone_col Character scalar. Name of the combined clone annotation.
+#'   The default is `"clone_id"`.
 #'
 #' @details
 #' Connected components use single linkage: when A connects to B and B connects
@@ -87,9 +87,9 @@ NULL
 #' normalized calls should also define receptor identity.
 #'
 #' @return [immundata::ImmunData]. The original rows and columns plus
-#'   `family_id` (or the name supplied through `family_col`),
+#'   `clone_id` (or the name supplied through `clone_col`),
 #'   `heavy_family_id`, and `light_family_id`. Both chain rows of a paired
-#'   receptor receive the same labels. In heavy mode, `family_id` equals
+#'   receptor receive the same labels. In heavy mode, `clone_id` equals
 #'   `heavy_family_id` and `light_family_id` is missing.
 #'
 #' @examples
@@ -135,7 +135,7 @@ NULL
 #'   dplyr::select(
 #'     cell,
 #'     locus,
-#'     family_id,
+#'     clone_id,
 #'     heavy_family_id,
 #'     light_family_id
 #'   ) |>
@@ -215,7 +215,7 @@ annotate_ig_clones_impl <- function(
   v_col = "v_call",
   j_col = "j_call",
   heavy_locus = "IGH",
-  family_col = "family_id"
+  clone_col = "clone_id"
 ) {
   check_normalized_threshold <- function(threshold, argument) {
     if (is.data.frame(threshold) || !is.numeric(threshold) ||
@@ -235,12 +235,12 @@ annotate_ig_clones_impl <- function(
   mode <- match.arg(mode)
   checkmate::assert_string(by_scope)
   checkmate::assert_string(heavy_locus)
-  checkmate::assert_string(family_col)
+  checkmate::assert_string(clone_col)
 
   fixed_family_cols <- c("heavy_family_id", "light_family_id")
-  if (family_col %in% fixed_family_cols) {
+  if (clone_col %in% fixed_family_cols) {
     cli::cli_abort(
-      "{.arg family_col} must differ from {.field heavy_family_id} and {.field light_family_id}."
+      "{.arg clone_col} must differ from {.field heavy_family_id} and {.field light_family_id}."
     )
   }
 
@@ -345,7 +345,7 @@ annotate_ig_clones_impl <- function(
         "heavy_family_id",
         "light_family_id"
       ))) |>
-      dplyr::mutate(!!family_col := dplyr::row_number())
+      dplyr::mutate(!!clone_col := dplyr::row_number())
 
     families <- families |>
       dplyr::left_join(
@@ -355,7 +355,7 @@ annotate_ig_clones_impl <- function(
   } else {
     families <- families |>
       dplyr::mutate(
-        !!family_col := !!rlang::sym("heavy_family_id"),
+        !!clone_col := !!rlang::sym("heavy_family_id"),
         light_family_id = NA_integer_
       )
   }
@@ -367,7 +367,7 @@ annotate_ig_clones_impl <- function(
     annotations = families |>
       dplyr::select(dplyr::all_of(c(
         join_by,
-        family_col,
+        clone_col,
         fixed_family_cols
       ))),
     by = join_by,

@@ -105,7 +105,7 @@ testthat::test_that("SHM has no unrelated identifier dependency", {
 })
 
 
-testthat::test_that("automatic family grouping is locus scoped", {
+testthat::test_that("automatic clone grouping is locus scoped", {
   withr::local_options(rlib_message_verbosity = "verbose")
   germline <- paste(rep("GCT", 7L), collapse = "")
   mutation_counts <- c(0L, 1L, 2L, 7L)
@@ -113,13 +113,13 @@ testthat::test_that("automatic family grouping is locus scoped", {
     paste0(c(rep("ACT", n), rep("GCT", 7L - n)), collapse = "")
   }, character(1))
   rows <- make_shm_rows(sequences, rep(germline, 4L))
-  rows$family_id <- "family1"
+  rows$clone_id <- "family1"
   rows$locus <- c("IGH", "IGH", "IGK", "IGK")
   idata <- make_shm_idata(rows)
 
   testthat::expect_message(
     out <- annotate_ig_shm(idata),
-    "resolved to.*family_id.*locus"
+    "resolved to.*clone_id.*locus"
   )
   actual <- collect_shm(out)
 
@@ -128,7 +128,7 @@ testthat::test_that("automatic family grouping is locus scoped", {
   testthat::expect_equal(actual$mu_freq_n, c(2, 2, 2, 2))
 
   testthat::expect_no_message(
-    pooled <- annotate_ig_shm(idata, by = "family_id")
+    pooled <- annotate_ig_shm(idata, by = "clone_id")
   )
   pooled <- collect_shm(pooled)
   testthat::expect_equal(pooled$mu_freq_median, rep(1 / 14, 4L))
@@ -166,13 +166,13 @@ testthat::test_that("automatic external clone grouping uses subject, clone, and 
 testthat::test_that("NULL disables grouping and unresolved auto skips it", {
   withr::local_options(rlib_message_verbosity = "verbose")
   rows <- make_shm_rows("GCTGCTGCTGCTGCTGCTGCT")
-  rows$family_id <- "family1"
+  rows$clone_id <- "family1"
   idata <- make_shm_idata(rows)
 
   testthat::expect_no_message(out <- annotate_ig_shm(idata, by = NULL))
   testthat::expect_false(any(shm_group_output_cols %in% names(out$annotations)))
 
-  rows$family_id <- NULL
+  rows$clone_id <- NULL
   idata <- make_shm_idata(rows)
   testthat::expect_message(
     out <- annotate_ig_shm(idata),
@@ -184,7 +184,7 @@ testthat::test_that("NULL disables grouping and unresolved auto skips it", {
 
 testthat::test_that("missing grouping keys and all-missing groups do not pool", {
   rows <- make_shm_rows(rep("GCTGCTGCTGCTGCTGCTGCT", 3L))
-  rows$family_id <- c(NA_character_, NA_character_, "family1")
+  rows$clone_id <- c(NA_character_, NA_character_, "family1")
   rows$locus <- "IGH"
   for (region in shm_regions) {
     rows[[paste0(region, "_start")]][[3]] <- NA_integer_
@@ -250,7 +250,7 @@ testthat::test_that("missing canonical coordinates use standard annotation valid
 
 testthat::test_that("rerunning replaces SHM columns without duplication", {
   rows <- make_shm_rows("GCCGCTGCTGCTGCTGCTGCT")
-  rows$family_id <- "family1"
+  rows$clone_id <- "family1"
   rows$locus <- "IGH"
   out <- suppressMessages(
     make_shm_idata(rows) |>

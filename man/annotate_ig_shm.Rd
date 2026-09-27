@@ -14,9 +14,9 @@ but those columns must use the same alignment and coordinate system as the
 canonical AIRR region-coordinate columns.}
 
 \item{by}{Character vector, \code{"<auto>"}, or \code{NULL}. Columns used to calculate
-group-level \code{mu_freq} summaries. The default resolves to \code{family_id} when
-available, otherwise to \code{subject_id} plus \code{clone_id}; \code{locus} is added to
-either automatic grouping when available. \code{NULL} skips grouped summaries.}
+group-level \code{mu_freq} summaries. The default uses \code{clone_id}, with
+\code{subject_id} when available; \code{locus} is added when available. \code{NULL} skips
+grouped summaries.}
 }
 \value{
 \link[immundata:ImmunData]{immundata::ImmunData}. The input rows with combined \code{mu_count} and

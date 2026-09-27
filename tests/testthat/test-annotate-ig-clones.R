@@ -52,7 +52,7 @@ paired_ig_rows <- function(cells) {
 }
 
 
-family_partition <- function(data, member_col, family_col = "family_id") {
+family_partition <- function(data, member_col, family_col = "clone_id") {
   collected <- data |>
     dplyr::select(dplyr::all_of(c(member_col, family_col))) |>
     dplyr::distinct() |>
@@ -72,7 +72,7 @@ collect_cell_families <- function(idata) {
       dplyr::all_of(c(
         "cell",
         "locus",
-        "family_id",
+        "clone_id",
         "heavy_family_id",
         "light_family_id"
       ))
@@ -373,7 +373,7 @@ testthat::test_that("family partitions are stable after shuffling input rows", {
   )
 
   for (family_col in c(
-    "family_id",
+    "clone_id",
     "heavy_family_id",
     "light_family_id"
   )) {
@@ -540,7 +540,7 @@ testthat::test_that("heavy mode ignores incompatible light chains", {
   actual <- collect_cell_families(out)
 
   testthat::expect_equal(family_partition(actual, "cell"), "c1,c2")
-  testthat::expect_equal(actual$family_id, actual$heavy_family_id)
+  testthat::expect_equal(actual$clone_id, actual$heavy_family_id)
   testthat::expect_true(all(is.na(actual$light_family_id)))
 })
 
@@ -591,7 +591,7 @@ testthat::test_that("auto mode supports heavy-only receptor schemas", {
   actual <- collect_cell_families(out)
 
   testthat::expect_equal(family_partition(actual, "cell"), "c1,c2")
-  testthat::expect_equal(actual$family_id, actual$heavy_family_id)
+  testthat::expect_equal(actual$clone_id, actual$heavy_family_id)
   testthat::expect_true(all(is.na(actual$light_family_id)))
 })
 
@@ -616,7 +616,7 @@ testthat::test_that("heavy mode supports heavy-only receptor schemas", {
     family_partition(actual, "cell"),
     sort(c("c1,c2", "c3"))
   )
-  testthat::expect_equal(actual$family_id, actual$heavy_family_id)
+  testthat::expect_equal(actual$clone_id, actual$heavy_family_id)
   testthat::expect_true(all(is.na(actual$light_family_id)))
 })
 
@@ -698,7 +698,7 @@ testthat::test_that("heavy locus is configurable", {
 })
 
 
-testthat::test_that("family_col renames only the paired family output", {
+testthat::test_that("clone_col renames only the paired clone output", {
   cells <- tibble::tribble(
     ~sample, ~cell, ~subject, ~h_junction, ~h_v_call, ~h_j_call,
     ~l_locus, ~l_junction, ~l_v_call, ~l_j_call,
@@ -709,11 +709,11 @@ testthat::test_that("family_col renames only the paired family output", {
   out <- annotate_ig_clones(
     make_ig_clone_idata(paired_ig_rows(cells)),
     heavy_threshold = 0.25,
-    family_col = "antibody_family"
+    clone_col = "antibody_clone"
   )
 
-  testthat::expect_true("antibody_family" %in% colnames(out$annotations))
-  testthat::expect_false("family_id" %in% colnames(out$annotations))
+  testthat::expect_true("antibody_clone" %in% colnames(out$annotations))
+  testthat::expect_false("clone_id" %in% colnames(out$annotations))
   testthat::expect_true(
     all(c("heavy_family_id", "light_family_id") %in%
       colnames(out$annotations))
@@ -721,7 +721,7 @@ testthat::test_that("family_col renames only the paired family output", {
 })
 
 
-testthat::test_that("rerunning annotation replaces family columns cleanly", {
+testthat::test_that("annotation replaces an existing clone ID and reruns cleanly", {
   cells <- tibble::tribble(
     ~sample, ~cell, ~subject, ~h_junction, ~h_v_call, ~h_j_call,
     ~l_locus, ~l_junction, ~l_v_call, ~l_j_call,
@@ -731,11 +731,13 @@ testthat::test_that("rerunning annotation replaces family columns cleanly", {
     "IGK", "CCCT", "IGKV1*01", "IGKJ1*01"
   )
   family_cols <- c(
-    "family_id",
+    "clone_id",
     "heavy_family_id",
     "light_family_id"
   )
-  idata <- make_ig_clone_idata(paired_ig_rows(cells))
+  rows <- paired_ig_rows(cells)
+  rows$clone_id <- "previous"
+  idata <- make_ig_clone_idata(rows)
 
   restrictive <- annotate_ig_clones(
     idata,
@@ -756,7 +758,12 @@ testthat::test_that("rerunning annotation replaces family columns cleanly", {
     family_partition(permissive$annotations, "cell"),
     "c1,c2"
   )
-  testthat::expect_false(any(family_cols %in% colnames(idata$annotations)))
+  testthat::expect_equal(
+    unique(dplyr::collect(dplyr::select(idata$annotations, clone_id))$clone_id),
+    "previous"
+  )
+  testthat::expect_false(any(c("heavy_family_id", "light_family_id") %in%
+    colnames(idata$annotations)))
   testthat::expect_true(all(
     vapply(
       family_cols,
@@ -792,7 +799,7 @@ testthat::test_that("exact receptor identity and observations are preserved", {
         "cell",
         "locus",
         receptor_col,
-        "family_id",
+        "clone_id",
         "heavy_family_id",
         "light_family_id"
       ))
@@ -827,30 +834,30 @@ testthat::test_that("both chains receive one consistent family annotation", {
   per_cell <- actual |>
     dplyr::summarise(
       n_loci = dplyr::n_distinct(.data$locus),
-      n_family = dplyr::n_distinct(.data$family_id),
+      n_family = dplyr::n_distinct(.data$clone_id),
       n_heavy_family = dplyr::n_distinct(.data$heavy_family_id),
       n_light_family = dplyr::n_distinct(.data$light_family_id),
       .by = "cell"
     )
   containment <- actual |>
     dplyr::distinct(
-      .data$family_id,
+      .data$clone_id,
       .data$heavy_family_id,
       .data$light_family_id
     ) |>
     dplyr::summarise(
       n_heavy = dplyr::n_distinct(.data$heavy_family_id),
       n_light = dplyr::n_distinct(.data$light_family_id),
-      .by = "family_id"
+      .by = "clone_id"
     )
   pair_mapping <- actual |>
     dplyr::distinct(
-      .data$family_id,
+      .data$clone_id,
       .data$heavy_family_id,
       .data$light_family_id
     ) |>
     dplyr::summarise(
-      n_family = dplyr::n_distinct(.data$family_id),
+      n_family = dplyr::n_distinct(.data$clone_id),
       .by = c("heavy_family_id", "light_family_id")
     )
 
@@ -923,4 +930,3 @@ testthat::test_that("equivalent calls normalize and empty calls cannot connect",
     family_partition(out$annotations, "cell"), c("a,b", "empty1", "empty2")
   )
 })
-
