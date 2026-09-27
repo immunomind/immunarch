@@ -139,18 +139,22 @@ All three \verb{airr_desc_*()} results can be passed directly to \code{\link[=vi
 included in the result and can be selected by the plotting arguments.
 \subsection{1) Chain counts (\code{airr_desc_chains})}{
 
-\code{vis()} plots \code{n_chains} per repertoire by default. The plot accepts:
+\code{vis()} plots one point per repertoire, with \code{n_barcodes} on the x-axis and
+\code{n_receptors} on the y-axis. Both axes use log scales. Dashed lines mark
+overall receptor-to-barcode ratios of 100\%, 50\%, and 25\%. Locus-specific
+rows share the same repertoire totals, so they appear as one point. The plot
+accepts:
 \itemize{
-\item \code{xval} selects the column shown on the x-axis.
-\item \code{yval} selects the numeric column shown on the y-axis.
-\item \code{fill} colours and groups observations by a column.
-\item \code{facet} splits the plot by one column, or creates a facet grid when given
-two columns.
+\item \code{label} selects one or more columns for point labels; the default is
+\code{imd_repertoire_id}.
+\item \code{colour} colours points by a repertoire metadata column. \code{fill} is accepted
+as an alias for existing calls.
 \item \code{title} replaces the default plot title.
 }
 
-For example, use \code{yval = "n_receptors"} to plot the auto-joined receptor
-count instead of the chain count.
+For single-cell data, \code{n_barcodes} is the observed cell count; for bulk data,
+it is total abundance. The ratio shows repertoire-level richness, not how
+many receptors occur within each barcode.
 }
 
 \subsection{2) Sequence-length distribution (\code{airr_desc_lengths})}{
@@ -184,19 +188,11 @@ immdata <- get_test_idata()
 # Count chains in each repertoire.
 chain_stats <- airr_desc_chains(immdata)
 
-# Default: chain counts per repertoire
+# Repertoire size versus distinct receptor count
 vis(chain_stats)
 
-# Plot another numeric result column
-vis(
-  chain_stats,
-  yval = "n_receptors",
-  title = "No. receptors per sample"
-)
-
-# Use auto-joined repertoire information and locus information for comparison.
-vis(chain_stats, xval = "imd_filename", fill = "locus")
-vis(chain_stats, xval = "imd_filename", facet = "locus")
+# Label and colour by repertoire metadata when those columns are available.
+# vis(chain_stats, label = "Sample", colour = "Tissue")
 
 #
 # Calculate CDR3 length distributions.

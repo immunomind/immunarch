@@ -27,17 +27,21 @@
 #'
 #' ## 1) Chain counts (`airr_desc_chains`)
 #'
-#' `vis()` plots `n_chains` per repertoire by default. The plot accepts:
+#' `vis()` plots one point per repertoire, with `n_barcodes` on the x-axis and
+#' `n_receptors` on the y-axis. Both axes use log scales. Dashed lines mark
+#' overall receptor-to-barcode ratios of 100%, 50%, and 25%. Locus-specific
+#' rows share the same repertoire totals, so they appear as one point. The plot
+#' accepts:
 #'
-#' * `xval` selects the column shown on the x-axis.
-#' * `yval` selects the numeric column shown on the y-axis.
-#' * `fill` colours and groups observations by a column.
-#' * `facet` splits the plot by one column, or creates a facet grid when given
-#'   two columns.
+#' * `label` selects one or more columns for point labels; the default is
+#'   `imd_repertoire_id`.
+#' * `colour` colours points by a repertoire metadata column. `fill` is accepted
+#'   as an alias for existing calls.
 #' * `title` replaces the default plot title.
 #'
-#' For example, use `yval = "n_receptors"` to plot the auto-joined receptor
-#' count instead of the chain count.
+#' For single-cell data, `n_barcodes` is the observed cell count; for bulk data,
+#' it is total abundance. The ratio shows repertoire-level richness, not how
+#' many receptors occur within each barcode.
 #'
 #' ## 2) Sequence-length distribution (`airr_desc_lengths`)
 #'
@@ -139,19 +143,11 @@ airr_desc_chains_impl <- function(idata, locus_col = NA) {
 #' # Count chains in each repertoire.
 #' chain_stats <- airr_desc_chains(immdata)
 #'
-#' # Default: chain counts per repertoire
+#' # Repertoire size versus distinct receptor count
 #' vis(chain_stats)
 #'
-#' # Plot another numeric result column
-#' vis(
-#'   chain_stats,
-#'   yval = "n_receptors",
-#'   title = "No. receptors per sample"
-#' )
-#'
-#' # Use auto-joined repertoire information and locus information for comparison.
-#' vis(chain_stats, xval = "imd_filename", fill = "locus")
-#' vis(chain_stats, xval = "imd_filename", facet = "locus")
+#' # Label and colour by repertoire metadata when those columns are available.
+#' # vis(chain_stats, label = "Sample", colour = "Tissue")
 #'
 #' @rdname airr_desc
 #' @concept Key AIRR statistics
