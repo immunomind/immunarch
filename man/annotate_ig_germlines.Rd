@@ -49,9 +49,16 @@ input row. Groups which cannot be reconstructed receive \code{NA}.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Select one representative sequence per clone and locus, then reconstruct its
-IMGT-gapped germline alignment from V and J references, with the intervening
-sequence (including any D segment) masked by \code{N}.
+B cells in the same clone come from one starting cell, but their antibody
+sequences can gain different mutations over time. To study these mutations,
+we need a shared sequence to compare them with.
+
+The method annotates each clone and locus with a representative germline
+sequence from \code{references} -- usually IMGT germline table.
+
+The result
+can be used as the reference for somatic hypermutation analysis with
+\code{\link[=annotate_ig_shm]{annotate_ig_shm()}}.
 }
 \section{Assumptions and reference compatibility}{
 
@@ -74,7 +81,7 @@ V and J calls. Missing or different alleles cannot be reconstructed safely.
 An Immcantation-style workflow normally maintains two representations of the
 same reference release: ungapped sequences for the IgBLAST database and
 IMGT-gapped sequences for germline reconstruction. This function requires the
-latter. "Matching references" therefore means the same allele set and release,
+latter. Matching references therefore means the same allele set and release,
 not the literal ungapped FASTA passed to IgBLAST.
 
 \code{\link[=read_germline_references]{read_germline_references()}} preserves gaps that are already present in a
@@ -86,5 +93,27 @@ The reconstructed value corresponds conceptually to Dowser's
 \code{germline_alignment_d_mask}: the retained V and J portions surround an
 \code{N}-masked middle region. This function does not reconstruct a full V(D)J
 germline or infer a D segment.
+}
+
+\section{Preparing the input}{
+
+To create the BCR repertoire, first you need to run IgBlast either standalone or through
+\code{immundapter::tool_igblast()} with an IMGT database on your
+FASTQ files or 10XGenomics contigs files. \code{immundapter} automatically prepares the alignment
+and V positions for IMGT-gapped references. Then, read V and J references from the same IMGT release with
+\code{\link[=read_germline_references]{read_germline_references()}}. See the "Ig tutorial" on the website for the
+detailed workflow -- it is a bit complicated, as per usual with BCR analysis.
+
+Other AIRR data can be used when its alignment and V/J positions match
+the supplied IMGT-gapped references. But please mind that raw IgBlast AIRR output has not been
+prepared this way. This function does not convert positions or add gaps, so
+mismatched input can give an incorrect sequence without an error.
+}
+
+\section{Output}{
+
+This is a D-masked germline, not a complete ancestral receptor sequence.
+By default, it replaces an existing \code{germline_alignment} column. Use
+\code{germline_col} to keep that column.
 }
 

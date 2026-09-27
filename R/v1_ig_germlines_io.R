@@ -1,11 +1,22 @@
-#' Read IMGT immunoglobulin germline references
+#' @title Read IMGT immunoglobulin germline references
 #'
-#' Read standard IMGT FASTA records from one file. Only nucleotide IG
-#' V-REGION and J-REGION records are retained.
+#' @description
 #'
-#' The reader preserves IMGT numbering gaps. When these references are passed
-#' to [annotate_ig_germlines()], use the same IMGT-gapped reference set that was
-#' used to produce the AIRR alignments and germline coordinates.
+#' `r lifecycle::badge("experimental")`
+#'
+#' V and J genes provide parts of an antibody sequence. To measure mutations
+#' in a B-cell clone, we need to compare its sequences with reference versions of
+#' those genes before somatic hypermutation.
+#'
+#' This function reads nucleotide V and J genes from an IMGT FASTA file for
+#' use by [annotate_ig_germlines()]. It keeps the IMGT gaps (`.`) in the
+#' reference sequences.
+#'
+#' @section Choosing files:
+#' Use IMGT-gapped V and J FASTA files from the same IMGT release used for
+#' your IgBlast run. Read each needed file and combine the
+#' resulting tables. Do not use the ungapped FASTA from the searchable
+#' IgBlast database: this function does not add gaps or convert positions.
 #'
 #' @param path Character scalar. Path to an IMGT FASTA file.
 #'
