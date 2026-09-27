@@ -24,33 +24,36 @@
 #'
 #' ## 1) Shared-receptor counts (`repsim_intersection`)
 #'
-#' Larger and darker dots mean that the repertoires share more unique receptors.
-#' The diagonal shows the total number of unique receptors in each repertoire.
+#' Larger and brighter dots mean that the repertoires share more unique receptors.
+#' The matrix diagonal contains repertoire richness; the plot omits self-comparisons.
 #'
 #' ## 2) Jaccard similarity (`repsim_jaccard`)
 #'
-#' Larger and darker dots mean greater similarity between the sets of unique
+#' Larger and brighter dots mean greater similarity between the sets of unique
 #' receptors. Values range from `0` (no shared receptors) to `1` (identical
 #' receptor sets).
 #'
 #' ## 3) Chao-Jaccard similarity (`repsim_chao_jaccard`)
 #'
-#' Larger and darker dots mean greater estimated similarity after correction
+#' Larger and brighter dots mean greater estimated similarity after correction
 #' for receptors that may be missing because of limited sampling. Values range
 #' from `0` (no observed shared receptors) to `1` (maximum estimated
 #' similarity).
 #'
 #' ## 4) Morisita-Horn similarity (`repsim_morisita_horn`)
 #'
-#' Larger and darker dots mean greater similarity between receptor abundance
+#' Larger and brighter dots mean greater similarity between receptor abundance
 #' profiles. Values range from `0` (no overlap) to `1` (identical abundance
 #' composition).
 #'
-#' ## 5) Bray-Curtis dissimilarity (`repsim_bray`)
+#' ## 5) Bray-Curtis similarity (`repsim_bray`)
 #'
-#' Larger and darker dots mean greater dissimilarity between receptor abundance
-#' profiles. Values range from `0` (identical abundance composition) to `1` (no
-#' overlap).
+#' Larger and brighter dots mean greater similarity between receptor abundance
+#' profiles. Values range from `0` (no overlap) to `1` (identical abundance
+#' composition).
+#'
+#' All plots omit self-comparisons. Their color legends mark the smallest,
+#' midpoint, and largest plotted pairwise values.
 #'
 #' All repertoire-similarity plots accept:
 #'
@@ -795,7 +798,7 @@ repsim_bray_impl <- function(
       denominator = !!rlang::sym(total_x) + !!rlang::sym(total_y),
       value = dplyr::if_else(
         .data$denominator > 0,
-        (.data$denominator - 2 * .data$intersection) / .data$denominator,
+        2 * .data$intersection / .data$denominator,
         NA_real_
       )
     ) |>
@@ -805,7 +808,7 @@ repsim_bray_impl <- function(
     dplyr::transmute(
       !!rlang::sym(rep_x) := !!rlang::sym(repertoire_id_col),
       !!rlang::sym(rep_y) := !!rlang::sym(repertoire_id_col),
-      value = 0.0
+      value = 1.0
     )
 
   pair_values <- dplyr::union_all(off_diagonal, diagonal) |>
@@ -820,10 +823,9 @@ repsim_bray_impl <- function(
 }
 
 #' @description
-#' **5) Bray-Curtis dissimilarity (`repsim_bray`).** Measure how different two
-#' receptor abundance profiles are. A value of `0` means the profiles are
-#' identical, and a value of `1` means they have no overlap. Use it when you want
-#' to express differences directly instead of using a similarity score. The
+#' **5) Bray-Curtis similarity (`repsim_bray`).** Measure how similar two
+#' receptor abundance profiles are. This is one minus Bray-Curtis dissimilarity:
+#' `0` means no overlap, and `1` means identical abundance composition. The
 #' method uses `imd_proportion` as the abundance measure.
 #'
 #' Set `transform = "log1p"` to reduce the influence of the most abundant
@@ -832,21 +834,22 @@ repsim_bray_impl <- function(
 #' would otherwise dominate the comparison. The transformation is applied
 #' inside the database query and does not modify `idata`.
 #'
-#' Immune-repertoire studies commonly calculate Bray-Curtis dissimilarity from
+#' Immune-repertoire studies commonly calculate Bray-Curtis measures from
 #' clonotype proportions without an additional transformation. Therefore,
 #' `transform = "none"` remains the default. The `"log1p"` option is an
 #' exploratory sensitivity analysis based on a common ecological pre-treatment
 #' for reducing the effect of dominant taxa. After transformation, the values no
 #' longer sum to one, and the result no longer has the simple interpretation of
-#' the fraction of repertoire abundance that does not overlap.
+#' the fraction of original repertoire abundance that overlaps.
 #'
 #' @param transform A single character string selecting the transformation
-#'   applied to `imd_proportion` before calculating dissimilarity. Use `"none"`
+#'   applied to `imd_proportion` before calculating similarity. Use `"none"`
 #'   (the default) for the original proportions or
 #'   `"log1p"` for `log(1 + imd_proportion)`.
 #'
-#' \deqn{BC_{ij} = \frac{\sum_k |a_{ik} - a_{jk}|}
-#' {\sum_k (a_{ik} + a_{jk})}}
+#' \deqn{S_{BC,ij} = 1 - \frac{\sum_k |a_{ik} - a_{jk}|}
+#' {\sum_k (a_{ik} + a_{jk})}
+#' = \frac{2\sum_k \min(a_{ik}, a_{jk})}{\sum_k (a_{ik} + a_{jk})}}
 #' where \eqn{a_{ik}} is the original or transformed abundance of receptor
 #' \eqn{k} in repertoire \eqn{i}.
 #'
@@ -864,14 +867,14 @@ repsim_bray_impl <- function(
 #'
 #' @return
 #'
-#' ## 5) Bray-Curtis dissimilarity (`repsim_bray`)
+#' ## 5) Bray-Curtis similarity (`repsim_bray`)
 #' A **symmetric numeric matrix** where rows/columns are repertoire labels derived
-#' from `schema_repertoire`. Each cell is Bray-Curtis dissimilarity in `[0, 1]`
-#' (`0` = identical, `1` = no overlap). The diagonal is `0`.
+#' from `schema_repertoire`. Each cell is Bray-Curtis similarity in `[0, 1]`
+#' (`0` = no overlap, `1` = identical). The diagonal is `1`.
 #'
 #' @examples
 #' #
-#' # Calculate Bray-Curtis dissimilarity.
+#' # Calculate Bray-Curtis similarity.
 #' m_bray <- repsim_bray(immdata)
 #' vis(m_bray)
 #'

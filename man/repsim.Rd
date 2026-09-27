@@ -23,12 +23,13 @@ repsim_bray(idata, transform = c("none", "log1p"))
 \item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
 \item{transform}{A single character string selecting the transformation
-applied to \code{imd_proportion} before calculating dissimilarity. Use \code{"none"}
+applied to \code{imd_proportion} before calculating similarity. Use \code{"none"}
 (the default) for the original proportions or
 \code{"log1p"} for \code{log(1 + imd_proportion)}.
 
-\deqn{BC_{ij} = \frac{\sum_k |a_{ik} - a_{jk}|}
-{\sum_k (a_{ik} + a_{jk})}}
+\deqn{S_{BC,ij} = 1 - \frac{\sum_k |a_{ik} - a_{jk}|}
+{\sum_k (a_{ik} + a_{jk})}
+= \frac{2\sum_k \min(a_{ik}, a_{jk})}{\sum_k (a_{ik} + a_{jk})}}
 where \eqn{a_{ik}} is the original or transformed abundance of receptor
 \eqn{k} in repertoire \eqn{i}.}
 }
@@ -63,11 +64,11 @@ from \code{schema_repertoire}, with values in \verb{[0, 1]} (\code{0} = no share
 involving an empty repertoire are \code{NA}.
 }
 
-\subsection{5) Bray-Curtis dissimilarity (\code{repsim_bray})}{
+\subsection{5) Bray-Curtis similarity (\code{repsim_bray})}{
 
 A \strong{symmetric numeric matrix} where rows/columns are repertoire labels derived
-from \code{schema_repertoire}. Each cell is Bray-Curtis dissimilarity in \verb{[0, 1]}
-(\code{0} = identical, \code{1} = no overlap). The diagonal is \code{0}.
+from \code{schema_repertoire}. Each cell is Bray-Curtis similarity in \verb{[0, 1]}
+(\code{0} = no overlap, \code{1} = identical). The diagonal is \code{1}.
 }
 }
 \description{
@@ -109,10 +110,9 @@ measure.
 \deqn{C_{MH} = \frac{2 \sum_k x_{ik} x_{jk}}
 {(\lambda_i + \lambda_j) N_i N_j}}
 
-\strong{5) Bray-Curtis dissimilarity (\code{repsim_bray}).} Measure how different two
-receptor abundance profiles are. A value of \code{0} means the profiles are
-identical, and a value of \code{1} means they have no overlap. Use it when you want
-to express differences directly instead of using a similarity score. The
+\strong{5) Bray-Curtis similarity (\code{repsim_bray}).} Measure how similar two
+receptor abundance profiles are. This is one minus Bray-Curtis dissimilarity:
+\code{0} means no overlap, and \code{1} means identical abundance composition. The
 method uses \code{imd_proportion} as the abundance measure.
 
 Set \code{transform = "log1p"} to reduce the influence of the most abundant
@@ -121,13 +121,13 @@ This can reveal broader repertoire similarity when a few expanded receptors
 would otherwise dominate the comparison. The transformation is applied
 inside the database query and does not modify \code{idata}.
 
-Immune-repertoire studies commonly calculate Bray-Curtis dissimilarity from
+Immune-repertoire studies commonly calculate Bray-Curtis measures from
 clonotype proportions without an additional transformation. Therefore,
 \code{transform = "none"} remains the default. The \code{"log1p"} option is an
 exploratory sensitivity analysis based on a common ecological pre-treatment
 for reducing the effect of dominant taxa. After transformation, the values no
 longer sum to one, and the result no longer has the simple interpretation of
-the fraction of repertoire abundance that does not overlap.
+the fraction of original repertoire abundance that overlaps.
 }
 \section{Visualisation}{
 
@@ -137,20 +137,20 @@ dot represents one pair of repertoires; its size and fill show the value for
 that pair.
 \subsection{1) Shared-receptor counts (\code{repsim_intersection})}{
 
-Larger and darker dots mean that the repertoires share more unique receptors.
-The diagonal shows the total number of unique receptors in each repertoire.
+Larger and brighter dots mean that the repertoires share more unique receptors.
+The matrix diagonal contains repertoire richness; the plot omits self-comparisons.
 }
 
 \subsection{2) Jaccard similarity (\code{repsim_jaccard})}{
 
-Larger and darker dots mean greater similarity between the sets of unique
+Larger and brighter dots mean greater similarity between the sets of unique
 receptors. Values range from \code{0} (no shared receptors) to \code{1} (identical
 receptor sets).
 }
 
 \subsection{3) Chao-Jaccard similarity (\code{repsim_chao_jaccard})}{
 
-Larger and darker dots mean greater estimated similarity after correction
+Larger and brighter dots mean greater estimated similarity after correction
 for receptors that may be missing because of limited sampling. Values range
 from \code{0} (no observed shared receptors) to \code{1} (maximum estimated
 similarity).
@@ -158,16 +158,19 @@ similarity).
 
 \subsection{4) Morisita-Horn similarity (\code{repsim_morisita_horn})}{
 
-Larger and darker dots mean greater similarity between receptor abundance
+Larger and brighter dots mean greater similarity between receptor abundance
 profiles. Values range from \code{0} (no overlap) to \code{1} (identical abundance
 composition).
 }
 
-\subsection{5) Bray-Curtis dissimilarity (\code{repsim_bray})}{
+\subsection{5) Bray-Curtis similarity (\code{repsim_bray})}{
 
-Larger and darker dots mean greater dissimilarity between receptor abundance
-profiles. Values range from \code{0} (identical abundance composition) to \code{1} (no
-overlap).
+Larger and brighter dots mean greater similarity between receptor abundance
+profiles. Values range from \code{0} (no overlap) to \code{1} (identical abundance
+composition).
+
+All plots omit self-comparisons. Their color legends mark the smallest,
+midpoint, and largest plotted pairwise values.
 
 All repertoire-similarity plots accept:
 \itemize{
@@ -208,7 +211,7 @@ m_mh <- repsim_morisita_horn(immdata)
 vis(m_mh)
 
 #
-# Calculate Bray-Curtis dissimilarity.
+# Calculate Bray-Curtis similarity.
 m_bray <- repsim_bray(immdata)
 vis(m_bray)
 
