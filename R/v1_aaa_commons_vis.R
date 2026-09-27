@@ -299,7 +299,8 @@ make_dotplot <- function(title_default, fill_default, size_default) {
     df <- tidyr::pivot_longer(df, -row, names_to = "col", values_to = "value")
 
     # TODO: maybe make size relative to the source repertoire?
-    rng <- range(df$value, na.rm = TRUE)
+    values <- df$value[!is.na(df$value)]
+    rng <- if (length(values)) range(values) else c(NA_real_, NA_real_)
     df$size <- if (is.finite(diff(rng)) && diff(rng) > 0) (df$value - rng[1]) / diff(rng) else 0
 
     if (is.null(row_order)) row_order <- rn
