@@ -1,4 +1,4 @@
-test_that("repsim_bray computes Bray-Curtis from proportions", {
+test_that("repsim_bray computes Bray-Curtis similarity from proportions", {
   receptor_counts <- tibble::tibble(
     receptor = c("r1", "r2", "r1", "r2"),
     repertoire = c("R1", "R2", "R3", "R3"),
@@ -9,12 +9,12 @@ test_that("repsim_bray computes Bray-Curtis from proportions", {
   out <- repsim_bray(make_repsim_idata(receptor_counts))
 
   expect_true(is.matrix(out))
-  expect_equal(unname(diag(out)), c(0, 0, 0), tolerance = 1e-12)
+  expect_equal(unname(diag(out)), c(1, 1, 1), tolerance = 1e-12)
 
   expected <- matrix(
-    c(0, 1, 0.5,
-      1, 0, 0.5,
-      0.5, 0.5, 0),
+    c(1, 0, 0.5,
+      0, 1, 0.5,
+      0.5, 0.5, 1),
     nrow = 3,
     byrow = TRUE
   )
@@ -43,7 +43,7 @@ test_that("repsim_bray transforms abundances", {
     if (transform == "log1p") {
       abundance <- log1p(abundance)
     }
-    sum(abs(abundance[, 1] - abundance[, 2])) / sum(abundance)
+    1 - sum(abs(abundance[, 1] - abundance[, 2])) / sum(abundance)
   }
 
   default <- repsim_bray(idata)
@@ -71,7 +71,7 @@ test_that("repsim_bray returns a symmetric [0,1] matrix and vis() works", {
 
   expect_true(is.matrix(out))
   expect_equal(out, t(out), tolerance = 1e-12)
-  expect_equal(unname(diag(out)), rep(0, nrow(out)), tolerance = 1e-12)
+  expect_equal(unname(diag(out)), rep(1, nrow(out)), tolerance = 1e-12)
 
   upper <- out[upper.tri(out)]
   expect_true(all(upper >= 0 & upper <= 1))
@@ -131,7 +131,7 @@ test_that("repsim_bray matches an independent weighted reference", {
       for (rep_j in seq_along(repertoire_ids)) {
         denominator <- sum(abundance_matrix[, rep_i] + abundance_matrix[, rep_j])
         expected[rep_i, rep_j] <- if (denominator > 0) {
-          sum(abs(abundance_matrix[, rep_i] - abundance_matrix[, rep_j])) / denominator
+          1 - sum(abs(abundance_matrix[, rep_i] - abundance_matrix[, rep_j])) / denominator
         } else {
           NA_real_
         }
