@@ -311,7 +311,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
   )
 
   direct_codons <- paste0("WITH region_bounds AS (
-    SELECT *, list_transform([", region_values, "], r -> struct_pack(
+    SELECT *, list_transform([", region_values, "], lambda r: struct_pack(
       region := r.region,
       region_start := r.region_start,
       query_start := CASE
@@ -332,7 +332,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
       AND v_sequence_start IS NOT NULL AND v_alignment_start IS NOT NULL
       AND NOT regexp_matches(observed_alignment, '[-.]')
   ), codon_bounds AS (
-    SELECT * EXCLUDE (region_values), list_transform(region_values, r -> struct_pack(
+    SELECT * EXCLUDE (region_values), list_transform(region_values, lambda r: struct_pack(
       region := r.region,
       region_start := r.region_start,
       query_start := r.query_start,
@@ -350,7 +350,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
   ), nested_codons AS (
     SELECT imd_chain_id, list_transform(
       region_values,
-      r -> list_transform(range(r.first_codon, r.codon_end), codon_index ->
+      lambda r: list_transform(range(r.first_codon, r.codon_end), lambda codon_index:
         struct_pack(
           region := r.region,
           observed_codon := substr(
@@ -383,15 +383,15 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
       list_filter(
         list_transform(
           range(cast(v_alignment_start AS BIGINT), length(observed_alignment) + 1),
-          pos -> struct_pack(
+          lambda pos: struct_pack(
             pos := pos,
             obs_base := substr(observed_alignment, pos, 1),
             germ_base := substr(germline_alignment, pos, 1)
           )
         ),
-        x -> x.obs_base NOT IN ('-', '.')
+        lambda x: x.obs_base NOT IN ('-', '.')
       ),
-      (x, index) -> struct_pack(
+      lambda x, index: struct_pack(
         pos := x.pos,
         obs_base := x.obs_base,
         germ_base := x.germ_base,
@@ -403,57 +403,57 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
       AND (v_sequence_start IS NULL OR v_alignment_start IS NULL
         OR regexp_matches(observed_alignment, '[-.]'))
   ), region_lists AS (
-    SELECT imd_chain_id, list_transform([", region_values, "], r -> struct_pack(
+    SELECT imd_chain_id, list_transform([", region_values, "], lambda r: struct_pack(
       region := r.region,
       region_start := r.region_start,
       positions := list_filter(
         positions,
-        p -> p.query_pos BETWEEN r.region_start AND r.region_end
+        lambda p: p.query_pos BETWEEN r.region_start AND r.region_end
       )
     )) AS region_values
     FROM position_lists
   ), codon_lists AS (
-    SELECT imd_chain_id, list_transform(region_values, r -> struct_pack(
+    SELECT imd_chain_id, list_transform(region_values, lambda r: struct_pack(
       region := r.region,
       region_start := r.region_start,
       positions := r.positions,
       codon_indices := list_sort(list_distinct(list_transform(
         r.positions,
-        p -> floor((p.query_pos - r.region_start) / 3)
+        lambda p: floor((p.query_pos - r.region_start) / 3)
       )))
     )) AS region_values
     FROM region_lists
   ), nested_codons AS (
-    SELECT imd_chain_id, list_transform(region_values, r -> list_transform(
+    SELECT imd_chain_id, list_transform(region_values, lambda r: list_transform(
       r.codon_indices,
-      codon_index -> struct_pack(
+      lambda codon_index: struct_pack(
         region := r.region,
         observed_codon := list_reduce(list_transform(list_filter(
           r.positions,
-          p -> floor((p.query_pos - r.region_start) / 3) = codon_index
-        ), p -> p.obs_base),
-          (left_value, right_value) -> left_value || right_value, ''),
+          lambda p: floor((p.query_pos - r.region_start) / 3) = codon_index
+        ), lambda p: p.obs_base),
+          lambda left_value, right_value: left_value || right_value, ''),
         germ_codon := list_reduce(list_transform(list_filter(
           r.positions,
-          p -> floor((p.query_pos - r.region_start) / 3) = codon_index
-        ), p -> p.germ_base),
-          (left_value, right_value) -> left_value || right_value, ''),
+          lambda p: floor((p.query_pos - r.region_start) / 3) = codon_index
+        ), lambda p: p.germ_base),
+          lambda left_value, right_value: left_value || right_value, ''),
         gap_free_codon :=
           list_max(list_transform(list_filter(
             r.positions,
-            p -> floor((p.query_pos - r.region_start) / 3) = codon_index
-          ), p -> p.pos))
+            lambda p: floor((p.query_pos - r.region_start) / 3) = codon_index
+          ), lambda p: p.pos))
             - list_min(list_transform(list_filter(
               r.positions,
-              p -> floor((p.query_pos - r.region_start) / 3) = codon_index
-            ), p -> p.pos)) + 1
+              lambda p: floor((p.query_pos - r.region_start) / 3) = codon_index
+            ), lambda p: p.pos)) + 1
             = list_count(list_filter(
               r.positions,
-              p -> floor((p.query_pos - r.region_start) / 3) = codon_index
+              lambda p: floor((p.query_pos - r.region_start) / 3) = codon_index
             ))
           AND list_count(list_filter(
             r.positions,
-            p -> floor((p.query_pos - r.region_start) / 3) = codon_index
+            lambda p: floor((p.query_pos - r.region_start) / 3) = codon_index
               AND p.germ_base IN ('-', '.')
           )) = 0
       )
@@ -540,7 +540,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
         list_count(list_filter(list_zip(
           string_split(c.codon.observed_codon, ''),
           string_split(c.codon.germ_codon, '')
-        ), bases ->
+        ), lambda bases:
           bases[1] IN ('A', 'C', 'G', 'T')
             AND bases[2] IN ('A', 'C', 'G', 'T')
         )) AS denominator,

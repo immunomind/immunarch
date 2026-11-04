@@ -34,7 +34,7 @@ germline_references <- function() {
 
 germline_rows <- function() {
   tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end, ~keep, ~germline_alignment_d_mask,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end, ~keep, ~germline_alignment_d_mask,
     1L, "z-long", "tied", "IGH", "AAAAAAAAAA", "IGHV1*01,IGHV99*01", "IGHJ1*01|IGHJ99*01", 2L, 4L, 1L, 4L, "z", "legacy-z",
     2L, "a-long", "tied", "IGH", "AAAAAAAAAA", "IGHV2*01", "IGHJ2*01", 1L, 4L, 1L, 4L, "a", "legacy-a",
     3L, "b-short", "tied", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L, "b", "legacy-b",
@@ -57,16 +57,16 @@ testthat::test_that("germlines use modal V/J representatives and reconstruct V +
 
   # Tied modal V/J calls retain either allele. The longest candidates tie, so
   # the character sequence_id selects a-long and its V2/J2 coordinates.
-  testthat::expect_equal(actual$germline_alignment[actual$family_id == "tied"],
+  testthat::expect_equal(actual$germline_alignment[actual$clone_id == "tied"],
     rep("TT..NNCC.A", 4L))
   # No longest row has the modal V1/J1 combination. The shorter fallback is
   # selected, extended at J to the clone maximum, and padded past reference end.
-  testthat::expect_equal(actual$germline_alignment[actual$family_id == "fallback"],
+  testthat::expect_equal(actual$germline_alignment[actual$clone_id == "fallback"],
     rep("AA..NNGG.TTN", 3L))
 })
 
 
-testthat::test_that("germline reconstruction selects one species and auto-groups by family and locus", {
+testthat::test_that("germline reconstruction selects one species and auto-groups by clone and locus", {
   rows <- germline_rows()[1:2, ]
   refs <- germline_references()
 
@@ -111,7 +111,7 @@ testthat::test_that("failed germline groups retain rows and preserve existing an
 
 testthat::test_that("maximum alignment length outranks a smaller ID among modal candidates", {
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, "a-short", "length", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
     2L, "z-long", "length", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 2L, 4L, 1L, 4L
   )
@@ -128,7 +128,7 @@ testthat::test_that("maximum alignment length outranks a smaller ID among modal 
 
 testthat::test_that("shorter fallback candidates compare sequence IDs as characters", {
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, 99, "fallback-tie", "IGH", "AAAAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L,
     2L, 2, "fallback-tie", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 2L, 4L, 1L, 4L,
     3L, 10, "fallback-tie", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L
@@ -146,7 +146,7 @@ testthat::test_that("shorter fallback candidates compare sequence IDs as charact
 
 testthat::test_that("IMGT gaps are preserved from the reference sequence", {
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, "gapped", "gapped", "IGH", "AA.CCNNGGTT", "IGHV1*01", "IGHJ1*01", 1L, 5L, 1L, 4L
   )
   refs <- tibble::tribble(
@@ -164,9 +164,9 @@ testthat::test_that("IMGT gaps are preserved from the reference sequence", {
 })
 
 
-testthat::test_that("automatic family grouping remains locus-scoped", {
+testthat::test_that("automatic clone grouping remains locus-scoped", {
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, "heavy", "same-family", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
     2L, "light", "same-family", "IGK", "AAAAAAAAAA", "IGKV1*01", "IGKJ1*01", 1L, 4L, 1L, 4L
   )
@@ -188,9 +188,26 @@ testthat::test_that("automatic family grouping remains locus-scoped", {
 })
 
 
+testthat::test_that("automatic clone grouping remains subject-scoped", {
+  rows <- germline_rows()[1:2, ]
+  rows$subject_id <- c("subject1", "subject2")
+
+  actual <- annotate_ig_germlines(
+    make_ig_germline_idata(rows),
+    references = germline_references(), species = "Homo_sapiens"
+  ) |>
+    collect_germlines()
+
+  testthat::expect_equal(
+    actual$germline_alignment,
+    c("A..NNNGG.T", "TT..NNCC.A")
+  )
+})
+
+
 testthat::test_that("modal V/J calls are counted before alignment length preference", {
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, "a-short", "votes", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
     2L, "b-short", "votes", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
     3L, "c-short", "votes", "IGH", "AAAAAAAAA", "IGHV1*01", "IGHJ1*01", 1L, 4L, 1L, 4L,
@@ -209,7 +226,7 @@ testthat::test_that("modal V/J calls are counted before alignment length prefere
 
 testthat::test_that("first non-empty V and J alleles support comma and pipe calls", {
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, "leading-separators", "calls", "IGH", "AAAAAAAAAA", ",IGHV1*01,IGHV2*01", "|IGHJ1*01|IGHJ2*01", 1L, 4L, 1L, 4L
   )
 
@@ -227,7 +244,7 @@ testthat::test_that("groups without a modal V/J co-occurrence retain NA germline
   # This 2x2-like layout has unique modal V1 (four rows) and J1 (four rows),
   # but no row contains V1/J1: a constructively possible missing intersection.
   rows <- tibble::tribble(
-    ~row_id, ~sequence_id, ~family_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
+    ~row_id, ~sequence_id, ~clone_id, ~locus, ~sequence_alignment, ~v_call, ~j_call, ~v_germline_start, ~v_germline_end, ~j_germline_start, ~j_germline_end,
     1L, "a", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L,
     2L, "b", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ2*01", 1L, 4L, 1L, 4L,
     3L, "c", "no-intersection", "IGH", "AAAAAAAAAA", "IGHV1*01", "IGHJ3*01", 1L, 4L, 1L, 4L,

@@ -120,15 +120,7 @@ idata <- read_repertoires(
 # c1 and c2 form one family; c3 remains separate.
 annotated <- annotate_ig_clones(idata, heavy_threshold = 0.25)
 
-annotated |>
-  dplyr::select(
-    cell,
-    locus,
-    clone_id,
-    heavy_family_id,
-    light_family_id
-  ) |>
-  dplyr::collect()
+annotated
 
 # Ignore light-chain differences when the scientific question requires it.
 annotate_ig_clones(

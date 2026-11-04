@@ -349,16 +349,19 @@ dist_hamm_impl <- function(
 
     receptors_cte <- glue::glue_sql(
       "
-      {receptors_cte}, sampled_receptors AS MATERIALIZED (
+      {receptors_cte}, sampling_draws AS MATERIALIZED (
+        SELECT *, random() AS \".idist_sample_draw\"
+        FROM (
+          SELECT DISTINCT \".idist_receptor\"{sample_group_select}
+          FROM all_receptors
+        ) sampling_groups
+      ), sampled_receptors AS MATERIALIZED (
         SELECT \".idist_receptor\"{sampled_group_field}
         FROM (
           SELECT *, row_number() OVER (
-            {sample_partition}ORDER BY random()
+            {sample_partition}ORDER BY \".idist_sample_draw\"
           ) AS \".idist_sample_rank\"
-          FROM (
-            SELECT DISTINCT \".idist_receptor\"{sample_group_select}
-            FROM all_receptors
-          ) sampling_groups
+          FROM sampling_draws
         ) ranked_receptors
         WHERE \".idist_sample_rank\" <= {sample_n}
       ), receptors AS MATERIALIZED (
