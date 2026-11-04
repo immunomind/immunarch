@@ -12,7 +12,8 @@ register_method_impl(
   required_cols = NULL,
   need_repertoires = TRUE,
   airr_args = FALSE,
-  result_class = TRUE
+  result_class = TRUE,
+  vdj_args = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ the family environment by calling \code{register_method_family()} when available
 
 \item{need_repertoires}{Logical. Use this to declare the necessity of having aggregated
 repertoires.}
+
+\item{vdj_args}{Logical scalar. If \code{TRUE}, add the VDJ \code{output} argument and
+collect the result when \code{output = "data.frame"}. The default is \code{FALSE}.}
 }
 \value{
 A \strong{function} - the user-facing wrapper around \code{core}. Typical usage is to

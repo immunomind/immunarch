@@ -71,7 +71,8 @@ im_method <- function(
   required_cols = NULL,
   need_repertoires = TRUE,
   airr_args = FALSE,
-  result_class = TRUE
+  result_class = TRUE,
+  vdj_args = FALSE
 ) {
   checkmate::assert_function(core, args = c("idata"))
   checkmate::assert_string(family)
@@ -94,7 +95,8 @@ im_method <- function(
   wrapper <- function() {}
   formals(wrapper) <- c(
     core_fmls,
-    if (airr_args) formals(method_args_airr)
+    if (airr_args) formals(method_args_airr),
+    if (vdj_args) alist(output = c("immundata", "data.frame"))
   )
   environment(wrapper) <- environment()
 
@@ -102,6 +104,9 @@ im_method <- function(
     {
       if (airr_args) {
         format <- match.arg(format)
+      }
+      if (vdj_args) {
+        output <- match.arg(output)
       }
       checkmate::assert_r6(idata, "ImmunData")
 
@@ -149,6 +154,10 @@ im_method <- function(
       .core_args <- mget(names(core_fmls), inherits = TRUE)
       out <- do.call(core, .core_args)
 
+      if (vdj_args && output == "data.frame") {
+        out <- dplyr::collect(out)
+      }
+
       # Autojoin: join repertoire metadata if requested and applicable (!)
       if (airr_args &&
         isTRUE(get("autojoin", inherits = FALSE)) &&
@@ -171,7 +180,8 @@ im_method <- function(
       core_fmls = core_fmls,
       required_cols = required_cols,
       airr_args = airr_args,
-      result_class = result_class
+      result_class = result_class,
+      vdj_args = vdj_args
     )
   )
 
@@ -211,6 +221,8 @@ im_method <- function(
 #'   `idata$annotations`. Use this to declare the minimal input schema your core needs.
 #' @param need_repertoires Logical. Use this to declare the necessity of having aggregated
 #'  repertoires.
+#' @param vdj_args Logical scalar. If `TRUE`, add the VDJ `output` argument and
+#'   collect the result when `output = "data.frame"`. The default is `FALSE`.
 #'
 #' @return A **function** - the user-facing wrapper around `core`. Typical usage is to
 #' assign it to the exported symbol of the method, e.g.:
@@ -248,7 +260,8 @@ register_method_impl <- function(
   required_cols = NULL,
   need_repertoires = TRUE,
   airr_args = FALSE,
-  result_class = TRUE
+  result_class = TRUE,
+  vdj_args = FALSE
 ) {
   fn <- im_method(
     core,
@@ -257,7 +270,8 @@ register_method_impl <- function(
     required_cols = required_cols,
     need_repertoires = need_repertoires,
     airr_args = airr_args,
-    result_class = result_class
+    result_class = result_class,
+    vdj_args = vdj_args
   )
 
   if (isTRUE(register_family) && exists("register_method_family", mode = "function", inherits = TRUE)) {
@@ -286,6 +300,11 @@ register_method_airr <- function(...) {
 
 register_method_annotate <- function(...) {
   register_method_impl(..., result_class = FALSE)
+}
+
+
+register_method_vdj <- function(...) {
+  register_method_impl(..., vdj_args = TRUE, result_class = FALSE)
 }
 
 

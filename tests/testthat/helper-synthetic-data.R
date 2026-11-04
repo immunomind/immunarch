@@ -1,3 +1,41 @@
+# Import tracking fixtures through the public reader, including bulk weights
+# and paired chains. Keep backing files until the test run has finished.
+make_track_idata <- function(rows = NULL, paired = FALSE,
+                             repertoires = "sample", features = c("junction", "v_call")) {
+  if (is.null(rows)) {
+    rows <- tibble::tibble(
+      sample = c(rep("S1", 4), rep("S2", 4), rep("S3", 3), rep("S4", 2), rep("S5", 2)),
+      junction = c("AAA", "CCC", "GGG", "AAA", "AAA", "CCC", "TTT", "GGG",
+                   "AAA", "GGG", "ACG", "CCC", "ACG", "GGA", "ACG"),
+      v_call = c("V1", "V2", "V3", "V2", "V1", "V2", "V4", "V3",
+                 "V1", "V3", "V5", "V2", "V5", "V6", "V5"),
+      abundance = c(8L, 2L, 1L, 1L, 1L, 9L, 4L, 1L, 2L, 3L, 5L, 6L, 1L, 7L, 1L),
+      trait = c("other", "hit", rep("other", 13))
+    )
+    rows$group <- ifelse(rows$sample %in% c("S1", "S3", "S5"), "Case", "Control")
+    rows$row_id <- seq_len(nrow(rows))
+  }
+  input <- tempfile(fileext = ".tsv")
+  output <- tempfile("track-test-")
+  withr::defer(unlink(c(input, output), recursive = TRUE),
+               envir = testthat::teardown_env())
+  readr::write_tsv(rows, input)
+  immundata::read_repertoires(
+    input,
+    schema = immundata::make_receptor_schema(
+      features = features, chains = if (paired) c("IGH", "IGL") else NULL
+    ),
+    count_col = if (paired) NULL else "abundance",
+    barcode_col = if (paired) "cell" else NULL,
+    umi_col = if (paired) "umi" else NULL,
+    locus_col = if (paired) "locus" else NULL,
+    repertoire_schema = repertoires, output_folder = output,
+    preprocess = NULL, postprocess = NULL, rename_columns = NULL,
+    verbose = FALSE
+  )
+}
+
+
 make_test_repertoire_idata <- function(
   receptors,
   repertoires,
