@@ -96,7 +96,7 @@ im_method <- function(
   formals(wrapper) <- c(
     core_fmls,
     if (airr_args) formals(method_args_airr),
-    if (vdj_args) alist(output = c("immundata", "data.frame"))
+    if (vdj_args && !"output" %in% names(core_fmls)) alist(output = c("immundata", "df"))
   )
   environment(wrapper) <- environment()
 
@@ -151,10 +151,11 @@ im_method <- function(
       }
 
       # Call core with its own formals
-      .core_args <- mget(names(core_fmls), inherits = TRUE)
+      .core_args <- mget(setdiff(names(core_fmls), "..."), inherits = TRUE)
+      .core_args <- c(.core_args, core_dots)
       out <- do.call(core, .core_args)
 
-      if (vdj_args && output == "data.frame") {
+      if (vdj_args && output == "df" && inherits(out, "ImmunData")) {
         out <- dplyr::collect(out)
       }
 
@@ -169,7 +170,7 @@ im_method <- function(
       }
 
       # Wrap the output to assign correct classes
-      if (result_class) {
+      if (result_class && (!vdj_args || output == "df")) {
         out <- im_as_result(out, family, name)
       }
 
@@ -178,6 +179,7 @@ im_method <- function(
     list(
       core = core,
       core_fmls = core_fmls,
+      core_dots = if ("..." %in% names(core_fmls)) quote(list(...)) else quote(NULL),
       required_cols = required_cols,
       airr_args = airr_args,
       result_class = result_class,
@@ -221,8 +223,10 @@ im_method <- function(
 #'   `idata$annotations`. Use this to declare the minimal input schema your core needs.
 #' @param need_repertoires Logical. Use this to declare the necessity of having aggregated
 #'  repertoires.
-#' @param vdj_args Logical scalar. If `TRUE`, add the VDJ `output` argument and
-#'   collect the result when `output = "data.frame"`. The default is `FALSE`.
+#' @param vdj_args Logical scalar. If `TRUE`, add the VDJ `output` argument
+#'   unless the core declares it, and collect `ImmunData` results when
+#'   `output = "df"`. A core declaring `output` may return its own summary
+#'   tibble directly. The default is `FALSE`.
 #'
 #' @return A **function** - the user-facing wrapper around `core`. Typical usage is to
 #' assign it to the exported symbol of the method, e.g.:
@@ -303,8 +307,8 @@ register_method_annotate <- function(...) {
 }
 
 
-register_method_vdj <- function(...) {
-  register_method_impl(..., vdj_args = TRUE, result_class = FALSE)
+register_method_vdj <- function(..., result_class = FALSE) {
+  register_method_impl(..., vdj_args = TRUE, result_class = result_class)
 }
 
 

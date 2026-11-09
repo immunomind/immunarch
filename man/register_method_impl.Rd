@@ -34,8 +34,10 @@ the family environment by calling \code{register_method_family()} when available
 \item{need_repertoires}{Logical. Use this to declare the necessity of having aggregated
 repertoires.}
 
-\item{vdj_args}{Logical scalar. If \code{TRUE}, add the VDJ \code{output} argument and
-collect the result when \code{output = "data.frame"}. The default is \code{FALSE}.}
+\item{vdj_args}{Logical scalar. If \code{TRUE}, add the VDJ \code{output} argument
+unless the core declares it, and collect \code{ImmunData} results when
+\code{output = "df"}. A core declaring \code{output} may return its own summary
+tibble directly. The default is \code{FALSE}.}
 }
 \value{
 A \strong{function} - the user-facing wrapper around \code{core}. Typical usage is to

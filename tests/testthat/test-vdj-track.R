@@ -76,19 +76,29 @@ test_that("top-N shortcuts select per repertoire and follow the union everywhere
 })
 
 
-test_that("collected output has identical rows and original target abundances", {
+test_that("df output is a complete abundance summary with original IDs and metadata", {
   idata <- make_track_idata()
   query <- tibble::tibble(junction = "CCC")
-  tracked <- vdj_track(idata, from = query)
-  actual <- vdj_track(idata, from = query, output = "data.frame") |>
-    dplyr::arrange(row_id)
+  actual <- vdj_track(idata, from = query, output = "df") |>
+    dplyr::arrange(imd_repertoire_id)
   expect_s3_class(actual, "data.frame")
-  expect_equal(actual, dplyr::collect(tracked) |> dplyr::arrange(row_id))
+  expect_s3_class(actual, "immunarch_res_vdj_track")
+  expect_equal(nrow(actual), nrow(idata$repertoires))
+  expect_equal(actual$imd_repertoire_id, idata$repertoires$imd_repertoire_id)
+  expect_equal(actual$sample, idata$repertoires$sample)
+  expect_equal(actual$n_barcodes, idata$repertoires$n_barcodes)
+  expect_equal(actual$n_receptors, idata$repertoires$n_receptors)
+  receptor <- idata$receptors |> dplyr::filter(junction == "CCC") |> dplyr::collect()
+  expect_true(all(actual$imd_receptor_id == receptor$imd_receptor_id))
+  expect_true(all(actual$junction == "CCC"))
+  expect_true(all(actual$v_call == "V2"))
+  expect_true(all(actual$imd_receptor_label == "CCC V2"))
+  expect_null(attr(actual, "repertoires", exact = TRUE))
   expect_null(attr(actual, "vdj_context", exact = TRUE))
-  expect_equal(actual$imd_orig_count, c(2, 9, 6))
-  expect_equal(actual$imd_orig_proportion, c(2 / 12, 9 / 15, 6 / 7))
-  expect_true(all(actual$imd_proportion == 1))
-  expect_equal(actual$imd_count, actual$imd_orig_count)
+  expect_equal(actual$imd_orig_count, c(2, 9, 0, 6, 0))
+  expect_equal(actual$imd_orig_proportion, c(2 / 12, 9 / 15, 0, 6 / 7, 0))
+  expect_false(any(c("imd_barcode", "imd_chain_id", "imd_n_chains", "row_id",
+                     "abundance", "imd_count", "imd_proportion") %in% names(actual)))
 })
 
 
@@ -176,6 +186,25 @@ test_that("paired matching preserves whole receptors and keeps joint identities 
   expect_true(all(actual$imd_orig_count[actual$cell %in% c("a1", "a2")] == 2))
   expect_true(all(actual$imd_orig_proportion[actual$cell %in% c("a1", "a2")] == 2 / 3))
 
+  summary <- vdj_track(idata, from = tibble::tibble(locus = "IGH", junction = "AAA"),
+                        output = "df")
+  expect_equal(nrow(summary), 6L)
+  expect_equal(length(unique(summary$imd_receptor_id)), 2L)
+  expect_false(anyDuplicated(summary[c("imd_receptor_id", "imd_repertoire_id")]) > 0)
+  expect_true(all(c("junction.x", "junction.y", "v_call.x", "v_call.y") %in% names(summary)))
+  expect_true(all(summary$junction.x == "AAA"))
+  expect_setequal(summary$junction.y, c("CCC", "GGG"))
+  expect_setequal(summary$imd_receptor_label,
+                  c("IGH AAA HV1 + IGL CCC LV1", "IGH AAA HV1 + IGL GGG LV2"))
+  observed <- idata$annotations |>
+    dplyr::select(imd_receptor_id, imd_repertoire_id, imd_count, imd_proportion) |>
+    dplyr::distinct() |>
+    dplyr::collect()
+  checked <- summary |> dplyr::inner_join(observed, by = c("imd_receptor_id", "imd_repertoire_id"))
+  expect_equal(checked$imd_orig_count, checked$imd_count)
+  expect_equal(checked$imd_orig_proportion, checked$imd_proportion)
+  expect_equal(sort(summary$imd_orig_count), c(0, 0, 1, 1, 1, 2))
+
   crossed <- vdj_track(idata, from = tibble::tibble(junction = "AAA", v_call = "LV1"))
   expect_equal(nrow(dplyr::collect(crossed)), 0L)
   expect_equal(dplyr::collect(idata) |> dplyr::arrange(row_id), before)
@@ -205,10 +234,12 @@ test_that("empty selections are ordinary empty objects and collected data frames
     expect_s3_class(empty, "ImmunData")
     expect_s3_class(empty$annotations, "duckplyr_df")
     expect_equal(nrow(dplyr::collect(empty)), 0L)
-    collected <- vdj_track(idata, from = query, output = "data.frame")
+    collected <- vdj_track(idata, from = query, output = "df")
     expect_s3_class(collected, "data.frame")
     expect_equal(nrow(collected), 0L)
-    expect_true(all(c("imd_orig_count", "imd_orig_proportion") %in% names(collected)))
+    expect_true(all(c("imd_orig_count", "imd_orig_proportion", "imd_receptor_label") %in% names(collected)))
+    expect_s3_class(collected, "immunarch_res_vdj_track")
+    expect_null(attr(collected, "repertoires", exact = TRUE))
   }
   zero <- vdj_track(idata, n = 0L)
   expect_equal(nrow(dplyr::collect(zero)), 0L)
