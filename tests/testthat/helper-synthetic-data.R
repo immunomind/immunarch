@@ -36,6 +36,19 @@ make_track_idata <- function(rows = NULL, paired = FALSE,
 }
 
 
+make_public_idata <- function() {
+  rows <- tibble::tibble(
+    sample = c("S1", "S1", "S1", "S2", "S2", "S3", "S3", "S4"),
+    junction = c("AAA", "CCC", "ACG", "AAA", "CCC", "AAA", "GGG", "TTT"),
+    v_call = "V1", abundance = c(5L, 1L, 1L, 10L, 4L, 20L, 8L, 2L),
+    group = c("Case", "Case", "Case", "Case", "Case", "Control", "Control", "Control"),
+    row_id = seq_len(8L)
+  )
+  make_track_idata(rows, repertoires = c("sample", "group")) |>
+    immundata::agg_strata("group")
+}
+
+
 make_test_repertoire_idata <- function(
   receptors,
   repertoires,

@@ -2,9 +2,21 @@
 % Please edit documentation in R/v1_public_vis.R
 \name{vis.ImmunData}
 \alias{vis.ImmunData}
-\title{Visualise public receptors between two repertoires}
+\title{Visualise public receptor selection, incidence, or pairwise frequencies}
 \usage{
-\method{vis}{ImmunData}(.data, x = 1, y = 2, density = TRUE, lm = TRUE, ...)
+\method{vis}{ImmunData}(
+  .data,
+  x = 1,
+  y = 2,
+  density = TRUE,
+  lm = TRUE,
+  plot = c("pairwise", "public", "incidence"),
+  reference = NULL,
+  xval = "imd_repertoire_id",
+  fill = NULL,
+  title = "Selected immune receptors across repertoires",
+  ...
+)
 }
 \arguments{
 \item{.data}{An \link[immundata:ImmunData]{immundata::ImmunData} object with aggregated repertoires.}
@@ -20,16 +32,45 @@ and public receptor proportions.}
 
 \item{lm}{Logical. If \code{TRUE}, add a linear model fit and adjusted R-squared.}
 
+\item{plot}{One of \code{"pairwise"} (the default), \code{"public"}, or \code{"incidence"}.}
+
+\item{reference}{For \code{plot = "public"}, the original \code{ImmunData} supplied
+to \code{\link[=vdj_public]{vdj_public()}}. It defines the complete repertoire axis, including
+repertoires without selected receptors. Required for this plot.}
+
+\item{xval}{For \code{plot = "public"}, the repertoire ID or metadata column
+used for x-axis labels. Each value must identify one repertoire.}
+
+\item{fill}{For \code{plot = "public"}, a repertoire metadata column used for
+colour. \code{NULL} uses \code{strata_name} when strata are defined; otherwise the
+plot uses a single colour.}
+
+\item{title}{For \code{plot = "public"} or \code{"incidence"}, the plot title, or
+\code{NULL} to omit it. Each view has its own default title.}
+
 \item{...}{Must be empty.}
 }
 \value{
 A ggplot2 or patchwork object.
 }
 \description{
-Visualise receptor frequencies shared between two repertoires.
+Visualise selected receptor coverage and abundance with \code{plot = "public"},
+or receptor frequencies shared between two repertoires with the default
+\code{plot = "pairwise"}. For \code{\link[=annotate_public]{annotate_public()}} results, \code{plot = "incidence"}
+shows receptor counts by the number of repertoires in which they occur.
 
-Receptor proportions are shown on log-scaled axes. Point fill shows the
-log proportion ratio between the x and y repertoires.
+In pairwise plots, receptor proportions are shown on log-scaled axes.
+Point fill shows the log proportion ratio between the x and y repertoires.
+}
+\details{
+The incidence view stacks within-stratum receptor counts when strata are
+defined. An identity observed in several strata contributes once to each
+stratum's distribution; stack totals are not globally distinct receptor
+counts. Without strata, one unstacked global distribution is shown and
+every identity contributes once. This view uses statistics from the last
+\code{\link[=annotate_public]{annotate_public()}} call; rerun annotation after changing the population.
+Both publicness views use vertical legends on the right and wrap long
+colour labels for display without changing the underlying names.
 }
 \examples{
 \dontrun{
@@ -37,6 +78,9 @@ idata |> vis()
 idata |> vis(x = 1, y = 2)
 idata |> vis(x = "Blood", y = "Tumor")
 idata |> vis(x = 1, y = 2, density = FALSE)
+selected <- vdj_public(idata)
+vis(selected, plot = "public", reference = idata)
+annotate_public(idata) |> vis(plot = "incidence")
 }
 
 }

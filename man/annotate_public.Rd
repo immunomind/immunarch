@@ -35,20 +35,41 @@ For large datasets, this can be a computationally heavy operation.
 After annotation, consider persisting the result as a snapshot with
 \code{\link[immundata:write_immundata]{immundata::write_immundata()}} to avoid recomputation.
 }
+\section{Visualisation}{
+
+Use \code{vis(annotated, plot = "incidence")} to show how many receptor identities
+occur in exactly one, two, or more repertoires. With strata, the plot stacks
+their within-stratum incidence distributions. A receptor observed in several
+strata contributes once to each; the stack heights sum within-stratum counts
+rather than globally distinct identities. Without strata, the plot shows a
+single unstacked distribution across all repertoires and omits the stratum
+legend. Long stratum labels wrap in a vertical legend on the right; their
+underlying names are unchanged. \code{title = NULL} omits the plot title.
+
+Incidence annotations describe the population at the time of annotation.
+Rerun \code{annotate_public()} after filtering or changing repertoires or strata
+before plotting the new population.
+}
+
 \examples{
 \dontrun{
 idata_global <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy")) |>
   annotate_public()
+vis(idata_global, plot = "incidence")
 
 idata_strata <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy")) |>
   agg_strata(schema = "Response") |>
   annotate_public()
+vis(idata_strata, plot = "incidence")
 
 write_immundata(idata_global, "snapshots/public-annotated-global")
 write_immundata(idata_strata, "snapshots/public-annotated-strata")
 }
 
+}
+\seealso{
+\code{\link[=vis]{vis()}}, \code{\link[=vdj_public]{vdj_public()}}
 }
 \concept{Publicness}

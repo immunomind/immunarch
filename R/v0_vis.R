@@ -205,6 +205,12 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' * [airr_diversity] for diversity visualisations.
 #' * [repsim] for repertoire similarity visualisations.
 #' * [dist] for receptor distance visualisations.
+#' * [vdj_track] for receptor tracking visualisations with `output = "df"`.
+#' * [vdj_public] for selected receptor coverage and abundance. Pass its
+#'   `output = "df"` result and the original `reference` to `vis()`, or use
+#'   `plot = "public"` for its `ImmunData` result.
+#' * [annotate_public] for incidence distributions with `plot = "incidence"`,
+#'   stacked by stratum when strata are defined and unstacked otherwise.
 #'
 #' @examples
 #' \dontrun{
@@ -213,6 +219,10 @@ theme_cleveland2 <- function(rotate = TRUE) {
 #' airr_public_jaccard(immdata) |> vis()
 #' airr_diversity_pielou(immdata) |> vis()
 #' airr_diversity_chao1(immdata) |> vis()
+#' # Tracking summaries include explicit zeros for unobserved combinations.
+#' vdj_track(immdata, n = 5, output = "df") |> vis()
+#' vdj_public(immdata, output = "df") |> vis(reference = immdata)
+#' annotate_public(immdata) |> vis(plot = "incidence")
 #' }
 #' @export
 vis <- function(.data, ...) {
