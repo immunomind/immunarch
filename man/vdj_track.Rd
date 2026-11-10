@@ -156,11 +156,8 @@ upstream to pool samples; plotting does not aggregate them.
 }
 
 The summary already contains zero abundances for unobserved receptor-repertoire
-combinations. \code{vis()} draws those values without adding rows, imputing
-missing values, or renormalising abundances. Every original
-target repertoire remains on the plot, including samples and entire panels
-with no tracked observations. This is a plotting convention, not evidence
-of biological absence.
+combinations. Every original target repertoire remains on the plot, including samples
+with no tracked observations.
 
 Repertoire metadata is returned in regular columns for every target sample,
 including samples with no tracked observations. Use those columns for

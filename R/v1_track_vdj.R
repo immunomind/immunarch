@@ -65,7 +65,8 @@ vdj_track_impl <- function(idata, from = NULL, n = NULL, output = c("immundata",
     if (length(immundata::imd_receptor_chains(idata$schema_receptor)) == 2L) {
       first <- c("locus.x", setdiff(grep("\\.x$", features, value = TRUE), "locus.x"))
       second <- c("locus.y", setdiff(grep("\\.y$", features, value = TRUE), "locus.y"))
-      label <- rlang::expr(dd$concat_ws(" + ",
+      label <- rlang::expr(dd$concat_ws(
+        " + ",
         dd$concat_ws(" ", !!!rlang::syms(first)),
         dd$concat_ws(" ", !!!rlang::syms(second))
       ))
@@ -219,11 +220,8 @@ vdj_track_impl <- function(idata, from = NULL, n = NULL, output = c("immundata",
 #' * `title` replaces the default title, `"Receptor tracking"`.
 #'
 #' The summary already contains zero abundances for unobserved receptor-repertoire
-#' combinations. `vis()` draws those values without adding rows, imputing
-#' missing values, or renormalising abundances. Every original
-#' target repertoire remains on the plot, including samples and entire panels
-#' with no tracked observations. This is a plotting convention, not evidence
-#' of biological absence.
+#' combinations. Every original target repertoire remains on the plot, including samples
+#' with no tracked observations.
 #'
 #' Repertoire metadata is returned in regular columns for every target sample,
 #' including samples with no tracked observations. Use those columns for
