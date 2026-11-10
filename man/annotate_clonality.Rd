@@ -19,7 +19,8 @@ annotate_clonality_prop(
 
 \item{bins}{A named numeric vector of thresholds (e.g.,
 \code{c(Hyperexpanded = 1e-2, Large = 1e-3, ...)}). Names become bin labels and
-must be non-empty. Internally sorted in descending order.}
+must be non-empty. Internally sorted in descending order for assignment.
+Result rows follow the supplied bin order, with \code{"Ultra-rare"} last.}
 }
 \value{
 An \link[immundata:ImmunData]{immundata::ImmunData} whose \verb{$annotations} gains:

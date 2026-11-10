@@ -310,13 +310,24 @@ make_dotplot <- function(title_default, fill_default, size_default) {
 
     p <- ggplot2::ggplot(df, ggplot2::aes(x = col, y = row)) +
       ggplot2::geom_point(
-        ggplot2::aes(size = size, fill = value),
+        # Keep zeros in the fill scale while hiding their filled dots.
+        ggplot2::aes(
+          size = ifelse(is.na(value) | value == 0, NA_real_, size),
+          fill = value
+        ),
         colour = "grey30",
         stroke = 0.3,
         shape = 21, na.rm = TRUE
       ) +
-      ggplot2::scale_size_area(
-        max_size = size_max_mm,
+      ggplot2::geom_point(
+        data = df[!is.na(df$value) & df$value == 0, ],
+        shape = 21, size = min(1.5, size_max_mm),
+        fill = "white", colour = "grey65", stroke = 0.35,
+        show.legend = FALSE
+      ) +
+      ggplot2::scale_size(
+        range = c(min(2, size_max_mm), size_max_mm),
+        limits = c(0, 1),
         guide = ggplot2::guide_legend(title = size_default)
       ) +
       ggplot2::scale_fill_gradientn(

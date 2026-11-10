@@ -45,7 +45,8 @@ with each row corresponding to a specific repertoire / pair of repertoires; usef
 
 \item{bins}{A named numeric vector of thresholds (e.g.,
 \code{c(Hyperexpanded = 1e-2, Large = 1e-3, ...)}). Names become bin labels and
-must be non-empty. Internally sorted in descending order.}
+must be non-empty. Internally sorted in descending order for assignment.
+Result rows follow the supplied bin order, with \code{"Ultra-rare"} last.}
 }
 \value{
 \subsection{1) Rank-abundance lines (\code{airr_clonality_line})}{

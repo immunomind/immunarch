@@ -221,6 +221,7 @@ airr_clonality_prop_impl <- function(
     names = "named"
   )
 
+  bin_order <- c(names(bins), "Ultra-rare")
   bins <- sort(bins, decreasing = TRUE)
 
   clonality_df <- base_clonality_prop(idata = idata, bins = bins)
@@ -229,7 +230,9 @@ airr_clonality_prop_impl <- function(
     summarise(
       .by = c(immundata::imd_schema("repertoire"), "clonal_prop_bin"),
       occupied_prop = sum(!!immundata::imd_schema_sym("proportion"), na.rm = TRUE)
-    )
+    ) |>
+    collect() |>
+    arrange(match(clonal_prop_bin, bin_order))
 }
 
 
@@ -243,7 +246,8 @@ airr_clonality_prop_impl <- function(
 #'
 #' @param bins A named numeric vector of thresholds (e.g.,
 #'   `c(Hyperexpanded = 1e-2, Large = 1e-3, ...)`). Names become bin labels and
-#'   must be non-empty. Internally sorted in descending order.
+#'   must be non-empty. Internally sorted in descending order for assignment.
+#'   Result rows follow the supplied bin order, with `"Ultra-rare"` last.
 #'
 #' @return
 #'
