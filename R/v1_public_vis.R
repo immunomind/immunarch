@@ -139,6 +139,7 @@ vis_vdj_public_impl <- function(
   plot_data[[xval]] <- factor(plot_data[[xval]], levels = plot_data[[xval]])
   plot_data$public_group <- factor(if (is.null(fill)) "Selected receptors" else plot_data[[fill]])
   plot_data$coverage_label <- paste0(plot_data$n_detected, "/", plot_data$n_selected)
+  n_selected <- plot_data$n_selected[[1]]
   plot_data$abundance_label <- scales::percent(plot_data$abundance, accuracy = .01)
   close_marks <- abs(plot_data$coverage - plot_data$abundance) < .06
   plot_data$abundance_vjust <- ifelse(close_marks & plot_data$abundance > .06, 1.5, -.6)
@@ -159,8 +160,10 @@ vis_vdj_public_impl <- function(
       values = c("Abundance" = 22, "Coverage" = 21),
       limits = c("Abundance", "Coverage"), drop = FALSE) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2),
-      labels = scales::label_percent(), expand = ggplot2::expansion(mult = c(0, .08))) +
-    ggplot2::labs(title = title, x = xval, y = "Percentage") +
+      labels = scales::label_percent(), expand = ggplot2::expansion(mult = c(0, .08)),
+      sec.axis = ggplot2::sec_axis(~ . * n_selected,
+        name = "Selected receptors detected", breaks = function(x) unique(round(pretty(x))))) +
+    ggplot2::labs(title = title, x = xval, y = "Selected receptor abundance (%)") +
     ggplot2::guides(
       fill = if (is.null(fill)) "none" else ggplot2::guide_legend(order = 1, ncol = 1,
         override.aes = list(shape = NA, alpha = 1)),

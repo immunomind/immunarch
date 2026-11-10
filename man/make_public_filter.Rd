@@ -51,7 +51,6 @@ Unknown selectors and empty comparison populations are errors during
 evaluation. Selectors do not match arbitrary metadata values.
 }
 \examples{
-library(immundata)
 idata <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy"))
 
@@ -66,6 +65,7 @@ low_count <- make_public_filter(max_count = 10)
 
 # No occurrence with count >= 5. Smaller counts are allowed.
 below_threshold <- make_public_filter(min_count = 5, max_incidence = 0L)
+
 }
 \seealso{
 \code{\link[=vdj_public]{vdj_public()}} for strata preparation and applying several rules.

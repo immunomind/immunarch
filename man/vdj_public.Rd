@@ -9,27 +9,23 @@ vdj_public(idata, ..., output = c("immundata", "df"))
 \arguments{
 \item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object with defined repertoires.}
 
-\item{...}{Rules created by \code{\link[=make_public_filter]{make_public_filter()}}. All rules must pass.
-Each rule uses the same original input. With no rules, require presence
+\item{...}{One or more rules created by \code{\link[=make_public_filter]{make_public_filter()}}. With no rules, require presence
 in at least two input repertoires.}
 
-\item{output}{A character scalar: \code{"immundata"} returns a new \code{ImmunData};
-\code{"df"} collects its ordinary observation rows with a result class for \code{\link[=vis]{vis()}}.}
+\item{output}{A character scalar: \code{"immundata"} returns a new \code{ImmunData},
+\code{"df"} returns a data frame convenient to immediately pass to  \code{\link[=vis]{vis()}}.}
 }
 \value{
 A new \code{ImmunData} or collected observation table.
 }
 \description{
-Select shared receptors, receptors private to a group, or receptors absent
+Select shared receptors, receptors private to a strata, or receptors absent
 above an abundance threshold. Define one or more rules to select receptors
-by their sharing and abundance in comparison populations.
+by their sharing and abundance in comparison populations using \code{\link[=make_public_filter]{make_public_filter()}}.
 }
 \details{
-Passing receptor identities retain all observations throughout \code{idata},
-including complete pairs and occurrences outside comparison populations.
-No artificial zero rows are added. Input counts and proportions are saved
+Input counts and proportions are saved
 as \code{imd_orig_count} and \code{imd_orig_proportion}.
-Ordinary abundances follow standard filtering.
 The input is unchanged. No per-rule incidence columns or custom attributes
 are added.
 }
@@ -54,10 +50,10 @@ class selects this plot automatically. The ordinary observation rows in
 the collected output are unchanged.
 
 Bars show \strong{abundance}, the sum of the selected identities' saved original
-repertoire proportions. Dots show \strong{coverage}, the number of selected
-identities detected in each repertoire divided by the complete selected
-identity set. Dot labels give the detected/selected counts; bar labels give
-abundance percentages. Both use a 0--100\% axis with different denominators.
+repertoire proportions, read against the left percentage axis. Dots show
+\strong{coverage}, the number of selected identities detected in each repertoire,
+read against the right receptor-count axis. Dot labels give the
+detected/selected counts; bar labels give abundance percentages.
 Observed occurrences below selection thresholds still contribute to both
 measures. Coverage describes the selected set, not the fraction of all
 receptor identities in a repertoire. Individual receptor trajectories can
@@ -75,17 +71,11 @@ baseline. An empty selection cannot be plotted.
 must identify one repertoire. \code{fill} selects a repertoire metadata column
 for colour and defaults to the defined strata when available. Repertoires
 are ordered by colour group and x value; factor levels control their order.
-\code{title} changes the title or removes it with \code{NULL}. The default uses
-\code{ggthemes::theme_few()} and the LocusZoom palette for up to seven groups,
-with viridis \code{"H"} for larger numbers of groups. Legends are vertical on
-the right; long colour labels wrap for display without changing their
-underlying names. Without strata or an explicit \code{fill}, one colour is used
-and the stratum legend is omitted; the measure legend remains visible.
+\code{title} changes the title or removes it with \code{NULL}.
 }
 
 \examples{
-library(immundata)
-
+#'
 idata <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy")) |>
   agg_strata("Therapy")
@@ -121,8 +111,10 @@ ici_only <- vdj_public(
   output = "df"
 )
 ici_only |>
-  dplyr::select(cdr3_aa, v_call, Therapy, imd_orig_count,
-                imd_orig_proportion) |>
+  dplyr::select(
+    cdr3_aa, v_call, Therapy, imd_orig_count,
+    imd_orig_proportion
+  ) |>
   head()
 
 # Select by repertoire IDs and require count >= 5 in an ICI repertoire.

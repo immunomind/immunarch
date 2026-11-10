@@ -57,7 +57,8 @@ vdj_public_impl <- function(idata, ...) {
     dplyr::semi_join(selected, by = "imd_receptor_id") |>
     dplyr::rename(imd_orig_count = imd_count, imd_orig_proportion = imd_proportion)
   immundata::annotate_immundata(
-    idata, annotations = abundances, by = stats::setNames(keys, keys),
+    idata,
+    annotations = abundances, by = stats::setNames(keys, keys),
     conflicts = "replace", remove_limit = TRUE
   ) |>
     immundata::filter_immundata(!is.na(imd_orig_count))
@@ -65,25 +66,24 @@ vdj_public_impl <- function(idata, ...) {
 
 
 #' @title Select receptors by their incidence across repertoires or strata
+#'
 #' @description
-#' Select shared receptors, receptors private to a group, or receptors absent
+#' Select shared receptors, receptors private to a strata, or receptors absent
 #' above an abundance threshold. Define one or more rules to select receptors
-#' by their sharing and abundance in comparison populations.
+#' by their sharing and abundance in comparison populations using [make_public_filter()].
 #'
 #' @param idata An [immundata::ImmunData] object with defined repertoires.
-#' @param ... Rules created by [make_public_filter()]. All rules must pass.
-#'   Each rule uses the same original input. With no rules, require presence
+#' @param ... One or more rules created by [make_public_filter()]. With no rules, require presence
 #'   in at least two input repertoires.
-#' @param output A character scalar: `"immundata"` returns a new `ImmunData`;
-#'   `"df"` collects its ordinary observation rows with a result class for [vis()].
+#' @param output A character scalar: `"immundata"` returns a new `ImmunData`,
+#'   `"df"` returns a data frame convenient to immediately pass to  [vis()].
+#'
 #' @details
-#' Passing receptor identities retain all observations throughout `idata`,
-#' including complete pairs and occurrences outside comparison populations.
-#' No artificial zero rows are added. Input counts and proportions are saved
+#' Input counts and proportions are saved
 #' as `imd_orig_count` and `imd_orig_proportion`.
-#' Ordinary abundances follow standard filtering.
 #' The input is unchanged. No per-rule incidence columns or custom attributes
 #' are added.
+#'
 #' @section Repeated calls:
 #' **Warning:** Applying `vdj_public()` to an already filtered result overwrites
 #' `imd_orig_count` and `imd_orig_proportion` with abundances from its immediate
@@ -92,6 +92,7 @@ vdj_public_impl <- function(idata, ...) {
 #' Keep the original `ImmunData` as a reference when calculating percentages
 #' relative to the original repertoires. To apply several rules to the same
 #' original input, pass them together in one `vdj_public()` call.
+#'
 #' @section Visualisation:
 #' Plot the selected receptors with
 #' `vis(selected, plot = "public", reference = idata)`, where `idata` is the
@@ -101,10 +102,10 @@ vdj_public_impl <- function(idata, ...) {
 #' the collected output are unchanged.
 #'
 #' Bars show **abundance**, the sum of the selected identities' saved original
-#' repertoire proportions. Dots show **coverage**, the number of selected
-#' identities detected in each repertoire divided by the complete selected
-#' identity set. Dot labels give the detected/selected counts; bar labels give
-#' abundance percentages. Both use a 0--100% axis with different denominators.
+#' repertoire proportions, read against the left percentage axis. Dots show
+#' **coverage**, the number of selected identities detected in each repertoire,
+#' read against the right receptor-count axis. Dot labels give the
+#' detected/selected counts; bar labels give abundance percentages.
 #' Observed occurrences below selection thresholds still contribute to both
 #' measures. Coverage describes the selected set, not the fraction of all
 #' receptor identities in a repertoire. Individual receptor trajectories can
@@ -122,17 +123,13 @@ vdj_public_impl <- function(idata, ...) {
 #' must identify one repertoire. `fill` selects a repertoire metadata column
 #' for colour and defaults to the defined strata when available. Repertoires
 #' are ordered by colour group and x value; factor levels control their order.
-#' `title` changes the title or removes it with `NULL`. The default uses
-#' `ggthemes::theme_few()` and the LocusZoom palette for up to seven groups,
-#' with viridis `"H"` for larger numbers of groups. Legends are vertical on
-#' the right; long colour labels wrap for display without changing their
-#' underlying names. Without strata or an explicit `fill`, one colour is used
-#' and the stratum legend is omitted; the measure legend remains visible.
-#' @return A new `ImmunData` or collected observation table.
-#' @seealso [make_public_filter()], [annotate_public()]
-#' @examples
-#' library(immundata)
+#' `title` changes the title or removes it with `NULL`.
 #'
+#' @return A new `ImmunData` or collected observation table.
+#'
+#' @seealso [make_public_filter()], [annotate_public()]
+#'
+#' @examples#'
 #' idata <- get_test_idata() |>
 #'   agg_repertoires(c("Response", "Therapy")) |>
 #'   agg_strata("Therapy")
@@ -168,8 +165,10 @@ vdj_public_impl <- function(idata, ...) {
 #'   output = "df"
 #' )
 #' ici_only |>
-#'   dplyr::select(cdr3_aa, v_call, Therapy, imd_orig_count,
-#'                 imd_orig_proportion) |>
+#'   dplyr::select(
+#'     cdr3_aa, v_call, Therapy, imd_orig_count,
+#'     imd_orig_proportion
+#'   ) |>
 #'   head()
 #'
 #' # Select by repertoire IDs and require count >= 5 in an ICI repertoire.
@@ -190,9 +189,11 @@ vdj_public <- register_method_vdj(
 
 
 #' @title Describe one publicness selection rule
+#'
 #' @description
 #' Define a comparison population and inclusive incidence and abundance bounds
 #' for [vdj_public()]. The constructor stores a rule without evaluating data.
+#'
 #' @param repertoires A numeric vector of repertoire IDs, or `NULL` for all.
 #' @param strata Numeric strata IDs or existing `strata_name` labels, or `NULL`
 #'   for all. When both selectors are supplied, use their intersection.
@@ -204,6 +205,7 @@ vdj_public <- register_method_vdj(
 #' @param min_count,max_count Numeric count bounds, or `NULL`.
 #' @param min_proportion,max_proportion Numeric within-repertoire proportion
 #'   bounds, or `NULL`.
+#'
 #' @details
 #' Abundance bounds qualify individual receptor occurrences before incidence
 #' is counted. Repeated chain/cell abundance values are deduplicated, never
@@ -212,10 +214,12 @@ vdj_public <- register_method_vdj(
 #' `min_count = 5, max_incidence = 0` allows observed counts below five.
 #' Unknown selectors and empty comparison populations are errors during
 #' evaluation. Selectors do not match arbitrary metadata values.
+#'
 #' @return A list describing one rule for [vdj_public()].
+#'
 #' @seealso [vdj_public()] for strata preparation and applying several rules.
+#'
 #' @examples
-#' library(immundata)
 #' idata <- get_test_idata() |>
 #'   agg_repertoires(c("Response", "Therapy"))
 #'
@@ -230,6 +234,7 @@ vdj_public <- register_method_vdj(
 #'
 #' # No occurrence with count >= 5. Smaller counts are allowed.
 #' below_threshold <- make_public_filter(min_count = 5, max_incidence = 0L)
+#'
 #' @export
 make_public_filter <- function(
   repertoires = NULL,
@@ -257,8 +262,10 @@ make_public_filter <- function(
   for (bound in list(min_proportion, max_proportion)) {
     checkmate::assert_number(bound, lower = 0, upper = 1, null.ok = TRUE)
   }
-  for (bounds in list(c(min_incidence, max_incidence), c(min_count, max_count),
-                      c(min_proportion, max_proportion))) {
+  for (bounds in list(
+    c(min_incidence, max_incidence), c(min_count, max_count),
+    c(min_proportion, max_proportion)
+  )) {
     if (length(bounds) == 2L && bounds[1] > bounds[2]) {
       cli::cli_abort("Minimum bounds must not exceed maximum bounds.")
     }
