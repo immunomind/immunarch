@@ -21,14 +21,15 @@ grouped summaries.}
 \value{
 \link[immundata:ImmunData]{immundata::ImmunData}. The input rows with combined \code{mu_count} and
 \code{mu_freq} columns plus replacement and silent counts and frequencies
-overall, across all CDRs, across all framework regions, and for each
+overall, across the V region (FWR1 through FWR3), across all CDRs,
+across all framework regions, and for each
 individual region. When grouping is enabled, the result also includes
 \code{mu_freq_median}, \code{mu_freq_mean}, and \code{mu_freq_n} on every row.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Calculate overall and AIRR-region somatic-hypermutation counts and
+Calculate overall, V-region, and AIRR-region somatic-hypermutation counts and
 frequencies from aligned observed and reconstructed germline sequences.
 
 The input must contain the columns selected by \code{sequence_col} and

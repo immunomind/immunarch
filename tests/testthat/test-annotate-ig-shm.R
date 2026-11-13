@@ -60,6 +60,8 @@ collect_shm <- function(idata) {
 
 shm_output_cols <- c(
   "mu_count", "mu_freq",
+  "mu_count_v", "mu_freq_v", "mu_count_v_r", "mu_count_v_s",
+  "mu_freq_v_r", "mu_freq_v_s",
   paste0(
     c("mu_count", "mu_count", "mu_freq", "mu_freq"),
     rep(c("", "_cdr", "_fwr"), each = 4L),
@@ -74,6 +76,28 @@ shm_output_cols <- c(
   }), use.names = FALSE)
 )
 shm_group_output_cols <- c("mu_freq_median", "mu_freq_mean", "mu_freq_n")
+
+
+testthat::test_that("V annotations share existing denominators and feed repertoire summaries", {
+  germline <- strrep("GCT", 7)
+  sequence <- paste0("ACT", strrep("GCT", 4), "ACTACT")
+  rows <- make_shm_rows(c(sequence, strrep("NNN", 7)), rep(germline, 2))
+  rows$clone_id <- "A"
+  annotated <- annotate_ig_shm(make_shm_idata(rows), by = NULL)
+  actual <- collect_shm(annotated)
+  testthat::expect_equal(actual$mu_count, c(3L, 0L))
+  testthat::expect_equal(actual$mu_count_v, c(1L, 0L))
+  testthat::expect_equal(actual$mu_count_v_r, c(1L, 0L))
+  testthat::expect_equal(actual$mu_count_v_s, c(0L, 0L))
+  testthat::expect_equal(actual$mu_freq_v, c(1 / 15, NA_real_))
+  testthat::expect_equal(actual$mu_freq_v_r, c(1 / 15, NA_real_))
+  testthat::expect_equal(actual$cdr3_start, c(16L, 16L))
+  result <- airr_ig_shm(annotated) |>
+    dplyr::filter(region == "v", mutation == "total", measure == "freq")
+  testthat::expect_equal(result$n_valid, 1)
+  testthat::expect_equal(result$sequence_mean, 1 / 15)
+  testthat::expect_equal(result$clone_mean_mean, 1 / 15)
+})
 
 
 testthat::test_that("SHM annotation preserves ImmunData rows, metadata, schema, and laziness", {

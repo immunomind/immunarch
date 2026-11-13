@@ -4,7 +4,7 @@
 #'
 #' `r lifecycle::badge("experimental")`
 #'
-#' Calculate overall and AIRR-region somatic-hypermutation counts and
+#' Calculate overall, V-region, and AIRR-region somatic-hypermutation counts and
 #' frequencies from aligned observed and reconstructed germline sequences.
 #'
 #' The input must contain the columns selected by `sequence_col` and
@@ -68,7 +68,8 @@
 #'
 #' @return [immundata::ImmunData]. The input rows with combined `mu_count` and
 #'   `mu_freq` columns plus replacement and silent counts and frequencies
-#'   overall, across all CDRs, across all framework regions, and for each
+#'   overall, across the V region (FWR1 through FWR3), across all CDRs,
+#'   across all framework regions, and for each
 #'   individual region. When grouping is enabled, the result also includes
 #'   `mu_freq_median`, `mu_freq_mean`, and `mu_freq_n` on every row.
 #'
@@ -170,6 +171,8 @@ annotate_ig_shm_impl <- function(
 
   shm_output_cols <- c(
     "mu_count", "mu_freq",
+    "mu_count_v", "mu_freq_v", "mu_count_v_r", "mu_count_v_s",
+    "mu_freq_v_r", "mu_freq_v_s",
     paste0(
       c("mu_count", "mu_count", "mu_freq", "mu_freq"),
       rep(c("", "_cdr", "_fwr"), each = 4L),
@@ -463,7 +466,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
   SELECT imd_chain_id, flatten(region_codons) AS codon_values
   FROM nested_codons")
 
-  aggregate_fields <- function(label, selected_regions = NULL) {
+  aggregate_fields <- function(label, selected_regions = NULL, total = FALSE) {
     filter <- if (is.null(selected_regions)) {
       ""
     } else {
@@ -476,7 +479,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
     denominator <- paste0("sum(denominator)", filter)
     r_count <- paste0("sum(r_count)", filter)
     s_count <- paste0("sum(s_count)", filter)
-    paste0(
+    fields <- paste0(
       "CASE WHEN ", available, " = 0 THEN NULL::BIGINT ELSE ", r_count,
       "::BIGINT END AS mu_count", label, "_r, ",
       "CASE WHEN ", available, " = 0 THEN NULL::BIGINT ELSE ", s_count,
@@ -486,6 +489,16 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
       "CASE WHEN coalesce(", denominator, ", 0) = 0 THEN NULL::DOUBLE ELSE ",
       s_count, "::DOUBLE / ", denominator, " END AS mu_freq", label, "_s"
     )
+    if (total) {
+      total_count <- paste0("sum(r_count + s_count)", filter)
+      fields <- paste0(
+        "CASE WHEN ", available, " = 0 THEN NULL::BIGINT ELSE ", total_count,
+        "::BIGINT END AS mu_count", label, ", ",
+        "CASE WHEN coalesce(", denominator, ", 0) = 0 THEN NULL::DOUBLE ELSE ",
+        total_count, "::DOUBLE / ", denominator, " END AS mu_freq", label, ", ", fields
+      )
+    }
+    fields
   }
   regional_fields <- unlist(lapply(regions, function(region) {
     c(
@@ -513,6 +526,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
     "CASE WHEN coalesce(sum(denominator), 0) = 0 THEN NULL::DOUBLE
       ELSE sum(r_count + s_count)::DOUBLE / sum(denominator) END AS mu_freq",
     aggregate_fields(""),
+    aggregate_fields("_v", regions[1:5], total = TRUE),
     aggregate_fields("_cdr", paste0("cdr", 1:3)),
     aggregate_fields("_fwr", paste0("fwr", 1:4)),
     regional_fields

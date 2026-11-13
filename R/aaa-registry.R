@@ -165,7 +165,8 @@ im_method <- function(
         !is.null(idata$repertoires)) {
         rep_col <- immundata::imd_schema("repertoire")
         if (!is.null(rep_col) && rep_col %in% names(out)) {
-          out <- dplyr::left_join(out, idata$repertoires |> select(all_of(c(rep_col, idata$schema_repertoire))), by = rep_col)
+          metadata_cols <- c(rep_col, setdiff(idata$schema_repertoire, names(out)))
+          out <- dplyr::left_join(out, idata$repertoires |> select(all_of(metadata_cols)), by = rep_col)
         }
       }
 
