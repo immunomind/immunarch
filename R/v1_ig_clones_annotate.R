@@ -210,6 +210,10 @@ annotate_ig_clones_impl <- function(
   clone_col = "clone_id"
 ) {
   check_normalized_threshold <- function(threshold, argument) {
+    if (is.null(threshold)) {
+      cli::cli_abort("{.arg {argument}} must be a numeric scalar or a threshold table.")
+    }
+
     if (is.data.frame(threshold) || !is.numeric(threshold) ||
       length(threshold) != 1L) {
       return(invisible())

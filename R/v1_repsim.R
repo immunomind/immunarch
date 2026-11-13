@@ -376,12 +376,12 @@ repsim_chao_jaccard_impl <- function(idata) {
   repertoire_ids_tbl <- idata$repertoires |>
     dplyr::select(dplyr::all_of(repertoire_id_col))
 
-  # Singleton and doubleton status applies after counts for duplicate receptor
-  # rows are combined. Keep this reusable projection inside DuckDB.
+  # imd_count repeats the receptor/repertoire aggregate on every row, so keep
+  # one count per receptor. Keep this reusable projection inside DuckDB.
   receptor_abundances <- idata$annotations |>
     dplyr::select(dplyr::all_of(required_cols)) |>
     dplyr::summarise(
-      abundance = sum(!!rlang::sym(count_col)),
+      abundance = max(!!rlang::sym(count_col)),
       .by = dplyr::all_of(c(receptor_id_col, repertoire_id_col))
     ) |>
     dplyr::filter(.data$abundance > 0) |>

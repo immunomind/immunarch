@@ -110,11 +110,13 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
     )",
     .con = con
   )
+  n_sql <- glue::glue_sql("COUNT(*) OVER (PARTITION BY {`rep_str`})", .con = con)
 
   ranked <- base_tbl |>
     dplyr::mutate(
       k   = dbplyr::sql(k_sql),
-      cum = dbplyr::sql(cum_sql)
+      cum = dbplyr::sql(cum_sql),
+      n = dbplyr::sql(n_sql)
     ) |>
     duckplyr::as_duckdb_tibble()
 
@@ -130,7 +132,10 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
       thresholds |> dplyr::mutate(.join_key = 1L),
       by = ".join_key"
     ) |>
-    dplyr::filter(.data$cum >= .data$perc / 100) |>
+    dplyr::filter(
+      cum >= perc / 100 - 8 * .Machine$double.eps &
+        (perc != 100 | k == n)
+    ) |>
     dplyr::group_by(!!rep_sym, .data$perc, .data$perc_id) |>
     dplyr::summarise(dxx = min(.data$k), .groups = "drop") |>
     dplyr::select(dplyr::all_of(c(rep_str, "perc", "dxx"))) |>
@@ -193,10 +198,10 @@ airr_diversity_chao1_impl <- function(idata) {
     mutate(ch = lapply(counts, chao1)) |>
     transmute(
       !!rep_col := !!rep_sym,
-      Estimator = vapply(ch, function(x) unname(x["Estimator.1"]), numeric(1)),
-      SD = vapply(ch, function(x) unname(x["SD.2"]), numeric(1)),
-      `Conf.95.lo` = vapply(ch, function(x) unname(x["Conf.95.lo.1"]), numeric(1)),
-      `Conf.95.hi` = vapply(ch, function(x) unname(x["Conf.95.hi.1"]), numeric(1))
+      Estimator = vapply(ch, function(x) unname(x[[1]]), numeric(1)),
+      SD = vapply(ch, function(x) unname(x[[2]]), numeric(1)),
+      `Conf.95.lo` = vapply(ch, function(x) unname(x[[3]]), numeric(1)),
+      `Conf.95.hi` = vapply(ch, function(x) unname(x[[4]]), numeric(1))
     ) |>
     collect()
 }

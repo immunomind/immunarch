@@ -1,8 +1,27 @@
+read_chao_repsim_idata <- function(receptor_counts) {
+  input <- tempfile(fileext = ".tsv")
+  output <- tempfile("chao-repsim-")
+  withr::defer(unlink(c(input, output), recursive = TRUE),
+               envir = testthat::teardown_env())
+  readr::write_tsv(receptor_counts, input)
+
+  immundata::read_repertoires(
+    input,
+    schema = immundata::make_receptor_schema(features = "receptor"),
+    count_col = "count",
+    repertoire_schema = "repertoire",
+    output_folder = output,
+    preprocess = NULL,
+    postprocess = NULL,
+    rename_columns = NULL,
+    verbose = FALSE
+  )
+}
+
 test_that("repsim_chao_jaccard matches hard-coded vegan similarities", {
   receptor_counts <- tibble::tribble(
     ~receptor, ~repertoire, ~count,
-    "r1", "A", 6,
-    "r1", "A", 4,
+    "r1", "A", 10,
     "r2", "A", 4,
     "r3", "A", 2,
     "r4", "A", 1,
@@ -13,8 +32,7 @@ test_that("repsim_chao_jaccard matches hard-coded vegan similarities", {
     "r2", "B", 1,
     "r3", "B", 2,
     "r4", "B", 1,
-    "r6", "B", 3,
-    "r6", "B", 5,
+    "r6", "B", 8,
     "r7", "B", 1,
     "r8", "B", 0,
     "r1", "C", 1,
@@ -28,7 +46,7 @@ test_that("repsim_chao_jaccard matches hard-coded vegan similarities", {
   )
 
   observed <- repsim_chao_jaccard(
-    make_repsim_idata(receptor_counts)
+    read_chao_repsim_idata(receptor_counts)
   )
 
   # Generated once with vegan 2.7-5:
@@ -64,7 +82,7 @@ test_that("repsim_chao_jaccard handles pairs without shared doubletons", {
   )
 
   observed <- repsim_chao_jaccard(
-    make_repsim_idata(receptor_counts)
+    read_chao_repsim_idata(receptor_counts)
   )
 
   # Hard-coded output from vegan::vegdist(..., method = "chao"), converted
