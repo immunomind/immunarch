@@ -78,6 +78,9 @@ vis_airr_diversity_rarefaction_impl <- function(.data,
 
   has_ci <- all(c("q_low", "q_high") %in% names(.data))
   has_type <- "type" %in% names(.data)
+  rep_col <- immundata::imd_schema("repertoire")
+  group_col <- if (rep_col %in% names(.data)) rep_col else color
+  group_sym <- rlang::sym(group_col)
   plot_data <- .data
   plot_data[[color]] <- as.character(plot_data[[color]])
 
@@ -85,8 +88,16 @@ vis_airr_diversity_rarefaction_impl <- function(.data,
     plot_data$type <- factor(plot_data$type, levels = c("interpolation", "extrapolation"))
   }
 
-  is_norm <- max(plot_data$size, na.rm = TRUE) <= 1 + sqrt(.Machine$double.eps) &&
-    max(plot_data$mean, na.rm = TRUE) <= 1 + sqrt(.Machine$double.eps)
+  is_norm <- attr(.data, "rarefaction_norm", exact = TRUE)
+  x_label <- "Sample size"
+  y_label <- "Estimated richness"
+  if (isTRUE(is_norm)) {
+    x_label <- "Sample size (relative to observed)"
+    y_label <- "Estimated richness (relative to observed)"
+  } else if (identical(is_norm, FALSE)) {
+    x_label <- "Sample size (clones)"
+    y_label <- "Estimated richness (unique receptors)"
+  }
 
   p <- ggplot2::ggplot(
     plot_data,
@@ -94,7 +105,7 @@ vis_airr_diversity_rarefaction_impl <- function(.data,
       x = .data$size,
       y = .data$mean,
       colour = .data[[color]],
-      group = if (has_type) interaction(.data[[color]], .data$type, drop = TRUE) else .data[[color]]
+      group = if (has_type) interaction(!!group_sym, .data$type, drop = TRUE) else !!group_sym
     )
   )
 
@@ -111,7 +122,7 @@ vis_airr_diversity_rarefaction_impl <- function(.data,
         ymin = .data$q_low,
         ymax = .data$q_high,
         fill = .data[[color]],
-        group = .data[[color]]
+        group = !!group_sym
       ),
       inherit.aes = FALSE,
       alpha = 0.15,
@@ -120,15 +131,27 @@ vis_airr_diversity_rarefaction_impl <- function(.data,
   }
 
   if (has_type) {
-    p <- p + ggplot2::geom_line(ggplot2::aes(linetype = .data$type), linewidth = 0.8, na.rm = TRUE)
+    extrapolated <- which(plot_data$type == "extrapolation")
+    extrapolated_ids <- unique(plot_data[[group_col]][extrapolated])
+    observed_rows <- which(
+      plot_data$type == "interpolation" & plot_data[[group_col]] %in% extrapolated_ids
+    )
+    observed <- plot_data[observed_rows, ] |>
+      dplyr::slice_max(size, by = all_of(group_col), with_ties = FALSE)
+    observed$type[] <- "extrapolation"
+
+    p <- p + ggplot2::geom_line(
+      ggplot2::aes(linetype = .data$type),
+      data = dplyr::bind_rows(plot_data, observed),
+      linewidth = 0.8, na.rm = TRUE
+    )
   } else {
     p <- p + ggplot2::geom_line(linewidth = 0.8, na.rm = TRUE)
   }
 
   p <- p +
     ggplot2::ggtitle("Rarefaction analysis") +
-    ggplot2::xlab(if (is_norm) "Sample size (proportion of clones)" else "Sample size (clones)") +
-    ggplot2::ylab(if (is_norm) "Estimated richness (relative to observed)" else "Estimated richness (unique receptors)")
+    ggplot2::labs(x = x_label, y = y_label)
 
   if (isTRUE(log)) {
     p <- p + ggplot2::scale_x_log10()

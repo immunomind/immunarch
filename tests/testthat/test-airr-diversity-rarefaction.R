@@ -81,6 +81,86 @@ test_that("airr_diversity_rarefaction supports extrapolation and vis()", {
 })
 
 
+test_that("rarefaction plots separate repertoires and join both curve segments", {
+  idata <- make_track_idata(
+    tibble::tibble(
+      sample = rep(c("R1", "R2"), each = 3),
+      group = "shared",
+      receptor = letters[1:6],
+      abundance = c(3L, 1L, 1L, 4L, 1L, 1L)
+    ),
+    repertoires = c("sample", "group"),
+    features = "receptor"
+  )
+
+  set.seed(77)
+  curves <- airr_diversity_rarefaction(
+    idata, step = 10, extrapolation = 8, nboot = 2, norm = FALSE, verbose = FALSE
+  )
+  built <- ggplot2::ggplot_build(vis(curves, color = "group"))
+  lines <- built$data[[2]]
+  segments <- split(lines$x, lines$group)
+
+  expect_equal(
+    sort(vapply(segments, paste, character(1), collapse = ",", USE.NAMES = FALSE)),
+    c("1,5", "1,6", "5,8", "6,8")
+  )
+  expect_length(unique(lines$colour), 1)
+  expect_length(unique(built$data[[1]]$group), 2)
+})
+
+
+test_that("rarefaction plots label normalized, raw, and older results", {
+  idata <- make_track_idata(
+    tibble::tibble(sample = "R1", receptor = "r1", abundance = 1L),
+    features = "receptor"
+  )
+  normalized <- airr_diversity_rarefaction(idata, nboot = 0, verbose = FALSE, autojoin = TRUE)
+  raw <- airr_diversity_rarefaction(
+    idata, extrapolation = 0, nboot = 0, norm = FALSE, verbose = FALSE, autojoin = FALSE
+  )
+
+  expect_equal(max(normalized$size), 2)
+  expect_equal(vis(normalized)$labels$x, "Sample size (relative to observed)")
+  expect_equal(vis(normalized)$labels$y, "Estimated richness (relative to observed)")
+  expect_equal(vis(raw)$labels$x, "Sample size (clones)")
+  expect_equal(vis(raw)$labels$y, "Estimated richness (unique receptors)")
+
+  attr(raw, "rarefaction_norm") <- NULL
+  expect_equal(vis(raw)$labels$x, "Sample size")
+  expect_equal(vis(raw)$labels$y, "Estimated richness")
+})
+
+
+test_that("rarefaction bounds its automatic grid across different sampling depths", {
+  idata <- make_track_idata(
+    tibble::tibble(
+      sample = c("shallow", "shallow", "deep", "deep", "deep"),
+      receptor = letters[1:5],
+      abundance = c(7L, 3L, 999998L, 1L, 1L)
+    ),
+    features = "receptor"
+  )
+
+  curves <- airr_diversity_rarefaction(idata, nboot = 0, norm = FALSE, verbose = FALSE)
+  shallow <- curves[curves$sample == "shallow", ]
+  deep <- curves[curves$sample == "deep", ]
+
+  expect_lte(nrow(deep), 150)
+  expect_equal(shallow$size[shallow$type == "interpolation"], 1:10)
+  expect_equal(deep$size[deep$size <= 10], 1:10)
+  expect_equal(deep$type[deep$size == 1e6], "interpolation")
+  expect_equal(deep$mean[deep$size == 1e6], 3)
+  expect_equal(max(deep$size), 2e6)
+  expect_equal(max(shallow$size), 20)
+
+  explicit <- airr_diversity_rarefaction(
+    idata, step = 3e5, extrapolation = 1450000, nboot = 0, norm = FALSE, verbose = FALSE
+  )
+  expect_equal(explicit$size[explicit$sample == "deep"], c(1, 3e5, 6e5, 9e5, 1e6, 13e5, 1450000))
+})
+
+
 test_that("Chao1 and rarefaction are consistent at interpolation/extrapolation boundaries", {
 
   idata <- make_aggregated_test_idata()

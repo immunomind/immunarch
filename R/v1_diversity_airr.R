@@ -403,7 +403,8 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
     )
     out[[rep_col]] <- numeric(0)
     return(out |>
-      dplyr::select(all_of(c(rep_col, "size", "q_low", "mean", "q_high", "type"))))
+      dplyr::select(all_of(c(rep_col, "size", "q_low", "mean", "q_high", "type"))) |>
+      structure(rarefaction_norm = isTRUE(norm)))
   }
 
   counts_split <- counts_tbl |>
@@ -435,8 +436,12 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
   })
 
   total_counts <- vapply(counts_split$counts, sum, numeric(1))
+  default_sizes <- function(from, to) {
+    unique(floor(seq(from, to, length.out = min(50, to - from + 1))))
+  }
   if (is.na(step)) {
-    step <- max(1, floor(min(total_counts) / 50))
+    shared_depth <- min(total_counts)
+    shared_sizes <- default_sizes(1, shared_depth)
   }
 
   if (isTRUE(verbose)) {
@@ -448,7 +453,7 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
   res_list <- lapply(seq_len(nrow(counts_split)), function(i) {
     repertoire_id <- counts_split[[rep_col]][i]
     counts <- counts_split$counts[[i]]
-    n <- sum(counts)
+    n <- total_counts[i]
     observed_richness <- length(counts)
 
     max_bootstrap_size <- .Machine$integer.max
@@ -459,7 +464,9 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
     }
 
     interpolation_sizes <- 1
-    if (step <= n) {
+    if (is.na(step)) {
+      interpolation_sizes <- c(shared_sizes, default_sizes(shared_depth, n)[-1L])
+    } else if (step <= n) {
       interpolation_sizes <- c(interpolation_sizes, seq(step, n, by = step))
     }
     interpolation_sizes <- sort(unique(c(interpolation_sizes, n)))
@@ -467,7 +474,9 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
     extrapolation_limit <- if (is.na(extrapolation)) 2 * n else extrapolation
     extrapolation_sizes <- numeric(0)
     if (extrapolation_limit > n) {
-      if (n + step <= extrapolation_limit) {
+      if (is.na(step)) {
+        extrapolation_sizes <- default_sizes(n, extrapolation_limit)[-1L]
+      } else if (n + step <= extrapolation_limit) {
         extrapolation_sizes <- seq(n + step, extrapolation_limit, by = step)
       }
       extrapolation_sizes <- sort(unique(c(
@@ -526,7 +535,8 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
   })
 
   dplyr::bind_rows(res_list) |>
-    dplyr::arrange(!!rlang::sym(rep_col), .data$size, .data$type)
+    dplyr::arrange(!!rlang::sym(rep_col), .data$size, .data$type) |>
+    structure(rarefaction_norm = isTRUE(norm))
 }
 
 #' @description
@@ -543,7 +553,9 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
 #' distribution. Clonotype counts must be positive integers.
 #'
 #' @param step A whole number greater than or equal to `1`, or `NA`. The default,
-#'   `NA`, uses `floor(min_total_clones / 50)`, lower-bounded by `1`.
+#'   `NA`, uses up to 50 evenly spaced points through the smallest observed
+#'   depth. Each repertoire gets up to 50 points for each remaining interpolation
+#'   and extrapolation interval.
 #' @param quantile A numeric vector of length 2 containing confidence
 #'   probabilities strictly between `0` and `1`.
 #' @param extrapolation A nonnegative whole number or `NA` giving the upper size

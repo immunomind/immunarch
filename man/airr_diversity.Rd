@@ -75,7 +75,9 @@ columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unm
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
 \item{step}{A whole number greater than or equal to \code{1}, or \code{NA}. The default,
-\code{NA}, uses \code{floor(min_total_clones / 50)}, lower-bounded by \code{1}.}
+\code{NA}, uses up to 50 evenly spaced points through the smallest observed
+depth. Each repertoire gets up to 50 points for each remaining interpolation
+and extrapolation interval.}
 
 \item{quantile}{A numeric vector of length 2 containing confidence
 probabilities strictly between \code{0} and \code{1}.}
