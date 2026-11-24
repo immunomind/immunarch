@@ -6,13 +6,13 @@ make_immunarch_features <- function(ires, method_name = NULL, feature_col = NULL
 
   to_rename <- c("feature" = feature_col, "value" = value_col)
 
-  if (is.null(method_name)) {
+  if (!is.null(method_name)) {
     ires <- ires |>
-      mutate(method = method_name)
+      mutate(method = !!method_name)
   }
 
   ires |>
-    rename(to_rename)
+    rename(all_of(to_rename))
 }
 
 immunarch_methods <- function(family_name = NULL) {
@@ -20,7 +20,8 @@ immunarch_methods <- function(family_name = NULL) {
 
   if (is.null(family_name)) {
     ls(IMMUNARCH_METHOD_REGISTRY)
-  } else if (family_name %in% IMMUNARCH_METHOD_REGISTRY) {
+  } else if (nzchar(family_name) &&
+    exists(family_name, envir = IMMUNARCH_METHOD_REGISTRY, inherits = FALSE)) {
     ls(IMMUNARCH_METHOD_REGISTRY[[family_name]])
   } else {
     cli::cli_abort("No such family name: {family_name}")
