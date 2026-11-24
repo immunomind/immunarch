@@ -133,8 +133,8 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
       by = ".join_key"
     ) |>
     dplyr::filter(
-      cum >= perc / 100 - 8 * .Machine$double.eps &
-        (perc != 100 | k == n)
+      (perc == 100 & k == n) |
+        (perc < 100 & cum >= perc / 100 - 8 * .Machine$double.eps)
     ) |>
     dplyr::group_by(!!rep_sym, .data$perc, .data$perc_id) |>
     dplyr::summarise(dxx = min(.data$k), .groups = "drop") |>

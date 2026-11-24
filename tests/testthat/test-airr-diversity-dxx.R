@@ -45,3 +45,21 @@ test_that("airr_diversity_dxx computes several coverage thresholds", {
     )
   )
 })
+
+
+test_that("airr_diversity_dxx keeps full coverage when cumulative proportions round down", {
+  counts <- c(17160L, rep(1L, 440L))
+  idata <- make_track_idata(
+    tibble::tibble(
+      sample = "R1",
+      receptor = paste0("r", seq_along(counts)),
+      abundance = counts
+    ),
+    features = "receptor"
+  )
+
+  out <- airr_diversity_dxx(idata, perc = c(50, 100), autojoin = FALSE)
+
+  expect_equal(out$perc, c(50, 100))
+  expect_equal(out$dxx, c(1, length(counts)))
+})
