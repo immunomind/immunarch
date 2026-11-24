@@ -262,8 +262,8 @@ chao1 <- function(.data) {
   D <- length(.data)
   f1 <- counts["1"]
   f2 <- counts["2"]
-  # f1 == 0 && f2 == 0
-  if (is.na(f1) && is.na(f2)) {
+  # No singletons
+  if (is.na(f1)) {
     e <- D
     i <- unique(.data)
     v <- sum(sapply(i, function(i) sum(.data == i) * (exp(-i) - exp(-2 * i)))) - (sum(sapply(i, function(i) i * exp(-i) * sum(.data == i))))^2 / n
