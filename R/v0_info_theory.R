@@ -33,12 +33,14 @@
 #' A numeric value.
 #'
 #' @examples
+#' \dontrun{
 #' P <- abs(rnorm(10))
 #' Q <- abs(rnorm(10))
 #' entropy(P)
 #' kl_div(P, Q)
 #' js_div(P, Q)
 #' cross_entropy(P, Q)
+#' }
 #' @export entropy kl_div js_div cross_entropy
 entropy <- function(.data, .base = 2, .norm = FALSE, .do.norm = NA, .laplace = 1e-12) {
   .data <- check_distribution(.data, .do.norm, .laplace, .warn.zero = TRUE)

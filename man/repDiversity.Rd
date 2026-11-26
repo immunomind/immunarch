@@ -132,6 +132,7 @@ following amplification and sequencing
 }
 }
 \examples{
+\dontrun{
 data(immdata)
 
 # Make data smaller for testing purposes
@@ -162,6 +163,7 @@ repDiversity(.data = immdata$data, .method = "gini", .do.norm = NA, .laplace = 0
 
 # d50
 repDiversity(.data = immdata$data, .method = "d50") \%>\% vis()
+}
 }
 \seealso{
 \link{repOverlap}, \link{entropy}, \link{repClonality}

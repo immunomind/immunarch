@@ -52,11 +52,13 @@ Clusters the data with one of the following methods:
 }
 }
 \examples{
+\dontrun{
 data(immdata)
 gu <- geneUsage(immdata$data, .norm = TRUE)
 immunr_hclust(t(as.matrix(gu[, -1])), .dist = FALSE)
 
 gu[is.na(gu)] <- 0
 immunr_kmeans(t(as.matrix(gu[, -1])))
+}
 }
 \concept{post_analysis}

@@ -15,7 +15,6 @@
 #'
 #' @concept preprocessing
 #'
-#' @importFrom Rcpp cppFunction
 #' @importFrom stats rmultinom
 #' @importFrom dplyr tally
 #'
@@ -67,6 +66,7 @@
 #' @seealso [rmultinom], [clonal_proportion]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' # Downsampling to 1000 clones (not clonotypes!)
 #' tmp <- repSample(immdata$data[[1]], .n = 1000)
@@ -85,6 +85,7 @@
 #' tmp <- repSample(immdata$data[c(1, 2)], "sample")
 #' nrow(tmp[[1]]$Clones)
 #' nrow(tmp[[2]]$Clones)
+#' }
 #' @export repSample
 repSample <- function(.data, .method = c("downsample", "resample", "sample"), .n = NA, .prob = TRUE) {
   .method <- .method[1]
@@ -156,35 +157,8 @@ resample <- function(.data, .n) {
 
 downsample_col <- function(.data, .n) {
   read_vec <- collect(select(.data, IMMCOL$count), n = Inf)[[1]]
-  read_indices <- rep(0, sum(read_vec))
-  # Rcpp::cppFunction(
-  #   '
-  #   NumericVector fill_vec(NumericVector read_vec, NumericVector read_indices) {
-  #     int dummy = 0;
-  #     for (int i = 0; i < read_vec.size(); i++) {
-  #     for (int j = dummy; j < (read_vec[i] + dummy); j++) {
-  #     read_indices[j] = i;
-  #     }
-  #     dummy = dummy + read_vec[i];
-  #     }
-  #     return read_indices;
-  #   }
-  #   '
-  # )
-  read_indices <- fill_vec(read_vec, read_indices)
-  new_counts <- sample(read_indices, .n)
-  new_reads <- rep(0, length(read_vec))
-  # Rcpp::cppFunction(
-  #   '
-  #   NumericVector fill_reads(NumericVector new_reads, NumericVector new_counts) {
-  #     for (int i = 0; i < new_counts.size(); i++) {
-  #     new_reads[new_counts[i]] = new_reads[new_counts[i]] + 1;
-  #     }
-  #     return new_reads;
-  #   }
-  #   '
-  # )
-  fill_reads(new_reads, new_counts)
+  read_indices <- rep.int(seq_along(read_vec), read_vec)
+  as.numeric(tabulate(sample(read_indices, .n), nbins = length(read_vec)))
 }
 
 downsample <- function(.data, .n) {

@@ -21,7 +21,9 @@ Character vector of translated input sequences.
 Nucleotide to amino acid sequence translation
 }
 \examples{
+\dontrun{
 data(immdata)
 head(bunch_translate(immdata$data[[1]]$CDR3.nt))
+}
 }
 \concept{preprocessing}

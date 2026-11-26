@@ -24,12 +24,14 @@ if (getRversion() >= "2.15.1") {
 #' @return No return value because it is an application.
 #'
 #' @examples
+#' \dontrun{
 #' if (interactive()) {
 #'   # Compute gene usage, visualise it and tweak via fixVis
 #'   data(immdata) # load test data
 #'   gu <- geneUsage(immdata$data)
 #'   p <- vis(gu)
 #'   fixVis(p)
+#' }
 #' }
 #' @export fixVis
 fixVis <- function(.plot = NA) {

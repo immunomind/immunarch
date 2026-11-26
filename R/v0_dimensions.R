@@ -68,6 +68,7 @@ default_scale_fun <- function(x) {
 #' @seealso [vis.immunr_pca] for visualisations.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' gu <- geneUsage(immdata$data)
 #' gu[is.na(gu)] <- 0
@@ -75,6 +76,7 @@ default_scale_fun <- function(x) {
 #' immunr_pca(gu)
 #' immunr_mds(dist(gu))
 #' immunr_tsne(dist(gu))
+#' }
 #' @export immunr_pca immunr_mds immunr_tsne
 immunr_pca <- function(.data, .scale = default_scale_fun, .raw = TRUE, .orig = FALSE, .dist = FALSE) {
   if (.dist) {

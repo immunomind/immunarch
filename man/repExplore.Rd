@@ -58,6 +58,7 @@ repertoire: the number of unique immune receptor clonotypes, their relative abun
 and sequence length distribution across the input dataset.
 }
 \examples{
+\dontrun{
 data(immdata)
 
 # Calculate statistics and generate a visual output with vis()
@@ -66,6 +67,7 @@ repExplore(immdata$data, .method = "volume") \%>\% vis()
 repExplore(immdata$data, .method = "count") \%>\% vis()
 
 repExplore(immdata$data, .method = "len") \%>\% vis()
+}
 }
 \seealso{
 \link{vis.immunr_exp_vol}

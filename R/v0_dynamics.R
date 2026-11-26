@@ -52,6 +52,7 @@
 #' @return Data frame with input sequences and counts or proportions for each of the input repertoire.
 #'
 #' @examples
+#' \dontrun{
 #' # Load an example data that comes with immunarch
 #' data(immdata)
 #'
@@ -98,6 +99,7 @@
 #' immdata$meta$Sample[sample_order]
 #' # And finally, we visualise the data:
 #' vis(tc, .order = sample_order)
+#' }
 #' @export trackClonotypes
 trackClonotypes <- function(.data, .which = list(1, 15), .col = "aa", .norm = TRUE) {
   .validate_repertoires_data(.data)

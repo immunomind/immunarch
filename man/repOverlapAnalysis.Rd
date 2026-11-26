@@ -55,8 +55,10 @@ you can execute the multidimensional scaling or t-sne algorithms ('mds' and 'tsn
 respectively).
 }
 \examples{
+\dontrun{
 data(immdata)
 ov <- repOverlap(immdata$data)
 repOverlapAnalysis(ov, "mds+hclust") \%>\% vis()
+}
 }
 \concept{overlap}

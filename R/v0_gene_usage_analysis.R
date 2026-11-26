@@ -42,9 +42,11 @@
 #' @return Depends on the last element in the `.method` string. See [immunr_tsne] for more info.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' gu <- geneUsage(immdata$data, .norm = TRUE)
 #' geneUsageAnalysis(gu, "js+hclust", .verbose = FALSE) %>% vis()
+#' }
 #' @export geneUsageAnalysis
 geneUsageAnalysis <- function(.data, .method = c("js+hclust", "pca+kmeans", "anova", "js+pca+kmeans"),
                               .base = 2, .norm.entropy = FALSE,

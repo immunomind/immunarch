@@ -21,9 +21,11 @@
 #' Data frame with the `.n` most abundant clonotypes only.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' top(immdata$data)
 #' top(immdata$data[[1]])
+#' }
 #' @export top
 top <- function(.data, .n = 10) {
   if (has_class(.data, "list")) {
@@ -78,9 +80,11 @@ top <- function(.data, .n = 10) {
 #' Filtered data frame.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata_cod <- coding(immdata$data)
 #' immdata_cod1 <- coding(immdata$data[[1]])
+#' }
 #' @export coding noncoding inframes outofframes
 coding <- function(.data) {
   if (has_class(.data, "list")) {

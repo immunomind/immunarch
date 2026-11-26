@@ -6,34 +6,21 @@
 \alias{annotate_clonality_prop}
 \title{Annotate clonality - per-receptor labels for overabundance}
 \usage{
-annotate_clonality_rank(
-  idata,
-  bins = c(10, 30, 100, 300, 1000, 10000, 1e+05),
-  autojoin = getOption("immundata.autojoin", TRUE),
-  format = c("long", "wide")
-)
+annotate_clonality_rank(idata, bins = c(10, 30, 100, 300, 1000, 10000, 1e+05))
 
 annotate_clonality_prop(
   idata,
   bins = c(Hyperexpanded = 0.01, Large = 0.001, Medium = 1e-04, Small = 1e-05, Rare =
-    1e-06),
-  autojoin = getOption("immundata.autojoin", TRUE),
-  format = c("long", "wide")
+    1e-06)
 )
 }
 \arguments{
 \item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{bins}{A \strong{named} numeric vector of thresholds (e.g.,
+\item{bins}{A named numeric vector of thresholds (e.g.,
 \code{c(Hyperexpanded = 1e-2, Large = 1e-3, ...)}). Names become bin labels and
-must be non-empty. Internally sorted in descending order.}
-
-\item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
-Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
-
-\item{format}{String. One of \code{"long"} ("long" tibble with \code{imd_repertoire_id}, facet
-columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
-with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
+must be non-empty. Internally sorted in descending order for assignment.
+Result rows follow the supplied bin order, with \code{"Ultra-rare"} last.}
 }
 \value{
 An \link[immundata:ImmunData]{immundata::ImmunData} whose \verb{$annotations} gains:

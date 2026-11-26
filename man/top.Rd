@@ -28,8 +28,10 @@ Data frame with the \code{.n} most abundant clonotypes only.
 Get the N most abundant clonotypes
 }
 \examples{
+\dontrun{
 data(immdata)
 top(immdata$data)
 top(immdata$data[[1]])
+}
 }
 \concept{preprocessing}

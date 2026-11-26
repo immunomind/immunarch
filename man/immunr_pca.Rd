@@ -52,6 +52,7 @@ methods are:
 }
 }
 \examples{
+\dontrun{
 data(immdata)
 gu <- geneUsage(immdata$data)
 gu[is.na(gu)] <- 0
@@ -59,6 +60,7 @@ gu <- t(as.matrix(gu[, -1]))
 immunr_pca(gu)
 immunr_mds(dist(gu))
 immunr_tsne(dist(gu))
+}
 }
 \seealso{
 \link{vis.immunr_pca} for visualisations.

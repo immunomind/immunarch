@@ -212,8 +212,10 @@ matrixdiagcopy <- function(.mat) {
 #' Character vector of translated input sequences.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' head(bunch_translate(immdata$data[[1]]$CDR3.nt))
+#' }
 #' @export
 bunch_translate <- function(.seq, .two.way = TRUE, .ignore.n = FALSE) {
   .seq <- toupper(.seq)
@@ -365,10 +367,12 @@ rename_column <- function(.data, .old, .new) {
 #' @return Matrix with values M(i,j) = fun(datalist(i), datalist(j))
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' apply_symm(immdata$data, function(x, y) {
 #'   nrow(x) + nrow(y)
 #' })
+#' }
 #' @export apply_symm apply_asymm
 apply_symm <- function(.datalist, .fun, ..., .diag = NA, .verbose = TRUE) {
   res <- matrix(0, length(.datalist), length(.datalist))

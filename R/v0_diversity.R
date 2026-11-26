@@ -9,7 +9,6 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @aliases repDiversity chao1 hill_numbers diversity_eco gini_simpson inverse_simpson gini_coef rarefaction
 #'
-#' @importFrom reshape2 melt
 #' @importFrom utils tail
 #' @importFrom dplyr mutate group_by_at pull
 #' @importFrom stats qnorm
@@ -124,6 +123,7 @@ if (getRversion() >= "2.15.1") {
 #'
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #'
 #' # Make data smaller for testing purposes
@@ -154,11 +154,15 @@ if (getRversion() >= "2.15.1") {
 #'
 #' # d50
 #' repDiversity(.data = immdata$data, .method = "d50") %>% vis()
+#' }
 #' @export repDiversity
 repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min.q = 1, .q = 5, .step = NA,
                          .quantile = c(.025, .975), .extrapolation = NA, .perc = 50,
                          .norm = TRUE, .verbose = TRUE, .do.norm = NA, .laplace = 0) {
-  lifecycle::deprecate_warn("0.10.3", "repDiversity()", details = "See `?airr_diversity()` for details on new functions.")
+  lifecycle::deprecate_warn(
+    "0.10.3", "repDiversity()",
+    details = c("See `?airr_diversity()` for details on new functions.", IMMUNARCH_LEGACY_WARNING)
+  )
 
   .method <- .method[1]
 
@@ -177,12 +181,28 @@ repDiversity <- function(.data, .method = "chao1", .col = "aa", .max.q = 6, .min
     new_class <- head(class(res[[1]]), 1)
     res <- do.call(rbind, res)
     if (.method == "hill") {
-      res <- reshape2::melt(res)
-      colnames(res) <- c("Sample", "Q", "Value")
+      sample_levels <- rownames(res)
+      res <- as.data.frame(res) %>%
+        tibble::rownames_to_column("Sample") %>%
+        tidyr::pivot_longer(
+          cols = -1,
+          names_to = "Q",
+          values_to = "Value",
+          cols_vary = "slowest"
+        )
+      res$Sample <- factor(res$Sample, levels = sample_levels)
       res$Q <- as.numeric(sapply(res$Q, stringr::str_sub, start = 2))
     } else if (.method %in% c("div", "gini.simp", "inv.simp")) {
-      res <- reshape2::melt(res)[c(1, 3)]
-      colnames(res) <- c("Sample", "Value")
+      sample_levels <- rownames(res)
+      res <- as.data.frame(res) %>%
+        tibble::rownames_to_column("Sample") %>%
+        tidyr::pivot_longer(
+          cols = -1,
+          names_to = NULL,
+          values_to = "Value",
+          cols_vary = "slowest"
+        )
+      res$Sample <- factor(res$Sample, levels = sample_levels)
     } else if (.method == "chao1") {
       colnames(res) <- c("Estimator", "SD", "Conf.95.lo", "Conf.95.hi")
     }
@@ -247,8 +267,8 @@ chao1 <- function(.data) {
   D <- length(.data)
   f1 <- counts["1"]
   f2 <- counts["2"]
-  # f1 == 0 && f2 == 0
-  if (is.na(f1) && is.na(f2)) {
+  # No singletons
+  if (is.na(f1)) {
     e <- D
     i <- unique(.data)
     v <- sum(sapply(i, function(i) sum(.data == i) * (exp(-i) - exp(-2 * i)))) - (sum(sapply(i, function(i) i * exp(-i) * sum(.data == i))))^2 / n

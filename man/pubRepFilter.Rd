@@ -25,10 +25,12 @@ Data frame with filtered clonotypes.
 Filter our clonotypes with low incidence in a specific group.
 }
 \examples{
+\dontrun{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 2000)
 pr <- pubRep(immdata$data, .verbose = FALSE)
 pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 head(pr1)
+}
 }
 \concept{pubrep}

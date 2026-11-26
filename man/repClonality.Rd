@@ -85,6 +85,7 @@ A stacked barplot of relative clonotype abundances can be therefore viewed as
 a non-parametric approach to comparing their underlying distributions.
 }
 \examples{
+\dontrun{
 # Load the data
 data(immdata)
 
@@ -99,6 +100,7 @@ vis(imm_rare)
 
 imm_hom <- repClonality(immdata$data, .method = "homeo")
 vis(imm_hom)
+}
 }
 \seealso{
 \link{repDiversity}

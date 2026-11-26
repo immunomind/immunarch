@@ -49,7 +49,6 @@
 #' @importFrom purrr map_df
 #' @importFrom purrr map_dfr
 #' @importFrom purrr map2_df
-#' @importFrom Rcpp sourceCpp
 #' @importFrom rlang .data
 #' @importFrom rlang .env
 #' @importFrom rlang as_function
@@ -64,6 +63,5 @@
 #' @importFrom utils adist
 #' @importFrom utils globalVariables
 #' @importFrom vctrs s3_register
-#' @useDynLib immunarch, .registration = TRUE
 ## usethis namespace: end
 NULL

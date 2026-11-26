@@ -17,9 +17,9 @@ vignette: >
 
 - **Immune biomarker discovery:** stratify cohorts and timepoints, derive repertoire signatures (diversity/clonality, V/J usage, similarity), and track antigen-annotated clonotypes;
 
-- **Feature engineering:** build Machine Learning-ready feature tables (receptor-, ssample- and cohort-level) from core repertoire metrics and annotations, with consistent IDs/metadata for downstream statistics or modeling;
+- **Feature engineering:** build Machine Learning-ready feature tables (receptor-, sample- and cohort-level) from core repertoire metrics and annotations, with consistent IDs/metadata for downstream statistics or modeling;
 
-- **Modular, extendable, adaptable:** add new analyses and metrics via a extension API, and use adapters to interoperate with other AIRR tools and formats.
+- **Modular, extendable, adaptable:** add new analyses and metrics via an extension API, and use adapters to interoperate with other AIRR tools and formats.
 
 
 ## 🤔 Why `immunarch`?
@@ -62,12 +62,12 @@ By taking a step back and rethinking the core "how" and "why" of AIRR analysis, 
 
 ---
 
-- 🤔 [Why `immundata`?](#-why--immundata-)
-- 📦 [Installation](#-installation)
-- ⚡ [Quick Start](#-quick-start)
-- [📄 Documentation](#-documentation)
-- [🪲 Bugs and Issues](#-bugs-and-issues)
-- 🏷 [About](#-about)
+- 🤔 [Why `immunarch`?](#why-immunarch)
+- 📦 [Installation](#installation)
+- ⚡ [Quick Start](#quick-start)
+- [📄 Documentation](#documentation)
+- [🪲 Bugs and Issues](#bugs-and-issues)
+- 🏷 [About](#about)
   - [Citation](#citation)
   - [License](#license)
   - [Author and contributors](#author-and-contributors)
@@ -119,23 +119,28 @@ pak::pkg_install("immunomind/immunarch@dev")
 install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
 
 # Install and load immunarch along with the pre-packaged data
-pak::pkg_install("immundata/immunarch")
+pak::pkg_install("immunomind/immunarch")
 library(immunarch)
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
 
-# In just 4 lines of code you get the essential AIRR statistics
-airr_stats_genes(immdata, gene_col = "v_call")
-airr_public_jaccard(immdata)
+# Calculate core AIRR statistics
+airr_desc_genes(immdata, gene_col = "v_call")
+repsim_jaccard(immdata)
 airr_clonality_prop(immdata)
 airr_diversity_pielou(immdata)
 
-# Use your own data by reading sample files from the metadata file
-mdtable <- read_metadata("data/metadata.csv")
-immdata <- read_repertoires("<metadata>", metadata = mdtable)
+# Read bulk AIRR files listed in the manifest's file column
+manifest <- read_manifest("data/manifest.csv")
+immdata <- read_repertoires(
+  "<manifest>", schema = c("cdr3_aa", "v_call"),
+  manifest = manifest, count_col = "counts"
+)
 
-# Use your own data by reading sample files directly
-mdtable <- read_metadata("data/metadata.csv")
-immdata <- read_repertoires("data/*.tsv.gz", metadata = mdtable)
+# Or specify the input files directly
+immdata <- read_repertoires(
+  "data/*.tsv.gz", schema = c("cdr3_aa", "v_call"),
+  manifest = manifest, count_col = "counts"
+)
 ```
 
 Oh, and one small thing. Even if you have tens of gigabytes of the data, you won't need to adapt the code to a server.
@@ -148,15 +153,15 @@ To get a list of available methods and their descriptions, run the default help 
 
 ```r
 # This is the same
-?airr_stats
+?airr_desc
 # as this
-?airr_stats_genes
+?airr_desc_genes
 
 # Basic statistics - gene usage, length distribution
-?airr_stats
+?airr_desc
 
-# Public receptor indices - overlap, jaccard, morisita
-?airr_public
+# Repertoire similarity - overlap, Jaccard, Morisita-Horn
+?repsim
 
 # Clonality analysis - clonal lines, occupied space, clonal space homeostasis
 ?airr_clonality
@@ -179,7 +184,7 @@ Bug reports must:
 1. Include a short, self-contained R snippet reproducing the problem. 
 2. Add a minimal data sample for us to reproduce the problem. In case of sensitive data you can send it to [support@immunomind.com](mailto:support@immunomind.com) instead of GitHub issues.
 3. Explain why the current behavior is wrong/not desired and what you expect instead.
-4. If the issue is about visualisations, please attach a picture to the issue. In other case we wouldn't be able to reproduce the bug and fix it.
+4. If the issue is about visualisations, attach a picture to help us reproduce the bug.
 
 We are always open to contributions. There are three ways to contribute:
 
@@ -211,7 +216,8 @@ BibTex:
 }
 ```
 
-For EndNote citation import the [`immunarch-citation.xml`](https://gitlab.com/immunomind/immunarch/raw/master/immunarch-citation.xml?inline=false) file.
+Get [`immunarch-citation.xml`](https://github.com/immunomind/immunarch/blob/master/immunarch-citation.xml)
+from GitHub and import it into EndNote.
 
 
 ### License

@@ -110,6 +110,7 @@ if (getRversion() >= "2.15.1") {
 #' [repOverlap], [geneUsage] and [repDiversity] for starting with immune repertoires basic statistics.
 #'
 #' @examples
+#' \dontrun{
 #' # To load the data from a single file (note that you don't need to specify the data format):
 #' file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/Sample1.tsv.gz")
 #' immdata <- repLoad(file_path)
@@ -138,9 +139,13 @@ if (getRversion() >= "2.15.1") {
 #' # > immdata <- repLoad("path/to/your/folder/")
 #' # > names(immdata)
 #' # [1] "data" "meta"
+#' }
 #' @export repLoad
 repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
-  lifecycle::deprecate_warn("0.10.3", "repLoad()", details = "See `?immundata::read_repertoires()` for details on replacement functions.")
+  lifecycle::deprecate_warn(
+    "0.10.3", "repLoad()",
+    details = c("See `?immundata::read_repertoires()` for details on replacement functions.", IMMUNARCH_LEGACY_WARNING)
+  )
 
   exclude_extensions <- c(
     "so", "exe", "bam", "fasta", "fai", "fastq", "bed", "rds", "report", "vdjca"
@@ -432,7 +437,6 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' @concept io
 #'
 #' @importFrom utils packageVersion
-#' @importFrom plyr mapvalues
 #'
 #' @description
 #'
@@ -472,7 +476,10 @@ repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
 #' @export repSave
 repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
                     .compress = TRUE) {
-  lifecycle::deprecate_warn("0.10.3", "repSave()", details = "Run `?immundata::write_immundata()` for information on new functions.")
+  lifecycle::deprecate_warn(
+    "0.10.3", "repSave()",
+    details = c("Run `?immundata::write_immundata()` for information on new functions.", IMMUNARCH_LEGACY_WARNING)
+  )
 
   .format <- .format[1]
   if (!.format %in% c("immunarch", "vdjtools")) {
@@ -488,7 +495,7 @@ repSave <- function(.data, .path, .format = c("immunarch", "vdjtools"),
   } else {
     if ("meta" %in% names(.data)) {
       ifelse(!dir.exists(.path), dir.create(.path), FALSE)
-      readr::write_tsv(.data$meta, path = paste0(.path, "/metadata.txt"))
+      readr::write_tsv(.data$meta, file = paste0(.path, "/metadata.txt"))
       for (name in names(.data$data)) {
         success <- switch(.format,
           immunarch = save_immunarch(

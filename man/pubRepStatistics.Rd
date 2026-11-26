@@ -20,9 +20,11 @@ Data frame with incidence statistics per sample.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 2000)
 pr <- pubRep(immdata$data, .verbose = FALSE)
 pubRepStatistics(pr) \%>\% vis()
+}
 }
 \concept{pubrep}

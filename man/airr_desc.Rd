@@ -5,19 +5,20 @@
 \alias{airr_desc_chains}
 \alias{airr_desc_lengths}
 \alias{airr_desc_genes}
-\title{Compute key immune repertoire statistics}
+\title{Descriptive immune repertoire statistics}
 \usage{
 airr_desc_chains(
   idata,
   locus_col = NA,
-  autojoin = getOption("immundata.autojoin", TRUE),
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
 airr_desc_lengths(
   idata,
   seq_col = "cdr3_aa",
-  autojoin = getOption("immundata.autojoin", TRUE),
+  by = NA_character_,
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 
@@ -25,16 +26,17 @@ airr_desc_genes(
   idata,
   gene_col = "v_call",
   level = c("receptor", "barcode"),
-  by = c(NA, "locus"),
-  autojoin = getOption("immundata.autojoin", TRUE),
+  by = NA_character_,
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
   format = c("long", "wide")
 )
 }
 \arguments{
-\item{idata}{An \code{ImmunData} object.}
+\item{idata}{An \link[immundata:ImmunData]{immundata::ImmunData} object.}
 
-\item{locus_col}{Column in \code{idata$annotations} that stores the locus (e.g.
-\code{"locus"}). If \code{NULL} or missing, the result is not split by locus.}
+\item{locus_col}{A single character string, \code{NA}, or \code{NULL}. The default,
+\code{NA}, uses the canonical locus column when it is available. Supply \code{NULL}
+to combine loci, or a column name to group by that column.}
 
 \item{autojoin}{Logical. If TRUE, join repertoire metadata by the schema repertoire id.
 Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE)}.}
@@ -43,50 +45,61 @@ Change the default behaviour by calling \code{options(immunarch.autojoin = FALSE
 columns, and \code{value}; useful for visualizations) or \code{"wide"} (wide/unmelted table of features,
 with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).}
 
-\item{seq_col}{Character vector with names of the columns containing
-sequences.}
+\item{seq_col}{A single character string naming the sequence column.}
 
-\item{gene_col}{A single column name in \code{idata$annotations} with gene segment
+\item{by}{A character vector, \code{NA}, or \code{NULL}. The default \code{NA}
+automatically groups by the canonical \code{locus} column when it is available.
+Supply \code{NULL} to pool loci, or a character vector to group by and return
+those columns explicitly.}
+
+\item{gene_col}{A single character string naming a gene-segment column
 calls (e.g., \code{"v_call"}, \code{"d_call"}, \code{"j_call"}, \code{"c_call"}). Default is
 \code{"v_call"}.}
 
-\item{level}{One of \code{"receptor"} or \code{"barcode"}. If \code{"receptor"} (default),
+\item{level}{A single character string: \code{"receptor"} or \code{"barcode"}. If
+\code{"receptor"} (default),
 the function counts \strong{unique receptors} (one per receptor ID) that carry a
 given gene segment. If \code{"barcode"}, the function \strong{sums counts} (e.g.,
 cells/UMIs) per gene segment using the column defined by
 \code{immundata::imd_schema("count")}.}
-
-\item{by}{Either \code{NULL} (no split) or \code{"locus"}. When \code{"locus"}, the result
-is further split by the locus column if present (as given by
-\code{immundata::imd_schema("locus")}); otherwise a warning is emitted and the
-split is ignored.}
 }
 \value{
-\subsection{\code{airr_desc_chains} Returns a tibble with columns:}{
+\subsection{1) Chain counts (\code{airr_desc_chains})}{
+
+A tibble with columns:
 \itemize{
-\item \code{repertoire_id} -- repertoire identifier
-\item \code{locus} -- TRA, TRB, IGH, ... (present only if \code{locus_col} is supplied)
+\item \code{imd_repertoire_id} -- internal repertoire identifier
+\item repertoire-summary columns carried from \code{idata}, such as \code{n_barcodes} and
+\code{n_receptors}
+\item \code{locus} -- TRA, TRB, IGH, ...; \code{NA} when locus grouping is disabled
 \item \code{n_chains} -- number of chains
 }
 }
 
-\subsection{\code{airr_desc_lengths} Returns a tibble with columns:}{
+\subsection{2) Sequence-length distribution (\code{airr_desc_lengths})}{
+
+A tibble with columns:
 \itemize{
-\item \code{repertoire_id} -- repertoire identifier
+\item \code{imd_repertoire_id} -- internal repertoire identifier
+\item grouping columns requested through \code{by} (for example, \code{locus})
 \item \code{seq_len} -- lengths of sequences
-\item \code{n} -- number of receptors
+\item \code{n} -- number of sequence rows
+\item \code{prop}, \code{pct} -- proportion and percentage within each repertoire and
+combination of grouping columns
 }
 }
 
-\subsection{\code{airr_desc_genes} A tibble with columns:}{
+\subsection{3) Gene usage (\code{airr_desc_genes})}{
+
+A tibble with columns:
 \itemize{
-\item \code{repertoire_id} - repertoire identifier
-\item \emph{(optional)} \code{locus} - TRA, TRB, IGH, ... (present only when \code{by = "locus"}
-and the locus column exists)
 \item \verb{<gene_col>} - the gene segment value (e.g., V gene)
+\item \code{imd_repertoire_id} - internal repertoire identifier
+\item grouping columns requested through \code{by} (for example, \code{locus})
 \item \code{n} - the measure:
 \itemize{
 \item if \code{level = "receptor"}: number of receptors carrying the gene segment
+within the grouping
 \item if \code{level = "barcode"}: sum of counts across receptors for the segment
 }
 }
@@ -95,72 +108,136 @@ and the locus column exists)
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A family of functions that extract \strong{core descriptive statistics} from an \code{ImmunData} object.
+A family of functions that summarise the \strong{basic structure of immune
+repertoires}. These summaries help you check data quality, compare samples,
+and describe chain counts, sequence lengths, and gene usage before more
+detailed analyses.
 \subsection{Available functions}{
 
-Supported methods are the following.
+The following methods are available.
 }
 
-\code{airr_desc_chains} --- count V(D)J \emph{chains} per repertoire
-(optionally split by locus). Quickly gauges capture depth per repertoire
-and, when split by locus, reveals TRA/TRB/IGH balance. Use it for QC,
-library-size checks, and to spot locus-specific dropouts or
-over-representation.
+\strong{1) Chain counts (\code{airr_desc_chains}).} Count V(D)J chains in each
+repertoire, optionally grouped by locus. Use this method to check capture
+depth, compare library sizes, examine TRA/TRB/IGH balance, and identify
+locus-specific loss or over-representation.
 
-\code{airr_desc_lengths} --- count the number of sequence lengths
-per repertoire. Summarizes the CDR3 length distribution, a sensitive QC
-fingerprint of repertoire prep and selection. Helpful for detecting
-primer/UMI biases, comparing cohorts, and deriving length-based features for
-models.
+\strong{2) Sequence-length distribution (\code{airr_desc_lengths}).} Count sequences
+of each length per repertoire, optionally grouped by annotation columns. Use
+this method to describe CDR3 length distributions, detect possible library
+preparation bias, compare groups, and create length-based features.
 
-\code{airr_desc_genes} - count V(D)J gene segments per repertoire,
-optionally split by locus and using either receptor counts or barcode/UMI
-counts as the measure. Profiles V/D/J gene usage to characterize repertoire
-composition and germline biases, with optional locus split. Useful for
-cohort comparisons, flagging clonal expansions, and producing ML-ready
-features for repertoire-level ML tasks.
+\strong{3) Gene usage (\code{airr_desc_genes}).} Count V(D)J gene segments per
+repertoire, optionally grouped by locus. The method can count unique
+receptors or sum barcode/UMI counts. Use it to compare gene usage between
+groups, identify unusual gene patterns, and create repertoire-level features.
 }
+\section{Visualisation}{
+
+All three \verb{airr_desc_*()} results can be passed directly to \code{\link[=vis]{vis()}}. With
+\code{autojoin = TRUE} (the default), repertoire summaries and user metadata are
+included in the result and can be selected by the plotting arguments.
+\subsection{1) Chain counts (\code{airr_desc_chains})}{
+
+\code{vis()} plots one point per repertoire, with \code{n_barcodes} on the x-axis and
+\code{n_receptors} on the y-axis. Both axes use log scales. Dashed lines mark
+overall receptor-to-barcode ratios of 100\%, 50\%, and 25\%. Locus-specific
+rows share the same repertoire totals, so they appear as one point. The plot
+accepts:
+\itemize{
+\item \code{label} selects one or more columns for point labels; the default is
+\code{imd_repertoire_id}.
+\item \code{colour} colours points by a repertoire metadata column. \code{fill} is accepted
+as an alias for existing calls.
+\item \code{title} replaces the default plot title.
+}
+
+For single-cell data, \code{n_barcodes} is the observed cell count; for bulk data,
+it is total abundance. The ratio shows repertoire-level richness, not how
+many receptors occur within each barcode.
+}
+
+\subsection{2) Sequence-length distribution (\code{airr_desc_lengths})}{
+
+\code{vis()} plots \code{seq_len} on the x-axis and \code{prop} on the y-axis, filled by
+repertoire. Set \code{fill} to a metadata or grouping column to compare groups
+with box-and-violin distributions. \code{facet} accepts one column for a wrapped
+layout or two columns for a facet grid; \code{dir = "h"} or \code{dir = "v"} controls
+the wrapping direction.
+}
+
+\subsection{3) Gene usage (\code{airr_desc_genes})}{
+
+\code{vis()} produces a dot plot with gene segments as rows, repertoires as
+columns, and \code{n} mapped to dot size and colour. Use \code{row} to select the gene
+column, \code{col} to select repertoire or metadata columns, and \code{value} to select
+the numeric measure. \code{size_max_mm} controls the largest dot; \code{row_order} and
+\code{col_order} set the display order.
+}
+}
+
 \examples{
-# Limit the number of threads used by the underlying DB for this session.
-# Change this only if you know what you're doing (e.g., multi-user machines, shared CI/servers).
-db_exec("SET threads TO 2")
+# Limit the number of threads used by the underlying DB for this example.
+# Generally, you should NOT do this in your session.
+db_exec("SET threads TO 1")
 
-# Load data
-\dontrun{
-immdata <- get_test_idata() |> agg_repertoires("Therapy")
-}
+# Load example data.
+immdata <- get_test_idata()
 
 #
-# airr_desc_chains
-#
+# Count chains in each repertoire.
+chain_stats <- airr_desc_chains(immdata)
 
-\dontrun{
-airr_desc_chains(immdata)
-}
+# Repertoire size versus distinct receptor count
+vis(chain_stats)
 
-#
-# airr_desc_lengths
-#
+# Label and colour by repertoire metadata when those columns are available.
+# vis(chain_stats, label = "Sample", colour = "Tissue")
 
-\dontrun{
-airr_desc_lengths(immdata)
-}
-
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
-# airr_desc_genes
-#
+# Calculate CDR3 length distributions.
+length_stats <- airr_desc_lengths(immdata)
 
-\dontrun{
-# V gene usage by receptor count
-airr_desc_genes(immdata, gene_col = "v_call", level = "receptor")
+# Default: CDR3 length proportions by repertoire
+vis(length_stats)
+
+# Compare distributions between repertoires and split them by locus.
+vis(length_stats, fill = "imd_filename", facet = "locus")
+
+airr_desc_lengths(immdata, by = "locus")
+airr_desc_lengths(immdata, by = NULL)
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
+#
+# Calculate V gene usage from receptor counts.
+gene_stats <- airr_desc_genes(
+  immdata,
+  gene_col = "v_call",
+  level = "receptor"
+)
+
+# Default: genes by repertoire, with counts mapped to dot size and colour
+vis(gene_stats)
+
+# Compare gene usage across repertoires and loci.
+vis(
+  gene_stats,
+  row = "v_call",
+  col = c("imd_filename", "locus"),
+  value = "n",
+  size_max_mm = 5
+)
 
 # V gene usage by summed cell/UMI counts (if a count column is present)
 airr_desc_genes(immdata, gene_col = "v_call", level = "barcode")
 
 # Split by locus (TRA/TRB/... if locus column exists)
 airr_desc_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
-}
 
+# Pool loci explicitly
+airr_desc_genes(immdata, gene_col = "v_call", by = NULL)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \link[immundata:ImmunData]{immundata::ImmunData}

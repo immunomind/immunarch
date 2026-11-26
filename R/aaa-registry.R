@@ -4,6 +4,10 @@ IMMUNARCH_VIS_REGISTRY <- new.env(parent = emptyenv())
 
 IMMUNARCH_CLASS_PREFIX <- "immunarch_res"
 
+IMMUNARCH_AUTOJOIN_OPTION <- "immunarch.autojoin"
+
+IMMUNARCH_AUTOJOIN_DEFAULT <- TRUE
+
 
 # ---------------------------------------------------------------------------- #
 # --- Common arguments
@@ -17,9 +21,10 @@ IMMUNARCH_CLASS_PREFIX <- "immunarch_res"
 #' @param format String. One of `"long"` ("long" tibble with `imd_repertoire_id`, facet
 #'   columns, and `value`; useful for visualizations) or `"wide"` (wide/unmelted table of features,
 #'   with each row corresponding to a specific repertoire / pair of repertoires; useful for Machine Learning).
-im_common_args <- function(
-    autojoin = getOption("immundata.autojoin", TRUE),
-    format   = c("long", "wide")) {} # nocov
+method_args_airr <- function(
+  autojoin = getOption(IMMUNARCH_AUTOJOIN_OPTION, IMMUNARCH_AUTOJOIN_DEFAULT),
+  format = c("long", "wide")
+) {} # nocov
 
 
 # ---------------------------------------------------------------------------- #
@@ -49,7 +54,8 @@ im_as_result <- function(x, family, name) {
   cls_full <- im_result_class(family, name)
   cls_fam <- im_result_class(family, NULL)
   # TODO: maybe I need the "airr" or "receptor" instead of IMMUNARCH_CLASS_PREFIX?
-  structure(x, class = c(cls_full, cls_fam, IMMUNARCH_CLASS_PREFIX, class(x)))
+  class(x) <- c(cls_full, cls_fam, IMMUNARCH_CLASS_PREFIX, class(x))
+  x
 }
 
 
@@ -58,7 +64,16 @@ im_as_result <- function(x, family, name) {
 # ---------------------------------------------------------------------------- #
 
 
-im_method <- function(core, family, name, required_cols = NULL, need_repertoires = TRUE) {
+im_method <- function(
+  core,
+  family,
+  name,
+  required_cols = NULL,
+  need_repertoires = TRUE,
+  airr_args = FALSE,
+  result_class = TRUE,
+  vdj_args = FALSE
+) {
   checkmate::assert_function(core, args = c("idata"))
   checkmate::assert_string(family)
   checkmate::assert_string(name)
@@ -68,8 +83,8 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
   if (!"idata" %in% names(core_fmls)) {
     cli::cli_abort("Core method must declare an {.code idata} argument.")
   }
-  if (any(c("autojoin", "format", "features") %in% names(core_fmls))) {
-    cli::cli_abort("Core method must not declare {.code autojoin}, {.code format}, or {.code features}.")
+  if (any(c("autojoin", "format") %in% names(core_fmls))) {
+    cli::cli_abort("Core method must not declare {.code autojoin} or {.code format}.")
   }
 
   # required_cols = columns expected in idata$annotations
@@ -77,16 +92,22 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
     checkmate::assert_character(required_cols, any.missing = FALSE)
   }
 
-  wrapper <- function() { }
+  wrapper <- function() {}
   formals(wrapper) <- c(
     core_fmls,
-    formals(im_common_args)
+    if (airr_args) formals(method_args_airr),
+    if (vdj_args && !"output" %in% names(core_fmls)) alist(output = c("immundata", "df"))
   )
   environment(wrapper) <- environment()
 
   body(wrapper) <- substitute(
     {
-      format <- match.arg(format)
+      if (airr_args) {
+        format <- match.arg(format)
+      }
+      if (vdj_args) {
+        output <- match.arg(output)
+      }
       checkmate::assert_r6(idata, "ImmunData")
 
       if (need_repertoires) {
@@ -130,23 +151,41 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
       }
 
       # Call core with its own formals
-      .core_args <- mget(names(core_fmls), inherits = TRUE)
+      .core_args <- mget(setdiff(names(core_fmls), "..."), inherits = TRUE)
+      .core_args <- c(.core_args, core_dots)
       out <- do.call(core, .core_args)
 
+      if (vdj_args && output == "df" && inherits(out, "ImmunData")) {
+        out <- dplyr::collect(out)
+      }
+
       # Autojoin: join repertoire metadata if requested and applicable (!)
-      if (isTRUE(autojoin) && !is.null(idata$repertoires)) {
+      if (airr_args &&
+        isTRUE(get("autojoin", inherits = FALSE)) &&
+        !is.null(idata$repertoires)) {
         rep_col <- immundata::imd_schema("repertoire")
         if (!is.null(rep_col) && rep_col %in% names(out)) {
-          out <- dplyr::left_join(out, idata$repertoires |> select(all_of(c(rep_col, idata$schema_repertoire))), by = rep_col)
+          metadata_cols <- c(rep_col, setdiff(idata$schema_repertoire, names(out)))
+          out <- dplyr::left_join(out, idata$repertoires |> select(all_of(metadata_cols)), by = rep_col)
         }
       }
 
       # Wrap the output to assign correct classes
-      out <- im_as_result(out, family, name)
+      if (result_class && (!vdj_args || output == "df")) {
+        out <- im_as_result(out, family, name)
+      }
 
       out
     },
-    list(core = core, core_fmls = core_fmls, required_cols = required_cols)
+    list(
+      core = core,
+      core_fmls = core_fmls,
+      core_dots = if ("..." %in% names(core_fmls)) quote(list(...)) else quote(NULL),
+      required_cols = required_cols,
+      airr_args = airr_args,
+      result_class = result_class,
+      vdj_args = vdj_args
+    )
   )
 
   wrapper
@@ -158,16 +197,16 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
 #' `r lifecycle::badge("experimental")`
 #'
 #' Wrap a core implementation into a user-facing function and (optionally)
-#' register it in the in-memory method registry. The wrapper **adds common
-#' arguments** and **runs safety checks** so your core stays minimal.
+#' register it in the in-memory method registry. Domain-specific registrars add
+#' the appropriate arguments and post-processing while sharing the same safety checks.
 #'
 #' ## What your core must look like
 #' * Signature: `function(idata, ...)`
-#' * **Must not** declare `autojoin`, `format`, or `features` - these are added by the wrapper.
+#' * **Must not** declare `autojoin` or `format` - these are added to AIRR methods.
 #'
 #' ## What the wrapper adds
-#' * Common args from `im_common_args()`: `autojoin`, `format`, `features`
-#'   (with `autojoin` default controlled by `getOption("immunarch.autojoin", FALSE)`).
+#' * AIRR args from `method_args_airr()`: `autojoin` and `format`
+#'   (with `autojoin` default controlled by `getOption("immunarch.autojoin", TRUE)`).
 #' * Validates `idata` is an [immundata::ImmunData] object.
 #' * Ensures all columns in `required_cols` exist in `idata$annotations`.
 #' * If `autojoin = TRUE` and the result is a data frame containing the repertoire id
@@ -176,32 +215,37 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
 #'
 #' @param core A function with signature `function(idata, ...)`. This is your core
 #'   implementation; it must accept an `ImmunData` as the first argument and **must not**
-#'   declare `autojoin`, `format`, or `features`.
+#'   declare `autojoin` or `format`.
 #' @param family String. Method family name used for dispatch (e.g., `"airr_stats"`).
 #' @param name String. Method name within the family (e.g., `"lengths"`).
 #' @param register_family Logical (default `TRUE`). If `TRUE`, attempts to create/ensure
-#'   the family environment by calling `register_airr_family()` when available.
+#'   the family environment by calling `register_method_family()` when available.
 #' @param required_cols Character vector of column names that **must** be present in
 #'   `idata$annotations`. Use this to declare the minimal input schema your core needs.
 #' @param need_repertoires Logical. Use this to declare the necessity of having aggregated
 #'  repertoires.
+#' @param vdj_args Logical scalar. If `TRUE`, add the VDJ `output` argument
+#'   unless the core declares it, and collect `ImmunData` results when
+#'   `output = "df"`. A core declaring `output` may return its own summary
+#'   tibble directly. The default is `FALSE`.
 #'
 #' @return A **function** - the user-facing wrapper around `core`. Typical usage is to
 #' assign it to the exported symbol of the method, e.g.:
-#' `airr_stats_lengths <- register_immunarch_method(...)`.
+#' `airr_stats_lengths <- register_method_airr(...)`.
 #'
 #' @examples
 #' \dontrun{
 #' # Minimal core implementation (must accept `idata`)
 #' airr_stats_lengths_impl <- function(idata, seq_col = "cdr3_aa") {
-#'   dplyr::as_tibble(idata$annotations) |>
-#'     dplyr::distinct(.data[[immundata::imd_schema("repertoire")]], .data[[seq_col]]) |>
-#'     dplyr::mutate(seq_len = nchar(.data[[seq_col]])) |>
-#'     dplyr::count(.data[[immundata::imd_schema("repertoire")]], seq_len, name = "n")
+#'   repertoire_col <- immundata::imd_schema("repertoire")
+#'   idata$annotations |>
+#'     dplyr::distinct(!!rlang::sym(repertoire_col), !!rlang::sym(seq_col)) |>
+#'     dplyr::mutate(seq_len = nchar(!!rlang::sym(seq_col))) |>
+#'     dplyr::count(!!rlang::sym(repertoire_col), seq_len, name = "n")
 #' }
 #'
 #' # Register and expose a user-facing function
-#' airr_stats_lengths <- register_immunarch_method(
+#' airr_stats_lengths <- register_method_airr(
 #'   core = airr_stats_lengths_impl,
 #'   family = "airr_stats",
 #'   name = "lengths",
@@ -213,15 +257,34 @@ im_method <- function(core, family, name, required_cols = NULL, need_repertoires
 #' }
 #'
 #' @keywords internal
-register_immunarch_method <- function(core, family, name, register_family = TRUE, required_cols = NULL, need_repertoires = TRUE) {
-  fn <- im_method(core, family, name, required_cols = required_cols, need_repertoires = need_repertoires)
+register_method_impl <- function(
+  core,
+  family,
+  name,
+  register_family = TRUE,
+  required_cols = NULL,
+  need_repertoires = TRUE,
+  airr_args = FALSE,
+  result_class = TRUE,
+  vdj_args = FALSE
+) {
+  fn <- im_method(
+    core,
+    family,
+    name,
+    required_cols = required_cols,
+    need_repertoires = need_repertoires,
+    airr_args = airr_args,
+    result_class = result_class,
+    vdj_args = vdj_args
+  )
 
-  if (isTRUE(register_family) && exists("register_airr_family", mode = "function", inherits = TRUE)) {
-    try(register_airr_family(family), silent = TRUE)
+  if (isTRUE(register_family) && exists("register_method_family", mode = "function", inherits = TRUE)) {
+    try(register_method_family(family), silent = TRUE)
   }
 
-  if (exists("register_airr_method", mode = "function", inherits = TRUE)) {
-    try(register_airr_method(
+  if (exists("register_method_record", mode = "function", inherits = TRUE)) {
+    try(register_method_record(
       family_name = family,
       method_name = name,
       fn = fn
@@ -232,6 +295,36 @@ register_immunarch_method <- function(core, family, name, register_family = TRUE
   im_ensure_vis_s3_for(family, name)
 
   fn
+}
+
+
+register_method_airr <- function(...) {
+  register_method_impl(..., airr_args = TRUE)
+}
+
+
+register_method_annotate <- function(...) {
+  register_method_impl(..., result_class = FALSE)
+}
+
+
+register_method_vdj <- function(..., result_class = FALSE) {
+  register_method_impl(..., vdj_args = TRUE, result_class = result_class)
+}
+
+
+register_method_repsim <- function(...) {
+  register_method_impl(...)
+}
+
+
+register_method_dist <- function(...) {
+  register_method_impl(...)
+}
+
+
+register_method_clust <- function(...) {
+  register_method_impl(...)
 }
 
 
@@ -271,7 +364,7 @@ im_ensure_vis_s3_for <- function(family, name) {
 register_immunarch_visualisation <- function(fn, family, name) {
   checkmate::assert_function(fn, args = c(".data"))
   checkmate::assert_string(family)
-  checkmate::assert_string(name)
+  checkmate::assert_string(name, null.ok = TRUE)
 
   cls <- im_result_class(family, name)
   assign(cls, fn, envir = IMMUNARCH_VIS_REGISTRY)

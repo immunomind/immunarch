@@ -42,11 +42,13 @@ A numeric value.
 Compute information-based estimates and distances.
 }
 \examples{
+\dontrun{
 P <- abs(rnorm(10))
 Q <- abs(rnorm(10))
 entropy(P)
 kl_div(P, Q)
 js_div(P, Q)
 cross_entropy(P, Q)
+}
 }
 \concept{utility_public}

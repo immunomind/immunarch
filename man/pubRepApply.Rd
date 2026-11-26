@@ -23,6 +23,7 @@ Work in progress.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 immdata$data <- lapply(immdata$data, head, 2000)
 pr <- pubRep(immdata$data, .verbose = FALSE)
@@ -30,5 +31,6 @@ pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 pr2 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "C"))
 prapp <- pubRepApply(pr1, pr2)
 head(prapp)
+}
 }
 \concept{pubrep}

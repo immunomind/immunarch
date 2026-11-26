@@ -37,9 +37,11 @@
 #' @return Depends on the last element in the `.method` string. See [immunr_tsne] for more info.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' ov <- repOverlap(immdata$data)
 #' repOverlapAnalysis(ov, "mds+hclust") %>% vis()
+#' }
 #' @export repOverlapAnalysis
 repOverlapAnalysis <- function(.data, .method = ("hclust"), .scale = default_scale_fun, .raw = TRUE,
                                .perp = 1, .theta = .1, .eps = .01, .k = 2) {

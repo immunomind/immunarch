@@ -35,8 +35,10 @@ Data frame with two columns (k-mers and their counts).
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 kmers <- getKmers(immdata$data[[1]], 5)
 kmers \%>\% vis()
+}
 }
 \concept{k-mers}

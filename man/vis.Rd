@@ -26,9 +26,18 @@ without extra arguments).
 \strong{vis() is not intended for publication-quality figures.}
 For serious, highly customised, or publication-ready plots, I recommend
 building your graphics directly with \strong{ggplot2}.
+
+Information on how visualise a specific result from a domain, e.g., clonality or diversity,
+is available at each domain's help page in the visualisation section.
+Take a look at the "See also" section down below to \emph{see} links to the domains, which support visualisations.
 }
 \details{
-List of available visualisations for different kinds of data - will be available soon.
+\code{vis()} chooses a plot based on the analysis result. Start with \code{vis(result)},
+then consult the documentation for the analysis that created it to see its
+plotting defaults and supported arguments.
+
+E.g., for clonality results, see \link{airr_clonality} by running \code{?airr_clonality}.
+Or see \link{repsim} For repertoire similarity by running \code{?repsim}.
 }
 \examples{
 \dontrun{
@@ -37,8 +46,24 @@ airr_stats_genes(immdata, gene_col = "v_call") |> vis()
 airr_public_jaccard(immdata) |> vis()
 airr_diversity_pielou(immdata) |> vis()
 airr_diversity_chao1(immdata) |> vis()
+# Tracking summaries include explicit zeros for unobserved combinations.
+vdj_track(immdata, n = 5, output = "df") |> vis()
+vdj_public(immdata, output = "df") |> vis(reference = immdata)
+annotate_public(immdata) |> vis(plot = "incidence")
 }
 }
 \seealso{
-\link{fixVis} for precise manipulation of plots.
+\itemize{
+\item \link{airr_desc} for descriptive statistics visualisations.
+\item \link{airr_clonality} for clonality visualisations.
+\item \link{airr_diversity} for diversity visualisations.
+\item \link{repsim} for repertoire similarity visualisations.
+\item \link{dist} for receptor distance visualisations.
+\item \link{vdj_track} for receptor tracking visualisations with \code{output = "df"}.
+\item \link{vdj_public} for selected receptor coverage and abundance. Pass its
+\code{output = "df"} result and the original \code{reference} to \code{vis()}, or use
+\code{plot = "public"} for its \code{ImmunData} result.
+\item \link{annotate_public} for incidence distributions with \code{plot = "incidence"},
+stacked by stratum when strata are defined and unstacked otherwise.
+}
 }

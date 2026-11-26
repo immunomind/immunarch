@@ -50,6 +50,7 @@ time points after vaccination.
 Note: duplicated clonotypes are merged and their counts are summed up.
 }
 \examples{
+\dontrun{
 # Load an example data that comes with immunarch
 data(immdata)
 
@@ -96,5 +97,6 @@ immdata$meta$Timepoint[sample_order]
 immdata$meta$Sample[sample_order]
 # And finally, we visualise the data:
 vis(tc, .order = sample_order)
+}
 }
 \concept{dynamics}

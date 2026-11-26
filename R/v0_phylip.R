@@ -5,11 +5,9 @@
 #' @aliases repClonalFamily
 #'
 #' @importFrom magrittr %>% %<>% extract2
-#' @importFrom rlist list.remove
 #' @importFrom stringr str_match str_count fixed str_extract_all str_length str_sub
 #' @importFrom utils capture.output
 #' @importFrom parallel mclapply detectCores
-#' @importFrom ape read.tree
 #' @importFrom data.table fread
 
 #' @description
@@ -57,6 +55,7 @@
 #'   repSomaticHypermutation() calculation, and also data needed for visualizations
 #'
 #' @examples
+#' \dontrun{
 #'
 #' data(bcrdata)
 #' bcr_data <- bcrdata$data
@@ -66,6 +65,7 @@
 #'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
 #'   repClonalFamily(.threads = 1, .nofail = TRUE)
+#' }
 #' @export repClonalFamily
 repClonalFamily <- function(.data,
                             .vis_groups = NA,
@@ -77,6 +77,13 @@ repClonalFamily <- function(.data,
     "https://evolution.genetics.washington.edu/phylip/install.html"
   ), .nofail, has_class(.data, "step_failure_ignored"))) {
     return(get_empty_object_with_class("step_failure_ignored"))
+  }
+  if (!requireNamespace("ape", quietly = TRUE)) {
+    stop(
+      "Package 'ape' is required for this function. ",
+      "Please install it with install.packages('ape').",
+      call. = FALSE
+    )
   }
 
   if (has_no_data(.vis_groups)) {
@@ -372,7 +379,9 @@ convert_nested_to_df <- function(nested_results_list) {
     lapply(magrittr::extract2, "Sequences") %>%
     tibble(Sequences = .)
   df <- nested_results_list %>%
-    lapply(rlist::list.remove, c("Tree", "TreeStats", "Sequences")) %>%
+    lapply(function(result) {
+      result[!names(result) %in% c("Tree", "TreeStats", "Sequences")]
+    }) %>%
     map_dfr(~.) %>%
     cbind(tree, tree_stats, sequences)
   # fix column types after dataframe rebuilding

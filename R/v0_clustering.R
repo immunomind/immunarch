@@ -54,20 +54,22 @@
 #' The second element is the input dataset `.data`.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' gu <- geneUsage(immdata$data, .norm = TRUE)
 #' immunr_hclust(t(as.matrix(gu[, -1])), .dist = FALSE)
 #'
 #' gu[is.na(gu)] <- 0
 #' immunr_kmeans(t(as.matrix(gu[, -1])))
+#' }
 #' @export immunr_hclust immunr_kmeans immunr_dbscan
 immunr_hclust <- function(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "complete", .dist = TRUE) {
-
-  if (!requireNamespace("fpc", quietly = TRUE)) {
-    stop("Package 'fpc' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
-  }
   if (!requireNamespace("factoextra", quietly = TRUE)) {
-    stop("Package 'factoextra' is required for this function. Please install it first via install.packages() or devtools::install_github().", call. = FALSE)
+    stop(
+      "Package 'factoextra' is required for this function. ",
+      "Please install it with install.packages('factoextra').",
+      call. = FALSE
+    )
   }
 
   if (.dist) {
@@ -83,6 +85,14 @@ immunr_hclust <- function(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "co
 }
 
 immunr_kmeans <- function(.data, .k = 2, .k.max = as.integer(sqrt(nrow(.data))) + 1, .method = c("silhouette", "gap_stat")) {
+  if (!requireNamespace("factoextra", quietly = TRUE)) {
+    stop(
+      "Package 'factoextra' is required for this function. ",
+      "Please install it with install.packages('factoextra').",
+      call. = FALSE
+    )
+  }
+
   res <- list(
     kmeans = add_class(kmeans(.data, .k), "immunr_kmeans"),
     nbclust = add_class(factoextra::fviz_nbclust(.data, kmeans, k.max = .k.max, .method[1]), "immunr_nbclust"),
@@ -92,6 +102,14 @@ immunr_kmeans <- function(.data, .k = 2, .k.max = as.integer(sqrt(nrow(.data))) 
 }
 
 immunr_dbscan <- function(.data, .eps, .dist = TRUE) {
+  if (!requireNamespace("fpc", quietly = TRUE)) {
+    stop(
+      "Package 'fpc' is required for this function. ",
+      "Please install it with install.packages('fpc').",
+      call. = FALSE
+    )
+  }
+
   if (.dist) {
     .data <- as.dist(.data)
     method <- "dist"

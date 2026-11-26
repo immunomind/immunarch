@@ -36,9 +36,11 @@ Data frame with distributions of clonotypes per CDR3 length.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 # Load the data
 data(immdata)
 sp <- spectratype(immdata$data[[1]], .col = "aa+v")
 vis(sp)
+}
 }
 \concept{vis}

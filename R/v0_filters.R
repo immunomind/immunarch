@@ -49,7 +49,10 @@
 repFilter <- function(.data, .method = "by.clonotype",
                       .query = list(CDR3.aa = exclude("partial", "out_of_frame")),
                       .match = "exact") {
-  lifecycle::deprecate_warn("0.10.3", "repFilter()", details = "See `?immundata::filter.ImmunData()` for details on replacement functions.")
+  lifecycle::deprecate_warn(
+    "0.10.3", "repFilter()",
+    details = c("See `?immundata::filter.ImmunData()` for details on replacement functions.", IMMUNARCH_LEGACY_WARNING)
+  )
 
   .validate_immdata(.data)
 

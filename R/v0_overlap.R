@@ -90,6 +90,7 @@
 #' @seealso [inc_overlap], [vis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #'
 #' # Make data smaller for testing purposes
@@ -100,6 +101,7 @@
 #'
 #' ov <- repOverlap(immdata$data, "jaccard", .verbose = FALSE)
 #' vis(ov, "heatmap2")
+#' }
 #' @export repOverlap
 repOverlap <- function(.data,
                        .method = c("public", "overlap", "jaccard", "tversky", "cosine", "morisita", "inc+public", "inc+morisita"),
@@ -113,7 +115,10 @@ repOverlap <- function(.data,
                        .bootstrap = NA,
                        .verbose.inc = NA,
                        .force.matrix = FALSE) {
-  lifecycle::deprecate_warn("0.10.3", "repOverlap()", details = "See `?repsim()` for details on replacement functions.")
+  lifecycle::deprecate_warn(
+    "0.10.3", "repOverlap()",
+    details = c("See `?repsim()` for details on replacement functions.", IMMUNARCH_LEGACY_WARNING)
+  )
 
   .validate_repertoires_data(.data)
 

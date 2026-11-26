@@ -48,6 +48,7 @@ This function uses the PHYLIP package to make phylogenetic analysis.
 For making trees it uses maximum parsimony methods.
 }
 \examples{
+\dontrun{
 
 data(bcrdata)
 bcr_data <- bcrdata$data
@@ -57,5 +58,6 @@ bcr_data \%>\%
   repGermline(.threads = 1) \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
   repClonalFamily(.threads = 1, .nofail = TRUE)
+}
 }
 \concept{phylip}

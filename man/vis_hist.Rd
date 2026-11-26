@@ -52,7 +52,7 @@ to automatically detect the optimal number of columns.}
 
 \item{.labs}{A character vector of length two with names for x-axis and y-axis, respectively.}
 
-\item{.melt}{If TRUE then apply \link[reshape2:melt]{reshape2::melt} to the ".data" before plotting.
+\item{.melt}{If TRUE then apply \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}} to the ".data" before plotting.
 In this case ".data" is supposed to be a data frame with the first character column reserved
 for names of genes and other numeric columns reserved to counts or frequencies of genes.
 Each numeric column should be associated with a specific repertoire sample.}

@@ -5,7 +5,7 @@ make_immunarch_method_record <- function(fn, method_name, ...) {
   )
 }
 
-register_airr_family <- function(family_name) {
+register_method_family <- function(family_name) {
   fam_env <- IMMUNARCH_METHOD_REGISTRY[[family_name]]
 
   if (is.null(fam_env)) {
@@ -14,7 +14,7 @@ register_airr_family <- function(family_name) {
   }
 }
 
-register_airr_method <- function(family_name, method_name, fn) {
+register_method_record <- function(family_name, method_name, fn) {
   # checkmate checks
 
   fam_env <- IMMUNARCH_METHOD_REGISTRY[[family_name]]
