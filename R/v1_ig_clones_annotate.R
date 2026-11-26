@@ -133,19 +133,16 @@ NULL
 #'
 #' annotated
 #'
-#' # Ignore light-chain differences when the scientific question requires it.
+#' \dontrun{
+#' # Use heavy-chain similarity alone when the scientific question requires it.
 #' annotate_ig_clones(
 #'   idata,
 #'   heavy_threshold = 0.25,
 #'   mode = "heavy"
 #' )
 #'
-#' unlink(input_file)
-#' unlink(output_folder, recursive = TRUE)
-#'
 #' # Canonicalize ambiguous V/J calls lazily before receptors are constructed.
 #' # For example, "IGHV2*01, IGHV1*02" becomes "IGHV1|IGHV2".
-#' \dontrun{
 #' canonicalize_vj <- function(data, ...) {
 #'   data |>
 #'     dplyr::mutate(dplyr::across(
@@ -193,6 +190,9 @@ NULL
 #' unlink(messy_file)
 #' unlink(canonical_folder, recursive = TRUE)
 #' }
+#'
+#' unlink(input_file)
+#' unlink(output_folder, recursive = TRUE)
 #' @name annotate_ig_clones
 NULL
 

@@ -75,15 +75,19 @@ are ordered by colour group and x value; factor levels control their order.
 }
 
 \examples{
-#'
-idata <- get_test_idata() |>
-  agg_repertoires(c("Response", "Therapy")) |>
-  agg_strata("Therapy")
+idata <- get_test_idata() |> agg_repertoires("Therapy")
 
 # Keep receptors shared across at least two repertoires.
 shared <- vdj_public(idata)
 shared$repertoires
 vis(shared, plot = "public", reference = idata)
+
+\dontrun{
+# Work with repertoire and strata rules.
+idata <- get_test_idata() |>
+  agg_repertoires(c("Response", "Therapy")) |>
+  agg_strata("Therapy")
+
 vdj_public(idata, output = "df") |>
   vis(reference = idata, fill = "Therapy")
 
@@ -125,6 +129,7 @@ abundant <- vdj_public(idata, make_public_filter(
   repertoires = ids, min_count = 5
 ))
 # All observations of passing receptors are retained throughout idata.
+}
 }
 \seealso{
 \code{\link[=make_public_filter]{make_public_filter()}}, \code{\link[=annotate_public]{annotate_public()}}

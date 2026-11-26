@@ -54,7 +54,7 @@ if (getRversion() >= "2.15.1") {
 #' db
 #' @export
 dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
-  lifecycle::deprecate_warn("0.10.3", "dbLoad()")
+  lifecycle::deprecate_warn("0.10.3", "dbLoad()", details = IMMUNARCH_LEGACY_WARNING)
 
   .db <- tolower(.db)
   if (!(.db %in% c("vdjdb", "vdjdb-search", "mcpas", "mcpas-tcr", "pird"))) {
@@ -160,7 +160,7 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #' res
 #' @export dbAnnotate
 dbAnnotate <- function(.data, .db, .data.col, .db.col) {
-  lifecycle::deprecate_warn("0.10.3", "dbAnnotate()")
+  lifecycle::deprecate_warn("0.10.3", "dbAnnotate()", details = IMMUNARCH_LEGACY_WARNING)
 
   # Check if the number of columns is equal
   if (length(.data.col) != length(.db.col)) {

@@ -113,7 +113,10 @@ repOverlap <- function(.data,
                        .bootstrap = NA,
                        .verbose.inc = NA,
                        .force.matrix = FALSE) {
-  lifecycle::deprecate_warn("0.10.3", "repOverlap()", details = "See `?repsim()` for details on replacement functions.")
+  lifecycle::deprecate_warn(
+    "0.10.3", "repOverlap()",
+    details = c("See `?repsim()` for details on replacement functions.", IMMUNARCH_LEGACY_WARNING)
+  )
 
   .validate_repertoires_data(.data)
 

@@ -23,15 +23,16 @@ get_immunarch_news <- function(datepoint = "latest") {
   } else if (datepoint %in% names(immunarch_v1_updates)) {
     immunarch_v1_updates[[datepoint]]()
   } else {
-    cli::cli_alert_warning("No {datepoint} date in the list of {cli::col_green('immunarch')} updates. Available update names are: {immunarch:::list_immunarch_news()}")
+    cli::cli_alert_warning("No immunarch update for {.val {datepoint}}. Available dates are {.val {names(immunarch_v1_updates)}}.")
   }
 }
 
 #' List Available immunarch Updates
 #'
-#' Returns the list of available update keys for immunarch v1.
+#' Prints each available update date and its command. Click the command to
+#' run it in consoles that support clickable R commands.
 #'
-#' @return A character vector containing all the date keys for the available updates.
+#' @return Invisibly returns `NULL`.
 #'
 #' @seealso [get_immunarch_news()]
 #'
@@ -39,7 +40,9 @@ get_immunarch_news <- function(datepoint = "latest") {
 #'
 #' @export
 list_immunarch_news <- function() {
-  for (i in seq_along(names(immunarch_v1_updates))) {
-    cat(names(immunarch_v1_updates), " -> ", "run immunarch::get_immunarch_news(", '"', names(immunarch_v1_updates), '"', ")", sep = "")
+  for (datepoint in names(immunarch_v1_updates)) {
+    command <- sprintf('immunarch::get_immunarch_news("%s")', datepoint)
+    line <- cli::format_inline("{datepoint} -> run {.run [{command}]({command})}")
+    cat(line, "\n", sep = "")
   }
 }

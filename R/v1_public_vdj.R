@@ -129,15 +129,20 @@ vdj_public_impl <- function(idata, ...) {
 #'
 #' @seealso [make_public_filter()], [annotate_public()]
 #'
-#' @examples#'
-#' idata <- get_test_idata() |>
-#'   agg_repertoires(c("Response", "Therapy")) |>
-#'   agg_strata("Therapy")
+#' @examples
+#' idata <- get_test_idata() |> agg_repertoires("Therapy")
 #'
 #' # Keep receptors shared across at least two repertoires.
 #' shared <- vdj_public(idata)
 #' shared$repertoires
 #' vis(shared, plot = "public", reference = idata)
+#'
+#' \dontrun{
+#' # Work with repertoire and strata rules.
+#' idata <- get_test_idata() |>
+#'   agg_repertoires(c("Response", "Therapy")) |>
+#'   agg_strata("Therapy")
+#'
 #' vdj_public(idata, output = "df") |>
 #'   vis(reference = idata, fill = "Therapy")
 #'
@@ -179,6 +184,7 @@ vdj_public_impl <- function(idata, ...) {
 #'   repertoires = ids, min_count = 5
 #' ))
 #' # All observations of passing receptors are retained throughout idata.
+#' }
 #' @export
 vdj_public <- register_method_vdj(
   core = vdj_public_impl,

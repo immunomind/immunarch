@@ -7,10 +7,11 @@
 list_immunarch_news()
 }
 \value{
-A character vector containing all the date keys for the available updates.
+Invisibly returns \code{NULL}.
 }
 \description{
-Returns the list of available update keys for immunarch v1.
+Prints each available update date and its command. Click the command to
+run it in consoles that support clickable R commands.
 }
 \seealso{
 \code{\link[=get_immunarch_news]{get_immunarch_news()}}

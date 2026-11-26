@@ -71,7 +71,7 @@ repAlignLineage <- function(.data,
                             .prepare_threads = 2,
                             .align_threads = 4,
                             .nofail = FALSE) {
-  lifecycle::deprecate_warn("0.10.3", "repAlignLineage()")
+  lifecycle::deprecate_warn("0.10.3", "repAlignLineage()", details = IMMUNARCH_LEGACY_WARNING)
 
   if (!require_system_package(c("clustalw", "clustalw2"), error_message = paste0(
     "repAlignLineage requires Clustal W app to be installed!\n",
