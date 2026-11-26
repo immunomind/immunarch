@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -39,7 +42,7 @@ MiXCR supports the following formats of sequencing data: fasta, fastq, fastq.gz,
 
 You can choose to use the `analyze amplicon` method to process in one go:
 
-```{r, eval=F}
+```{r, eval = FALSE}
 mixcr analyze amplicon --species hs \
       --starting-material dna \
       --5-end v-primers \
@@ -51,7 +54,7 @@ mixcr analyze amplicon --species hs \
 
 or execute each step `align`, `assemble`, and `exportClones` individually.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 > mixcr align -s hs -OvParameters.geneFeatureToAlign=VTranscript \
   --report analysis.report input_R1.fastq input_R2.fastq analysis.vdjca
 
@@ -71,7 +74,7 @@ Alignment failed because of low total score: 0.48%
 # Prepare files to load
 
 After you run these commands, you will generate these files with detailed information about calculated clonotypes:
-```{r, eval=F}
+```{r, eval = FALSE}
 .
 ├── analysis.clonotypes.<chains>.txt <-- This contains the count data we want!
 ├── analysis.clna <- Build clonotypes correct PCR and sequencing errors
@@ -98,7 +101,7 @@ In your R environment, run the commands below. The output should be similar. You
 
 ## Loading a single file
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # 1.1) Load the package into R:
 > library(immunarch)
 
@@ -125,7 +128,7 @@ Done!
 
 Congrats! Now your data is ready for exploration. Follow the steps here to learn more about how to explore your dataset.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 r$> immdata_mixcr
 $data
 $data$analysis.clonotypes.IGH
@@ -152,7 +155,7 @@ $meta
 1 analysis.clonotypes.IGH
 ```
 
-```{r, eval=F}
+```{r, eval = FALSE}
 
 ```
 
@@ -160,7 +163,7 @@ $meta
 
 In this tutorial we use three identical samples just to demonstrate the output, but you should put all your output `.txt` clonotype files in this folder, along with your `metadata.txt` file.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # 1.1) Load the package into R:
 > library(immunarch)
 
@@ -190,7 +193,7 @@ Done!
 
 Now let's take a look at the data! Your output should look something like that.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 r$> immdata_mixcr
 $data
 $data$analysis.clonotypes.IGH_1

@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -45,7 +48,7 @@ You can find sample data of full runs to download <a href="https://www.10xgenomi
 # Prepare 10x Data
 Upon processing the data, you will have a lot of output files. You should use the `filtered contigs` csv files because they contain barcode information.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 .
 ├── vdj_v1_mm_c57bl6_pbmc_t_filtered_contig_annotations.csv <-- This contains the count data we want!
 ├── vdj_v1_mm_c57bl6_pbmc_t_consensus_annotations.csv
@@ -63,7 +66,7 @@ Upon processing the data, you will have a lot of output files. You should use th
 
 Run the code below in your R environment to load the data into Immunarch's format. You can run it on the entire folder with the Cellranger output files. `repLoad` will ignore the file formats that are unsupported.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # 1.1) Load the package into R:
 > library(immunarch)
 
@@ -95,7 +98,7 @@ Done!
 
 Now let's take a look at the data! Your output should look something like below.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 > immdata_10x
 $data$vdj_v1_mm_c57bl6_splenocytes_t_consensus_annotations_TRA
 # A tibble: 710 x 17

@@ -2,3 +2,5 @@
 .RDataFiles
 .idea
 *.Rproj
+analysis
+dev

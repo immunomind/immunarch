@@ -8,7 +8,7 @@ immunarch_v1_updates <- c(
 .onAttach <- function(libname, pkgname) {
   lines <- c(
     paste0("Hi, this is Vadim Nazarov - author of ", cli::col_green("immunarch"), "."),
-    "The January 2027 update will remove legacy functions that currently raise deprecation warnings. ",
+    "The v0 API is retired in immunarch 0.12.0.",
     "",
     "- Run {.run [get_immunarch_news()](immunarch::get_immunarch_news())} for migration help.",
     "",

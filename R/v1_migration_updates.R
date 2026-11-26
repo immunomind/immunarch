@@ -1,8 +1,3 @@
-IMMUNARCH_LEGACY_WARNING <- paste(
-  "The January 2027 update will remove this function.",
-  "Run `immunarch::get_immunarch_news()` for migration help."
-)
-
 # We pregenerated and hardcoded these values to preserve the user's random seed.
 IMMUNARCH_NEWS_SPARKLINE <- c(
   34, 92, 74, 20, 23, 74, 53, 82, 76, 3,

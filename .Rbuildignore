@@ -4,6 +4,7 @@
 ^data/nonbuild/.*$
 ^data/nonbuild/*$
 ^tests$
+^tests/testthat/Rplots[.]pdf$
 ^twb$
 ^temp$
 ^fixVis$
@@ -25,8 +26,10 @@
 ^cran-comments\.md$
 ^vignettes/*_files$
 ^vignettes/articles$
+^vignettes/web_only_v0$
 ^vignettes/.quarto$
 ^CRAN-SUBMISSION$
 ^immdata-.*$
 ^immdata*$
 ^dev$
+^analysis$

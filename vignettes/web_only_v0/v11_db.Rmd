@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -23,7 +26,7 @@ output:
 
 
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -115,27 +118,27 @@ Download the VDJDB database following the instructions above. In the examples, w
 Note that VDJDB data obtained from the web interface differs from VDJDB obtained from raw files. Check the next section for working with VDJDB search tables.
 
 The most basic way to load VDJDB to R:
-```{r eval=T, message=F}
+```{r eval = FALSE, message=F}
 vdjdb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb")
 vdjdb
 ```
 
 To load VDJDB and filter out information you need to provide `.species`, `.chain` and `.pathology` arguments:
-```{r eval=T, message=F}
+```{r eval = FALSE, message=F}
 vdjdb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/vdjdb.slim.txt.gz", "vdjdb", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
 vdjdb
 ```
 
 ### VDJDB search tables
 
-```{r eval=T, message=F}
+```{r eval = FALSE, message=F}
 vdjdb_st <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/SearchTable-2019-10-17%2012_36_11.989.tsv.gz", "vdjdb-search", .species = "HomoSapiens", .chain = "TRB", .pathology = "CMV")
 vdjdb_st
 ```
 
 ### McPAS-TCR
 
-```{r eval=T, message=F, warning=F}
+```{r eval = FALSE, message=F, warning=F}
 mcpas <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/McPAS-TCR.csv.gz", "mcpas", .species = "Human", .chain = "TRB", .pathology = "Cytomegalovirus (CMV)")
 mcpas
 ```
@@ -143,7 +146,7 @@ mcpas
 
 ### TBAdb
 
-```{r eval=F, message=F, warning=F}
+```{r eval = FALSE, message=F, warning=F}
 tbadb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/TBAdb.xlsx", "tbadb", .species = "Homo Sapiens", .chain = c("TRB", "TRA-TRB"), .pathology = "CMV")
 tbadb
 ```
@@ -153,13 +156,13 @@ tbadb
 
 The key `immunarch` function for annotation is `dbAnnotate`. As an input it requires repertoires to search in, a database to look up, and columns of interest such as CDR3 amino acid sequence or V gene segment names columns. If you want to try it on the test data packaged with `immunarch`,  execute the following line of code before proceeding further:
 
-```{r eval=F}
+```{r eval = FALSE}
 data(immdata)
 ```
 
 Just in a single line of code you are able to find all clonotypes with matching CDR3 amino acid sequences in the input data and VDJDB database:
 
-```{r eval=T}
+```{r eval = FALSE}
 dbAnnotate(immdata$data, vdjdb, "CDR3.aa", "cdr3")
 ```
 
@@ -167,13 +170,13 @@ The "Samples" column specifies the number of samples in which the clonotype foun
 
 In the next example we will search the McPAS-TCR database for condition-associated sequences using both CDR3 amino acid sequences and V gene segments:
 
-```{r eval=T, message=F, warning=F}
+```{r eval = FALSE, message=F, warning=F}
 dbAnnotate(immdata$data, mcpas, c("CDR3.aa", "V.name"), c("CDR3.beta.aa", "TRBV"))
 ```
 
 If you seek to search a database for a specific set of sequences, create a data frame containing them and use it as a database file:
 
-```{r eval=T}
+```{r eval = FALSE}
 local_db <- data.frame(Seq = c("CASSDSSGGANEQFF", "CSARLAGGQETQYF"), V = c("TRBV6-4", "TRBV20-1"), stringsAsFactors = F)
 
 dbAnnotate(immdata$data, local_db, c("CDR3.aa", "V.name"), c("Seq", "V"))
@@ -189,7 +192,7 @@ Visualisation with the `vis()` function will be supported in the next major rele
 
 `immunarch` provides a very basic query interface that permits filtering by species types, chain types and pathology types only. To perform advanced filtering such as filtering by antigen epitope, you need to use R. In the most cases, filtering with the `dplyr` package is the most seamless way. Here is an example on how to use `dplyr` to filter out specific antigen epitopes from VDJDB:
 
-```{r eval=T, message=F}
+```{r eval = FALSE, message=F}
 # Load the dplyr library
 library(dplyr)
 
@@ -200,13 +203,13 @@ vdjdb <- dbLoad("https://gitlab.com/immunomind/immunarch/raw/dev-0.5.0/private/v
 table(vdjdb$antigen.epitope)
 ```
 
-```{r eval=T, message=F}
+```{r eval = FALSE, message=F}
 # Filter out all non NLVPMVATV epitopes
 vdjdb <- vdjdb %>% filter(antigen.epitope == "NLVPMVATV")
 vdjdb
 ```
 
-```{r eval=T, message=F}
+```{r eval = FALSE, message=F}
 # Check if everything is OK and there is no other epitopes
 table(vdjdb$antigen.epitope)
 ```

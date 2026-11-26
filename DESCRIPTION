@@ -50,20 +50,18 @@ Imports:
     ggrepel (>= 0.9.0)
 Suggests:
     knitr (>= 1.8),
-    roxygen2 (>= 3.0.0),
     testthat (>= 3.0.0),
-    pkgdown (>= 0.1.0),
     rmarkdown,
     withr,
-    ggalluvial (>= 0.10.0),
-    quarto
+    ggalluvial (>= 0.10.0)
 VignetteBuilder:
     knitr,
-    quarto
+    rmarkdown
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
+Config/Needs/development: roxygen2
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
 Config/testthat/parallel: false
