@@ -80,9 +80,10 @@ idata <- get_test_idata() |> agg_repertoires("Therapy")
 # Keep receptors shared across at least two repertoires.
 shared <- vdj_public(idata)
 shared$repertoires
+
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 vis(shared, plot = "public", reference = idata)
 
-\dontrun{
 # Work with repertoire and strata rules.
 idata <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy")) |>
@@ -129,7 +130,7 @@ abundant <- vdj_public(idata, make_public_filter(
   repertoires = ids, min_count = 5
 ))
 # All observations of passing receptors are retained throughout idata.
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=make_public_filter]{make_public_filter()}}, \code{\link[=annotate_public]{annotate_public()}}

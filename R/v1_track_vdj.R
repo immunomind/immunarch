@@ -281,6 +281,8 @@ vdj_track_impl <- function(idata, from = NULL, n = NULL, output = c("immundata",
 #'
 #' # Follow every receptor observed at T0, or only its two most abundant ones.
 #' from_t0 <- vdj_track(idata, from = source_id)
+#'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' top_from_t0 <- vdj_track(idata, from = source_id, n = 2L)
 #'
 #' # Follow any receptor that is the most abundant in at least one repertoire.

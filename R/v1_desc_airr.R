@@ -219,7 +219,7 @@ airr_desc_lengths_impl <- function(
 #' * `prop`, `pct` -- proportion and percentage within each repertoire and
 #'   combination of grouping columns
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate CDR3 length distributions.
 #' length_stats <- airr_desc_lengths(immdata)
@@ -330,7 +330,7 @@ airr_desc_genes_impl <- function(
 #'     within the grouping
 #'   - if `level = "barcode"`: sum of counts across receptors for the segment
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate V gene usage from receptor counts.
 #' gene_stats <- airr_desc_genes(

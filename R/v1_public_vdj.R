@@ -135,9 +135,10 @@ vdj_public_impl <- function(idata, ...) {
 #' # Keep receptors shared across at least two repertoires.
 #' shared <- vdj_public(idata)
 #' shared$repertoires
+#'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' vis(shared, plot = "public", reference = idata)
 #'
-#' \dontrun{
 #' # Work with repertoire and strata rules.
 #' idata <- get_test_idata() |>
 #'   agg_repertoires(c("Response", "Therapy")) |>
@@ -184,7 +185,6 @@ vdj_public_impl <- function(idata, ...) {
 #'   repertoires = ids, min_count = 5
 #' ))
 #' # All observations of passing receptors are retained throughout idata.
-#' }
 #' @export
 vdj_public <- register_method_vdj(
   core = vdj_public_impl,
@@ -226,15 +226,18 @@ vdj_public <- register_method_vdj(
 #' @seealso [vdj_public()] for strata preparation and applying several rules.
 #'
 #' @examples
+#' # Count >= 5 in at least one repertoire.
+#' abundant <- make_public_filter(min_count = 5)
+#'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' idata <- get_test_idata() |>
 #'   agg_repertoires(c("Response", "Therapy"))
 #'
-#' # Count >= 5 in at least one repertoire.
-#' abundant <- make_public_filter(min_count = 5)
 #' vdj_public(idata, abundant, output = "df") |>
 #'   dplyr::select(cdr3_aa, v_call, Therapy, imd_orig_count) |>
 #'   head()
 #'
+#' @examples
 #' # At least one occurrence with count <= 10. Larger occurrences are allowed.
 #' low_count <- make_public_filter(max_count = 10)
 #'

@@ -97,6 +97,8 @@ NULL
 #' # Release temporary DuckDB views from earlier examples after R resets the seed.
 #' invisible(gc())
 #' }
+#'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' # Limit the number of threads used by the underlying DB for this example.
 #' # Generally, you should NOT do this in your session.
 #' db_exec("SET threads TO 1")
@@ -137,7 +139,6 @@ NULL
 #'
 #' annotated
 #'
-#' \dontrun{
 #' # Use heavy-chain similarity alone when the scientific question requires it.
 #' annotate_ig_clones(
 #'   idata,
@@ -193,7 +194,6 @@ NULL
 #'
 #' unlink(messy_file)
 #' unlink(canonical_folder, recursive = TRUE)
-#' }
 #'
 #' unlink(input_file)
 #' unlink(output_folder, recursive = TRUE)

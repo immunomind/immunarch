@@ -195,21 +195,25 @@ m_pub <- repsim_intersection(immdata)
 # Visualise the shared-receptor counts.
 vis(m_pub)
 
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate Jaccard similarity.
 m_jac <- repsim_jaccard(immdata)
 vis(m_jac)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate sampling-corrected Jaccard similarity.
 m_chao_jac <- repsim_chao_jaccard(immdata)
 vis(m_chao_jac)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate Morisita-Horn similarity.
 m_mh <- repsim_morisita_horn(immdata)
 vis(m_mh)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate Bray-Curtis similarity.
 m_bray <- repsim_bray(immdata)
@@ -221,7 +225,7 @@ m_bray_log <- repsim_bray(
   transform = "log1p"
 )
 vis(m_bray_log)
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Chao A, Chazdon RL, Colwell RK, Shen TJ (2005). A new statistical approach

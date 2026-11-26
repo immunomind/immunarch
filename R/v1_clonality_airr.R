@@ -132,6 +132,7 @@ airr_clonality_line_impl <- function(idata, limit = 100000) {
 #' # Visualise the depth-normalised rank-abundance curve.
 #' vis(top_line)
 #'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' # Or visualise raw receptor counts.
 #' vis(top_line, yval = "imd_count")
 #'
@@ -183,7 +184,7 @@ airr_clonality_rank_impl <- function(idata,
 #' * `occupied_prop` - sum of `proportion` within the bin
 #' * plus repertoire metadata columns from `idata$repertoires`
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Analyse the repertoire space occupied by different rank ranges.
 #' rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
@@ -258,7 +259,7 @@ airr_clonality_prop_impl <- function(
 #' * `occupied_prop` - sum of `proportion` within the bin
 #' * plus repertoire metadata columns from `idata$repertoires`
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Analyse the repertoire space occupied by abundance groups.
 #' prop_stat <- airr_clonality_prop(immdata)

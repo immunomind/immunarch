@@ -193,6 +193,8 @@ source_id <- idata$repertoires |>
 
 # Follow every receptor observed at T0, or only its two most abundant ones.
 from_t0 <- vdj_track(idata, from = source_id)
+
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 top_from_t0 <- vdj_track(idata, from = source_id, n = 2L)
 
 # Follow any receptor that is the most abundant in at least one repertoire.
@@ -229,7 +231,7 @@ vis(tracked, xval = "sample", plot = "line")
 
 # Plot original counts instead of proportions.
 vis(tracked, xval = "sample", plot = "line", yval = "imd_orig_count")
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \itemize{

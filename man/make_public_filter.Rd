@@ -51,15 +51,17 @@ Unknown selectors and empty comparison populations are errors during
 evaluation. Selectors do not match arbitrary metadata values.
 }
 \examples{
+# Count >= 5 in at least one repertoire.
+abundant <- make_public_filter(min_count = 5)
+
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 idata <- get_test_idata() |>
   agg_repertoires(c("Response", "Therapy"))
 
-# Count >= 5 in at least one repertoire.
-abundant <- make_public_filter(min_count = 5)
 vdj_public(idata, abundant, output = "df") |>
   dplyr::select(cdr3_aa, v_call, Therapy, imd_orig_count) |>
   head()
-
+\dontshow{\}) # examplesIf}
 # At least one occurrence with count <= 10. Larger occurrences are allowed.
 low_count <- make_public_filter(max_count = 10)
 

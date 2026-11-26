@@ -194,6 +194,7 @@ vis(chain_stats)
 # Label and colour by repertoire metadata when those columns are available.
 # vis(chain_stats, label = "Sample", colour = "Tissue")
 
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate CDR3 length distributions.
 length_stats <- airr_desc_lengths(immdata)
@@ -206,7 +207,8 @@ vis(length_stats, fill = "imd_filename", facet = "locus")
 
 airr_desc_lengths(immdata, by = "locus")
 airr_desc_lengths(immdata, by = NULL)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate V gene usage from receptor counts.
 gene_stats <- airr_desc_genes(
@@ -235,7 +237,7 @@ airr_desc_genes(immdata, gene_col = "v_call", level = "receptor", by = "locus")
 
 # Pool loci explicitly
 airr_desc_genes(immdata, gene_col = "v_call", by = NULL)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \link[immundata:ImmunData]{immundata::ImmunData}

@@ -169,6 +169,8 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 #' #
 #' # Calculate D50 and several coverage thresholds.
 #' d50 <- airr_diversity_dxx(immdata, perc = 50)
+#'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
 #'
 #' # Visualise the coverage diversity.
@@ -223,7 +225,7 @@ airr_diversity_chao1_impl <- function(idata) {
 #' * `Conf.95.hi` - CI 0.975
 #' * plus repertoire metadata from `idata$repertoires`
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Estimate receptor richness.
 #' chao <- airr_diversity_chao1(immdata)
@@ -586,7 +588,7 @@ airr_diversity_rarefaction_impl <- function(idata, step = NA, quantile = c(.025,
 #' * `type` - `interpolation` or `extrapolation`
 #' * plus repertoire metadata from `idata$repertoires`
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate a rarefaction curve without extrapolation.
 #' raref <- airr_diversity_rarefaction(immdata, step = 2000)
@@ -634,7 +636,7 @@ airr_diversity_shannon_impl <- function(idata) {
 #' * `imd_repertoire_id`
 #' * `shannon` - entropy in bits
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate Shannon entropy.
 #' sh <- airr_diversity_shannon(immdata)
@@ -675,7 +677,7 @@ airr_diversity_pielou_impl <- function(idata) {
 #' * `n_receptors`
 #' * `pielou` - evenness in `[0, 1]` (`NA` if `S <= 1`)
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate Pielou evenness.
 #' pj <- airr_diversity_pielou(immdata)
@@ -708,7 +710,7 @@ airr_diversity_index_impl <- function(idata) {
 #' * `hill_number`
 #' * plus repertoire metadata from `idata$repertoires`
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate the default diversity index.
 #' idx <- airr_diversity_index(immdata)
@@ -800,7 +802,7 @@ airr_diversity_hill_impl <- function(idata, q = 0:5) {
 #' * `hill_number` - true diversity of order `q`
 #' * plus repertoire metadata from `idata$repertoires`
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate a diversity profile for three Hill orders.
 #' hill <- airr_diversity_hill(immdata, q = c(0, 1, 2))

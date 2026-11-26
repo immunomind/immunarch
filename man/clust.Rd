@@ -85,6 +85,7 @@ res <- clust_cc(
 res
 res <- res |> collect()
 
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 # Build independent graphs within each repertoire and V-gene group. The
 # same columns must be supplied to by in both functions.
 group_cols <- c("imd_repertoire_id", "v_call")
@@ -105,6 +106,6 @@ res_by_group |>
   dplyr::filter(cluster_size > 1L) |>
   dplyr::arrange(dplyr::desc(cluster_size)) |>
   dplyr::collect()
-
+\dontshow{\}) # examplesIf}
 }
 \concept{Clustering}

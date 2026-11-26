@@ -295,44 +295,52 @@ immdata <- get_test_idata()
 #
 # Calculate D50 and several coverage thresholds.
 d50 <- airr_diversity_dxx(immdata, perc = 50)
+
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 d_multi <- airr_diversity_dxx(immdata, perc = c(20, 50, 80))
 
 # Visualise the coverage diversity.
 vis(d_multi)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Estimate receptor richness.
 chao <- airr_diversity_chao1(immdata)
 
 # Visualise the richness estimates.
 vis(chao)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate a rarefaction curve without extrapolation.
 raref <- airr_diversity_rarefaction(immdata, step = 2000)
 
 # Visualise the rarefaction curve.
 vis(raref)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate Shannon entropy.
 sh <- airr_diversity_shannon(immdata)
 vis(sh)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate Pielou evenness.
 pj <- airr_diversity_pielou(immdata)
 vis(pj)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate the default diversity index.
 idx <- airr_diversity_index(immdata)
 vis(idx)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Calculate a diversity profile for three Hill orders.
 hill <- airr_diversity_hill(immdata, q = c(0, 1, 2))
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Chao, A. et al. (2014). Rarefaction and extrapolation with Hill numbers:

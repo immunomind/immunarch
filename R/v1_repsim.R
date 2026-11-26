@@ -331,7 +331,7 @@ repsim_jaccard_impl <- function(idata) {
 #' from `schema_repertoire`. Each cell is the Jaccard similarity in `[0, 1]`. The
 #' diagonal is `1`.
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate Jaccard similarity.
 #' m_jac <- repsim_jaccard(immdata)
@@ -505,7 +505,7 @@ repsim_chao_jaccard_impl <- function(idata) {
 #' for assessing similarity of species composition with incidence and abundance
 #' data. *Ecology Letters*, 8(2), 148-159. \doi{10.1111/j.1461-0248.2004.00707.x}
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate sampling-corrected Jaccard similarity.
 #' m_chao_jac <- repsim_chao_jaccard(immdata)
@@ -672,7 +672,7 @@ repsim_morisita_horn_impl <- function(idata) {
 #' Horn HS (1966). Measurement of overlap in comparative ecological studies.
 #' *The American Naturalist*, 100(914), 419-424. \doi{10.1086/282436}
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate Morisita-Horn similarity.
 #' m_mh <- repsim_morisita_horn(immdata)
@@ -872,7 +872,7 @@ repsim_bray_impl <- function(
 #' from `schema_repertoire`. Each cell is Bray-Curtis similarity in `[0, 1]`
 #' (`0` = no overlap, `1` = identical). The diagonal is `1`.
 #'
-#' @examples
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' #
 #' # Calculate Bray-Curtis similarity.
 #' m_bray <- repsim_bray(immdata)

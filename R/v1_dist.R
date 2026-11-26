@@ -740,6 +740,7 @@ dist_hamm_impl <- function(
 #' }
 #' idata <- get_test_idata()
 #'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' # Build the computing query
 #' res <- dist_hamm(idata)
 #' # Check how results would look like
@@ -747,11 +748,13 @@ dist_hamm_impl <- function(
 #' # Run the computation query and upload the results to the memory
 #' res <- res |> collect()
 #'
+#' @examples
 #' # Bound Hamming distance.
 #' # Non-normalised -- no receptors with more than 1 mismatch in the output
 #' res <- dist_hamm(idata, max_dist = 1) |> collect()
 #' res
 #'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' # Normalised -- no receptors with more than .2 normalised distance in the output
 #' res <- dist_hamm(idata, max_dist = .2) |> collect()
 #' res
@@ -767,6 +770,7 @@ dist_hamm_impl <- function(
 #' # Plot all raw pairwise distances instead.
 #' vis(dist_hamm(idata), mode = "all", xval = "dist")
 #'
+#' @examples
 #' \dontrun{
 #' #
 #' # Typical use case for BCR data

@@ -406,6 +406,7 @@ clust_cc_tables <- function(
 #' res
 #' res <- res |> collect()
 #'
+#' @examplesIf identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")
 #' # Build independent graphs within each repertoire and V-gene group. The
 #' # same columns must be supplied to by in both functions.
 #' group_cols <- c("imd_repertoire_id", "v_call")

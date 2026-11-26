@@ -86,6 +86,8 @@ normalized calls should also define receptor identity.
 # Release temporary DuckDB views from earlier examples after R resets the seed.
 invisible(gc())
 }
+
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 # Limit the number of threads used by the underlying DB for this example.
 # Generally, you should NOT do this in your session.
 db_exec("SET threads TO 1")
@@ -126,7 +128,6 @@ annotated <- annotate_ig_clones(idata, heavy_threshold = 0.25)
 
 annotated
 
-\dontrun{
 # Use heavy-chain similarity alone when the scientific question requires it.
 annotate_ig_clones(
   idata,
@@ -182,8 +183,8 @@ annotate_ig_clones(canonical_idata, heavy_threshold = 0.25)
 
 unlink(messy_file)
 unlink(canonical_folder, recursive = TRUE)
-}
 
 unlink(input_file)
 unlink(output_folder, recursive = TRUE)
+\dontshow{\}) # examplesIf}
 }

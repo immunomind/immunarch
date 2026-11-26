@@ -170,23 +170,26 @@ top_line <- airr_clonality_line(immdata, limit = 1000)
 # Visualise the depth-normalised rank-abundance curve.
 vis(top_line)
 
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 # Or visualise raw receptor counts.
 vis(top_line, yval = "imd_count")
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Analyse the repertoire space occupied by different rank ranges.
 rank_stat <- airr_clonality_rank(immdata, bins = c(10, 100))
 
 # Visualise the rank-bin summary.
 vis(rank_stat)
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("IMMUNARCH_RUN_EXAMPLES"), "true")) withAutoprint(\{ # examplesIf}
 #
 # Analyse the repertoire space occupied by abundance groups.
 prop_stat <- airr_clonality_prop(immdata)
 
 # Visualise the abundance-group summary.
 vis(prop_stat)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \itemize{
