@@ -2,10 +2,21 @@
 
 ---
 
-## immunarch 0.11.0 (current development version)
+## immunarch 0.12.0 (current development version)
+
+### Breaking changes
+
+* Retired the v0 API. Legacy calls now stop with a deprecation error.
+  Use immunarch 0.11.x to run v0 scripts.
+  [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+* Removed `data.table`, `dtplyr`, and other dependencies used only by v0.
+
+---
+
+## immunarch 0.11.0 (November 2026)
 
 This release adds receptor tracking, publicness analysis, sequence clustering,
-and immunoglobulin mutation analysis to the `ImmunData` API. It also expands
+and basic immunoglobulin mutation analysis. It also expands
 repertoire similarity and adds rarefaction and extrapolation.
 
 ### Breaking changes
@@ -83,8 +94,11 @@ repertoire similarity and adds rarefaction and extrapolation.
 ### Documentation and maintenance
 
 * Raised the minimum versions to immundata 0.1.0, dplyr 1.2.0, and duckplyr
-  1.2.0. Removed Rcpp and reshape2, and moved more legacy dependencies to
+  1.2.0.
+
+* Removed Rcpp and reshape2, and moved more legacy dependencies to
   `Suggests`.
+
 * Added examples and tests for paired-chain summaries, repertoire similarity,
   receptor tracking, clustering, and immunoglobulin annotation.
 
