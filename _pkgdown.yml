@@ -141,7 +141,7 @@ reference:
 
 - subtitle: Repertoire descriptive statistics
 - contents:
-  - starts_with("airr_stats")
+  - starts_with("airr_desc")
 
 - subtitle: Clonality
 - contents:
@@ -152,20 +152,48 @@ reference:
 - contents:
   - starts_with("airr_diversity")
 
-- subtitle: Public indices
+- subtitle: Repertoire similarity
 - contents:
-  - starts_with("airr_public")
+  - starts_with("repsim")
+
+- subtitle: Receptor tracking and annotation
+- contents:
+  - starts_with("vdj_")
+  - make_public_filter
+  - annotate_public
+  - annotate_with_database
+
+- subtitle: Sequence distance and clustering
+- contents:
+  - starts_with("dist_")
+  - starts_with("clust_")
+
+- subtitle: Immunoglobulin analysis
+- contents:
+  - starts_with("annotate_ig")
+  - starts_with("airr_ig_")
+  - read_germline_references
 
 - subtitle: Technical
 - contents:
   - has_lifecycle("experimental")
   - has_concept("data")
   - has_concept("migration_utility")
-  - -starts_with("airr_stats")
+  - vis.ImmunData
+  - -starts_with("airr_desc")
   - -starts_with("airr_clonality")
   - -starts_with("airr_diversity")
-  - -starts_with("airr_public")
   - -starts_with("annotate_clonality")
+  - -starts_with("repsim")
+  - -starts_with("vdj_")
+  - -make_public_filter
+  - -annotate_public
+  - -annotate_with_database
+  - -starts_with("dist_")
+  - -starts_with("clust_")
+  - -starts_with("annotate_ig")
+  - -starts_with("airr_ig_")
+  - -read_germline_references
 
 - title: Under Question, v0.9 -> v1.0
 

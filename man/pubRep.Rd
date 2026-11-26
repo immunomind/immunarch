@@ -59,9 +59,11 @@ Data table with columns for:
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 # Subset the data to make the example faster to run
 immdata$data <- lapply(immdata$data, head, 2000)
 pr <- pubRep(immdata$data, .verbose = FALSE)
 vis(pr, "clonotypes", 1, 2)
+}
 }
 \concept{pubrep}

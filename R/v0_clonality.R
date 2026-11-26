@@ -67,6 +67,7 @@
 #' @seealso [repDiversity]
 #'
 #' @examples
+#' \dontrun{
 #' # Load the data
 #' data(immdata)
 #'
@@ -81,6 +82,7 @@
 #'
 #' imm_hom <- repClonality(immdata$data, .method = "homeo")
 #' vis(imm_hom)
+#' }
 #' @export repClonality
 repClonality <- function(.data, .method = c("clonal.prop", "homeo", "top", "rare"),
                          .perc = 10, .clone.types = c(

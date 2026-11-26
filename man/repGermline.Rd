@@ -45,11 +45,13 @@ B-cell maturation and hypermutation process. Germline sequence is useful for ass
 the degree of mutation and maturity of the repertoire.
 }
 \examples{
+\dontrun{
 
 data(bcrdata)
 
 bcrdata$data \%>\%
   top(5) \%>\%
   repGermline()
+}
 }
 \concept{germline}

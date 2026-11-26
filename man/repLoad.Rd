@@ -81,6 +81,7 @@ Currently, Immunarch support the following formats:
 }
 }
 \examples{
+\dontrun{
 # To load the data from a single file (note that you don't need to specify the data format):
 file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/Sample1.tsv.gz")
 immdata <- repLoad(file_path)
@@ -109,6 +110,7 @@ print(names(immdata))
 # > immdata <- repLoad("path/to/your/folder/")
 # > names(immdata)
 # [1] "data" "meta"
+}
 }
 \seealso{
 \link{immunr_data_format} for immunarch data format; \link{repSave} for file saving;

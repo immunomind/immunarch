@@ -90,6 +90,7 @@
 #' @seealso [inc_overlap], [vis]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #'
 #' # Make data smaller for testing purposes
@@ -100,6 +101,7 @@
 #'
 #' ov <- repOverlap(immdata$data, "jaccard", .verbose = FALSE)
 #' vis(ov, "heatmap2")
+#' }
 #' @export repOverlap
 repOverlap <- function(.data,
                        .method = c("public", "overlap", "jaccard", "tversky", "cosine", "morisita", "inc+public", "inc+morisita"),

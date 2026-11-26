@@ -57,6 +57,7 @@
 #'   * Clones: taken from the input dataframe, or created (filled with '1' values) if missing
 #'
 #' @examples
+#' \dontrun{
 #'
 #' data(bcrdata)
 #' bcr_data <- bcrdata$data
@@ -65,6 +66,7 @@
 #'   seqCluster(seqDist(bcr_data), .fixed_threshold = 3) %>%
 #'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE)
+#' }
 #' @export repAlignLineage
 repAlignLineage <- function(.data,
                             .min_lineage_sequences = 3,

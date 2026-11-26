@@ -28,9 +28,11 @@ Apply the given function to every pair in the given datalist. Function either
 symmetrical (i.e. fun(x,y) == fun(y,x)) or assymmetrical (i.e. fun(x,y) != fun(y,x)).
 }
 \examples{
+\dontrun{
 data(immdata)
 apply_symm(immdata$data, function(x, y) {
   nrow(x) + nrow(y)
 })
+}
 }
 \concept{utility_public}

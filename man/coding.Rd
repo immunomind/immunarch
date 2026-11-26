@@ -45,8 +45,10 @@ Filter out clonotypes with non-coding, coding, in-frame or out-of-frame CDR3 seq
 Note: the function will remove all clonotypes sequences with NAs in the CDR3 amino acid column.
 }
 \examples{
+\dontrun{
 data(immdata)
 immdata_cod <- coding(immdata$data)
 immdata_cod1 <- coding(immdata$data[[1]])
+}
 }
 \concept{preprocessing}

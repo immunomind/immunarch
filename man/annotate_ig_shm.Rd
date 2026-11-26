@@ -3,6 +3,14 @@
 \name{annotate_ig_shm}
 \alias{annotate_ig_shm}
 \title{Annotate immunoglobulin somatic hypermutation}
+\usage{
+annotate_ig_shm(
+  idata,
+  sequence_col = "sequence_alignment",
+  germline_col = "germline_alignment",
+  by = "<auto>"
+)
+}
 \arguments{
 \item{idata}{\link[immundata:ImmunData]{immundata::ImmunData}. IgBLAST AIRR data to annotate.}
 

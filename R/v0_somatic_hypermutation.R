@@ -45,6 +45,7 @@
 #' * Mutations: contains total number of mutations in the alignment (summary for V and J)
 #'
 #' @examples
+#' \dontrun{
 #'
 #' data(bcrdata)
 #' bcr_data <- bcrdata$data
@@ -55,6 +56,7 @@
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
 #'   repClonalFamily(.threads = 1, .nofail = TRUE) %>%
 #'   repSomaticHypermutation(.threads = 1, .nofail = TRUE)
+#' }
 #' @export repSomaticHypermutation
 repSomaticHypermutation <- function(.data, .threads = parallel::detectCores(), .nofail = FALSE) {
   if (!require_system_package(c("clustalw", "clustalw2"), error_message = paste0(

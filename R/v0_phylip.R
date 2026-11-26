@@ -55,6 +55,7 @@
 #'   repSomaticHypermutation() calculation, and also data needed for visualizations
 #'
 #' @examples
+#' \dontrun{
 #'
 #' data(bcrdata)
 #' bcr_data <- bcrdata$data
@@ -64,6 +65,7 @@
 #'   repGermline(.threads = 1) %>%
 #'   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) %>%
 #'   repClonalFamily(.threads = 1, .nofail = TRUE)
+#' }
 #' @export repClonalFamily
 repClonalFamily <- function(.data,
                             .vis_groups = NA,

@@ -127,6 +127,10 @@ Set \code{facet = NULL} to have one plot per all input samples, or name a result
 }
 
 \examples{
+\dontshow{
+# Release temporary DuckDB views from earlier examples after R resets the seed.
+invisible(gc())
+}
 idata <- get_test_idata()
 
 # Build the computing query

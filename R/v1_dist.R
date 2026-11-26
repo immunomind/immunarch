@@ -734,6 +734,10 @@ dist_hamm_impl <- function(
 #' Call [dplyr::collect()] only when a returned table is small enough for memory.
 #'
 #' @examples
+#' \dontshow{
+#' # Release temporary DuckDB views from earlier examples after R resets the seed.
+#' invisible(gc())
+#' }
 #' idata <- get_test_idata()
 #'
 #' # Build the computing query

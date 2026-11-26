@@ -56,6 +56,7 @@ if \code{.method} is "sample" then \code{repSample} chooses \code{.n} clonotypes
 or each clonotype has an equal chance to be choosed (if \code{.prob} is FALSE). Note that sampling is done without replacing.
 }
 \examples{
+\dontrun{
 data(immdata)
 # Downsampling to 1000 clones (not clonotypes!)
 tmp <- repSample(immdata$data[[1]], .n = 1000)
@@ -74,6 +75,7 @@ sum(tmp[[2]]$Clones)
 tmp <- repSample(immdata$data[c(1, 2)], "sample")
 nrow(tmp[[1]]$Clones)
 nrow(tmp[[2]]$Clones)
+}
 }
 \seealso{
 \link{rmultinom}, \link{clonal_proportion}

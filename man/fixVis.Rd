@@ -20,12 +20,14 @@ of plots, such as adjusting title text font and size, axes, and more. It is a po
 tool designed to produce publication-ready plots with minimal amount of coding.
 }
 \examples{
+\dontrun{
 if (interactive()) {
   # Compute gene usage, visualise it and tweak via fixVis
   data(immdata) # load test data
   gu <- geneUsage(immdata$data)
   p <- vis(gu)
   fixVis(p)
+}
 }
 }
 \concept{fixvis}

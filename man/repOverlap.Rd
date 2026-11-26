@@ -103,6 +103,7 @@ distribution generated from a Poisson process. Duplicate objects are merged
 with their counts are summed up.
 }
 \examples{
+\dontrun{
 data(immdata)
 
 # Make data smaller for testing purposes
@@ -113,6 +114,7 @@ vis(ov)
 
 ov <- repOverlap(immdata$data, "jaccard", .verbose = FALSE)
 vis(ov, "heatmap2")
+}
 }
 \seealso{
 \link{inc_overlap}, \link{vis}

@@ -66,6 +66,7 @@
 #' @seealso [rmultinom], [clonal_proportion]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' # Downsampling to 1000 clones (not clonotypes!)
 #' tmp <- repSample(immdata$data[[1]], .n = 1000)
@@ -84,6 +85,7 @@
 #' tmp <- repSample(immdata$data[c(1, 2)], "sample")
 #' nrow(tmp[[1]]$Clones)
 #' nrow(tmp[[2]]$Clones)
+#' }
 #' @export repSample
 repSample <- function(.data, .method = c("downsample", "resample", "sample"), .n = NA, .prob = TRUE) {
   .method <- .method[1]

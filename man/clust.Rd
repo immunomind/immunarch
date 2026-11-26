@@ -65,6 +65,10 @@ a scope, those nodes are joined by identity edges before components are
 computed. Receptors without a usable sequence remain singleton components.
 }
 \examples{
+\dontshow{
+# Release temporary DuckDB views from earlier examples after R resets the seed.
+invisible(gc())
+}
 # Limit the number of threads used by the underlying DB for this example.
 # Generally, you should NOT do this in your session.
 db_exec("SET threads TO 1")

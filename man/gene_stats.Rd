@@ -13,7 +13,9 @@ gene_stats()
 WIP
 }
 \examples{
+\dontrun{
 gene_stats()
 get_genes("hs.trbv", "segment")
+}
 }
 \concept{data}

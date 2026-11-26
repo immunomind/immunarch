@@ -52,12 +52,14 @@
 #' * Germline.sequence (combined germline nucleotide sequence)
 #'
 #' @examples
+#' \dontrun{
 #'
 #' data(bcrdata)
 #'
 #' bcrdata$data %>%
 #'   top(5) %>%
 #'   repGermline()
+#' }
 #' @export repGermline
 repGermline <- function(.data,
                         .species = "HomoSapiens",

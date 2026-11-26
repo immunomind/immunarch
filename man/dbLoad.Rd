@@ -43,11 +43,13 @@ McPAS-TCR - \url{https://friedmanlab.weizmann.ac.il/McPAS-TCR/}
 TBAdb from PIRD - \url{https://db.cngb.org/pird/}
 }
 \examples{
+\dontrun{
 # Example file path
 file_path <- paste0(system.file(package = "immunarch"), "/extdata/db/vdjdb.example.txt")
 
 # Load the database with human-only TRB-only receptors for all known antigens
 db <- dbLoad(file_path, "vdjdb", "HomoSapiens", "TRB")
 db
+}
 }
 \concept{annotation}

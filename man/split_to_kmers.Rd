@@ -37,8 +37,10 @@ For more information see https://en.wikipedia.org/wiki/Position_weight_matrix.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
+\dontrun{
 data(immdata)
 kmers <- getKmers(immdata$data[[1]], 5)
 kmer_profile(kmers) \%>\% vis()
+}
 }
 \concept{k-mers}

@@ -65,8 +65,10 @@ Jensen-Shannon divergence, k-means, hierarchical clustering, DBscan, and differe
 correlation coefficients.
 }
 \examples{
+\dontrun{
 data(immdata)
 gu <- geneUsage(immdata$data, .norm = TRUE)
 geneUsageAnalysis(gu, "js+hclust", .verbose = FALSE) \%>\% vis()
+}
 }
 \concept{gene_usage}

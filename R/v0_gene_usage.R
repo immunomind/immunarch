@@ -54,9 +54,11 @@ if (getRversion() >= "2.15.1") {
 #' A data frame with rows corresponding to gene segments and columns corresponding to the input samples.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' gu <- geneUsage(immdata$data)
 #' vis(gu)
+#' }
 #' @export geneUsage get_genes
 geneUsage <- function(.data, # df, list, MonetDB
                       .gene = c("hs.trbv", "HomoSapiens.TRBJ", "macmul.IGHV"),
@@ -204,8 +206,10 @@ geneUsage <- function(.data, # df, list, MonetDB
 #' `gene_stats` returns all segment gene statistics
 #'
 #' @examples
+#' \dontrun{
 #' gene_stats()
 #' get_genes("hs.trbv", "segment")
+#' }
 #' @export gene_stats
 gene_stats <- function() {
   res <- GENE_SEGMENTS %>%

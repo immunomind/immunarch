@@ -55,6 +55,7 @@
 #' @seealso [vis.immunr_exp_vol]
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #'
 #' # Calculate statistics and generate a visual output with vis()
@@ -63,6 +64,7 @@
 #' repExplore(immdata$data, .method = "count") %>% vis()
 #'
 #' repExplore(immdata$data, .method = "len") %>% vis()
+#' }
 #' @export repExplore
 repExplore <- function(.data, .method = c("volume", "count", "len", "clones"), .col = c("nt", "aa"), .coding = TRUE) {
   lifecycle::deprecate_warn(

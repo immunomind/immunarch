@@ -49,10 +49,12 @@
 #' - Per-sample proportions or counts
 #'
 #' @examples
+#' \dontrun{
 #' # Subset the data to make the example faster to run
 #' immdata$data <- lapply(immdata$data, head, 2000)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' vis(pr, "clonotypes", 1, 2)
+#' }
 #' @export pubRep publicRepertoire
 pubRep <- function(.data, .col = "aa+v", .quant = c("count", "prop"), .coding = TRUE, .min.samples = 1, .max.samples = NA, .verbose = TRUE) {
   .validate_repertoires_data(.data)
@@ -139,12 +141,14 @@ publicRepertoire <- pubRep
 #' Matrix with per-sample clonotype counts / proportions only.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pr.mat <- public_matrix(pr)
 #' dim(pr.mat)
 #' head(pr.mat)
+#' }
 #' @export
 public_matrix <- function(.data) {
   sample_i <- match("Samples", colnames(.data)) + 1
@@ -193,11 +197,13 @@ get_public_repertoire_names <- function(.pr) {
 #' Data frame with filtered clonotypes.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pr1 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "MS"))
 #' head(pr1)
+#' }
 #' @export pubRepFilter publicRepertoireFilter
 pubRepFilter <- function(.pr, .meta, .by, .min.samples = 1) {
   if (!has_class(.pr, "immunr_public_repertoire")) {
@@ -269,6 +275,7 @@ publicRepertoireFilter <- pubRepFilter
 #' Work in progress.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
@@ -276,6 +283,7 @@ publicRepertoireFilter <- pubRepFilter
 #' pr2 <- pubRepFilter(pr, immdata$meta, .by = c(Status = "C"))
 #' prapp <- pubRepApply(pr1, pr2)
 #' head(prapp)
+#' }
 #' @export pubRepApply publicRepertoireApply
 pubRepApply <- function(.pr1, .pr2, .fun = function(x) log10(x[1]) / log10(x[2])) {
   col_before_samples <- names(.pr1)[1:(match("Samples", colnames(.pr1)) - 1)]
@@ -322,10 +330,12 @@ publicRepertoireApply <- pubRepApply
 #' Data frame with incidence statistics per sample.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' immdata$data <- lapply(immdata$data, head, 2000)
 #' pr <- pubRep(immdata$data, .verbose = FALSE)
 #' pubRepStatistics(pr) %>% vis()
+#' }
 #' @export pubRepStatistics
 pubRepStatistics <- function(.data, .by = NA, .meta = NA) {
   # ToDo: add a support for grouping

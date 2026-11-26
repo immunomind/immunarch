@@ -54,12 +54,14 @@
 #' The second element is the input dataset `.data`.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' gu <- geneUsage(immdata$data, .norm = TRUE)
 #' immunr_hclust(t(as.matrix(gu[, -1])), .dist = FALSE)
 #'
 #' gu[is.na(gu)] <- 0
 #' immunr_kmeans(t(as.matrix(gu[, -1])))
+#' }
 #' @export immunr_hclust immunr_kmeans immunr_dbscan
 immunr_hclust <- function(.data, .k = 2, .k.max = nrow(.data) - 1, .method = "complete", .dist = TRUE) {
   if (!requireNamespace("factoextra", quietly = TRUE)) {

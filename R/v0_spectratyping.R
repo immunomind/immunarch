@@ -33,10 +33,12 @@
 #' Data frame with distributions of clonotypes per CDR3 length.
 #'
 #' @examples
+#' \dontrun{
 #' # Load the data
 #' data(immdata)
 #' sp <- spectratype(immdata$data[[1]], .col = "aa+v")
 #' vis(sp)
+#' }
 #' @export spectratype
 spectratype <- function(.data, .quant = c("id", "count"), .col = "nt") {
   if (has_class(.data, "list")) {

@@ -38,6 +38,7 @@ Before using this function, you must download or load the relevant database file
 For more information, see the \href{https://immunarch.com/articles/web_only/v11_db.html}{online tutorial}.
 }
 \examples{
+\dontrun{
 data(immdata)
 
 #' # Example file path
@@ -48,5 +49,6 @@ db <- dbLoad(file_path, "vdjdb", "HomoSapiens", "TRB")
 
 res <- dbAnnotate(immdata$data, db, "CDR3.aa", "cdr3")
 res
+}
 }
 \concept{annotation}

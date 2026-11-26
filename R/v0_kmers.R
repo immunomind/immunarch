@@ -33,9 +33,11 @@
 #' Data frame with two columns (k-mers and their counts).
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' kmers <- getKmers(immdata$data[[1]], 5)
 #' kmers %>% vis()
+#' }
 #' @export getKmers
 getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
   seq_col <- switch_type(.col[1])
@@ -126,9 +128,11 @@ getKmers <- function(.data, .k, .col = c("aa", "nt"), .coding = TRUE) {
 #' `kmer_profile` - a matrix with per-position amino acid statistics.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #' kmers <- getKmers(immdata$data[[1]], 5)
 #' kmer_profile(kmers) %>% vis()
+#' }
 #' @export split_to_kmers kmer_profile
 split_to_kmers <- function(.data, .k) {
   max_len <- max(nchar(.data))

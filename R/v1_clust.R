@@ -386,6 +386,10 @@ clust_cc_tables <- function(
 #' Call [dplyr::collect()] when an in-memory tibble is needed.
 #'
 #' @examples
+#' \dontshow{
+#' # Release temporary DuckDB views from earlier examples after R resets the seed.
+#' invisible(gc())
+#' }
 #' # Limit the number of threads used by the underlying DB for this example.
 #' # Generally, you should NOT do this in your session.
 #' db_exec("SET threads TO 1")

@@ -110,6 +110,7 @@ if (getRversion() >= "2.15.1") {
 #' [repOverlap], [geneUsage] and [repDiversity] for starting with immune repertoires basic statistics.
 #'
 #' @examples
+#' \dontrun{
 #' # To load the data from a single file (note that you don't need to specify the data format):
 #' file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/Sample1.tsv.gz")
 #' immdata <- repLoad(file_path)
@@ -138,6 +139,7 @@ if (getRversion() >= "2.15.1") {
 #' # > immdata <- repLoad("path/to/your/folder/")
 #' # > names(immdata)
 #' # [1] "data" "meta"
+#' }
 #' @export repLoad
 repLoad <- function(.path, .mode = "paired", .coding = TRUE, ...) {
   lifecycle::deprecate_warn(

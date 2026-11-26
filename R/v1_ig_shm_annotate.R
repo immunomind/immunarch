@@ -616,6 +616,7 @@ ig_shm_per_row_sql <- function(source, codon_lookup, con) {
 }
 
 
+#' @rdname annotate_ig_shm
 #' @export
 annotate_ig_shm <- register_method_annotate(
   core = annotate_ig_shm_impl,

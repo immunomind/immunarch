@@ -63,8 +63,10 @@ An utility function to analyse the immune receptor gene usage
 and statistics. For gene details run \code{gene_stats()}.
 }
 \examples{
+\dontrun{
 data(immdata)
 gu <- geneUsage(immdata$data)
 vis(gu)
+}
 }
 \concept{gene_usage}

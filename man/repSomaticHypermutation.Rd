@@ -40,6 +40,7 @@ with corresponding genes in each clonotype, saves the alignments for purpose of 
 and calculates number of mutations for each clonotype.
 }
 \examples{
+\dontrun{
 
 data(bcrdata)
 bcr_data <- bcrdata$data
@@ -50,5 +51,6 @@ bcr_data \%>\%
   repAlignLineage(.min_lineage_sequences = 2, .align_threads = 2, .nofail = TRUE) \%>\%
   repClonalFamily(.threads = 1, .nofail = TRUE) \%>\%
   repSomaticHypermutation(.threads = 1, .nofail = TRUE)
+}
 }
 \concept{somatic_hypermutation}

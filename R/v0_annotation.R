@@ -46,12 +46,14 @@ if (getRversion() >= "2.15.1") {
 #' Data frame with the input database records.
 #'
 #' @examples
+#' \dontrun{
 #' # Example file path
 #' file_path <- paste0(system.file(package = "immunarch"), "/extdata/db/vdjdb.example.txt")
 #'
 #' # Load the database with human-only TRB-only receptors for all known antigens
 #' db <- dbLoad(file_path, "vdjdb", "HomoSapiens", "TRB")
 #' db
+#' }
 #' @export
 dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
   lifecycle::deprecate_warn("0.10.3", "dbLoad()", details = IMMUNARCH_LEGACY_WARNING)
@@ -148,6 +150,7 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #' Data frame with input sequences and counts or proportions for each of the input repertoire.
 #'
 #' @examples
+#' \dontrun{
 #' data(immdata)
 #'
 #' #' # Example file path
@@ -158,6 +161,7 @@ dbLoad <- function(.path, .db, .species = NA, .chain = NA, .pathology = NA) {
 #'
 #' res <- dbAnnotate(immdata$data, db, "CDR3.aa", "cdr3")
 #' res
+#' }
 #' @export dbAnnotate
 dbAnnotate <- function(.data, .db, .data.col, .db.col) {
   lifecycle::deprecate_warn("0.10.3", "dbAnnotate()", details = IMMUNARCH_LEGACY_WARNING)
