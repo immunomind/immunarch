@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 .RDataFiles/*
+/tests/testthat/Rplots.pdf
 src/*.o
 src/*.so
 src/*.dll
