@@ -47,6 +47,8 @@ jobs:
         env:
           DOCS_BRANCH: ${{ github.ref_name }}
         run: |
+          # altdoc compares the repository URL with BugReports after stripping /issues.
+          sed -i '/^URL:/ s#https://github\.com/immunomind/immunarch/#https://github.com/immunomind/immunarch#' DESCRIPTION
           version=$(sed -n 's/^Version: //p' DESCRIPTION)
           test -n "$version"
           title="immunarch $version"
