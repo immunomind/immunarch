@@ -175,12 +175,13 @@ We will periodically release `immunarch` on CRAN. To install it from CRAN, run
 pak::pak("immunarch")
 ```
 
-If you are willing to try unstable yet bleeding edge features, or if there are some hot
-fix for your open GitHub ticket, please install the development version:
+Install the development version from the [`dev` branch](https://github.com/immunomind/immunarch/tree/dev).
 
 ```r
 pak::pak("immunomind/immunarch@dev")
 ```
+
+[Read the development documentation](https://immunarch.com/dev/).
 
 <a name="quick-start"></a>
 

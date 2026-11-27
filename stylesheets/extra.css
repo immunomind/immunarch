@@ -1,14 +1,19 @@
-/* Match the immunarch brand and keep long R signatures readable. */
+/* Use the green and navy tones from the immunarch logo. */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #243447;
-  --md-accent-fg-color: #d97706;
-  --md-typeset-a-color: #087f8c;
+  --md-primary-fg-color: #136f69;
+  --md-accent-fg-color: #207e65;
+  --md-typeset-a-color: #136f69;
 }
 
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #182433;
-  --md-accent-fg-color: #f59e0b;
-  --md-typeset-a-color: #67c7d0;
+  --md-primary-fg-color: #00162d;
+  --md-accent-fg-color: #50b787;
+  --md-typeset-a-color: #81e3a8;
+}
+
+.md-header__button.md-logo svg,
+.md-nav__button.md-logo svg {
+  fill: #81e3a8;
 }
 
 .md-typeset pre > code { font-size: 0.73rem; }
