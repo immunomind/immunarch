@@ -1,0 +1,15 @@
+/* Match the immunarch brand and keep long R signatures readable. */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #243447;
+  --md-accent-fg-color: #d97706;
+  --md-typeset-a-color: #087f8c;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #182433;
+  --md-accent-fg-color: #f59e0b;
+  --md-typeset-a-color: #67c7d0;
+}
+
+.md-typeset pre > code { font-size: 0.73rem; }
+.md-typeset__table { width: 100%; overflow-x: auto; }

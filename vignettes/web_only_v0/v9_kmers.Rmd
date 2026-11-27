@@ -1,0 +1,151 @@
+---
+title: "Kmer and sequence motif analysis and visualisation"
+author: '<b>ImmunoMind</b> – improving design of T-cell therapies using multi-omics and AI. Research and biopharma partnerships, more details: <a href="https://immunomind.io">immunomind.io</a>'
+date: "support@immunomind.io"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 10
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{K-mer and sequence motif analysis and visualisation}
+%\VignettePackage{immunarch}
+-->
+
+
+
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+# knitr::opts_chunk$set(optipng = '-o7')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.width = 12)
+knitr::opts_chunk$set(fig.height = 5)
+
+library(immunarch)
+data(immdata)
+```
+
+# Kmer statistics computation
+
+Counting k-mer occurrences in `immunarch` is rather straightforward. All you need to do is to run the `getKmers()` function on your data:
+
+```{r, eval = FALSE}
+kmers <- getKmers(immdata$data[[1]], 3)
+kmers
+```
+
+It is also possible to compute occurrences of k-mers in a batch of immune repertoires. In order to do that, you just need to provide a list of immune repertoires to the function. NA means that there is no such kmer found in a sample, specified by the column name.
+
+```{r, eval = FALSE}
+kmers <- getKmers(immdata$data, 5)
+kmers
+```
+
+Note that by default `getKmers()` filter out all non-coding sequences before counting the k-mer statistics. You can use both coding and non-coding sequences by setting the `.coding` argument to FALSE:
+
+```{r, eval = FALSE}
+kmers <- getKmers(immdata$data[[1]], 3, .coding = F)
+kmers
+```
+
+## Kmer statistics visualisation
+
+To visualise your k-mer statistics, the `vis()` function comes to help:
+
+```{r, eval = FALSE}
+kmers <- getKmers(immdata$data, 5)
+vis(kmers)
+```
+
+The `vis()` function for k-mers has a number of arguments to manipulate the plot. First, the `.head` argument specifies the number of the most abundant k-mers to visualise.
+```{r, eval = FALSE}
+p1 <- vis(kmers, .head = 5)
+p2 <- vis(kmers, .head = 10)
+p3 <- vis(kmers, .head = 30)
+
+(p1 + p2) / p3
+```
+
+Second, there are three options to choose from for positions of bars: "stack", "dodge" and "fill", adjusted by providing the correposnding option to the `.position` argument:
+
+```{r, eval = FALSE}
+p1 <- vis(kmers, .head = 10, .position = "stack")
+p2 <- vis(kmers, .head = 10, .position = "fill")
+p3 <- vis(kmers, .head = 10, .position = "dodge")
+
+(p1 + p2) / p3
+```
+
+Option "stack" stacks all the bars on top of each other so you can see the full distribution of k-mers. Option "fill" stack all bars on top of each other as well, but normalises it in such a way that you can see distribution of counts per k-mer, i.e., you can clearly see which repertoire has more k-mer counts than others for a specific k-mer. Option "dodge" groups k-mer bars of different samples so that you can clearly see which samples has more k-mer occurrences overall.
+
+Additional argument is `.log` needed if your distribution of k-mer counts is vastly imbalanced for some of repertoires. It permits to use the log-transformation of y-axis so you can see differences in orders of magnitude in k-mer counts.
+
+```{r, eval = FALSE}
+p1 <- vis(kmers, .head = 10, .position = "stack")
+p2 <- vis(kmers, .head = 10, .position = "stack", .log = T)
+
+p1 + p2
+```
+
+# Sequence motifs analysis
+
+`immunarch` utilises common approaches to sequence motif analysis and uses different types of matrices to represent sequence motifs:
+
+ - position frequency matrix (PFM) - a matrix with occurences of each amino acid in each position;
+ - position probability matrix (PPM) - a matrix with probabilities of occurences of each amino acid in each position;
+ - position weight matrix (PWM) - a matrix with log likelihoods of PPM elements;
+ - a matrix with self-information of elements in PWM.
+
+To compute and visualise sequence motifs, first you need to compute k-mer statistics for one of the input immune repertoires, and then apply the `kmer_profile()` function to compute sequence motif matrices:
+
+```{r, eval = FALSE}
+kmers <- getKmers(immdata$data[[1]], 5)
+kmer_profile(kmers)
+```
+
+Currently we do not support sequence motifs analysis for more than one sample, but we are working on including it into our following release. In order to compute and visualise sequence motif matrices for all of your samples you need to process them one by one, which can be easily done in for-loops or via the `lapply()` function.
+
+Argument `.method` specifies which matrix to compute:
+
+ - `.method = "freq"` - position frequency matrix (PFM);
+ - `.method = "prob"` - position probability matrix (PPM);
+ - `.method = "wei"` - position weight matrix (PWM);
+ - `.method = "self"` - self-information matrix.
+
+```{r, eval = FALSE}
+kmer_profile(kmers, "freq")
+kmer_profile(kmers, "prob")
+kmer_profile(kmers, "wei")
+kmer_profile(kmers, "self")
+```
+
+## Sequence motif visualisation
+
+Visualisation of sequence motif matrices is done by `vis()`. There are two types of plots to choose from - sequence logo and "text logo". The argument `.plot` regulates the type of plot: `.plot = "seq"` for sequence logo plots and `.plot = "text"` (by default) for "text logo" plots.
+
+```{r, eval = FALSE}
+kp <- kmer_profile(kmers, "self")
+p1 <- vis(kp)
+p2 <- vis(kp, .plot = "seq")
+
+p1 + p2
+```
+
+
+# Get in contact with us
+
+Cannot find an important feature? Have a question or found a bug? Contact us at support@immunomind.io

@@ -1,208 +1,297 @@
-[![Follow](https://img.shields.io/twitter/follow/immunomind.svg?style=social)](https://twitter.com/intent/follow?screen_name=immunomind)
-[![CRAN](http://www.r-pkg.org/badges/version/immunarch?style=flat-square)](https://cran.r-project.org/package=immunarch)
-[![Downloads_all](http://cranlogs.r-pkg.org/badges/grand-total/immunarch)](http://www.r-pkg.org/pkg/immunarch)
-[![Downloads_week](http://cranlogs.r-pkg.org/badges/last-week/immunarch)](http://www.r-pkg.org/pkg/immunarch)
-[![Issues](https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square)](http://github.com/immunomind/immunarch/issues)
-[![CI](https://gitlab.com/immunomind/immunarch/badges/master/pipeline.svg?style=flat-square)](https://gitlab.com/immunomind/immunarch/-/jobs)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg)](https://doi.org/10.5281/zenodo.3367200)
-
-
-# `immunarch` --- An R Package for Painless Bioinformatics Analysis of T-cell and B-cell Immune Repertoire Data
-
-
-## Why `immunarch`?
-- **Work with any type of data:** single-cell, bulk, data tables, databases --- you name it.
-- **Community at the heart:** thrive in the community of almost 30,000 researchers and medical scientists worldwide, including researchers from **Pfizer, Novartis, Regeneron, Stanford, UCSF** and **MIT**.
-- **One plot --- one line:** write a [whole PhD thesis in 8 lines of code](https://twitter.com/Nusob88/status/1127601201112129536) or reproduce almost any publication in 5-10 lines of `immunarch` code.
-- **Be on the bleeding edge of science:** we regularly update `immunarch` with the latest methods. [Let us know what you need!](#help-the-community)
-- **Automatic format detection and parsing** for all popular immunosequencing formats: from **MiXCR** and **ImmunoSEQ** to **10XGenomics** and **ArcherDX**.
-
-And the **most important**: `immunarch` is not just a tool --- it is an **ecosystem**.
-
-
-## From Berkeley with devotion
-
-`immunarch` is brought to you by [ImmunoMind](https://immunomind.io) --- a [UC Berkeley SkyDeck](https://www.forbes.com/sites/avivalegatt/2019/01/07/launch-your-startup-at-these-five-college-incubators/) startup. 
-
-We have been helping researchers to extract insights from sequencing data of T-cell and antibody repertoires since the inception of the RepSeq domain. Our bioinformatics tools are trusted by top universities including Stanford, UCSF, MIT, King's College London and big pharma companies including Pfizer and Novartis.
-
-
-## Stay connected!
-
-<form action="https://formspree.io/mjveopnl" method="POST">
-  <br>
-  <div class="group">      
-      <input type="text" required name="_replyto" style="width:50%">
-      <span class="highlight" style="width:50%; height:30%"></span>
-      <span class="bar" style="width:50%"></span>
-      <label>Leave your email and get the latest immunarch news</label>
-      <br>
-      <button class="bttn-fill bttn-md bttn-danger" type="submit">Connect!</button>
-  </div>
-  
-  <input type="text" name="_gotcha" style="display:none" />
-  <input type="hidden" name="_next" value="https://immunarch.com"/>
-</form>
-
-Feel free to follow us on [Twitter](https://twitter.com/immunomind) as well.
+<div align="center">
+  <h2>🧬 <code>immunarch</code> – <strong>Multi-modal immune repertoire analysis in R</strong></h2>
+</div>
 
 ---
 
-## Table of Contents
+<div align="center">
+  <a href="https://github.com/immunomind">
+    <img alt="Ecosystem: ImmunoMind"
+         src="https://img.shields.io/badge/ecosystem-ImmunoMind-orange?style=flat-square">
+  </a>
+  <a href="https://cran.r-project.org/package=immunarch">
+    <img alt="CRAN Version"
+         src="https://www.r-pkg.org/badges/version-ago/immunarch?style=flat-square">
+  </a>
+  <a href="https://www.r-pkg.org/pkg/immunarch">
+    <img alt="CRAN Downloads (all time)"
+         src="https://cranlogs.r-pkg.org/badges/grand-total/immunarch">
+  </a>
+  <a href="https://www.r-pkg.org/pkg/immunarch">
+    <img alt="CRAN Downloads (last week)"
+         src="https://cranlogs.r-pkg.org/badges/last-week/immunarch">
+  </a>
+  <a href="https://anaconda.org/conda-forge/r-immunarch">
+    <img alt="Conda Version"
+         src="https://anaconda.org/conda-forge/r-immunarch/badges/version.svg">
+  </a>
+  <a href="https://anaconda.org/conda-forge/r-immunarch">
+    <img alt="Conda Total Downloads"
+         src="https://anaconda.org/conda-forge/r-immunarch/badges/downloads.svg">
+  </a>
+  <a href="https://github.com/immunomind/immunarch/issues">
+    <img alt="GitHub Issues"
+         src="https://img.shields.io/github/issues/immunomind/immunarch?style=flat-square">
+  </a>
+  <a href="https://doi.org/10.5281/zenodo.3367200">
+    <img alt="DOI"
+         src="https://zenodo.org/badge/DOI/10.5281/zenodo.3367200.svg">
+  </a>
+</div>
 
-- [Introduction](#introduction)
-- [Contact](#contact)
-- [Installation](#installation)
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Bugs and Issues](#bugs-and-issues)
-- [Contribution](#help-the-community)
-- [Citation](#citation)
+<p align="center">
+  <a href="https://immunomind.github.io/docs/tutorials/single_cell/">Tutorials</a>
+  |
+  <a href="https://immunomind.github.io/docs/api/reference/">API reference</a>
+  |
+  <a href=https://immunomind.github.io/docs/>Ecosystem</a>
+  |
+  Publication (coming soon...)
+</p>
 
-## Introduction
+---
 
-`immunarch` is an R package designed to analyse T-cell receptor (TCR) and B-cell receptor (BCR) repertoires, aimed at medical scientists and bioinformaticians. The mission of `immunarch` is to make immune sequencing data analysis as effortless as possible and help you focus on research instead of coding. Follow us on [Twitter](https://twitter.com/immunomind) for news and updates.
+`immunarch` brings a comprehensive analytics toolkit to build reproducible analysis
+pipelines for Adaptive Immune Receptor Repertoire (AIRR) data with a particular focus on
+designing personalized immunotherapies and vaccines. Key features are:
 
+- **Multi-modal immune profiling:** compute AIRR statistic, combining them with
+  single-cell, spatial, immunogenicity or any other receptor annotations;
 
-## Contact
-Create a ticket with a bug or question on [GitHub Issues](https://github.com/immunomind/immunarch/issues) to help the community help you and enrich it with your experience. If you need to send us a sensitive data, feel free to contact us via [support@immunomind.io](mailto:support@immunomind.io).
+- **Immunomics at scale:** work seamlessly with datasets that don't fit in memory;
 
+- **Immune biomarker discovery:** stratify cohorts and timepoints, derive repertoire
+  signatures (diversity/clonality, V/J usage, similarity), and track antigen-annotated
+  receptors;
 
-## Installation
+- **Feature engineering:** build Machine Learning-ready feature tables (receptor-,
+  sample- and cohort-level) from core repertoire metrics and annotations;
 
-### Latest release on CRAN
-In order to install `immunarch` execute the following command:
+- **Modular, extendable, adaptable:** add new analyses and metrics via an extension API,
+  and use adapters to interoperate with other AIRR tools and formats.
+
+<a name="why-immunarch"></a>
+
+## 🤔 Why `immunarch`?
+
+As immune repertoire sequencing becomes a mainstream technology, adopted by major
+platforms and integrated into more translational and clinical workflows, tooling
+expectations are changing rapidly. The pace of both innovation and data growth
+outstrips what even the most dedicated tool developers can deliver.
+
+That's why it's the perfect moment to step back and rethink **how** and **why** we
+analyze AIRR data. Instead of racing to patch each new problem, we need to prepare for
+the **next epoch** of immunomics.
+
+**What defines this next epoch?**
+
+A massive shift in focus: from pure research towards biomarker discovery, personalized
+immunotherapies, and integration of immune repertoire data into real clinical
+decision making.
+
+Today's AIRR analysis must handle:
+
+- **Multi-modal data:** bulk and single-cell V(D)J, spatial transcriptomics, gene
+  expression, clinical metadata, and antigen specificity -- all together;
+
+- **Massive scale:** experiments that move from gigabytes to tens or hundreds of
+  gigabytes, or even terabytes;
+
+- **Reproducibility and collaboration:** workflows that need to be shared, versioned,
+  and rerun months or years later, sometimes by new teams.
+
+With this new landscape, the **how** and **why** of AIRR data analysis are evolving:
+
+- The focus is moving from "can I parse my data?" to "can I robustly extract insights,
+  find biomarkers, and build ML-ready features for discovery or diagnostics?"
+
+- It's not enough for a toolkit to just work. It needs to scale, interoperate, and
+  empower new kinds of science, including complex Deep Learning and foundation models.
+
+By taking a step back and rethinking the core "how" and "why" of AIRR analysis,
+`immunarch` prepares you for the next epoch of immunomics -- so your science is ready,
+whatever comes next.
+
+---
+
+> [!WARNING]
+> `immunarch` is evolving towards `1.0` version and undergoing huge changes.
+> Please check the updates here: https://github.com/immunomind/immunarch/issues/432
+> 
+> To install the legacy 0.9.1 release, use `pak::pak("immunomind/immunarch@0.9.1")`.
+> Its API reference and tutorials are available in the
+> [0.9.1 documentation archive](https://immunarch.com/archive/0.9.1/).
+>
+> To install the latest 1.0 pre-release version, use `pak::pak("immunomind/immunarch")`
+
+---
+
+- 🤔 [Why `immunarch`?](#why-immunarch)
+- 📦 [Installation](#installation)
+- ⚡ [Quick Start](#quick-start)
+- [📄 Documentation](#documentation)
+- [🪲 Bugs and Issues](#bugs-and-issues)
+- 🏷 [About](#about)
+  - [Citation](#citation)
+  - [License](#license)
+  - [Author and contributors](#author-and-contributors)
+  - [Commercial usage](#commercial-usage)
+
+---
+
+<a name="installation"></a>
+
+## 📦 Installation
+
+### Prerequisites
+
+Before installing any release or pre-release version of `immunarch`, please install
+`pak` that will simplify the installation of any package, not just `immunarch`:
 
 ```r
-install.packages("immunarch")
+install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
 ```
 
-That's it, you can start using `immunarch` now! See the [Quick Start](#quick-start) section below to dive into immune repertoire data analysis. If you run in any trouble with installation, take a look at the [Installation Troubleshooting](https://immunarch.com/articles/v1_introduction.html#installation-troubleshooting) section.
+More info if needed is available on
+[pak website](https://pak.r-lib.org/#arrow_down-installation).
 
-Note: there are quite a lot of dependencies to install with the package because it installs all the widely-used packages for data analysis and visualisation. You got both the AIRR data analysis framework and the full Data Science package ecosystem with only one command, making `immunarch` the entry-point for single-cell & immune repertoire Data Science.
+### Install the latest version
 
-
-### Latest release on GitHub
-If the above command doesn't work for any reason, try installing `immunarch` directly from its repository:
+To install the latest release of `immunarch`, simply run:
 
 ```r
-install.packages("devtools") # skip this if you already installed devtools
-devtools::install_github("immunomind/immunarch")
+pak::pak("immunomind/immunarch")
 ```
 
+Mind that this will install the package from our GitHub instead of CRAN. This method is
+much preferred due to limitations of CRAN and reliance on other packages, which are
+distributed via `pak` as well.
 
-### Latest pre-release on GitHub
-Since releasing on CRAN is limited to one release per one-two months, you can install the latest pre-release version with bleeding edge features and optimisations directly from the code repository. In order to install the latest pre-release version, you need to execute only two commands:
+### Other installation options
+
+We will periodically release `immunarch` on CRAN. To install it from CRAN, run
 
 ```r
-install.packages("devtools") # skip this if you already installed devtools
-devtools::install_github("immunomind/immunarch", ref="develop")
+pak::pak("immunarch")
 ```
 
-You can find the list of releases of `immunarch` here: https://github.com/immunomind/immunarch/releases
-
-
-## Features
-
-1. Fast and easy manipulation of immune repertoire data:
-
-    + The package automatically detects the format of your files---no more guessing what format is *that* file, just pass them to the package;
-  
-    + Supports all popular TCR and BCR analysis and post-analysis formats, including single-cell data: [ImmunoSEQ](https://www.adaptivebiotech.com/products-services/immunoseq/), [IMGT](http://www.imgt.org/IMGTindex/IMGTHighV-QUEST.php), [MiTCR](https://github.com/milaboratory/mitcr/), [MiXCR](https://milaboratory.com/software/mixcr/), [MiGEC](https://milaboratory.com/software/migec/), [MigMap](https://github.com/mikessh/migmap), [VDJtools](https://milaboratory.com/software/vdjtools/), [tcR](https://github.com/imminfo/tcr), [AIRR](http://docs.airr-community.org/en/latest/), [10XGenomics](https://support.10xgenomics.com/single-cell-vdj/datasets/), [ArcherDX](https://archerdx.com/immunology/). More coming in the future;
-
-    + Works on any data source you are comfortable with: R data frames, data tables from [data.table](https://rdatatable.gitlab.io/data.table/), databases like [MonetDB](https://github.com/MonetDB), Apache Spark data frames via [sparklyr](https://spark.rstudio.com/);
-    
-    + Tutorial is available [here](https://immunarch.com/articles/v2_data.html).
-
-2. Immune repertoire analysis made simple:
-
-    + Most methods are incorporated in a couple of main functions with clear naming---no more remembering tens and tens of functions with obscure names. For details see [link](https://immunarch.com/articles/v3_basic_analysis.html);
-
-    + Repertoire overlap analysis *(common indices including overlap coefficient, Jaccard index and Morisita's overlap index)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v4_overlap.html);
-  
-    + Gene usage estimation *(correlation, Jensen-Shannon Divergence, clustering)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v5_gene_usage.html);
-
-    + Diversity evaluation *(ecological diversity index, Gini index, inverse Simpson index, rarefaction analysis)*. Tutorial is available [here](https://immunarch.com/articles/web_only/v6_diversity.html);
-
-    + Tracking of clonotypes across time points, widely used in vaccination and cancer immunology domains. Tutorial is available [here](https://immunarch.com/articles/web_only/v8_tracking.html);
-    
-    + Kmer distribution measures and statistics. Tutorial is available [here](https://immunarch.com/articles/web_only/v9_kmers.html);
-    
-    + Coming in the next releases: CDR3 amino acid physical and chemical properties assessment, mutation networks.
-
-3. Publication-ready plots with a built-in tool for visualisation manipulation: 
-
-    + Rich visualisation procedures with [ggplot2](https://ggplot2.tidyverse.org/);
-  
-    + Built-in tool `FixVis` makes your plots publication-ready: easily change font sizes, text angles, titles, legends and many more with clear-cut GUI;
-    
-    + Tutorial is available [here](https://immunarch.com/articles/web_only/v7_fixvis.html).
-    
-    
-## Quick start
-The gist of the typical TCR or BCR data analysis workflow can be reduced to the next few lines of code.
-
-### Use `immunarch` data
-
-**1) Load the package and the data**
+If you are willing to try unstable yet bleeding edge features, or if there are some hot
+fix for your open GitHub ticket, please install the development version:
 
 ```r
-library(immunarch)  # Load the package into R
-data(immdata)  # Load the test dataset
+pak::pak("immunomind/immunarch@dev")
 ```
 
-**2) Calculate and visualise basic statistics**
+<a name="quick-start"></a>
+
+## ⚡ Quick Start
 
 ```r
-repExplore(immdata$data, "lens") %>% vis()  # Visualise the length distribution of CDR3
-repClonality(immdata$data, "homeo") %>% vis()  # Visualise the relative abundance of clonotypes
+# Install `pak` - a blazingly-fast package manager
+install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
+
+# Install and load immunarch along with the pre-packaged data
+pak::pak("immunomind/immunarch")
+library(immunarch)
+immdata <- get_test_idata() |> agg_repertoires("Therapy")
+
+# Calculate and plot core AIRR statistics
+airr_desc_genes(immdata, gene_col = "v_call") |> vis()
+repsim_jaccard(immdata) |> vis()
+airr_diversity_pielou(immdata) |> vis()
+airr_diversity_chao1(immdata) |> vis()
+airr_clonality_prop(immdata)
+
+# Read bulk AIRR files listed in the manifest's file column
+manifest <- read_manifest("data/manifest.csv")
+immdata <- read_repertoires(
+  "<manifest>", schema = c("cdr3_aa", "v_call"),
+  manifest = manifest, count_col = "counts"
+)
+
+# Or specify the input files directly
+immdata <- read_repertoires(
+  "data/*.tsv.gz", schema = c("cdr3_aa", "v_call"),
+  manifest = manifest, count_col = "counts"
+)
 ```
 
-**3) Explore and compare T-cell and B-cell repertoires**
+Oh, and one small thing. Even if you have tens of gigabytes of the data, you won't need
+to adapt the code to a server. The code will be exactly the same — `immunarch` got your
+back thanks to [`immundata`](https://github.com/immunomind/immundata/).
+
+<a name="documentation"></a>
+
+## 📄 Documentation
+
+To get a list of available methods and their descriptions, run the default help command
+in R on specific functions or on a function family prefix:
+
 ```r
-repOverlap(immdata$data) %>% vis()  # Build the heatmap of public clonotypes shared between repertoires
-geneUsage(immdata$data[[1]]) %>% vis()  # Visualise the V-gene distribution for the first repertoire
-repDiversity(immdata$data) %>% vis(.by = "Status", .meta = immdata$meta)  # Visualise the Chao1 diversity of repertoires, grouped by the patient status
+# Note: this command is the same
+?airr_desc
+# as this one
+?airr_desc_genes
+
+# Basic statistics - gene usage, length distribution
+?airr_desc
+
+# Repertoire similarity - overlap, Jaccard, Morisita-Horn
+?repsim
+
+# Clonality analysis - clonal lines, occupied space, clonal space homeostasis
+?airr_clonality
+
+# Diversity analysis - pielou, shannon, chao1
+?airr_diversity
+
+# ... more to come ...
 ```
 
-### Use your own data
+More detailed documentation, guides and comprehensive tutorials are available on the
+ecosystem website:
+[https://immunomind.github.io/docs/](https://immunomind.github.io/docs/).
 
-```r
-library(immunarch)  # Load the package into R
-immdata <- repLoad("path/to/your/data")  # Replace it with the path to your data. Immunarch automatically detects the file format.
-```
+<a name="bugs-and-issues"></a>
 
-### Advanced methods
+## 🪲 Bugs and Issues
 
-For advanced methods such as clonotype annotation, clonotype tracking, kmer analysis and public repertoire analysis see "Tutorials".
+The mission of `immunarch` is to make bulk and single-cell immune repertoires analysis
+painless. All bug reports, documentation improvements, enhancements and ideas are
+appreciated. Just let us know via
+[GitHub](https://github.com/immunomind/immunarch/issues) (preferably) or
+[support@immunomind.com](mailto:support@immunomind.com) (in case of private data).
 
+Bug reports must:
 
-## Bugs and Issues
-
-The mission of `immunarch` is to make bulk and single-cell immune repertoires analysis painless. All bug reports, documentation improvements, enhancements and ideas are appreciated. Just let us know via [GitHub](https://github.com/immunomind/immunarch/issues) (preferably) or [support@immunomind.io](mailto:support@immunomind.io) (in case of private data).
-
-Bug reports must: 
-
-1. Include a short, self-contained R snippet reproducing the problem. 
-2. Add a minimal data sample for us to reproduce the problem. In case of sensitive data you can send it to [support@immunomind.io](mailto:support@immunomind.io) instead of GitHub issues.
+1. Include a short, self-contained R snippet reproducing the problem.
+2. Add a minimal data sample for us to reproduce the problem. In case of sensitive data
+   you can send it to [support@immunomind.com](mailto:support@immunomind.com) instead of
+   GitHub issues.
 3. Explain why the current behavior is wrong/not desired and what you expect instead.
-4. If the issue is about visualisations, please attach a picture to the issue. In other case we wouldn't be able to reproduce the bug and fix it.
+4. If the issue is about visualisations, attach a picture to help us reproduce the bug.
 
+We are always open to contributions. There are three ways to contribute:
 
-## Help the community
+1. Create an issue [here](https://github.com/immunomind/immunarch/issues) and describe
+   what would you like to improve or discuss.
 
-Have an aspiration to help the community build the ecosystem of scRNAseq & AIRR analysis tools? Found a bug? A typo? Would like to improve a documentation, add a method or optimise an algorithm?
+2. Create an issue or find one [here](https://github.com/immunomind/immunarch/issues),
+   fork the repository and make a pull request with the bugfix or improvement.
 
-We are always open to contributions. There are two ways to contribute:
+3. Find an existing issue and help others resolve this.
 
-1. Create an issue [here](http://github.com/immunomind/immunarch/issues) and describe what would you like to improve or discuss.
+<a name="about"></a>
 
-2. Create an issue or find one [here](http://github.com/immunomind/immunarch/issues), fork the repository and make a pull request with the bugfix or improvement.
+## 🏷 About
 
+### Citation
 
-## Citation
+> Citation for pre-1.0 version is below. The main manuscript is in preparation. Preprint on
+> BioArxiv is coming soon as of 2027.
 
-ImmunoMind Team. (2019). immunarch: An R Package for Painless Bioinformatics Analysis of T-Cell and B-Cell Immune Repertoires. Zenodo. http://doi.org/10.5281/zenodo.3367200
+ImmunoMind Team. (2019). immunarch: An R Package for Painless Bioinformatics Analysis of
+T-Cell and B-Cell Immune Repertoires. Zenodo. http://doi.org/10.5281/zenodo.3367200
 
 BibTex:
 ```
@@ -217,24 +306,28 @@ BibTex:
 }
 ```
 
-For EndNote citation import the [`immunarch-citation.xml`](https://gitlab.com/immunomind/immunarch/raw/master/immunarch-citation.xml?inline=false) file.
+Get [`immunarch-citation.xml`](https://github.com/immunomind/immunarch/blob/master/immunarch-citation.xml)
+from GitHub and import it into EndNote.
 
-Preprint on BioArxiv is coming soon.
+### License
 
+The package is freely distributed under the Apache-2.0 license. You can read more about
+it [here](https://www.tldrlegal.com/license/apache-license-2-0-apache-2-0).
 
-## License
+### Author and contributors
 
-The package is freely distributed under the AGPL v3 license. You can read more about it [here](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
+- **Vadim I. Nazarov – main author and developer**
+- Vasily Tsvetkov
+- Aleksandr Popov
+- Ivan Balashov
 
-For commercial or server use, please contact ImmunoMind via [support@immunomind.io](mailto:support@immunomind.io) about solutions for biomarker data science of single-cell immune repertoires.
+### Commercial usage
 
-<!--
-- Package modifications and feature implementations are issued promptly;
-- Use *immunarch* team expertise in your projects;
-- Priority email and call support;
-- 100+ hours of consultations on the TCR & BCR repertoire analysis;
-- Setup a cloud or cluster installation of *immunarch*, including the development of cloud *immunarch*-based software;
-- If you need license other than the current, contact us.
+`immunarch` is free to use for commercial usage as per Apache-2.0 license. However,
+corporate users will not get a prioritized support for `immunarch`- or AIRR-related
+issues. The priority of open source tool `immunarch` is open source science.
 
-Contact us at support@immunomind.io for more information.
--->
+If you are looking for prioritized support and setting up your data pipelines, consider
+contacting [Vadim Nazarov](https://www.linkedin.com/in/vdnaz/) for commercial consulting
+/ support options / workshops and training sessions / designing data platforms and
+machine learning systems for multi-omics / or anything related.

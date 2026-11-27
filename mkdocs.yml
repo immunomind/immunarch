@@ -1,0 +1,94 @@
+site_name: immunarch 0.11.0.9000
+site_description: Immune repertoire analysis in R
+site_url: https://immunarch.com/
+repo_url: https://github.com/immunomind/immunarch
+repo_name: immunomind/immunarch
+
+theme:
+  name: material
+  icon:
+    logo: material/dna
+    repo: fontawesome/brands/github
+  font:
+    text: Roboto
+    code: Roboto Mono
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+
+plugins:
+  - search:
+      separator: '[\s\-\._]+'
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/immunomind/immunarch
+    - icon: fontawesome/solid/globe
+      link: https://immunarch.com/
+
+use_directory_urls: false
+
+nav:
+  - Home: README.md
+  - News: NEWS.md
+  - Guides:
+      - Getting started: vignettes/immunarch.md
+      - Limit threads: vignettes/immunarch_threads.md
+      - Single-cell tutorial ↗: https://immunomind.github.io/docs/tutorials/single_cell/
+      - Migration guide ↗: https://immunomind.github.io/docs/tutorials/migration/
+  - Reference:
+      - Overview: reference/index.md
+      - Repertoire statistics:
+          - Clonality: man/airr_clonality.md
+          - Diversity: man/airr_diversity.md
+          - Descriptive statistics: man/airr_desc.md
+      - Similarity and tracking:
+          - Repertoire similarity: man/repsim.md
+          - Public receptors: man/vdj_public.md
+          - Receptor tracking: man/vdj_track.md
+      - Annotation:
+          - Clonality annotation: man/annotate_clonality.md
+          - Database annotation: man/annotate_with_database.md
+          - Immunoglobulin clones: man/annotate_ig_clones.md
+          - Germlines: man/annotate_ig_germlines.md
+          - Somatic hypermutation: man/annotate_ig_shm.md
+      - Sequence analysis:
+          - Clustering: man/clust.md
+          - Distances: man/dist.md
+          - Immunoglobulin SHM: man/airr_ig_shm.md
+      - Utilities:
+          - Public receptor filters: man/make_public_filter.md
+          - Germline references: man/read_germline_references.md
+          - Visualization: man/vis.md
+      - Retired v0 API: man/immunarch-v0-defunct.md
+  - Archive v0.9.1 ↗: https://immunarch.com/archive/0.9.1/
