@@ -1,0 +1,10 @@
+---
+format:
+  md:
+    prefer-html: true
+    from: markdown-smart-markdown_in_html_blocks
+    to: markdown_strict+raw_html+backtick_code_blocks+fenced_code_blocks+space_in_atx_header+intraword_underscores+lists_without_preceding_blankline+shortcut_reference_links
+knitr:
+  opts_chunk:
+    comment: "#>"
+---
