@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -23,7 +26,7 @@ output:
 
 
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -56,7 +59,7 @@ There are several approaches to the estimation of repertoire diversity implement
 
 The `.col` parameter regulates what sequences and gene segments to choose. For example, if you want to estimate diversity on the nucleotide level, you need to supply `.col = "nt"`, in case you want to estimate the diversity on the amino acid level - `.col = "aa"`. If you want to estimate diversity of the amino acid CDR3 sequences coupled with V gene segments, you need to provide `.col = "aa+v"`. By default `.col = "aa"`.
 
-```{r diversity, fig.width=10, fig.height=4, warning=FALSE, message=FALSE}
+```{r diversity, fig.width=10, fig.height=4, warning=FALSE, message=FALSE, eval = FALSE}
 # Compute statistics and visualise them
 # Chao1 diversity measure
 div_chao <- repDiversity(immdata$data, "chao1")
@@ -83,7 +86,7 @@ p3 + p6
 p4 + p4
 ```
 
-```{r, warning=F, fig.width=12, fig.height=4.5}
+```{r, warning=F, fig.width=12, fig.height=4.5, eval = FALSE}
 imm_raref <- repDiversity(immdata$data, "raref", .verbose = F)
 
 p1 <- vis(imm_raref)
@@ -92,6 +95,6 @@ p2 <- vis(imm_raref, .by = "Status", .meta = immdata$meta)
 p1 + p2
 ```
 
-```{r, warning=F, fig.width=8, fig.height=4.5}
+```{r, warning=F, fig.width=8, fig.height=4.5, eval = FALSE}
 repDiversity(immdata$data, "raref", .verbose = F) %>% vis(.log = TRUE)
 ```

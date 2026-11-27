@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -23,7 +26,7 @@ output:
 
 
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -46,7 +49,7 @@ The simplest approach is to choose the most abundant clonotypes from one of the 
 
 To choose the top 10 most abundant clonotypes from the first repertoire and track them using their CDR3 nucleotide sequence use this code:
 
-```{r warning=F}
+```{r warning=F, eval = FALSE}
 tc1 <- trackClonotypes(immdata$data, list(1, 5), .col = "nt")
 ```
 
@@ -54,14 +57,14 @@ Value `list(1, 5)` of the `.which` argument (the second argument) means to choos
 
 To choose the 10 most abundant amino acid clonotype sequences and their V genes from the "MS1" repertoire to track:
 
-```{r warning=F}
+```{r warning=F, eval = FALSE}
 tc2 <- trackClonotypes(immdata$data, list("MS1", 10), .col = "aa+v")
 ```
 
 Value `list("MS1", "10")` of the `.which` argument means to choose 10 clonotypes from the repertoire named "MS1" in the input list of repertoires `immdata$data`. Value `"aa+v"` of the `.col` argument means that the function should take both CDR3 amino acid sequences and V gene segments of the most abundant clonotypes.
 
 Visualisation of both approaches:
-```{r fig.height=7, warning=FALSE}
+```{r fig.height=7, warning=FALSE, eval = FALSE}
 p1 <- vis(tc1)
 p2 <- vis(tc2)
 
@@ -71,7 +74,7 @@ p1 / p2
 ## Tracking clonotypes with specific nucleotide or amino acid sequences
 In order to track specific clonotype sequences, you can provide nucleotide or amino acid sequences as the `.which` argument, along with the column `.col` specifying in which columns to search for sequences. For example, to track seven CDR3 amino acid sequences specified below you need to execute the following code:
 
-```{r warning=F}
+```{r warning=F, eval = FALSE}
 target <- c("CASSLEETQYF", "CASSDSSGGANEQFF", "CASSDSSGSTDTQYF", "CASSLAGGYNEQFF", "CASSDSAGGTDTQYF", "CASSLDSYEQYF", "CASSSAGGYNEQFF")
 tc <- trackClonotypes(immdata$data, target, .col = "aa")
 vis(tc)
@@ -81,7 +84,7 @@ vis(tc)
 ## Tracking clonotypes with specific sequences and gene segments
 An improvement upon the previous approach, it is possible to track clonotypes using information about both sequences and gene segments. For support you can use a data frame of sequences with specific CDR3 sequences and gene segments. We will simulate this below by choosing the 10 most abundant clonotypes from the first repertoire in the batch:
 
-```{r}
+```{r, eval = FALSE}
 target <- immdata$data[[1]] %>%
   select(CDR3.aa, V.name) %>%
   head(10)
@@ -91,7 +94,7 @@ target
 
 Supply this data frame as an argument value to the `.which` argument to track target clonotypes:
 
-```{r warning=F}
+```{r warning=F, eval = FALSE}
 tc <- trackClonotypes(immdata$data, target)
 vis(tc)
 ```
@@ -104,7 +107,7 @@ There are three ways to visualise clonotype tracking, depending on your research
  - `.plot = "area"` - visualises abundances using areas under the abundance lines;
  - `.plot = "line"` - visualises only the lines, connecting levels of abundances of a same clonotype between time points.
 
-```{r warning=F, fig.height=5}
+```{r warning=F, fig.height=5, eval = FALSE}
 target <- c("CASSLEETQYF", "CASSDSSGGANEQFF", "CASSDSSGSTDTQYF", "CASSLAGGYNEQFF", "CASSDSAGGTDTQYF", "CASSLDSYEQYF", "CASSSAGGYNEQFF")
 tc <- trackClonotypes(immdata$data, target, .col = "aa")
 vis(tc, .plot = "smooth")
@@ -115,7 +118,7 @@ vis(tc, .plot = "line")
 ## Changing the order of samples
 The `.order` argument of the `vis` function controls the order of samples in the visualisation. You can pass either indices of samples you plan to visualise or sample names.
 
-```{r warning=F, fig.height=5}
+```{r warning=F, fig.height=5, eval = FALSE}
 # Passing indices
 names(immdata$data)[c(1, 3, 5)] # check sample names
 vis(tc, .order = c(1, 3, 5))
@@ -130,40 +133,40 @@ vis(tc, .order = c("A2-i129", "A2-i133", "A4-i191"))
 If your metadata contains information about time such as timepoints for vaccination or tumor samples, you can use it to re-order samples accordingly. In our examples `immdata$meta` does not contain information about timepoints, so we will simulate this case.
 
 First, we create an additional column in the metadata with randomly chosen time points:
-```{r}
+```{r, eval = FALSE}
 immdata$meta$Timepoint <- sample(1:length(immdata$data))
 immdata$meta
 ```
 
 Next, we create a vector with samples in the right order, according to the "Timepoint" column (from smallest to greatest):
-```{r}
+```{r, eval = FALSE}
 sample_order <- order(immdata$meta$Timepoint)
 ```
 
 Sanity check: timepoints are following the right order:
-```{r}
+```{r, eval = FALSE}
 immdata$meta$Timepoint[sample_order]
 ```
 
 Samples, sorted by the timepoints:
-```{r}
+```{r, eval = FALSE}
 immdata$meta$Sample[sample_order]
 ```
 
 And finally, we visualise the data:
-```{r warning=F}
+```{r warning=F, eval = FALSE}
 vis(tc, .order = sample_order)
 ```
 
 It is possible to create a one-liner with the full pipeline from ordering to plotting:
-```{r warning=F}
+```{r warning=F, eval = FALSE}
 vis(tc, .order = order(immdata$meta$Timepoint))
 ```
 
 ## Changing the colour palette
 If you want to change the colour palette, add a ggplot2 `scale_fill_*` function to the plot. We recommend using `scale_fill_brewer`:
 
-```{r warning=F, fig.height=5}
+```{r warning=F, fig.height=5, eval = FALSE}
 vis(tc) + scale_fill_brewer(palette = "Spectral")
 vis(tc) + scale_fill_brewer(palette = "RdBu")
 ```

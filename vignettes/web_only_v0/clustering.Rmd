@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -32,7 +35,7 @@ Clustering analysis involves two steps. The first step requires calculating the 
 
 Application of clustering enables you to expand the clonotype concept. A **clonotype** is a set of cells that supposedly share a common ancestor or properties. There are a few possible ways to define clonotypes. For example, some researchers define clonotypes as a set of sequences that have the same V gene and same nucleotide CDR3 sequence. Other researchers define clonotypes as cell sets that have the same V gene, the same J gene, and the same amino acid CDR3 sequence. Clustering provides you with a way to create new groups of sequences based on your vision.
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -50,7 +53,7 @@ CDR3 region is the most variable region in BCR and TCR. This region is commonly 
 
 Example:
 
-```{r example 1, warning = FALSE}
+```{r example 1, warning = FALSE, eval = FALSE}
 #load the package into the R environment:
 library(immunarch)
 
@@ -76,7 +79,7 @@ Grouping by V gene is necessary; grouping by J gene or the sequence length is op
 
 Example:
 
-```{r example 2}
+```{r example 2, eval = FALSE}
 #group sequence by V.name and length CDR3
 distBCR <- seqDist( BCRdata, .group_by = c('V.name'), .group_by_seqLength = T)
 
@@ -90,19 +93,19 @@ The default approach is to use the Hamming distance. When sequences have differe
 
 Example:
 
-```{r example 3}
+```{r example 3, eval = FALSE}
 distBCR <- seqDist( BCRdata, .col = 'CDR3.aa', .methods = "hamming", .group_by_seqLength = T)
 ```
 
 When you want to take into consideration not only single mutations but also indels, Levenshtein distance is a more appropriate method to use.
 
-```{r example 4}
+```{r example 4, eval = FALSE}
 distBCR <- seqDist( BCRdata, .col = 'CDR3.aa', .methods = "lv", .group_by_seqLength = F)
 ```
 
 Or you could also use  the longest common substring:
 
-```{r example 5}
+```{r example 5, eval = FALSE}
 distBCR <- seqDist( BCRdata, .col = 'CDR3.aa', .methods = "cls", .group_by_seqLength = F)
 ```
 
@@ -122,7 +125,7 @@ Clustering is commonly used to expand the concept of a clonotype. For example, y
 
 Example:
 
-```{r example 7, eval=FALSE}
+```{r example 7, eval = FALSE}
 
 #calculate distance
 distTCR <- seqDist( TCRdata, .col = 'CDR3.aa')
@@ -140,7 +143,7 @@ In general, the number of clusters you get depends on threshold you defined prev
 
 Requires defining the minimum percentage of similarity for the sequences in your cluster in advance. For example, if you want to find cluster of BCRs that not only have the same V.name, J.name, and CDR3 length — but also have more than 90 percent match in their CDR3.
 
-```{r example 8, warning = FALSE, eval=FALSE}
+```{r example 8, warning = FALSE, eval = FALSE}
 #clustering TCR
 clustTCR <- seqCluster(TCRdata, distTCR, .perc_similarity = 0.75)
 
@@ -155,7 +158,7 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 Requires directly determining the number of mismatched nucleotides. In case of TCR-recognising the same epitope, use 1 amino acid mismatch in CDR3 sequences.
 
-```{r example 9, warning = FALSE, eval=FALSE}
+```{r example 9, warning = FALSE, eval = FALSE}
 #clustering TCR
 clustTCR <- seqCluster(TCRdata, distTCR, .fixed_threshold = 2)
 
@@ -170,7 +173,7 @@ clustTCR$"A2-i129" %>% .$Cluster %>% unique() %>% length()
 
 If you want to guarantee that the matches in the sequences are at a set proximity, specify a distance threshold
 
-```{r example 10, warning = FALSE, eval=FALSE}
+```{r example 10, warning = FALSE, eval = FALSE}
 #clustering TCR
 clustTCR <- seqCluster(TCRdata, distTCR, .nt_similarity = 10)
 
@@ -187,7 +190,7 @@ If you made it to this part, then you have successfully clustered your sequences
 
 Comparing cluster size distributions is a good way to analyse quality of clustering process and to choose the best parameters for functions:
 
-```{r eval=FALSE }
+```{r eval = FALSE }
 #write small function for the visualization of cluster size destribution
 mk_hist <- function(clust_dt, graph_name) {
   return(ggplot(clust_dt, aes(x=cluster_size)) + geom_histogram( binwidth=1, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
@@ -209,7 +212,7 @@ There are other packages that provide computational framework for identification
 
 `Immunarch` enables users to integrate results from  `scoper` package  for further analysis:
 
-```{r example 11, warning = FALSE, eval=FALSE}
+```{r example 11, warning = FALSE, eval = FALSE}
 #load the package into the R environment
 library(scoper)
 
@@ -221,7 +224,7 @@ bcr <- bcrdata$data$full_clones %>%
 
 Add columns ‘sequence_alignment’ required by `scoper` (https://scoper.readthedocs.io/en/stable/vignettes/Scoper-Vignette/):
 
-```{r example 12, eval=FALSE}
+```{r example 12, eval = FALSE}
 #generate `sequence_alignment` column
 cols <- c('FR1.nt', 'CDR1.nt', 'FR2.nt', 'CDR2.nt', 'FR3.nt', 'CDR3.nt', 'FR4.nt')
 bcr$sequence_alignment <- apply( bcr[ , cols ] , 1 , paste , collapse = "" )
@@ -229,20 +232,20 @@ bcr$sequence_alignment <- apply( bcr[ , cols ] , 1 , paste , collapse = "" )
 
 Rename columns in `scoper` format:
 
-```{r example 13, eval=FALSE}
+```{r example 13, eval = FALSE}
 ExampleDb <- bcr %>% select(J.allele, V.allele, CDR3.nt, Germline.sequence, sequence_alignment) %>%
   rename(junction = CDR3.nt, v_call = V.allele, j_call = J.allele, germline_alignment_d_mask = Germline.sequence)
 ```
 
 Cluster using `scoper` method:
 
-```{r example 14, eval=FALSE}
+```{r example 14, eval = FALSE}
 results <- hierarchicalClones(ExampleDb, threshold=0.15)
 plot(results, binwidth=0.02)
 ```
 
 Note that the column ‘clone_id' in `scoper` format has the same meaning as the ‘Cluster’ column in `immunarch`:
 
-```{r example 15, eval=FALSE}
+```{r example 15, eval = FALSE}
 glimpse(summary(results))
 ```

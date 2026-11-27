@@ -195,14 +195,7 @@ reference:
   - -starts_with("airr_ig_")
   - -read_germline_references
 
-- title: Under Question, v0.9 -> v1.0
+- title: Retired v0 API
 
 - contents:
-  - has_concept("utility_private")
-  - has_concept("utility_public")
-  - has_concept("preprocessing")
-
-- title: Deprecated, v0.9
-
-- contents:
-  - has_lifecycle("deprecated")
+  - has_concept("retired_api")

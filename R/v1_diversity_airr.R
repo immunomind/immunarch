@@ -182,6 +182,49 @@ airr_diversity_dxx_impl <- function(idata, perc = 50) {
 airr_diversity_dxx <- register_method_airr(airr_diversity_dxx_impl, "airr_diversity", "dxx")
 
 
+chao1 <- function(.data) {
+  counts <- table(.data)
+  e <- NA
+  v <- NA
+  lo <- NA
+  hi <- NA
+  n <- sum(.data)
+  D <- length(.data)
+  f1 <- counts["1"]
+  f2 <- counts["2"]
+  # No singletons
+  if (is.na(f1)) {
+    e <- D
+    i <- unique(.data)
+    v <- sum(sapply(i, function(i) sum(.data == i) * (exp(-i) - exp(-2 * i)))) - (sum(sapply(i, function(i) i * exp(-i) * sum(.data == i))))^2 / n
+    P <- sum(sapply(i, function(i) sum(.data == i) * exp(-i) / D))
+    lo <- max(D, D / (1 - P) - stats::qnorm(1 - .05 / 2) * sqrt(v) / (1 - P))
+    hi <- D / (1 - P) + stats::qnorm(1 - .05 / 2) * sqrt(v) / (1 - P)
+  }
+  # f1 != 0 && f2 == 0
+  else if (is.na(f2)) {
+    e <- D + f1 * (f1 - 1) / 2 * (n - 1) / n
+    v <- (n - 1) / n * f1 * (f1 - 1) / 2 + ((n - 1) / n)^2 * f1 * (2 * f1 - 1)^2 / 4 - ((n - 1) / n)^2 * f1^4 / 4 / e
+    t <- e - D
+    K <- exp(stats::qnorm(1 - .05 / 2) * sqrt(log(1 + v / t^2)))
+    lo <- D + t / K
+    hi <- D + t * K
+  }
+  # f1 != && f2 != 0
+  else {
+    const <- (n - 1) / n
+    e <- D + f1^2 / (2 * f2) * const
+    f12 <- f1 / f2
+    v <- f2 * (const * f12^2 / 2 + const^2 * f12^3 + const^2 * f12^4 / 4)
+    t <- e - D
+    K <- exp(stats::qnorm(.975) * sqrt(log(1 + v / t^2)))
+    lo <- D + t / K
+    hi <- D + t * K
+  }
+  c(Estimator = e, SD = sqrt(v), Conf.95.lo = lo, Conf.95.hi = hi)
+}
+
+
 #' @keywords internal
 airr_diversity_chao1_impl <- function(idata) {
   rep_col <- immundata::imd_schema("repertoire")

@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -23,7 +26,7 @@ output:
 
 
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -57,13 +60,13 @@ install.packages("devtools"); devtools::install_github("immunomind/immunarch", r
 # Use the data packaged with `immunarch`
 
 Load the package into the R enviroment:
-```{r}
+```{r, eval = FALSE}
 library(immunarch)
 ```
 
 For testing purposes we attached a new paired chain dataset to `immunarch`. Load it by executing the following command:
 
-```{r}
+```{r, eval = FALSE}
 data(scdata)
 ```
 
@@ -71,7 +74,7 @@ data(scdata)
 
 To load your own datasets, use the `repLoad` function. Currently we implemented paired chain data support for 10X Genomics data only. A working example of loading datasets into R:
 
-```{r}
+```{r, eval = FALSE}
 file_path <- paste0(system.file(package = "immunarch"), "/extdata/sc/flu.csv.gz")
 igdata <- repLoad(file_path, .mode = "paired")
 
@@ -84,7 +87,7 @@ head(igdata$data[[1]][c(1:7, 16, 17)])
 
 To subset the data by barcodes, use the `select_barcodes` function.
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 barcodes <- c("AGTAGTCAGTGTACTC-1", "GGCGACTGTACCGAGA-1", "TTGAACGGTCACCTAA-1")
 
 new_df <- select_barcodes(scdata$data[[1]], barcodes)
@@ -96,7 +99,7 @@ new_df
 
 To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 scdata_pat <- select_clusters(scdata, scdata$bc_patient, "Patient")
 
 names(scdata_pat$data)
@@ -108,7 +111,7 @@ scdata_pat$meta
 
 To create a new dataset with cluster-specific immune repertoires, use the `select_clusters` function. You can apply this function after you created patient-specific datasets to get patient-specific cell cluster-specific immune repertoires, e.g., a Memory B Cell repertoire for a specific patient:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 scdata_cl <- select_clusters(scdata_pat, scdata$bc_cluster, "Cluster")
 
 names(scdata_cl$data)
@@ -120,7 +123,7 @@ scdata_cl$meta
 
 Most functions will work out-of-the-box with paired chain data.
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 p1 <- repOverlap(scdata_cl$data) %>% vis()
 p2 <- repDiversity(scdata_cl$data) %>% vis()
 

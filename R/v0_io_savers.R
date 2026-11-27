@@ -1,46 +1,48 @@
-save_immunarch <- function(.data, .path, .compress = TRUE) {
-  if (.compress) {
-    filepath <- gzfile(paste0(.path, ".tsv.gz"), open = "wb", compression = 9)
-    on.exit(close(filepath), add = TRUE)
-  } else {
-    filepath <- paste0(.path, ".tsv")
-  }
-  readr::write_lines(paste0("# Exported from immunarch ", packageVersion("immunarch"), " https://immunarch.com"),
-    file = filepath
-  )
-  readr::write_tsv(x = .data, file = filepath, append = TRUE, col_names = TRUE)
-}
+# Archived v0 implementation. See v0-defunct.R for retired entry points.
 
-save_vdjtools <- function(.data, .path, .compress = TRUE) {
-  if (.compress) {
-    filepath <- gzfile(paste0(.path, ".tsv.gz"), open = "wb", compression = 9)
-    on.exit(close(filepath), add = TRUE)
-  } else {
-    filepath <- paste0(.path, ".tsv")
-  }
+# save_immunarch <- function(.data, .path, .compress = TRUE) {
+#   if (.compress) {
+#     filepath <- gzfile(paste0(.path, ".tsv.gz"), open = "wb", compression = 9)
+#     on.exit(close(filepath), add = TRUE)
+#   } else {
+#     filepath <- paste0(.path, ".tsv")
+#   }
+#   readr::write_lines(paste0("# Exported from immunarch ", packageVersion("immunarch"), " https://immunarch.com"),
+#     file = filepath
+#   )
+#   readr::write_tsv(x = .data, file = filepath, append = TRUE, col_names = TRUE)
+# }
 
-  old <- c(
-    IMMCOL$count,
-    IMMCOL$prop,
-    IMMCOL$cdr3nt,
-    IMMCOL$cdr3aa,
-    IMMCOL$v,
-    IMMCOL$d,
-    IMMCOL$j
-  )
+# save_vdjtools <- function(.data, .path, .compress = TRUE) {
+#   if (.compress) {
+#     filepath <- gzfile(paste0(.path, ".tsv.gz"), open = "wb", compression = 9)
+#     on.exit(close(filepath), add = TRUE)
+#   } else {
+#     filepath <- paste0(.path, ".tsv")
+#   }
 
-  new <- c(
-    "#Seq. Count",
-    "Percent",
-    "N Sequence",
-    "AA Sequence",
-    "V Segments",
-    "D Segment",
-    "J Segments"
-  )
+#   old <- c(
+#     IMMCOL$count,
+#     IMMCOL$prop,
+#     IMMCOL$cdr3nt,
+#     IMMCOL$cdr3aa,
+#     IMMCOL$v,
+#     IMMCOL$d,
+#     IMMCOL$j
+#   )
 
-  matching_names <- match(names(.data), old)
-  names(.data)[!is.na(matching_names)] <- new[matching_names[!is.na(matching_names)]]
+#   new <- c(
+#     "#Seq. Count",
+#     "Percent",
+#     "N Sequence",
+#     "AA Sequence",
+#     "V Segments",
+#     "D Segment",
+#     "J Segments"
+#   )
 
-  readr::write_tsv(x = .data, file = filepath)
-}
+#   matching_names <- match(names(.data), old)
+#   names(.data)[!is.na(matching_names)] <- new[matching_names[!is.na(matching_names)]]
+
+#   readr::write_tsv(x = .data, file = filepath)
+# }

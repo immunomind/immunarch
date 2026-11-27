@@ -14,6 +14,9 @@ output:
     toc: yes
 ---
 
+> These examples use the retired v0 API. Run them with immunarch 0.11.x or earlier.
+> [Migration guide](https://immunomind.github.io/docs/tutorials/migration/)
+
 
 <!--
 %\VignetteEngine{knitr::rmarkdown}
@@ -23,7 +26,7 @@ output:
 
 
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE, eval = FALSE}
 # knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 # knitr::opts_chunk$set(optipng = '-o7')
 
@@ -89,7 +92,7 @@ You can load the data from a single file, a list of repertoire file paths, or fr
 
 If you have your files, you should just specify a path to your file or to a folder with files. Then load data using `repLoad`:
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # path argument is a path to the folder with your file or files including the metadata file.
 immdata <- repLoad(path)
 ```
@@ -104,13 +107,13 @@ You can obtain working directory with `getwd()` command
 
 You could also download all files to the `'example'` folder in your working directory and load all of them by passing folder name to repLoad function in quotation marks:
 
-```{r, eval=F}
+```{r, eval = FALSE}
 immdata <- repLoad("example")
 ```
 
 The example data is already downloaded with `immunarch` package. You can load all sample files using the following command:
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # path to the folder with example data
 file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
@@ -118,7 +121,7 @@ immdata <- repLoad(file_path)
 
 In other cases you may want to provide a metadata file and locate it in the folder. It is necessary to name it "metadata.txt".
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # For instance you have a following structure in your folder:
 # >_ ls
 # immunoseq1.txt
@@ -131,7 +134,7 @@ With the metadata `repLoad` will create a list in the environment with 2 element
 
 Otherwise `repLoad` will create a dummy metadata file with only sample names.
 
-```{r, eval=F}
+```{r, eval = FALSE}
 # To load the whole folder with every file in it type:
 file_path <- paste0(system.file(package = "immunarch"), "/extdata/io/")
 immdata <- repLoad(file_path)
@@ -153,7 +156,7 @@ print(names(immdata))
 
 Dummy metadata data frame looks like this:
 
-```{r}
+```{r, eval = FALSE}
 as_tibble(data.frame(Sample = c("immunoseq1", "immunoseq2", "immunoseq3"), stringsAsFactors = F))
 ```
 
@@ -168,7 +171,7 @@ The metadata file "metadata.txt" has to be a table with first column named "Samp
 In order to import data from the external databases you have to connect to this database and then load the data. Make sure that the table format in your database matches the `immunarch`'s format.
 
 To illustrate the use of external database, here is an example demonstrating data loading to the local MonetDB database:
-```{r, eval=F}
+```{r, eval = FALSE}
 # Your list of repertoires in immunarch's format
 DATA
 # Metadata data frame
@@ -214,42 +217,42 @@ You can find the introduction to `dplyr` here: https://CRAN.R-project.org/packag
 
 ## Get the most abundant clonotypes
 The function returns the most abundant clonotypes for the given repertoire:
-```{r basic-data}
+```{r basic-data, eval = FALSE}
 top(immdata$data[[1]])
 ```
 
 ## Filter functional / non-functional / in-frame / out-of-frame clonotypes
 Conveniently, functions are vectorised over the list of data frames; and `coding(immdata$data)` in the example below returns a list of data frames with coding sequences:
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 coding(immdata$data[[1]])
 ```
 The next one operates in a similar fashion:
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 noncoding(immdata$data[[1]])
 ```
 Now, the computation of the number of filtered sequences is rather straightforward:
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 nrow(inframes(immdata$data[[1]]))
 ```
 And for the out-of-frame clonotypes:
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 nrow(outofframes(immdata$data[[1]]))
 ```
 
 ## Get subset of clonotypes with a specific V gene
 It is simple to subset data frame according to labels in the specified index. In this example the resulting data frame contains only records with 'TRBV10-1' V gene:
-```{r}
+```{r, eval = FALSE}
 filter(immdata$data[[1]], V.name == "TRBV10-1")
 ```
 
 # Downsampling
 
-```{r}
+```{r, eval = FALSE}
 ds <- repSample(immdata$data, "downsample", 100)
 sapply(ds, nrow)
 ```
 
-```{r}
+```{r, eval = FALSE}
 ds <- repSample(immdata$data, "sample", .n = 10)
 sapply(ds, nrow)
 ```
