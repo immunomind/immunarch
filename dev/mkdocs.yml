@@ -7,7 +7,7 @@ repo_name: immunomind/immunarch
 theme:
   name: material
   icon:
-    logo: material/dna
+    logo: material/math-compass
     repo: fontawesome/brands/github
   font:
     text: Roboto
@@ -59,13 +59,14 @@ extra:
 use_directory_urls: false
 
 nav:
-  - Home: README.md
+  - Home:
+      - Overview: README.md
+      - Guides:
+          - Getting started: vignettes/immunarch.md
+          - Limit threads: vignettes/immunarch_threads.md
+          - Single-cell tutorial ↗: https://immunomind.github.io/docs/tutorials/single_cell/
+          - Migration guide ↗: https://immunomind.github.io/docs/tutorials/migration/
   - News: NEWS.md
-  - Guides:
-      - Getting started: vignettes/immunarch.md
-      - Limit threads: vignettes/immunarch_threads.md
-      - Single-cell tutorial ↗: https://immunomind.github.io/docs/tutorials/single_cell/
-      - Migration guide ↗: https://immunomind.github.io/docs/tutorials/migration/
   - Reference:
       - Overview: reference/index.md
       - Repertoire statistics:
@@ -91,4 +92,5 @@ nav:
           - Germline references: man/read_germline_references.md
           - Visualization: man/vis.md
       - Retired v0 API: man/immunarch-v0-defunct.md
+  - Main site: https://immunarch.com/
   - Archive v0.9.1 ↗: https://immunarch.com/archive/0.9.1/
