@@ -21,13 +21,6 @@ RUN R -e 'install.packages("DBI"); \
     install.packages("duckdb", repos = repos, dependencies = FALSE); \
     stopifnot(requireNamespace("duckdb", quietly = TRUE))'
 
-# Provide libuv headers for fs when building immunarch 0.9.1
-ARG INSTALL_LIBUV=false
-RUN if [ "$INSTALL_LIBUV" = true ]; then \
-    apt-get update && apt-get install -y -t sid --no-install-recommends libuv1-dev \
-    && rm -rf /var/lib/apt/lists/*; \
-    fi
-
 # Copy source files to the image
 COPY . /immunarch-src/
 

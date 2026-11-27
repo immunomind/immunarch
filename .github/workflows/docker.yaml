@@ -5,12 +5,6 @@ on:
     branches: [dev]
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: Existing release tag on master, such as 0.11.0
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -26,14 +20,13 @@ defaults:
 
 env:
   IMAGE: docker.io/immunomind/immunarch
-  IMAGE_TAG: ${{ inputs.version || github.ref_name }}
+  IMAGE_TAG: ${{ github.ref_name }}
 
 jobs:
   build:
     if: >-
       github.repository == 'immunomind/immunarch' &&
-      (github.event_name != 'release' || !github.event.release.prerelease) &&
-      (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/master')
+      (github.event_name != 'release' || !github.event.release.prerelease)
     strategy:
       matrix:
         include:
@@ -50,16 +43,12 @@ jobs:
 
       - name: Select package source
         run: |
-          source_commit="$GITHUB_SHA"
-          if [[ "$GITHUB_EVENT_NAME" != "push" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
             if [[ ! "$IMAGE_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "Use a release tag such as 0.11.0." >&2
               exit 1
             fi
-            if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-              source_commit=$(git rev-parse --verify "refs/tags/${IMAGE_TAG}^{commit}")
-            fi
-            git merge-base --is-ancestor "$source_commit" origin/master || {
+            git merge-base --is-ancestor "$GITHUB_SHA" origin/master || {
               echo "The release tag must point to a commit on master." >&2
               exit 1
             }
@@ -67,18 +56,14 @@ jobs:
 
           build_context="$RUNNER_TEMP/immunarch-source"
           mkdir "$build_context"
-          git archive "$source_commit" | tar -x -C "$build_context"
+          git archive "$GITHUB_SHA" | tar -x -C "$build_context"
           version=$(sed -n 's/^Version: //p' "$build_context/DESCRIPTION")
           test -n "$version"
-          if [[ "$GITHUB_EVENT_NAME" != "push" && "$version" != "$IMAGE_TAG" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "release" && "$version" != "$IMAGE_TAG" ]]; then
             echo "The release tag must match the package version." >&2
             exit 1
           fi
           printf 'BUILD_CONTEXT=%s\nPACKAGE_VERSION=%s\n' "$build_context" "$version" >> "$GITHUB_ENV"
-          if [[ "$version" == "0.9.1" ]]; then
-            # The fs dependency in this release needs libuv.
-            echo 'INSTALL_LIBUV=true' >> "$GITHUB_ENV"
-          fi
 
       - name: Build and test
         env:
@@ -86,7 +71,7 @@ jobs:
         run: |
           docker buildx create --driver docker-container --use
           docker buildx build --platform "$PLATFORM" --provenance=false --load \
-            --file Dockerfile --build-arg INSTALL_LIBUV --tag immunarch:test "$BUILD_CONTEXT"
+            --file Dockerfile --tag immunarch:test "$BUILD_CONTEXT"
           docker run --rm --network none immunarch:test Rscript --vanilla -e \
             'library(immunarch); stopifnot(as.character(packageVersion("immunarch")) == commandArgs(TRUE)[1])' \
             "$PACKAGE_VERSION"
@@ -103,7 +88,6 @@ jobs:
           PLATFORM: linux/${{ matrix.arch }}
         run: |
           docker buildx build --platform "$PLATFORM" --provenance=false --file Dockerfile \
-            --build-arg INSTALL_LIBUV \
             --output "type=image,name=$IMAGE,push-by-digest=true,name-canonical=true,push=true" \
             --metadata-file "$RUNNER_TEMP/image.json" "$BUILD_CONTEXT"
           digest=$(jq -er '."containerimage.digest"' "$RUNNER_TEMP/image.json")
