@@ -192,8 +192,8 @@ chao1 <- function(.data) {
   D <- length(.data)
   f1 <- counts["1"]
   f2 <- counts["2"]
-  # No singletons
-  if (is.na(f1)) {
+  # No singletons, or one singleton and no doubletons.
+  if (is.na(f1) || (f1 == 1 && is.na(f2))) {
     e <- D
     i <- unique(.data)
     v <- sum(sapply(i, function(i) sum(.data == i) * (exp(-i) - exp(-2 * i)))) - (sum(sapply(i, function(i) i * exp(-i) * sum(.data == i))))^2 / n
@@ -201,7 +201,7 @@ chao1 <- function(.data) {
     lo <- max(D, D / (1 - P) - stats::qnorm(1 - .05 / 2) * sqrt(v) / (1 - P))
     hi <- D / (1 - P) + stats::qnorm(1 - .05 / 2) * sqrt(v) / (1 - P)
   }
-  # f1 != 0 && f2 == 0
+  # Multiple singletons and no doubletons.
   else if (is.na(f2)) {
     e <- D + f1 * (f1 - 1) / 2 * (n - 1) / n
     v <- (n - 1) / n * f1 * (f1 - 1) / 2 + ((n - 1) / n)^2 * f1 * (2 * f1 - 1)^2 / 4 - ((n - 1) / n)^2 * f1^4 / 4 / e
