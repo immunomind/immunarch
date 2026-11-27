@@ -1,0 +1,148 @@
+name: Publish Docker images
+
+on:
+  push:
+    branches: [dev]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing release tag on master, such as 0.11.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.event_name == 'push' && 'immunarch-docker-dev' || 'immunarch-docker-release' }}
+  cancel-in-progress: false
+  queue: max
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  IMAGE: docker.io/immunomind/immunarch
+  IMAGE_TAG: ${{ inputs.version || github.ref_name }}
+
+jobs:
+  build:
+    if: >-
+      github.repository == 'immunomind/immunarch' &&
+      (github.event_name != 'release' || !github.event.release.prerelease) &&
+      (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/master')
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Select package source
+        run: |
+          source_commit="$GITHUB_SHA"
+          if [[ "$GITHUB_EVENT_NAME" != "push" ]]; then
+            if [[ ! "$IMAGE_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Use a release tag such as 0.11.0." >&2
+              exit 1
+            fi
+            if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+              source_commit=$(git rev-parse --verify "refs/tags/${IMAGE_TAG}^{commit}")
+            fi
+            git merge-base --is-ancestor "$source_commit" origin/master || {
+              echo "The release tag must point to a commit on master." >&2
+              exit 1
+            }
+          fi
+
+          build_context="$RUNNER_TEMP/immunarch-source"
+          mkdir "$build_context"
+          git archive "$source_commit" | tar -x -C "$build_context"
+          version=$(sed -n 's/^Version: //p' "$build_context/DESCRIPTION")
+          test -n "$version"
+          if [[ "$GITHUB_EVENT_NAME" != "push" && "$version" != "$IMAGE_TAG" ]]; then
+            echo "The release tag must match the package version." >&2
+            exit 1
+          fi
+          printf 'BUILD_CONTEXT=%s\nPACKAGE_VERSION=%s\n' "$build_context" "$version" >> "$GITHUB_ENV"
+          if [[ "$version" == "0.9.1" ]]; then
+            # The fs dependency in this release needs libuv.
+            echo 'INSTALL_LIBUV=true' >> "$GITHUB_ENV"
+          fi
+
+      - name: Build and test
+        env:
+          PLATFORM: linux/${{ matrix.arch }}
+        run: |
+          docker buildx create --driver docker-container --use
+          docker buildx build --platform "$PLATFORM" --provenance=false --load \
+            --file Dockerfile --build-arg INSTALL_LIBUV --tag immunarch:test "$BUILD_CONTEXT"
+          docker run --rm --network none immunarch:test Rscript --vanilla -e \
+            'library(immunarch); stopifnot(as.character(packageVersion("immunarch")) == commandArgs(TRUE)[1])' \
+            "$PACKAGE_VERSION"
+
+      - name: Sign in to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          printf '%s' "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Push image by digest
+        env:
+          PLATFORM: linux/${{ matrix.arch }}
+        run: |
+          docker buildx build --platform "$PLATFORM" --provenance=false --file Dockerfile \
+            --build-arg INSTALL_LIBUV \
+            --output "type=image,name=$IMAGE,push-by-digest=true,name-canonical=true,push=true" \
+            --metadata-file "$RUNNER_TEMP/image.json" "$BUILD_CONTEXT"
+          digest=$(jq -er '."containerimage.digest"' "$RUNNER_TEMP/image.json")
+          printf '%s\n' "$digest" > "$RUNNER_TEMP/image-digest.txt"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: image-digest-${{ matrix.arch }}
+          path: ${{ runner.temp }}/image-digest.txt
+          if-no-files-found: error
+          overwrite: true
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: image-digest-*
+          path: image-digests
+
+      - name: Sign in to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          printf '%s' "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Publish tags for both architectures
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          amd64=$(cat image-digests/image-digest-amd64/image-digest.txt)
+          arm64=$(cat image-digests/image-digest-arm64/image-digest.txt)
+          tags=(--tag "$IMAGE:$IMAGE_TAG")
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+            latest=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq '.tag_name')
+            if [[ "$IMAGE_TAG" == "$latest" ]]; then
+              tags+=(--tag "$IMAGE:latest")
+            fi
+          fi
+          docker buildx imagetools create "${tags[@]}" "$IMAGE@$amd64" "$IMAGE@$arm64"
