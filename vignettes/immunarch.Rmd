@@ -56,9 +56,11 @@ By taking a step back and rethinking the core "how" and "why" of AIRR analysis, 
 > `immunarch` is evolving towards `1.0` version and undergoing huge changes.
 > Please check the updates here: https://github.com/immunomind/immunarch/issues/432
 > 
-> To install the latest pre-1.0 version, use `pak::pkg_install("immunomind/immunarch@0.9.1")`
+> To install the legacy 0.9.1 release, use `pak::pak("immunomind/immunarch@0.9.1")`.
+> Its API reference and tutorials are available in the
+> [0.9.1 documentation archive](https://immunarch.com/archive/0.9.1/).
 >
-> To install the latest 1.0 pre-release version, use `pak::pkg_install("immunomind/immunarch")`
+> To install the latest 1.0 pre-release version, use `pak::pak("immunomind/immunarch")`
 
 ---
 
@@ -92,7 +94,7 @@ More info if needed is available on [pak website](https://pak.r-lib.org/#arrow_d
 To install the latest release of `immunarch`, simply run:
 
 ```r
-pak::pkg_install("immunomind/immunarch")
+pak::pak("immunomind/immunarch")
 ```
 
 Mind that this will install the package from our GitHub instead of CRAN. This method is much preferred due to limitations of CRAN and reliance on other packages, which are distributed via `pak` as well.
@@ -102,13 +104,13 @@ Mind that this will install the package from our GitHub instead of CRAN. This me
 We will periodically release `immunarch` on CRAN. To install it from CRAN, run 
 
 ```r
-pak::pkg_install("immunarch")
+pak::pak("immunarch")
 ```
 
 If you are willing to try unstable yet bleeding edge features, or if there are some hot fix for your open GitHub ticket, please install the development version:
 
 ```r
-pak::pkg_install("immunomind/immunarch@dev")
+pak::pak("immunomind/immunarch@dev")
 ```
 
 
@@ -119,7 +121,7 @@ pak::pkg_install("immunomind/immunarch@dev")
 install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
 
 # Install and load immunarch along with the pre-packaged data
-pak::pkg_install("immunomind/immunarch")
+pak::pak("immunomind/immunarch")
 library(immunarch)
 immdata <- get_test_idata() |> agg_repertoires("Therapy")
 

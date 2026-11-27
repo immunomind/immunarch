@@ -118,9 +118,11 @@ whatever comes next.
 > `immunarch` is evolving towards `1.0` version and undergoing huge changes.
 > Please check the updates here: https://github.com/immunomind/immunarch/issues/432
 > 
-> To install the latest pre-1.0 version, use `pak::pkg_install("immunomind/immunarch@0.9.1")`
+> To install the legacy 0.9.1 release, use `pak::pak("immunomind/immunarch@0.9.1")`.
+> Its API reference and tutorials are available in the
+> [0.9.1 documentation archive](https://immunarch.com/archive/0.9.1/).
 >
-> To install the latest 1.0 pre-release version, use `pak::pkg_install("immunomind/immunarch")`
+> To install the latest 1.0 pre-release version, use `pak::pak("immunomind/immunarch")`
 
 ---
 

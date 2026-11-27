@@ -1,6 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^docs$
+^altdoc$
+^\.venv_altdoc$
 ^data/nonbuild/.*$
 ^data/nonbuild/*$
 ^tests$

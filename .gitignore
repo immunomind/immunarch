@@ -9,6 +9,7 @@ src/*.so
 src/*.dll
 *.DS_Store
 docs/*
+.venv_altdoc/
 .idea/*
 vignettes/web_only/*.html
 immunr.Rproj

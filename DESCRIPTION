@@ -62,7 +62,7 @@ LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 Config/Needs/development: roxygen2
-Config/Needs/website: rmarkdown
+Config/Needs/website: altdoc, rmarkdown
 Config/testthat/edition: 3
 Config/testthat/parallel: false
 Config/roxygen2/version: 8.1.0
