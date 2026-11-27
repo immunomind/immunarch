@@ -55,6 +55,7 @@ jobs:
           if [ "$DOCS_BRANCH" = dev ]; then
             title="$title (dev)"
             sed -i 's#^site_url: https://immunarch.com/$#site_url: https://immunarch.com/dev/#' altdoc/mkdocs.yml
+            sed -i 's#^  - Dev preview: https://immunarch.com/dev/$#  - Main site: https://immunarch.com/#' altdoc/mkdocs.yml
             sed -i 's#https://immunarch.com/#https://immunarch.com/dev/#g' altdoc/pkgdown.yml
           fi
           sed -i "s/^site_name: immunarch$/site_name: $title/" altdoc/mkdocs.yml
